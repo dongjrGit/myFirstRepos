@@ -1,0 +1,447 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!--引入公用JS-->
+<script src="${request.getContextPath()}/js/kindEdtor/kindeditor-all.js"></script>
+<script src="${request.getContextPath()}/js/jquery.js" type="text/javascript"></script>
+<script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript"></script>
+<!--<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/amend.css"/>
+
+
+
+--><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>新增公告</title>
+</head>
+
+<body id="t4ui_pop">
+	<!--
+    	T4UI 模板
+        所有ID、Class 命名规范： t4ui_
+        所有JS 命名规范:  t4uiJs_
+    	页面开发注意事项
+        1. 所有CSS样式、JS效果 只能引入 不得直接写入前台页面中 (防止核心样式代码泄露)
+           非公用JS可嵌入内页
+        2. 页面做到整洁规范，全局页面使用div 标签布局 所有控件引用 mini ui 
+        3. div 开始结束时 标注注释  注释标准
+         
+         XX 开始
+         XX 结束       
+    -->
+    <!--
+    	以上标注为前段开发注意事项,以及模板命名规范
+        开发人员需遵从 命名规范 
+        后期开发完毕,此注释可清除
+    -->
+    <!--主层开始-->
+    	<table class="form" id="editform">
+    		<tr>
+		      	<td>发送时间：</td>
+		      	<td>
+      				<input name="noticeTime" id="noticeTime" class="mini-datepicker" allowInput="false" style="width:270px;" enabled="false" format="yyyy-MM-dd HH:mm:ss" value="new Date()"/>
+	            </td>
+	            <td>发&nbsp;送&nbsp;人&nbsp;：</td>
+		      	<td>
+      				<input style="width:270px;" class="mini-textbox" enabled="false" value="$!{session.getAttribute('sessionVO').getUserName()}"/>
+	            </td>
+	      	</tr>
+	      	<tr>
+		      	<td width="60px"> 标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题：</td>
+		      	<td><input  name="noticeTitle" id="noticeTitle" style="width:287px;" indentSpace="true" class="mini-textbox"  vtype="rangeChar:1,64" required="true" maxlength="32"/></td>
+	      		<td>机&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;构：</td>
+		      	<td>
+      				<input name="receiveOrg" id="receiveOrg" class="mini-buttonedit" onbuttonclick="onButtonEditOrg" allowInput="false" style="width:270px;" emptyText="请选择..." required="true" />
+	            </td>
+	      	</tr> 
+	      	<tr class="t4ui_jz" style="margin-left:-1px;margin-top:4px">
+		      	<td>角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色：</td>
+		      	<td>
+      				<input name="receiveRole" id="receiveRole" class="mini-buttonedit" onbuttonclick="onButtonEditRole" allowInput="false" style="width:270px;" emptyText="请选择..." required="true" />
+	            </td>
+	            #if('2' == $!noticeType)
+	            <td>人&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;员：</td>
+		      	<td>
+      				<input name="receiveUser" id="receiveUser" class="mini-buttonedit" onbuttonclick="onButtonEditUser" allowInput="false" style="width:270px;" emptyText="请选择..." required="true" />
+	            </td>
+	            #end
+	      	</tr>
+	      		<tr style="height: 10px">
+	      		<td colspan="4"></td>
+	      		</tr>
+	         <tr>
+	         	<td>
+	            	<div>内&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;容：</div>
+	            </td>
+	            <td colspan="3">
+	                <textarea id='textArea' name="content" style="width:99%; height:270px;visibility:hidden;"></textarea>
+
+	            </td>
+	         </tr>
+	         </table>
+	         <div class="mini-toolbar">
+	         		<input type="button" style="margin-left: 260px"  onclick="save();" value="发送"/>
+	             	<input type="button" style="margin-left: 60px"  onclick="modoru();" value="返回"/>
+	         </div>
+</body>
+<!--
+	以下是miniUI JS死数据
+    方便开发者看懂每个控件的定义以及样式
+    后期可根据需求配置数据库
+-->
+
+</script>
+<script type="text/javascript">
+ 
+    mini.parse();
+    var editWindow = mini.get("t4ui_main");
+    
+	function block()
+	{
+		//判断如果是隐藏状态则显示
+		//判断如果是显示状态则隐藏	 
+		$("#t4ui_divLTRD").toggle();
+	}
+	//判断标题已经输入多个字
+	function keyUp()
+	{
+		var s = 0;
+		var id = mini.getbyName("noticeTitle").value;
+		if(id.length > 0)
+		{
+			s = id.length;
+		}
+		document.getElementById("t4ui_span").innerText=s;
+		if (s > 40){
+			document.getElementById("t4ui_span").innerText=40;
+		}
+// 		document.getElementById("abc").value = document.getElementById("abc").value.substr(0,40);
+	}
+
+	//判断内容已经输入多个字
+	function keyUpArea()
+	{
+		var s = 0;
+		var id = document.getElementById("textArea").value;
+		if(id.length > 0)
+		{
+			s = id.length;
+		}
+		document.getElementById("t4ui_spanArea").innerText=s;
+		document.getElementById("abc").value = document.getElementById("abc").value.substr(0,1000);
+	}
+	//清除对象
+	function Clean()
+	{
+		 jQuery.ajax({
+	         url: "basisUserloginSessionListener.do",
+	         data: { menuId :id },
+	         type: "post",
+	         success: function (text) {
+	         	 if(text == "1")
+	         	 {
+	         	 	window.location.href = "userPage.do";
+	         	 } else {
+				    var orgId = mini.get("receiveOrg");
+					orgId.setValue("");
+			        orgId.setText("");
+	         	 }
+	        }
+		});	
+	}
+	
+	 function CloseWindow(action) {
+        if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+        else window.close();
+      }
+	 
+	 // 获取角色信息
+function onButtonEditRole(e) {
+	var receiveOrg = mini.get("receiveOrg");
+	var receiveRole = this;
+	if (receiveOrg.getValue() == "") {
+		mini.alert("请先选择机构");
+		return;
+	}
+				mini.open( {
+					url : "${request.getContextPath()}/controller/notice/roleSelecter",
+					title : "角色列表",
+					width : 650,
+					height : 380,
+					onload : function() {
+						var iframe = this.getIFrameEl();
+						iframe.contentWindow.SetData(receiveOrg.getValue());
+					},
+					ondestroy : function(action) {
+						if (action == "ok") {
+							var iframe = this.getIFrameEl();
+							var roles = iframe.contentWindow.GetData();
+							if (roles) {
+								receiveRole.setValue(roles.roleIds);
+								receiveRole.setText(roles.roleNames);
+							}
+						}
+					}
+				});
+			
+}
+	 
+//选择机构树
+function onButtonEditOrg(e) {
+	var btnEdit = this;
+	var receiveOrg = mini.get("receiveOrg");
+	mini.open( {
+		url : "${request.getContextPath()}/controller/notice/orgSelecter",
+		showMaxButton : false,
+		title : "选择树",
+		width : 600,
+		height : 400,
+		onload : function() {
+			var iframe = this.getIFrameEl();
+			iframe.contentWindow.SetData(receiveOrg.getValue());
+		},
+		ondestroy : function(action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var selectOrgs = iframe.contentWindow.GetData();
+				var orgNames = [];
+				var orgIds = [];
+				for (var i=0; i < selectOrgs.length; i ++) {
+					orgNames.push(selectOrgs[i].name);
+					orgIds.push(selectOrgs[i].id);
+				}
+				var orgIdString = orgIds.join(",");
+				btnEdit.setValue(orgIdString);
+				btnEdit.setText(orgNames.join(","));
+				var receiveRole = mini.get("receiveRole");
+				receiveRole.setValue("");
+				receiveRole.setText("");
+			}
+		}
+	});
+			
+}
+// 获取人员信息
+function onButtonEditUser(e) {
+	var receiveOrg = mini.get("receiveOrg");
+	var receiveRole = mini.get("receiveRole");
+	var receiveUser = this;
+	if (receiveRole.getValue() == "") {
+		mini.alert("请先选择角色。");
+		return;
+	}
+	mini.open({
+		url : "${request.getContextPath()}/controller/notice/userSelecter",
+		title : "角色列表",
+		width : 650,
+		height : 380,
+		onload : function() {
+			var iframe = this.getIFrameEl();
+			iframe.contentWindow.SetData(receiveOrg.getValue(), receiveRole.getValue());
+		},
+		ondestroy : function(action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var users = iframe.contentWindow.GetData();
+				console.info(users);
+				if (users) {
+					receiveUser.setValue(users.userIds);
+					receiveUser.setText(users.userNames);
+				}
+			}
+		}
+	});
+			
+}
+
+	
+	// 保存新建公告信息
+	function save()
+	{
+	         		var form = new mini.Form("#editform");
+                    var o = form.getData();
+                    //var json = mini.encode(o);
+                     
+				     // 公告标题
+					 var noticeTitle = mini.getbyName("noticeTitle").value;
+				     if(noticeTitle.length > 20){
+				    	mini.alert("标题最多只能输入20个汉字");
+						return;
+				     }
+					 if(noticeTitle == "")
+					 {
+						mini.alert("请填写公告标题");
+						return;
+					 }
+					 
+					 var receiveOrg = mini.getbyName("receiveOrg").value;
+					 if(receiveOrg == "")
+					 {
+							mini.alert("请选择机构");
+							return ;
+					 }
+					var receiveRole = mini.get("receiveRole").value;
+					if(receiveRole == ""){
+							mini.alert("请选择角色");
+							return ;
+					}
+					if("2" == "$!noticeType"){
+						var receiveUser = mini.get("receiveUser").value;
+						if(receiveUser == ""){
+							mini.alert("请选择接收人");
+							return ;
+						}
+					}
+					
+					 //公告内容
+					 var textArea = editor.html();
+					 if(textArea =="")
+					 {
+						 mini.alert("请填写公告内容");
+						 return;
+					 }
+					 
+					 o.textArea = textArea;
+					 mini.mask("拼命推送中，请稍后...");
+					 jQuery.ajax({
+			                url: "${request.getContextPath()}/controller/notice/saveNotice",
+			                data: o,
+			                type: "post",
+			                dataType: "json",
+			                success: function (text) {
+			                	mini.unmask();
+			                	if(text.success)
+			                	{
+			                		mini.alert(text.msg);
+			                	    CloseWindow("ok");
+			                	}
+			                	else{
+			                	    mini.alert(text.msg);
+			                	    return;
+			                	}
+			                },
+			                error: function (jqXHR, textStatus, errorThrown) {
+			                	mini.unmask();
+			                    alert(jqXHR.responseText);
+			                }
+			            });
+					
+	}
+	
+	function onDeptChanged(e) {
+		
+		var id = mini.getbyName("noticeType").value;
+		var div = document.getElementById("noneTrue");
+		if (id == "2") {
+			div.style.display ="none";
+		}else
+		{
+			div.style.display ="";
+		}
+		
+	}
+	// 关闭新建页面
+	function modoru(){
+		CloseWindow("ok");
+	}
+
+</script>
+	<script defer="defer">
+	var editor;
+			KindEditor.ready(function(K) {
+				editor = K.create('textarea[name="content"]', {
+					allowMediaUpload : true,
+					allowFileManager : true,
+					uploadJson:"${request.getContextPath()}/js/kindEdtor/jsp/upload_json.jsp",
+					fileManagerJson : '${request.getContextPath()}/js/kindEdtor/jsp/file_manager_json.jsp',
+					filePostName :"myFile",
+					formatUploadUrl : false,
+					allowImageRemote :false,
+					resizeType:0,
+					fileTypes : '*.jpg;*.jpeg;*.gif;*.png;*.bmp',
+					fileTypesDesc : 'Image Files',
+					fileSizeLimit : "1MB",
+						items : ['fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+					    'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+					    'insertunorderedlist', '|', 'emoticons', 'image', 'link'],
+					afterCreate : function() {
+						var self = this;
+						
+						K.ctrl(document, 13, function() {
+							self.sync();
+							
+							document.forms["newsMessage"].submit();
+						});
+						
+						K.ctrl(self.edit.doc, 13, function() {
+							self.sync();
+							
+							document.forms["newsMessage"].submit();
+						});
+					},
+				});
+			prettyPrint();
+			});
+			
+			function cpValue(){
+				var newsContent = editor.html();
+				var parentDom = window.parent;
+				var parentNodeVal = parentDom.document.getElementById('newsMain');
+				parentNodeVal.value = newsContent;
+			}
+			
+	         //弹出机构单选树
+		       function onButtonEditTree(e)
+		       {
+		       		var btnEdit = this;
+			       	jQuery.ajax({
+						url: "basisUserloginSessionListener.do",
+						data: { menuId :id },
+						type: "post",
+						success: function (text) {
+							if(text == "1")
+							{
+							   window.location.href = "userPage.do";
+							} else
+							{
+						            mini.open({
+						                url: bootPATH + "../demo/CommonLibs/SelectTreeWindowNotice.html",
+						                showMaxButton: false,
+						                title: "选择树",
+						                width: 350,
+						                height: 350,
+						                ondestroy: function (action) {
+						                    if (action == "ok")
+						                    {
+						                        var iframe = this.getIFrameEl();
+						                        var data = iframe.contentWindow.GetData();
+						                        data = mini.clone(data);
+						                        if (data)
+						                        {
+						                        	
+						                        	btnEdit.setValue(data.id);
+						                        	btnEdit.setText(data.name);
+													var objId = mini.getbyName("orgId");
+													objId.setValue(data.id);
+						                        }
+						                    }
+						                }
+						            });         						    
+							   }
+						}
+					}); 
+		       		 
+		       }
+	      
+	    function onDrawDate(e) {
+            var date = e.date;
+            var d = new Date();
+            d.setDate(d.getDate()-1);
+
+            if (date.getTime() < d.getTime()) {
+                e.allowSelect = false;
+            }
+          }
+           
+
+			
+		</script>
+</html>

@@ -1,0 +1,783 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<title>设备调拨</title>
+		<script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript">
+</script>
+		<!--引入皮肤样式--><!--
+		<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/amend.css" />
+		--><script src="${request.getContextPath()}/js/amend.js" type="text/javascript"></script>
+		<script type="text/javascript" src="${request.getContextPath()}/js/pw-common.js"></script>
+		<style type="text/css">
+body {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+</style>
+	</head>
+	<body id="t4ui_org">
+			<div class="mini-splitter" style="width:100%;height:100%;">
+			<div size="240" showCollapseButton="true">
+				<div class="mini-toolbar"
+					style="padding:2px;border-top:0;border-left:0;border-right:0;height: 25px;">
+				</div>
+				<div class="mini-fit">
+					<ul id="tree1" class="mini-tree" url="${request.getContextPath()}/controller/org/orgTree"
+						style="width:100%;" showTreeIcon="true" textField="name"
+						idField="id" parentField="pid" resultAsTree="false"
+						expandOnLoad="0" contextMenu="#treeMenu" virtualScroll="true">
+					</ul>
+				</div>
+			</div>
+				<div showCollapseButton="true" class="t4ui_hh">
+				   <div style="width:100%">
+					<div class="mini-toolbar" style="padding:0px;">
+					   <table style="width:100%;">
+					   		<tr>
+								<td>
+									<a id="addButton" class="mini-button" iconCls="icon-add" onclick="onAddNode()" plain="true" tooltip="增加...">增加</a>
+                        			<a id="removeButton" class="mini-button" iconCls="icon-edit" onclick="removeDevice()" plain="true">删除</a>   
+								</td>
+								<td>
+									<a style="float:right;margin-right: 0px" class="mini-button" onclick="search()">查询</a>
+								</td>
+							</tr>
+					   </table>
+					   <table style="width:100%;">
+					       <tr>
+                    			<td>
+							 		<input id="pinCode" maxlength="32" name="pinCode"  onenter="onKeyEnter"  labelField="true" label="PIN码:" class="mini-textbox"/> 
+						 		</td>
+						 		<td>
+							 		<input  id="simCode" maxlength="32" name="simCode"  onenter="onKeyEnter" labelField="true" label="SIM码:" class="mini-textbox"/>
+						 		</td>
+						 		<td>
+							 		<input style="float:left;" id="startTime"name="startTime" class="mini-datepicker" style="width: 160px;" allowInput="false" ondrawdate="onDrawDate" labelField="true" label="领取开始时间:"/>
+								</td>
+							</tr>
+							<tr>
+								<td>
+							 		<input  id="userDeviceCode" maxlength="10" name="userDeviceCode"  onenter="onKeyEnter"  labelField="true" label="员工号:" class="mini-textbox"/>
+							 		</td>
+								<td>
+							 		<input id="userName" name="userName"  onenter="onKeyEnter"  labelField="true" label="员工姓名:" class="mini-textbox"/>
+									</td>
+								<td>
+									<input style="float:left;" id="endTime"name="endTime" class="mini-datepicker" style="width: 160px;" allowInput="false" ondrawdate="onDrawDate" labelField="true" label="领取结束时间:"/>
+								</td>
+							</tr>
+						</table>
+					</div>
+					</div>
+					<div class="mini-fit" id="t4ui_ins">
+						<div id="datagrid1" class="mini-datagrid"
+							style="width: 100%; height: 100%;" borderStyle="border:0;"
+							url="${request.getContextPath()}/controller/device/deviceList" showFilterRow="false"
+							allowCellSelect="true" allowCellEdit="true" multiSelect="true"
+							allowCellValid="true" allowAlternating="true" sizeList="[10,20]"
+							pageSize="20" idField="reId">
+							<div property="columns">
+								<div field="pinId" width="90" headerAlign="left"
+									allowSort="true">
+									设备PIN码
+								</div>
+								<div field="simId" width="90" headerAlign="left"
+									allowSort="true">
+									设备SIM号
+								</div>
+								<div field="userCode" width="90" headerAlign="left"
+									allowSort="true">
+									员工号
+								</div>
+								<div field="orgName" width="150" headerAlign="left"
+									allowSort="true">
+									所属机构
+								</div>
+								<div field="recipientTime" width="180" headerAlign="left" dateFormat="yyyy-MM-dd HH:mm:ss"
+									allowSort="true">
+									领取时间
+								</div>
+								<div field="padStatus" width="50" headerAlign="left"
+									allowSort="true">
+									状态
+								</div>
+								<div name="action" width="110" headerAlign="left"
+									renderer="onActionRole" cellStyle="padding:0;">
+									操作
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+		</div>
+
+			<!-- 调拨 隐藏域 -->
+			<div id="editDataWindow" class="mini-window" title="设备调拨"
+				style="width: 300px;" showModal="true" allowResize="true"
+				allowDrag="true">
+				<div id="editDataform" class="form">
+					<input name="orgId" id="orgId" class="mini-hidden" />
+					<input name="rorgId" id="rorgId"  class="mini-hidden"/>
+					<input name="userOrg" id="userOrg" class="mini-hidden" />
+					<input name="deviceId" id="deviceId" class="mini-hidden" />
+					<input name="deviceType" id="deviceType" class="mini-hidden" />
+					<div class="t4ui_jz">
+						<span style="margin-left: 30px"  >现管理机构：</span>
+						<span><input  name="orgName" id="orgName" allowInput="false"
+								class="mini-textbox" style="width: 150px;" />
+						</span>
+						<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					</div>
+					<div class="t4ui_jz">
+						<span style="margin-left: 30px"  >调拨至机构：</span>
+						<span><input   id="dataOrgId" class="mini-buttonedit"
+								onbuttonclick="onButtonEdutTree" style="width: 150px;" allowInput="false"/>
+						</span>
+						<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					</div>
+					<div class="t4ui_jz">
+						<span style="margin-left: 30px"  >设备接收人：</span>
+						<span><input  id="combolData" name="combolData"
+								class="mini-buttonedit" onbuttonclick="onButtonEdutGrid" allowInput="false"
+								style="width: 150px;" />
+						</span>
+						<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					</div>
+					<div class="t4ui_jz t4ui_but">
+						<!-- 
+						<a class="mini-button" style="margin-left: 60px"  href="javascript:updateDevice()">回收</a>
+						<a class="mini-button" style="margin-left: 10px"  href="javascript:editDataSave()">确定</a>
+						 -->
+						<a class="mini-button" style="margin-left: 60px"  href="javascript:reclaimDevice()">回收</a>
+						<a class="mini-button" style="margin-left: 10px"  href="javascript:checkSave()">确定</a>
+						<a class="mini-button" style="margin-left: 10px"  href="javascript:editDataCancel()">关闭</a>
+					</div>
+
+				</div>
+			</div>
+
+			<div id="checkWindow" class="mini-window" title="授权"
+				style="width: 300px;" showModal="true" allowResize="true"
+				allowDrag="true">
+				<div id="checkform" class="form">
+	      	<div class="t4ui_jz">
+		      	<span style="margin-left: 50px"  >员工号:</span>
+		      	<span><input  name="userCode" vtype="rangeLength:10,10" maxlength="10"  id="userCode" class="mini-textbox"  required="true" /></span>
+	      	</div>
+	      	<div class="t4ui_jz">
+		      	<span style="margin-left: 50px"  >密 &nbsp;&nbsp;码:</span>
+		      	<span><input  name="userPwd" id="userPwd" class="mini-password"  required="true" /></span>
+	      	</div>
+					<div class="t4ui_jz t4ui_but">
+						<a class="mini-button" style="margin-left: 60px"  href="javascript:checkSave()">确定</a>
+						<a class="mini-button" style="margin-left: 60px"  href="javascript:checkCancel()">关闭</a>
+					</div>
+
+				</div>
+			</div>
+			<!-- 内置样式 -->
+			<style>
+.t4ui_jz {
+	margin-top: 5px;
+}
+</style>
+
+		</div>
+		
+   <div id="addWindow" class="mini-window t4ui_nopad" title="添加设备" style="width:600px;height: 400px" 
+      showModal="true" allowResize="true" allowDrag="false" showMaxButton="false" showCloseButton="true"  onbuttonclick="closeAddWindow">
+     <div id="addform" class="form" align="center">
+			<table align="center" width="100%" style="margin-top: 80px">
+				<tr style="margin-top: 20px">
+					<!-- <input id="pid" name="menuPid" class="mini-textbox" style="display: none"/>
+	    	<input id="level" name="menuLevel" class="mini-textbox" style="display: none"/>  -->
+					<td>设备编号:</td>
+					<td><input name="pinId" class="mini-textbox"
+							required="true" style="width:120px;" maxlength="36" />
+					</td>
+					<td>SIM卡号 :</td>
+					<td><input name="simId" class="mini-textbox"
+							maxlength="11" vtype="int;minLength:8" required="true"
+							style="width:120px;" />
+					</td>
+				</tr>
+				<tr style="height: 20px"></tr>
+				<tr style="margin-top: 20px">
+					<td>设备品牌 :</td>
+					<td><input name="brand"  required="true" emptyText="请选择" showNullItem="true" class="mini-combobox"  url="${request.getContextPath()}/controller/dect/qryDectByType?typeId=devicebrand" 
+            emptyText="请选择..."  nullItemText="请选择..." textField="businname" valueField="dictId"/>
+					</td>
+					<td>设备型号 :</td>
+					<td><input name="deviceModel"
+							class="mini-textbox" required="true" style="width:120px;"
+							maxlength="128" />
+					</td>
+				</tr>
+				<tr style="height: 20px"></tr>
+				<tr style="margin-top: 20px">
+					<td>操作系统 :</td>
+					<td>
+							<input name="deviceOS"  required="true" emptyText="请选择" showNullItem="true" class="mini-combobox"  url="${request.getContextPath()}/controller/dect/qryDectByType?typeId=deviceos" 
+            emptyText="请选择..."  nullItemText="请选择..." textField="businname" valueField="dictId"/>
+					</td>
+
+					<td>选择机构：</td>
+					<td><input id="orgscopeadd"
+						name="orgId" class="mini-buttonedit" allowinput="false"
+						align="center" emptytext="请选择机构" required="true"
+						onbuttonclick="loadFrame();" /></td>
+				</tr>
+				<tr style="height: 20px"></tr>
+			</table>
+							<div  class="mini-toolbar" style="text-align:center;position: absolute;bottom: 0px;width: 98%"
+								borderStyle="border-left:0;border-bottom:0;border-right:0;" >
+								<a id="addorgbutton1" class="mini-button" style="width:60px;" onclick="javascript:saveDevice()">保存</a> 
+								<a id="qryorgbutton" class="mini-button" style="width:60px;" onclick="closeAddWindow">关闭</a><span style="display:inline-block;width:25px;"></span>
+							</div>
+		</div>
+	</div>
+		<script type="text/javascript">
+			mini.parse();
+
+			var tree = mini.get("tree1");
+			var grid = mini.get("datagrid1");
+			var editWindow = mini.get("editWindow");
+			var editDataWindow = mini.get("editDataWindow");
+			var checkWindow = mini.get("checkWindow");
+			tree.on("nodeselect", function(e) {
+				grid.load({
+					deptId : e.node.id
+				});
+			});
+			//根据条件查询
+			function search() {
+				//判断是否选中tree节点
+				var node = tree.getSelectedNode();
+				if (typeof (node) == "undefined") {
+					mini.alert("请先选择的机构");
+					return;
+				}
+				var userCode = mini.get("userDeviceCode").getValue();
+				var pinCode = mini.get("pinCode").getValue();
+				var simCode = mini.get("simCode").getValue();
+				var userName = mini.get("userName").getValue();
+				var startTime = mini.get("startTime").getFormValue();
+				var endTime = mini.get("endTime").getFormValue();
+				var o;
+				/*		o.userCode = userCode;
+				 o.pinCode = pinCode;
+				 o.simCode = simCode;
+				 o.userName = userName;
+				 o.startTime = startTime;
+				 o.endTime = endTime;*/
+				if (startTime > endTime && endTime != "") {
+					mini.alert("开始时间不能大于结束时间,请重新输入!");
+					return;
+				}
+				grid.load({
+					deptId : node.id,
+					userCode : userCode,
+					pinCode : pinCode,
+					simCode : simCode,
+					userName : userName,
+					startTime : startTime,
+					endTime : endTime
+				});
+
+			}
+
+			//添加操作栏
+			function onActionRole(e) {
+				var record = e.record;
+				var rid = record.reId;
+				var orgId = record.orgId;
+				var orgName = record.orgName;
+				var pid = record.pinId;
+				if (record.padStatus == "已出库") {
+					var s = '<a class="Edit_Button" href="javascript:findRecord(\''
+							+ pid + '\')">历史记录</a>';
+					return s;
+				}
+				if (record.padStatus == "已入库") {
+					var s = '<a class="Edit_Button" href="javascript:outbound(\''
+							+ rid
+							+ '\',\''
+							+ orgId
+							+ '\',\''
+							+ orgName
+							+ '\')">调拨</a>'
+							+ ' '
+							+ '<a class="Edit_Button" href="javascript:findRecord(\''
+							+ pid + '\')">历史记录</a>';
+					return s;
+				}
+				if (record.padStatus == "待接收") {
+					var s = '<a class="Edit_Button" href="javascript:editDevice(\''
+							+ rid
+							+ '\')">确认接收</a>'
+							+ ' '
+							+ '<a class="Edit_Button" href="javascript:findRecord(\''
+							+ pid + '\')">历史记录</a>';
+					return s;
+				}
+				if (record.padStatus == "已保管") {
+					var s = '<a class="Edit_Button" href="javascript:findRecord(\''
+							+ pid + '\')">历史记录</a>';
+					return s;
+				}
+
+			}
+
+			//根据设备ID查询历史记录
+			function findRecord(pid) {
+
+				mini
+						.open({
+							url : "${request.getContextPath()}/controller/device/deviceRecordWindow",
+							title : "历史记录",
+							width : 500,
+							height : 375,
+							onload : function() {
+								var iframe = this.getIFrameEl();
+								var data = {
+									pid : pid
+								};
+								iframe.contentWindow.SetData(data);
+							},
+							ondestroy : function(action) {
+								if (action == "ok") {
+									var iframe = this.getIFrameEl();
+									var data = iframe.contentWindow.GetData();
+									data = mini.clone(data);
+									btnEdit.setValue(data.id);
+									btnEdit.setText(data.text);
+								}
+							}
+						});
+
+			}
+
+			//弹出设备出库
+			function outbound(rid, orgId, OrgName) {
+				editDataWindow.show();
+				var form = new mini.Form("#editDataform");
+				form.clear();
+				var orgName = mini.get("orgName");
+				orgName.setValue(OrgName);
+				var rorgId = mini.get("rorgId");
+				rorgId.setValue(orgId);
+				var deviceId = mini.get("deviceId");
+				deviceId.setValue(rid);
+			}
+
+			//关闭设备出库
+			function editDataCancel() {
+				editDataWindow.hide();
+			}
+
+			//授权框关闭 
+			function checkCancel() {
+				var form1 = new mini.Form("#checkform");
+				form1.clear();
+				checkWindow.hide();
+
+			}
+
+			//设备调度
+			function editDataSave() {
+
+				//获取tree节点ID
+				var node = tree.getSelectedNode();
+				//获取选中机构ID
+				var deviceType = mini.get("deviceType").getValue();
+				var orgId = mini.get("orgId").getValue();
+				var form = new mini.Form("#editDataform");
+				var o = form.getData();
+				if (deviceType == "1") {
+					var userOrg = mini.get("userOrg").getValue();
+					if (userOrg != orgId) {
+						mini.alert("不能回收至该机构");
+						editDataWindow.hide();
+						return;
+						//var form = new mini.Form("#editDataform");
+						//form.clear();
+						//deviceType.setValue("");
+
+					}
+				} /* else if (orgId == node.id) {
+					mini.alert("不能给当前机构调度");
+					var deviceType = mini.get("deviceType");
+					deviceType.setValue("");
+					return;
+				}  */else if (orgId == "") {
+					mini.alert("请选择要调度的机构");
+					return;
+				}
+				var combolData = mini.get("combolData").getValue();
+				if (combolData == "") {
+					mini.alert("请选择接收人");
+					return;
+				} else if (deviceType == "") {
+					jQuery
+							.ajax({
+								url : "${request.getContextPath()}/controller/device/checkSub",
+								data : o,
+								type : "post",
+								dataType : "json",
+								success : function(text) {
+									if (text.success) {
+
+										checkWindow.show();
+									} else {
+										mini.alert(text.msg);
+										return;
+									}
+								}
+							});
+
+				}
+
+				else {
+
+					//var json = mini.encode(o);
+					jQuery
+							.ajax({
+								url : "${request.getContextPath()}/controller/device/reclaimSave",
+								data : o,
+								type : "post",
+								dataType : "json",
+								success : function(text) {
+									if (text.success) {
+										mini.alert(text.msg);
+										//deviceType.setValue("");
+										//var form1 = new mini.Form("#checkform");
+										//form1.clear();
+										editDataWindow.hide();
+										grid.reload();
+										return;
+									} else {
+										mini.alert(text.msg);
+										editDataWindow.hide();
+										grid.reload();
+										return;
+									}
+								}
+							});
+				}
+
+			}
+
+			function checkSave() {
+
+				var form = new mini.Form("#editDataform");
+				var o = form.getData();
+				var userCode = mini.get("userCode").getValue();
+				var userPwd = mini.get("userPwd").getValue();
+				var orgId = mini.get("orgId").getValue();
+				var combolData = mini.get("combolData").getValue();
+				o.userCode = userCode;
+				o.userPwd = userPwd;
+				var deviceType = mini.get("deviceType").getValue();
+				if (orgId == "") {
+					mini.alert("请选择要调度的机构");
+					return;
+				}
+				if (combolData == "") {
+					mini.alert("请选择设备接收人");
+					return;
+				}
+				if (deviceType == "") {
+					jQuery
+							.ajax({
+								url : "${request.getContextPath()}/controller/device/allotSave",
+								data : o,
+								type : "post",
+								dataType : "json",
+								success : function(text) {
+									if (text.success) {
+										mini.alert(text.msg);
+										//deviceType.setValue("");
+										var form1 = new mini.Form("#checkform");
+										form1.clear();
+										checkWindow.hide();
+										editDataWindow.hide();
+										grid.reload();
+										return;
+									} else {
+										mini.alert(text.msg);
+										//mini.alert("系统异常请联系管理员");
+										editDataWindow.hide();
+										grid.reload();
+										return;
+									}
+								}
+							});
+				}
+
+			}
+			
+			function reclaimDevice() {
+
+				var form = new mini.Form("#editDataform");
+				var o = form.getData();
+				var userCode = mini.get("userCode").getValue();
+				var userPwd = mini.get("userPwd").getValue();
+				var orgId = mini.get("orgId").getValue();
+				var rorgId = mini.get("rorgId").getValue();
+				o.combolData = "";//回收置空 接收人 字段
+				o.orgId = rorgId;//把当前机构赋值给 要调拨到的机构
+				o.userCode = userCode;
+				o.userPwd = userPwd;
+				var deviceType = mini.get("deviceType").getValue();
+				
+				jQuery
+						.ajax({
+							url : "${request.getContextPath()}/controller/device/allotSave",
+							data : o,
+							type : "post",
+							dataType : "json",
+							success : function(text) {
+								if (text.success) {
+									mini.alert(text.msg);
+									//deviceType.setValue("");
+									var form1 = new mini.Form("#checkform");
+									form1.clear();
+									checkWindow.hide();
+									editDataWindow.hide();
+									grid.reload();
+									return;
+								} else {
+									mini.alert(text.msg);
+									//mini.alert("系统异常请联系管理员");
+									editDataWindow.hide();
+									grid.reload();
+									return;
+								}
+							}
+						});
+
+			}
+
+			//选择设备机构树
+			function onButtonEdutTree(e) {
+				var btnEdit = this;
+				mini
+						.open({
+							url : "${request.getContextPath()}/controller/device/selectOrgTreeWindow",
+							showMaxButton : false,
+							title : "选择树",
+							width : 350,
+							height : 350,
+							ondestroy : function(action) {
+								if (action == "ok") {
+									var iframe = this.getIFrameEl();
+									var data = iframe.contentWindow.GetData();
+									data = mini.clone(data);
+									if (data) {
+										btnEdit.setValue(data.id);
+										btnEdit.setText(data.name);
+										var objId = mini.get("orgId");
+										objId.setValue(data.id);
+										var combolData = mini.get("combolData");
+										combolData.setValue("");
+										combolData.setText("");
+									}
+								}
+							}
+						});
+
+			}
+
+			//根据机构ID查询出下面的管理员
+			function onButtonEdutGrid(e) {
+				var orgId = mini.get("orgId");
+				var combolData = this;
+				if (orgId.getValue() == "") {
+					mini.alert("请选择要调拨的机构");
+					return;
+				}
+				var btnEdit = this;
+				mini
+						.open({
+							url : "${request.getContextPath()}/controller/device/selectUserTreeWindow",
+							title : "人员信息列表",
+							width : 650,
+							height : 380,
+							onload : function() {
+								var iframe = this.getIFrameEl();
+								var data = {
+									action : orgId.getValue()
+								};
+								iframe.contentWindow.SetData(data);
+							},
+							ondestroy : function(action) {
+								if (action == "cancel") {
+									var iframe = this.getIFrameEl();
+									var data = iframe.contentWindow.GetData();
+									data = mini.clone(data);
+									if (data) {
+										combolData.setValue(data.id);
+										combolData.setText(data.text);
+									}
+								}
+							}
+						});
+
+			}
+
+			//设备回收
+			function updateDevice() {
+				var dataOrgId = mini.get("dataOrgId");
+				jQuery
+						.ajax({
+							url : "${request.getContextPath()}/controller/device/reclaimDevice",
+							type : "post",
+							dataType : "json",
+							success : function(text) {
+								dataOrgId.setValue(text.orgId);
+								if (dataOrgId.getValue() == "") {
+									mini.alert("管理员无法进行操作");
+								} else {
+									dataOrgId.setText(text.orgName);
+									var orgId = mini.get("orgId");
+									orgId.setValue(text.orgId);
+									var deviceType = mini.get("deviceType");
+									deviceType.setValue("1");
+									var combolData = mini.get("combolData");
+									combolData.setValue(text.userId);
+									combolData.setText(text.userName);
+									var userOrg = mini.get("userOrg");
+									userOrg.setValue(text.orgId);
+								}
+
+							}
+						});
+
+			}
+
+			//禁止日期选择
+			function onDrawDate(e) {
+				var date = e.date;
+				var d = new Date();
+				if (date.getTime() >= d.getTime()) {
+					e.allowSelect = false;
+				}
+			}
+			var addWindow = mini.get("addWindow");
+			//弹出添加菜单
+			function onAddNode(e) {
+				var form = new mini.Form("#addform");
+				form.clear();
+				addWindow.show();
+			}
+			//弹出机构单选树 新增 
+			function loadFrame() {
+				//var isFirst = document.getElementById("isFirst");
+				// var orgObj=document.getElementById("org").value;;
+				//var array = new Array();
+				mini
+						.open({
+							url : "${request.getContextPath()}/views/device/device_addOrg.html",
+							showMaxButton : false,
+							title : "选择机构",
+							width : 600,
+							height : 450,
+							/* onload: function() {
+							    var iframe = this.getIFrameEl();
+							    var productId = "${request.getParameter('productId')}";
+							    array[0] = productId;
+							    array[1] = orgObj;
+							    array[2] = isFirst.value;
+							    iframe.contentWindow.SetData(array);
+							}, */
+							ondestroy : function(action) {
+								if (action == "ok") {
+									var iframe = this.getIFrameEl();
+									var data = iframe.contentWindow.GetData();
+									data = mini.clone(data);
+									mini.get("orgscopeadd").setValue(data.id);
+									mini.get("orgscopeadd").setText(data.name);
+								}
+								//document.getElementById("org").value = orgStr;
+							}
+						});
+			}
+			//添加窗口关闭
+			function closeAddWindow(e) {
+				addWindow.restore();
+				addWindow.hide();
+			}
+			//保存设备信息
+			function saveDevice() {
+				var form = new mini.Form("#addform");
+				form.validate();
+				if (form.isValid() == false)
+					return;
+				var o = form.getData();
+				var json = mini.encode(o);
+				console.info(o);
+				jQuery
+						.ajax({
+							url : "${request.getContextPath()}/controller/device/saveDevice",
+							data : json,
+							dataType : 'json',
+							contentType : 'application/json',
+							type : "post",
+							success : function(text) {
+								addWindow.restore();
+								if (!text.success) {
+									mini.alert(text.msg);
+									addWindow.hide();
+									return;
+								} else {
+									grid.reload();
+									addWindow.hide();
+								}
+							},
+							error : function(jqXHR, textStatus, errorThrown) {
+								addWindow.restore();
+								document.getElementById("productTemplate").style.display = 'none';
+								alert(jqXHR.responseText);
+							}
+						});
+
+			}
+			function removeDevice() {
+				var row = grid.getSelected();
+				if (!row || row.length < 1) {
+					mini.alert("请选择要操作的设备");
+					return;
+				}
+				if (row.userCode) {
+					mini.alert("当前设备正在被使用，无法进行删除操作。");
+					return;
+				}
+				mini
+						.confirm(
+								"确定删除该设备么？删除后将无法恢复。",
+								"提示",
+								function(action) {
+									if (action == "ok") {
+										jQuery
+												.ajax({
+													url : "${request.getContextPath()}/controller/device/removeDevice?reId="
+															+ row.reId,
+													type : "post",
+													dataType : "json",
+													success : function(result) {
+														mini.alert(result.msg);
+														grid.reload();
+													}
+												});
+									}
+								});
+			}
+		</script>
+	</body>
+</html>

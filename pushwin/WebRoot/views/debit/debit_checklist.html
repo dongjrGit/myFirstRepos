@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>借记卡审核列表debit_checklist.html</title>
+
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript"></script>
+	<script type="text/javascript" src="${request.getContextPath()}/js/pw-common.js"></script>
+	<script type="text/javascript" src="${request.getContextPath()}/js/kindEdtor/kindeditor-all.js"></script>
+    <style type="text/css">
+    html, body{
+        margin:0;padding:0;border:0;width:100%;height:100%;overflow:hidden;
+    } 
+    </style>
+  </head>
+  
+  <body>
+    <div class="mini-toolbar" style="padding:2px;border-bottom:0;font-size:1px">
+        <table style="width:100%;font-size:1px">
+            <tr>
+            	<td style="white-space:nowrap;"><label style="font-family:Verdana;">账户类别:</label>
+	                <input id="accountType"   class="mini-combobox"    emptyText="请选择..." 
+      			  url="${request.getContextPath()}/controller/dect/qryDectByTypeWithDesc?typeId=ACCOUNT" style="width:180;" textField="businname" valueField="dictId" value="" allowInput="false" showNullItem="true" nullItemText="请选择..." style="width:100px;"/>
+	            <td>
+	            	<label style="font-family:Verdana;">申请件状态: </label>
+	            	<input id="status"	name="status" emptyText="请选择" nullItemText="请选择..." showNullItem="true" class="mini-combobox" style="width:95px;"  data=[{text:'待审核',id:'1'},{text:'审核通过',id:'2'},{text:'审核不通过',id:'3'}] textField="text" valueField="id"/>
+	            </td>
+	            <td>
+	            	<label style="font-family:Verdana;">起始日期: </label>
+	            	<input id="startTime"  class="mini-datepicker"/>
+	            </td>
+	            <td>
+	            	<label style="font-family:Verdana;">结束日期: </label>
+	            	<input id="endTime" class="mini-datepicker"/>
+	            </td>
+	            <td style="white-space:nowrap;"><label style="font-family:Verdana;">客户经理: </label>
+	                <input id="name" class="mini-textbox" style="width:75px;"/>
+	                <a class="mini-button" iconCls="icon-search" plain="true" onclick="onSearch()">查询</a>
+	            </td>
+	            <td>
+	                <a class="mini-button" iconCls="icon-node" plain="true" onclick="showDebitDetail">查看详细</a>
+	            </td>
+            </tr>
+        </table>
+    </div>
+    <!--撑满页面-->
+    <div class="mini-fit" >
+        
+        <div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;font-size:1px" 
+            url="${request.getContextPath()}/controller/debit/checkList"  idField="id"
+            sizeList="[5,10,20,50]" pageSize="10"
+        >
+            <div property="columns">
+                <div type="indexcolumn" ></div>
+                <div field="name" width="120" headerAlign="center">客户姓名</div>    
+                <div field="idNo" width="120" headerAlign="center">证件号码</div>                            
+                <div field="homePhone" width="120" headerAlign="center">联系电话</div>
+                <div field="status" width="100">当前状态</div>   
+                <div field="accountType" width="120" headerAlign="center">账户类别</div>                                 
+                <div field="updateTime" width="100" allowSort="true" dateFormat="yyyy-MM-dd HH:mm:ss">提交时间</div>
+                <div field="userCode" width="100" headerAlign="center">客户经理编号</div>
+                <div field="userName" width="100" headerAlign="center">客户经理姓名</div>   
+            </div>
+        </div> 
+
+    </div>
+  </body>
+     <script type="text/javascript">
+        mini.parse();
+        var grid = mini.get("datagrid1");
+        grid.load();
+        
+    function onSearch(){
+         var accountType = mini.get("accountType").getValue();
+	    var status = mini.get("status").getValue();
+	    var startTime = mini.formatDate (mini.get("startTime").getValue(), "yyyy-MM-dd");
+	    var endTime = mini.formatDate (mini.get("endTime").getValue(), "yyyy-MM-dd");
+	    var today = mini.formatDate (new Date(), "yyyy-MM-dd");
+	    if(startTime!="" && startTime>today){
+	    mini.alert("开始时间应该小于当天")
+	    return;
+	    }
+	    if(startTime!="" && endTime!="" && startTime >=endTime ){
+	    mini.alert("开始时间应该小于结束时间")
+	    return;
+	    }
+	    var name = mini.get("name").getValue();
+	    grid.load( {
+			accountType:accountType, status:status, startTime:startTime, endTime:endTime, name : name
+		});
+	}   
+    function showDebitDetail(){
+  		var row = grid.getSelected();
+  		if(!row || row.length < 1)
+	   	{
+	   		mini.alert("请选择要审核的申请件");	
+	   		return;
+	   	}
+  		window.location.href="${request.getContextPath()}/controller/debit/checkDetail?debitId=" + row.id;
+  	}
+    </script>
+</html>

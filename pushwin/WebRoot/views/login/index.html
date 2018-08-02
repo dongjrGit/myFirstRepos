@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>PushWin 移动应用平台</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="keywords" content="jquery,datagrid,grid,表格控件,ajax,web开发,java开发,.net开发,tree,table,treegrid" />
+    <meta name="description" content="jQuery MiniUI - 快速开发WebUI。jQuery MiniUI是使用Javascript实现的前端Ajax组件库，支持所有浏览器，可以跨平台开发，如Java、.Net、PHP等。" />
+    
+    <script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript"></script>
+    <script type="text/javascript" src="${request.getContextPath()}/js/pw-common.js"></script>
+    <style type="text/css">
+html,body {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.header {
+	background: url(header.gif) repeat-x;
+}
+
+.header div {
+	font-family: 'Trebuchet MS', Arial, sans-serif;
+	font-size: 25px;
+	line-height: 60px;
+	padding-left: 10px;
+	font-weight: bold;
+	color: #333;
+}
+
+body .header .topNav {
+	position: absolute;
+	right: 8px;
+	top: 10px;
+	font-size: 12px;
+	line-height: 25px;
+}
+
+.header .topNav a {
+	text-decoration: none;
+	color: #222;
+	font-weight: normal;
+	font-size: 12px;
+	line-height: 25px;
+	margin-left: 3px;
+	margin-right: 3px;
+}
+
+.header .topNav a:hover {
+	text-decoration: underline;
+	color: Blue;
+}
+
+.mini-layout-region-south img {
+	vertical-align: top;
+}
+
+#logoid {
+	position: relative;
+	width: 168px;
+	height: 10px
+}
+
+#mask {
+	background: gray;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	display: none;
+	z-index: 20;
+	filter: alpha(opacity = 60);
+	opacity: 0.6 !important;
+}
+</style>
+</head>
+<body onload="initLogo()">
+<div class="mini-layout" style="width:100%;height:100%;">
+    <div title="north" region="north" class="header" bodyStyle="overflow:hidden;" height="80" showHeader="false" showSplit="false">
+	<!-- <div id="logoid">${application.getApplication().getAttribute('sysMap').logoTxt}</div> -->
+	<div id="logoid" style="margin-top: 10px"><img src="${request.getContextPath()}/controller/pic/display?picPath=${application.getApplication().getAttribute('sysMap').logoImg}" width="120" height="30" alt="" /></div>
+        <div class="topNav">    
+            <span >欢迎  ${session.getAttribute('sessionVO').getUserCode()} 登录系统</span>|
+	        <a href="${request.getContextPath()}/controller/system/outLogin">安全退出  </a>
+        </div>
+
+        <div style="position:absolute;right:12px;bottom:5px;font-size:12px;line-height:25px;font-weight:normal;">
+            <span style="color:Red;font-family:Tahoma">（推荐Blue）</span>选择皮肤：
+            <select id="selectSkin" onchange="onSkinChange(this.value)" style="width:100px;" >
+                <option value="">Default</option>
+                <option selected="selected" value="blue">Blue</option>
+                <option value="gray">Gray</option>
+                <option value="olive2003">Olive2003</option>
+                <option value="blue2003">Blue2003</option>
+                <option value="blue2010">Blue2010</option>
+                <option value="bootstrap">Bootstrap</option>
+
+                <option value="metro">metro</option>
+                <option value="metro-green">metro-green</option>
+                <option value="metro-orange">metro-orange</option>
+
+                <option value="jqueryui-uilightness">jqueryui-uilightness</option>
+                <option value="jqueryui-humanity">jqueryui-humanity</option>
+                <option value="jqueryui-excitebike">jqueryui-excitebike</option>
+                <option value="jqueryui-cupertino">jqueryui-cupertino</option>
+
+
+            </select>
+        </div>
+    </div>
+    <div showHeader="false" region="south" style="border:0;text-align:center;" height="25" showSplit="false">
+        Copyright © 上海天畅信息技术有限公司版权所有 
+    </div>
+    <div region="west" title="菜单列表" showHeader="true" bodyStyle="padding-left:1px;" showSplitIcon="true" width="230" minWidth="100" maxWidth="350">
+    	<!--OutlookMenu-->
+        <div id="leftTree" class="mini-outlookmenu" url="${request.getContextPath()}/controller/system/menu" onitemselect="onItemSelect"
+            idField="id" parentField="pid" textField="text" borderStyle="border:0">
+        </div>
+    </div>
+    <div title="center" region="center" style="border:0;">
+        <div id="mainTabs" class="mini-tabs" activeIndex="0" style="width:100%;height:100%;" onactivechanged="onTabsActiveChanged" contextMenu="#tabsMenu" >
+            <div title="首页" name="indextab">
+                <iframe onload="onIFrameLoad()" src="${request.getContextPath()}/controller/home/init" id="mainframe" frameborder="0" name="main" style="width:100%;height:100%;" border="0"></iframe>
+            </div>
+        </div> 
+        	<ul id="tabsMenu" class="mini-contextmenu" onbeforeopen="onBeforeOpen">        
+        <li iconCls="icon-cancel" onclick="closeTab" iconCls="icon-add">关闭标签页</li>                
+	    <li iconCls="icon-no" onclick="closeAllBut">关闭其他标签页</li>
+	    <li iconCls="icon-remove" onclick="closeAll">关闭所有标签页</li>
+	    <li iconCls="icon-reload" onclick="refresh">刷新当前页</li>
+    </ul>       
+    </div>
+    
+    
+</div>
+<div id="mask"><img src='../../img/loading.gif' style="position: absolute;top:50%;left:50%;z-index: 2147483647"/></div>
+</body>
+</html>
+
+<script type="text/javascript">
+    mini.parse();
+    
+        var tabs = mini.get("mainTabs");
+        var currentTab = null;
+        var tabCloseFlag = 0;
+
+        function onBeforeOpen(e) {
+            currentTab = tabs.getTabByEvent(e.htmlEvent);
+            if (!currentTab) {
+				e.cancel = true;
+            }
+        }
+
+        ///////////////////////////
+        function closeTab() {
+            tabs.removeTab(currentTab);
+        }
+        function closeAllBut() {
+	        tabCloseFlag = tabs.getTabs().length - 2;
+        	var but = [currentTab];            
+            but.push(tabs.getTab("indextab"));
+            tabs.removeAll(but);
+            var tree = mini.get("leftTree");
+            if (currentTab && currentTab._nodeid) {
+	        var node = tree.getNode(currentTab._nodeid);
+	        if (node && !(currentTab._nodeid == tree.getSelected().id)) {
+	            tree.selectNode(node);
+	        }
+	    }
+        }
+        function closeAll() {
+        	tabCloseFlag = tabs.getTabs().length - 1;
+            tabs.removeAll(tabs.getTab("indextab"));
+            var tree = mini.get("leftTree");
+            tree.selectNode("");
+        }
+        function refresh(){
+        	tabs.reloadTab(currentTab);
+        }
+    
+    function onTabsActiveChanged(e) {
+    	if(tabCloseFlag > 0){
+    		tabCloseFlag = tabCloseFlag-1;
+    		return false;
+    	}
+    
+    	var tree = mini.get("leftTree");
+	    var tabs = e.sender;
+	    var tab = tabs.getActiveTab();
+	    if (tab && tab._nodeid) {
+	        var node = tree.getNode(tab._nodeid);
+	        if (node && !(tab._nodeid == tree.getSelected().id)) {
+	            tree.selectNode(node);
+	        }
+	    } else {
+	        tree.selectNode("");
+	    }
+    }
+
+    function showTab(node) {
+        var tabs = mini.get("mainTabs");
+        
+        var id = "tab$" + node.id;
+        var tab = tabs.getTab(id);
+        var url;
+		if (node.url.indexOf('/') == 0) {/*如果url第一位字符是"/"，那么代表打开的是本地的资源*/
+			url = "${request.getContextPath()}" + node.url;
+		} else {/*打开跨域资源*/
+			url = node.url;
+		}
+        if (!tab) {
+            tab = {};
+            tab._nodeid = node.id;
+            tab.name = id;
+            tab.title = node.text;
+            tab.showCloseButton = true;
+            tab.url = url;
+            tabs.addTab(tab);
+        }
+        tabs.activeTab(tab);
+    }       
+
+    function onItemSelect(e) {
+        var item = e.item;
+        showTab(item);
+    }
+    function onSkinChange(skin) {
+    mini.Cookie.set('miniuiSkin', skin);
+    //mini.Cookie.set('miniuiSkin', skin, 100);//100天过期的话，可以保持皮肤切换
+    window.location.reload();
+    }
+    function onlineDemo(){
+		   JQuery.ajax({
+                url: "/pushwin/controller/login/doc",
+                data: "json",
+                dataType : 'json',
+                type: "post",
+                success: function (text) {
+					        mini.top.showMessageBox({
+					            showModal: false,
+					            width: 250,
+					            title: "提示",
+					            iconCls: "mini-messagebox-warning",
+					            message: text,
+					            timeout: 3000,
+					            x: 'right',
+					            y: 'bottom'
+					        });
+                },
+                error: function (data, textStatus) {
+                }
+            });
+
+    }
+	function initLogo(){
+		var selectSkin = document.getElementById("selectSkin");
+		var skin = getCookie("miniuiSkin");
+		for(var i=0;i<selectSkin.options.length;i++) {  
+            if(selectSkin.options[i].value == skin) {  
+                selectSkin.options[i].selected = true;  
+                break;  
+            }  
+        } 
+	
+		var logo=document.getElementById("logoid").innerHTML;
+		var newLogo="";
+		for(i=19,a=20;i<58;i++,a--){
+		newLogo+="<div style='overflow:hidden;width:168px;height:1px;position:absolute;top:"+ (20 + i) +"px;left:0px;filter:alpha(opacity="+a+");opacity:"+(a/100)+"'><p style='margin:-"+(30-(i-30))+"px 0px 0px 0px'>"+logo+"</p></div>";
+		}
+		logoid.innerHTML+=newLogo;
+	}
+</script>

@@ -1,0 +1,321 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<title>设备调拨</title>
+		<script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript">
+</script>
+		<!--引入皮肤样式-->
+		<!--<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/amend.css" />
+		--><!--<script src="${request.getContextPath()}/js/amend.js" type="text/javascript">-->
+		<script type="text/javascript" src="${request.getContextPath()}/js/easyTooltip.js"></script>
+		<script type="text/javascript" src="${request.getContextPath()}/js/MD5.js"></script>
+		<script type="text/javascript" src="${request.getContextPath()}/js/pw-common.js"></script>
+</script>
+		<style type="text/css">
+body {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+</style>
+	</head>
+	<body id="t4ui_org">
+			<div class="mini-splitter" style="width:100%;height:100%;">
+			<div size="240" showCollapseButton="true">
+				<div class="mini-toolbar"
+					style="padding:2px;border-top:0;border-left:0;border-right:0;height: 25px;">
+				</div>
+				<div class="mini-fit">
+					<ul id="tree1" class="mini-tree" url="${request.getContextPath()}/controller/org/orgTree"
+						style="width:100%;" showTreeIcon="true" textField="name"
+						idField="id" parentField="pid" resultAsTree="false"
+						expandOnLoad="0" contextMenu="#treeMenu" virtualScroll="true">
+					</ul>
+				</div>
+         </div>
+    <div showCollapseButton="true" class="t4ui_hh">
+        <div class="mini-toolbar" style="padding: 2px; border-top: 0; border-left: 0; border-right: 0; height: 25px;">                
+                <span class="fl " >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				<span class="fl t4ui_searSm">PIN码:</span>
+				<span class="fl t4ui_searSm">
+					<input id="pinCode" name = "pinCode" class="mini-textbox"  maxlength="32" onenter="onKeyEnter" style="width:80px;" /> 
+				</span>
+				<span class="fl " >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				<span class="fl t4ui_searSm">SIM码:</span>
+				<span class="fl t4ui_searSm">
+					<input id="simCode" name = "simCode" class="mini-textbox"  maxlength="32" onenter="onKeyEnter" style="width:80px;"  /> 
+				</span>
+				<span class="fl " >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				<span class="fl t4ui_searSm">员工号:</span>
+				<span class="fl t4ui_searSm">
+					<input id="userDeviceCode" name = "userDeviceCode" class="mini-textbox" maxlength="10" onenter="onKeyEnter" style="width:80px;"  /> 
+				</span>
+				<span class="fl " >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				<a class="mini-button t4ui_bac" onclick="search()">查询</a>
+        </div>
+        <div class="mini-fit" id="t4ui_ins">
+            <div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;" 
+                borderStyle="border:0;" url="${request.getContextPath()}/controller/device/deviceList" showFilterRow="false" allowCellSelect="true" allowCellEdit="true" multiSelect="true"
+                allowCellValid="true" allowAlternating="true" sizeList="[10,20]" pageSize="10" idField ="reId">
+                <div property="columns">
+                    <div field="pinId" width="90" headerAlign="left" allowSort="true">设备PIN码
+                        <input class="mini-textbox" style="width:100%;"/>
+                    </div>      
+                    <div field="simId" width="90" headerAlign="left" allowSort="true">设备SIM号
+                       	 <input class="mini-textbox" style="width:100%;" />
+                    </div>                
+                    <div field="userCode" width="90" headerAlign="left" allowSort="true">员工号
+                     	 <input class="mini-textbox" style="width:100%;" />
+                    </div>           
+                     <div field="padStatus" width="50" headerAlign="left" allowSort="true">状态
+                         <input class="mini-textbox" style="width:100%;"/>
+                    </div>  
+                    <div name="action" width="80"   headerAlign="left" renderer="onActionRole" cellStyle="padding:0;">操作</div>      
+                </div>
+            </div>  
+        </div>
+    </div>        
+</div>
+<!-- 添加用户 隐藏域 -->        
+	   <div id="editDataWindow" class="mini-window" title="设备出库" style="width:300px;" 
+	      showModal="true" allowResize="true" allowDrag="true">
+	    <div id="editDataform" class="form" >
+	    	<input name ='userIdData' id="userIdData" class="mini-hidden"/>
+	    	<div class="t4ui_jz" style="margin-left: 40px">
+		      	<span>员&nbsp;&nbsp;工&nbsp;&nbsp;号：</span>
+		      	<span><input  name="userCode" id ="userCode" class="mini-textbox"  vtype="rangeLength:10,10" maxlength="10" required="true" onvalidation="onEnglishAndNumberValidation"/></span>
+		      	<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+	      	</div>
+	      	<div class="t4ui_jz" style="margin-left: 40px">
+		      	<span>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码：</span>
+		      	<span><input  name="passwordid" id="passwordid"  type="password" style="width:120px;" required="true" /></span>
+		      	<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+	      	</div>
+		    <input  name="deviceId" id= "deviceId" class="mini-hidden"/>
+	      	<div class="t4ui_jz t4ui_but">
+	      		<a class="mini-button" style="margin-left: 60px" href="javascript:editDataSave()">授权</a> 
+                <a class="mini-button" style="margin-left: 10px" href="javascript:editDataCancel()">关闭</a>
+                <a class="mini-button" style="margin-left: 10px" href="javascript:delData()">重置</a>
+	      	</div>
+	       
+	      </div>
+		</div>
+		<!-- 内置样式 -->
+		<style>
+			.t4ui_jz
+			{
+				margin-top:5px;
+			}
+		</style>    
+
+</div>
+    <script type="text/javascript">
+        mini.parse();
+
+        var tree = mini.get("tree1");
+        var grid = mini.get("datagrid1");
+        var editWindow = mini.get("editWindow");
+        var editDataWindow = mini.get("editDataWindow");
+			tree.on("nodeselect", function(e) {
+				grid.load( {
+					deptId : e.node.id
+				});
+			});
+        
+        //根据条件查询
+        function search()
+        {
+                    	//判断是否选中tree节点*/
+                    	var node = tree.getSelectedNode();
+                    	if(typeof(node) == "undefined")
+                    	{
+                    		mini.alert("请先选择的机构");
+                    		return;
+                    	}
+                    	var userCode = mini.get("userDeviceCode").getValue();
+                    	var pinCode = mini.get("pinCode").getValue();
+                    	var simCode = mini.get("simCode").getValue();
+                    	grid.load({deptId:node.id,userCode:userCode,pinCode:pinCode,simCode:simCode});
+        }
+        
+        //添加操作栏
+        function onActionRole(e) {
+			var record = e.record;
+            var rid = record.reId;
+            var pid = record.pinId;
+            if(record.padStatus == "已出库")
+       		{
+            	 var s =  '<a class="Edit_Button" href="javascript:saveDevice(\'' + rid + '\')">入库</a>'
+                        + '<span class="fl " >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>' 
+		         		+ '<a class="Edit_Button" href="javascript:findRecord(\'' + pid + '\')">历史记录</a>'; 
+         		 return s;
+       	 	}
+            if(record.padStatus == "已入库")
+            {
+            	 var s =  '<a class="Edit_Button" href="javascript:outbound(\'' + rid + '\')">出库</a>'
+                        + '<span class="fl " >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>' 
+         			   + '<a class="Edit_Button" href="javascript:findRecord(\'' + pid + '\')">历史记录</a>'; 
+ 				 return s;
+            }
+            if(record.padStatus == "待接收")
+            {
+            	 var s =  '<a class="Edit_Button" href="javascript:editRole(\'' + rid + '\')">确认接收</a>'
+                        + '<span class="fl " >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>' 
+   			   			+ '<a class="Edit_Button" href="javascript:findRecord(\'' + pid + '\')">历史记录</a>'; 
+			 	 return s;
+            }
+            if(record.padStatus == "已保管")
+            {
+            	 var s = '<a class="Edit_Button" href="javascript:findRecord(\'' + pid + '\')">历史记录</a>'; 
+			 	 return s;
+            }
+           
+        } 
+        
+       //入库操作
+       function saveDevice(rid)
+       {
+                    	mini.confirm("是否入库该设备?入库后将清空设备上的草稿和电子资料，请设备持有人确认无误后完成入库","提示",
+                            function(action)
+                            {
+                    			if(action =="ok")
+                    			{
+                    				jQuery.ajax({
+                    		               url: "${request.getContextPath()}/controller/device/saveDeviceStorage",
+                    		               data: { deviceId :rid },
+                    		               type: "post",
+                    		               success: function (text) {
+                    		               var json = mini.decode(text);
+			                         		if(!json.success)
+			                         		{
+			                         			mini.alert(json.msg);
+			                     	        	return;
+			                         			                		
+			                         	    }else 
+			                     	        {
+			                     	        	mini.alert(json.msg);
+			                     	        	grid.reload();
+			                     	        	return;
+			                     	        }
+                    		        	      
+                    		               }
+                    		           });
+                    			}
+                   			});
+	           	   
+      }
+       
+      //根据设备ID查询历史记录
+      function findRecord(pid)
+      {
+      mini.open( {
+					url :  "${request.getContextPath()}/controller/device/deviceRecordWindow",
+					title : "历史记录",
+					width : 600,
+					height : 375,
+					onload : function() {
+						var iframe = this.getIFrameEl();
+						var data = {
+							pid : pid
+						};
+						iframe.contentWindow.SetData(data);
+					},
+					ondestroy : function(action) {
+						if (action == "ok") {
+							var iframe = this.getIFrameEl();
+							var data = iframe.contentWindow.GetData();
+							data = mini.clone(data);
+							btnEdit.setValue(data.id);
+							btnEdit.setText(data.text);
+						}
+					}
+				});
+      }
+      
+      //弹出设备出库
+      function outbound(rid)
+      {
+    	  editDataWindow.show();
+    	  var form = new mini.Form("#editDataform");
+    	  form.clear();
+    	  var pwd = document.getElementById("passwordid").value;
+    	  document.getElementById("passwordid").value="";
+    	  var deviceId = mini.get("deviceId");
+    	  deviceId.setValue(rid);
+    	  
+    	  
+      }
+      
+      //关闭设备出库
+      function editDataCancel()
+      {
+    	  editDataWindow.hide();
+      }
+      
+      //设备授权
+      function editDataSave()
+      {
+    	       var form1 = new mini.Form("#editDataform");
+                  	  var t = form1.getData();
+                  	  var json1 = mini.encode(t);
+			if(t.userCode==''){
+	  			 mini.alert("请输入员工号");
+	  			return;
+	  		}
+	  		if(document.getElementById("passwordid").value==''){
+	  			 mini.alert("请输入密码");
+	  			return;
+	  		}
+			var pwd = document.getElementById("passwordid").value;
+			var password = hex_md5(pwd);
+                	  //获取tree节点ID
+                  	  var node = tree.getSelectedNode();
+                	  jQuery.ajax({
+                          url: "${request.getContextPath()}/controller/device/deviceOutbound",
+                          data: { userCode :t.userCode ,orgId :node.id,password:password,deviceId:t.deviceId},
+                          type: "post",
+                          success: function (text) {
+                          var json = mini.decode(text);
+			                         if(!json.success)
+			                         {
+			                         	mini.alert(json.msg);
+			                     	 	return;
+			                         			                		
+			                          }else 
+			                     	  {
+			                     	    mini.alert(json.msg);
+			                     	    grid.reload();
+			                     	    editDataWindow.hide();
+			                     	    return;
+			                     	   }
+            	            }
+            		     }); 
+	              
+      }
+      
+      //重置
+      function delData()
+      {
+    	  var userCode = mini.get("userCode");
+    	  var pwd = document.getElementById("passwordid").value;
+    	  userCode.setValue("");
+    	  document.getElementById("passwordid").value="";
+      }
+      
+       function onEnglishAndNumberValidation(e) {
+           if (e.isValid) {
+           	var re = new RegExp("^[0-9a-zA-Z\_]+$");
+           	if (re.test(e.value) != true){
+                   e.errorText = "必须输入英文+数字";
+                   e.isValid = false;
+               }
+           }
+       }
+    </script>
+</body>
+</html>

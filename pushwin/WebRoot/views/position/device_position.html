@@ -1,0 +1,347 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0,user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<title>设备轨迹</title>
+<style type="text/css">
+
+body {
+	width: 98%;
+	height: 90%;
+	padding: 0px
+}
+</style>
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=f9ca95762431a819c8f9466c5317bacc"></script>
+<script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript"></script>
+<script type="text/javascript">
+	var windowArray = [];
+	var markerArray = [];
+	var mapObj;
+	var polyline; 
+	//var dataList = [];
+	var sicon = new AMap.Icon({
+		image: "${request.getContextPath()}/img/poi.png",
+		size:new AMap.Size(44,44),
+		imageOffset: new AMap.Pixel(-334, -180)
+		});
+		var eicon = new AMap.Icon({
+		image: "${request.getContextPath()}/img/poi.png",
+		size:new AMap.Size(44,44),
+		imageOffset: new AMap.Pixel(-334, -134)
+		});
+		var picon = new AMap.Icon({
+		image: "${request.getContextPath()}/img/poi.png",
+		size:new AMap.Size(30,40),
+		imageOffset: new AMap.Pixel(-336, -20)
+		});
+	function initialize() {
+		var position = new AMap.LngLat(121.476113,31.237306);
+		mapObj = new AMap.Map("container", {
+			view : new AMap.View2D({//创建地图二维视口
+				center : position,//创建中心点坐标
+				zoom : 14, //设置地图缩放级别
+				rotation : 0
+			//设置地图旋转角度
+			}),
+			lang : "zh_cn"//设置地图语言类型，默认：中文简体
+		});//创建地图实例
+
+	}
+	function drawLine(dataList){
+			mapObj.clearMap();
+			var lineArr = new Array();//创建线覆盖物节点坐标数组
+			if (dataList != null && dataList.length > 0) {
+				for ( var i = 0; i < dataList.length; i++) {
+					var icon;
+					if(i==0){
+						icon=sicon;
+					}else if(i==dataList.length-1){
+						icon=eicon;
+					}else{
+						icon=picon;
+					}
+					var hh = dataList[i];
+					if (hh.LONGITUDE == null || hh.LATITUDE == null) {
+						continue;
+					}
+					eval('var marker_i_'
+							+ i
+							+ ' = new AMap.Marker({map:mapObj,position:new AMap.LngLat('
+							+ hh.LONGITUDE
+							+ ','
+							+ hh.LATITUDE
+							+ '),icon :icon ,offset : new AMap.Pixel(-11,-36),cursor : "default",visible : true});');
+					hmks = eval('marker_i_' + i);//临时保存
+					eval("marker_i_"+i+".setAnimation('AMAP_ANIMATION_DROP');");
+					eval('lineArr.push(new AMap.LngLat('+hh.LONGITUDE+','+hh.LATITUDE+'));');
+					var title = hh.name
+							+ '  <span style="font-size:11px;color:#F00;">￥'
+							+ hh.tel + '</span>';
+	
+					var info = [];
+					info.push("<b>姓名:</b>" + hh.USER_NAME);
+					info.push("<b>时间:</b>"+ hh.POSITION_TIME);
+					info.push("<b>机构编号:</b>"+ hh.ORG_CODE);
+					info.push("<b>机构名称:</b>"+ hh.ORG_NAME);
+					eval("var inforWindow_i_"
+							+ i
+							+ " = new AMap.InfoWindow({content : info.join('<br>') ,offset : new AMap.Pixel(0,-23)});");
+					eval('AMap.event.addListener(marker_i_' + i
+							+ ', "click",function(e) { placeSearch(inforWindow_i_' + i + ',mapObj,marker_i_' + i + ');'
+							+ '});');
+							
+	
+				}
+			   polyline = new AMap.Polyline({
+			   path:lineArr, //设置线覆盖物路径
+			   strokeColor:"#ff0000", //线颜色
+			   strokeOpacity:1, //线透明度
+			   strokeWeight:3, //线宽
+			   strokeStyle:"solid", //线样式
+			   strokeDasharray:[10,5], //补充线样式
+			   geodesic:true //绘制大地线
+			   });
+			   polyline.setMap(mapObj);              
+			  mapObj.setFitView();
+			}else{
+				mini.alert("无该用户该时间的轨迹记录！");
+			}
+			  
+			
+	}
+	
+		var mapObj = new AMap.Map("mapContainer", {
+			resizeEnable: true
+		});
+		var windowsArr = new Array();  
+		var marker = new Array();
+		//地点查询
+		function placeSearch(infoWindow, mapObj, marker){
+		    var MGeocoder;
+		    //加载地理编码插件
+		    AMap.service(["AMap.Geocoder"], function() {
+		        MGeocoder = new AMap.Geocoder({});
+		        //逆地理编码
+		        MGeocoder.getAddress(marker.getPosition(), function(status, result){
+		        	if(status == 'complete' && result.info == 'OK'){
+		        	address = "<br><b>地址:</b>" + result.regeocode.formattedAddress;
+	        		if(!infoWindow.addrFlag){
+		        		infoWindow.setContent(infoWindow.getContent() + "<br><b>地址:</b>" + result.regeocode.formattedAddress);
+		        		infoWindow.addrFlag = true;
+	        		}
+		        		infoWindow.open(mapObj,marker.getPosition());
+		        	} else {
+		        		infoWindow.open(mapObj,marker.getPosition());
+		        	}
+		        });
+		    });
+		}
+	
+</script>
+</head>
+
+<body  onload="initialize()">
+   <!--   顶层结束 -->
+   <div class="mini-toolbar" style="position: fixed;z-index:2">
+				<span style="font-size: 12px;">客户经理:</span>
+				<span>
+					<input id="userId" name="btnEdit1" class="mini-buttonedit" allowInput="false" style="width: 150px; height: 28px"  onbuttonclick="onButtonEdit" /> 
+				</span>
+				<span style="font-size: 12px;">日期:</span>
+				<span>
+					<input id="updateTime"  name = "offlineTime" allowInput="false" class="mini-datepicker" ondrawdate="onDrawDate" style="width: 150px; height: 28px"/>
+				</span>
+                <a class="mini-button" iconCls="icon-search" onclick="search();">查询</a> 
+                <a class="mini-button" iconCls="icon-cancel" onclick="reset();">重置</a> 
+                <a class="mini-button" iconCls="icon-download" onclick="exportExcel();">导出</a> 
+                </div>
+    <!--  </div>  -->
+<!-- </div> -->
+	<div id="container" style="height: 109%;width: 100%;float: left;margin-bottom: 0px"></div>
+	<!--导出Excel相关HTML-->
+    <form id="excelForm"  action="" method="post" target="excelIFrame">
+        <input type="hidden" name="excelData" id="excelData"/>
+    </form>
+    <iframe id="excelIFrame" name="excelIFrame" style="display:none;"></iframe>
+</body>
+<script type="text/javascript">
+	jQuery.support.cors = true;
+	  var pointList;
+	  function onDrawDate(e) {
+            var date = e.date;
+            var d = new Date();
+            if (date.getTime()>= d.getTime()) {
+                e.allowSelect = false;
+            }
+        }
+        
+function onButtonEdit()
+      {
+        var btnEdit = this;
+        mini.open({
+                url: "${request.getContextPath()}/views/position/user_select.html",
+                showMaxButton: false,
+                title: "选择人员",
+                width: 700,
+                height: 350,
+                onload: function () {
+				            var iframe = this.getIFrameEl();
+				            var data ="";
+				            iframe.contentWindow.GetData(data);
+				                },
+                ondestroy: function (action) {                    
+                    if (action == "ok") {
+                       var iframe = this.getIFrameEl();                       
+				       var data = iframe.contentWindow.GetData();
+                        data = mini.clone(data);
+                        btnEdit.setValue(data.id);
+                        btnEdit.setText(data.userName);
+						/* var objId = mini.get("userCode").setValue(data.id);
+						var objName = mini.get("btnEdit2").setValue(data.text); */
+	                }
+                }
+            }); 
+            
+      }
+       function compare(startDateText, endDateText){
+			var oneDate = 31;
+		   var dateMid = endDateText.getTime() - (oneDate * 24 * 60 * 60 * 1000)
+           var aStart=startDateText.split('-'); //转成成数组，分别为年，月，日，下同
+			var date1 = new Date(aStart[0],parseInt(aStart[1])-1,aStart[2])
+			    if (dateMid > date1) {
+			    	return false;
+			   	}
+		 	
+		 	return  true;
+		}	
+  
+              	//查询
+		function search()
+		{
+       	    var userId = mini.get("userId").getValue(); 
+       		var updateTime = mini.get("updateTime").getFormValue();
+       		//if(userCode==""){
+       		//	mini.alert("请选择查询用户！");
+       		//	return;
+       		//}
+       		if(userId == ""){
+       			mini.alert("请输入查询用户信息！");
+       			return;
+       		}
+       		if(updateTime==""){
+       			mini.alert("请输入查询日期！");
+       			return;
+       		}
+       		var today = new Date();
+       		
+       		if(compare(updateTime,today)==false){
+       		mini.alert("无法查看范围超过30天的数据！");
+       		return;
+       		}
+
+       		
+       		
+  			jQuery.ajax({
+		         url: "${request.getContextPath()}/controller/map/qryDevicePosition",
+		         data: { userId :userId,updateTime : updateTime},
+		         type: "post",
+		         dataType : 'json',
+		         success: function (text) {
+		         pointList = null;
+		         drawLine(text);
+		         pointList = text;
+		     }
+			});
+		}
+		
+		//重置
+		function reset()
+		{
+		   	mini.get("updateTime").setValue("");
+			mini.get("userId").setValue("");
+			mini.get("userId").setText("");
+			mapObj.clearMap();
+			pointList = null;
+		}
+		var loadMessage;
+		function exportExcel(){
+			mini.confirm("导出Excel比较消耗服务器性能，请不要频繁使用", "继续导出？",
+            	function (action) {
+	                if (action == "ok") {
+	                	if(undefined == pointList || pointList == ""){
+							mini.alert("没有位置信息，无法导出。");
+							return;
+						}
+						
+					    loadMessage = mini.loading("正在处理，请稍后 ...", "加载中 ...");
+						var exportList = [];
+						var i = 0;
+						execGetAddr(pointList, exportList, i);
+	                } else {
+	                	return;
+	                }
+            	}
+       		);
+		}
+		
+		function execGetAddr(pointList, exportList, i){
+			var oneLine = pointList[i];
+		
+			//-- -A程序点 
+	        var MGeocoder;
+	        //加载地理编码插件
+	        mapObj.plugin(["AMap.Geocoder"], function () {
+	            MGeocoder = new AMap.Geocoder({
+	                radius: 1000
+	            });
+	
+	            //返回地理编码结果 
+	            if(oneLine.LONGITUDE == null || oneLine.LATITUDE == null){
+	            	exportList.push(oneLine);
+		        	i++;
+                    if (i < pointList.length){
+                    	execGetAddr(pointList, exportList, i);
+                    } else if (i == pointList.length){
+                    	document.getElementById("excelData").value = mini.encode(exportList);
+			            var excelForm = document.getElementById("excelForm");
+			            excelForm.action="${request.getContextPath()}/controller/map/exportExcel";
+			            excelForm.submit();
+			            mini.hideMessageBox(loadMessage);
+	                }
+	            } else {
+		            var position = new AMap.LngLat(oneLine.LONGITUDE, oneLine.LATITUDE); 
+		            
+		            MGeocoder.getAddress(position, function(status, result){
+			        	if(status === 'complete' && result.info === 'OK'){
+			        		oneLine.ADDRESS = result.regeocode.formattedAddress;
+			        	}
+			        	exportList.push(oneLine);
+			        	i++;
+	                    if (i < pointList.length){
+	                    	execGetAddr(pointList, exportList, i);
+	                    } else if (i == pointList.length){
+	                    	document.getElementById("excelData").value = mini.encode(exportList);
+				            var excelForm = document.getElementById("excelForm");
+				            excelForm.action="${request.getContextPath()}/controller/map/exportExcel";
+				            excelForm.submit();
+				            mini.hideMessageBox(loadMessage);
+		                }
+		        	});
+       			}
+	        });
+		}
+		
+		(function(){
+		    // remove layerX and layerY
+		    var all = jQuery.event.props,
+		        len = all.length,
+		        res = [];
+		    while (len--) {
+		      var el = all[len];
+		      if (el != 'layerX' && el != 'layerY') res.push(el);
+		    }
+		    jQuery.event.props = res;
+		}());
+</script>
+</html>

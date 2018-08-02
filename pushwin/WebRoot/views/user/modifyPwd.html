@@ -1,0 +1,275 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!--引入公用JS-->
+<script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/user.css"/>
+<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/amend.css"/>
+<script type="text/javascript" src="${request.getContextPath()}/js/MD5.js"></script>
+<script type="text/javascript" src="${request.getContextPath()}/js/pw-common.js"></script> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+
+</head>
+
+<body id="codeAlt">
+	<!--
+    	T4UI 模板
+        所有ID、Class 命名规范： t4ui_
+        所有JS 命名规范:  t4uiJs_
+    	页面开发注意事项
+        1. 所有CSS样式、JS效果 只能引入 不得直接写入前台页面中 (防止核心样式代码泄露)
+           非公用JS可嵌入内页
+        2. 页面做到整洁规范，全局页面使用div 标签布局 所有控件引用 mini ui 
+        3. div 开始结束时 标注注释  注释标准
+         
+         XX 开始
+         XX 结束       
+    -->
+    <!--
+    	以上标注为前段开发注意事项,以及模板命名规范
+        开发人员需遵从 命名规范 
+        后期开发完毕,此注释可清除
+    -->
+    <!--主层开始-->
+    	<div id='t4ui_main'>
+         <!--中间层开始-->
+		 <form id="t4ui_altReg" style="width: 100%; height: 100%;">
+			 <div class='t4ui_Mm'>
+				<div class="t4ui_altCon">
+					<span class="fl t4ui_altMes"><span class="t4ui_Ast">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span>原&nbsp;&nbsp;&nbsp;密&nbsp;&nbsp;&nbsp;码：</span>
+					<span class="fl t4ui_Input"><input id="oldPwd" type="password" name="oldPwd" class="t4ui_borSty1"></span>
+					<span id="oldPwdSpan" class="fl t4ui_confir"></span>
+				</div>
+				<div class="t4ui_altCon">
+					<span class="fl t4ui_altMes"><span class="t4ui_Ast">*</span>新&nbsp;&nbsp;&nbsp;密&nbsp;&nbsp;&nbsp;码：</span>
+					<span class="fl t4ui_Input"><input id="newPwd" type="password" name="password" class="t4ui_borSty1" required="true" onblur="pwdCheck()"></span>
+					<span id="userPwd" class="fl"></span>
+					<span id="strength" class="fl">
+						<span class="fl t4ui_safeLev"></span>
+						<div id="t4ui_safeShow">
+							<span>弱</span>
+							<span id="t4ui_medium">中</span>
+							<span>强</span>
+						</div>
+					</span>
+				</div>
+				<div class="t4ui_altCon">
+					<span class="fl t4ui_altMes"><span class="t4ui_Ast">*</span>请确认密码：</span>
+					<span class="fl t4ui_Input"><input id="rePwd" type="password" name="repassword" class="t4ui_borSty1" required="true"></span>
+					<span class="fl t4ui_confir" id="RepassW"></span>
+				</div>
+			 </div>
+			 
+			 <div class="t4ui_jz" style=" text-align:center;width: 70%; margin:20px" >
+					 <a class="mini-button" href="javascript:submitForm()" id="t4ui_Hold">保存</a>
+		            <!--<a class="mini-button" href="javascript:back()">关闭</a>
+				--><!--<div class="t4ui_reSave">
+					<input type="button" class="t4ui_buttonImg " value="保存" onclick="submitForm();" id="t4ui_Hold">
+					<input type="button" class="t4ui_buttonImg t4ui_resbac " value="返回 "  onclick="back();">
+				</div>-->
+			</div>
+		</form>
+
+		
+		<script type="text/javascript">
+        mini.parse();
+
+        function submitForm() {
+            var oldPwd=document.getElementById("oldPwd").value;
+            var newPwd=document.getElementById("newPwd").value;
+            var rePwd=document.getElementById("rePwd").value;
+            var re=new RegExp("^(?=.*?[a-zA-Z])(?=.*?[0-6])[!#$%&'()*+,\-./:;<=>?@\[\\\]^_`{|}~A-Za-z0-9]{6,12}$");
+            
+            if (oldPwd=="") {
+                mini.alert("请输入原始密码");
+            	return;
+			}
+            if (newPwd=="") {
+            	mini.alert("请输入新密码");
+				return;
+			}
+            if (false==re.test(newPwd)||newPwd.length<6||newPwd.length>12) {
+            	mini.alert("密码不符合要求");
+				return;
+			}
+            if (rePwd=="") {
+            	mini.alert("请确认密码");
+				return;
+			}
+			if(newPwd!=rePwd){
+				mini.alert("两次密码不一致");
+				return;
+			} 
+			oldPwd = hex_md5(oldPwd);
+            newPwd = hex_md5(newPwd);
+            rePwd = hex_md5(rePwd);
+            jQuery.ajax({
+                url: "${request.getContextPath()}/controller/user/modifyPwd",
+                type: "post",
+                dataType : "json",
+                data: {oldPwd: oldPwd, newPwd : newPwd,rePwd:rePwd},
+                success: function (text) {
+                    if (text.success) {
+						window.top.location.href = "${request.getContextPath()}";
+					} else {
+						mini.alert(text.msg);
+					}
+                }
+            });
+        }
+        	// 密码
+	$('input[name="oldPwd"]').blur(function (){
+		$(this).attr('class', 't4ui_borSty2');
+		if (this.value ==''){
+			$(this).attr('class', 't4ui_borSty3');
+			$('#oldPwdSpan').text('原密码不能为空').attr('class','fl t4ui_error');
+		}else{
+			$(this).attr('class', 't4ui_borSty1');
+			$('#oldPwdSpan').text('').attr('class','t4ui_right');
+		}
+	});
+      	$('input[name="password"]').blur(function (){
+      	var re=new RegExp("^(?=.*?[a-zA-Z])(?=.*?[0-6])[!#$%&'()*+,\-./:;<=>?@\[\\\]^_`{|}~A-Za-z0-9]{6,12}$");
+		if (this.value == ''){
+			$('#strength').hide();
+			$('#userPwd').show();
+			$(this).attr('class', 't4ui_borSty3');
+			$('#userPwd').text('密码不能为空').attr('class','fl t4ui_error');
+		} else if (this.value.length < 6 || this.value.length > 12) {
+			$('#strength').hide();
+			$('#userPwd').show();
+			$(this).attr('class', 't4ui_borSty3');
+			$('#userPwd').text('密码必须在6-12位之间').attr('class','fl t4ui_error');
+		}else if(false==re.test(this.value)){
+			$('#strength').hide();
+			$('#userPwd').show();
+			$(this).attr('class', 't4ui_borSty3');
+			$('#userPwd').text('至少1位数字及字母').attr('class','fl t4ui_error');
+		} else {
+			$('#userPwd').hide();
+			$(this).attr('class', 't4ui_borSty1');
+			$('#userError').text('');
+		}
+	});
+	
+	
+	function back(){
+		//history.back();
+		
+	}
+        
+ 	// 密码强度
+	$('input[name="password"]').keyup(function (){
+		if (this.value != ''){
+			$('#strength').show(); 
+			$('#userPwd').hide();
+		} else {
+			$('#strength').hide();
+			$('#userPwd').show();
+		}
+	
+		var strongReg = new RegExp("^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\\W).*$", "g");
+		var mediumReg = new RegExp("^(?=.{7,})(((?=.*[A-Z])(?=.*[a-z]))|((?=.*[A-Z])(?=.*[0-9]))|((?=.*[a-z])(?=.*[0-9]))).*$", "g");
+		var enoughReg = new RegExp("(?=.{6,}).*", "g");
+		if ($(this).val == ''){
+				$('#t4ui_safeShow').find('span:lt(3)').attr('class', 'addFom');
+		} else if (false == enoughReg.test($(this).val())) {
+				$('#t4ui_safeShow').find('span:lt(1)').attr('class', 'addTin')
+					.end().find('span:gt(0)').attr('class', 'addFom');			
+		 } else if ( false == mediumReg.test($(this).val()) ) {
+				$('#t4ui_safeShow').find('span:lt(2)').attr('class', 'addTin')
+					.end().find('span:gt(1)').attr('class', 'addFom');
+		 } else if ( false == strongReg.test($(this).val()) ) {
+				$('#t4ui_safeShow').find('span:lt(3)').attr('class', 'addTin')
+					.end().find('span:gt(2)').attr('class', 'addFom');
+		 }
+	});
+        	//确认密码
+	$('input[name="repassword"]').focus(function (){
+		$(this).attr('class', 't4ui_borSty2');
+		$('#RepassW').text('请确认密码').attr('class','t4ui_right');
+	})
+	$('input[name="repassword"]').blur(function (){
+		var pwd1 = $('input[name="password"]').val();
+		if (pwd1 != this.value){
+			$(this).attr('class', 't4ui_borSty3');
+			$('#RepassW').text('两次密码输入不一致').attr('class','fl t4ui_error');
+		}else{
+			$('#RepassW').text('').attr('class','fl t4ui_error');
+		}
+	});
+        
+        
+        /////////////////////////////////////////////////////////////////
+        function onEnglishValidation(e) {
+            if (e.isValid) {
+                if (isEnglish(e.value) == false) {
+                    e.errorText = "必须输入英文";
+                    e.isValid = false;
+                }
+            }
+        }
+        function onEnglishAndNumberValidation(e) {
+            if (e.isValid) {
+                if (isEnglishAndNumber(e.value) == false) {
+                    e.errorText = "必须输入英文+数字";
+                    e.isValid = false;
+                }
+            }
+        }
+        function onChineseValidation(e) {
+            if (e.isValid) {
+                if (isChinese(e.value) == false) {
+                    e.errorText = "必须输入中文";
+                    e.isValid = false;
+                }
+            }
+        }
+        function onIDCardsValidation(e) {
+            if (e.isValid) {
+                var pattern = /\d*/;
+                if (e.value.length < 6 || e.value.length > 12 || pattern.test(e.value) == false) {
+                    e.errorText = "必须输入6~12位字符";
+                    e.isValid = false;
+                }
+            }
+        }
+
+        ////////////////////////////////////
+        /* 是否英文 */
+        function isEnglish(v) {
+            var re = new RegExp("^[a-zA-Z\_]+$");
+            if (re.test(v)) return true;
+            return false;
+        }
+
+        /* 是否英文+数字 */
+        function isEnglishAndNumber(v) {
+            
+            var re = new RegExp("^[0-9a-zA-Z\_]+$");
+            if (re.test(v)) return true;
+            return false;
+        }
+
+        /* 是否汉字 */
+        function isChinese(v) {
+            var re = new RegExp("^[\u4e00-\u9fa5]+$");
+            if (re.test(v)) return true;
+            return false;
+        }
+
+        /*自定义vtype*/
+        mini.VTypes["englishErrorText"] = "请输入英文";
+        mini.VTypes["english"] = function (v) {
+            var re = new RegExp("^[a-zA-Z\_]+$");
+            if (re.test(v)) return true;
+            return false;
+        }
+
+    </script>
+		 <!--中间层结束-->
+        </div>  
+		 <!--主层结束-->
+</body>
+</html>

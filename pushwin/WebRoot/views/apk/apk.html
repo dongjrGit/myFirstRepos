@@ -1,0 +1,519 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript"></script>
+    <script src="${request.getContextPath()}/js/amend.js" type="text/javascript"></script>
+    <script src="${request.getContextPath()}/js/pw-common.js" type="text/javascript"></script>
+	<script type="text/javascript" src="${request.getContextPath()}/js/jquery-foxibox-0.2.min.js"></script>
+	<link rel="stylesheet" href="${request.getContextPath()}/css/jquery-foxibox-0.2.css" type="text/css"></link>
+</head>
+<body style="width: 99%;height: 89%">
+    <div style="width:100%">
+        <div class="mini-toolbar" style="padding:0px;">
+            <table style="width:100%;">
+                <tr>
+                    <td style="width:100%;">
+	                        <a class="mini-button" iconCls="icon-add" onclick="addRow()" plain="true">新增</a>
+	                        <a class="mini-button" iconCls="icon-edit" onclick="updRow()" plain="true">编辑</a>
+                        	<span class="separator"></span>
+	                        <a class="mini-button" iconCls="icon-remove" onclick="removeRow()" plain="true">删除</a>
+							<a style="display: inline;float: right;margin-right: 10px" class="mini-button" onclick="search()">查询</a> 
+							<input style="display: inline;float: right;margin-right: 10px" id="dealNameSearch" labelField="true" label="交易名称:" class="mini-textbox" emptyText="请输入名称" onenter="onKeyEnter"/> 
+                    </td>
+                    <td style="white-space:nowrap;">
+                    </td>
+                </tr>
+            </table>           
+        </div>
+    </div>
+    <div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;" 
+        url="${request.getContextPath()}/controller/apk/qryApks" idField="dealId"
+        allowResize="true" allowAlternating="true"
+        allowCellEdit="true" allowCellSelect="true" multiSelect="false"
+        allowCellValid="true" oncellvalidation="onCellValidation"   sizeList="[10,20]" pageSize="10">
+        
+        <div property="columns" >
+            <div type="checkcolumn"></div>
+            <div field="dealName" vtype="required" width="50" allowSort="true" headerAlign="left">交易名称</div>
+            <div field="dealChannelName" vtype="required" width="80" headerAlign="left">所属渠道</div>
+            <div field="dealCode" vtype="required" width="80"  allowSort="true" headerAlign="left">交易代码</div>
+            <div field="dealDescription" vtype="required" width="170" allowSort="true" headerAlign="left">交易描述</div>
+            <div field="relatedApk" vtype="required" width="80"  allowSort="true" headerAlign="left">关联APK </div>
+            <div field="dealTypeName" vtype="required" width="80"  allowSort="true" headerAlign="left">交易分类</div>
+        </div>
+    </div>
+    <!-- 添加交易隐藏域 -->
+	   <div id="editWindow" class="mini-window" title="新建交易" style="width:450px;"
+	      showModal="true" allowResize="true" allowDrag="true">
+	      <form id="t4ui_userReg"  method="post" action="${request.getContextPath()}/controller/apk/saveApkInfo" enctype="multipart/form-data">
+	      <div id="editform" style="margin-left: 75px">
+	      <input type="text" value="$!menuId" name ="menuId" id="menuId" style="display:none;"/>
+	      	<div class="t4ui_jz">
+		      	<span> 交易名称：</span>
+		      	<span><input  name="dealName" id="dealName1" style="width:250px;" indentSpace="true" class="mini-textbox"  vtype="rangeChar:4,100" required="true" maxlength="30"/></span>
+	      	</div>
+	      	
+	      	<div style="margin-left:-1px;margin-top:4px">
+		      	<span>所属渠道：</span>
+		      	<span>
+      				<input id="dealChannel1" name="dealChannel" class="mini-combobox" style="width:250px;" textField="businname" valueField="dictId" emptyText="请选择..."
+      				     url="${request.getContextPath()}/controller/apk/qryChannel?busintypeid=BASIS_APK_CHANNEL" value="" allowInput="false" showNullItem="true" nullItemText="请选择..." required="true"/>
+	            </span>
+	      	</div>
+	      	
+	      	
+	      	
+	      	<div class="t4ui_jz" style="margin-left:-1px;margin-top:4px">
+		      	<span>关联APK：</span>
+		      	<span>
+      				<input id="relatedApk1" name="relatedApk" class="mini-combobox" style="width:125px;" textField="name" valueField="pakageName" emptyText="请选择..."
+      				     url="${request.getContextPath()}/controller/apk/synchronousApk" value="" required="true" allowInput="false" onvaluechanged="onChangeValue();" showNullItem="true" nullItemText="请选择..."/>
+	            	<input  id="pageApk" name="pageApk" class="mini-textbox"  style="width:125px" vtype="rangeChar:4,80" required="true" maxlength="80" emptyText="启动类"/>
+	            </span>
+	      	</div>
+	      	
+	      	<div class="t4ui_jz" style="margin-left:-1px;margin-top:4px">
+		      	<span> 交易代码：</span>
+		      	<span><input  name="dealCode" style="width:250px;" class="mini-textbox" id="dealCode1" vtype="rangeChar:1,40" required="true" maxlength="40"/></span>
+	      	</div>
+	      	
+	      	
+	      	<div class="t4ui_jz" style="margin-left:-1px;margin-top:4px">
+		      	<span>交易分类：</span>
+		      	<span>
+      				<input id="uDealType1" name="dealType" class="mini-combobox" style="width:250px;" textField="businname" valueField="dictId" emptyText="请选择..."
+      				     url="${request.getContextPath()}/controller/apk/qryChannel?busintypeid=BASIS_APK_TYPE" value="" allowInput="false" showNullItem="true" nullItemText="请选择..."/>
+	            </span>
+	      	</div>
+
+			<div>
+		      	<span>是否离线：</span>
+		      	<input name="isOffline" class="mini-radiobuttonlist" style="width:100px;margin-left: 65px" data="[{'id':'1','text':'是'},{'id':'0','text':'否'}]" vtype="rangeChar:4,8" value="1" required="true" />
+	      	</div>
+
+	      	<div class="t4ui_jz" style="margin-left:-1px;margin-top:4px">
+		      	<span> 交易图标：</span>
+		      	<span>
+		      		<input type="file" class="mini-htmlfile" id="apkIconAdd" name ="apkIconName" style="width:250px;"/>
+		      		<input type="text" value="$!logo.dealImg" name="logo.dealImg" style="display: none;"/>
+		      	</span>
+	      	</div>
+	      	<div class="t4ui_jz" style="margin-left:-1px;margin-top:4px">
+		      	<span > 交易描述：</span>
+		      	<span><input  name="dealDescription" style="width:250px;height:100px;" id="dealDescription1" class="mini-textArea" vtype="rangeChar:4,200"  required="true" maxlength="100"/></span>
+	      	</div>
+
+	      	<div style="margin-left: 65px">
+	      		<a class="mini-button" href="javascript:submit()">保存</a>
+                <a style="margin-left: 30px" class="mini-button" href="javascript:EditcancelRow()">取消</a>
+	      	</div>
+	      </div>
+	    </form>
+		</div>
+		
+		
+	  <!-- 编辑交易 隐藏域 -->
+	   <div id="updWindow" class="mini-window" title="编辑交易" style="width:450px;" 
+	      showModal="true" allowResize="true" allowDrag="true">
+	    <form id="t4ui_updReg" name="t4ui_updReg" method="post" action="${request.getContextPath()}/controller/apk/saveApkInfo" enctype="multipart/form-data">
+	    <div id="updform" style="margin-left: 75px">
+	    <input type="text" value="$!menuId" name ="menuId" id="menuId" style="display:none;"/>
+	    	<input name="id" class="mini-hidden" />
+	    	<input name="dealId" class="mini-hidden"/>
+	    	
+	      	<div class="t4ui_jz">
+		      	<span> 交易名称：</span>
+		      	<span><input  id="uDealName" name="dealName" class="mini-textbox"  style="width:250px" vtype="rangeChar:4,80" required="true" maxlength="30"/></span>
+	      	</div>
+	      	<div class="t4ui_jz" style="margin-left:-1px;margin-top:4px">
+		      	<span>所属渠道：</span>
+		      	<span>
+      				<input id="uDealChannel" name="dealChannel" class="mini-combobox" style="width:250px" textField="businname" valueField="dictId" emptyText="请选择..."
+      				     url="${request.getContextPath()}/controller/apk/qryChannel?busintypeid=BASIS_APK_CHANNEL" value="" required="true" allowInput="false" showNullItem="true" nullItemText="请选择..."/>
+	            </span>
+	      	</div>
+	      	
+	      	<div class="t4ui_jz" style="margin-left:-1px;margin-top:4px">
+		      	<span>关联APK：</span>
+		      	<span>
+
+      				<input id="updApk" name="relatedApk" class="mini-combobox" style="width:125px;" textField="name" valueField="pakageName" emptyText="请选择..."
+      				     url="${request.getContextPath()}/controller/apk/synchronousApk" value="" required="true" allowInput="false" showNullItem="true" nullItemText="请选择..."/>
+	            	<input  id="uPageApk" name="pageApk" class="mini-textbox"  style="width:125px" vtype="rangeChar:4,80" required="true" maxlength="80" emptyText="启动类"/>
+	            </span>
+	      	</div>
+	      	
+	      	<div class="t4ui_jz" style="margin-left:-1px;margin-top:4px">
+		      	<span> 交易代码：</span>
+		      	<span><input id="uDealCode" name="dealCode" class="mini-textbox" style="width:250px" vtype="rangeChar:1,40" required="true" maxlength="40"/></span>
+	      	</div>
+	      	
+	      	
+	      	<div class="t4ui_jz" style="margin-left:-1px;margin-top:4px">
+		      	<span>交易分类：</span>
+		      	<span>
+
+       				<input id="uDealType" name="dealType" class="mini-combobox" style="width:250px"  textField="businname" valueField="dictId" emptyText="请选择..."
+      				     url="${request.getContextPath()}/controller/apk/qryChannel?busintypeid=BASIS_APK_TYPE" value="" required="true" allowInput="false" showNullItem="true" nullItemText="请选择..."/>
+	            </span>
+	      	</div>
+
+			<div>
+		      	<span>是否离线：</span>
+		      	<input style="margin-left: 65px" id="uIsOffline" name="isOffline" class="mini-radiobuttonlist" data="[{'id':'1','text':'是'},{'id':'0','text':'否'}]" vtype="rangeChar:4,8" value="1" required="true" />
+	      	</div>
+	      	<div style="margin-top: 10px">
+		      	<span> 交易图标：</span>
+		      	<input class="mini-htmlfile" id="apkIcon" name ="apkIconName" style="width:250px;"/>
+		      	<div style="margin-top: 10px;margin-left: 60px">
+		      		<a id="apkLinkId" href="#" rel="[gall1]">
+					<img id="apkImgId" src="#" alt="" width="75" height="75" callback="callback1()"/></a>
+		      	</div>
+	      	</div>
+	      	
+	      	<div class="t4ui_jz" style="margin-left:-1px;margin-top:4px">
+		      	<span > 交易描述：</span>
+		      	<span><input  name="dealDescription" style="width:250px;height:100px;" id="uDealDescription" class="mini-textArea" vtype="rangeChar:4,200"  required="true" maxlength="100"/></span>
+	      	</div>
+	      	
+	      	<div style="margin-left: 65px">
+	      		<a class="mini-button" href="javascript:updAddRow()">保存</a> 
+	            <a  style="margin-left: 30px" class="mini-button" href="javascript:cancelRow()">关闭</a>
+	      	</div>
+	      </div>
+	      </form>
+		</div>
+    <script type="text/javascript">
+    
+        mini.parse();
+		var editWindow = mini.get("editWindow");
+		var updWindow = mini.get("updWindow");
+        var grid = mini.get("datagrid1");
+        grid.load();
+        
+		//新增用户
+        function addRow() {
+     		 var form = new mini.Form("#editform");
+             form.reset();
+             editWindow.show();
+        }
+        //编辑交易
+        function updRow()
+        {
+      		 var rows = grid.getSelecteds();
+               if(rows.length == 1)
+               {
+		   	           var form = new mini.Form("#updform");
+		   	           form.clear();
+		   	           form.loading();
+		   	           var rows = grid.getSelecteds();
+		   	           if(rows[0].imgPath){
+			   	           document.getElementById("apkLinkId").href = "${request.getContextPath()}/controller/pic/display?picPath=" + rows[0].imgPath;
+			               document.getElementById("apkImgId").src = "${request.getContextPath()}/controller/pic/display?picPath=" + rows[0].imgPath;
+			               $('a[rel]').foxibox();
+		   	           }
+		           	   var comb=mini.get("updApk");
+		           	   var dealTypeComb = mini.get("uDealType");
+		           	   var dealChannelComb = mini.get("uDealChannel");
+		               form.setData(rows[0]);
+		               comb.setValue(rows[0].relatedApk);
+		               comb.setText(rows[0].dealName);
+		               dealTypeComb.setValue(rows[0].dealType);
+		               dealTypeComb.setText(rows[0].dealTypeName);
+		               dealChannelComb.setValue(rows[0].dealChannel);
+		               dealChannelComb.setText(rows[0].dealChannelName);
+		               form.setChanged(false);
+		               
+		               updWindow.show();
+		               
+		               form.unmask();
+   	               
+               }else if(rows.length > 1)
+               {
+               	mini.alert("请选择一个交易进行编辑");
+               	return ;
+               }else
+               {
+               	mini.alert("请选择要编辑的交易");
+               	return;
+               }
+        }
+        // 交易删除
+        function removeRow() {
+     		 var rows = grid.getSelecteds();
+              var json = mini.encode(rows);
+   		   	 var orgId = eval(json);
+   		   	 
+   		     if(rows.length != 1)
+   		     {
+   		   		mini.alert("请选择一条记录。");
+               	return;
+   		     }
+   		   	 for(var i = 0; i<orgId.length;i++)
+   		     {
+   		   	    if(orgId[i].userid == "1")
+   		   	    {
+   		   	    	 mini.alert("系统管理员无法删除");
+   		       		 return;
+   		   	    }
+   		     }
+             mini.confirm("确定删除记录？","提示",
+            	function(action) {
+ 	         		if (action == "ok") {
+			            jQuery.ajax({
+			                url: "${request.getContextPath()}/controller/apk/remove",
+			                data: {dealId: rows[0].dealId},
+			                type: "post",
+			                dataType : "json",
+			                success: function (data) {
+			                
+			                mini.showMessageBox({
+					            showModal: false,
+					            width: 250,
+					            title: "提示",
+					            iconCls: "mini-messagebox-warning",
+					            message: data.msg,
+					            timeout: 3000,
+					            x: 'right',
+					            y: 'bottom'
+							});
+			                
+			                var index = grid.getPageIndex();
+							if(index > 0){
+								if(rows.length == grid.getData().length){
+									 grid.load({pageIndex:index-1});
+								}else
+								{
+									grid.reload();
+								}
+							}else{
+								   grid.reload();
+							}
+			                },
+			                error: function (jqXHR, textStatus, errorThrown) {
+			                    alert(jqXHR.responseText);
+			                }
+			            });
+			         }
+		     });
+        }
+        
+        
+       // 保存新建交易信息
+	   function submit(){
+        	var form = new mini.Form("#editform");
+            form.validate();
+            if (form.isValid() == false) {
+            	return;
+            }
+        		var dealName = mini.get("dealName1").getValue();
+        		if (dealName == "") {
+        			mini.alert("交易名称不能为空");
+        			return;
+        		}
+        		var dealChannel = mini.get("dealChannel1").getValue();
+        		if (dealChannel == "") {
+        			mini.alert("交易渠道不能为空");
+        		}
+        		var relatedApk = mini.get("relatedApk1").getValue();
+        		if (relatedApk == "") {
+        			mini.alert("关联APK不能为空");
+        			return;
+        		}
+        		
+        		var dealCode = mini.get("dealCode1").getValue();
+        		if (dealCode == "") {
+        			mini.alert("交易代码不能为空");
+        			return;
+        		}
+        		
+        		var uDealType = mini.get("uDealType1").getValue();
+        		if (uDealType == "") {
+        			mini.alert("交易分类不能为空");
+        			return;
+        		}
+        		
+        		var dealDescription = mini.get("dealDescription1").getValue();
+        		if (dealDescription == "") {
+        			mini.alert("交易描述不能为空");
+        			return;
+        		}
+        		
+        		  //验证图片
+        		  var fileValue = mini.get("apkIconAdd").getValue();
+		        // var fileValue = $("#apkIconAdd").val();// 获得文件内容
+		         if (fileValue == "") {
+	         			mini.alert("请您上传交易图标");
+	         			return;
+		         }
+	         
+	         if(fileValue != ""){
+				  var lastName = fileValue.substring(fileValue.indexOf("."));
+				     lastName = lastName.toLocaleLowerCase();
+				if (lastName == ".jpeg" || lastName == ".jpg" || lastName == ".png"|| lastName == ".gif") {
+					
+				} else {
+					mini.alert("交易图标只支持图片上传,图片格式例如.gif,.png,.jpg!");
+					return;
+				}
+			}
+			//$('#t4ui_userReg').submit();
+			                    			    var jsonobj = form.getData();	
+                    				jQuery.ajax({
+                    		               url: "${request.getContextPath()}/controller/apk/checkDealName",
+                    		               data: jsonobj,
+                    		               type: "post",
+                    		               success: function (text) {
+                    		               var json = mini.decode(text);
+			                         		if(!json.success)
+			                         		{
+			                         			mini.alert(json.msg);
+			                     	        	return;
+			                         			                		
+			                         	    }else 
+			                     	        {
+			                     	        	      document.getElementById("t4ui_userReg").submit();
+			                     	        }
+                    		        	      
+                    		               }
+                    		           });
+	   
+		}
+        
+        
+        
+
+        // 编辑交易信息
+ 	   function updAddRow(){
+           var form = new mini.Form("#updform");
+           form.validate();
+           if (form.isValid() == false) {
+           	return;
+           }
+
+        	var dealName = mini.get("uDealName").getValue();
+       		if (dealName == "") {
+       			mini.alert("交易名称不能为空");
+       			return;
+       		}
+       		var dealChannel = mini.get("uDealChannel").getValue();
+       		if (dealChannel == "") {
+       			mini.alert("交易渠道不能为空");
+       			return;
+       		}
+       		var relatedApk = mini.get("updApk").getValue();
+       		if (relatedApk == "") {
+       			mini.alert("关联APK不能为空");
+       			return;
+       		}
+       		
+       		var dealCode = mini.get("uDealCode").getValue();
+       		if (dealCode == "") {
+       			mini.alert("交易代码不能为空");
+       			return;
+       		}
+       		
+       		var dealType = mini.get("uDealType").getValue();
+       		if (dealType == "") {
+       			mini.alert("交易分类不能为空");
+       			return;
+       		}
+       		
+       		var dealDescription = mini.get("uDealDescription").getValue();
+       		if (dealDescription == "") {
+       			mini.alert("交易描述不能为空");
+       			return;
+       		}
+        		 
+ 	       var rows = grid.getSelecteds();
+           var json = mini.encode(rows);
+           var jsonObej = eval(json);
+           var dealId = jsonObej[0].dealId;
+          
+            
+           //var dealCode = jsonObej[0].dealCode;
+           
+           //document.t4ui_updReg.dealCode.value = dealCode;
+           document.t4ui_updReg.dealId.value = dealId;
+        	  
+            //验证图片
+        	var fileValue = mini.get("apkIcon").getValue();
+           if(fileValue != ""){
+			  	var lastName = fileValue.substring(fileValue.indexOf("."));
+			    lastName = lastName.toLocaleLowerCase();
+				if (lastName == ".jpeg" || lastName == ".jpg" || lastName == ".png"|| lastName == ".gif") {
+					
+				} else {
+					mini.alert("交易图标只支持图片上传,图片格式例如.gif,.png,.jpg!");
+					return;
+				}
+			}
+                    			    var jsonobj = form.getData();	
+                    				jQuery.ajax({
+                    		               url: "${request.getContextPath()}/controller/apk/checkDealName",
+                    		               data: jsonobj,
+                    		               type: "post",
+                    		               success: function (text) {
+                    		               var json = mini.decode(text);
+			                         		if(!json.success)
+			                         		{
+			                         			mini.alert(json.msg);
+			                     	        	return;
+			                         			                		
+			                         	    }else 
+			                     	        {
+			                     	        	document.getElementById("t4ui_updReg").submit();
+			                     	        }
+                    		        	      
+                    		               }
+                    		           });
+                    			
+			
+ 		}
+        
+        
+        
+//  	  function onChangeValue(){
+//  		  var va = mini.get("relatedApk1").valueField;
+  		 valueField="paramValue";
+//  		  alert(va);
+//  	  }
+        
+        
+        
+        
+        
+        
+        
+        
+        
+
+        //新增窗口关闭
+        function EditcancelRow()
+        {
+        	editWindow.hide();
+        }
+        //编辑窗口关闭
+        function cancelRow()
+        {
+        	updWindow.hide();
+        }
+		//查询
+		function search()
+		{
+       		var dealNameSearch = mini.get("dealNameSearch").getValue();
+  			grid.load({ dealName: dealNameSearch}); 
+		}
+
+		
+    </script>
+   <style>
+    .mini-grid .mini-grid-bottomCell{
+		font-weight:bold;
+	}
+    </style>
+</body>
+</html>

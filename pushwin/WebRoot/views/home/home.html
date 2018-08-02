@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Portal 门户</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" /><link href="../demo.css" rel="stylesheet" type="text/css" />
+	<script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript"></script>
+<style>
+*{margin:0px;padding:0px;border:0px;}
+body{font-size:12px}
+#noticeList{
+height:auto;
+text-align:left;
+}
+#noticeRows{
+height:auto;
+text-align:left;
+}
+#noticeList  li{
+list-style-type:none;
+height:22px;
+background:url() no-repeat left center;
+text-align:left;
+text-indent:15px;
+}
+#noticeRows  li{
+list-style-type:none;
+height:22px;
+background:url() no-repeat left center;
+text-align:left;
+text-indent:15px;
+}
+</style>
+</head>
+<body><!--
+    <input id="Button1" type="button" value="button1" />
+    <input id="Button2" type="button" value="button2" />
+	<div id="demo" style="overflow:hidden;height:80px;width:280px;">
+		<ul id="noticeList">
+			<li><a href="/soft/4085.shtml" target="_blank">XP Menu仿QQ菜单管理器左侧菜单</a>
+			</li>
+			<li><a href="/soft/5884.shtml" target="_blank">多层嵌套的一个层展开</a>
+			</li>
+			<li><a href="/soft/1852.shtml" target="_blank">《Java2核心技术卷2:高级特性》第7版</a>
+			</li>
+			<li><a href="/soft/1286.shtml" target="_blank">CSS、HTML教程打包下载(CHM)</a>
+			</li>
+			<li><a href="/soft/4216.shtml" target="_blank">《C++Primer》中文第四版 chm</a>
+			</li>
+			<li><a href="/soft/3388.shtml" target="_blank">C++工资管理系统(Access)</a>
+			</li>
+			<li><a href="/soft/2009.shtml" target="_blank">非常牛的左侧栏JS折叠菜单</a>
+			</li>
+		</ul>
+		<div id="noticeRows"></div>
+	-->
+
+	<div>
+	</div><!--
+	
+	<div id="sysNotice" style="overflow:hidden;height:180%;width:280px;">
+	         <div id="t4ui_pageNotice" >
+              <div class="t4ui_pageDiv">
+              	 	#foreach($Notice in ${session.getAttribute('noticeList')})
+            		 <div class="t4ui_pageClass"> 
+                  		 <span id="t4ui_pageDivT">$velocityCount&nbsp;&nbsp;&nbsp;<span id='t4ui_pageDivB'><a href="javascript:editRow('$Notice.get(0)')">$Notice.get(1)</a>&nbsp;&nbsp;&nbsp;</span><a >$Notice.get(2)</a></span>
+                 	 </div>
+                 	#end
+              </div>
+          </div>
+     </div>
+	
+
+   系统公告 
+   <div id="editWindow" class="mini-window" title="公告详情" style="width:600px;height:280px;" 
+      showModal="true" allowResize="true" allowDrag="true">
+    	<div id="editform" class="form" >
+    			<input name="noticeId" id="noticeId" class="mini-hidden"/>
+    			<div class="t4ui_jz" style="width: 100%;">
+							<span>&nbsp;&nbsp;&nbsp;标题：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+							<span><input name="noticeTitle" id="noticeTitle" class="mini-textbox" style="height:100%;width:80%" required="true"  allowInput="false"/></span>
+				</div>
+				<div class="t4ui_jz" style="width: 100%;margin-top: 20px">
+							<span>&nbsp;&nbsp;&nbsp;角色：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+							<span><input name="receiveRole" id="receiveRole" class="mini-textbox" style="height:100%;width:80%" required="true" allowInput="false" /></span>
+				</div>
+				<div class="t4ui_jz" style="width: 100%;margin-top: 20px">
+							<span>&nbsp;&nbsp;&nbsp;发送时间：</span>
+							<span><input name="noticeTime" id="noticeTime" class="mini-textbox" style="height:100%;width:80%" required="true" allowInput="false" /></span>
+				</div>
+				<div class="t4ui_jz" style="width: 80%;margin-top: 20px">&nbsp;&nbsp;&nbsp;内容：</div>
+				<div class="t4ui_jz" style="width: 80%;margin-top: 5px;margin-left:74px">
+							<span style="margin-top: 10px"><input name="noticeContent" id="noticeContent" class="mini-textarea" style="height:100%;width:80%" required="true" allowInput="false" /></span>
+				</div>
+	         </div>
+	</div>
+--></body>
+</html>
+<!--<link href="${request.getContextPath()}/js/Portal.css" rel="stylesheet" type="text/css" />
+--><script src="${request.getContextPath()}/js/Portal.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+    var portal = new mini.ux.Portal();
+    var NoticeList;
+    jQuery.getJSON("${request.getContextPath()}/controller/notice/queryAllNotice", function(text)
+        {
+              var o = mini.decode(text);
+              var list = "${session.getAttribute('noticeList')}";
+              NoticeList = o;       
+         }); 
+    portal.set({
+        style: "width: 100%;height:100%",
+        columns: ["400px", "50%", "250px"]
+    });
+    portal.render(document.body);
+	
+	document.getElementById("notice");
+	
+    //panel
+    portal.setPanels([
+        /*{ column: 0, id: "p1", title: "我的消息", showCloseButton: true, body: "#Button1" },
+       // { column: 0, id: "p2", title: "公司公告", showCollapseButton: true, height: 150, body:"#demo"},
+     	{ column: 0, id: "p2", title: "公司公告", showCollapseButton: true},
+        { column: 1, id: "p3", title: "系统公告", showCloseButton: true, body: "#sysNotice" },
+        { column: 1, id: "p4", title: "panel4", showCollapseButton: true },
+
+        { column: 2, id: "p5", title: "panel5", showCloseButton: true },
+        { column: 2, id: "p6", title: "panel6", showCollapseButton: true }*/
+    ]);
+    
+    var bodyEl = portal.getPanelBodyEl("p2");
+    bodyEl.appendChild(document.getElementById("Button2"));
+
+    //获取配置的panels信息
+    var panels = portal.getPanels();
+    //alert(panels.length);
+
+
+	var speed = 40;
+	var demo = document.getElementById("demo");
+	var noticeRows = document.getElementById("noticeRows");
+	var noticeList = document.getElementById("noticeList");
+	noticeRows.innerHTML = noticeList.innerHTML;
+	function Marquee() {
+		if (noticeRows.offsetTop - demo.scrollTop <= 0)
+			demo.scrollTop -= noticeList.offsetHeight;
+		else {
+			demo.scrollTop++;
+		}
+	}
+	var MyMar = setInterval(Marquee, speed);
+	demo.onmouseover = function() {
+		clearInterval(MyMar);
+	};
+	demo.onmouseout = function() {
+		MyMar = setInterval(Marquee, speed);
+	};
+	
+	
+	        // 查看详情页面弹出
+        function editRow(noticeId) {
+        	    		 var editWindow = mini.get("editWindow");
+                         editWindow.show();
+                         var form = new mini.Form("#editform");
+                         form.clear();
+                         form.loading();
+                         jQuery.getJSON("${request.getContextPath()}/controller/notice/queryNoticeDetail?noticeId=" + noticeId, function(text)
+                         {
+                      	     //text=text[0];
+                             var o = mini.decode(text);
+                             document.getElementById("noticeTitle").textContent = o.noticeTitle;
+                             document.getElementById("receiveRole").textContent = o.receiveRole;
+                             document.getElementById("noticeTime").textContent = o.noticeTime;
+                             //form.setData(o);
+                             form.setChanged(false);
+                             form.unmask();
+                             if (o == undefined) {
+                            	 return;
+                             }
+                             
+                             document.getElementById("noticeContent").innerHTML = o.noticeContent;
+                             
+          		     	 }); 
+                	
+            
+       }
+</script>

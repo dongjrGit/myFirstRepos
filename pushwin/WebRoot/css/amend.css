@@ -1,0 +1,811 @@
+button{
+	margin:0;
+	padding:0;
+}
+.t4ui_cx .mini-textbox-border{
+	border:none;
+}
+.t4ui_cx .t4ui_inp{
+	background:url(../img/mini_box1.jpg) no-repeat;
+	display:inline-block;
+	vertical-align:middle;
+	width:160px;
+	height:24px;
+}
+.t4ui_cx .t4ui_span{
+	float: left;
+	padding-left: 8px;
+}
+.t4ui_cx .mini-textbox{
+	width:80px;
+}
+/* 增删改查 device.html */
+body{
+	font:14px '微软雅黑',Tahoma,Verdana;
+	overflow-y:scroll;
+	_overflow-y:auto;
+	*+overflow-y:hidden;
+}
+#t4ui_girdBnt input, #t4ui_button4, .t4ui_buttonImg{
+	font-family:'微软雅黑';
+}
+/* 右侧头部大字体 */
+#t4ui_deviceT
+{
+	font-size:16px;
+	font-weight:600;
+}
+/* 右侧头部  */
+#t4ui_pageText{
+	float: left;
+	padding-left: 10px;
+	font-size: 12px;
+	padding-top: 25px;
+}
+/* 公共 */
+.fl{ float:left; }
+.fr{ float:right; }
+img{ border:0 none; }
+.New_Button, .Edit_Button, .Delete_Button, .Update_Button, .Cancel_Button{
+     font-size:12px;
+     color:#007f86;
+     margin-right:5px;          
+ }  
+#t4ui_main{
+	width:780px;
+}
+.t4ui_span
+{
+	font-size:12px;
+	float:left;
+	padding-left:8px;
+	padding-top:1px;
+	_padding-top:2px;
+}
+#t4ui_girdBut{
+	height:40px;
+	*+padding-bottom:10px;
+}
+#t4ui_deviceML{
+	height:45px;
+}
+.mini-pager td{
+	border:none;
+}
+#t4ui_treeM .mini-grid-headerCell{
+	height:28px;
+}
+
+.t4ui_dateSty .mini-buttonedit-input{
+ text-align:center;
+ }
+#t4ui_gird{
+
+}
+#t4ui_gird .mini-grid-headerCell{
+	height:32px;
+	font-weight:bold;
+	background:#E7E7E7 url(../img/img_topPe.jpg) repeat-x 0 0;
+}
+#t4ui_gird .mini-grid-headerCell-outer{
+	padding-right:0;
+}
+#t4ui_gird .mini-checkcolumn{
+
+}
+#t4ui_gird .mini-grid-cell {
+	border-right:1px solid #D6D6D6;
+	height:31px;
+}
+#t4ui_gird #mini-43{
+	border:1px solid #d8d8d8;
+	background:url(../img/img_topPe.jpg) repeat-x;
+}
+#t4ui_girdM{
+	margin-top:0;
+}
+@-moz-document url-prefix(){ 
+	#t4ui_girdM{margin-top:10px;} 
+}  
+#t4ui_girdM .Edit_Button, #t4ui_girdM .Delete_Button{	
+	margin:0 auto;
+	float:left;
+	width:22px;
+	height:22px;
+}
+#t4ui_girdM .Edit_Button{
+	margin-right:10px;
+	background:url(../img/Rem.png);
+}
+#t4ui_girdM .Delete_Button{
+	background:url(../img/Del.png);
+}
+#t4ui_girdM .mini-buttonedit-border,#t4ui_treeM .mini-buttonedit-border{
+	border:1px solid #d8d8d8;
+}
+#t4ui_girdM .mini-pager{
+	height:26px;
+}
+#t4ui_girdM .mini-grid-pager{
+	height:28px;
+}
+/* 原改 */
+#t4ui_deviceMiddle{
+	height:120px;
+}
+#t4ui_treeM .mini-pager{
+	margin-top:0;
+}
+.t4ui_hiBi .mini-buttonedit {
+	width:85px;
+	padding:3px 0 0 0;
+}
+/* 时分秒- */
+/* 原改 */
+.timeSome{
+	width:220px!important;
+}
+.timeSome #key2{
+	width:183px!important;
+	padding-left:3px 0 0 2px;
+}
+/* 原改 */
+.timeSome #date2{
+	width:90px;
+}
+.timeSome .t4ui_date{
+	width:160px;
+	padding-top:3px;
+}
+/* 原改 */
+.timeArea #t4ui_img{
+	background:url(../img/search_input_bi.jpg) no-repeat;
+	width:290px;
+}
+.timeArea{
+	width:295px!important;
+}
+.t4ui_wh{
+	height:26px;
+	margin-top:10px;
+}
+.t4ui_w160{
+	width:160px;
+	background:url(../img/input_w160.jpg) no-repeat;
+}
+.t4ui_w165{
+	width:165px;
+	background:url(../img/input_w165.jpg) no-repeat;
+}
+.t4ui_w170{
+	width:170px;
+	background:url(../img/input_w170.jpg) no-repeat;
+}
+.t4ui_w220{
+	width:220px;
+	background:url(../img/input_w220.jpg) no-repeat;
+}
+#t4ui_selTime{
+	width:165px;
+	height:;
+	_height:15px;
+	float:left;
+}
+#t4ui_disTime{
+	width:175px;
+	height:35px;
+	_height:15px;
+	float:left;
+}
+.t4ui_w160 .mini-buttonedit,.t4ui_w165 .mini-buttonedit{
+	width:90px;
+	padding:3px 0 0 0;
+}
+#t4ui_gird .mini-grid-headerCell-nowrap{
+	height:auto;
+}
+.t4ui_Inquire{
+	width:600px;
+	float:left;
+}
+.t4ui_Inquire .icon-search{
+	color:#fff;
+}
+.t4ui_Inquire .mini-button-icon{
+	padding:2px 8px;
+}
+/*.mini-listbox td*/
+.mini-popup .mini-listbox td{
+	text-align:center;
+}
+#t4ui_girdM .mini-grid-columns{
+	background:url(../img/img_topPe.jpg) repeat-x;
+	height:31px;
+}
+#t4ui_M{
+	width:780px;
+	border-bottom:1px solid #ccc;
+}
+#t4ui_MR{
+	height:46px;
+	float:left;
+}
+#t4ui_MH{
+	height:50px;
+	width:780px;
+	border-bottom:1px solid #ccc;
+}
+#t4ui_Mmain,#t4ui_M{
+	height:46px;
+}
+#t4ui_MR .t4ui_Mtop{
+	margin:10px 20px 0 0 ;
+}
+#t4ui_MR .icon-search{
+	background:#007f86;
+	padding:0 16px 0 22px;
+	color:#fff;
+	line-height:25px;
+	letter-spacing:6px;
+}
+
+#t4ui_deviceM .mini-buttonedit-border, .t4ui_wh .mini-buttonedit-border{
+	border:none;
+}
+.t4ui_jz{
+	text-align:center;
+}
+
+
+
+/* 树形分页 tree.html */
+/* 原改 */
+#t4ui_treeM{
+	margin-top:0;
+}
+#t4ui_treeM .mini-grid-row{
+	border-left:1px solid #D6D6D6;
+	height:32px;
+}
+#t4ui_treeM .mini-grid-pager{
+	border-top:1px solid #d6d6d6;
+}
+#t4ui_treeM .mini-grid-bottomCell{
+	text-align:center;
+	font-weight:bold;
+	border-bottom:none;
+}
+#t4ui_treeM .mini-grid-topRightCell{
+	border:1px solid #E7EBEF;
+}
+#t4ui_T{
+	padding-left:0;
+	margin-top:0;
+	width:155px;
+}
+#t4ui_T #key2
+{
+	padding-top:3px;
+	_padding-top:3px;
+	width:100px;
+	border:0px;
+	color:#CCC;
+	padding-left:5px;
+}
+/* 左右联动 topDown.html */
+/* 原改 */
+#t4ui_control{
+	border:1px solid #d8d8d8;
+}
+#t4ui_control  .mini-toolbar, #t4ui_control .mini-grid-pager{
+	background:url(../img/img_topPe.jpg);
+	border-top:1px solid #d8d8d8;
+	height:25px;
+}
+.t4ui_miniIcon .icon-search, .mini-toolbar .icon-add, .mini-toolbar .icon-remove, .mini-toolbar .icon-save{
+	background:none;
+	padding-left:8px;
+}
+#t4ui_control .mini-toolbar{
+	border:2px solid #adc8e5;
+}
+#t4ui_control .mini-splitter-pane1 .t4ui_Search{
+	width:170px;
+	height:22px;
+	background:url(../img/mini_box.jpg) no-repeat;
+	padding:2px 3px 0;
+}
+.t4ui_Search .t4ui_span{
+	padding-top:0;
+}
+.t4ui_Search .mini-textbox{
+	width:105px;
+}
+#t4ui_control .mini-splitter-pane1 .mini-textbox-border{
+	background:none;
+	border:none;
+}
+#t4ui_control .mini-splitter-pane1{
+	border-left:1px solid #d8d8d8;
+	border-bottom:1px solid #d8d8d8;
+	border-right:1px solid #d8d8d8;
+}
+#t4ui_control .mini-splitter-pane2{
+	border-right:1px solid #d8d8d8;
+	border-bottom:1px solid #d8d8d8;
+	border-left:1px solid #d8d8d8;
+}
+#t4ui_control .mini-buttonedit-button{
+	background:none;
+	border:none;
+	padding:1px;
+}
+
+.t4ui_miniIcon .mini-button, .t4ui_miniIcon .mini-button:hover{	
+	background:#5B92CB;
+	color:#fff;
+	border:none;
+}
+.t4ui_miniIcon .mini-button-plain{
+	padding:0;
+}
+.t4ui_miniMar .mini-button{
+	margin-top:2px;
+}
+/* 设备管理下所有 */
+#t4ui_Paging .mini-toolbar{
+	background:#D8D8D8;
+}
+
+/* 人员管理 */
+.t4ui_nopad .mini-panel-body{
+	padding:0;
+}
+.t4ui_nopad .mini-panel-title{
+	line-height:27px;
+}
+.t4ui_nopad .mini-panel-viewport{
+	padding-top:10px;
+}
+.t4ui_nopad .mini-panel-header,
+#t4ui_zkj .mini-panel-header{
+	height:35px;
+	line-height:35px;
+	background:#f3f3f3;
+	border-bottom:1px solid #e5e5e5;
+}
+.t4ui_nopad .mini-tools-close{
+	background:url(../img/close1.gif) no-repeat;
+	margin:5px 6px 0 0;
+}
+.t4ui_nopad .mini-buttonedit-border{
+	border:1px solid #d8d8d8;
+}
+.t4ui_nopad .mini-textbox-border{
+	background:none;
+}
+.t4ui_but{
+	height:35px;
+	line-height:35px;
+	margin-top:10px;
+}
+.t4ui_but a{
+	display:inline-block;
+	width:60px;
+	height:26px;
+	line-height:26px;
+	background:#007f86;
+	color:#fff;
+	text-decoration:none;
+}
+.t4ui_hh .mini-grid-headerCell, .t4ui_hh .mini-grid-cell{
+	height:31px;
+}
+/*
+.t4ui_hh .mini-buttonedit-button-hover,.t4ui_hh .mini-buttonedit-button{
+	background:none;
+}
+
+.t4ui_hh .mini-buttonedit-button{
+	border:none;
+}
+
+.t4ui_hh .mini-buttonedit-button:hover{
+	background:url(../scripts/miniui/themes/default/images/buttonedit/hover.png) repeat-x 0 0;
+	border:1px solid #d6d6d6;
+}
+*/
+.t4ui_hh .mini-popupedit .mini-buttonedit-icon{
+	background:url(../scripts/miniui/themes/default/images/buttonedit/icon2.gif) no-repeat 3px 1px
+}
+.t4ui_mana .t4ui_inp {	
+	display: inline-block;
+	vertical-align: middle;
+	height: 24px;
+}
+.t4ui_mana .t4ui_mini1{
+	background: url(../img/mini_box2.jpg) no-repeat;
+	width: 135px;
+}
+.t4ui_mana .t4ui_mini2{
+	background: url(../img/mini_box2.jpg) no-repeat;
+	width: 180px;
+}
+.t4ui_mini2 .mini-textbox-input{
+	width:95px;
+}
+.t4ui_mini2 .t4ui_bac{
+	margin-left:20px;
+}
+.t4ui_mana .mini-textbox {
+	float: left;
+	padding: 1px 0 0 3px;
+	width:65px;
+}
+.t4ui_mana .mini-buttonedit{
+	width:80px;
+}
+.t4ui_mana .mini-buttonedit-border{
+	background:none;
+}
+.t4ui_mana .mini-textbox-border{
+	border:none;
+	background:none;
+}
+.t4ui_mana .t4ui_inp .mini-textbox{
+	margin:2px 0 0 0;
+}
+.t4ui_hh .mini-grid .mini-grid-bottomCell{
+	font-weight:bold;
+}
+#t4ui_mang .t4ui_searSm .mini-buttonedit-buttons{
+	margin:2px 0 0 0;
+}
+/* 图文展示 */
+#t4ui_Tsi{
+	width:165px;
+	padding-left:0;
+	margin-top:0;
+}
+#t4ui_Tsi #key2{
+	padding-top: 3px;
+	_padding-top: 3px;
+	width: 95px;
+	border: 0px;
+	color: #CCC;
+	padding-left: 5px;
+}
+
+/*  机构管理 */ 
+#t4ui_ins .mini-popupedit .mini-buttonedit-icon{
+	background:url(../scripts/miniui/themes/default/images/buttonedit/icon2.gif) no-repeat 3px 1px
+}
+/*
+#t4ui_ins .mini-buttonedit-button{
+	
+	background:none;
+	border:none;
+	
+}
+#t4ui_ins .mini-buttonedit-button:hover{
+	background:url(../scripts/miniui/themes/default/images/buttonedit/hover.png) repeat-x 0 0;
+	border:1px solid #d6d6d6;
+}
+*/
+#t4ui_org .mini-splitter .mini-splitter-pane1,
+#t4ui_org .mini-splitter .mini-splitter-pane2{
+	border-color:#d8d8d8;
+}
+
+/* 角色管理 */
+.t4ui_nopad .mini-required .mini-textbox-border,
+#t4ui_dec .mini-required .mini-textbox-border{
+	background:none;
+}
+.t4ui_rola .mini-panel-header{
+	height:35px;
+	line-height:35px;
+}
+.t4ui_gov .mini-grid-row,
+.t4ui_gov .mini-grid-table,
+#t4ui_dec .mini-grid-row,
+#t4ui_dec .mini-grid-table
+{
+	height:31px;
+}
+.t4ui_rola .mini-grid .mini-grid-bottomCell,
+#t4ui_org .mini-grid .mini-grid-bottomCell,
+#t4ui_dec .mini-grid .mini-grid-bottomCell
+{
+	font-weight:bold;
+	/*text-align:center;*/
+}
+.t4ui_rola .t4ui_searSm .mini-textbox{
+	padding-top:1px;
+}
+/* 公共样式主体 */
+/* 头部 */
+#t4ui_iframeTop{
+	margin-left:0!important;
+	width:780px;
+	height:60px;
+	padding-bottom: 8px;
+}
+.t4ui_bot1{
+	border-bottom: 1px solid #ccc;
+}
+/* 右主体头部小图 */
+#t4ui_pageImg
+{
+	margin-top:20px;
+	float:left;
+	width:30px;
+	height:30px;
+	background:url(../img/home_icon_00.jpg);
+}
+/* 表格宽度 */
+.t4ui_w780{
+	width:780px;
+}
+/* 按钮样式 */
+/*
+#t4ui_org .mini-messagebox-buttons a.mini-button, 
+#t4ui_mali .mini-messagebox-buttons a.mini-button,
+#t4ui_ext .mini-messagebox-buttons a.mini-button, 
+#t4ui_mang .mini-messagebox-buttons .mini-button,
+#t4ui_dec .mini-messagebox-buttons .mini-button,
+#t4ui_zkj .mini-messagebox-buttons .mini-button,
+#t4ui_pop .mini-messagebox-buttons .mini-button,
+#t4ui_organ .mini-messagebox-buttons .mini-button,
+#t4ui_imgEdit .mini-messagebox-buttons .mini-button
+{
+	background:#40c1df;
+}
+*/
+.t4ui_lh .mini-panel-header 
+{
+	height:35px;
+	line-height:35px;
+}
+/* 弹出框表头高度 */
+#t4ui_mali .mini-window-drag .mini-panel-header, 
+#t4ui_ext .mini-window-drag .mini-panel-header,
+#t4ui_dec .mini-window-drag .mini-panel-header,
+#t4ui_pop .mini-window-drag .mini-panel-header,
+#t4ui_end .mini-window-drag .mini-panel-header,
+#t4ui_organ .mini-window-drag .mini-panel-header,
+#t4ui_imgEdit .mini-window-drag .mini-panel-header{
+	height:35px;
+	line-height:35px;
+}
+.t4ui_rola .t4ui_inp .mini-button,
+#t4ui_org .t4ui_searSm .mini-textbox-border{
+	border:none;
+}
+#t4ui_org .t4ui_searSm .mini-textbox-border{
+	background:none;
+}
+/*
+#t4ui_org .mini-button-pressed,
+#t4ui_org .mini-button-pressed:hover,
+t4ui_mang .mini-button-pressed,
+#t4ui_mang .t4ui_mana .mini-button-pressed,
+#t4ui_mang .t4ui_mana .mini-button-pressed:hover,
+#t4ui_log .t4ui_sSm .mini-button-pressed:hover{
+	background:#40c1df;
+}
+*/
+#t4ui_dec .mini-panel-border,
+#t4ui_mang .t4ui_hh .mini-grid-border,
+.t4ui_rola .mini-panel-border
+{
+	border-top:none;
+}
+body a:hover.mini-button{
+	background:#007f86;
+}
+#t4ui_girdBnt a:hover.mini-button{
+	padding:0 30px;
+}
+/* 表格蓝色下边框 */
+#t4ui_mang .mini-toolbar,
+#t4ui_org .mini-toolbar,
+#t4ui_treeM .mini-grid-columns
+{
+	border-bottom:2px solid #4ab3b9;	
+	height:31px;
+}
+.mini-messagebox-buttons .mini-button{
+	background:#007f86;
+}
+/* License 按钮 */
+.t4ui_litB{
+	padding:0 30px;
+	background:#007f86;
+}
+#t4ui_gird #t4ui_girdM .mini-grid-pager,
+#t4ui_treeM .mini-grid-bottomCell,
+#t4ui_treeM .mini-grid-pager,
+#t4ui_dec .mini-toolbar,
+#t4ui_dec .mini-grid-pager,
+#t4ui_mang .mini-toolbar,
+#t4ui_mang .mini-grid-pager,
+#t4ui_org .mini-toolbar,
+#t4ui_org .mini-grid-pager,
+.t4ui_rola .mini-toolbar,
+.t4ui_rola .mini-grid-pager
+{
+	background:url(../img/img_topPe.jpg) repeat-x 0 50%;
+	height:31px;
+}
+/* input边框色 */
+.t4ui_notic .mini-button{
+	background:#007f86;
+}
+/*
+#t4ui_org .mini-grid-rowstable tr,
+#t4ui_org #t4ui_ins .mini-grid .mini-grid-bottomCell{
+	height:26px;
+}
+*/
+/* 蓝色自适应按钮  */
+.t4ui_buttonImg{
+	background:#007f86;
+	padding:0 26px;
+	*+padding:0 13px;
+	margin-top:10px;
+	height:30px;
+	border:0px;
+	color:#FFF;
+	outline:none;
+	cursor:pointer;
+}
+.t4ui_mtop0{
+	margin-top:0;
+}
+
+/* 高26圆角自适应表单 */
+.t4ui_radbor{
+	margin:10px 5px 0 0;
+}
+.t4ui_sear{ 
+	height:24px; 
+	line-height:24px;
+	border-top:1px solid #b2b2b2; 
+	border-bottom:1px solid #b2b2b2;
+}
+.t4ui_sear .mini-textbox{
+	padding-top:3px;
+	padding-top:1px\9;
+	padding-top:2px\9\0;
+}
+.t4ui_searSm{
+	height:22px; 
+	line-height:22px;
+	border-top:1px solid #b2b2b2; 
+	border-bottom:1px solid #b2b2b2;
+	background:#fff;
+	font-size:12px;
+}
+.t4ui_sear #key2{
+	padding-top:3px;
+	padding-top:2px\0;
+	_padding-top:1px;
+	width:100px;
+	border:0px;
+	color:#CCC;
+	padding-left:5px;
+}
+.t4ui_sear #btnEdit1{
+	margin-top:2px;
+	_margin-top:1px;
+}
+.t4ui_date5{
+	float:left;
+	padding-top:4px;
+	padding-left:10px;
+	_padding-top:2px;
+}
+.t4ui_date2{
+	float:left;
+	padding-top:2px;
+}
+.t4ui_dateSty{
+	padding:3px 0 0 5px;
+	float:left;
+}
+/* 禁止日期 */
+.t4ui_sear .mini-buttonedit{
+	padding:3px 0 0 0;
+	_padding:0;
+}
+/* 树多选 */
+.t4ui_date3{
+	float:left;
+	padding-top:3px;
+	_padding-top:2px;
+}
+/* 生日控件 */
+#t4ui_Wdate{
+	border:0px; 
+	width:85px; 
+	font-size:12px;
+	_height:15px;
+	+height:15px !important;
+	outline:none;
+	padding-top:2px;
+	padding-top:0px\0;
+	margin-top:3px\0;
+}
+.t4ui_date6{
+	padding-top:3px;
+	_padding-top:0;
+}
+#t4ui_dec .t4ui_bac,
+#t4ui_mang .t4ui_dict .t4ui_bac{
+	margin-right:7px;
+}
+#t4ui_org .t4ui_bac{
+	margin:2px 7px 0 0;
+}
+.t4ui_sSm .t4ui_bac,
+#t4ui_mali .t4ui_sSm .mini-button,
+#t4ui_org .t4ui_sSm .t4ui_bac{
+	margin-left:5px;
+}
+#t4ui_mang .t4ui_searSm .mini-buttonedit-button,{
+	margin-top:2px;
+	_margin-top:1px;
+}
+#t4ui_org .t4ui_searSm .mini-textbox{
+	padding:1px 0 0 3px;
+}
+.t4ui_sSm .t4ui_search{
+	margin-left:5px;
+}
+.t4ui_mleft10{
+	margin-left:10px;
+}
+.t4ui_dict a{
+	margin-top:2px;
+}
+.t4ui_dict .separator,
+#t4ui_org .separator{
+	margin:3px 7px 0 1px;
+}
+#t4ui_org .t4ui_searSm .mini-textbox{
+	width:80px;
+}
+.t4ui_notic #t4ui_MR .t4ui_Mtop{
+	margin:10px 0 0 20px;
+}
+.t4ui_notPop .mini-button-text {
+	height:25px;
+	line-height:25px;
+}
+/* 系统日志 */
+#t4ui_log .t4ui_dateSty .mini-buttonedit-border{
+	border:1px solid #d8d8d8;
+	background:white;
+}
+#t4ui_log .t4ui_sSm .t4ui_search{
+	margin-right:4px;
+}
+#t4ui_log .t4ui_searSm .mini-buttonedit{
+	margin:1px 0 0 3px;
+}
+#t4ui_log .t4ui_hh .mini-panel-border{
+	border-top:0 none;
+} 
+/* 公告管理 */
+.t4ui_selfSda{	
+	height: 28px;
+	padding:0 30px; 
+	*+padding:0 15px;
+	margin-left:20px; 
+	background:#007f86; 
+	color:#fff; 
+	outline:0 none;
+	border:0 none;
+	cursor:pointer;
+}

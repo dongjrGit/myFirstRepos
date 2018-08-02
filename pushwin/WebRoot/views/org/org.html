@@ -1,0 +1,489 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>树形联动</title>
+<style type="text/css">
+</style>
+<script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript"></script>
+<!--引入皮肤样式-->
+<link rel="stylesheet" type="text/css" href="./css/amend.css" />
+<script src="${request.getContextPath()}/js/amend.js" type="text/javascript"></script>
+<script type="text/javascript" src="${request.getContextPath()}/js/pw-common.js"></script>
+<script type="text/javascript" src="${request.getContextPath()}/js/ajaxfileupload.js"></script>
+</head>
+<body style="margin:0;padding:0;border:0;width:100%;height:100%;overflow:hidden;">
+	<!--主层开始-->
+		<div class="mini-splitter" style="width:100%;height:100%;" allowResize="false">
+			<div size="280px" showCollapseButton="true">
+				<div class="mini-toolbar"
+					style="padding:2px;border-top:0;border-left:0;border-right:0;height: 25px;">
+					<a href="${request.getContextPath()}/controller/org/exportOrgReportExcel"
+						class="mini-button">导出机构</a>
+					<a class="mini-button" onclick="upFile()">导入</a>
+					<a class="mini-button" href="${request.getContextPath()}/controller/org/exportOrgModel">模板下载</a>
+					<a class="mini-button" onclick="deselectAll()">取消选中</a>
+					
+				</div>
+				<div class="mini-fit">
+					<ul id="tree1" class="mini-tree" url="${request.getContextPath()}/controller/org/orgTree"
+						style="width:100%;" showTreeIcon="true" textField="name"
+						idField="id" parentField="pid" resultAsTree="false"
+						expandOnLoad="0" contextMenu="#treeMenu" virtualScroll="true">
+					</ul>
+					<ul id="treeMenu" class="mini-contextmenu"
+						onbeforeopen="onBeforeOpen">
+						<li onclick="onAddNode" name="add" iconCls="icon-add">增加机构</li>
+						<li name="edit" iconCls="icon-edit" onclick="onEditNode">编辑机构</li>
+						<li name="remove" iconCls="icon-remove" onclick="onRemoveNode">删除机构</li>
+					</ul>
+				</div>
+			</div>
+			<div showCollapseButton="true" >
+				<div class="mini-fit">
+					<div id="grid1" class="mini-datagrid"
+						style="width:100%;height:100%;" borderStyle="border:0;"
+						url="${request.getContextPath()}/controller/org/showUserInfoAjax" showFilterRow="false"
+						allowCellSelect="true" allowCellEdit="true" multiSelect="true"
+						allowCellValid="true" allowAlternating="true" sizeList="[10,20]" 
+						pageSize="10">
+						<div property="columns">
+							<div field="userid" visible="fale"></div>
+							<div field="orgId" visible="fale"></div>
+							<div field="loginname" width="100" headerAlign="left"
+								allowSort="false">
+								员工号 <input class="mini-textbox"  style="width:100%;" />
+							</div>
+							<div field="name" width="110" headerAlign="left" allowSort="false">
+								员工姓名 <input class="mini-textbox" style="width:100%;" />
+							</div>
+							<div field="telephone" width="120" headerAlign="left"
+								allowSort="false">
+								联系电话 <input class="mini-textbox" style="width:100%;" />
+							</div>
+							<div field="email" width="120" headerAlign="left"
+								allowSort="false">
+								邮箱 <input class="mini-textbox" style="width:100%;" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 新增机构 -->
+		<div id="orgWindow" class="mini-window" title="新增机构"
+			style="width:450px;" showModal="true" allowResize="false"
+			allowDrag="true">
+			<div id="orgform" class="form">
+				<input id='addOrgId' type="hidden" />
+				<input style="margin-left: 100px"   id="orgCmd" name="orgCmd" readOnly="true" labelField="true" label="上级机构：" required="true" class="mini-textbox"/>
+				<input style="margin-left: 100px" name="orgCode" labelField="true" vtype="rangeChar:5,7;float" label="机构编号：" required="true" class="mini-textbox" />
+				<input style="margin-left: 100px" name="orgName" labelField="true" onvalidation="onChiEngNumValidation" maxlength="10" label="机构名称：" required="true" class="mini-textbox"/>
+				<input style="margin-left: 100px" name="orgDesc" labelField="true" maxlength="40" label="机构描述：" required="false" class="mini-textbox"/>
+				<div class=" ">
+					<a class="mini-button" style="margin-left: 150px" href="javascript:addOrg()">保存</a>
+				    <a class="mini-button" style="margin-left: 50px" href="javascript:cancel()">关闭</a>
+				</div>
+			</div>
+		</div>
+
+		<!-- 编辑机构 -->
+		<div id="updOrgWindow" class="mini-window" title="编辑机构"
+			style="width:450px;" showModal="true" allowResize="false"
+			allowDrag="true">
+			<div id="updOrgform" class="form">
+				<input id="updOrgId" style="margin-left: 100px; display: none" name="orgId" class="mini-textbox"/>
+				<input id="orgPid" style="margin-left: 100px; display: none" name="pOrgId" class="mini-textbox"/>
+				<input style="margin-left: 100px" readOnly="true"  id="pOrgNM" name="pOrgName" labelField="true" label="上级机构："  class="mini-textbox"/>
+				<input style="margin-left: 100px" name="orgCode" readOnly="true" labelField="true" label="机构编号：" required="true" class="mini-textbox"/>
+				<input style="margin-left: 100px" name="orgName" labelField="true" maxlength="10" label="机构名称：" onvalidation="onChiEngNumValidation" required="true" class="mini-textbox"/>
+				<input style="margin-left: 100px" name="orgDesc" labelField="true" maxlength="40" label="机构描述："  class="mini-textbox"/>
+				<a style="margin-left: 150px" class="mini-button" href="javascript:updOrg()">保存</a>
+				<a style="margin-left: 50px" class="mini-button" href="javascript:updcancel()">关闭</a>
+			</div>
+		</div>
+
+		<div id="fileWindow" class="mini-window" title="批量导入"
+			style="width:400px;" showModal="true" allowResize="false"
+			allowDrag="true">
+			<form id="personForm" enctype="multipart/form-data" method="post">
+				<div >
+					<span>导入：</span> <span><input id="fileinput"  type="file" name="excelfile" /></span>
+				</div>
+				<div>
+				<a style="margin-left: 150px" class="mini-button" onclick="fileSub('fileinput')" >保存</a>
+				<a style="margin-left: 50px" class="mini-button" href="javascript:filecancel()">关闭</a>
+				</div>
+			</form>
+		</div>
+	<script type="text/javascript">
+
+        mini.parse();
+
+        var tree = mini.get("tree1");
+        var grid = mini.get("grid1");
+        var editWindow = mini.get("editWindow");
+        var orgWindow = mini.get("orgWindow");
+        var updOrgWindow = mini.get("updOrgWindow");
+        var fileWindow = mini.get("fileWindow");
+        var updWindow = mini.get("updWindow");
+        tree.on("nodeselect", function (e) {
+        	grid.load({ deptId: e.node.id });
+        });
+
+       function upFile(){
+       		fileWindow.show();
+       }
+       
+       function fileSub(upload){
+           var fileValue = $("#fileinput").val();// 获得文件内容   
+	    		if(fileValue != ""){
+						var lastName = fileValue.substring(fileValue.indexOf("."));
+							     lastName = lastName.toLocaleLowerCase();
+						if (lastName == ".xls" || lastName == ".xlsx" ) {
+								
+						} else {
+								mini.alert("导入文件只支持表格上传,表格格式例如.xls、.xlsx!");
+								return;
+						}
+				jQuery.ajaxFileUpload({
+            			url             : "${request.getContextPath()}/controller/org/importOrg", //需要链接到服务器地址
+           			 	secureuri       : false,
+            			fileElementId   : upload, //文件选择框的id属性
+            			dataType        : 'text', //服务器返回的格式
+           				 success     : function(data,status)//相当于java中try语句块的用法
+            		{
+            		 var json = mini.decode(data);  
+               			 if(!json.success==true){
+                         			mini.alert(json.msg);
+                         			  return;              		
+                         }else if(json.success==true){
+                     	        mini.alert(json.msg);
+                     	        window.location.reload();
+               					 return;
+                     	 }else{
+                     	        return;
+                     	        }
+            		},
+            			error : function(data, status, e) //相当于java中catch语句块的用法
+            		{
+                		$('#__content__').html('添加失败');
+            		}
+         		})
+			}else{
+					mini.alert("请选择文件");
+					return;
+			}
+    }  
+       
+       
+       
+        function filecancel()
+        {
+        	fileWindow.hide();
+        }
+        function onGenderRenderer(e) {
+            for (var i = 0, l = Genders.length; i < l; i++) {
+                var g = Genders[i];
+                if (g.id == e.value) return g.text;
+            }
+            return "";
+        }
+        function onNameFilterChanged(e) {
+            var textbox = e.sender;
+            var key = textbox.getValue();
+            var node = tree.getSelectedNode();
+            if (node) {
+               grid.load({ dept_id: node.id, key: key });
+            }
+        }
+   
+        //Tree右键效果
+        function onBeforeOpen(e) {
+        		var menu = e.sender;
+		    var tree = mini.get("tree1");
+		
+		    var node = tree.getSelectedNode();
+		    if (!node) {
+		        e.cancel = true;
+		        return;
+		    }
+		    if (node && node.text == "Base") {
+		        e.cancel = true;
+		        //阻止浏览器默认右键菜单
+		        e.htmlEvent.preventDefault();
+		        return;
+		    }
+		    var editItem = mini.getbyName("edit", menu);
+		    var removeItem = mini.getbyName("remove", menu);
+		    var addItem = mini.getbyName("add", menu);
+		    editItem.show();
+   		 	removeItem.show();
+   			addItem.show();
+		    if(node.orgLevel == 0 && "1"!="${session.getAttribute('sessionVO').getIsAdmin()}")
+		    {
+		    	editItem.hide();
+		    	removeItem.hide();
+		    }
+/*		    if(node.orgLevel >= 3)
+		    {
+		    	addItem.hide();
+		    }*/
+		}
+		
+        
+        //添加节点弹出页面
+        function onAddNode(e) {
+
+		        var tree = mini.get("tree1");
+			    var node = tree.getSelectedNode();
+			    var form = new mini.Form("#orgform");
+			    form.clear(); 
+				document.getElementById("addOrgId").value = node.id;
+				var obj = mini.getbyName("orgCmd");
+				obj.setValue(node.name);
+				orgWindow.show();
+        			
+        }
+        
+        //编辑节点 orgform/
+        function onEditNode(e) {
+		         		var tree = mini.get("tree1");
+			            var node = tree.getSelectedNode();
+			            document.getElementById("updOrgId").value = node.id;
+			            document.getElementById("orgPid").value = node.pid;
+			            updOrgWindow.show();
+			            var form = new mini.Form("#updOrgform");
+			            form.clear();
+			            jQuery.getJSON("${request.getContextPath()}/controller/org/qryOrgByID?orgID="+node.id,function(text)  
+			            {
+			            	text=text[0];
+			             	//var o = mini.decode(text);
+			               	form.setData(text);
+			                form.setChanged(false);
+			                form.unmask();
+					     }); 
+        }
+        //删除机构节点
+        function onRemoveNode(e) {
+
+						    var tree = mini.get("tree1");
+				            var node = tree.getSelectedNode();
+				            if(node.id == "1")
+				            {
+				            	mini.alert("父节点无法删除");
+				            	return;
+				            }
+				            if (node && tree.isLeaf(node) == true) {
+				               	mini.confirm("确定删除记录？","提示",
+						            function(action) {
+						            if (action == "ok") {
+					                	 var id = node.id;
+					                	 jQuery.ajax({
+							                url: "${request.getContextPath()}/controller/org/delOrgNode",
+							                data: { orgId :id },
+							                type: "post",
+							                dataType: "json",
+							                success: function (text) {
+							                if(!text.success){
+							                   mini.alert(text.msg);
+							                   return;
+							                }else{
+							                   mini.alert(text.msg);
+							                   tree.removeNode(node);
+							                } 
+							                },
+							                error: function (jqXHR, textStatus, errorThrown) {
+							                    alert(jqXHR.responseText);
+							                }
+						           		 });
+						            }
+						            }
+						          )                   
+				            }else
+				            {
+				            	mini.alert("请先删除机构下的分级");
+				            	return ;
+				            }
+		         	
+        }
+
+        
+        //新增窗口关闭
+        function cancelRow()
+        {
+         	editWindow.hide(); 
+        }
+        //添加机构窗口关闭
+        function cancel()
+        {
+		      orgWindow.hide();
+        }
+
+        //保存机构
+        function addOrg()
+        {
+
+						     var id = document.getElementById("addOrgId").value;
+				        	 var form = new mini.Form("#orgform");
+				             form.validate();
+				             if (form.isValid() == false) return;
+				             var o = form.getData();
+				             o.orgId = id;
+				             //var json = mini.encode(o);
+				        	 jQuery.ajax({
+				                url: "${request.getContextPath()}/controller/org/saveOrgNode",
+				                data: o ,
+				                type: "post",
+                                dataType:"json",
+				                success: function (text) {
+				                	if(!text.success)
+				                	{
+				                		mini.alert(text.msg); 
+				                		return ;
+				                	}
+				                	else
+				                	{
+					                    mini.alert(text.msg);
+					                    orgWindow.hide();
+					                    tree.load();  
+				                	}
+				                        
+				                },
+				                error: function (jqXHR, textStatus, errorThrown) {
+				                    alert(jqXHR.responseText);
+				                }
+				            });
+		         	
+        }
+        function onDeptChanged(e,id) {
+            var teamOrg = e.getValue();
+            var teamName = mini.get(id);
+            teamName.setValue("");
+            var url = encodeURI("basisUserteamName.do?teamOrg="+teamOrg,"UTF-8");
+            teamName.setUrl(url);
+           // teamName.select(0);
+        }
+        function onChanged(e,id){
+        	 if(e.value=="1"){
+	             document.getElementById(id).style.display="block";
+	         }else{
+	            document.getElementById(id).style.display="none";
+	         }
+        }
+               
+        
+        //编辑节点保存
+        function updOrg()
+        {
+		     var id = document.getElementById("updOrgId").value;
+		     var pid=document.getElementById("orgPid").value;
+             if(pid==null){
+              pid="";
+             }
+	       	 var form = new mini.Form("#updOrgform");
+	            form.validate();
+	            if (form.isValid() == false) return;
+	            if(id==pid){
+	            	alert("不能选自己为父机构");
+	            	return;
+	            }
+	            var o = form.getData();
+	            o.orgId = id;
+	            o.pid = pid;
+	            var json = mini.encode(o);
+	       	    jQuery.ajax({
+	               url: "${request.getContextPath()}/controller/org/updOrgNode",
+	               data: o,
+	               type: "post",
+	               dataType: "json",
+	               success: function (text) {
+	               if(!text.success){
+	                   mini.alert(text.msg);
+	                   return;
+	               }else{
+	                   mini.alert(text.msg);
+	                   updOrgWindow.hide();
+	                   tree.reload();  
+	               }
+
+	                       
+	               },
+	               error: function (jqXHR, textStatus, errorThrown) {
+	                   alert(jqXHR.responseText);
+	               }
+	           });
+        }
+        //编辑窗口关闭
+        function updcancel()
+        {
+        	updOrgWindow.hide();
+        }
+        
+        //编辑保存用户
+        function updAddRow()
+        {
+        	jQuery.ajax({
+		         url: "basisUserloginSessionListener.do",
+		         data: { menuId :id },
+		         type: "post",
+		         success: function (text) {
+		         	 if(text == "1")
+		         	 {
+		         	 	window.location.href = "userPage.do";
+		         	 }else
+		         	 {
+		         		 var form = new mini.Form("#updform");
+			            form.validate();
+			            var o = form.getData();
+			            var json = mini.encode(o);
+			            if (form.isValid() == false) return;
+			            jQuery.ajax({
+			                url: "basisUserUpdSaveUser.do",
+			                data: { data: json },
+			                type: "post",
+			                success: function (text) {
+			                  if(text == "1")
+			                  {
+			                  	mini.alert("修改失败!");
+			                	return;
+			                  }else
+			                  {
+			                  	updWindow.hide();
+			                  	alert("修改成功,请更改数据权限！");
+			                	grid.reload();   
+			                  }
+			                },
+			                error: function (jqXHR, textStatus, errorThrown) {
+			                    alert(jqXHR.responseText);
+			                }
+			            });
+		         	 }
+		        }
+			});
+        }
+
+        //取消选 中
+        function deselectAll()
+        {
+       		 var tree = mini.get("tree1");
+        	 tree.deselectAll();
+        }
+        //编辑窗口关闭
+        function updcancelRow()
+        {
+        	updWindow.hide();
+        }
+        
+        function onChiEngNumValidation(e){
+        	var re = new RegExp("^[\u4e00-\u9fa5_a-zA-Z0-9]+$");
+        	if(re.test(e.value)== false){
+        	    e.errorText = "请输入中英文和数字";
+        	    e.isValid = false;
+        	}
+        }
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Meta -->
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<!-- End of Meta -->
+		
+		<!-- Page title -->
+		<title>PushWin 移动应用平台</title>
+		<!-- End of Page title -->
+		
+		<!-- Libraries -->
+		<script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript"></script>
+		<link type="text/css" href="${request.getContextPath()}/css/login.css" rel="stylesheet" />	
+		
+		<script type="text/javascript" src="${request.getContextPath()}/js/easyTooltip.js"></script>
+		<script type="text/javascript" src="${request.getContextPath()}/js/MD5.js"></script>
+		<script type="text/javascript" src="${request.getContextPath()}/js/pw-common.js"></script>
+		<!-- End of Libraries -->	
+	<body>
+	<div id="container">
+		<div class="logo">
+			<a href="#"><img src="${request.getContextPath()}/controller/pic/display?picPath=${application.getApplication().getAttribute('sysMap').logoImg}" width="180" height="60" alt="" /></a>
+		</div>
+		<div id="box">
+			<form id="loginForm" action="${request.getContextPath()}/controller/system/login" method="POST">
+			<p class="main">
+				<label>员&nbsp&nbsp工&nbsp&nbsp号: </label>
+				<input name="userCode" id="userCodeid" value="$!userCode" maxlength="10"/> 
+				<label>密&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp码: </label>
+				<input type="password" name="password" id="passwordid">	
+			</p>
+			<p class="space">
+				<!-- <span><input type="checkbox" />记住密码</span> -->
+				<input onclick="onLogin()" type="button" value="登录" class="login"/>
+				<input onclick="reset()" type="button" value="重置" class="login"/>
+				<!-- <input type="button" value="导入初始化数据" class="login" /> -->
+			</p>
+			</form>
+		</div>
+		<div id="stip" style="font-size: 12px;color: red; margin-top: 10px; text-align: center; margin-left: auto;">$!msg</div>
+	</div>
+	<script type="text/javascript">
+	
+		function onLogin(){
+			if(document.getElementById("userCodeid").value==''){
+	  			document.getElementById("stip").innerHTML="请输入员工号";
+	  			return;
+	  		}else{
+	  			document.getElementById("stip").innerHTML="";
+	  		}
+	  		if(document.getElementById("passwordid").value==''){
+	  			document.getElementById("stip").innerHTML="请输入密码";
+	  			return;
+	  		}else{
+	  			document.getElementById("stip").innerHTML="";
+	  		}
+			var pwd = document.getElementById("passwordid").value;
+			document.getElementById("passwordid").value=hex_md5(pwd);
+			document.getElementById("loginForm").submit();
+		}
+		document.onkeydown=function(event){
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            if(e && e.keyCode==13){ // enter 键
+                //要做的事情
+                onLogin();
+            }
+        };
+        function reset(){
+        	$("#stip").empty();
+        	$('#loginForm')[0].reset();
+        }
+	</script>
+	</body>
+</html>

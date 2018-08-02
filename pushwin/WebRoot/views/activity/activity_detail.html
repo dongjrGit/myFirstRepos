@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>活动详情审核</title>
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript"></script>
+	<script type="text/javascript" src="${request.getContextPath()}/js/pw-common.js"></script>
+	<script type="text/javascript" src="${request.getContextPath()}/js/kindEdtor/kindeditor-all.js"></script>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+<script type="text/javascript" src="${request.getContextPath()}/js/jquery.js"></script>
+  </head>
+  
+  <body>
+<!--   !$qryFlag -->
+<!-- $!activitydata.checklistarray -->
+<!-- $!activitydata.tBasisActivity.activityCode -->
+<!--   <form id="t4ui_userReg"  method="post" action="${request.getContextPath()}/controller/activity/saveActivityPic" enctype="multipart/form-data"> -->
+  	<div id="actvityInfoForm">
+  	  <table border="0" cellpadding="1" cellspacing="2" style="width:100%;table-layout:fixed;">
+	 		<div class="t4ui_userInf">活动基本信息</div>
+	    <tr>
+	        <td style="width:100px;">发布人：</td>
+	        <td style="width:50%;">
+	      <!-- <input type="hidden" id="issuerCode" value = "${tBasisActivity.issuer}"/> -->
+	            <input id="issuer" name="issuer" value = "$!{activitydata.tBasisActivity.issuer}" class="mini-textbox" style="width:100%;" required="true"  maxlength="30" enabled="false"/>
+	        </td>
+	        <td style="width:100px;">活动代码：</td>
+	        <td style="width:50%">
+	            <input id="activityCode" name="activityCode" value="$!{activitydata.tBasisActivity.activityCode}" class="mini-textbox" style="width:100%;" required="true" maxlength="30" enabled="false"/>
+	        </td>
+
+	        <td style="width:100px;">活动名称：</td>
+	        <td style="width:50%">
+	        	<input id="activityName" name="activityName"  value="$!{activitydata.tBasisActivity.activityName}"  class="mini-textbox" style="width:100%;" required="true" maxlength="30" enabled="false"/>
+	        </td>
+	    </tr>
+	    <tr>
+	    	<td style="width:100px;">活动起始时间：</td>
+	    	<td style="width:50%">
+	    		<input id="activityStartTime" name="activityStartTime" value="$!{activitydata.tBasisActivity.activityStartTime}" required="true" class="mini-datepicker" style="width: 100%" enabled="false" />
+	    	</td>
+	    	<td style="width:100px;">活动截止时间：</td>
+	    	<td style="width:50%">
+	    		<input id="activityEndTime" name="activityEndTime" value="$!{activitydata.tBasisActivity.activityEndTime}" required="true" class="mini-datepicker" style="width: 100%" enabled="false"/>
+	    	</td>
+	  		<td style="width:60px;">选择机构：</td>
+	        <td style="width:100%">
+	            <input id="orgscopeadd" style="width:100%;" 
+							name="orgscopeadd" class="mini-buttonedit" allowinput="false" align="center"
+							emptytext="请选择机构" required="true" onbuttonclick="loadFrame();" />
+	        </td>
+	        <input name="isFirst" id="isFirst" class="mini-hidden" />
+	        <input value = "$!{orgInfos.orgIds}" name="org" id="org" class="mini-hidden" /> 
+	          <input   name="activityPhotoName" id="activityPhotoName" class="mini-hidden" /> 
+	        
+	    </tr>
+	</table>
+	<!-- 	<div style="border:1px solid #BCBCBC;width:1000px;height:220px;margin-top:10px;margin-left: 10px; ">
+		<div class="t4ui_userInf">活动展现元素</div>
+		<table>
+		 			<tr style="margin-top:10px;height:30px;">
+		 				<td><span style="margin-left: 20px;">活动列表展示图：</td>
+		 				<td>
+		 					<img id="userPic" style="width:270px;height:160px;"/>
+		 				</td>
+		 				<td>
+		 				
+							<input type="file" id="myfile" name ="myfile" style="width:200px;" />
+							<td><a href="#" onclick="ajaxFileUpload('picFile')">上传</a></td>
+							//<td><a href="#" onclick="removePics()">删除</a>
+		    				<input type="hidden" id="fileName" />
+		    				<input type="hidden" id="filePath" />
+		 				</td>
+		 			</tr>
+		 			<tr>
+		 				<td>
+		 					<input type="button" style="margin-left: 10px"  onclick="copyRow()" value="新增详情页"/>
+		 				</td>
+		 				<td></td>
+		 				<td></td>
+		 			</tr>
+		    	</table>
+        </div> -->
+        新增子页面信息
+  <iframe onload="iFrameHeight()" id="templateframe" frameborder="0" style="width:100%;margin-bottom: 20px" border="0" scrolling="no"  src="${request.getContextPath()}/controller/activity/initActivityPicList?acitivitycode=$!{activitydata.tBasisActivity.activityCode}&qryFlag=true"></iframe>
+   <!-- idField="activityId"  -->
+	<div id="datagrid1" class="mini-datagrid"  style="width:100%;" 
+       
+        pageSize="20" sizeList="[10,20]" showPager="false"
+        allowResize="true"  allowAlternating="true"
+		        allowCellEdit="true" allowCellSelect="true" multiSelect="true"
+		        allowCellValid="true" >
+        <div property="columns">
+            <div field="checkUser" width="100" headerAlign="left" >审核人</div>
+            <div field="status" width="100" headerAlign="left" >审核状态</div>
+            <div field="opinion" width="100" headerAlign="left" >审核意见</div>
+            <div field="checkTime" >审核时间</div>
+             <!--  <div field="activityPhotoPath" visible="false" ></div>
+            <div field="activityPhotoName" visible="false" ></div>
+            <div field="activityPhotoLen" visible="false" ></div>
+          <div field="createtime" dateFormat="yyyy-MM-dd HH:mm:ss" visible="false" ></div>
+            <div field="activityStartTime" dateFormat="yyyy-MM-dd HH:mm:ss" vtype="required" width="140" allowSort="false" >活动起始时间 </div> 
+            <div field="activityEndTime" dateFormat="yyyy-MM-dd HH:mm:ss" vtype="required" width="140" allowSort="false" >活动截止时间 </div>
+            <div field="status" width="100" headerAlign="left" >活动发布状态</div>
+            <div name="action" width="110" headerAlign="center" align="center"  renderer="onActionRenderer" cellStyle="padding:0;" allowSort="true">操作</div> -->
+        </div>
+       </div> 
+     
+     #if(!$qryFlag)
+         <div id="checkFrom"  name="checkFrom" method="post" action="${request.getContextPath()}/controller/activity/saveActivityPic" enctype="multipart/form-data">
+       <table>	
+       		<tr>
+       		      <td style="width:80px;" >活动状态:</td> 
+       			 <td style="width:50%;"> <input id="status" name="status" emptyText="请选择" showNullItem="true" nullItemText="请选择" class="mini-combobox" data="Genders" /></td>
+       		</tr>
+       		<tr>
+       		 <td style="width:80px;" >审核意见:</td> 
+	            <td><input id="opinion" name="opinion" class="mini-textbox" style="width:100%;" required="true" value = "" maxlength="30"/>
+       			</td>
+       		</tr>
+       		
+       	  <!--  <tr>
+			<td><a class="mini-button" onclick="javascript:submitCheck()">审核</a></td>
+			</tr> -->
+       </table>
+       </div>
+       
+	    #else
+	    #end
+        <div class="mini-toolbar" style="right:0px;position: fixed;z-index:2;bottom: 0px">
+          #if(!$qryFlag)
+          <a class="mini-button" onclick="javascript:submitCheck()">审核</a>
+          #end
+			<a class="mini-button" onclick="javascript:lastStep($qryFlag)">返回</a>
+		</div>
+	</div>
+  </body>
+  <script type="text/javascript">
+   var Genders = [{ id: 1, text: '通过' }, { id: 2, text: '不通过'}];
+  	mini.parse();
+  	mini.get("orgscopeadd").setValue("$!{orgInfos.orgIds}");
+	mini.get("orgscopeadd").setText("$!{orgInfos.orgNames}");
+  	var grid = mini.get("datagrid1");
+  	grid.setData($!activitydata.checklistarray);
+  	window.onload=load;
+  	function load(){
+  		//mini.get("issuer").setValue("${username}");
+  	/* 	var date = new Date().Format("yyyyMMddhhmmssS");
+		mini.get("activityCode").setValue(date); */
+/* 		mini.get("activityId").setValue($!{activitydata.tBasisActivity.activityCode});
+		alert($!{activitydata.tBasisActivity.activityCode}); */
+	}
+  /* 	var row_index = 0;
+	var row_num = "0,";
+	function copyRow(){
+		debugger;
+		var rowStr = row_num.split(",");
+		var len = rowStr.length;
+		if(len>5){
+			mini.alert("最多只能5条!");
+			return;
+		}
+		row_index++;
+		row_num += row_index + ",";
+		var div_0 = $("#tables")
+		var div = "<div id='table_"+row_index+"' style='border:1px solid #BCBCBC;width:1000px;height: 300px;margin-top:10px;margin-left: 10px; '>"
+				+"<table>"
+				+	"<tr style='margin-top:10px;height:30px;'>"
+				+		"<td><span style='margin-left: 20px;'>活动详情展示图：</td>"
+				+		"<td>"
+				+		"<img id='userPic_"+row_index+"' style='width:270px;height:160px;'/>"
+				+		"</td>"
+				+		"<td>"
+				+		"<input  type='file' id='picFile_"+row_index+"' name='picFile_"+row_index+"'></td>" 
+				+		"<td><a href='#' onclick='ajaxFileUpload('picFile_"+row_index+"')'>上传</a></td>"
+				+		"<td><a href='#' onclick='removePic("+row_index+")'>删除</a>"
+				+		"<input type='hidden' id='fileName_"+row_index+"' />"
+				+		"<input type='hidden' id='filePath_"+row_index+"' />"
+				+		"</td>"
+				+		"<td style='width:15px'>"
+				+			"<input type='button' style='margin-left: 10px'   value='删除详情页' onclick='removeButton("+row_index+")' />"
+				+		"</td>"
+				+		"<tr >"
+				+		"<td><span style='margin-left: 20px;'>活动详情说明：</span></td>"
+				+		"<td colspan='5'>"
+				+		"<textarea id='content_"+row_index+"' style='width: 484px;height: 100px;resize:none;' maxlength='400'></textarea>"
+				+		"</td></tr>"
+				+"</table>"
+			+"</div>"
+		div_0.append(div);
+	}
+	 */
+/* 	function editProductTemplate(){
+	 var form = new mini.Form("#actvityInfoForm");
+	 	var orgId = mini.get("orgscopeadd").getValue();
+      	productInfo.orgId=orgId;
+      	jQuery.ajax({
+      		url : "${request.getContextPath()}/controller/activity/saveActivityPic",
+      		type : "post",
+      		dataType : "json",
+      		data : productInfo,
+      		success : function(result){
+      			if(result.success){
+      				window.location.href="${request.getContextPath()}/controller/activity/queryActivity";
+      			} else {
+      				mini.alert(result.msg);
+      			}
+      		}
+      	});
+	
+	} */
+	
+	function submitCheck(){
+	 var form = new mini.Form("#checkFrom");
+         form.validate();
+         if (form.isValid() == false) {
+         	return;
+         }
+         var orgId = mini.get("orgscopeadd").getValue();
+         
+         
+       	 var activity = form.getData();
+        	activity.activityId=mini.get("activityCode").getValue();
+      		jQuery.ajax({
+      		url : "${request.getContextPath()}/controller/activity/saveActivityCheck",
+      		type : "post",
+      		data : activity,
+      		success : function(result){
+    			window.location.href="${request.getContextPath()}/controller/activity/check";
+      		}
+      	}); 
+             
+	}
+	// 删除
+	function removeButton(num){
+		var rowStr = row_num.split(",");
+		var len = rowStr.length;
+		if(len == 2){
+			mini.alert("最后一条活动详情,不能删除");
+			return;
+		}
+		$("#table_"+num).remove();
+		row_num = row_num.replace(num+",","");
+	}
+  	function lastStep(flag){
+ 	 	if(flag){
+  			window.location.href="${request.getContextPath()}/controller/activity/init";
+  		}else{
+  			window.location.href="${request.getContextPath()}/controller/activity/check";
+  		}
+		
+	}
+    function ajaxFileUpload(upload) {
+    	var fileValue = mini.get(upload).value;// 获得文件内容
+    	var fileValue3 = $("#content").val();// 获得文件内容
+    	//var fileValue3 = cont
+    	var activityCode =  mini.get("activityCode").value ; 
+    	var fileData = {"activityCode":activityCode,"fileValue3":fileValue3} ;
+    	if(fileValue3 == ""){
+    	alter("ninin");
+    	return ;
+    	}
+/*    		var fileValue1= mini.get("picFile_0").getValue();// 获得文件内容 
+		var fileValue2 = document.getElementById("picFile_0");// 获得文件内容  
+		var fileValue22 = mini.get(upload).getValue();// 获得文件内容 */ 
+		//var userCode = mini.get("userCode").getValue(); 
+		if (fileValue != "") {
+			var lastName = fileValue.substring(fileValue.indexOf("."));
+			lastName = lastName.toLocaleLowerCase();
+			if (lastName == ".png" || lastName == ".jpg") {
+
+			} else {
+				mini.alert("导入文件只支持表格上传,表格格式例如.png、.jpg!");
+				return;
+			}
+			var urlto  = "${request.getContextPath()}/controller/activity/saveActivityPicture";//?activityCode="+activityCode+"&fileValue3="+fileValue3;
+			//var urlpost = encodeURI(urlto);
+			jQuery.ajaxFileUpload({
+				secureuri : false,
+				//contentType:"application/json",
+				url : urlto,
+				fileElementId : upload, //文件选择框的id属性
+				dataType : "json",
+      			data :{activityCode:activityCode,fileValue3:fileValue3,content:fileValue3},
+				success : function(data, status) //相当于java中try语句块的用法
+				{
+					$("#content_0").val("");
+					$("#upload").val("");
+				   $("#templateframe").attr("src","${request.getContextPath()}/controller/activity/initActivityPicList?acitivitycode="+activityCode);
+				   
+					//window.location.reload();
+					return;
+				},
+				error : function(data, status, e) //相当于java中catch语句块的用法
+				{
+					$('#__content__').html('添加失败');
+				}
+			});
+		} else {
+			mini.alert("请选择文件");
+			return;
+		}
+	}
+	 //弹出机构单选树 新增 
+	function onButtonEditOrg(e) {
+	var btnEdit = this;
+	var receiveOrg = mini.get("receiveOrg");
+	mini.open( {
+		url : "${request.getContextPath()}/controller/activity/orgSelecter",
+		showMaxButton : false,
+		title : "选择树",
+		width : 600,
+		height : 400,
+		onload : function() {
+			var iframe = this.getIFrameEl();
+			iframe.contentWindow.SetData(receiveOrg.getValue());
+		},
+		ondestroy : function(action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var selectOrgs = iframe.contentWindow.GetData();
+				var orgNames = [];
+				var orgIds = [];
+				for (var i=0; i < selectOrgs.length; i ++) {
+					orgNames.push(selectOrgs[i].name);
+					orgIds.push(selectOrgs[i].id);
+				}
+				var orgIdString = orgIds.join(",");
+				btnEdit.setValue(orgIdString);
+				btnEdit.setText(orgNames.join(","));
+			}
+		}
+	});
+			
+}
+function removePic(i){
+	$("#fileName_"+i).val("");
+	$("#filePath_"+i).val("");
+	$("#picFile_"+i).val("");
+	document.getElementById("userPic_"+i).src = "";
+}
+function removePics(){
+	$("#fileName").val("");
+	$("#filePath").val("");
+	$("#picFile").val("");
+	document.getElementById("userPic").src = "";
+}
+Date.prototype.Format = function(fmt) 
+{ //author: meizz 
+  var o = { 
+    "M+" : this.getMonth()+1,                 //月份 
+    "d+" : this.getDate(),                    //日 
+    "h+" : this.getHours(),                   //小时 
+    "m+" : this.getMinutes(),                 //分 
+    "s+" : this.getSeconds(),                 //秒 
+    "q+" : Math.floor((this.getMonth()+3)/3), //季度 
+    "S"  : this.getMilliseconds()             //毫秒 
+  }; 
+  if(/(y+)/.test(fmt)) 
+    fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length)); 
+  for(var k in o) 
+    if(new RegExp("("+ k +")").test(fmt)) 
+  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length))); 
+  return fmt; 
+}    
+function CloseWindow(action) {
+    if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+    else window.close();
+  }
+  
+  function iFrameHeight() {
+		var ifm = document.getElementById("templateframe");
+		var subWeb = document.frames ? document.frames["templateframe"].document
+				: ifm.contentDocument;
+		if (ifm != null && subWeb != null) {
+			ifm.height = subWeb.body.scrollHeight;
+			ifm.width = subWeb.body.scrollWidth;
+		}
+	}
+	
+	function checkSub(){
+	  
+		jQuery.ajax({
+      		url : "${request.getContextPath()}/controller/product/saveCheck",
+      		type : "post",
+      		dataType : "json",
+      		data : activity,
+      		success : function(result){
+      			window.location.href="${request.getContextPath()}/controller/activity/init";
+      		}
+      	});
+	}
+	
+	  //弹出机构单选树 新增 
+function loadFrame() {
+	var isFirst = document.getElementById("isFirst");
+    var orgObj=document.getElementById("org").value;;
+   /* $("#roleid").val("");
+     if (isFirst.value == "") {
+        jQuery.getJSON("${request.getContextPath()}/controller/role/querySessionOrg",function(text){
+        orgObj = text.msg;
+  		 });
+    }else{
+    	orgObj = document.getElementById("org").value;
+    }*/
+    
+
+    var array = new Array();
+    mini.open({
+        url: "${request.getContextPath()}/views/activity/activity_addOrg.html",
+        showMaxButton: false,
+        title: "选择机构",
+        width: 600,
+        height: 450,
+        onload: function() {
+            var iframe = this.getIFrameEl();
+            var productId = "${request.getParameter('productId')}";
+            array[0] = productId;
+            array[1] = orgObj;
+            array[2] = isFirst.value;
+            iframe.contentWindow.SetData(array);
+        },
+        ondestroy: function(action) {
+            if (action == "ok") {
+                var iframe = this.getIFrameEl();
+                var data = iframe.contentWindow.GetData();
+                data = mini.clone(data);
+                 var orgNameStr="";
+                    var orgStr = "";
+                if (data[0]) {
+                    if(data[0] == "1"){
+                    	isFirst.value = data[0];
+                    }else{
+                    	isFirst.value = data[0].isFirst;
+                    
+                    for (var i = 0; i < data.length; i++) {
+                        if (i == data.length - 1) {
+                            orgStr = orgStr + data[i].id;
+                        } else {
+                            orgStr = orgStr + data[i].id + ",";
+                        }
+                    }
+                   
+                    for (var i = 0; i < data.length; i++) {
+                        if (i == data.length - 1) {
+                            orgNameStr = orgNameStr + data[i].name;
+                        } else {
+                            orgNameStr = orgNameStr + data[i].name + ",";
+                        }
+                    }
+                    }
+                    mini.get("orgscopeadd").setValue(orgStr);
+					mini.get("orgscopeadd").setText(orgNameStr);
+                    document.getElementById("org").value = orgStr;
+                }
+            }
+        }
+    });
+}
+  </script>
+</html>

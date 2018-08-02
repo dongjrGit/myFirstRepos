@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="${request.getContextPath()}/css/message.css" type="text/css"></link>
+<script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript"></script>
+<script type="text/javascript" src="${request.getContextPath()}/js/jquery.js"></script>
+<body>
+<div style="position:fixed; top:0; height: 27px;margin-top: 0px;width: 98.5%;margin-left: 0px; background-color: #FDFDFD;
+    border: 1px solid #D7D7D7;
+    text-align: right; z-index: 99">
+	与
+	<input id="btnEdit1" class="mini-buttonedit" onbuttonclick="onButtonEdit" name="a" textName="b"/>
+	对话中
+	<span class="separator"></span>
+	<label><input class="mini-checkbox" id="pushFlag"/>推送至终端设备</label>
+</div>
+    <div class="message-history">
+        <!-- <div class="message-reply">
+            <div class="message-time">2014-2-21 9:32:57</div>
+            <div class="message-info">
+                <div>
+                    <img class="user-avatar" src="${request.getContextPath()}/img/user_a.png">
+                	<div style="position : absolute;top : 35px;right : 0px;width : 60px;height : 20px;text-align: center;"> 1212</div>
+                </div>
+                <div class="message-content-box">
+                    <div class="arrow"></div>
+                    <div class="item-pics-box">
+                        <a class="ui-link" href="#">
+                            <img class="item-pic" src="${request.getContextPath()}/img/item_1.png">
+                        </a>
+                    </div>
+                    <div class="message-content">这个东西不错呀！</div>
+                </div>
+            </div>
+        </div>
+        <div class="message-receive">
+            <div class="message-time">2014-2-21 9:32:57</div>
+            <div class="message-info">
+                <div class="user-info">
+                    <img class="user-avatar" src="${request.getContextPath()}/img/user_b.png">
+                </div>
+                <div class="message-content-box">
+                    <div class="arrow"></div>
+                    <div class="item-pics-box">
+                        <a class="ui-link" href="#">
+                            <img class="item-pic" src="${request.getContextPath()}/img/item_1.png">
+                        </a>
+                    </div>
+                    <div class="message-content">Good football</div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="send-message">
+        <span class="send-msg-btn">发送</span>
+        <div class="message-input-box">
+            <input name="content" type="text" class="message-input" placeholder="输入私信内容  Ctr + Enter发送">
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+var currentUserId = "${session.getAttribute('sessionVO').getUserId()}";
+var currentUserName = "${session.getAttribute('sessionVO').getUserName()}";
+setInterval(function(){
+	var buttonedit = mini.get("btnEdit1");
+	if(!buttonedit.getValue()){
+		return;
+	}
+	jQuery.ajax({
+		url : "${request.getContextPath()}/controller/message/unread",
+		data : {"userId" : currentUserId, "sendUserId" : buttonedit.getValue()},
+		dataType : "json",
+		type : "post",
+		success : function (data){
+			var messages = data.data;
+			if(!data.success){
+				mini.alert(data.msg);
+				return;
+			} else if (messages.length > 0) {
+				for(var i = 0; i < messages.length; i ++){
+					var tempContent = '<div class="message-receive"><div class="message-time">' + messages[i].messageTime + '</div>'
+	                + '<div class="message-info">'
+	                + '<div class="user-info"><img class="user-avatar"  src="${request.getContextPath()}/img/user_b.png"><div style="position : absolute;top : 35px;left : 0px;width : 60px;height : 20px;text-align: center;">' + messages[i].sendUserName + '</div></div>'
+	                + '<div class="message-content-box"><div class="arrow"></div><div class="item-pics-box"></div>'
+	                + '<div class="message-content">' + messages[i].messageContent + '</div></div></div></div>';
+	    			jQuery('.message-history').append(tempContent);
+					}
+			}
+		}
+	});
+},2000);
+var sendMsg = function() {
+	var pushFlag = mini.get("pushFlag");
+    var tempContent = '',
+        contentElement = jQuery('input[name="content"]'),
+        content = jQuery.trim(contentElement.val()),
+        avatar = '${request.getContextPath()}/controller/pic/display?picPath=${session.getAttribute("sessionVO").getUserIcon()}';
+    if(content) {
+    	var buttonedit = mini.get("btnEdit1");
+    	if(!buttonedit.getText()){
+    		mini.alert("请选择联系人。");
+    		return;
+    	}
+    	jQuery.ajax({
+			url : "${request.getContextPath()}/controller/message/save",
+			data : {"receiveUserId" : buttonedit.getValue(), "receiveUserName" : buttonedit.getText(), "sendUserId" : currentUserId, "sendUserName" : currentUserName, "messageContent" : content, pushFlag : pushFlag.checked},
+			dataType : "json",
+			type : "post",
+			success : function (data){
+				if(!data.success){
+					mini.alert(data.msg);
+					return;
+				} else {
+			        tempContent = '<div class="message-reply"><div class="message-time">' + new Date().toLocaleTimeString() + '</div>'
+	                    + '<div class="message-info">'
+	                    + '<div class="user-info"><img class="user-avatar" src="' + avatar + '"><div style="position : absolute;top : 35px;right : 0px;width : 60px;height : 20px;text-align: center;">我</div></div>'
+	                    + '<div class="message-content-box"><div class="arrow"></div><div class="item-pics-box"></div>'
+	                    + '<div class="message-content">' + content + '</div></div></div></div>';
+			        jQuery('.message-history').append(tempContent);
+				}
+			}
+		});
+    }
+    contentElement.val('');
+};
+var initSendMsg = function() {
+    // normal submit
+    jQuery('.send-msg-btn').on('click', function() {
+        sendMsg();
+    });
+    // Ctrl+Enter submit
+    jQuery('input[name="content"]').on('keydown', function(e){
+        e = e ? e : window.event;
+        if(e.ctrlKey && 13 == e.keyCode){
+            sendMsg();
+        }
+    });
+};
+initSendMsg();
+
+mini.parse();
+
+function onButtonEdit(e) {
+    var btnEdit = this;
+    mini.open({
+        url: "${request.getContextPath()}/views/workbench/user_select.html",
+        title: "选择列表",
+        width: 650,
+        height: 380,
+        ondestroy: function (action) {
+            //if (action == "close") return false;
+            if (action == "ok") {
+                var iframe = this.getIFrameEl();
+                var data = iframe.contentWindow.GetData();
+                data = mini.clone(data);    //必须
+                if (data) {
+                	if(btnEdit.getValue() != "" && data.id != btnEdit.getValue()){
+				        mini.confirm("切换用户当前聊天窗口将被关闭，是否继续？", "提示",
+				            function (action) {
+				                if (action == "ok") {
+                   					jQuery('.message-history').empty();
+				                    btnEdit.setValue(data.id);
+                   					btnEdit.setText(data.userName);
+				                }
+				            }
+				        );
+                	} else {
+                		 btnEdit.setValue(data.id);
+                   		 btnEdit.setText(data.userName);
+                	}
+                }
+            }
+
+        }
+    });            
+}
+</script>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>信用卡模版编辑</title>
+
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript"></script>
+	<script type="text/javascript" src="${request.getContextPath()}/js/pw-common.js"></script>
+	<script type="text/javascript" src="${request.getContextPath()}/js/kindEdtor/kindeditor-all.js"></script>
+</head>
+<body>
+<table  id="templateInfo" border="0" cellpadding="1" cellspacing="2" style="width:100%;table-layout:fixed;margin-top: 30px">
+	   <tr>
+		<td style="width:120px;" >选择卡品牌:</td> 
+        <td style="width:40%;"> <input id="productType"	name="productType"  required="true" emptyText="请选择" showNullItem="true" class="mini-combobox"  url="${request.getContextPath()}/controller/dect/qryDectByTypeWithDesc?typeId=CREDIT_CARD_TYPE" style="width:100%;" 
+            emptyText="请选择..."  nullItemText="请选择..." textField="businname" valueField="dictId"/></td>
+        <td style="width:120px;">选 择 交 易：</td>
+        <td style="width:40%;"><input id="relatedApk1" name="dealId" class="mini-combobox" style="width:100%;" textField="apkName" valueField="apkId" emptyText="请选择..." 
+      				     url="${request.getContextPath()}/controller/product/qryApkId" value=""  allowInput="false" showNullItem="true" nullItemText="请选择..."/></td>
+        </tr>
+        <tr>
+		<td style="width:120px;">是否申请附属卡：</td>
+		<td style="width:40%;">
+		<input id="isSupplementary" name="isSupplementary" class="mini-radiobuttonlist"  value="0" data="[{id: 0, text: '是'}, {id: 1, text: '否'}]"/>
+		</td>
+		<td style="width:120px;"></td><td style="width:40%;"></td>
+		</tr>
+        <tr>
+		<td style="width:120px;">产品申请拍摄项：</td>
+		<td style="width:40%;"><input id="appShooting" name="appShooting"  required="true" class="mini-combobox" style="width:100%;" allowInput="false" multiSelect="true" textField="materName" valueField="materId" emptyText="请选择..." 
+      				     url="${request.getContextPath()}/controller/shootmater/qryShootMater?type=1"  /></td>
+        
+		<!--<td style="width:40%;">
+			 <input id="appShooting" name="appShooting"  required="true" class="mini-combobox" multiSelect="true" style="width:100%;" data="Genders1" allowInput="false"/>
+		</td>-->
+		<td style="width:120px;">产品申请必须项：</td>
+		<td style="width:40%;">
+			<input id="mustShooting" name="mustShooting"  required="true" class="mini-combobox" multiSelect="true" style="width:100%;" textField="text" valueField="id" data="" onclick="choose" allowInput="false" emptyText="请选择..." />
+		</td>
+	</tr>
+	<tr>
+	<td style="width:85px;padding-top: 10px">销售开始时间：</td>
+	    	<td >
+	    		<input id="onSaleTime" name="onSaleTime" required="true"  class="mini-datepicker" style="width: 100%"/>
+	    	</td>
+	    	<td style="padding-top: 10px">销售结束时间：</td>
+	    	<td>
+	    		<input id="offSaleTime" name="offSaleTime" required="true"  class="mini-datepicker" style="width: 100%"/>
+	    	</td>
+	</tr>
+	<tr>
+		<td colspan="6">
+				<div id="tabdatagrid" class="mini-datagrid" style="width:100%;margin-top: 30px" 
+			        idField="tabName" 
+			        allowResize="true" showPager="false"
+			        allowCellEdit="false" allowCellSelect="true" multiSelect="false" 
+			        editNextOnEnterKey="true"  editNextRowCell="true" onrowclick="checkStatus"
+			    >
+		        <div property="columns">
+		            <!-- <div type="indexcolumn"></div> -->
+		            <div type="checkcolumn"></div>
+		            <div name="tabName"  field="tabName" headerAlign="center" allowSort="false" width="120" >名称</div>
+		            <div name="tabTextContent"  field="tabTextContent" headerAlign="center" allowSort="false" width="120" >内容</div>
+		            <div name="action" width="60px" headerAlign="center" renderer="onActionRenderer" cellStyle="padding:0;text-align: center">操作</div>
+		        </div>
+		    </div>
+	    </td>
+	</tr>
+	<tr>
+		<td colspan="6" height="50px">
+			<hr style="height:1px;border:none;border-top:1px solid #555555;">
+		</td>
+	</tr>
+	<tr>
+		<td colspan="6">
+			<div class="mini-toolbar">
+				<span>TAB页名称：</span>
+				<input id="modifyTabName"  class="mini-textbox" maxlength="10"/>
+				<span class="separator"></span>
+			    <a class="mini-button" iconCls="icon-save" onclick="addTabs">保存</a>
+			    <a class="mini-button" iconCls="icon-edit" onclick="reset">重置</a>
+			    <a style="position: absolute;right: 20px" class="mini-button" iconCls="icon-edit" onclick="submitConfirm">提交保存</a>
+			</div>
+			<textarea id="ke" name="content" style="width:100%;height:250px;visibility:hidden;"></textarea>
+		</td>
+	</tr>
+</table>
+</body>
+<script type="text/javascript">
+    var Genders = [{ id: 1111111, text: '信用卡样1' }, { id: 2222222, text: '信用卡样2'}, { id: 3333333, text: '信用卡样3'}];
+ //   var Genders1 = [{ id: '证明文件正面', text: '证明文件正面' }, { id: '证明文件反面', text: '证明文件反面'}, { id: '户口本', text: '户口本'},{ id: '身份证正面', text: '身份证正面'},{ id: '身份证反面', text: '身份证反面'}];
+	mini.parse();
+
+	var grid = mini.get("tabdatagrid");
+	grid.masked = false;
+	function onActionRenderer(e) {
+		/* var record = e.record;
+		var rowIndex = e.rowIndex;
+		var s = '<a class="mini-button" href="javascript:removeTabs(\'' + record + '\')">&nbsp删&nbsp除&nbsp</a>'; */
+		var s = '<a class="mini-button" href="javascript:removeTabs()">&nbsp删&nbsp除&nbsp</a><a class="mini-button" href="javascript:editTabs()">&nbsp编&nbsp辑&nbsp</a>';
+		return s;
+	}
+	var data = [];
+	$(document).ready(function initData(){
+		if(null == $templateInfos){
+			return;
+		}
+		var templateInfos = $!templateInfos;
+		var templateInfo=templateInfos.templateInfo;
+	    data = templateInfos.tabsData;
+		//获取tab页信息，设置到datagrid
+		//var data = [{"tabName":"2","tabTextContent":"2015-10-29 14:21:45","tabHtmlContent":"2015-10-29 14:21:45"},{"tabName":"y","tabTextContent":"2015-10-29 14:21:45","tabHtmlContent":"2015-10-29 14:21:45"}];
+		grid.setData(data);
+	 	var form = new mini.Form("#templateInfo");
+     	form.setData(templateInfo);      //获取表单多个控件的数据
+     	var appdata =mini.get("appShooting").getValue() ;
+	   var appdata1 =mini.get("appShooting").getText() ;
+	var array = appdata.split(",");
+	var array1 = appdata1.split(",");
+	        var mustArray = [];
+	        for(var i = 0; i < array.length; i ++){
+	        	var aSJson = {"id":array[i],"text":array1[i]};
+	        	mustArray.add(aSJson);
+	        }
+	    mini.get("mustShooting").setData(mustArray);
+	});
+	
+
+	var editorId = "ke";
+	function setText() {
+		var text = "<b>KindEditor</b> <br/>Date:" + new Date().getTime();
+		editor.html(text);
+	}
+	function getHtml() {
+		var html = editor.html();
+		alert(html);
+	}
+	function getText() {
+		var text = editor.text();
+		alert(text);
+	}
+
+	var editor = null;
+	setTimeout(function() {
+		editor = KindEditor.create('#' + editorId, {
+			resizeType : 1,
+			uploadJson : 'kindeditor/upload_json.ashx',
+			fileManagerJson : 'kindeditor/file_manager_json.ashx',
+			allowPreviewEmoticons : false,
+			allowImageUpload : true,
+			items : [ 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor',
+					'bold', 'italic', 'underline', 'removeformat', '|',
+					'justifyleft', 'justifycenter', 'justifyright',
+					'insertorderedlist', 'insertunorderedlist', '|',
+					'emoticons', 'image', 'link' ]
+		});
+	}, 1);
+	
+	//添加tabs
+	function addTabs(){
+		var tabName = mini.get("modifyTabName").getValue();
+		if(!tabName || jQuery.trim(tabName) == ""){
+			mini.alert("请输入TAB页名称");
+			return;
+		} else if(tabName.length < 2 || tabName.length > 8){
+			mini.alert("TAB页名称限制在2-8个字。");
+			return;
+		}
+		var text = editor.text();
+		if(!text || jQuery.trim(text) == ""){
+			mini.alert("请录入TAB页内容");
+			return;
+		} else if(text.length > 500){
+			mini.alert("内容限制在500字以内");
+			return;
+		}
+		if(data.length >= 8 && !grid.masked){
+			mini.alert("最多添加8条记录。");
+			return;
+		}
+		var selectedRow = grid.getSelected();
+		for ( var i = 0; i < data.length; i++) {
+			if(data[i].tabName == tabName && !grid.masked){
+				mini.alert("TAB页名称重复，请重新指定");
+				return;
+			} else if(data[i].tabName == tabName && grid.masked && selectedRow.tabName != data[i].tabName){
+				mini.alert("TAB页名称重复，请重新指定");
+				return;
+			};
+		}
+		//如果是编辑保存，删除当前选中的列，保存新列
+		if(grid.masked){
+			grid.removeRow(selectedRow, false);
+		}
+		console.info(data);
+		//设置datagrid的值
+		data.add({"tabName":tabName,"tabTextContent":text,"tabHtmlContent":editor.html()});
+		grid.setData(data);
+		console.info(data);
+		//取消datagrid的遮罩效果
+		grid.unmask();
+		grid.masked = false;
+		//将输入框置空
+		mini.get("modifyTabName").setValue("");
+		editor.html("");
+	}
+	function removeTabs(){
+		var row = grid.getSelected();
+		grid.removeRow(row, false);
+	}
+	function editTabs(){
+		grid.mask("正在编辑...");
+		grid.masked = true;
+		var row = grid.getSelected();
+		mini.get("modifyTabName").setValue(row.tabName);
+		editor.html(row.tabHtmlContent);
+	}
+	function reset(){
+		grid.unmask();
+		grid.masked = false;
+		grid.clearSelect(false);
+		mini.get("modifyTabName").setValue("");
+		editor.html("");
+	}
+	function submitConfirm(){
+		 var tabName = mini.get("modifyTabName").getValue();
+		 var text = editor.text();
+		 if(tabName || text){
+			 mini.confirm("当前有正在编辑的内容，确定继续提交吗？<br>（继续提交将不保存当前正在输入的内容。）", "确定？",
+	            function (action) {
+	                if (action == "ok") {
+	                    submit();
+	                } else {
+	                    return;
+	                }
+	            }
+	        );
+		 } else {
+		 	submit();
+		 }
+	}
+	function submit(){
+		 var form = new mini.Form("#templateInfo");
+         form.validate();
+         if (form.isValid() == false) {
+         	return;
+         }
+         var offlineTime = "${offlineTime}";
+         var onlineTime = "${onlineTime}";
+         var offSaleTime1 = "${offSaleTime}";
+         var onSaleTime1 = "${onSaleTime}";
+         var offSaleTime = mini.formatDate (mini.get("offSaleTime").getValue(), "yyyy-MM-dd");
+         var onSaleTime =mini.formatDate (mini.get("onSaleTime").getValue(), "yyyy-MM-dd");
+         
+         if(!(offSaleTime>onSaleTime&&offSaleTime<=offlineTime)){
+                  mini.alert("销售截止时间应在销售开始时间与下线时间之间");
+                  return;
+         }
+         
+         if(onSaleTime<onlineTime||onlineTime>=offSaleTime){
+                 mini.alert("销售开始时间应在上线时间与销售结束时间之间");
+                 return;
+         }
+	     var templateInfo = form.getData();     //获取表单多个控件的数据
+	     templateInfo["onSaleTime"] = onSaleTime;
+      	 templateInfo["offSaleTime"] =  offSaleTime;
+	     var reqData = {};
+	     reqData.productId=getRequestParam("productId");
+	     reqData.templateInfo=templateInfo;
+	     reqData.tabsData = grid.getData();
+	     var reqDataStr = mini.encode(reqData);
+		jQuery.ajax({
+			url:"${request.getContextPath()}/controller/product/submitTemplate?productId=" + getRequestParam("productId"),
+			type:"POST",
+			dataType : "json",
+			//data : {templateInfo : mini.encode(templateInfo), tabsData : mini.encode(grid.getData())},
+			data : reqDataStr,
+			success : function(result){
+				mini.alert(result.msg);
+				if(!result.success){
+					mini.alert(result.msg);
+					return;
+				}
+			}
+		});
+	}
+	function getRequestParam(name)
+	{
+	     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+	     var r = window.location.search.substr(1).match(reg);
+	     if(r!=null)return  unescape(r[2]); return null;
+	}
+	function choose()
+	{
+	var appdata =mini.get("appShooting").getValue() ;
+	if(!appdata){
+	return;
+	}
+	var appdata1 =mini.get("appShooting").getText() ;
+	var array = appdata.split(",");
+	var array1 = appdata1.split(",");
+	        var mustArray = [];
+	        for(var i = 0; i < array.length; i ++){
+	        	var aSJson = {"id":array[i],"text":array1[i]};
+	        	mustArray.add(aSJson);
+	        }
+	  mini.get("mustShooting").setData(mustArray);
+	}
+	
+	
+	
+	
+</script>
+</html>

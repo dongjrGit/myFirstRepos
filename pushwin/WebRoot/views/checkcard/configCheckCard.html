@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>审核卡参数配置</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="${request.getContextPath()}/scripts/boot.js"></script>
+    <script type="text/javascript" src="${request.getContextPath()}/js/ajaxfileupload.js"></script>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  <div id='t4ui_main'>
+  <div class="mini-toolbar"
+					style="padding: 2px; border-top: 0; border-left: 0; border-right: 0; height: 30px;width:50%;">
+  <a  id="exp" class="fl mini-button t4ui_bac" onclick="exportmodle()"    >下载模板</a>
+ <span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+ <span style="">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+  <span style="width:120px;">模板选择：</span>
+
+		<span style="width:20%;">
+			<input id="modle" name="modle"  required="true" class="mini-combobox"  style="width:30%;" textField="modleName" valueField="modleCode"  data="" 
+			url="${request.getContextPath()}/controller/checkcard/qrymodle"  allowInput="false"  />
+		</span>
+  </div>
+  <div class="mini-toolbar"
+					style="padding: 2px; border-top: 0; border-left: 0; border-right: 0; height: 30px;width:50%;">
+			  <form id="personForm" method="post" enctype="multipart/form-data">
+			<input style="margin-top: 2px;" type="file" id="fileinput" name="excelfile">
+			<input  type="button" onclick="ajaxFileUpload(this.form.id,'fileinput')" value="上传" />
+			  </form>
+		</div>
+  </div>
+  <body>
+    <script type="text/javascript">
+mini.parse();
+
+function exportmodle(){
+if(!mini.get("modle").getValue()){
+mini.alert("请选择模板！");
+return;
+}
+location.href="${request.getContextPath()}/controller/checkcard/exportmodle?modleCode="+mini.get("modle").getValue();
+	}
+   
+function ajaxFileUpload(frm,upload) {
+if(!mini.get("modle").getValue()){
+mini.alert("请选择模板！");
+return;
+}
+        var f = $("#" + frm);
+           var fileValue = $("#fileinput").val();// 获得文件内容   
+	    		if(fileValue != ""){
+						var lastName = fileValue.substring(fileValue.indexOf("."));
+							     lastName = lastName.toLocaleLowerCase();
+						if (lastName == ".xls" || lastName == ".xlsx" ) {
+								
+						} else {
+								mini.alert("导入文件只支持表格上传,表格格式例如.xls、.xlsx!");
+								return;
+						}
+						jQuery.ajaxFileUpload({
+            				url             :  "${request.getContextPath()}/controller/checkcard/importmodle?modleCode="+mini.get("modle").getValue(), //需要链接到服务器地址
+           			 		secureuri       : false,
+            				fileElementId   : upload, //文件选择框的id属性 
+            				dataType        : 'text', //服务器返回的格式
+           				 	success         : function(data,status) //相当于java中try语句块的用法
+            				{
+            					 var json = mini.decode(data);  
+		               			 if(json.success==true){
+		                         			mini.alert(json.msg);
+		                         			  return;              		
+		                         }         
+            				}
+         					});
+				 }else{
+						mini.alert("请选择文件");
+						return;
+				}
+				
+   		}
+    
+
+ </script>
+  </body>
+</html>

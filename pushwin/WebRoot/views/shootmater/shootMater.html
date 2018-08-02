@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!--引入公用JS-->
+<script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript"></script>
+<script type="text/javascript" src="${request.getContextPath()}/js/pw-common.js"></script>
+<link rel="stylesheet" type="text/css" href="./css/amend.css" />
+<script src="${request.getContextPath()}/js/amend.js" type="text/javascript"></script>
+<title>移动应用平台 - 树形分页</title>
+</head>
+
+<body style="height: 90%">    
+    <!--主层开始-->
+ <div style="height: 100%">
+         <!--中间层开始x-->
+		<div id='t4ui_treeM'>
+			<div id="treegrid1" class="mini-treegrid" style="width:100%;height:490px;"     
+			    url="${request.getContextPath()}/controller/shootmater/qryShootMater" showTreeIcon="true"
+			    treeColumn="materName" idField="materId" parentField="materPid" resultAsTree="false"  
+			    allowResize="false" expandOnLoad="true"  contextMenu="#treeMenu" >  
+                <div property="columns">
+                    <div name="materName" field="materName" width="20%"headerAlign="left">名称</div>
+                    <div field="shootRequire" width="50%" headerAlign="left">要求</div>
+                     <div name="userName" field="userName" width="15%" headerAlign="left">创建人</div>
+                      <div name="creatTime" field="creatTime" width="15%" headerAlign="left"dateFormat="yyyy-MM-dd">创建时间</div>
+                </div>
+            </div>
+            <ul id="treeMenu" class="mini-contextmenu"  onbeforeopen="onBeforeOpen">
+				<li name="add" onclick="onAddNode" iconCls="icon-add">增加目录</li>			
+				<li name="edit" iconCls="icon-edit" onclick="onEditNode">编辑目录</li>
+				<li name="remove" iconCls="icon-remove" onclick="onRemoveNode">删除目录</li>        
+			</ul>
+        <!--中间层结束-->   
+    	</div>  
+  
+	<!-- 添加菜单 -->        
+   <div id="addWindow" class="mini-window t4ui_nopad" title="菜单添加" style="width:450px;" 
+      showModal="true" allowResize="true" allowDrag="false" showMaxButton="true" showCloseButton="true"  onbuttonclick="closeAddWindow">
+     <div id="addform" class="form" align="center">
+     	<table>
+     	<tr>
+     	<td>
+     	    <input id="materId" name="materId" class="mini-textbox" style="display: none"/>
+	    	<input id="materPid" name="materPid" class="mini-textbox" style="display: none"/>
+	    	<input id="materLevel" name="materLevel" class="mini-textbox" style="display: none"/> 
+	    	<input id="materType" name="materType" type="hidden" class="mini-textbox"  style="display: none"/>
+	    	 <div style="padding-top: 30px;">
+		      	<span>上级节点 :</span>
+		      	<span><input id="pidName"  enabled="false" class="mini-textbox"  style="width:250px;" maxlength="20"/></span>
+		    </div>
+	        <div style="padding-top: 30px;">
+		      	<span>文件名称 :</span>
+		      	<span><input id="materName" name="materName" class="mini-textbox" required="true" style="width:250px;" maxlength="20"/></span>
+		    </div>
+	      	<div id="shootRequire1"  style="padding-top: 30px">
+		      	<span>拍摄要求 :</span>
+		      	<span><input id="shootRequire" name="shootRequire" class="mini-textbox"  required="true" style="width:250px;" maxlength="40"/></span>
+	      	</div>
+	      	
+	      	<div class="t4ui_jz t4ui_but" align="center" style="padding-top: 30px">
+	      		<a class="mini-button" onclick="javascript:addRow()">保存</a>
+	      		<a class="mini-button" onclick="javascript:cancelRow()" style="padding-t: 30px">关闭</a>
+	      	</div>
+	      	</td>
+	      	</tr>
+	     </table>
+      </div>
+	</div>
+</div>
+    <!--主层结束-->
+</body>
+<script>
+
+	mini.parse();
+	var tree = mini.get("treegrid1");
+	var addWindow = mini.get("addWindow");
+	var treeid = '1';
+function onBeforeOpen(e) {
+		var grid = mini.get("treegrid1");
+		var menu = e.sender;
+		var row = grid.getSelected();
+		if (!row) {
+			e.cancel = true;
+			//阻止浏览器默认右键菜单
+			e.htmlEvent.preventDefault();
+			return;
+		}
+		////////////////////////////////
+		var editItem = mini.getbyName("edit", menu);
+		var removeItem = mini.getbyName("remove", menu);
+		var addItem = mini.getbyName("add", menu);
+		editItem.show();
+		removeItem.show();
+		addItem.show();
+		if (row.materLevel == 0) {
+			editItem.hide();
+			removeItem.hide();
+			document.getElementById("shootRequire1").style.display='none';
+		} else if (row.materLevel == 1) {
+		    document.getElementById("shootRequire1").style.display='block';
+		} else if (row.materLevel == 2) {
+			addItem.hide();
+			document.getElementById("shootRequire1").style.display='block';
+		}
+	}
+		//弹出添加菜单
+	function onAddNode(e) {
+		var form = new mini.Form("#addform");
+		form.clear();
+		var tree = mini.get("treegrid1");
+		var node = tree.getSelectedNode();
+		var pidItem = mini.get("materPid");
+		var levelItem = mini.get("materLevel");
+		pidItem.setValue(node.materId);
+		levelItem.setValue(parseInt(node.materLevel) + 1);
+		mini.get("materType").setValue(node.materType);
+		mini.get("pidName").setValue(node.materName);
+		mini.get("addWindow").show();
+	}
+	function onEditNode(e) {
+	document.getElementById("shootRequire1").style.display='none';
+		var form = new mini.Form("#addform");
+		form.clear();
+		var tree = mini.get("treegrid1");
+		var node = tree.getSelectedNode();
+		var nodePid = tree.getParentNode(node);
+		var pidItem = mini.get("materPid");
+		pidItem.setValue(node.materPid);
+		mini.get("materType").setValue(node.materType);
+		mini.get("pidName").setValue(nodePid.materName);
+		mini.get("materId").setValue(node.materId);
+		mini.get("materName").setValue(node.materName);
+		if(node.materLevel==2){
+			mini.get("shootRequire").setValue(node.shootRequire);
+			document.getElementById("shootRequire1").style.display='block';
+			 }
+		mini.get("addWindow").show();
+	}
+		//取消按钮事件
+	function cancelRow() {
+	    addWindow.restore();
+		addWindow.hide();
+	}
+		//添加窗口关闭
+	function closeAddWindow(e){
+		if("close" == e.name){
+			addWindow.restore();
+		}
+	}
+	
+	//菜单保存
+	function addRow() {
+		var form = new mini.Form("#addform");
+		form.validate();
+		if (form.isValid() == false)
+			return;
+		var json = form.getData();
+		jQuery.ajax({
+			url : "${request.getContextPath()}/controller/shootmater/saveShootMater",
+			data : json,
+			type : "post",
+			success : function(text) {
+			var json = mini.decode(text);
+				addWindow.restore();
+				if (!text.success) {
+					mini.alert(json.msg);
+					addWindow.hide();
+					tree.reload();
+					return;
+				} else {
+					//addWindow.hide();
+					tree.reload();
+				}
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				addWindow.restore();
+				document.getElementById("productTemplate").style.display='none';
+				alert(jqXHR.responseText);
+			}
+		});
+
+	}
+	//删除目录操作
+	function onRemoveNode(e) {
+		var tree = mini.get("treegrid1");
+		var node = tree.getSelectedNode();
+//		var reqJson = "{\"menuId\":\"" + node.materId + "\",\"menuPid\":\""
+//				+ node.materPid + "\"}";
+		if (node && tree.isLeaf(node) == true) {
+			mini.confirm(
+							"确定删除记录？",
+							"提示",
+							function(action) {
+								if (action == "ok") {
+									jQuery.ajax({
+												url : "${request.getContextPath()}/controller/shootmater/delShootMater",
+												data : {materId:node.materId,materPid:node.materPid},
+												type : "post",
+												success : function(text) {
+												   var json = mini.decode(text);
+													mini.alert(json.msg);
+													tree.reload();
+												}
+											});
+								}
+							});
+		} else {
+			mini.alert("请先删除菜单下的二级菜单");
+		}
+
+	}
+</script>
+  <style>
+  	.mini-panel-border{
+  		border-bottom:2px solid #d8d8d8;
+  	}
+  </style>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>org_selecter.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script type="text/javascript" src="../../scripts/boot.js"></script>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+  </head>
+  
+  <body>
+	<div id="treegrid1" class="mini-treegrid" style="width:582px;height:300px;"     
+    url="../../controller/org/qryUserDataOrg" showTreeIcon="true" 
+    treeColumn="name" idField="id" parentField="pid" resultAsTree="false"
+    showCheckBox="true" autoCheckParent="false" checkRecursive="false" onbeforenodecheck="checkonenode">
+		<div property="columns">
+			<div name="name" field="name" width="80" headerAlign="left">机构名称</div>
+			<div field="orgCode" headerAlign="left">机构编号</div>
+		</div>
+	</div>
+	<div class="mini-toolbar" style="text-align:center;padding-top:8px;padding-bottom:8px;" borderStyle="border:0;">
+        <a class="mini-button" style="width:60px;" onclick="onOk()">确定</a>
+        <span style="display:inline-block;width:25px;"></span>
+        <a class="mini-button" style="width:60px;" onclick="onCancel()">取消</a>
+    </div>
+
+  </body>
+<script type="text/javascript">
+	mini.parse();
+    var treegrid1 = mini.get("treegrid1");
+    treegrid1.load();
+    
+	function CloseWindow(action) {
+        if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+        else window.close();
+    }
+	
+	function onOk() {
+        CloseWindow("ok");
+    }
+    function onCancel() {
+        CloseWindow("cancel");
+    }
+    function checkonenode(e){
+    	if(!e.isLeaf){
+    		if(e.checked){
+    			mini.confirm("是否取消子机构的选择？", "确定取消？",
+	            function (action) {
+	                if (action == "ok") {
+	                	var childrenNodes = treegrid1.getAllChildNodes(e.node);
+	                	treegrid1.uncheckNodes(childrenNodes);
+	                }
+	            });
+    		} else {
+    			mini.confirm("是否选择子机构？", "确定选择？",
+	            function (action) {
+	                if (action == "ok") {
+	                	var childrenNodes = treegrid1.getAllChildNodes(e.node);
+	                	treegrid1.checkNodes(childrenNodes);
+	                }
+	            });
+    		}
+    	}
+    }
+    function GetData() {
+        return treegrid1.getCheckedNodes();
+    }
+    function SetData(orgIds){
+    	console.info(orgIds);
+	    var	orgIdArray = orgIds.split(",");
+	    for ( var i = 0; i < orgIdArray.length; i++) {
+			var node = treegrid1.getNode(orgIdArray[i]);
+			treegrid1.checkNode(node);
+		}
+    }
+</script>
+</html>

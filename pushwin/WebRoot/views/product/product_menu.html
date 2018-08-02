@@ -1,0 +1,588 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!--引入公用JS-->
+<script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript"></script>
+<script type="text/javascript" src="${request.getContextPath()}/js/pw-common.js"></script>
+<link rel="stylesheet" type="text/css" href="./css/amend.css" />
+<script src="${request.getContextPath()}/js/amend.js" type="text/javascript"></script>
+<title>移动应用平台 - 树形分页</title>
+</head>
+
+<body style="height: 90%">    
+    <!--主层开始-->
+ <div style="height: 100%">
+         <!--中间层开始x-->
+		<div id='t4ui_treeM'>
+			<div id="treegrid1" class="mini-treegrid" style="width:100%;height:490px;"     
+			    url="${request.getContextPath()}/controller/product/qryMenu" showTreeIcon="true"
+			    treeColumn="menuName" idField="menuId" parentField="menuPid" resultAsTree="false"  
+			    allowResize="false" expandOnLoad="true"  contextMenu="#treeMenu" >  
+                <div property="columns">
+                    <div name="menuName" field="menuName" headerAlign="left">目录名称</div>
+                    <div field="menuDesc" width="80" headerAlign="left">目录描述</div>
+                    <div field="keyWords" width="80" headerAlign="left">产品关键字</div>
+                    <div field="templateName" width="80" headerAlign="left">模版名称</div>
+                    <div field="updateUser" width="80" headerAlign="left">创建人</div>
+                    <div field="updateOrg" width="80" headerAlign="left">创建机构</div>
+                    <div field="createTime" width="80" headerAlign="left" dateFormat="yyyy-MM-dd HH:mm:ss">创建时间</div>
+                    
+                    <div field="menuSort" width="60" headerAlign="left">序号</div>
+                </div>
+            </div>
+            <ul id="treeMenu" class="mini-contextmenu"  onbeforeopen="onBeforeOpen">
+				<li name="add" onclick="onAddNode" iconCls="icon-add">增加目录</li>			
+				<li name="edit" iconCls="icon-edit" onclick="onEditNode">编辑目录</li>
+				<li name="editKeyWord" iconCls="icon-edit" onclick="onEditKeyWord">编辑关键字</li> 
+				<li name="remove" iconCls="icon-remove" onclick="onRemoveNode">删除目录</li>        
+			</ul>
+        <!--中间层结束-->   
+    	</div>
+    	<!-- 编辑菜单 -->        
+   <div id="editWindow" class="mini-window t4ui_nopad" title="菜单编辑" style="width:500px;height: 400px" 
+      showModal="true" allowResize="true" allowDrag="false" onbuttonclick="closeEditWindow">
+     <div id="editform" class="form" align="center">
+	   <table>
+     	<tr>
+     	<td>
+	    	<input name="menuId" class="mini-textbox" type="hidden" style="display: none"/>
+	    	<input name="menuPid" type="hidden" class="mini-textbox"  style="display: none"/>
+	    	<input name="menuLevel" type="hidden" class="mini-textbox"  style="display: none"/>
+	        <div style="padding-top: 30px;">
+		      	<span>目录名称：</span>
+		      	<span><input name="menuName" class="mini-textbox" required="true" style="width:250px;" maxlength="20"/></span>
+		    </div>
+	      	<div style="padding-top: 30px">
+		      	<span>目录序号：</span>
+		      	<span><input  name="menuSort" class="mini-textbox" maxlength="2" vtype="int;minLength:2"  required="true" style="width:250px;"/></span>
+	      	</div>
+	      	<div style="padding-top: 30px">
+		      	<span>目录描述 ：</span>
+		      	<span><input  name="menuDesc" class="mini-textbox"  required="true" style="width:250px;" maxlength="128"/></span>
+	      	</div>
+	      	<div style="padding-top: 30px;display: none">
+		      	<span>关&nbsp;&nbsp;键&nbsp;字 : </span>
+		      	<span><input id="keyword2"  class="mini-textbox"   maxlength="20"  style="width:200px;" enabled="false"/></span>
+		      	<span><a id="btnSumit1" class="mini-button" enabled="false" onclick="onSubmit()">确定</a></span>
+	      	</div>
+	      	<div style="padding-top: 30px;display: none">
+	      	<span></span>
+		      	<span><input id="keyWords2" class="mini-textboxlist" name="keyWords" textName="keyWords" required="true" allowInput="false" style="width:310px;"
+			        valueField="id" textField="text" enabled="false"/>
+			    </span>
+	      	</div>
+	      	<div id="editTemplateDiv" style="padding-top: 30px">
+	      		<span>产品模版 : </span>
+	      		<span><input name="templateId" id="template1" class="mini-combobox" style="width:250px;" textField="templateName" valueField="templateId" emptyText="请选择..."
+              url="${request.getContextPath()}/controller/product/qryTemplate" value="" showNullItem="true" nullItemText="请选择..." onvaluechanged="editTempSelect(this)"/></span>
+	      	</div>
+	      	<div class="t4ui_jz t4ui_but" align="center" style="padding-top: 30px">
+	      		<a class="mini-button" onclick="javascript:updateRow()">保存</a>
+	      		<a class="mini-button" onclick="javascript:cancelRow()" style="padding-t: 30px">关闭</a>
+	      	</div>
+	      	</td>
+	      	<td style="border-left-color: red;border-left:2px">
+	      		<div id="editProductTemplate" style="display: none;"><div id="editTemplateDesc">模版描述</div><img id="editTemplatePic" border="0" src="" style="width:450px;"/></div> 
+	      	</td> 
+	      	</tr>
+	     </table>     
+      </div>
+	</div>
+	<!-- 添加菜单 -->        
+   <div id="addWindow" class="mini-window t4ui_nopad" title="菜单添加" style="width:450px;" 
+      showModal="true" allowResize="true" allowDrag="false" showMaxButton="true" showCloseButton="true"  onbuttonclick="closeAddWindow">
+     <div id="addform" class="form" align="center">
+     	<table>
+     	<tr>
+     	<td>
+	    	<input id="pid" name="menuPid" class="mini-textbox" style="display: none"/>
+	    	<input id="level" name="menuLevel" class="mini-textbox" style="display: none"/> 
+	        <div style="padding-top: 30px;">
+		      	<span>目录名称 :</span>
+		      	<span><input name="menuName" class="mini-textbox" required="true" style="width:250px;" maxlength="20"/></span>
+		    </div>
+	      	<div style="padding-top: 30px">
+		      	<span>目录序号 :</span>
+		      	<span><input  name="menuSort" class="mini-textbox" maxlength="2" vtype="int;minLength:2"   required="true" style="width:250px;"/></span>
+	      	</div>
+	      	<div style="padding-top: 30px">
+		      	<span>目录描述 :</span>
+		      	<span><input name="menuDesc" class="mini-textbox"  required="true" style="width:250px;" maxlength="128"/></span>
+	      	</div>
+	      	<div id="productTemplateDiv" style="padding-top: 30px">
+	      		<span>产品模版 :</span>
+	      		<span><input name="templateId" id="template" class="mini-combobox" style="width:250px;" textField="templateName" valueField="templateId" emptyText="请选择..."
+              url="${request.getContextPath()}/controller/product/qryTemplate" value="" showNullItem="true" nullItemText="请选择..." onvaluechanged="tempSelect(this)"/></span>
+	      	</div>
+	      	<div class="t4ui_jz t4ui_but" align="center" style="padding-top: 30px">
+	      		<a class="mini-button" onclick="javascript:addRow()">保存</a>
+	      		<a class="mini-button" onclick="javascript:cancelRow()" style="padding-t: 30px">关闭</a>
+	      	</div>
+	      	</td>
+	      	<td style="border-left-color: red;border-left:2px">
+	      		<div id="productTemplate" style="display: none;"><div id="templateDesc">模版描述</div><img id="templatePic" border="0" src="" style="width:450px;"/></div> 
+	      	</td> 
+	      	</tr>
+	     </table>
+      </div>
+	</div>
+	
+	<!-- 编辑关键字 -->        
+   <div id="editKeyWordWindow" class="mini-window" title="编辑关键字" style="width:500px;height: 400px" 
+      showModal="true" allowResize="true" allowDrag="false">
+     <div id="editKeyWordform" class="form" align="center">
+     		<input name="templateId" class="mini-textbox" type="hidden" style="display: none"/>
+	    	<input name="menuId" class="mini-textbox" type="hidden" style="display: none"/>
+	    	<input name="menuPid" type="hidden" class="mini-textbox"  style="display: none"/>
+	    	<input name="menuLevel" type="hidden" class="mini-textbox"  style="display: none"/>
+	        <div style="padding-top: 30px;">
+		      	<span>目录名称：</span>
+		      	<span><input name="menuName" class="mini-textbox" required="true" style="width:250px;" enabled="false" /></span>
+		    </div>
+	      	<div style="padding-top: 30px">
+		      	<span>目录序号：</span>
+		      	<span><input  name="menuSort" class="mini-textbox" maxlength="2"   required="true" style="width:250px;" enabled="false"/></span>
+	      	</div>
+	      	<div style="padding-top: 30px">
+		      	<span>目录描述 ：</span>
+		      	<span><input  name="menuDesc" class="mini-textbox"  required="true" style="width:250px;" enabled="false"/></span>
+	      	</div>
+	      	<div style="padding-top: 30px">
+		      	<span>关&nbsp;&nbsp;键&nbsp;字 : </span>
+		      	<span><input id="keyword2"  class="mini-textbox"   maxlength="20"  style="width:200px;"/></span>
+		      	<span><a onclick="onSubmit()" id="btnSumit1" class="mini-button">确定</a></span>
+	      	</div>
+	      	<div style="padding-top: 30px">
+	      	<span></span>
+		      	<span><input id="keyWords2" class="mini-textboxlist" name="keyWords" textName="keyWords" required="true" allowInput="false" style="width:310px;"
+			        valueField="id" textField="text" /></span>
+	      	</div>
+	      	<div class="t4ui_jz t4ui_but" align="center" style="padding-top: 30px">
+	      		<a class="mini-button" onclick="javascript:updateKeyWord()">保存</a>
+	      		<a class="mini-button" onclick="javascript:cancelRow()" style="padding-t: 30px">关闭</a>
+	      	</div>      
+      </div>
+	</div>
+</div>
+    <!--主层结束-->
+</body>
+<script>
+
+	mini.parse();
+	var tree = mini.get("treegrid1");
+	var treeid = '1';
+	tree.load({
+		id : treeid
+	});
+
+	$('#btnSumit').click(function() {
+		var keyword = mini.get("keyword1").getValue();
+		var pattern = /^(\s|\u00A0)+|(\s|\u00A0)+$/g;
+		if (pattern.test(keyword)) {
+			mini.alert("前后不可输入空格");
+			return;
+		}
+		if (mini.get("keyword1").isValid() == false) {
+			return;
+		}
+		var keywords = mini.get("keyWords").getValue();
+		if (keyword == '') {
+			return;
+		}
+
+		if (keywords == '') {
+			keywords = keyword;
+		} else {
+			keywords += ',' + keyword;
+		}
+		var p = keywords.split(",");
+		if (p.length > 20) {
+			mini.alert("不可输入超过20个关键字");
+			return;
+		}
+	
+		var t = mini.get("keyWords");
+		t.setValue(keywords);
+		t.setText(keywords);
+		mini.get("keyword1").setValue("");
+	});
+	/*$("addform").keydown(function() {
+	          if (event.keyCode == "13") {//keyCode=13是回车键
+	              $('#btnSumit').click();
+	          }
+	      });*/
+
+	//////////////////////////
+	function onSubmit() {
+		var keyword = mini.get("keyword2").getValue();
+		var pattern = /^(\s|\u00A0)+|(\s|\u00A0)+$/g;
+		if (pattern.test(keyword)) {
+			mini.alert("前后不可输入空格");
+			return;
+		}
+		var t = keyword.split(",");
+		if(t.length>1){
+	     	mini.alert("不可输入逗号");
+			return;
+		}
+		if (mini.get("keyword2").isValid() == false) {
+			return;
+		}
+		var keywords = mini.get("keyWords2").getValue();
+		if (keyword == '') {
+			return;
+		}
+
+		if (keywords == '') {
+			keywords = keyword;
+		} else {
+			keywords += ',' + keyword;
+		}
+		var p = keywords.split(",");
+		if (p.length > 20) {
+			mini.alert("不可输入超过20个关键字");
+			return;
+		}
+		for(var i=0;i<p.length-1;i++){
+		if(p[i]==keyword){
+		mini.alert("关键字重复");
+		return;
+		}
+		}
+		var t = mini.get("keyWords2");
+		t.setValue(keywords);
+		t.setText(keywords);
+		
+		mini.get("keyword2").setValue("");
+	}
+	/*$("editWindow").keydown(function() {
+	          if (event.keyCode == "13") {//keyCode=13是回车键
+	              $('#btnSumit1').click();
+	          }
+	      });*////////////////////////////////
+
+	var editWindow = mini.get("editWindow");
+	var addWindow = mini.get("addWindow");
+	var dept_grid = mini.get("dept_grid");
+	var employee_grid = mini.get("employee_grid");
+	var keyWordWindow = mini.get("editKeyWordWindow");
+	addWindow.on("close", function(e){
+	    alert();
+	});
+
+	function onBeforeOpen(e) {
+		var grid = mini.get("treegrid1");
+		var menu = e.sender;
+		var row = grid.getSelected();
+		if (!row) {
+			e.cancel = true;
+			//阻止浏览器默认右键菜单
+			e.htmlEvent.preventDefault();
+			return;
+		}
+		////////////////////////////////
+		var editItem = mini.getbyName("edit", menu);
+		var removeItem = mini.getbyName("remove", menu);
+		var addItem = mini.getbyName("add", menu);
+		var editKeyWord = mini.getbyName("editKeyWord", menu);
+		editItem.show();
+		removeItem.show();
+		addItem.show();
+		editKeyWord.show();
+		if (row.menuLevel == 0) {
+			editItem.hide();
+			removeItem.hide();
+			editKeyWord.hide();
+			document.getElementById("productTemplateDiv").style.display='none';
+		} else if (row.menuLevel == 1) {
+			editKeyWord.hide();
+			document.getElementById("productTemplateDiv").style.display='block';
+		} else if (row.menuLevel == 2) {
+			addItem.hide();
+		}
+	}
+
+/******************************************************** 编辑目录开始 ****************************************************** */
+	//弹出编辑目录窗口
+	function onEditNode(e) {
+		var tree = mini.get("treegrid1");
+		var node = tree.getSelectedNode();
+		if (node.id == "1") {
+			mini.alert("总结点无法选中");
+			return;
+		}
+		if (node.menuLevel == 1) {
+			 document.getElementById("editTemplateDiv").style.display="none";
+		}else if(node.menuLevel == 2){
+		     document.getElementById("editTemplateDiv").style.display="";
+		}
+		jQuery.getJSON("${request.getContextPath()}/controller/product/qryProductById?menuId=" + node.menuId,
+	    function(text) {
+	        if(null == text.data || "" == text.data){
+	        	mini.get("template1").enabled = true;
+	        }else{
+	          mini.get("template1").enabled = false;
+	        }
+	    });
+		editWindow.show();
+		var form = new mini.Form("#editform");
+		form.clear();
+		console.info(node);
+		if(node.templateId){
+			editWindow.max();
+			var editTemplatePic = document.getElementById('editTemplatePic');
+			editTemplatePic.setAttribute("src","${request.getContextPath()}/controller/pic/display?picPath=" + node.templatePic);
+			jQuery('#templateDesc').empty();
+			jQuery('#templateDesc').append(node.templateDesc);
+			document.getElementById("editProductTemplate").style.display='block';
+		}
+		form.setData(node);
+		form.setChanged(false);
+		form.unmask();
+	}
+	//菜单编辑保存
+	function updateRow() {
+		var form = new mini.Form("#editform");
+		form.validate();
+		if (form.isValid() == false)
+			return;
+		var o = form.getData();
+		var json = mini.encode(o);
+		jQuery.ajax({
+			url : "${request.getContextPath()}/controller/product/editMenu",
+			data : json,
+			dataType : 'json',
+			contentType : 'application/json',
+			type : "post",
+			success : function(data) {
+				mini.showMessageBox({
+					showModal : false,
+					width : 250,
+					title : "提示",
+					iconCls : "mini-messagebox-warning",
+					message : data.msg,
+					timeout : 3000,
+					x : 'right',
+					y : 'bottom'
+				});
+				editWindow.hide();
+				tree.reload();
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				alert(textStatus);
+				alert(jqXHR.responseText);
+			}
+		});
+
+	}
+	
+	function editTempSelect(e){
+		var selected = e.getSelected();
+		if(selected){
+			editWindow.max();
+			var editTemplatePic = document.getElementById('editTemplatePic');
+			editTemplatePic.setAttribute("src","${request.getContextPath()}/controller/pic/display?picPath=" + selected.templatePic);
+			jQuery('#templateDesc').empty();
+			jQuery('#templateDesc').append(selected.templateDesc);
+			document.getElementById("editProductTemplate").style.display='block';
+		}
+		else{
+			var templatePic = document.getElementById('templatePic');
+			templatePic.setAttribute("src","#");
+			document.getElementById("editProductTemplate").style.display='none';
+			editWindow.restore();
+		}
+	}
+	
+	function closeEditWindow(e){
+		if("close" == e.name){
+			editWindow.restore();
+			document.getElementById("editProductTemplate").style.display='none';
+		}
+	}
+	
+/******************************************************** 编辑目录结束****************************************************** */	
+
+/******************************************************** 编辑关键字开始****************************************************** */
+	//弹出编辑关键字窗口
+	function onEditKeyWord(e) {
+		var tree = mini.get("treegrid1");
+		var node = tree.getSelectedNode();
+		if (node.id == "1") {
+			mini.alert("总结点无法选中");
+			return;
+		}
+		keyWordWindow.show();
+		var form = new mini.Form("#editKeyWordform");
+		form.clear();
+		form.setData(node);
+		form.setChanged(false);
+		form.unmask();
+	}
+	
+		//关键字编辑保存
+	function updateKeyWord() {
+		var form = new mini.Form("#editKeyWordform");
+		form.validate();
+		if (form.isValid() == false)
+			return;
+		var o = form.getData();
+		var json = mini.encode(o);
+		jQuery.ajax({
+			url : "${request.getContextPath()}/controller/product/editMenu",
+			data : json,
+			dataType : 'json',
+			contentType : 'application/json',
+			type : "post",
+			success : function(data) {
+				mini.showMessageBox({
+					showModal : false,
+					width : 250,
+					title : "提示",
+					iconCls : "mini-messagebox-warning",
+					message : data.msg,
+					timeout : 3000,
+					x : 'right',
+					y : 'bottom'
+				});
+				keyWordWindow.hide();
+				tree.reload();
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				alert(textStatus);
+				alert(jqXHR.responseText);
+			}
+		});
+
+	}
+/******************************************************** 编辑关键字结束****************************************************** */	
+
+/******************************************************** 添加目录开始****************************************************** */	
+	//弹出添加菜单
+	function onAddNode(e) {
+		var form = new mini.Form("#addform");
+		form.clear();
+		var tree = mini.get("treegrid1");
+		var node = tree.getSelectedNode();
+		var pidItem = mini.get("pid");
+		var levelItem = mini.get("level");
+		pidItem.setValue(node.menuId);
+		levelItem.setValue(node.menuLevel + 1);
+		addWindow.show();
+	}
+	
+	
+	//菜单保存
+	function addRow() {
+		var form = new mini.Form("#addform");
+		form.validate();
+		if (form.isValid() == false)
+			return;
+		var o = form.getData();
+		var json = mini.encode(o);
+		jQuery.ajax({
+			url : "${request.getContextPath()}/controller/product/addMenu",
+			data : json,
+			dataType : 'json',
+			contentType : 'application/json',
+			type : "post",
+			success : function(text) {
+				addWindow.restore();
+				document.getElementById("productTemplate").style.display='none';
+				if (!text.success) {
+					mini.alert(text.msg);
+					addWindow.hide();
+					tree.reload();
+					return;
+				} else {
+					addWindow.hide();
+					tree.reload();
+				}
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+				addWindow.restore();
+				document.getElementById("productTemplate").style.display='none';
+				alert(jqXHR.responseText);
+			}
+		});
+
+	}
+	
+	//添加窗口关闭
+	function closeAddWindow(e){
+		if("close" == e.name){
+			addWindow.restore();
+			document.getElementById("productTemplate").style.display='none';
+		}
+	}
+	
+	//模版选择下拉框
+	function tempSelect(e){
+		var selected = e.getSelected();
+		if(selected){
+			addWindow.max();
+			var templatePic = document.getElementById('templatePic');
+			templatePic.setAttribute("src","${request.getContextPath()}/controller/pic/display?picPath=" + selected.templatePic);
+			jQuery('#templateDesc').empty();
+			jQuery('#templateDesc').append(selected.templateDesc);
+			document.getElementById("productTemplate").style.display='block';
+		}
+		else{
+			var templatePic = document.getElementById('templatePic');
+			templatePic.setAttribute("src","#");
+			document.getElementById("productTemplate").style.display='none';
+			addWindow.restore();
+		}
+	}
+/******************************************************** 添加目录结束****************************************************** */	
+	//删除目录操作
+	function onRemoveNode(e) {
+		var tree = mini.get("treegrid1");
+		var node = tree.getSelectedNode();
+		var reqJson = "{\"menuId\":\"" + node.menuId + "\",\"menuPid\":\""
+				+ node.menuPid + "\"}";
+		if (node && tree.isLeaf(node) == true) {
+			mini
+					.confirm(
+							"确定删除记录？",
+							"提示",
+							function(action) {
+								if (action == "ok") {
+									jQuery
+											.ajax({
+												url : "${request.getContextPath()}/controller/product/delMenu",
+												data : reqJson,
+												dataType : 'json',
+												contentType : 'application/json',
+												type : "post",
+												success : function(text) {
+													mini.alert(text.msg);
+													tree.reload();
+												}
+											});
+								}
+							});
+		} else {
+			mini.alert("请先删除菜单下的二级菜单");
+		}
+
+	}
+
+	//取消按钮事件
+	function cancelRow() {
+		editWindow.restore();
+		document.getElementById("editProductTemplate").style.display='none';
+		editWindow.hide();
+		document.getElementById("productTemplate").style.display='none';
+		addWindow.restore();
+		addWindow.hide();
+		keyWordWindow.hide();
+	}
+</script>
+  <style>
+  	.mini-panel-border{
+  		border-bottom:2px solid #d8d8d8;
+  	}
+  </style>
+</html>

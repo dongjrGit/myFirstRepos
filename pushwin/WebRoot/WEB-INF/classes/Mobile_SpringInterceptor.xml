@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+			http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+	<!-- 拦截器 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.mobile.application.commmon.interceptor.SecurityInterceptor">
+				<property name="excludeUrls">
+					<list>
+						<value>/controller/system/login</value>
+						<value>/controller/system/init</value>
+						<value>/controller/endpoint/login</value>
+						<value>/controller/endpoint/qryApks</value>
+						<value>/controller/pic/display</value>
+						<value>/controller/endpoint/qryAllDict</value>
+						<value>/controller/endpoint/savePadAddress</value>
+						<value>/controller/endpoint/qryCity</value>
+						<value>/controller/endpoint/productMenu</value>
+						<value>/controller/endpoint/checkUpdateProduct</value>
+						<value>/controller/endpoint/qryProductForDownload</value>
+						<value>/controller/endpoint/qryNoticeList</value>
+						<value>/controller/endpoint/qryNoticeCount</value>
+						<value>/controller/endpoint/readNotice</value>
+						<value>/controller/endpoint/qryShootingDict</value>
+						<value>/controller/endpoint/CustQuery</value>
+						<value>/controller/endpoint/AppProgress</value>
+						<value>/controller/endpoint/SubmitApp</value>
+						<value>/controller/endpoint/SMS</value>
+						<value>/controller/endpoint/padLogin</value>
+						<value>/controller/endpoint/parameter</value>
+						<value>/controller/endpoint/returnofgoods</value>
+						<value>/controller/endpoint/loadApp</value>
+						<value>/controller/endpoint/paymentHandler</value>
+						<value>/controller/endpoint/telesalesCustInfoQuery</value>
+						<value>/controller/endpoint/preScrSubmitApp</value>
+						<value>/controller/endpoint/cfcUpdateAppState</value>
+						<value>/controller/endpoint/loginCheckService</value>
+						<value>/controller/endpoint/activityMessage</value>
+						<value>/controller/endpoint/qryNotRedNotice</value>
+						<value>/controller/endpoint/downzip</value>
+						<value>/controller/endpoint/downipa</value>
+						<value>/controller/endpoint/iosversion</value>
+						<value>/controller/endpoint/ratingScaler</value>
+					</list>
+				</property>
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+</beans>

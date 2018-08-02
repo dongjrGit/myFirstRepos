@@ -1,0 +1,168 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>debit_checkdetail.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript"></script>
+	<script type="text/javascript" src="${request.getContextPath()}/js/pw-common.js"></script>
+	<script type="text/javascript" src="${request.getContextPath()}/js/jquery-foxibox-0.2.min.js"></script>
+	<link rel="stylesheet" href="${request.getContextPath()}/css/jquery-foxibox-0.2.css" type="text/css"></link>
+	<style type="text/css">
+		.imgDiv{
+			display : inline-block;
+			position : relative;
+		}
+		.picWindow{
+			position : absolute;
+			bottom : 1px;
+			right : 0px;
+			width : 65px;
+			height : 20px;
+		    display:none;
+		}
+	</style>
+  </head>
+  
+  <body style="height: 96%; font-size:1px">
+	<div id="layout1" class="mini-layout" style="width:100%;height:100%;padding: 0;border: 0px; margin: 0px"  borderStyle="padding:0px;border:0;margin: 0px" showSplit="false">
+	    <div title="<b>借记卡审核与审核记录</b>" showProxyText="false" region="south" showCloseButton="false" expanded="false" showSplitIcon="false" showHeader="true" borderStyle="padding:0px;border:0;" height="300">
+            <div class="mini-splitter" style="width:100%;height:95%;" borderStyle="padding:0px;border:0;" allowResize=false>
+	            <div size="50%" showCollapseButton="true" style="padding:5px;" borderStyle="padding:0px;border:0;">
+        			<div id="checkrecorddatagrid" class="mini-datagrid" style="width:100%;height:100%;" idField="id" borderStyle="padding:0px;border:0;" showPager=false showVGridLines=false
+        			url="${request.getContextPath()}/controller/debit/debitRecord?debitId=$!debitId">
+			            <div property="columns">
+			                <div type="indexcolumn" ></div>
+			                <div field="checkResult" width="120" headerAlign="center">审核结果</div>
+			                <div field="checkOpinion" width="120" headerAlign="center">审核意见</div>
+			                <div field="userCode" width="120" headerAlign="center">审核人工号</div>
+			                <div field="userName" width="120" headerAlign="center">审核人姓名</div>
+			            </div>
+			        </div>
+			    </div>
+			    <div showCollapseButton="true" style="width:100px; height:100px; overflow:auto; solid #000000;">
+			    	<table id="checkOpinionForm" style="width: 100%;height:80%;">
+			    		<tr>
+			    			<td>
+			    				<!-- 审核结果：<input id="checkResult" name="checkResult"  required="true" class="mini-combobox" data="checkResult" allowInput="false" value="2" width="100px"/> -->
+			    				<div style="display:inline;margin-top: 30px;font-size:1px">
+				    				<div style="float:left">审核结果：</div>
+				    				<div id="checkResult" name="checkResult" class="mini-radiobuttonlist" repeatItems="1" repeatLayout="table" repeatDirection="vertical"
+									    textField="text" valueField="id" value="2" 
+									    data="checkResult" style="float:left">
+									</div>
+								</div>
+			    			</td>
+		    			</tr>
+		    			<tr style="margin-top: 20px">
+			    			<td style="display:inline;font-size:1px">
+			    				<div style="float:left">审核意见：</div>
+			    				<textarea id="checkOpinion" name="checkOpinion" class="mini-textarea" emptyText="请输入审核意见" style="width: 80%;float:left"></textarea>
+			    			</td>
+		    			</tr>
+		    			<tr>
+			    			<td >
+			    				<a class="mini-button" onclick="submitCheckResult">提交审核意见</a>
+			    			</td>
+		    			</tr>
+			    	</table>
+			    </div>
+	        </div>
+	    </div>
+	    <div title="center" region="center"  >
+	        <div class="mini-splitter" style="width:100%;height:95%;" borderStyle="padding:0px;border:0;" allowResize=false>
+		    <div size="50%" showCollapseButton="true" style="padding:5px;" borderStyle="padding:0px;border:0;">
+			    <div id="datagrid1" class="mini-datagrid" style="width:100%;height:100%;" idField="EN_NAME" showColumns=false borderStyle="padding:0px;border:0;" showPager=false showVGridLines=false>
+		            <div property="columns">
+		                <div type="indexcolumn" ></div>
+		                <div field="CN_NAME" width="120" headerAlign="center">客户姓名</div>    
+		                <div field="VALUE" width="120" headerAlign="center">证件号码</div>                            
+		            </div>
+		        </div>
+		    </div>
+		    <div showCollapseButton="true" style="width:100px; height:100px; overflow:auto; solid #000000;">
+		        #foreach( $oneDirectory in $oneDirectoryList)
+		        	<div id="panel1" class="mini-panel" title="$oneDirectory.oneDirectoryName" style="width:100%;" 
+					    showToolbar="true" showCollapseButton="true" showFooter="true" allowResize="false" collapseOnTitleClick="true"
+					    headerStyle="align: center" borderStyle="padding:0px;border:0;"
+					>
+						#foreach( $twoDirectory in $oneDirectory.twoDirectoryList)
+							#foreach( $pic in $twoDirectory.picList)
+							<div class="imgDiv">
+								<a id="logoLinkId" href="${request.getContextPath()}/controller/pic/display?picPath=${pic.picFilePath}" rel="[gall1]"  title=$twoDirectory.twoDirectoryName>
+								<img id="logoImgId" src="${request.getContextPath()}/controller/pic/display?picPath=${pic.picFilePath}" alt="" width="250" height="160"/></a>
+								<a href="#" onclick="openNewWindow(encodeURI('${request.getContextPath()}/controller/pic/display?picPath=${pic.picFilePath}'))">
+									<span class="picWindow" style='color:#FF0000;text-shadow:#00FFCC 0px 1px 10px,#00FFCC 1px 0px 10px,#00FFCC 0px -1px 10px,#00FFCC -1px 0px 10px;filter:glow(color=#00FFCC,strength=10)'>新窗口打开</span>
+						    	</a>
+						    </div>
+							#end
+						#end
+					</div>
+				#end	
+		    </div>        
+		</div>
+	    </div>
+	</div>
+	<div  colspan="6" style="position: fixed;z-index:999999;bottom : 11px;right : 50px;">
+	    		<a class="mini-button " onclick="lastStep()">返回列表</a>
+	</div>
+  </body>
+  <script type="text/javascript">
+  		var checkResult = [{ id: 2, text: '通过' }, { id: 3, text: '不通过'}];
+  		$(document).ready(function() {
+			$('a[rel]').foxibox();
+			$(".imgDiv").mouseenter(function () {
+	            $(this).find(".picWindow").show();
+	        });
+	   
+	            
+	        $(".imgDiv").mouseleave(function () {
+	            $(this).find(".picWindow").hide();
+	        });
+		});
+  	    mini.parse();
+        var grid = mini.get("datagrid1");
+        grid.setData($!debitInfo);
+        var checkrecorddatagrid = mini.get("checkrecorddatagrid");
+        checkrecorddatagrid.load();
+        
+        function submitCheckResult(){
+        	 var form = new mini.Form("#checkOpinionForm");
+        	 form.validate();
+	         if (form.isValid() == false) {
+	         	return;
+	         }
+	         var checkResult = form.getData();
+	         checkResult.debitId="$!debitId";
+	         if(checkResult.checkResult != "2" && checkResult.checkOpinion == ""){
+	         	mini.alert("请输入审核意见");
+	         	return false;
+	         }
+	         jQuery.ajax({
+				url:"${request.getContextPath()}/controller/debit/submitCheckResult",
+				type:"POST",
+				dataType : "json",
+				//data : {templateInfo : mini.encode(templateInfo), tabsData : mini.encode(grid.getData())},
+				data : checkResult,
+				success : function(result){
+					mini.alert(result.msg, "提示消息", function (action) {
+						if(!result.success){
+							return;
+						} else {
+							window.location.href="${request.getContextPath()}/controller/debit/debitCheckInit";
+						}
+            		});
+				}
+			});
+        }
+    function openNewWindow(picPath){
+		window.open(picPath, 'newwindow', 'height=400, width=600, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no, location=no, status=no');
+	}
+    function lastStep(){
+		window.location.href="${request.getContextPath()}/controller/debit/debitCheckInit";
+	}
+  </script>
+</html>
+

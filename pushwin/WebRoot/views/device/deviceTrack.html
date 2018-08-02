@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<!--引入公用CSS样式-->
+	<link rel="stylesheet" type="text/css" href="./css/tree.css"/>
+	<!--引入公用JS-->
+	<script src="${request.getContextPath()}/js/jquery.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript"></script>
+	<script src="${request.getContextPath()}/scripts/pagertree.js" type="text/javascript"></script>
+	<script type="text/javascript" src="${request.getContextPath()}/js/pw-common.js"></script>
+	<link rel="stylesheet" type="text/css" href="${request.getContextPath()}/css/amend.css"/>
+	<title>设备轨迹</title>
+	</head>
+  
+<body>
+<div id='t4ui_main'>
+	 <!-- 搜索栏开始 -->
+     <div id='t4ui_deviceMiddle1'>
+       	<div class="t4ui_radbor fl">
+			<img class="fl" src="${request.getContextPath()}/img/border_rls.jpg" width="11" height="26" />
+			<span class="fl t4ui_sear" style="font-size: 12px;">姓名:</span>
+			<span class="fl t4ui_sear">
+				<input id="name" name = "name" class="mini-textbox" style="margin-top: 2px; font-size: 12px;"   /> 
+			</span>
+			<img class="fl" src="${request.getContextPath()}/img/border_rrs.jpg" width="11" height="26" />
+        </div>
+		<div class="t4ui_radbor fl">
+			<img class="fl" src="${request.getContextPath()}/img/border_rls.jpg" width="11" height="26" />
+			<span class="fl t4ui_sear" style="font-size: 12px;">员工号:</span>
+			<span class="fl t4ui_sear">
+				<input id="userId" name = "userId" class="mini-textbox" style="margin-top: 2px; font-size: 12px;"   /> 
+			</span>
+			<img class="fl" src="${request.getContextPath()}/img/border_rrs.jpg" width="11" height="26" />
+		</div>
+		<div class="t4ui_radbor fl">
+			<img class="fl" src="${request.getContextPath()}/img/border_rls.jpg" width="11" height="26" />
+			<span class="fl t4ui_sear" style="font-size: 12px;">设备号:</span>
+			<span class="fl t4ui_sear">
+				<input id="deviceId" name = "deviceId" class="mini-textbox" style="margin-top: 2px; font-size: 12px;"   /> 
+			</span>
+			<img class="fl" src="${request.getContextPath()}/img/border_rrs.jpg" width="11" height="26" />
+		</div>
+           <div class="t4ui_radbor fl">
+			<img class="fl" src="${request.getContextPath()}/img/border_rls.jpg" width="11" height="26" />
+			<span class="fl t4ui_sear" style="font-size: 12px;">日期:</span>
+			<span class="fl t4ui_sear">
+				<div class="fl">
+					<input id="key1"  name = "key1" class="mini-datepicker"  style="font-size: 12px;margin-top: 3px;"/>
+				</div>
+			</span>
+			<img class="fl" src="${request.getContextPath()}/img/border_rrs.jpg" width="11" height="26" />
+		</div>
+		<div class="t4ui_Inquire">		
+			<div id='t4ui_MR' style="width: 100px;">
+               	<div class='t4ui_Mtop'>
+               		<a class="mini-button fl" iconCls="icon-search" plain="true" onclick="search();">查询</a> 
+               	</div>
+            </div>
+		</div>	
+    </div>
+	<!-- 搜索栏结束 -->
+	<div style="height: 20px;">
+	</div>
+   	<div  class="t4ui_hh" style="width:780px;height:386px;" >
+   		<img id="pic"  src=""/>
+	</div>
+</div>
+<script type="text/javascript">
+	mini.parse();
+	
+	function search() {
+		var name = mini.get("name").getValue();
+		var userId = mini.get("userId").getValue();
+		var deviceId = mini.get("deviceId").getValue();
+		var key1 = mini.get("key1").getValue();
+		key1 = mini.encode(key1, "yyyy-MM-dd");
+		console.info("key1="+key1);
+       	//Ajax检验Session失效
+       	jQuery.ajax({
+       		url: "basisUserloginSessionListener.do",
+       		data: {menuId : id},
+       		type: "post",
+       		success: function(text) {
+       			if(text == "1") {
+       				window.location.href = "userPage.do";
+       			}else{
+   					jQuery.ajax({
+   						url: "basisDevicequeryTrack.do",
+   						data: {name: name, userId: userId, deviceId: deviceId, key1: key1},
+   						type: "post",
+   						success: function(text) {
+   							console.info("text="+text);
+   							$("#pic").attr("src", "./demo/CommonLibs/file.jsp?filePath="+text);
+   						}
+   					})
+       			}
+       		}
+       	})
+    }
+</script>
+</body>
+</html>

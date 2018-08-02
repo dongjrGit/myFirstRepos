@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <link >
+    <title>index.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+    <script type="text/javascript" src="${request.getContextPath()}/js/pw-common.js"></script> 
+<script type="text/javascript">
+
+	function doalert(){
+	alert(location.pathname);
+	}
+</script>
+  </head>
+  
+  <body>
+  <a href="http://localhost:8080/pushwin/controller/login/docs" onclick="doalert()">${request.getScheme()}://${request.getServerName()}:${request.getServerPort()}${request.getContextPath()}</a>
+   	<p>$session</p>
+   	
+   	$rc
+   	#set($arr = [0, 1, 2, 3])
+$arr.get(2)
+${application.getApplication().getAttribute("sysLogo")}
+  </body>
+</html>

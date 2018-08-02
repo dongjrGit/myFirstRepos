@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>activity_piclist.html</title>
+	
+    <script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript"></script>
+    <script src="${request.getContextPath()}/js/pw-common.js" type="text/javascript"></script>
+    <script type="text/javascript" src="${request.getContextPath()}/js/jquery-foxibox-0.2.min.js"></script>
+	<link rel="stylesheet" href="${request.getContextPath()}/css/jquery-foxibox-0.2.css" type="text/css"></link>
+	<script type="text/javascript" src="${request.getContextPath()}/js/ajaxfileupload.js"></script>
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+<style type="text/css">
+    .imgDiv{
+	display : inline-block;
+	position : relative;
+}
+
+.imgDiv .delete{
+	position : absolute;
+	top : 0px;
+	right : 0px;
+	width : 20px;
+	height : 20px;
+    display:none;
+}
+.facepage{
+	position : absolute;
+	bottom : 1px;
+	right : 0px;
+	width : 65px;
+	height : 20px;
+    display:none;
+}
+.editTxt{
+	position : absolute;
+	bottom : 8px;
+	left : 0px;
+	width : 20px;
+	height : 20px;
+    display:none;
+}
+</style>
+  </head>
+  
+  <body style="">
+    #foreach( $item in $tempArray)
+  		#if(${item.type} == "1")
+  		<fieldset style="width:98%;border:solid 1px #aaa;margin-top:8px;position:relative;">
+       		<legend>首页信息</legend>
+  			<table>
+  				<tr>
+  					<td>
+			        	<a id="logoLinkId" href="${request.getContextPath()}/controller/pic/display?picPath=${item.filepath}" rel="[gall1]"  title=$pic.picDesc>
+						<img id="logoImgId" src="${request.getContextPath()}/controller/pic/display?picPath=${item.filepath}" alt="" width="270" height="160"/></a>
+  					</td>
+  					<td>
+  						<p>${item.content}</p>
+  					</td>
+  				</tr>
+  			</table>
+        </fieldset>
+  		<input id="hasFacePage" class="mini-textbox" style="display: none" value="">
+  		#else
+  		#end
+	#end
+    <fieldset style="width:98%;border:solid 1px #aaa;margin-top:8px;position:relative;margin-bottom: 10px">
+       <legend>活动详细</legend>
+		 #foreach( $item in $tempArray)
+				#if(${item.type} != "1")
+					 <table style="border-bottom: 1px">
+		  				<tr>
+		  					<td>
+					        	<a id="logoLinkId" href="${request.getContextPath()}/controller/pic/display?picPath=${item.filepath}" rel="[gall1]"  title=$pic.picDesc>
+								<img id="logoImgId" src="${request.getContextPath()}/controller/pic/display?picPath=${item.filepath}" alt="" width="270" height="160"/></a>
+		  					</td>
+		  					<td width="300px">
+		  						<p>${item.content}</p>
+		  					</td>
+		  					<td>
+		  						#if(!$qryFlag)
+		  						<a href="#" onclick="onPage('${item.filepath}','${item.activityId}')">设置为封面</a>
+		  						<a href="#" onclick="removePic('${item.filepath}')">删除</a>
+		  						#else
+		  						#end
+		  					</td>
+		  				</tr>
+		  			</table>
+				#else
+		  		#end
+	  	#end
+	  </fieldset>
+	  <div style="height: 10px"></div>
+  </body>
+  <script type="text/javascript">
+  	$(document).ready(function() {
+		$('a[rel]').foxibox();
+	});
+	
+		function removePic(picPath){
+		//var productId = "${request.getParameter('productId')}";
+		jQuery.ajax({
+			url : "${request.getContextPath()}/controller/activity/removeProductPic",
+			type : "POST",
+			dataType : "json",
+			data : {"picPath" : picPath},
+			success : function(result){
+				window.location.reload();
+				return;
+			}
+		});
+	}
+	
+		function onPage(picPath,activityid){
+		//var productId = "${request.getParameter('productId')}";
+			jQuery.ajax({
+			url : "${request.getContextPath()}/controller/activity/setFacePage",
+			type : "POST",
+			dataType : "json",
+			data : {"picPath" : picPath,"activityid":activityid},
+			success : function(result){
+				if(result=="1"){
+					window.location.reload();
+					return;
+				}else{
+					mini.aler("设置封面失败！！！");
+				}
+				
+				
+			}
+		});
+	}
+  </script>
+</html>

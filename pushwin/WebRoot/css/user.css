@@ -1,0 +1,207 @@
+/* CSS Document */
+#t4ui_main
+{
+	width:780px;
+	height:565px;
+}
+/*
+	��ҳͼƬLogo
+*/
+#strength{
+	display:none;
+}
+.t4ui_bor3,.t4ui_co{
+	border:1px solid #bcbcbe;
+	border-bottom:none;
+}
+.t4ui_userInf{
+	height:32px;
+	line-height:32px;
+	border-bottom:1px solid #BCBCBC;
+	background:#d6d6d6;
+	color:#000;
+	font-size:14px;
+	padding-left:10px;
+}
+.t4ui_userCon{
+	height:35px;
+	line-height:34px;
+	border-bottom:1px solid #BCBCBC;
+}
+.t4ui_busiLogo{
+	height:60px;
+	line-height:60px;
+	border-bottom:1px solid #BCBCBC;
+}
+.t4ui_busiLogo .t4ui_Mes{
+	line-height:60px;
+	width:200px;
+	text-align:right;
+	border-right:1px solid #bcbcbe;
+}
+.t4ui_userCon span.t4ui_Mes,
+.t4ui_userCon span.t4ui_Input,
+.t4ui_altCon span.t4ui_Input{
+	display:block;
+	line-height:35px;
+}
+.t4ui_userCon .t4ui_Ast,
+.t4ui_altCon .t4ui_Ast{
+	display:inline;
+	color:#ff3029;
+}
+.t4ui_userCon .t4ui_Mes{
+	width:200px;
+	text-align:right;
+	border-right:1px solid #bcbcbe;
+}
+.t4ui_userCon .t4ui_Input,
+.t4ui_altCon .t4ui_Input{
+	width:230px;
+	margin-left:10px;
+}
+.t4ui_userCon .t4ui_confir,
+.t4ui_altCon ..t4ui_confir{
+	width:250px;
+	color:#8e8e8e;
+}
+#t4ui_userReg .t4ui_ChangCol{
+	background:#f4f3f3;
+}
+.t4ui_error{
+	width:240px;
+	color:#f00;
+}
+.t4ui_right{
+	color:#8e8e8e;
+}
+.t4ui_borSty1{
+	border:1px solid #a0a0a0;
+}
+.t4ui_borSty2{
+	border:1px solid #7cb031;
+	outline:none;
+}
+.t4ui_borSty3{
+	border:1px solid #f00;
+}
+.t4ui_Input input, .t4ui_Prior{
+	width:210px;
+	height:24px;
+	line-height:24px;
+	margin-top:5px;
+	padding:0 5px ;
+}
+.t4ui_Input .mini-buttonedit{
+	width:210px;
+	height:24px;
+}
+.t4ui_Input .mini-buttonedit-border{
+	background:none;
+}
+.t4ui_Input .t4ui_Prior{
+	display:block;
+	border:1px solid #a5a5a5;
+	*+margin-left:10px;
+}
+.t4ui_Input .mini-buttonedit-input{
+	margin:0;
+	padding:0;
+	text-align:center;
+	border:none;
+}
+.t4ui_Input .mini-buttonedit-border{
+	height:24px;
+}
+.t4ui_safeLev{
+	color:#8e8e8e;
+}
+.t4ui_Replay input{
+	width:22px;
+	height:14px;
+}
+.t4ui_Prior .mini-required .mini-buttonedit-border{
+	border:none;
+}
+#t4ui_safeShow{
+	float:left;
+	height:14px;
+	margin-top:11px;
+}
+#t4ui_safeShow span{
+	float:left;
+	display:block;
+	width:35px;
+	height:14px;
+	line-height:14px;
+	text-align:center;	
+	color:#fff;
+}
+.addTin{
+	background:#fc9131;
+}
+.addFom{
+	background:#c6c7c6;
+}
+#t4ui_safeShow #t4ui_medium{
+	border-left:1px solid #fff;
+	border-right:1px solid #fff;
+}
+.t4ui_putIn{
+	margin-top:10px;
+}
+.t4ui_putIn .t4ui_reSave,
+.t4ui_altIn .t4ui_reSave{
+	width:250px;
+	margin:0 auto;
+}
+.t4ui_reSave input{
+	margin: 0 auto;
+}
+.t4ui_reSave input.t4ui_resbac{
+	margin-left:30px;
+}
+.t4ui_detai{
+	display: block;
+	line-height: 35px;
+	width: 450px;
+	margin-left: 10px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+/* 公共 */
+input{
+	border:none;
+}
+*:foucs{
+	outline:none;
+}
+.mini-popup .mini-listbox td{
+	text-align:center;
+}
+form{
+	padding:0;
+	margin:0;
+}
+/* 密码修改 */
+.t4ui_altCon{
+	height: 35px;
+	line-height: 34px;
+}
+.t4ui_altCon .t4ui_altMes{
+	display: block;
+	line-height: 35px;
+	width: 190px;
+	text-align: right;
+}
+#codeAlt #t4ui_iframeTop{
+	border-bottom:1px solid #d8d8d8;
+	margin-bottom:72px;
+}
+.t4ui_altIn{
+	margin-top:90px;
+}
+select{
+	font-family:'微软雅黑';
+}

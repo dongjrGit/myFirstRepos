@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>查询用户</title>
+
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="this is my page">
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+		<script type="text/javascript" src="${request.getContextPath()}/scripts/boot.js"></script>
+		<script type="text/javascript" src="${request.getContextPath()}/js/easyTooltip.js"></script>
+		<script type="text/javascript" src="${request.getContextPath()}/js/MD5.js"></script>
+		<script type="text/javascript" src="${request.getContextPath()}/js/pw-common.js"></script> 
+		<script type="text/javascript" src="${request.getContextPath()}/js/ajaxfileupload.js"></script>
+
+	</head>
+
+	<body
+		style="margin: 0; padding: 0; border: 0; width: 100%; height: 100%; overflow: hidden;">
+		<div class="mini-splitter" style="width: 100%; height: 100%;">
+			<div size="240" showCollapseButton="true">
+				<div class="mini-toolbar"
+					style="padding:2px;border-top:0;border-left:0;border-right:0;height: 25px;">
+					<a href="javascript:deselectAll();"
+						class="mini-button">取消选中</a>
+					<!--<a class="mini-button" iconCls="icon-search" plain="true">查找</a>-->
+				</div>
+				
+				<div class="mini-fit">
+					<ul id="tree1" class="mini-tree"
+						url="${request.getContextPath()}/controller/org/orgTree"
+						style="width: 100%;" showTreeIcon="true" textField="name"
+						idField="id" parentField="pid" resultAsTree="false" 
+						expandOnLoad="0" contextMenu="#treeMenu" virtualScroll="true">
+					</ul>
+				</div>
+			</div>
+			<div showCollapseButton="true" class="t4ui_hh">
+				<div class="mini-toolbar"
+					style="padding: 2px; border-top: 0; border-left: 0; border-right: 0; height: 25px;">
+					<a class="fl mini-button t4ui_bac" iconCls="icon-add" plain="true"
+						onclick="addRow()">新建</a>
+					<a class="fl mini-button t4ui_bac" iconCls="icon-save" plain="true"
+						onclick="editData()">编辑</a>
+					<a class="fl mini-button t4ui_bac" iconCls="icon-ok"
+						plain="true" onclick="ableRow()">启用</a>
+					<a class="fl mini-button t4ui_bac" iconCls="icon-no"
+						plain="true" onclick="disableRow()">禁用</a>
+					<a class="fl mini-button t4ui_bac" iconCls="icon-remove"
+						plain="true" onclick="removeRow()">删除</a>
+						<span class="fl separator"></span>
+					<a class="fl mini-button t4ui_bac" 
+						plain="true" onclick="editpwdSave()">重置密码</a>
+					<a class="mini-button" plain="true" onclick="editUserData()">数据权限</a>
+						<span class="fl separator"></span>
+					<a class="fl mini-button t4ui_bac" href="${request.getContextPath()}/controller/user/exportUserModel">模板下载</a>
+					<a class="fl mini-button t4ui_bac" onclick="importUserData()">导入用户</a>
+					<span class="fl " left="20px">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					
+				</div>
+				<div class="mini-toolbar"
+					style="padding: 2px; border-top: 0; border-left: 0; border-right: 0; height: 25px;">
+					
+					<span class="fl t4ui_searSm">员工号:</span>
+					<span class="fl t4ui_searSm"> <input id="code"
+							name="userCode" class="mini-textbox" onenter="onKeyEnter"
+							style="width: 150px;" maxlength="10" /> </span>
+					<span class="fl separator"></span>
+					<span class="fl t4ui_searSm">员工姓名:</span>
+					<span class="fl t4ui_searSm"> <input id="realName"
+							name="realName" class="mini-textbox" onenter="onKeyEnter"
+							style="width: 150px;" maxlength="7" /> </span>
+					<span class="fl separator"></span>
+					<a class="mini-button t4ui_bac t4ui_sSm fr" onclick="search()">查询</a>
+				</div>
+
+				<!-- 添加用户 隐藏域 -->
+				<div id="editWindow" class="mini-window" title="新建用户"
+					style="width: 600px;" showModal="true" allowResize="true"
+					allowDrag="true">
+					<form id="t4ui_userReg"  method="post" action="${request.getContextPath()}/controller/user/saveUserData" enctype="multipart/form-data">
+					<div id="editform" >
+						<input id='id' type="hidden" />
+						<div class="t4ui_jz" style="width: 300px;">
+							<span style="color: red">&nbsp;&nbsp;</span>
+							<span>员&nbsp;&nbsp;工&nbsp;号：</span>
+							<span><input name="userCode" id="userCode"
+									class="mini-textbox" vtype="int;minLength:5" maxlength="10" onvalidation="onEnglishAndNumberValidation"
+									required="true" />
+							</span>
+							</div>
+						<div class="t4ui_jz" style="width: 300px; float: left">
+							<span>&nbsp;&nbsp;&nbsp;员工姓名：</span>
+							<span><input name="userName" id="userName"
+									class="mini-textbox" required="true"  maxlength="7" />
+							</span>
+							<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						</div>
+						<div class="t4ui_jz" style="width: 300px; float: left">
+							<span>&nbsp;&nbsp;&nbsp;邮箱地址：</span>
+							<span><input id=userEmail name="userEmail" class="mini-textbox"
+									required="true"  maxlength="20" vtype="email" />
+							</span>
+							<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+						</div>
+
+						<div class="t4ui_jz">
+							<span>&nbsp;&nbsp;&nbsp;手机号码：</span>
+							<span><input id ="userCard" name="userCard" class="mini-textbox"
+									required="true" vtype="int;minLength:11" maxlength="11" />
+							</span>
+							<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						</div>
+
+						<div class="t4ui_jz" headerAlign="left">
+							<span style="color: red">&nbsp;&nbsp;</span>
+							<span>&nbsp;角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色：</span>
+							<span> <input id="combol" class="mini-buttonedit"
+									onbuttonclick="onButtonEdutAdd" allowInput="false"
+									 /> </span>
+							<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						</div>
+						<div class="t4ui_jz" style="margin-left:-1px;margin-top:4px">
+					      	<span> &nbsp;&nbsp;&nbsp;员工头像：</span>
+					      	<span>
+					      		<input type="file" id="myfile" name ="myfilelogin" style="width:200px;" />
+					      		<input type="text" value="$!logo.dealImg" name="logo.dealImg" style="display: none;"/>
+					      	</span>
+				      	</div>
+				      	<input id = "json" name="json" type="hidden" />
+				      	<input id = "roleIds" name="roleIds" type="hidden" />
+				      	<input id = "orgId" name="orgId" type="hidden" />
+				      	<input id = "orgCodes" name="orgCodes" type="hidden" />
+						<div class="t4ui_jz" style=" text-align:center;">
+							<a class="mini-button" href="javascript:updateRow()">提交</a>
+							<a class="mini-button" href="javascript:cancelRow()">返回</a>
+						</div>	
+					</div>
+					</form>
+				</div>
+				<!-- 内置样式 -->
+				<style>
+.t4ui_jz {
+	margin-top: 5px;
+}
+</style>
+
+				<!-- 编辑用户 隐藏域 -->
+				<div id="editDataWindow" class="mini-window" title="用户编辑"
+					style="width: 600px;" showModal="true" allowResize="true"
+					allowDrag="true">
+					<form id="t4ui_updReg"  method="post" action="${request.getContextPath()}/controller/user/saveDitUser" enctype="multipart/form-data">
+					<div id="editDataform" >
+						<input name='userIdData' id="userIdData" class="mini-hidden" />
+						<input name='jsonData' id="jsonData" class="mini-hidden" />
+						<input name='roleIdsData' id="roleIdsData" class="mini-hidden" />
+						<div class="t4ui_jz" style="width: 300px;">
+							<span>&nbsp;&nbsp;&nbsp;员&nbsp;&nbsp;工&nbsp;号：</span>
+							<span><input name="userCodeData" id="userCodeData"
+									class="mini-textbox" vtype="int;minLength:10" maxlength="10"
+									required="true"  onvalidation="onEnglishAndNumberValidation"/>
+							</span>
+							<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						</div>
+						<div class="t4ui_jz" style="width: 300px; float: left">
+							<span>&nbsp;&nbsp;&nbsp;员工姓名：</span>
+							<span><input name="userNameData" id="userNameData"
+									class="mini-textbox" required="true" maxlength="7"/>
+							</span>
+							<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						</div>
+
+
+						<div class="t4ui_jz" style="width: 300px; float: left">
+							<span>&nbsp;&nbsp;&nbsp;邮箱地址：</span>
+							<span><input name="userEmailData" class="mini-textbox"
+									required="true"  maxlength="20" vtype="email" />
+							</span>
+							<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+
+						</div>
+
+						<div class="t4ui_jz">
+							<span>手机号码：</span>
+							<span><input id = "userCardData" name="userCardData" class="mini-textbox"
+									required="true" vtype="int;minLength:11" maxlength="11"  />
+							</span>
+							<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						</div>
+
+						<div class="t4ui_jz" headerAlign="left">
+							<span>角&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;色：</span>
+							<span> <input id="combolData" class="mini-buttonedit"
+									onbuttonclick="onButtonEdutTree" allowInput="false"
+									required="true" /> </span>
+							<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						</div>
+						<div style="margin-top: 10px">
+					      	<span>&nbsp;&nbsp;&nbsp;员工 头像：</span>
+					      	<input type="file" id="myfile1" name ="myfilelogin" style="width:200px" />
+					      	<span>
+								<img id="apkImgId" src="" alt="" width="75" height="75"/>
+					      	</span>
+				      	</div>
+					   <div class="t4ui_jz" style=" text-align:center;">
+							<a class="mini-button" href="javascript:editDataSave()">提交</a>
+							<a class="mini-button" href="javascript:editDataCancel()">返回</a>
+						</div>
+
+					</div>
+				  </form>
+				</div>
+				<!-- 内置样式 -->
+				<style>
+.t4ui_jz {
+	margin-top: 5px;
+}
+</style>
+
+				<!-- 用户详细资料 隐藏域 -->
+				<div id="detailDataWindow" class="mini-window" title="详细资料"
+					style="width: 450px;" showModal="true" allowResize="flase"
+					allowDrag="true">
+					<form id="t4ui_detai"  method="post" >
+					<div id="detailDataform" >
+					<div style="height: 200px;">
+					
+						<div style="float: left;width: 170px; height: 170px;margin-left: 20px;margin-top: 20px;">
+					      	<span>
+								<img id="detailapkImgId" src="" alt="" width="150" height="150"/>
+					      	</span>
+				      	</div>
+						<div style="float: right;width: 200px; height: 200px;">
+							<div class="t4ui_jz" >
+							<span>员&nbsp;&nbsp;工&nbsp;号：</span>
+							<span><input name="userCodeData" id="detailuserCodeData"
+									class="mini-textbox"   readonly="readonly"/>
+							</span>
+							</div>
+							<div class="t4ui_jz" >
+								<span>员工姓名：</span>
+								<span><input name="userNameData" id="detailuserNameData"
+										class="mini-textbox"  readonly="readonly"/>
+								</span>
+							</div>
+	
+							<div class="t4ui_jz" >
+								<span>所属机构：</span>
+								<span><input  name="orgName" class="mini-textbox"
+										   readonly="readonly"/>
+								</span>
+	
+							</div>
+	
+							<div class="t4ui_jz" >
+								<span>邮箱地址：</span>
+								<span><input name="userEmailData" class="mini-textbox"
+										   readonly="readonly" />
+								</span>
+	
+							</div>
+	
+							<div class="t4ui_jz">
+								<span>手机号码：</span>
+								<span><input id = "detailuserCardData" name="userCardData" class="mini-textbox"
+										  readonly="readonly" />
+								</span>
+							</div>
+							
+							<div class="t4ui_jz">
+								<span>是否禁用：</span>
+								<span><input id = "detailisClose" name="isClose" class="mini-textbox"
+										 readonly="readonly" />
+								</span>
+							</div>
+						
+						</div>
+						</div>
+					   <div class="t4ui_jz" style=" text-align:center; width: 400px;">
+							<a class="mini-button" href="javascript:detailDataCancel()">关闭</a>
+						</div>
+
+						
+
+					</div>
+				  </form>
+				</div>
+				<!-- 内置样式 -->
+				<style>
+.t4ui_jz {
+	margin-top: 5px;
+}
+</style>
+
+				<div class="mini-fit" id="t4ui_ins">
+					<div id="datagrid1" class="mini-datagrid"
+						style="width: 100%; height: 100%;" borderStyle="border:0;"
+						url="${request.getContextPath()}/controller/user/userList"
+						showFilterRow="false" allowCellEdit="true" multiSelect="true"
+						allowCellValid="true" allowAlternating="true" sizeList="[10,20]"
+						pageSize="20" idField="id">
+						<div property="columns">
+							<div type="checkcolumn"></div>
+							<div field="userCode" width="100" headerAlign="left"
+								allowSort="true">
+								员工号
+								<input class="mini-textbox" style="width: 100%;" />
+							</div>
+							<div field="userName" width="110" headerAlign="left"
+								allowSort="true">
+								员工姓名
+								<input class="mini-textbox" style="width: 100%;" />
+							</div>
+							<div field="orgName" width="120" headerAlign="left"
+								allowSort="true">
+								所属机构
+								<input class="mini-textbox" style="width: 100%;" />
+							</div>
+							<div field="isClose" width="120" headerAlign="left"
+								allowSort="true">
+								是否禁用
+								<input class="mini-textbox" style="width: 100%;" />
+							</div>
+							<div field="noLogin" width="120" headerAlign="left"
+								allowSort="true">
+								密码错误次数
+								<input class="mini-textbox" style="width: 100%;" />
+							</div>
+							<div name="action" width="120" headerAlign="left"
+								renderer="onActionRenderer" cellStyle="padding:0;">
+								操作
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 内置样式 -->
+				<style>
+				.t4ui_jz {
+					margin-top: 5px;
+				}
+				</style>				
+				
+			</div>
+		</div>
+		<div id="fileWindow" class="mini-window" title="批量导入"
+			style="width:300px;" showModal="true" allowResize="false"
+			allowDrag="true">
+			<form id="personForm" method="post" enctype="multipart/form-data">
+			<input style="margin-top: 2px;" type="file" id="fileinput" name="excelfile">
+			<input  type="button" onclick="ajaxFileUpload(this.form.id,'fileinput')" value="上传" />
+			</form>
+		</div>
+		
+		<input id="isFirst" type="hidden"/>
+		<script type="text/javascript">
+mini.parse();
+
+var tree = mini.get("tree1");
+var grid = mini.get("datagrid1");
+var editWindow = mini.get("editWindow");
+var editDataWindow = mini.get("editDataWindow");
+var detailDataWindow = mini.get("detailDataWindow");
+var editpwdDataWindow = mini.get("editpwdDataWindow");
+var fileWindow = mini.get("fileWindow");
+var ouser = "";
+grid.load();
+tree.on("nodeselect", function(e) {
+	grid.load( {
+		orgId : e.node.id
+	});
+//alert(grid.getData());
+});
+
+//////////////////////////////////////////////
+		//添加操作栏
+		function onActionRenderer(e) {
+			var record = e.record;
+			var uid = record.id;
+			var s = '<a class="Edit_Button" href="javascript:qryUser(\'' + uid + '\')">查看详情</a>&nbsp;&nbsp;&nbsp;&nbsp;<a class="Edit_Button" href="javascript:qryRole(\'' + uid + '\')">查看角色</a>'
+			return s;
+		}	
+       //根据用户id弹出角色管理页面
+        function qryRole(uid)
+        {
+                    	mini.open({
+			                url: "${request.getContextPath()}/views/user/RoleWindow.html",    
+			                title: "查看用户角色",
+			                width: 600,
+			                height: 350,
+			               	onload: function () {
+			               		var iframe = this.getIFrameEl();
+			                	var data ={ id : uid};
+			                	iframe.contentWindow.SetData(data);
+			                },
+			                ondestroy: function (action) { 
+			                    if (action == "ok") {
+			                    }
+			                }
+			            }); 
+	                
+        }
+//弹出添加页面
+function addRow() {
+						document.getElementById("isFirst").value = "";
+                    	//判断是否选中tree节点
+                    	var node = tree.getSelectedNode();
+                    	if(typeof(node) == "undefined")
+                    	{
+                    		mini.alert("请先选择机构");
+                    		return;
+                    	}
+	                    editWindow.show();
+	                    var combol = mini.get("combol");
+                        combol.setValue("");
+	                    var form = new mini.Form("#editform");
+	                    form.clear(); 
+	                }
+	            
+
+		
+
+        
+        //新增窗口关闭
+        function cancelRow()
+        {
+         	editWindow.hide(); 
+        }
+        
+        
+        
+        //根据员工ID编辑信息
+        function editData()
+        {
+        	var rows = grid.getSelecteds();
+        	var row = grid.getSelected();
+        	if(rows.length > 1)
+        	{
+        		mini.alert("请选择一条信息编辑");
+        	}else if(rows.length < 1)
+        	{
+        		mini.alert("请选择要编辑的数据");	
+        		return;
+        	}else
+        	{
+        	
+        			document.getElementById("isFirst").value = "";
+                    editDataWindow.show();
+                    var form = new mini.Form("#editDataform");
+				    form.clear();
+				    form.loading();
+                    jQuery.getJSON("${request.getContextPath()}/controller/user/ditUserData?userId="+row.id,function(text)
+                    {
+				    var itemInfos = text;
+				     if(null != itemInfos.imgPath){
+					 	document.getElementById("apkImgId").src = "${request.getContextPath()}/controller/pic/display?picPath=" + itemInfos.imgPath;
+					 } else {
+					 	document.getElementById("apkImgId").src = "";
+					 }
+				       form.setData(itemInfos);
+				       var role= mini.get("combolData");
+				       role.setValue(itemInfos.roleIds);
+				       role.setText(itemInfos.roleNames);
+				       form.setChanged(false);
+				       form.unmask();
+                    });
+                        	
+                        	
+                        	
+                        	
+    	                
+        	}
+        	
+        }
+        
+        //编辑窗口关闭
+        function editDataCancel()
+        {
+        	editDataWindow.hide();
+        }
+        
+        //员工详细信息
+        function qryUser(id)
+        {
+        			detailDataWindow.show();
+                    var form = new mini.Form("#detailDataform");
+				    form.clear();
+				    form.loading();
+                    jQuery.getJSON("${request.getContextPath()}/controller/user/ditUserData?userId="+id,function(text)
+                    {
+				    var itemInfos = text;
+				     if(null != itemInfos.imgPath){
+					 	document.getElementById("detailapkImgId").src = "${request.getContextPath()}/controller/pic/display?picPath=" + itemInfos.imgPath;
+					 } else {
+					 	document.getElementById("detailapkImgId").src = "";
+					 }
+				       form.setData(itemInfos);
+				       //var role= mini.get("combolData");
+				       //role.setValue(itemInfos.roleIds);
+				       //role.setText(itemInfos.roleNames);
+				       //form.setChanged(false);
+				       form.unmask();
+                    });
+                        	
+        }
+        
+        //编辑窗口关闭
+        function detailDataCancel()
+        {
+        	detailDataWindow.hide();
+        }
+        
+        //根据条件查询
+        function search()
+        {
+                    	//判断是否选中tree节点
+                    	var nodeid;
+                    	var node = tree.getSelectedNode();
+                    	if(typeof(node) == "undefined")
+                    	{
+                    		 nodeid=""
+                    	}else{
+                    	   nodeid=node.id
+                    	}
+                    	var userCode = mini.get("code").getValue();
+                    	var userName = mini.get("realName").getValue();
+                    	grid.load({orgId:nodeid,userCode:userCode,userName:userName});
+	                
+        }
+        
+        //分配数据权限
+        function saveOrg()
+        {
+					     //获取要赋予权限的机构ID
+			        	var node = tree.getSelectedNode();
+			        	//获取要赋予数据权限人的ID
+			        	var rows = grid.getSelecteds();
+			        	if(rows.length > 0)
+			        	{
+			        		if(rows.length == 1)
+			        		{
+					        	var json = mini.encode(rows);
+					        	var jsonObj=eval(json);
+					        	var id = jsonObj[0].userid;
+						        mini.open({
+					                url: bootPATH + "../demo/CommonLibs/orgTreeWindow.html",    
+					                title: "多选树",
+					                width: 350,
+					                height: 350,
+					               	onload: function () {
+					               		var iframe = this.getIFrameEl();
+					                	var data ={ action : id};
+					                	iframe.contentWindow.SetData(data);
+					                },
+					                ondestroy: function (action) { 
+					                    if (action == "cancel") {
+					                    	 tree.reload(); 
+					                    }
+					                }
+					            }); 
+					        }else
+					        {
+					        	mini.alert("只能同时选中一名人员");
+					        	return;
+					        }   
+			        	}else
+			        	{
+			        		mini.alert("请选择要赋予权限的人员");
+			        		return;
+			        	}
+		         	 
+        }
+        
+        //保存人员信息  
+        function updateRow()
+        {
+
+        	var node = tree.getSelectedNode();
+                        var form = new mini.Form("#editform");
+                    	var userCode = mini.get("userCode").getValue();
+                    	//获取tree节点ID
+                    	var node = tree.getSelectedNode();
+		            	var orgCodes = tree.getAllChildNodes( node );
+		            	var orgCodesjson = mini.encode(orgCodes);
+		            	
+                    	var orgId = node.id;
+                    	
+                    	
+                    	if(userCode.length == 0)
+                    	{
+                    		mini.alert("员工号不能为空");
+                    		return;
+                    		
+                    	}else if(userCode.length < 5)
+                    	{
+                    		mini.alert("员工号长度错误");
+                    		return;
+                    	}
+                    	var userName = mini.get("userName").getValue();
+                    	if(userName == "")
+                    	{
+                    		mini.alert("员工姓名不能为空");
+                    		return;
+                    	}
+                    	var userEmail = mini.get("userEmail").getValue();
+                    	if(userEmail == "")
+                    	{
+                    		mini.alert("员工邮箱不能为空");
+                    		return;
+                    	}
+                    	var userCard = mini.get("userCard").getValue();
+                    	if(userCard == "")
+                    	{
+                    		mini.alert("手机号不能为空");
+                    		return;
+                    	}
+                    	if(!/^(13[0-9]|14[0-9]|15[0-9]|18[0-9])\d{8}$/i.test(userCard))
+						{
+						     mini.alert("手机号输入错误");
+						     return;
+						}
+                        var combol = mini.get("combol").getValue();
+	    		        var fileValue = $("#myfile").val();// 获得文件内容   
+	    		        if(fileValue != ""){
+							  var lastName = fileValue.substring(fileValue.indexOf("."));
+							     lastName = lastName.toLocaleLowerCase();
+							if (lastName == ".jpeg" || lastName == ".jpg" || lastName == ".png"|| lastName == ".gif") {
+								
+							} else {
+								mini.alert("交易图标只支持图片上传,图片格式例如.gif,.png,.jpg!");
+								return;
+							}
+						}
+						
+						var form = new mini.Form("#editform");
+                    	if (form.isValid() == false) {
+	    		            return;	
+	    		            }
+                    	var o = form.getData();
+                    	var json = mini.encode(o);
+                    	document.getElementById("json").value = json;
+                    	document.getElementById("roleIds").value = combol;
+                    	document.getElementById("orgId").value = node.id;
+                    	document.getElementById("orgCodes").value = orgCodesjson;
+                    	
+                    	jQuery.ajax({
+                            url: "${request.getContextPath()}/controller/user/checkUserCode",
+                            data: {json:json},
+                            type: "post",
+                            success: function (text) {
+                     	        var json = mini.decode(text);
+                         		if(!json.success==true)
+                         		{
+                         			mini.alert(json.msg);
+                     	        	return;
+                         			                		
+                         	    }else 
+                     	        {
+                     	        	document.getElementById("t4ui_userReg").submit();
+                     	        	return;
+                     	        }
+            	            }
+            		     });
+                    	
+        }
+        
+        //根据机构id弹出角色管理页面
+        function onButtonEdutTree(e)
+        {
+        	var btnEdit =this;
+        	var userIdData = mini.get("roleIdsData");
+        	var userIdData = mini.get("userIdData").getValue();
+        	var isFirst = document.getElementById("isFirst");
+                     	var row = grid.getSelected();
+                    	mini.open({
+			                url: "${request.getContextPath()}/views/user/AddRoleWindow.html",    
+			                title: "角色多选树",
+			                width: 600,
+			                height: 350,
+			               	onload: function () {
+			               		var iframe = this.getIFrameEl();
+			                	var data ={ id : row.orgId ,userId:userIdData,roleId:btnEdit.value,isFirst:isFirst.value};
+			                	iframe.contentWindow.SetData(data);
+			                },
+			                ondestroy: function (action) { 
+			                    if (action == "ok") {
+			                    	var iframe = this.getIFrameEl();
+				                	var data = iframe.contentWindow.GetData();
+				                	data = mini.clone(data);
+				                	
+				                	btnEdit.setValue(data.id);
+				                	btnEdit.setText(data.text);
+				                	isFirst.value = isFirst;
+			                    }
+			                }
+			            }); 
+	                
+        }
+        
+        //根据机构id弹出角色管理页面
+        function onButtonEdutAdd(e)
+        {
+        	var btnEdit =this;
+        // 	var btnEdit = mini.get("combol");
+            var userId = "";
+        	var userIdData = mini.get("userIdData").getValue();
+        	var isFirst = document.getElementById("isFirst");
+                    	var node = tree.getSelectedNode();
+                    	mini.open({
+			                url: "${request.getContextPath()}/views/user/AddRoleWindow.html",  
+			                title: "角色多选树",
+			                width: 600,
+			                height: 350,
+			               	onload: function () {
+			               		var iframe = this.getIFrameEl();
+			                	var data ={ id : node.id,userId:userId,roleId:btnEdit.value,isFirst:isFirst.value};
+			                	iframe.contentWindow.SetData(data);
+			                },
+			                ondestroy: function (action) { 
+			                    if (action == "ok") {
+			                    	var iframe = this.getIFrameEl();
+				                	var data = iframe.contentWindow.GetData();
+				                	data = mini.clone(data);
+				                	btnEdit.setValue(data.id);
+				                	btnEdit.setText(data.text);
+				                	isFirst.value = isFirst;
+			                    }
+			                }
+			            }); 
+        }
+        
+        //根据机构id弹出角色管理页面
+        function onButtonEdutData(e)
+        {
+        	var btnEdit =this;
+        	var userIdData = mini.get("userIdData").getValue();
+        	jQuery.ajax({
+                url: "basisUserloginSessionListener.do",
+                data: { menuId :id },
+                type: "post",
+                success: function (text) {
+         	        if (text == "1") {
+         	 	        window.location.href = "userPage.do";
+                    } else {
+                    	var node = tree.getSelectedNode();
+                    	mini.open({
+			                url: bootPATH + "../demo/CommonLibs/RoleDataWindow.html",    
+			                title: "多选树",
+			                width: 350,
+			                height: 350,
+			               	onload: function () {
+			               		var iframe = this.getIFrameEl();
+			                	var data ={ id : node.id ,userId:userIdData};
+			                	iframe.contentWindow.SetData(data);
+			                },
+			                ondestroy: function (action) { 
+			                    if (action == "ok") {
+			                    	var iframe = this.getIFrameEl();
+				                	var data = iframe.contentWindow.GetData();
+				                	data = mini.clone(data);
+				                	btnEdit.setValue(data.id);
+				                	btnEdit.setText(data.roleName);
+				                	
+			                    }
+			                }
+			            }); 
+	                }
+	            }
+		     });
+        }
+        
+        
+        //编辑保存
+        function editDataSave()
+        {
+                    	var rows = grid.getSelecteds();
+                    	var u = mini.encode(rows);
+                    		var user = eval(u);
+                    	var userId = user[0].id;
+                    	var mobile = mini.get("userCardData").getValue();
+                    	if(mobile == "")
+                    	{
+                    		mini.alert("手机号不能为空");
+                    		return;
+                    	}
+                    	if(!/^(13[0-9]|14[0-9]|15[0-9]|18[0-9])\d{8}$/i.test(mobile))
+						{
+						     mini.alert("手机号输入错误");
+						     return;
+						}
+                    	var combol = mini.get("combolData").getValue();
+                    	/*if(combol == "")
+                    	{
+                    		mini.alert("请分配相关角色");
+                    		return;
+                    	}*/
+                    	var form = new mini.Form("#editDataform");
+                        if (form.isValid() == false) {
+	    		            return;	
+	    		            } 
+	    		        var fileValue = $("#myfile1").val();// 获得文件内容
+				           if(fileValue != ""){
+							  	var lastName = fileValue.substring(fileValue.indexOf("."));
+							    lastName = lastName.toLocaleLowerCase();
+								if (lastName == ".jpeg" || lastName == ".jpg" || lastName == ".png"|| lastName == ".gif") {
+									
+								} else {
+									mini.alert("交易图标只支持图片上传,图片格式例如.gif,.png,.jpg!");
+									return;
+								}
+							}
+                    	var o = form.getData();
+                    	var json = mini.encode(o);
+                    	document.getElementById("jsonData").value = json;
+                    	document.getElementById("roleIdsData").value = combol;
+                    	document.getElementById("userIdData").value = userId;
+                    	
+                    	
+                    	jQuery.ajax({
+                            url: "${request.getContextPath()}/controller/user/checkUserCode",
+                            data: {json:json,userId:userId},
+                            type: "post",
+                            success: function (text) {
+                     	        var json = mini.decode(text);
+                         		if(!json.success==true)
+                         		{
+                         			mini.alert(json.msg);
+                     	        	return;
+                         			                		
+                         	    }else 
+                     	        {
+                     	            document.getElementById("t4ui_updReg").submit();
+                     	        	return;
+                     	        }
+            	            }
+            		     });
+                    	
+        }
+        
+        //删除
+        function removeRow()
+        {
+                    	var rows = grid.getSelecteds();
+                    	if(rows.length > 0)
+                    	{
+                    		var json = mini.encode(rows);
+                    		var user = eval(json);
+                    		var userId = "";
+                    		for(var i =0;i<user.length;i++)
+                    		{
+                    			userId += user[i].id+",";
+                    		}
+                    		
+                    		mini.confirm("确定删除记录?","提示",
+                            function(action)
+                            {
+                    			if(action =="ok")
+                    			{
+                    				jQuery.ajax({
+                                        url: "${request.getContextPath()}/controller/user/delUserData",
+                                        data: { userIds :userId },
+                                        type: "post",
+                                        success: function (text) {
+                                 	    var json = mini.decode(text);
+		                         		if(!json.success)
+		                         		{
+		                         			mini.alert(json.msg);
+		                     	        	grid.reload();
+		                     	        	return;
+		                         			                		
+		                         	    }else 
+		                     	        {
+		                     	        	mini.alert(json.msg);
+		                     	        	grid.reload();
+		                     	        	return;
+		                     	        }
+                        	            }
+                        		     });	
+                    			}
+                    				
+                            });
+                    	}else
+                    	{
+                    		mini.alert("请选择要删除的数据");
+                    		return;
+                    	}
+                    	
+	                
+        }
+        //启用
+        function ableRow()
+        {
+                    	var rows = grid.getSelecteds();
+                    	if(rows.length > 0)
+                    	{
+                    		var json = mini.encode(rows);
+                    		var user = eval(json);
+                    		var userId = "";
+                    		for(var i =0;i<user.length;i++)
+                    		{
+                    			userId += user[i].id+",";
+                    		}
+                    		
+                    		mini.confirm("确定启用用户?","提示",
+                            function(action)
+                            {
+                    			if(action =="ok")
+                    			{
+                    				jQuery.ajax({
+                                        url: "${request.getContextPath()}/controller/user/ableUserData",
+                                        data: { userIds :userId },
+                                        type: "post",
+                                        success: function (text) {
+                                 	    var json = mini.decode(text);
+		                         		if(!json.success)
+		                         		{
+		                         			mini.alert(json.msg);
+		                     	        	grid.reload();
+		                     	        	return;
+		                         			                		
+		                         	    }else 
+		                     	        {
+		                     	        	mini.alert(json.msg);
+		                     	        	grid.reload();
+		                     	        	return;
+		                     	        }
+                        	            }
+                        		     });	
+                    			}
+                    				
+                            });
+                    	}else
+                    	{
+                    		mini.alert("请选择要启用的用户");
+                    		return;
+                    	}
+                    	
+	                
+        }
+        //禁用
+        function disableRow()
+        {
+                    	var rows = grid.getSelecteds();
+                    	if(rows.length > 0)
+                    	{
+                    		var json = mini.encode(rows);
+                    		var user = eval(json);
+                    		var userId = "";
+                    		for(var i =0;i<user.length;i++)
+                    		{
+                    			userId += user[i].id+",";
+                    		}
+                    		
+                    		mini.confirm("确定禁用用户?","提示",
+                            function(action)
+                            {
+                    			if(action =="ok")
+                    			{
+                    				jQuery.ajax({
+                                        url: "${request.getContextPath()}/controller/user/disableUserData",
+                                        data: { userIds :userId },
+                                        type: "post",
+                                        success: function (text) {
+                                 	    var json = mini.decode(text);
+		                         		if(!json.success)
+		                         		{
+		                         			mini.alert(json.msg);
+		                     	        	grid.reload();
+		                     	        	return;
+		                         			                		
+		                         	    }else 
+		                     	        {
+		                     	        	mini.alert(json.msg);
+		                     	        	grid.reload();
+		                     	        	return;
+		                     	        }
+                        	            }
+                        		     });	
+                    			}
+                    				
+                            });
+                    	}else
+                    	{
+                    		mini.alert("请选择要禁用的用户");
+                    		return;
+                    	}
+                    	
+	                
+        }
+         function editpwdCancel()
+        {
+            editpwdDataWindow.hide();
+        }
+        
+        //根据员工ID编辑信息
+        function editPwdData()
+        {
+        	var rows = grid.getSelecteds();
+        	/*if(rows.length > 1)
+        	{
+        		mini.alert("请选择一个用户重置密码");
+        	}else*/ if(rows.length < 1)
+        	{
+        		mini.alert("请选择要重置密码的用户");	
+        		return;
+        	}else
+        	{
+                        	editpwdDataWindow.show();
+                        	var form = new mini.Form("#editpwdDataform");
+				            form.clear();
+				           /* var pwdUserId = mini.get("pwdUserId");
+    	  					pwdUserId.setValue(rows.id);*/
+        	}
+        	
+        }
+        // 保存新密码
+		function editpwdSave() {
+	                		var rows = grid.getSelecteds();
+	                		if(rows.length < 1)
+				        	{
+				        		mini.alert("请选择要重置的用户");	
+				        		return;
+				        	}
+				        	if(rows.length > 1)
+				        	{
+				        		mini.alert("请选择一个要重置的用户");	
+				        		return;
+				        	}
+	                		var userId = "";
+	                		for(var i =0;i<rows.length;i++)
+                    		{
+                    			userId += rows[i].id+",";
+                    		}
+	                		mini.confirm("确定要重置密码？", "提示",
+						    function(action) {
+						        if (action == "ok") {
+		                		jQuery.ajax({
+	                            url: "${request.getContextPath()}/controller/user/changePwd",
+	                            data: {userId: userId},
+	                            type: "post",
+	                            success: function (text) {
+							       		var json = mini.decode(text);
+			                         if(!json.success)
+			                         {
+			                         	mini.alert(json.msg);
+			                         	 grid.reload();
+			                     	 	return;
+			                         			                		
+			                          }else 
+			                     	  {
+			                     	    mini.alert(json.msg);
+			                     	     grid.reload();
+			                     	    return;
+			                     	   }
+	                     	        	 
+	                    	        
+	                    	        
+	            	            }
+	            	            
+	            		     });
+	                	}
+  				  }); 
+		}
+		
+		//导入用户
+		function importUserData(){
+		       fileWindow.show();
+		}
+		
+		
+/*		function fileSub(){
+       		var fileValue = $("#fileUp").val();// 获得文件内容   
+       		if( fileValue == ""){
+       			mini.alert("请选择导入文件！");
+       			return;
+       		};
+	    	if(fileValue != ""){
+						var lastName = fileValue.substring(fileValue.indexOf("."));
+							     lastName = lastName.toLocaleLowerCase();
+							if (lastName == ".xls" || lastName == ".xlsx" ) {
+								
+							} else {
+								mini.alert("导入文件只支持表格上传,表格格式例如.xls、.xlsx!");
+								return;
+							}
+						}
+       		document.getElementById("fileForm").submit();
+       		
+       }*/
+       
+       function filecancel()
+        {
+        	fileWindow.hide();
+        }
+         function onFileSelect(e) {
+        //alert("选择文件");
+    }
+    function onUploadSuccess(e) {
+
+        alert("上传成功：" + e.serverData);
+
+        this.setText("");
+    }
+    function onUploadError(e) {
+        
+    }
+
+    function startUpload() {
+        var fileupload = mini.get("fileupload1");
+
+        fileupload.startUpload();
+    }
+    
+function ajaxFileUpload(frm,upload) {
+        var f = $("#" + frm);
+           var fileValue = $("#fileinput").val();// 获得文件内容   
+	    		if(fileValue != ""){
+						var lastName = fileValue.substring(fileValue.indexOf("."));
+							     lastName = lastName.toLocaleLowerCase();
+						if (lastName == ".xls" || lastName == ".xlsx" ) {
+								
+						} else {
+								mini.alert("导入文件只支持表格上传,表格格式例如.xls、.xlsx!");
+								return;
+						}
+						jQuery.ajaxFileUpload({
+            				url             : "${request.getContextPath()}/controller/user/importUser", //需要链接到服务器地址
+           			 		secureuri       : false,
+            				fileElementId   : upload, //文件选择框的id属性 
+            				dataType        : json,
+           				 	success         : function(text) //相当于java中try语句块的用法
+            				{
+            					var json = mini.decode(text);
+            					mini.alert(json.msg); 
+            					fileWindow.hide();
+            					grid.reload();            
+            				}
+         					});
+				 }else{
+						mini.alert("请选择文件");
+						return;
+				}
+				
+   		}
+          //取消选中
+        function deselectAll()
+        {
+       		 var tree = mini.get("tree1");
+        	 tree.deselectAll();
+        }
+        function onEnglishAndNumberValidation(e) {
+            if (e.isValid) {
+            	var re = new RegExp("^[0-9a-zA-Z\_]+$");
+            	if (re.test(e.value) != true){
+                    e.errorText = "必须输入英文+数字";
+                    e.isValid = false;
+                }
+            }
+        }
+        function editUserData(){
+        	var rows = grid.getSelecteds();
+        	if(rows.length != 1)
+        	{
+        		mini.alert("请选择一个用户。");	
+        		return;
+        	}
+        	mini.open({
+			    url : "${request.getContextPath()}/controller/org/initUserOrg?userId=" + rows[0].id,
+			    showMaxButton : false,
+			    title : "编辑数据权限",
+			    width : 600,
+			    height : 400,
+			    ondestroy : function (msg)
+			    {
+			    	if("cancel" != msg)
+			       mini.alert(msg);
+			    }
+			});
+        }
+    </script>
+	</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>product_pictures.html</title>
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript"></script>
+    <script src="${request.getContextPath()}/js/pw-common.js" type="text/javascript"></script>
+    <script type="text/javascript" src="${request.getContextPath()}/js/jquery-foxibox-0.2.min.js"></script>
+	<link rel="stylesheet" href="${request.getContextPath()}/css/jquery-foxibox-0.2.css" type="text/css"></link>
+	<script type="text/javascript" src="${request.getContextPath()}/js/ajaxfileupload.js"></script>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+<style type="text/css">
+    .imgDiv{
+	display : inline-block;
+	position : relative;
+}
+
+.imgDiv .delete{
+	position : absolute;
+	top : 0px;
+	right : 0px;
+	width : 20px;
+	height : 20px;
+    display:none;
+}
+.facepage{
+	position : absolute;
+	bottom : 1px;
+	right : 0px;
+	width : 65px;
+	height : 20px;
+    display:none;
+}
+.editTxt{
+	position : absolute;
+	bottom : 8px;
+	left : 0px;
+	width : 20px;
+	height : 20px;
+    display:none;
+}
+</style>
+  </head>
+  
+  <body>
+  	#if(!${product.facePage})
+  		<input id="hasFacePage" class="mini-textbox" style="display: none" value="">
+  	#else
+  		<input id="hasFacePage" class="mini-textbox" style="display: none" value="${product.facePage}">
+  	#end
+	<div class="mini-toolbar" style="position: fixed;z-index:2;left:0px;bottom:0px">
+		<input class="mini-htmlfile" type="file" id="picFile"
+			name="picFile"> <a class="mini-button"
+			onclick="ajaxFileUpload('picFile')">上传</a>
+	</div>
+
+	<div style="position: fixed;z-index:2;bottom: 0px;left: 40%">
+		<span style="font-size: 12px;color: red;">ps：点击放大图片，esc退出预览。</span>
+	</div>
+	
+	<div class="mini-toolbar" style="right:0px;position: fixed;z-index:2;bottom: 0px">
+			<a class="mini-button" onclick="javascript:lastStep()">上一步</a>
+			#if(${productTemplate})
+			<a class="mini-button" onclick="javascript:editProductTemplate()">编辑模版</a>
+			#end
+			<a class="mini-button" onclick="javascript:submitCheck()">提交审核</a>
+	</div>
+	#foreach( $pic in $picList)
+		<div class="imgDiv">
+		<a id="logoLinkId" href="${request.getContextPath()}/controller/pic/display?picPath=${pic.picPath}" rel="[gall1]"  title=$pic.picDesc>
+		<img id="logoImgId" src="${request.getContextPath()}/controller/pic/display?picPath=${pic.picPath}" alt="" width="270" height="160"/></a>
+		<a href="#" onclick="removePic('${pic.picPath}', '${pic.picName}')">
+			<img src="${request.getContextPath()}/img/delete.png" class="delete"/>
+		</a>
+		<a href="#" onclick="facePage('${pic.picName}')">
+			#if(${pic.picName} == ${product.facePage})
+				<img src="../../img/pin.png" border=0 style="position : absolute; bottom : 8px; right : 0px; width : 20px; height : 20px;">
+			#else
+				<span class="facepage" style='color:#FF0000;text-shadow:#00FFCC 0px 1px 10px,#00FFCC 1px 0px 10px,#00FFCC 0px -1px 10px,#00FFCC -1px 0px 10px;filter:glow(color=#00FFCC,strength=10)'>设置为封面</span>
+			#end
+    	</a>
+    	<a href="#" onclick="editTxt('${pic.picName}', '${pic.picDesc}')">
+			<img src="../../img/editTxt.png" border=0 class="editTxt">
+    	</a>
+		</div>
+	#end
+
+	<div id="picDescWin" class="mini-window" title="编辑图片描述"
+		style="width:400px;height:250px;" showMaxButton="false"
+		showCollapseButton="true" showShadow="true" showToolbar="true"
+		showFooter="true" showModal="false" allowResize="true"
+		allowDrag="true">
+		<!-- <div property="toolbar" style="padding:5px;">
+			<input type='button' value='Hide' onclick="hideWindow()"
+				style='vertical-align:middle;' />
+		</div> -->
+		<div>
+			<input id="picTxt_productId" type="hidden">
+			<input id="picTxt_picName" type="hidden">
+			<textarea id="picTxt_picTxt" style="width: 385px;height: 170px" class="mini-textarea" emptyText="请输入图片文字描述" maxlength="4000"></textarea>
+		</div>
+		<div property="footer"
+			style="text-align:right;padding:5px;padding-right:15px;">
+			<input type='button' value='保存修改' onclick="submitPicTxt()"
+				style='vertical-align:middle;' />
+		</div>
+	</div>
+</body>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('a[rel]').foxibox();
+	});
+
+$(document).ready(init);
+    function init()
+    {
+        $(".imgDiv").mouseenter(function () {
+            $(this).find(".delete").show();
+			$(this).find(".facepage").show();
+			$(this).find(".editTxt").show();
+        });
+   
+            
+        $(".imgDiv").mouseleave(function () {
+            $(this).find(".delete").hide();
+            $(this).find(".facepage").hide();
+            $(this).find(".editTxt").hide();
+        });
+         
+    }
+
+	function ajaxFileUpload(upload) {
+		var picCount = "${picList.size()}";
+		if(picCount >= 10){
+			mini.alert("已经上传10张图片了，请休息一下吧。");
+			return;
+		}
+		var fileValue = mini.get(upload).value;// 获得文件内容   
+		if (fileValue != "") {
+			var lastName = fileValue.substring(fileValue.indexOf("."));
+			lastName = lastName.toLocaleLowerCase();
+			if (lastName == ".png" || lastName == ".jpg") {
+
+			} else {
+				mini.alert("导入文件只支持表格上传,表格格式例如.png、.jpg!");
+				return;
+			}
+			jQuery.ajaxFileUpload({
+				url : "${request.getContextPath()}/controller/product/saveProductPic?productId=${request.getParameter('productId')}", //需要链接到服务器地址
+				secureuri : false,
+				fileElementId : upload, //文件选择框的id属性
+				dataType : 'text', //服务器返回的格式
+				success : function(data, status) //相当于java中try语句块的用法
+				{
+					window.location.reload();
+					return;
+				},
+				error : function(data, status, e) //相当于java中catch语句块的用法
+				{
+					$('#__content__').html('添加失败');
+				}
+			});
+		} else {
+			mini.alert("请选择文件");
+			return;
+		}
+	}
+	function removePic(picPath, picName){
+		if(picName == "${product.facePage}"){
+			mini.alert("封面图标不能删除");
+			return false;
+		}
+		var productId = "${request.getParameter('productId')}";
+		jQuery.ajax({
+			url : "${request.getContextPath()}/controller/product/removeProductPic",
+			type : "POST",
+			dataType : "json",
+			data : {"productId" : productId, "picPath" : picPath},
+			success : function(result){
+				window.location.reload();
+				return;
+			}
+		});
+	}
+	function facePage(picName){
+		if(picName == "${product.facePage}")
+			return;
+		else{
+		var productId = "${request.getParameter('productId')}";
+		jQuery.ajax({
+			url : "${request.getContextPath()}/controller/product/setFacePage",
+			method : "post",
+			dataType : "json",
+			data : {"productId" : productId, "picName" : picName},
+			success : function(result){
+				window.location.reload();
+				return;
+			}
+		});
+		}
+	}
+	//弹出产品模版编辑窗口
+    function editProductTemplate()
+      {
+        mini.open({
+                //url: "${request.getContextPath()}/views/${productTemplate.modifyUrl}?productId=${product.id}",
+                url: "${request.getContextPath()}/controller/product/editTemplatePage?productId=${product.id}&returnView=$!{productTemplate.modifyUrl}",
+                showMaxButton: false,
+                width: "75%",
+                height: "75%",
+                onload: function () {
+				          /*  var iframe = this.getIFrameEl();
+				            jQuery.getJSON("${request.getContextPath()}/controller/product/qryTemplateInfo?productId=${product.id}",
+						    function(result) {
+						    	var initData = mini.decode(result.msg);
+						    	iframe.contentWindow.initMethod(initData);
+						    }); */
+				 },
+                ondestroy: function (action) {
+                }
+            }); 
+            
+      }
+	
+	function lastStep(){
+		window.location.href="${request.getContextPath()}/controller/product/productInfo?productId=${product.id}";
+	}
+	mini.parse();
+	function editTxt(picName, picDesc){
+		document.getElementById("picTxt_productId").value = picName;
+		document.getElementById("picTxt_picName").value = picName;
+		mini.get("picTxt_picTxt").setValue(picDesc);
+		var win = mini.get("picDescWin");
+        win.showAtPos("center", "middle");
+	}
+	function submitPicTxt(){
+		//"${request.getParameter('productId')}"
+		var picTxt_picName = document.getElementById("picTxt_picName").value;
+		var picTxt_picTxt = mini.get("picTxt_picTxt").value;
+		if(picTxt_picTxt.indexOf("\"") > 0 || picTxt_picTxt.indexOf("\'") > 0){
+			mini.alert("请将图片描述文字中的英文标点修改为中文标点。<br>例如“”、‘’");
+			return;
+		}
+		var productId = "${product.id}";
+		jQuery.ajax({
+			url : "${request.getContextPath()}/controller/product/savePicDesc",
+			type:"POST",
+			dataType : "json",
+			data : {picName : picTxt_picName, picDesc : picTxt_picTxt, productId : productId},
+			success : function(result){
+				if(!result.success){
+					mini.alert(result.msg);
+					return;
+				}
+				window.location.reload();
+			}
+		});
+	}
+	function submitCheck(){
+		var hasPics = "$picList";
+		if(hasPics.length <= 2){
+			mini.alert("请为产品上传图片。");
+			return;
+		}
+		var facePage = mini.get("hasFacePage");
+		if(!facePage.getValue()){
+			mini.alert("请为产品设置封面图片。");
+			return;
+		}
+		var isTemper = "$!{productTemplate.modifyUrl}";
+		var haveTemplatePage=0;
+		if(!isTemper){
+		haveTemplatePage=1;
+		}
+		mini.confirm("确定提交审核?","提示",
+        function(action)
+             {
+             if(action =="ok")
+                 {
+				var productId = "${product.id}";
+				jQuery.ajax({
+					url : "${request.getContextPath()}/controller/product/submitForCheck",
+					type:"POST",
+					dataType : "json",
+					data : {productId : productId,haveTemplatePage:haveTemplatePage},
+					success : function(result){
+						if(result.success){
+							window.location.href="${request.getContextPath()}/controller/product/editProduct";
+						} else {
+							mini.alert(result.msg);
+						}
+					}
+				});
+		     }
+                    				
+         });
+	}
+	document.onkeydown=function(event){
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            if(e && e.keyCode==13){ // enter 键
+               return false;
+            }
+        };
+</script>
+</html>

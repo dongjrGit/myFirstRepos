@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>debit_card_qry.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript"></script>
+	<script type="text/javascript" src="${request.getContextPath()}/js/pw-common.js"></script>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+  </head>
+  <body>
+  	<table border="0" cellpadding="1" cellspacing="2" style="width:100%;table-layout:fixed;margin-top: 30px;">
+	<tr id="templateInfo">
+		<td style="width:70px;">卡  性  质：</td>
+		<td style="width:25%;">
+			<input id="cardNature" name="cardNature" class="mini-combobox" style="width:100%;"  textField="value" valueField="key"  required="true" emptyText="请选择..."
+      			data=[{"key":"1","value":"普卡"},{"key":"2","value":"金卡"}] allowInput="false" showNullItem="true" nullItemText="请选择..." value="$!{templateInfo.cardNature}" enabled="false"/>
+		</td>
+		<td style="width:85px;">是否联名卡：</td>
+		<td style="width:25%;">
+			<input id="jointCard" name="jointCard" class="mini-combobox" style="width:100%;"  textField="value" valueField="key"  required="true" emptyText="请选择..."
+      			data=[{"key":"0","value":"否"},{"key":"1","value":"是"}] value="$!{templateInfo.jointCard}" allowInput="false" showNullItem="true" nullItemText="请选择..."  enabled="false"/>
+		</td>
+		<td style="width:85px;">联名卡编号：</td>
+		<td style="width:25%;">
+			<input name="jointCardNo" class="mini-textbox" required="true" style="width:100%;" value="$!{templateInfo.jointCardNo}"  enabled="false"/>
+		</td>
+	</tr>
+	<tr>
+	<td>选择交易:</td><td><input id="relatedApk1" name="dealId" class="mini-combobox" style="width:100%;" textField="apkName" valueField="apkId" emptyText="请选择..." 
+      				     url="${request.getContextPath()}/controller/product/qryApkId" value="$!{templateInfo.dealId}"  allowInput="false" showNullItem="true" nullItemText="请选择..."  enabled="false"/> </td>
+	<td style="width:85px;padding-top: 10px">销售开始时间：</td>
+	    	<td >
+	    		<input id="onSaleTime" name="onSaleTime" required="true" value="$!{templateInfo.onSaleTime}"  enabled="false" class="mini-datepicker" style="width: 100%"/>
+	    	</td>
+	    	<td style="padding-top: 10px">销售结束时间：</td>
+	    	<td>
+	    		<input id="offSaleTime" name="offSaleTime" required="true" value="$!{templateInfo.offSaleTime}"  enabled="false" class="mini-datepicker" style="width: 100%"/>
+	    	</td>
+	</tr>
+	<tr>
+		<td style="width:120px;">产品申请拍摄项：</td>
+		<td style="width:40%;"><input id="appShooting" name="appShooting"  required="true" class="mini-combobox" value="$!{templateInfo.appShooting}" style="width:100%;" allowInput="false" multiSelect="true" textField="materName" valueField="materId" emptyText="请选择..."  enabled="false"
+      				     url="${request.getContextPath()}/controller/shootmater/qryShootMater?type=0"  /></td>
+		<!--<td style="width:40%;">
+			 <input id="appShooting" name="appShooting"  required="true" class="mini-combobox" multiSelect="true"  value="$!{templateInfo.appShooting}"  enabled="false"  style="width:100%;" data="Genders1"/>
+		</td>-->
+		<td style="width:120px;">产品申请必须项：</td>
+		<td style="width:40%;">
+			<input id="mustShooting" name="mustShooting"   value="$!{templateInfo.mustShooting}" required="true" class="mini-combobox" multiSelect="true" style="width:100%;" textField="text" valueField="id" enabled="false" data = ""/>
+		</td>
+		<!--<td style="width:40%;">
+			<input id="mustShooting"  name="mustShooting"  required="true"  value="$!{templateInfo.mustShooting}"  enabled="false"  class="mini-combobox" multiSelect="true" style="width:100%;" data="Genders1" />
+		</td>-->
+		</tr>
+	<tr>
+		<td colspan="6">
+			<hr style="height:1px;border:none;border-top:1px solid #555555;">
+		</td>
+	</tr>
+	<tr>
+		<td colspan="6">
+		<div class="mini-fit">
+		<div id="tabs1" class="mini-tabs" activeIndex="0" style="width:100%;" plain="false">
+		#foreach( $tab in $tabsData)
+			<div  title="$!{tab.tabName}">$!{tab.tabHtmlContent}</div>
+		#end
+		</div>
+		</div>
+		</td>
+	</tr>
+</table>
+  </body>
+  <script type="text/javascript">
+  	$(document).ready(function initData(){
+     	var appdata =mini.get("appShooting").getValue() ;
+	   var appdata1 =mini.get("appShooting").getText() ;
+	var array = appdata.split(",");
+	var array1 = appdata1.split(",");
+	        var mustArray = [];
+	        for(var i = 0; i < array.length; i ++){
+	        	var aSJson = {"id":array[i],"text":array1[i]};
+	        	mustArray.add(aSJson);
+	        }
+	    mini.get("mustShooting").setData(mustArray);
+	    	});
+  </script>
+</html>

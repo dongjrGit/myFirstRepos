@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>业务字典</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="${request.getContextPath()}/css/amend.css"/></link>
+  	<script type="text/javascript" src="${request.getContextPath()}/js/pw-common.js"></script>
+  </head> 
+  <body>
+        <div class="mini-toolbar">
+            <a class="mini-button" onclick="saveRow()">新增</a>
+            <a class="mini-button" onclick="reload()">立即生效</a>
+			<a style="display: inline;float: right" class="mini-button" onclick="searchSel()">查询</a>
+			<input style="display: inline;float: right;margin-right: 10px" id="keySel" labelField="true" label="业务名称:" class="mini-textbox" emptyText="" onenter="onKeyEnter"/>
+        </div>
+    <div id="dept_grid" class="mini-datagrid" style="height:227px;margin-bottom:10px;" allowAlternating="true"
+      url="${request.getContextPath()}/controller/dect/listType"  idField="id" onselectionchanged="onSelectionChanged" selectOnLoad="true" sizeList="[5]" pageSize="5">
+        <div property="columns">   
+            <div field="num" width="110" headerAlign="left" >类型编号</div>                                        
+            <div field="name" width="120" headerAlign="left" >类型名称</div> 
+            <div field="desc" width="120" headerAlign="left" >类型描述</div> 
+            <div field="time" width="120" headerAlign="left" dateFormat="yyyy-MM-dd HH:mm:ss">创建时间</div>
+            <div name="action" width="120" headerAlign="left" renderer="onActionRenderer" cellStyle="padding:0;">操作</div>         
+        </div>
+    </div> 
+    <div class="mini-toolbar">
+                    <a class="mini-button" iconCls="icon-add" onclick="onButtonUser()">新增</a>   
+                    <a class="mini-button" iconCls="icon-remove" onclick="removeRow()">删除</a>  
+    </div>
+    <div id="employee_grid" class="mini-datagrid" style="height:227px;" allowAlternating="true"
+        url="${request.getContextPath()}/controller/dect/listItem"  multiSelect="true" sizeList="[5]" pageSize="5">    
+        <div property="columns">
+        	<div field="dictid" visible="fale"></div>
+            <div field="id" type="checkcolumn"></div> 
+            <div field="num"  headerAlign="left" allowSort="fale">字典编号</div>                
+            <div field="name"  headerAlign="left" allowSort="fale" dateFormat="yyyy-MM-dd HH:mm:ss">字典名称</div> 
+            <div field="desc" width="120" headerAlign="left" >字典描述</div>
+            <div field="times" width="120" headerAlign="left" allowSort="fale" dateFormat="yyyy-MM-dd HH:mm:ss">创建时间</div>     
+            <div name="action"  headerAlign="left" renderer="onActionRole" cellStyle="padding:0;">操作</div>         
+        </div>
+    </div> 
+   
+   <!-- 编辑字典 -->        
+   <div id="editWindow" class="mini-window" title="字典编辑" style="width:450px;" 
+      showModal="true" allowResize="true" allowDrag="true">
+    <div id="editform" class="form" >
+    	<input name="id" class="mini-hidden" />
+    	<div class="t4ui_jz">
+	      	<span>字典编号：</span>
+	      	<span><input  name="dictNum" class="mini-textbox"  allowInput="false"/></span>
+	    </div>
+	    <div class="t4ui_jz">
+	      	<span>字典名称：</span>
+	      	<span><input  name="dictName" class="mini-textbox"   required="true"/></span>
+	    </div>
+	    <div class="t4ui_jz">
+	      	<span>字典描述：</span>
+	      	<span><input  name="dictDesc" class="mini-textbox"   required="true"/></span>
+	    </div>
+	    <div class="t4ui_jz">
+      		<a class="mini-button" href="javascript:updateRow()">保存</a>
+            <a class="mini-button" href="javascript:cancelRow()">关闭</a>
+	    </div>
+      </div>
+	</div>
+	
+   <!-- 添加字典 -->        
+   <div id="editWindowOrg" class="mini-window t4ui_lh" title="字典新增" style="width:450px;" 
+      showModal="true" allowResize="true" allowDrag="true">
+    <div id="editformOrg" class="form" >
+    		<div class="t4ui_jz">
+		      	<span>字典编号：</span>
+		      	<span><input  name="dictNum" class="mini-textbox"   required="true" /></span>
+	      	</div>
+	      	<div class="t4ui_jz">
+		      	<span>字典名称：</span>
+		      	<span><input  name="dictName" class="mini-textbox"   required="true"/></span>
+	      	</div>
+	      	<div class="t4ui_jz">
+		      	<span>字典描述：</span>
+		      	<span><input  name="dictDesc" class="mini-textbox"   required="true"/></span>
+	      	</div>
+			<div class="t4ui_jz">
+	      		<a class="mini-button" href="javascript:updateRowOrg()">保存</a> 
+                <a class="mini-button" href="javascript:canRow()">关闭</a>
+	      	</div>
+      </div>
+	</div>
+	
+   <!-- 数据添加 -->        
+   <div id="editWindowDict" class="mini-window t4ui_lh" title="数据添加" style="width:450px;" 
+      showModal="true" allowResize="true" allowDrag="true">
+    <div id="editformDict" class="form" >
+    <input name="dictId" class="mini-hidden" /><!-- mini-hidden -->
+	       	<div class="t4ui_jz">
+		      	<span>字典编号：</span>
+		      	<span><input  name="dictNum" class="mini-textbox"   required="true" /></span>
+	      	</div>
+	      	<div class="t4ui_jz">
+		      	<span>字典名称：</span>
+		      	<span><input  name="dictName" class="mini-textbox"   required="true"/></span>
+	      	</div>
+	      	<div class="t4ui_jz">
+		      	<span>字典描述：</span>
+		      	<span><input  name="dictDesc" class="mini-textbox"   required="true"/></span>
+	      	</div>
+			<div class="t4ui_jz">
+	      		<a class="mini-button" href="javascript:updateRowDict()">保存</a> 
+	               <a class="mini-button" href="javascript:canRowAdd()">关闭</a>
+	      	</div>
+      </div>
+	</div>
+	
+   <!-- 数据编辑 -->        
+   <div id="editWindowDictson" class="mini-window" title="数据添加" style="width:450px;" 
+      showModal="true" allowResize="true" allowDrag="true">
+    <div id="editformDictson" class="form" >
+    <input name="dictsonId" class="mini-hidden" /><!-- mini-hidden -->
+    <input name="id" class="mini-hidden" /><!-- mini-hidden --> 
+        <div class="t4ui_jz">
+		      	<span>字典编号：</span>
+		      	<span><input  name="dictNum" class="mini-textbox"   allowInput="false"/></span>
+	      	</div>
+	      	<div class="t4ui_jz">
+		      	<span>字典名称：</span>
+		      	<span><input  name="dictName" class="mini-textbox"   required="true"/></span>
+	      	</div>
+	      	<div class="t4ui_jz">
+		      	<span>字典描述：</span>
+		      	<span><input  name="dictDesc" class="mini-textbox"   required="true"/></span>
+	      	</div>
+			<div class="t4ui_jz">
+	      		<a class="mini-button" href="javascript:updateRowDictson()">保存</a> 
+	            <a class="mini-button" href="javascript:canRowSon()">关闭</a>
+	      	</div>
+      </div>
+	</div>
+    <script type="text/javascript">
+        mini.parse();
+		var editWindow = mini.get("editWindow");
+		var editWindowOrg = mini.get("editWindowOrg");
+        var dept_grid = mini.get("dept_grid");
+        var employee_grid = mini.get("employee_grid");
+        var editWindowDict = mini.get("editWindowDict");
+        var editWindowDictson = mini.get("editWindowDictson");
+        dept_grid.load();
+
+        ///////////////////////////////////////////////////////       
+        
+        function onGenderRenderer(e) {
+            for (var i = 0, l = Genders.length; i < l; i++) {
+                var g = Genders[i];
+                if (g.id == e.value) return g.text;
+            }
+            return "";
+        }
+
+  		 //添加操作栏
+         function onActionRenderer(e) {
+            var record = e.record;
+            var uid = record.id;
+            var s =   '<a class="Edit_Button" href="javascript:editRow(\'' + uid + '\')">编辑</a>'
+                    + '<a class="Delete_Button" href="javascript:delRow(\'' + uid + '\')">删除</a>'
+                    + '<a class="Delete_Button" href="javascript:onButtonUser(\'' + uid + '\')">数据添加</a>';     
+            return s;
+        }
+        function onSelectionChanged(e) {        	
+            var grid = e.sender;
+            var record = grid.getSelected();
+            if (record) {
+                employee_grid.load({ dict_id: record.id });
+            }
+        }  
+        
+        //添加数据操作栏
+        function onActionRole(e) {
+			var record = e.record;
+            var uid = record.id;
+            var dictid = record.dictid;
+            var s =   '<a class="Edit_Button" href="javascript:removeRow(\'' + uid +','+ dictid + '\')">删除</a>'
+            		+ '<a class="Edit_Button" href="javascript:editRowSon(\'' + dictid +'\',\''+ uid + '\')">编辑</a>';                    
+            return s;
+        } 
+        //查看是否多重角色
+        function editRole(id)
+        {	
+        	mini.open({
+                url: bootPATH + "../demo/CommonLibs/SelectGridWindow.html",
+                title: "共享角色",
+                width: 350,
+                height: 380,
+                onload: function () {
+               		var iframe = this.getIFrameEl();
+                	var data ={ action : id};
+                	iframe.contentWindow.SetData(data);
+                }
+            });
+        }
+        //数据编辑弹出
+        function editRowSon(typeId, itemId) {
+	 		 editWindowDictson.show();
+	          var form = new mini.Form("#editformDictson");
+	          form.clear();
+	          form.loading();
+	          jQuery.getJSON("${request.getContextPath()}/controller/dect/dialogItem?typeId=" + typeId + "&itemId=" + itemId,function(text)  
+	          {
+	         	//text=text[0];
+	         	var itemInfos = text.data;
+	         	console.info(itemInfos);
+	          	//var o = mini.decode(text);
+	            	form.setData(itemInfos[0]);
+	             form.setChanged(false);
+	             form.unmask();
+	    	});
+             
+        }  
+        
+        
+         //字典编辑弹出
+         function editRow(row_uid) {
+     		editWindow.show();
+            var form = new mini.Form("#editform");
+            form.clear();
+            form.loading();
+            jQuery.getJSON("${request.getContextPath()}/controller/dect/dialogType?dictId="+row_uid,function(text)  
+            {
+           	   text=text[0];
+               var o = mini.decode(text);
+               form.setData(o);
+               form.setChanged(false);
+               form.unmask();
+	     	}); 
+        }        
+        //字典编辑保存
+        function updateRow()
+        {
+   		 	var form = new mini.Form("#editform");
+        	form.validate();
+            if (form.isValid() == false) return;
+            var o = form.getData();
+            dept_grid.loading("保存中，请稍后......");
+           // var json = mini.encode(o);
+            jQuery.ajax({
+                url: "${request.getContextPath()}/controller/dect/updateType",
+                data: {id:o.id, dictName:o.dictName, dictDesc:o.dictDesc},
+                type: "post",
+                dataType : "json",
+                success: function (text) {
+                	if(!text.success)
+                	mini.alert("字典名称重复");
+                    dept_grid.reload();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert(jqXHR.responseText);
+                }
+            });
+            editWindow.hide();
+        }
+        //关闭弹出层
+        function cancelRow()
+        {
+        	//grid.reload();
+            editWindow.hide();
+        }
+        
+        //角色添加
+        function saveRow()
+        {
+    		 editWindowOrg.show();
+             var form = new mini.Form("#editformOrg");
+             form.clear();
+        } 
+        
+        //角色删除
+        function delRow(roleId)
+        {
+    		 dept_grid.loading("删除中，请稍后......");
+            	mini.confirm("确定删除记录？","提示",
+ 	            function(action) {
+            		jQuery.ajax({
+            	         url: "basisUserloginSessionListener.do",
+            	         data: { menuId :id },
+            	         type: "post",
+            	         success: function (text) {
+            	         	 if(text == "1")
+            	         	 {
+            	         	 	window.location.href = "userPage.do";
+            	         	 }else
+            	         	 {
+            	         		if (action == "ok") {
+             			            jQuery.ajax({
+             			                url: "basisDictDel.do",
+             			                data: { data: roleId },
+             			                type: "post",
+             			                success: function (text) {
+             			                	if(text =="0")
+             			                	{
+             			                		var index = dept_grid.getPageIndex();
+             									if((dept_grid.getData().length -1 ) == 0){
+             									    dept_grid.load({pageIndex:index-1});
+             									}else{
+             									    dept_grid.reload();
+             									}
+             			                	}else{
+             			                		mini.alert("请先清空字典下的数据");
+             			                		dept_grid.reload();
+             			                	}
+             			                },
+             			                error: function (jqXHR, textStatus, errorThrown) {
+             			                    alert(jqXHR.responseText);
+             			                }
+             			            });
+             			         }
+            	         	 }
+            	        }
+            		});
+ 	                
+ 			      }
+ 			  );
+ 	        dept_grid.reload();
+        }     
+        //弹出多选树(菜单权限)
+         function onButtonEdit(e) {
+            var btnEdit = this;
+            mini.open({
+                url: bootPATH + "../demo/CommonLibs/MultiSelectTreeWindow.html",    
+                title: "多选树",
+                width: 350,
+                height: 350,
+               	onload: function () {
+               		var iframe = this.getIFrameEl();
+                	var data ={ action : e};
+                	iframe.contentWindow.SetData(data);
+                },
+                ondestroy: function (action) { 
+                    if (action == "ok") {
+                        var iframe = this.getIFrameEl();    
+                        var data = iframe.contentWindow.GetData();
+                        data = mini.clone(data);  
+                        btnEdit.setValue(data.id);
+                        btnEdit.setText(data.text);
+                    }
+                }
+            });            
+        }
+        //数据添加
+        function onButtonUser(e) {
+     		var rows = dept_grid.getSelecteds();
+           	var json = mini.encode(rows);
+           	var obj = eval(json); 
+           	e = obj[0].id;
+             editWindowDict.show();
+             var form = new mini.Form("#editformDict");
+             form.clear();  
+             var obj = mini.getbyName("dictId");
+  			obj.setValue(e);
+        }
+       //移除页面
+       function removeRow()
+       {
+      		var rows = employee_grid.getSelecteds();
+             if (rows.length > 0) {
+                 mini.confirm("确定删除记录？","提示",
+  	            function(action) {
+               		 if (action == "ok") {
+ 		                var json = mini.encode(rows);
+ 			            jQuery.ajax({
+ 			                url: "${request.getContextPath()}/controller/dect/deleteItem",
+ 			                data: {deleteRows : json},
+ 			                type: "post",
+ 			                success: function (text) {
+ 								var index = employee_grid.getPageIndex();
+ 								if(index >0){
+ 									if(rows.length == employee_grid.getData().length){
+ 									    dept_grid.load({pageIndex:0});
+ 									}else{
+ 										employee_grid.reload();
+ 									}
+ 								}else{
+ 									    employee_grid.reload();
+ 								}
+ 								
+ 			                },
+ 			                error: function (jqXHR, textStatus, errorThrown) {
+ 			                    alert(jqXHR.responseText);
+ 			                }
+ 			            });
+ 			         }
+ 	                
+ 			      }
+ 			    );
+             }else
+             {
+             	mini.alert("请选择要删除的人员");
+             	return;
+             }
+       }
+       
+        function delRow(roleId)
+        {
+
+                		 //dept_grid.loading("删除中，请稍后......");
+                        	mini.confirm("确定删除记录？","提示",
+             	            function(action) {
+                        	         		if (action == "ok") {
+                         			            jQuery.ajax({
+                         			                url: "${request.getContextPath()}/controller/dect/deleteType",
+                         			                data: { roleId: roleId },
+                         			                type: "post",
+                         			                success: function (text) {
+                         			                var json = mini.decode(text);
+                         			                	if(!json.success)
+                         			                	{
+                         			                	    mini.alert(json.msg);
+                         			                	    dept_grid.reload();
+                         			                		
+                         			                	}else{
+                         			                	    mini.alert(json.msg);
+                         			                		var index = dept_grid.getPageIndex();
+                         									if((dept_grid.getData().length -1 ) == 0){
+                         									    dept_grid.load({pageIndex:index-1});
+                         									}else{
+                         									    dept_grid.reload();
+                         									}
+                         			                		
+                         			                	}
+                         			                },
+                         			                error: function (jqXHR, textStatus, errorThrown) {
+                         			                    alert(jqXHR.responseText);
+                         			                }
+                         			            });
+                         			         }
+                        
+             	                
+             			      }
+             			  )
+             	        dept_grid.reload();
+                	
+              
+        }     
+       
+       //查询子页面
+       function  search()
+       {
+       		var data = employee_grid.getData();
+    		var json = mini.encode(data);
+       		var key = mini.get("key").getValue();
+       		if(key == "")
+       		{
+       			mini.alert("请输入要查找的名字");
+       			return;
+       		}else
+       		{
+       			employee_grid.load({ key: key, data: json});  
+       		}
+             	
+       }
+       //查询父页面
+       function searchSel()
+       {
+       		var businTypeName = mini.get("keySel").getValue();
+            dept_grid.load({ businTypeName: businTypeName});
+       }
+       
+        //角色新增保存
+        function updateRowOrg()
+        {
+         		var form = new mini.Form("#editformOrg");
+              	form.validate();
+                 if (form.isValid() == false) return;
+                 var o = form.getData();
+                 dept_grid.loading("保存中，请稍后......");
+                 //var json = mini.encode(o);
+                 jQuery.ajax({
+                     url: "${request.getContextPath()}/controller/dect/saveType",
+                     data: o,
+                     type: "post",
+                     dataType:"json",
+                     success: function (text) {
+                     console.info(text.success);
+                   	 if(!text.success)
+                   	 {
+                   	 	mini.alert(text.msg);
+                   	 	dept_grid.reload();
+                   		return;
+                   	 } else {
+	                   	 mini.showMessageBox({
+				            showModal: false,
+				            width: 250,
+				            title: "提示",
+				            iconCls: "mini-messagebox-warning",
+				            message: text.msg,
+				            timeout: 3000,
+				            x: 'right',
+				            y: 'bottom'
+						 });
+	                     dept_grid.reload();
+                     }
+                    },
+                     error: function (jqXHR, textStatus, errorThrown) {
+                         alert(jqXHR.responseText);
+                     }
+                 });
+                 editWindowOrg.hide();
+        }
+        
+         //数据添加
+        function updateRowDict()
+        {
+    		 var form = new mini.Form("#editformDict");
+         	form.validate();
+             if (form.isValid() == false) return;
+             var data = form.getData();
+             dept_grid.loading("保存中，请稍后......");
+             //var json = mini.encode(o);
+             jQuery.ajax({
+                 url: "${request.getContextPath()}/controller/dect/addItem",
+                 data: data,
+                 type: "post",
+                 dataType:"json",
+                 success: function (text) {
+                 	if(!text.success)
+                 	{
+                 		mini.alert(text.msg);
+                 		dept_grid.reload();
+                 		return ;
+                 	}else{
+                 	    mini.alert(text.msg);
+                 	    dept_grid.reload();
+                    }
+                 },
+                 error: function (jqXHR, textStatus, errorThrown) {
+                     alert(jqXHR.responseText);
+                 }
+             });
+             editWindowDict.hide();
+        }
+        
+         //数据编辑保存
+        function updateRowDictson()
+        {
+    		 var form = new mini.Form("#editformDictson");
+         	form.validate();
+             if (form.isValid() == false) return;
+             var data = form.getData();
+             dept_grid.loading("保存中，请稍后......");
+             //var json = mini.encode(data);
+             jQuery.ajax({
+                 url: "${request.getContextPath()}/controller/dect/updateItem",
+                 data: data,
+                 type: "post",
+                 dataType : "json",
+                 success: function (text) {
+                 	if(!text.success)
+                 	{
+                 		mini.alert(text.msg);
+                 	}
+                    dept_grid.reload();
+                 },
+                 error: function (jqXHR, textStatus, errorThrown) {
+                     alert(jqXHR.responseText);
+                 }
+             });
+             editWindowDictson.hide();
+        }
+       
+       //弹出机构单选树
+       function onButtonEditTree(e)
+       {
+       		var btnEdit = this;
+            mini.open({
+                url: bootPATH + "../demo/CommonLibs/SelectTreeWindow.html",
+                showMaxButton: false,
+                title: "选择树",
+                width: 350,
+                height: 350,
+                ondestroy: function (action) {                    
+                    if (action == "ok") {
+                        var iframe = this.getIFrameEl();
+                        var data = iframe.contentWindow.GetData();
+                        data = mini.clone(data);
+                        if (data) {
+                        	btnEdit.setValue(data.id);
+                        	btnEdit.setText(data.name);
+							var objId = mini.getbyName("orgId");
+							objId.setValue(data.id);
+                        }
+                    }
+                }
+            }); 
+       }
+       
+       //添加关闭
+       function canRow()
+       {
+       	  editWindowOrg.hide();
+       }
+       function canRowSon()
+       {
+       	    editWindowDictson.hide(); 
+       }
+       function canRowAdd()
+       {
+       		editWindowDict.hide();
+       }
+       //立即生效缓存
+       function reload()
+       {
+    		mini.confirm("是否立即生效?","提示",
+         	function(action) {
+        		if (action == "ok") {
+        		dept_grid.loading();
+  			       	  jQuery.ajax({
+  			                url: "${request.getContextPath()}/controller/dect/activeDict",
+  			       	  		dataType : "json",
+  			                success: function (text) {
+		                		mini.alert(text.msg);
+		                		dept_grid.reload();
+  			                },
+  			                error: function (jqXHR, textStatus, errorThrown) {
+  			                    alert(jqXHR.responseText);
+  			                }
+  			            });
+  			        }
+     		});
+       }
+
+    </script>
+  </body>
+</html>

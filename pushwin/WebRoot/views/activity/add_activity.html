@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>新建活动</title>
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript"></script>
+	<script type="text/javascript" src="${request.getContextPath()}/js/pw-common.js"></script>
+	<script type="text/javascript" src="${request.getContextPath()}/js/kindEdtor/kindeditor-all.js"></script>
+	<script type="text/javascript" src="${request.getContextPath()}/js/jquery.js"></script>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+         <script type="text/javascript" src="${request.getContextPath()}/js/jquery-foxibox-0.2.min.js"></script>
+	<link rel="stylesheet" href="${request.getContextPath()}/css/jquery-foxibox-0.2.css" type="text/css"></link>
+	<script type="text/javascript" src="${request.getContextPath()}/js/ajaxfileupload.js"></script>
+  </head>
+  <body>
+  	<div id="actvityInfoForm">
+  		<div style="border:1px solid #BCBCBC;width:1000px;height:100px;margin-top:10px;margin-left: 10px; "> 
+	 		<div class="t4ui_userInf">活动基本信息</div>
+	 		<table border="0" cellpadding="1" cellspacing="2" style="width:100%;table-layout:fixed;">
+	    <tr>
+	        <td style="width:100px;">发布人：</td>
+	        <td style="width:50%;">
+	        <input type="text" id="issuerCode" value = "${usercode}"/>
+	            <input id="issuer" name="issuer" class="mini-textbox" style="width:100%;" required="true" value = "${username}" maxlength="30"/>
+	        </td>
+	        <td style="width:100px;">活动代码：</td>
+	        <td style="width:50%">
+	            <input id="activityCode" name="activityCode" value="${activitydateTime} "class="mini-textbox" style="width:100%;" required="true" maxlength="30"/>
+	        </td>
+
+	        <td style="width:100px;">活动名称：</td>
+	        <td style="width:50%">
+	        	<input id="activityName" name="activityName" class="mini-textbox" style="width:100%;" required="true" maxlength="30"/>
+	        </td>
+	    </tr>
+	    <tr>
+	    	<td style="width:100px;">活动起始时间：</td>
+	    	<td style="width:50%">
+	    		<input id="activityStartTime" name="activityStartTime" required="true" class="mini-datepicker" style="width: 100%"/>
+	    	</td>
+	    	<td style="width:100px;">活动截止时间：</td>
+	    	<td style="width:50%">
+	    		<input id="activityEndTime" name="activityEndTime" required="true" class="mini-datepicker" style="width: 100%"/>
+	    	</td>
+	    <td style="width:60px;">选择机构：</td>
+	        <td style="width:100%">
+	            <input id="orgscopeadd" style="width:100%;" 
+							name="orgscopeadd" class="mini-buttonedit" allowinput="false" align="center"
+							emptytext="请选择机构" required="true" onbuttonclick="loadFrame();" />
+	        </td>
+	        <input name="isFirst" id="isFirst" class="mini-hidden" />
+	        <input name="org" id="org" class="mini-hidden" /> 
+<!-- 	          <input   name="activityPhotoName" id="activityPhotoName" class="mini-hidden" />  -->
+	    </tr>
+	</table>
+	</div>
+	 <iframe onload="iFrameHeight()" id="templateframe" frameborder="0" style="width:100%;margin-bottom: 20px" border="0" scrolling="no"  src="${request.getContextPath()}/controller/activity/initActivityPicList"></iframe>
+		        新增子页面信息
+		<div style="border:1px solid #BCBCBC;width:1000px;height:220px;margin-top:10px;margin-left: 10px; ">
+		<div class="t4ui_userInf">活动展现元素</div>
+		<table>
+		 			<tr style="margin-top:10px;height:30px;">
+		 				<td><span style="margin-left: 20px;">活动列表展示图：</td>
+		 				<td>
+		 					<img id="userPic" style="width:270px;height:160px;"/>
+		 				</td>
+		 				<td>
+								<input class="mini-htmlfile"  type="file" id="picFile_0" name="picFile_0"> </td>
+						<td> <a class="mini-button"	onclick="ajaxFileUpload('picFile_0')">上传</a></td>
+						<td><a href="mini-button" onclick="removePic(0)">删除</a>
+							<input type="text"  id="activityFileid" name ="activityFileid" value="" />
+		    				<input type="hidden" id="fileName_0" />
+		    				<input type="hidden" id="filePath_0" />
+		 				</td>
+		 			</tr>
+		 			<tr >
+		 				<td><span style="margin-left: 20px;">活动详情说明：</span></td>
+		 				<td colspan="5">
+		 					<textarea id="content" name ="content" style="width: 484px;height: 100px;resize:none;" maxlength="400" >
+		 					</textarea>
+		 				</td>
+		 			</tr>
+		    	</table>
+        </div>
+        <!-- 新增子页面信息 -->
+<!--         <div id="tables">
+	    	<div id="table_0" style="border:1px solid #BCBCBC;width:1000px;height: 300px;margin-top:10px;margin-left: 10px; "> 
+		    	<table>
+		 			<tr style="margin-top:10px;height:30px;">
+		 				<td><span style="margin-left: 20px;">活动详情展示图：</td>
+		 				<td>
+		 					<img id="userPic_0" style="width:270px;height:160px;"/>
+		 				</td>
+		 				<td>
+							<input  type="file" id="picFile_0" name="picFile_0"> </td>
+						<td><a href="#" onclick="ajaxFileUpload('picFile_0')">上传</a></td>
+						<td><a href="#" onclick="removePic(0)">删除</a>
+		    				<input type="hidden" id="fileName_0" />
+		    				<input type="hidden" id="filePath_0" />
+		 				</td>
+		 				<td style="width:15px">
+							 <input type="button" style="margin-left: 10px"   value="删除详情页" onclick="removeButton(0)" /> 
+		 				</td>
+		 			</tr>
+		 			<tr >
+		 				<td><span style="margin-left: 20px;">活动详情说明：</span></td>
+		 				<td colspan="5">
+		 					<textarea id="content_0" style="width: 484px;height: 100px;resize:none;" maxlength="400"></textarea>
+		 				</td>
+		 			</tr>
+		    	</table>
+		    </div>
+	    </div> -->
+        <div class="mini-toolbar" style="right:0px;position: fixed;z-index:2;bottom: 0px">
+			<a class="mini-button" onclick="javascript:lastStep()">返回</a>
+			<a class="mini-button" onclick="javascript:editProductTemplate()">保存</a>
+			<a class="mini-button" onclick="javascript:submitCheck()">提交审核</a>
+	</div>
+	</div>
+  </body>
+  <script type="text/javascript">
+  	mini.parse();
+  	window.onload=load;
+  	function load(){
+  		mini.get("issuer").setValue("${username}");
+  	/* 	var date = new Date().Format("yyyyMMddhhmmssS");
+		mini.get("activityCode").setValue(date); */
+	}
+	// 删除
+	function removeButton(num){
+		var rowStr = row_num.split(",");
+		var len = rowStr.length;
+		if(len == 2){
+			mini.alert("最后一条活动详情,不能删除");
+			return;
+		}
+		$("#table_"+num).remove();
+		row_num = row_num.replace(num+",","");
+	}
+  	function lastStep(){
+		window.location.href="${request.getContextPath()}/controller/activity/init";
+	}
+	
+	function editProductTemplate(){
+	 var form = new mini.Form("#actvityInfoForm");
+	 	 form.validate();
+         if (form.isValid() == false) {
+         	return;
+         }
+           var orgId = mini.get("orgscopeadd").getValue();
+           var acticonet = form.getData(); 
+           acticonet.updatetime=orgId;
+           var acti = JSON.stringify(acticonet);
+      	jQuery.ajax({
+      		url : "${request.getContextPath()}/controller/activityCopy/saveActivityPic",
+      		type : "post",
+      		dataType : "json",
+      		data : acticonet,
+      		success : function(result){
+      				window.location.href="${request.getContextPath()}/controller/activity/init";
+      			
+      		}
+      	});
+	
+	}
+     function ajaxFileUpload(upload) {
+		 var fileValue = mini.get(upload).value;// 获得文件内容
+    	var fileValue3 = $("#content").val();// 获得文件内容
+    	//var fileValue3 = cont
+    	var activityCode =  mini.get("activityCode").value ; 
+    	var fileData = {"activityCode":activityCode,"fileValue3":fileValue3} ;
+		if (fileValue != "") {
+			var lastName = fileValue.substring(fileValue.indexOf("."));
+			lastName = lastName.toLocaleLowerCase();
+			if (lastName == ".png" || lastName == ".jpg") {
+
+			} else {
+				mini.alert("导入文件只支持表格上传,表格格式例如.png、.jpg!");
+				return;
+			}
+			jQuery.ajaxFileUpload({
+				url :"${request.getContextPath()}/controller/activityCopy/saveActivityPicture", //需要链接到服务器地址
+				secureuri : false,
+				fileElementId : upload, //文件选择框的id属性
+				dataType : "json",
+				data :{activityCode:activityCode,fileValue3:fileValue3,content:fileValue3},
+				//dataType : 'text', //服务器返回的格式
+				success : function(data, status) //相当于java中try语句块的用法
+				{
+					$("#content_0").val("");
+					$("#upload").val("");
+				   $("#templateframe").attr("src","${request.getContextPath()}/controller/activityCopy/initActivityPicList?acitivitycode="+activityCode);
+					return;
+				},
+				error : function(data, status, e) //相当于java中catch语句块的用法
+				{
+					$('#__content__').html('添加失败');
+				}
+			});
+		} else {
+			mini.alert("请选择文件");
+			return;
+		}
+	} 
+	
+	  function iFrameHeight() {
+		var ifm = document.getElementById("templateframe");
+		var subWeb = document.frames ? document.frames["templateframe"].document
+				: ifm.contentDocument;
+		if (ifm != null && subWeb != null) {
+			ifm.height = subWeb.body.scrollHeight;
+			ifm.width = subWeb.body.scrollWidth;
+		}
+	}
+   /* //弹出机构单选树 新增 
+function onButtonEditOrg(e) {
+	var btnEdit = this;
+	var receiveOrg = mini.get("receiveOrg");
+	mini.open( {
+		url : "${request.getContextPath()}/controller/activity/orgSelecter",
+		showMaxButton : false,
+		title : "选择树",
+		width : 600,
+		height : 400,
+		onload : function() {
+			var iframe = this.getIFrameEl();
+			iframe.contentWindow.SetData(receiveOrg.getValue());
+		},
+		ondestroy : function(action) {
+			if (action == "ok") {
+				var iframe = this.getIFrameEl();
+				var selectOrgs = iframe.contentWindow.GetData();
+				var orgNames = [];
+				var orgIds = [];
+				for (var i=0; i < selectOrgs.length; i ++) {
+					orgNames.push(selectOrgs[i].name);
+					orgIds.push(selectOrgs[i].id);
+				}
+				var orgIdString = orgIds.join(",");
+				btnEdit.setValue(orgIdString);
+				btnEdit.setText(orgNames.join(","));
+			}
+		}
+	});
+			
+}
+*/
+
+	  //弹出机构单选树 新增 
+function loadFrame() {
+	var isFirst = document.getElementById("isFirst");
+    var orgObj=document.getElementById("org").value;;
+   /* $("#roleid").val("");
+     if (isFirst.value == "") {
+        jQuery.getJSON("${request.getContextPath()}/controller/role/querySessionOrg",function(text){
+        orgObj = text.msg;
+  		 });
+    }else{
+    	orgObj = document.getElementById("org").value;
+    }*/
+    
+
+    var array = new Array();
+    mini.open({
+        url: "${request.getContextPath()}/views/activity/activity_addOrg.html",
+        showMaxButton: false,
+        title: "选择机构",
+        width: 600,
+        height: 450,
+        onload: function() {
+            var iframe = this.getIFrameEl();
+            var productId = "${request.getParameter('productId')}";
+            array[0] = productId;
+            array[1] = orgObj;
+            array[2] = isFirst.value;
+            iframe.contentWindow.SetData(array);
+        },
+        ondestroy: function(action) {
+            if (action == "ok") {
+                var iframe = this.getIFrameEl();
+                var data = iframe.contentWindow.GetData();
+                data = mini.clone(data);
+                 var orgNameStr="";
+                    var orgStr = "";
+                if (data[0]) {
+                    if(data[0] == "1"){
+                    	isFirst.value = data[0];
+                    }else{
+                    	isFirst.value = data[0].isFirst;
+                    
+                    for (var i = 0; i < data.length; i++) {
+                        if (i == data.length - 1) {
+                            orgStr = orgStr + data[i].id;
+                        } else {
+                            orgStr = orgStr + data[i].id + ",";
+                        }
+                    }
+                   
+                    for (var i = 0; i < data.length; i++) {
+                        if (i == data.length - 1) {
+                            orgNameStr = orgNameStr + data[i].name;
+                        } else {
+                            orgNameStr = orgNameStr + data[i].name + ",";
+                        }
+                    }
+                    }
+                    mini.get("orgscopeadd").setValue(orgStr);
+					mini.get("orgscopeadd").setText(orgNameStr);
+                    document.getElementById("org").value = orgStr;
+                }
+            }
+        }
+    });
+}
+function removePic(i){
+	$("#fileName_"+i).val("");
+	$("#filePath_"+i).val("");
+	$("#picFile_"+i).val("");
+	document.getElementById("userPic_"+i).src = "";
+}
+function removePics(){
+	$("#fileName").val("");
+	$("#filePath").val("");
+	$("#picFile").val("");
+	document.getElementById("userPic").src = "";
+}  
+function CloseWindow(action) {
+    if (window.CloseOwnerWindow) return window.CloseOwnerWindow(action);
+    else window.close();
+  }
+  </script>
+</html>

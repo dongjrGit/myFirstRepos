@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>sysSetting.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script src="${request.getContextPath()}/scripts/boot.js" type="text/javascript"></script>
+    <script src="${request.getContextPath()}/js/kindEdtor/kindeditor-all.js"></script>
+    <script src="${request.getContextPath()}/js/pw-common.js" type="text/javascript"></script>
+	<script type="text/javascript" src="${request.getContextPath()}/js/jquery-foxibox-0.2.min.js"></script>
+	<link rel="stylesheet" href="${request.getContextPath()}/css/jquery-foxibox-0.2.css" type="text/css"></link>
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+</head>  
+<body>
+	<form id="sysSettingForm" method="post" action="${request.getContextPath()}/controller/sys/save" enctype="multipart/form-data">
+		<div style="display: inline; float: left">
+			<div style="line-height:15px;"><strong>系统Logo：</strong></div>
+			<input name="id" type="hidden" value="${application.getApplication().getAttribute('sysMap').id}">
+			<input id="logoTxt" name="logoTxt" type="hidden">
+			<input name="logoImg" type="hidden">
+		</div>
+		<div>
+			<div id="oldLogo" style="line-height:15px;">${application.getApplication().getAttribute('sysMap').logoTxt}</div>
+		</div>
+		<div style="margin-top: 10px">
+			<textarea id="ke" name="content">
+			</textarea>
+		</div>
+		<div style="margin-top: 20px">
+			<div style="display: inline; float: left;">
+				<div style="line-height:15px;"><strong>Logo图片：</strong></div>
+			</div>
+			<div>
+				<!-- input type="file" id="logoImgFile" name ="logoImgFile" style="width:200px;" /> -->
+				<input class="mini-htmlfile" id="logoImgFile" name="logoImgFile" limitType="*.png;*.jpg;*.jpeg" style="width:200px;"/>
+			</div>
+			<div>
+				<span>
+		      		<a id="logoLinkId" href="${request.getContextPath()}/controller/pic/display?picPath=${application.getApplication().getAttribute('sysMap').logoImg}" rel="[gall1]">
+					<img id="logoImgId" src="${request.getContextPath()}/controller/pic/display?picPath=${application.getApplication().getAttribute('sysMap').logoImg}" alt="" width="150" height="60"/></a>
+			    </span>
+			</div>
+		</div>
+		<div style="margin-top: 20px">
+			<div style="display: inline; float: left;">
+				<div style="line-height:15px;"><strong>银行名称：</strong></div>
+			</div>
+			<div>
+				<span class="mini-textbox-border" style="width: 200px;">
+					<input type="text" class="mini-textbox-input" autocomplete="off" placeholder="" id="bankName" name="bankName"  value="${application.getApplication().getAttribute('sysMap').bankName}" maxlength="60" >
+				</span>
+			</div>
+		</div>
+			
+	</form>
+	<a style="margin-top: 20px" class="mini-button" onclick="saveSysSetting()">保存 </a>
+</body>
+<script type="text/javascript">
+
+	$(document).ready(function(){
+	  $('a[rel]').foxibox();
+	  $("#mask", window.parent.document).hide();
+	});
+
+	var editorId = "ke";
+    var editor = null;
+    setTimeout(function () {
+        editor = KindEditor.create('#' + editorId, {
+            resizeType: 1,
+            uploadJson: 'kindeditor/upload_json.ashx',
+            fileManagerJson: 'kindeditor/file_manager_json.ashx',
+            allowPreviewEmoticons: false,
+            allowImageUpload: true,
+            items: [
+					'source', '|', 'undo', 'redo', '|','fontname', 'fontsize', '|', 'forecolor', 'bold',
+					'italic', 'underline'
+					]
+        });
+        var text = "${application.getApplication().getAttribute('sysMap').logoTxt}";
+		editor.html(text);
+    }, 1);
+
+function saveSysSetting() {
+
+		//验证图片
+        var fileValue = mini.get("logoImgFile").getValue();
+        console.info(mini.get("logoImgFile"));
+		var lastName = fileValue.substring(fileValue.indexOf("."));
+		lastName = lastName.toLocaleLowerCase();
+		if (""!=fileValue && lastName != ".jpeg" && lastName != ".jpg" && lastName != ".png") {
+			mini.alert("交易图标只支持图片上传,图片格式例如.gif,.png,.jpg!");
+			return;
+		}
+		//console.info('${application.getApplication().getAttribute("sysMap").logoTxt}') + "";
+		//var temp = '${application.getApplication().getAttribute("sysMap").logoTxt}'+"";
+		var oldLogo = "${application.getApplication().getAttribute('sysMap').logoTxt}";
+		var textArea = editor.html().replace(/\"/g, "\'");
+		if ("" != textArea && "" != textArea.trim) {
+			document.getElementById("logoTxt").value = textArea;
+		} else if ("" == oldLogo || "" == oldLogo.trim) {
+			mini.alert("请录入系统LOGO。");
+			return;
+		} else {
+			document.getElementById("logoTxt").value = oldLogo;
+		}
+		//document.getElementById("logoTxt").value = textArea;
+		$("#mask", window.parent.document).css("height",
+				$(parent.document).height());
+		$("#mask", window.parent.document).css("width",
+				$(parent.document).width());
+		$("#mask", window.parent.document).show();
+		document.getElementById("sysSettingForm").submit();
+		window.top.location.reload();
+		//$("#sysSettingForm").ajaxSubmit();
+	}
+</script>
+</html>

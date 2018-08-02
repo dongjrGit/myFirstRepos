@@ -1,0 +1,750 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0,user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<title>pad角色管理</title>
+<script src="../../scripts/boot.js" type="text/javascript"></script>
+<!--<link rel="stylesheet" type="text/css" href="../../css/amend.css">
+--><script src="../../js/amend.js" type="text/javascript"></script>
+<script src="../../js/pw-common.js" type="text/javascript"></script>
+<style type="text/css">
+body {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+</style>
+</head>
+<body id="t4ui_org">
+	<div showcollapsebutton="true" class="t4ui_hh">
+		<div class="mini-toolbar t4ui_botLine"
+					style="border-bottom: 0px ; padding: 0px;">
+					<a class="fl mini-button t4ui_bac" iconCls="icon-add" plain="true"
+						onclick="saveRow()">新建</a>
+					<span class="fl separator"></span>
+					<span class="fl t4ui_searSm">角色名称:</span>
+					<span class="fl t4ui_searSm"> <input id="keySel"name=keySel class="mini-textbox" onenter="onKeyEnter"
+						  emptytext="请输入名称" style="width: 100px;" maxlength="7" /> </span>
+				    <a class="mini-button t4ui_bac" onclick="search()">查询</a>
+		</div>
+		<div id="dept_grid" class="mini-datagrid t4ui_gov"
+			style="width: 100%; height: 222px; margin-bottom: 10px;"
+			allowalternating="true"
+			url="../../controller/role/query?roleType=1" idfield="id"
+			oncellmousedown="onSelectionChanged" selectonload="false" sizelist="[10]"
+			pagesize="10">
+			<div property="columns">
+				<div field="name" width="110" headeralign="left">角色名称</div>
+				<div field="desc" width="120" headeralign="left">角色描述</div>
+				<div name="action" width="120" headeralign="left"
+					renderer="onActionRenderer" cellstyle="padding:0;">操作</div>
+			</div>
+		</div>
+		<div style="width: 100%;">
+			<div class="mini-toolbar t4ui_botLine"
+					style="border-bottom: 0px ; padding: 0px;">
+						<table style="width: 100%;">
+							<tr>
+								<td style="width: 100%;" class="t4ui_dict"><a
+									class="fl mini-button t4ui_bac" iconcls="icon-remove"
+									onclick="removeRow()" plain="true">移除</a></td>
+							</tr>
+						</table>
+			</div>
+		</div>
+		<div id="employee_grid" class="mini-datagrid t4ui_gov"
+			style="width: 100%; height: 222px;" allowalternating="true"
+			url="../../controller/role/queryRoleUser"
+			multiselect="true" >
+			<div property="columns">
+				<div field="roleid" visible="fale"></div>
+				<div field="userid" type="checkcolumn"></div>
+				<div field="userCode" headeralign="left" allowsort="true">员工号</div>
+				<div field="userName" headeralign="left" allowsort="true">员工姓名</div>
+				<div field="telephone" headeralign="left" allowsort="true">联系电话</div>
+				<div name="action" headeralign="left" renderer="onActionRole"
+					cellstyle="padding:0;">操作</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 修改角色 -->
+	<div id="editWindow" class="mini-window t4ui_nopad" title="角色编辑"
+		style="width: 250px;" showmodal="true" allowresize="true"
+		allowdrag="true">
+		<div id="editform" class="form">
+			<div class="t4ui_jz">
+				<span>角色名称：&nbsp;</span> <span><input name="roleName"
+					class="mini-textbox" required="true" maxLength="32" vtype="rangeChar:1,32"/> </span>
+			</div>
+			<div class="t4ui_jz" style="margin-top: 5px;">
+				<span>角色描述：&nbsp;</span> <span><input name="roleDesc"
+					class="mini-textbox" required="true" maxLength="100" vtype="rangeChar:1,100"/> </span>
+			</div>
+			<div class="t4ui_jz" style="margin-top: 5px;">
+				<span>角色应用于:</span> <span><input id="orgscopeupd"
+					name="orgscopeupd" class="mini-textbox"
+					inputstyle="text-align:center;" allowinput="false" align="center"
+					emptytext="请选择机构" required="false" onclick="loadFrame1();" /> </span>
+			</div>
+			<div class="t4ui_jz t4ui_but" style="margin-left:28%;">
+				<a class="mini-button t4ui_bac" href="javascript:editRoleCheck()">保存</a> <a
+					class="mini-button t4ui_bac" href="javascript:canRow('editWindow')">关闭</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- 添加角色 -->
+	<div id="editWindowOrg" class="mini-window t4ui_nopad" title="新增角色"
+		style="width: 250px;" showmodal="true" allowresize="true"
+		allowdrag="true">
+		<div id="editformOrg" class="form">
+			<div class="t4ui_jz">
+				<span>角色名称：&nbsp;</span> <span><input name="roleName"
+					class="mini-textbox" required="true" maxLength="32" vtype="rangeChar:1,32"/> </span>
+			</div>
+			<div class="t4ui_jz" style="margin-top: 5px;">
+				<span>角色描述：&nbsp;</span> <span><input name="roleDesc"
+					class="mini-textbox" required="true" maxLength="100" vtype="rangeChar:1,100"/> </span>
+			</div>
+			<div class="t4ui_jz" style="margin-top: 5px;">
+				<span>角色应用于:</span> <span><input id="orgscopeadd"
+					name="orgscopeadd" class="mini-textbox"
+					inputstyle="text-align:center;" allowinput="false" align="center"
+					emptytext="请选择机构" required="false" onclick="loadFrame();" /> </span>
+			</div>
+			<div class="t4ui_jz t4ui_but" style="margin-left:28%";>
+				<a class="mini-button t4ui_bac" href="javascript:savrRoleCheck()">保存</a> <a
+					class="mini-button t4ui_bac" href="javascript:canRow('editWindowOrg')">关闭</a>
+			</div>
+		</div>
+	</div>
+
+	<!--为角色添加人员 -->
+	<div id="addRoleWindow" class="mini-window t4ui_nopad"
+		title="选择要添加到该角色的人员" style="width: 600px;" showmodal="true"
+		allowresize="true" allowdrag="true" select="select">
+		<div style="padding-bottom: 5px;">
+			<span>员工号:</span><input type="usercode" id="usercode" /> <input
+				type="button" value="查询" onclick="searchUser()" />
+		</div>
+		<div id="adduser_grid" class="mini-datagrid t4ui_gov"
+			style="width: 100%; height: 300px;" allowalternating="true"
+			multiselect="true" sizelist="[5]" pagesize="5" showpager="false">
+			<div property="columns">
+				<div field="userid" type="checkcolumn"></div>
+				<div field="realName" headeralign="left" allowsort="true">员工姓名</div>
+				<div field="userCode" headeralign="left" allowsort="true">员工号</div>
+				<div field="orgName" headeralign="left" allowsort="true">所属机构</div>
+			</div>
+		</div>
+		<div class="t4ui_jz t4ui_but" style="margin-left:40%">
+			<a class="mini-button t4ui_bac" href="javascript:saveRoleUser()">保存</a>
+			<a class="mini-button t4ui_bac" href="javascript:canRow('addRoleWindow')">关闭</a>
+		</div>
+	</div>
+	<!--为角色添加APK权限 -->
+	<div id="addApkWindow" class="mini-window t4ui_nopad"
+		title="选择要添加到该角色的APK" style="width: 600px;" showmodal="true"
+		allowresize="true" allowdrag="true" select="select">
+		<div id="addapk_grid" class="mini-datagrid t4ui_gov"
+			style="width: 100%; height: 300px;" allowalternating="true"
+			multiselect="true" sizelist="[5]" pagesize="5" showpager="false">
+			<div property="columns">
+				<div field="dealId" type="checkcolumn"></div>
+				<div field="dealName" headeralign="left" allowsort="true">交易名称</div>
+				<div field="dealChannel" headeralign="left" allowsort="true">交易渠道</div>
+				<div field="dealType" headeralign="left" allowsort="true">交易类型</div>
+				<div field="dealCode" headeralign="left" allowsort="true">交易代码</div>
+				<div field="dealDescription" headeralign="left" allowsort="true">交易描述</div>
+			</div>
+		</div>
+		<div class="t4ui_jz t4ui_but">
+			<a class="mini-button t4ui_bac" href="javascript:canRow('addApkWindow')">关闭</a>
+			<a class="mini-button t4ui_bac" href="javascript:saveRoleApk()">保存</a>
+		</div>
+	</div>
+	<input name="roleid" id="roleid" class="mini-hidden" />
+	<input name="id" id="id" class="mini-hidden" />
+	<input name="isFirst" id="isFirst" class="mini-hidden" /> 
+	<div></div>
+	<script type="text/javascript">
+mini.parse();
+var tree = mini.get("tree1");
+var editWindow = mini.get("editWindow");
+var editWindowOrg = mini.get("editWindowOrg");
+var dept_grid = mini.get("dept_grid");
+var employee_grid = mini.get("employee_grid");
+var adduserWindow = mini.get("addRoleWindow");
+var addapkWindow=mini.get("addApkWindow");
+dept_grid.load();
+
+function onGenderRenderer(e) {
+    for (var i = 0,
+    l = Genders.length; i < l; i++) {
+        var g = Genders[i];
+        if (g.id == e.value) return g.text;
+    }
+    return "";
+}
+
+//添加操作栏
+function onActionRenderer(e) {
+    var record = e.record;
+    var uid = record.id;
+    var s = '<a class="Edit_Button" href="javascript:editRow(\'' + uid + '\')">编辑&nbsp;</a>' + '<a class="Delete_Button" href="javascript:delRow(\'' + uid + '\')">删除&nbsp;</a>' + '<a class="Delete_Button" href="javascript:addRoleApk(\'' + uid + '\')">关联APK&nbsp;</a>' + '<a class="Delete_Button" href="javascript:addRoleUser(\'' + uid + '\')">人员管理</a>'
+    return s;
+}
+
+function onSelectionChanged(e) {
+	if(e.field){
+	    var grid = e.sender;
+	    var record = grid.getSelected();
+	    if (record) {
+	        employee_grid.load({
+	            roleId: record.id
+	        });
+	    }
+	}
+}
+
+//添加人员操作栏
+function onActionRole(e) {
+    var record = e.record;
+    var uid = record.userid;
+    var s = '<a class="Edit_Button" href="javascript:removeRow(\'' + uid + '\')">移除&nbsp;</a>' + '<a class="Edit_Button" href="javascript:editRole(\'' + uid + '\')">所属角色</a>';
+    return s;
+}
+
+//查看是否多重角色
+function editRole(id) {
+    mini.open({
+        url:"../../views/role/SelectGridWindow.html",
+        title: "用户所属角色",
+        width: 350,
+        height: 380,
+        onload: function() {
+            var iframe = this.getIFrameEl();
+            var data = {
+                action: id
+            };
+            iframe.contentWindow.SetData(data);
+        }
+    });
+}
+  //-------------------------      
+      
+  function editRoleCheck(){
+	var t = isOpenCheckBox("savePadEditRole");
+	    if(t){
+	    openCheck(t,"savePadEditRole",null);
+	    }else{
+	      updateRow();
+	    }
+	}
+        
+  //-------------------------   
+//角色编辑弹出
+function editRow(row_uid) {
+    editWindow.show();
+    var form = new mini.Form("#editform");
+    $("#roleid").val(row_uid);
+    form.clear();
+    document.getElementById("id").value="null";
+    jQuery.getJSON("../../controller/role/queryRoleById?roleId=" + row_uid,
+    function(text) {
+        form.setData(text.data);
+        form.setChanged(false);
+        form.unmask();
+    });
+}
+
+//角色编辑保存
+function updateRow() {
+	var form = new mini.Form("#editform");
+	var roleId=$("#roleid").val();
+    form.validate();
+    if (form.isValid() == false) return;
+    var o = form.getData();
+    var orgObj = document.getElementById("id");
+    var datas = {
+        "id": "" + orgObj.value + "",
+        "roleName": "" + o.roleName + "",
+        "roleDesc": "" + o.roleDesc + "",
+        "roleid": ""+roleId+"",
+        "roleType":"1",
+        "opt": "1"
+    };
+    var json = mini.encode(datas);
+    if(orgObj.value == "undefined"){
+    	mini.alert("请选择机构");
+    	return;
+    }
+    jQuery.ajax({
+        url: "../../controller/role/saveRole",
+        data: {
+            jsonData: json
+        },
+        type: "post",
+        dataType:'json',
+        success: function(text) {
+            if (text.msg == "1") {
+                mini.alert("角色名称重复");
+                dept_grid.reload();
+                return;
+            }
+            if (text.msg == "3") {
+                mini.alert("编辑成功");
+                editWindowOrg.hide();
+                dept_grid.reload();
+            }
+            canRow("editWindow");
+            dept_grid.load();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert(jqXHR.responseText);
+        }
+    });
+
+}
+  //-------------------------      
+      
+  function savrRoleCheck(){
+	var t = isOpenCheckBox("savePadRole");
+	    if(t){
+	    openCheck(t,"savePadRole",null);
+	    }else{
+	      updateRowOrg();
+	    }
+	}
+        
+  //------------------------- 
+//角色添加
+function saveRow() {
+	document.getElementById("isFirst").value = "";
+    var form = new mini.Form("#editformOrg");
+    form.clear();
+    document.getElementById("id").value = "";
+    editWindowOrg.show();
+}
+
+//--------------------------
+function delRoleCheck(roleId){
+var t = isOpenCheckBox("delPadRoleById");
+    if(t){
+    openCheck(t,null,roleId);
+    }else{
+   delRow(roleId);
+    }
+}
+//-------------------------
+
+//角色删除
+function delRow(roleId) {
+    mini.confirm("确定删除记录？", "提示",
+    function(action) {
+        if (action == "ok") {
+            jQuery.ajax({
+                url: "../../controller/role/delRoleById",
+                data: {
+                    roleId: roleId
+                },
+                type: "post",
+                success: function(text) {
+                	var data=mini.decode(text);
+                    if (data.msg == "0") {
+                        var index = dept_grid.getPageIndex();
+                        if ((dept_grid.getData().length - 1) == 0) {
+                            dept_grid.load({
+                                pageIndex: index - 1
+                            });
+                        } else {
+                            dept_grid.reload();
+                        }
+                    } else {
+                        mini.alert("角色不可以删除,请先清空角色下的人员");
+                        dept_grid.reload();
+                    }
+                }
+            });
+        }
+    });
+}
+
+//角色关联APK
+function addRoleApk(uid) {
+    addapkWindow.show();
+    var addapk_grid = mini.get("addapk_grid");
+    var id = mini.get("id");
+    id.setValue(uid);
+    jQuery.getJSON("../../controller/role/queryApk",
+    function(text) {
+	    addapk_grid.setData(text.data);
+	    checkApk(uid,addapk_grid);
+  });
+}
+
+//移除页面
+function removeRow() {
+    var rows = employee_grid.getSelecteds();
+    if (rows.length > 0) {
+        mini.confirm("确定删除记录？", "提示",
+        function(action) {
+            if (action == "ok") {
+                var json = mini.encode(rows);
+                jQuery.ajax({
+                    url: "../../controller/role/delRoleUser",
+                    data: {
+                        roleuser: json
+                    },
+                    type: "post",
+                    success: function(text) {
+                        var index = employee_grid.getPageIndex();
+                        if (index != "-1") {
+                            employee_grid.reload();
+                        }
+                    }
+                });
+            }
+          });
+    } else {
+        mini.alert("请选择要删除的人员");
+        return;
+    }
+}
+
+//查询子页面
+function search() {
+    dept_grid.deselectAll();
+    var data = employee_grid.getData();
+    var json = mini.encode(data);
+    var key = mini.get("keySel").getValue();
+    dept_grid.load({
+        roleName: key
+    });
+    employee_grid.load();
+}
+
+
+//新增角色保存
+function updateRowOrg() {
+    var form = new mini.Form("#editformOrg");
+    form.validate();
+    if (form.isValid() == false) return;
+    var o = form.getData();
+    var orgObj = document.getElementById("id");
+    var datas = {
+        "id": "" + orgObj.value + "",
+        "roleName": "" + o.roleName + "",
+        "roleDesc": "" + o.roleDesc + "",
+        "roleid": "",
+        "roleType":"1",
+        "opt": "0"
+    };
+    var json = mini.encode(datas);
+    jQuery.ajax({
+        url: "../../controller/role/saveRole",
+        data: {
+            jsonData: json
+        },
+        type: "post",
+        dataType:'json',
+        success: function(text) {
+            if (text.msg =="1") {
+                mini.alert("角色名称重复");
+                dept_grid.reload();
+                return;
+            }
+            if(text.msg =="2"){
+            	mini.alert("添加成功");
+            	editWindowOrg.hide();
+            	dept_grid.reload();
+            }
+            dept_grid.load();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert(jqXHR.responseText);
+        }
+    });
+
+
+}
+
+//弹出机构单选树 新增 
+function loadFrame() {
+	var isFirst = document.getElementById("isFirst");
+    var orgObj;
+    $("#roleid").val("");
+    if (isFirst.value == "") {
+        jQuery.getJSON("../../controller/role/querySessionOrg",function(text){
+        orgObj = text.msg;
+  		 });
+    }else{
+    	orgObj = document.getElementById("id").value;
+    }
+    
+
+    var array = new Array();
+    mini.open({
+        url: "../../views/role/SelectTreeRoleWindow.html",
+        showMaxButton: false,
+        title: "选择机构",
+        width: 350,
+        height: 350,
+        onload: function() {
+            var iframe = this.getIFrameEl();
+            var roleid = $("#roleid").val();
+            array[0] = roleid;
+            array[1] = orgObj;
+            array[2] = isFirst.value;
+            iframe.contentWindow.SetData(array);
+        },
+        ondestroy: function(action) {
+            if (action == "ok") {
+                var iframe = this.getIFrameEl();
+                var data = iframe.contentWindow.GetData();
+                data = mini.clone(data);
+                if (data[0]) {
+                    var orgStr = "";
+                    if(data[0] == "1"){
+                    	isFirst.value = data[0];
+                    }else{
+                    	isFirst.value = data[0].isFirst;
+                    }
+                    for (var i = 0; i < data.length; i++) {
+                        if (i == data.length - 1) {
+                            orgStr = orgStr + data[i].id;
+                        } else {
+                            orgStr = orgStr + data[i].id + ",";
+                        }
+                    }
+                    document.getElementById("id").value = orgStr;
+                }
+            }
+        }
+    });
+}
+
+//编辑
+function loadFrame1() {
+	var isFirst = document.getElementById("isFirst");
+    var orgObj;
+    	orgObj = document.getElementById("id").value;
+    
+
+    var array = new Array();
+    mini.open({
+        url: "../../views/role/SelectTreeRoleWindow.html",
+        showMaxButton: false,
+        title: "选择机构",
+        width: 350,
+        height: 350,
+        onload: function() {
+            var iframe = this.getIFrameEl();
+            var roleid = $("#roleid").val();
+            array[0] = roleid;
+            array[1] = orgObj;
+            array[2] = isFirst.value;
+            iframe.contentWindow.SetData(array);
+        },
+        ondestroy: function(action) {
+            if (action == "ok") {
+                var iframe = this.getIFrameEl();
+                var data = iframe.contentWindow.GetData();
+                data = mini.clone(data);
+                if (data) {
+                    var orgStr = "";
+                    for (var i = 0; i < data.length; i++) {
+                        if (i == data.length - 1) {
+                            orgStr = orgStr + data[i].id;
+                        } else {
+                            orgStr = orgStr + data[i].id + ",";
+                        }
+                    }
+                    document.getElementById("id").value = orgStr;
+                }
+            }
+        }
+    });
+}
+
+//添加关闭
+function canRow(winName) {
+   var winObj=mini.get(winName);
+   winObj.hide();
+}
+
+//为角色添加用户
+function addRoleUser(uid) {
+	document.getElementById("usercode").value = "";
+    adduserWindow.show();
+    var adduser_grid = mini.get("adduser_grid");
+    var id = mini.get("id");
+    id.setValue(uid);
+    jQuery.getJSON("../../controller/user/queryUsers?roleId=" + id.getValue(),
+    function(text) {
+	    adduser_grid.setData(text.data);
+	    checkUser(uid,adduser_grid);
+  });
+}
+
+//选中用户
+function checkUser(uid,adduser_grid){
+	jQuery.ajax({
+        url: "../../controller/role/queryChkUserRole",
+        data: {
+            roleId: uid
+        },
+        type: "get",
+        success: function(data) {
+      		 var rows=adduser_grid.getData();
+      		 var checkData=mini.decode(data).data;
+      		 for(var i=0;i<rows.length;i++){
+      		 	if(checkData.contains(rows[i].userid)){
+      		 		adduser_grid.setSelected(rows[i]);
+      		 	}
+      		 }
+        	
+        }
+    });
+}
+
+//选中apk
+function checkApk(uid,addapk_grid){
+	jQuery.ajax({
+        url: "../../controller/role/queryChkRoleApk",
+        data: {
+            roleId: uid
+        },
+        type: "get",
+        success: function(data) {
+      		 var rows=addapk_grid.getData();
+      		 var checkData=mini.decode(data).data;
+      		 for(var i=0;i<rows.length;i++){
+      		 	if(checkData.contains(rows[i].dealId)){
+      		 		addapk_grid.setSelected(rows[i]);
+      		 	}
+      		 }
+        }
+    });
+}
+
+//查询用户
+function searchUser() {
+    var adduser_grid = mini.get("adduser_grid");
+    var code = document.getElementById("usercode").value;
+    var roleId = mini.get("id").getValue();
+    jQuery.getJSON("../../controller/user/queryUsers?userCode=" + code +"&&roleId="+roleId,
+    function(text) {
+	    adduser_grid.setData(text.data);
+	    checkUser(roleId,adduser_grid);
+  });
+}
+
+//保存角色用户
+function saveRoleUser() {
+    var adduser_grid = mini.get("adduser_grid");
+    var rows = adduser_grid.getSelecteds();
+    var id = mini.get("id").getValue();
+                var json = mini.encode(rows);
+                jQuery.ajax({
+                    url: "../../controller/role/saveRoleUser",
+                    data: {
+                        data: json,
+                        roleId: id
+                    },
+                    type: "post",
+                    success: function(text) {
+                    	var data=mini.decode(text);
+                        if (data.msg == "1") {
+                            mini.alert("操作成功！");
+                            employee_grid.reload({roleId:id});
+                            adduserWindow.hide();
+                        } else {
+                            mini.alert("系统异常");
+                            return;
+                        }
+                    }
+                });
+
+}
+
+//保存角色apk
+function saveRoleApk() {
+    var addapk_grid = mini.get("addapk_grid");
+    var rows = addapk_grid.getSelecteds();
+    var id = mini.get("id").getValue();
+                var json = mini.encode(rows);
+                jQuery.ajax({
+                    url: "../../controller/role/saveRoleApk",
+                    data: {
+                        data: json,
+                        roleId: id
+                    },
+                    type: "post",
+                    success: function(text) {
+                    	var data=mini.decode(text);
+                        if (data.msg == "1") {
+                            mini.alert("操作成功！");
+                            addapkWindow.hide();
+                        } else {
+                            mini.alert("系统异常");
+                            return;
+                        }
+                    }
+                });
+
+}
+//授权权限操作
+//---------------------------------------
+var thisURL = document.URL; 
+  var getval= thisURL.split("=")[1];  
+  var showval= getval.split("&")[0]; 
+	function isOpenCheckBox(sign){
+	
+		var t=showval.split(",");
+		var key;
+		for(var i = 0 ; i<t.length;i++){
+		    if(t[i]==sign) {
+                 key=sign;
+		    };
+		}
+		return key;
+	}
+function openCheck(key,opWindow,roleId){
+		       mini.open({
+			        url: "../../views/role/checkBox.html",
+			        title: "授权",
+			        width: 300,
+			        height: 160,
+			        onload: function() {
+			            var iframe = this.getIFrameEl();
+			            var data = {
+			                action: key
+			            };
+			            iframe.contentWindow.SetData(data);
+			        },
+			        ondestroy: function(action) {
+			            if (action == "ok") {
+			            if(opWindow=="savePadEditRole"){
+			             updateRow();
+			            }else if(opWindow=="savePadRole"){
+			             updateRowOrg();
+			            }else{
+			             delRow(roleId);
+			            }
+			            }
+			        }
+			    });
+}
+
+
+//----------------------------------------
+    </script>
+
+</body>
+</html>
