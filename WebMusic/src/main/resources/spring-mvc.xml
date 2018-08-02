@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context  
+    	http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+        <import resource="spring-interceptor.xml" />
+	<import resource="spring-log4j.xml" />
+	<!-- 扫描路径 -->                        
+    <context:component-scan base-package="com.music.controller" ><!-- 修改成controller文件存放位置 -->
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    <mvc:annotation-driven />  
+    <mvc:default-servlet-handler/>  
+    <!-- REST中根据URL后缀自动判定Content-Type及相应的View -->
+    <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+	    <property name="favorPathExtension" value="false" />
+	    <property name="favorParameter" value="true" />
+	    <property name="mediaTypes" >
+	        <value>
+	            json=application/json
+	            xml=application/xml
+	        </value>
+	    </property>
+	</bean>
+	<!-- 静态资源放行 -->
+	<mvc:resources mapping="/images/**" location="/images/" cache-period="31556926"/>  
+	<mvc:resources mapping="/script/**" location="/script/" cache-period="31556926"/>  
+	<mvc:resources mapping="/style/**" location="/style/" cache-period="31556926"/>
+    <!-- 视图名解析，自动添加前缀和后缀-->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+	  <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+	  <property name="prefix" value="/WEB-INF/view/"/>
+	  <property name="suffix" value=".html"/>
+	</bean>
+	<!-- 配置文件上传，如果没有使用文件上传可以不用配置，当然如果不配，那么配置文件中也不必引入上传组件包 -->  
+    <!-- <bean id="multipartResolver"    
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">    
+        默认编码  
+        <property name="defaultEncoding" value="utf-8" />    
+        文件大小最大值  
+        <property name="maxUploadSize" value="10485760000" />    
+        内存中的最大值  
+        <property name="maxInMemorySize" value="40960" />    
+    </bean> -->
+    
+    
+    <!-- 配置全局异常处理器 -->
+	<bean class="com.music.exception.HandlerException"></bean>
+</beans>
