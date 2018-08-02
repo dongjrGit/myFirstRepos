@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.music.dao.SingerDao">
+	
+    <insert id="">
+    	<selectKey keyProperty="singerID" resultType="String" order="BEFORE">
+    		select  replace(uuid(),'-','')   from dual
+    	</selectKey>
+    	insert into singer() values()
+    </insert>
+    <resultMap type="com.music.entity.Singer" id="SingerResult">
+        <id property="userID" column="userID"/>
+        <result property="userName" column="userName"/>
+        <result property="password" column="password"/>
+        <result property="nickName" column="nickName"/>
+        <result property="loginTime" column="loginTime"/>
+       <!--  <association property="address" column="addid" select="com.qbd.mapper.AddressMappers.findbyid">    
+        </association>
+        <association property="grade" column="gid" select="com.qbd.mapper.GradeMappers.findbyid">    
+        </association> -->
+    </resultMap>
+</mapper>
