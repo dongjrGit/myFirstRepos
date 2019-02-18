@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="shortcut icon" href="/resource/pc/web/images/favicon_shortcut.ico" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<title><sitemesh:write property='title' />--中绿生活|中国绿色食品展销中心|365Greenlife.com</title>
+<link href="/resource/pc/web/css/common.css" rel="stylesheet" />
+<link href="/resource/pc/web/css/top-footer.css" rel="stylesheet" />
+<link href="/resource/pc/web/css/womenclothing.css" rel="stylesheet" />
+<link href="/resource/pc/web/css/index.css" rel="stylesheet" />
+<link href="/resource/ui-dialog.css"  rel="stylesheet" />
+<link href="/resource/pc/commoncss/jQuery.Validate.css" rel="stylesheet" />
+<script src="/resource/jquery-1.9.1.min.js"></script>
+<script src="/resource/pc/web/js/jquery.banner.js"></script>
+<script src="/resource/pc/web/js/jquery.SuperSlide.js"></script>
+<script src="/resource/pc/web/js/index.js"></script>
+<script src="/resource/validate.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/jquery.validate.js"></script> 
+<script src="/resource/cookie.js"></script>
+<script src="/resource/dialogShow.js"></script>
+<script src="/resource/dialog-min.js"></script>
+<script src="/resource/pc/web/js/login/login.js"></script>
+<script src="/resource/pc/web/js/shopcart/addcart.js"></script>
+<sitemesh:write property='head' />
+</head>
+<body class="bodybjhs">
+    <% try{ include("/template/pc/head/greenchina_top.html",{userinfo:userinfo,keysdata:keysdata,navskhfw:navskhfw,lsis:true}){}} catch(error){}%> 
+	<sitemesh:write property='body' />
+<script type="text/javascript">
+$(document).ready(function() {
+	//关键字搜索
+					//autoxl.bindex("select_key", getKeysStartwithName, 440);
+					$(".btn-search").bind("click",function() {
+										var searchkey = $("#select_key").val();
+										if ($("#select_key").val() != undefined
+												&& $("#select_key").val() != ""
+												&& $("#select_key").val() != "select_key") {
+											searchkey = $("#select_key").val();
+											location.href = "/web/products/searchList.html?keywords="
+												+ searchkey;
+										}else {
+											 alert("请输入关键字");
+										}
+										
+										/* setTimeout(function() {
+											infoc.add(searchkey,
+													"Sypt/Search", 0, 1);
+										}, 1); */
+										
+									});
+				});
+	//菜单浮动效果
+	$('.all-sort-list > .item').hover(function() {
+		var eq = $('.all-sort-list > .item').index(this), //获取当前滑过是第几个元素
+		h = $('.all-sort-list').offset().top, //获取当前下拉菜单距离窗口多少像素
+		s = $(window).scrollTop(), //获取游览器滚动了多少高度
+		i = $(this).offset().top, //当前元素滑过距离窗口多少像素
+		item = $(this).children('.item-list').height(), //下拉菜单子类内容容器的高度
+		sort = $('.all-sort-list').height(); //父类分类列表容器的高度
+
+		$(this).addClass('hover');
+		$(this).children('.item-list').css('display', 'block');
+	}, function() {
+		$(this).removeClass('hover');
+		$(this).children('.item-list').css('display', 'none');
+	});
+
+	$('.item > .item-list > .close').click(function() {
+		$(this).parent().parent().removeClass('hover');
+		$(this).parent().hide();
+	});
+</script>
+<% try{ include("/template/pc/head/footer.html",{newscone:newscone,newsctwo:newsctwo,newscwthree:newscwthree,newscfour:newscfour,newscfive:newscfive}){}} catch(error){}%>
+	<div class="div_cover"
+		style="display: none; position: absolute; left: 0px; top: 0px; opacity: 0.15; z-index: 9999998; background-color: rgb(0, 0, 0); width: 1903px; height: 6908px;"></div>
+	<div class="loginfil div_login" hidden
+		style="display: none; width: 410px; position: fixed; z-index: 9999999; overflow: hidden; top: 30%; left: 742.5px;">
+		<div class="shopjslogin-top">
+			您尚未登录
+			<div class="shop_close div_colselogin" onclick="hidelogindiv();">X</div>
+		</div>
+		<!--shopjslogin-top   stop -->
+		<div class="shopcon">
+			<form id="loginForm">
+				<p>
+					<label>用户名：</label> <input name="text_username" id="text_username"
+						type="text">
+				</p>
+				<p id="p_pwd">
+					<label>密码：</label> <input name="password_loginpwd"
+						id="password_loginpwd" type="password"
+						onkeydown="WebLogin.enterpress();">
+				</p>
+				<div class="l_zddlmm">
+					<input name="asdas" id="asdas" type="checkbox" value="" checked>自动登录
+					<a href="javascript:void(0);">忘记密码?</a>
+				</div>
+				<input name="submit_ok" id="submit_ok" type="button" value="登录"
+					class="shop-inp">
+				<p class="l_myzhzc">
+					没有账号?<a href="/member/user/register">立即注册</a>
+				</p>
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>

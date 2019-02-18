@@ -1,0 +1,56 @@
+<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>设置</title>
+</head>
+<body class="paswrd_gai">
+<div class="top_title fix">
+         <a  href="/wap/userinfo/homepage?ch=3">
+		<div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div>
+		</a>
+		设置
+	</div>
+<ul class="setUS-xinxi">
+	<!-- <li>
+    	<a href="/wap/showsetting/invitefriend">
+        	<b>邀请好友</b>
+        </a>
+    </li> -->
+    <li>
+    	<a href="/wap/showsetting/help">
+        	<b>客户帮助</b>
+        </a>
+    </li>
+    <li>
+    	<a href="/wap/showsetting/agreement">
+        	<b>用户协议</b>
+        </a>
+    </li>
+     <li>
+    	<a href="/wap/showsetting/appintroduce">
+        	<b>介绍</b>
+        </a>
+    </li>
+  <!--  
+    <li>
+    	<a href="#">
+        	<b>查看引导页</b>
+        </a>
+    </li>
+    <li>
+    	<a href="#">
+        	<b>清理缓存</b>
+        </a>
+    </li>
+    <li>
+        <b>接收消息推送通知</b>
+        <span><input checked type="checkbox" class="ycheckbox" data-html="<i></i>"></span>
+    </li> -->
+</ul>
+<!-- <div class="setUS-bakcdiv">
+	当前版本号：10.1.23<br>
+    <a href="#">检查更新</a>
+</div> -->
+</body>

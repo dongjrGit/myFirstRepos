@@ -1,0 +1,1020 @@
+﻿<%var path="/resource/pc/web";%>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${spuinfo.title}</title>
+<script src="${path}/js/jquery.jqzoom.js"></script>
+<script src="${path}/js/base.js"></script>
+<script src="/resource/artTemplate.js"></script>
+<script src="/resource/GetQueryString.js"></script>
+<script src="${path}/js/linq.min.js" type="text/javascript"></script>
+<script src="${path}/js/pager1.js"></script>
+<script src="/resource/pc/web/js/spgl/product_detail.js" type="text/javascript"></script>
+<script src="${path}/js/spgl/pro_detail_tap.js"></script>
+<script src="/resource/pc/web/js/spgl/product_comment.js"></script>
+<script src="/resource/pc/web/js/spgl/product_consult.js"></script>
+<script src="/resource/pc/commonjs/wkh/common-util.js"></script>
+<script src="/resource/pc/member/js/share.js"></script>
+<style type="text/css">
+#mid{  
+   display:none;  
+   width:100%;  
+   height:100%;  
+   background:#000;  
+   position:absolute;  
+   top:0;  
+   left:0;  
+   z-index:10;  
+   opacity:0.4;                        /*背景的透明度:(Firefox适用；）*/  
+   filter:alpha(opacity =40);          /*背景的透明度:(IE适用)；*/  
+}  
+
+</style>
+<style>
+.spec-scroll .items ul li img:hover{
+border: 2px solid #2D8800;
+}
+</style>
+<script type="text/javascript">
+var pindex;
+$(function(){
+	pindex=2;
+	$("#ul_commentlist").on("click",".lwq01img img",function(){
+		var id=$(this).attr("dataid");
+		$.each($(this).parent(".lwq01img").find("img"),function(i,item){
+			if ($(item).attr("dataid")!=id) {
+				$(item).removeClass("imgda");
+			}
+		});
+		if ($(this).attr("class")==null||$(this).attr("class").indexOf("imgda")==-1) {
+			$(this).addClass("imgda");
+			$(this).parent().next().css("display","");
+			$(this).parent().next().find("img").attr("src",$(this).attr("src"));
+		}else{
+			$(this).removeClass("imgda");
+			$(this).parent().next().css("display","none");
+		}
+	});
+	$("#searchsp").click(function() {
+		var shopid=$("#h_shopid").val();
+	    var sname=$("#sname").val();var pmin=$("#pmin").val();var pmax=$("#pmax").val();
+	    window.location.href="/web/shop/details.html?shopId="+shopid+"&spuname="+sname+"&pricemin="+pmin+"&pricemax="+pmax;
+	});
+	
+	$(".l_hyp").click(function() {
+		gettopic();
+	});
+	
+});
+function gettopic(index){
+	if(index){//不指定页数则默认pindex
+		pindex=index;
+	}
+	   $.ajax({
+            type : "post",
+            url : "/pc/products/gettopiclist",
+            dataType : "json",
+            data : {
+                "index" : pindex,
+                "size" : 3
+            },
+            success : function(rsl) {
+                if (rsl.code == 0) {
+                   var data=rsl.data;
+                   var ht="";
+                   if(data.length>0){
+                   	pindex+=1;
+                   	for(var i=0;i<data.length;i++){
+	                   	ht+="<li>";
+	                	ht+="<a href='/web/products/proinfo.html?spuid="+data[i].spuid+"'>";
+	                	ht+="<img src='"+data[i].img+"' alt='' width='114' height='114'>";
+	                	ht+="<span>￥"+data[i].price.toFixed(2)+" </span>";
+	                	ht+="</a>";
+	                    ht+="</li>";
+                    }
+                    $("#topiclist").html(ht);
+                   }else{
+                   	if(pindex!=1)
+                   	gettopic(1);
+                   }
+                } 
+            },
+            error : function(e) {
+                //alert(e.statusText);
+            }
+        });
+}
+
+
+</script>
+</head>
+<!--  <div id="ckepop" class='feixiangjias'> 
+<a href="javascript:" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank">分享到：</a> 
+<a class="jiathis_button_qzone">QQ空间</a> 
+<a class="jiathis_button_tsina">新浪微博</a> 
+<a class="jiathis_button_kaixin001">开心网</a> 
+<a class="jiathis_button_renren">人人网</a> 
+<a class="jiathis_button_baidu">百度收藏</a> 
+<a class="jiathis_button_douban">豆瓣</a> 
+<a class="jiathis_button_tqq">腾讯微博</a> 
+</div> -->
+
+<input type="hidden" id="h_skuimg" value="">
+<input type="hidden" id="h_skuid" value="${skuid}">
+<input type="hidden" id="h_shopid" value="${spuinfo.shopid}">
+<input type="hidden" id="h_protype" value="${itype}">
+<input type="hidden" id="spuid" value="${spuid}"/>
+<%if(isdel==1){%>
+	<div id="container" class="fix">
+		<div style="margin: 70px 0px 50px 0px;text-align: center;font-size:18px;height:100%">
+			商品已经下架或者被删除了  返回
+			<a href="/index.html" style="color:red">首页</a> 
+	</div>
+<%}else{%>
+<%if(spuinfo.type>0&&isEmpty(spuinfo.skiid)){%>
+	<div id="container" class="fix">
+		<div style="margin: 70px 0px 50px 0px;text-align: center;font-size:18px;height:100%">
+			活动已过期  返回
+			<a href="/index.html" style="color:red">首页</a>,  返回 
+			<a href="/web/activity/shangou.html" style="color:red">活动页</a></div>
+	</div>
+<%}else{%>
+<div id="container" class="fix">
+    <!--l_ban  广告图片开始 -->
+    <div class="l_ban">
+        <% var topimg=1;for(ad in adlist){
+        	if(topimg==1){ %>
+		        <a href="${ad.url}" target="_blank">
+		            <img src="${ad.imag}" title="${ad.title}">
+		        </a>
+        <%}topimg++;}%>
+    </div>
+    <!--l_ban  广告图片结束 -->
+    <!--所有分类第一屏开始 -->
+    <div class="fix l_syfl">
+        <div class="l_syflleft">
+         <% if(isNotEmpty(selectClass)) { %>
+            <a href="javascript:void(0)">所有分类</a><span>&gt;</span>
+            <a href="/web/products/proList.html?cid=${fClass.id!}">${fClass.name!}</a><span>&gt;</span>
+            <a href="/web/products/proList.html?cid=${tClass.id!}">${tClass.name!}</a><span>&gt;</span>
+            <a href="/web/products/proList.html?cid=${selectClass.id!}">${selectClass.Name!}</a><span>&gt;</span>${spuinfo.title!}
+        <%}%>
+        </div><!--l_syflleft  stop -->
+        <div class="l_syflright">
+            <span class="l_qjd"><i></i><a href="javascript:void(0)" id="s_id" >${shopinfo.name}</a></span>
+            <span class="l_sx">|</span>
+            <span><a href="/web/shop/details.html?shopId=${spuinfo.shopid}">全部分类</a></span><span class="l_sx">|</span>
+            <span class="l_sbd"><!--<input name="" type="text" class="l_inpsbd"><input name="" type="button" value="搜本店" class="l_butsbd">--></span>
+            <span class="l_jrdp"><a href="/web/shop/details.html?shopId=${spuinfo.shopid}">进入店铺</a></span>
+        </div><!--l_syflright  stop -->
+        <!--l_pro 产品展示 开始 -->
+        <div class="fix l_pro">
+            <!--左边放大镜效果 产品参数开始-->
+            <div class="right-extra" style="border: 1px solid #ededed;padding: 10px;">
+                <!--缩图开始-->
+                <div class="spec-scroll">
+                    <a class="prev"></a>
+                    <div class="items">
+                        <ul id="skuimgs">
+                            <!--<li><img alt="商品图片" bimg="/web/images/nvzhuang/fdjing/b1.jpg" src="/web/images/nvzhuang/fdjing/s1.jpg" onmousemove="preview(this);"></li>-->
+                            <% 
+                            var fimgurl="";
+                            var con=0;
+                            for(pimg in spuinfo.imgs){
+                            	con=con+1;
+                            	if(con==1){                             
+                            		fimgurl= pimg;
+                           		}%>
+                           		<li><img alt='商品图片' bimg='${pimg}' src='${pimg}' onmousemove='preview(this);'></li>
+                            <%}%>
+                        </ul>
+                    </div>
+                    <a class="next"></a>
+                </div>
+
+                <!--缩图结束-->
+                <div id="preview" class="spec-preview">
+                    <span class="jqzoom">
+                        <img jqimg='${fimgurl}' src='${fimgurl}' style='width:332px;height:332px' alt="商品图片" />                        
+                    </span>
+                </div>
+                <div class="clear"></div>
+                <!--l_scbb 开始 -->
+                <div class="l_scbb">
+                    <span class="l_scbb01" id="addconcernt"><a href="javascript:void(0)"><i></i>关注宝贝</a></span>       
+                     <div style="LINE-HEIGHT: 12px" id="bdshare" class="bdshare_b"><img src="/resource/pc/member/images/type-button-1.jpg"> </div> 
+					<script id="bdshare_js" type="text/javascript" data="type=button&uid=664845" src="/resource/pc/member/js/bds_s_v2.js?cdnversion=381133"></script> 
+					<script type="text/javascript"> 
+					document.getElementById("bdshell_js").src = "/resource/pc/member/js/shell_v2.js?cdnversion=" + new Date().getHours(); 
+					</script> 
+					<style type="text/css">
+					 #bdshare {
+						  _overflow-x: hidden;
+						  z-index: 999999;
+						  padding-bottom: 2px;
+						  font-size: 12px;
+						  float: right;
+						  text-align: left!important;
+						  zoom: 1;
+						}
+					</style>
+                </div>
+               
+                <!--l_scbb  结束 -->
+            </div>
+            <!--左边放大镜效果 产品参数结束-->
+            <!--l_cpzj 中间产品详情开始 -->
+            <div class="l_cpzj" style="    padding: 15px;    border-top: 1px solid #ededed;width: 554px;margin-left:0px">
+                <h3>
+                <%var sg=spuinfo.type; if (sg == 1){%>
+                	<span class="red">【闪购】</span>
+                <%}else{if(sg == 2){%>
+                	<span class="red">【秒杀】</span>
+                <%}}%>
+                <a href="javascript:;" class="goodname">${spuinfo.title}</a></h3>
+                <input id="issg" type="hidden" value="${sg!0}" />
+                <!--l_hdmc  begin -->
+                <%if (sg == 0){%>
+                <div class="l_hdmc" style=" border: 1px solid #EDEDED;">
+                    <ul>
+                        <li>
+                            <span class="l_01">原价</span><span class="l_02" id="oldPrice">￥${spuinfo.price!0,numberFormat="0.00"}</span>
+                            <input type="hidden" id="sku_id" />
+                        </li>
+                        <li>
+                            <span class="l_01">现价</span><span class="red fon20 bolder" id="nowPrice" data_id="${spuinfo.id}" data_clid="${spuinfo.cid}">￥${spuinfo.price!0,numberFormat="0.00"}</span>
+                        </li>
+                        <li data_pid="${spuid}" id="s_act" data_acid="actIDs" style="display:none;">
+                            <%if(isNotEmpty(spuinfo.activity)){%>
+	                            <span class='l_01'>店铺活动</span><span class='kqs'>
+	                                                                                      店铺活动（后续加）
+	                            </span>
+                            <%}%>
+                        </li>
+                    </ul>
+                </div>
+                <%}else{%>
+                <div class="l_hdmc">
+                    <ul>
+                        <li style="display:none;">
+                            <span class="l_01">原价</span><span class="l_02" id="oldPrice">￥</span>
+                            <input type="hidden" id="sku_id" />
+                            <input type="hidden" id="spike_id" value="${spuinfo.skiid}" />
+                        </li>
+                        <li>
+                            <span class="l_01">现价</span><span class="red fon20 bolder" id="nowPrice" data_id="${spuinfo.id}" data_clid="${spuinfo.cid}">￥${spuinfo.skiprice!0,numberFormat="0.00"}</span>
+                            <span class="text-decthrough huise">￥${spuinfo.price!0,numberFormat="0.00"}</span>
+                        </li>
+                        <li>
+                            <input type="hidden" id="endtime" value="${spuinfo.skitime}" />
+                            <input type="hidden" id="servicetime" value="${spuinfo.servicetime}" />
+                            <span id="lasttime"></span>
+                        </li>
+                        <li data_pid="$spu.ID" id="s_act" data_acid="$actIDs" style="display:none;">
+                            <%if(isNotEmpty(spuinfo.activity)){%>
+	                            <span class='l_01'>店铺活动</span><span class='kqs'>
+	                                                                                      店铺活动（后续加）
+	                            </span>
+                            <%}%>
+                        </li>
+                    </ul>
+                </div>
+               <%}%>
+
+                <!--l_hdmc  stop -->
+                <!--选择尺寸/颜色.. 开始 -->
+                <div class="acon" id="product_list">
+                <%if(isNotEmpty(speces)){		
+				   	for(spe in speces){ 
+				    	var sele=false;//是否选择
+					    var scon=0;//默认只选取一个
+					    if(spe.values.~size == 1 && spe.values[0].Value == "无"){%>
+							<div style="display: none;" class="a_01">${spe.name}</div>			    
+						    <div style="display: none;" class="value_div allcon fix" name="${spe.name}">
+					    <%}else{ %>
+						    <div class="a_01">${spe.name}</div>			    
+						    <div class="value_div allcon fix" name="${spe.name}">
+					    <% }%>
+					    <!-- 初始化默认选择 -->
+					  	<% for(sspec in spuinfo.atrrs){%>
+			                <%if(spe.name==sspec.name){%>
+		                 		<%for(val in spe.values){  
+			                 		if(scon==0){
+			                    		if(strutil.contain(val.name,";")){
+					            			var names=strutil.split (val.name,";");
+					            			for(na in names){
+					              				if(skuid==parseInt(na)){
+					                				sele=true;
+					              				}
+					            			}
+					            		}else{
+					              			if(val.id==skuid){
+					              				sele=true;
+					             			}
+					            		}	 
+				          			}%> 	                    
+				                  	<%if(sele){%>  
+					                  	<div class="aconmk selected">
+			                            	<i data="${val.name}">${val.Value}</i>
+			                          	</div>
+							      	<%}else{%> 
+								      	<div class="aconmk">
+			                            	<i data="${val.name}">${val.Value}</i>
+			                          	</div> 					     
+				      				<%}%> 					       
+					    			<% if(sele){scon++;sele=false;}%>
+				     			<%}%> 
+				    		<%}%>
+			    		<%}%>
+	        			</div>	
+		    		<%}}%>
+                
+                </div>
+                <!--选择尺寸/颜色.. 结束 -->
+
+                <div class="l_bortom m10"></div>
+                <!--送货至 开始 -->
+
+                <!--送货至 结束 -->
+                <!--数量 开始 -->
+                <div class="acon bcon">
+                    <div class="a_02">数量</div>
+                    <!--allcon  begin -->
+                    <div class="allcon fix mcon">
+                        <span class="m01">-</span>
+                        <span><input name="" type="text" class="m02"  value="1" maxlength="3"></span>
+                        <span class="m01">+</span>                                             
+                        <span class="m03" id="kucun">件（库存&nbsp;${spuinfo.stock!0} &nbsp;件）</span>                        
+                    </div>
+                    <!--allcon  stop -->
+                </div>
+                <input type="hidden" value="${spuinfo.stock!0}" id="h_kucun">
+                <!--数量 结束 -->
+                <!--l_cpzjbot 立即购买 加入购物车开始 -->
+                <%if(spuinfo.stock!=null&&spuinfo.stock!=0){%>
+                <div class="l_cpzjbot">
+                    <span class="l_ljgm" id="BuyNow"><a href="javascript:;">立即购买</a></span>
+                    <a href="javascript:;"><span class="l_jrgwc" id="sellnow"><i></i>加入购物车</span></a>               
+                </div>
+                <%}else{%>
+                <div class="l_cpzjbot">
+                    <span class="l_ljgm disabeld" id="BuyNow" disable="true"><a href="javascript:;">立即购买</a></span>
+                    <a href="javascript:;"><span class="l_jrgwc disabeld" id="sellnow" disable="true"><i></i>加入购物车</span></a>               
+                </div>
+                <%}%>
+                <div style="display:none">
+                    <form id="suborder" action="/web/orders/order_jiesuan" method="post">
+                        <input id="cart_paramstr" name="cart_paramstr" />
+                    </form>
+                </div>
+                <!--l_cpzjbot 立即购买 加入购物车结束 -->
+            </div>
+            <!--l_cpzj 中间产品详情结束 -->
+            <!-- l_seenr  看了还看开始 显示3条 没数据不显示-->          	
+          	<div class="l_seenr fix">
+           		<div class="l_setitle">看了还看<a href="javascript:void(0)"><span class="l_hyp"><i></i>换一批</span></a></div><!--l_setitle  stop -->
+                <ul class="l_klykcon" id="topiclist">
+                   <%
+                   if (isNotEmpty(topspukk)){
+                		var count=0;
+                	    for(pro in topspukk){
+                	    	count=count+1;
+                	    	if(count<=3){
+                	%>
+                	<li>
+                		<a href="/web/products/proinfo.html?spuid=${pro.spuid}">
+                			<img src="${pro.img}" alt="" width="114" height="114">
+                			<span>￥ ${pro.price!0,numberFormat="0.00"}</span>
+                		</a>
+                    </li>
+                   <%}}}%>
+                </ul>
+                <p class="mb35"><a href="/web/shop/details.html?shopId=${spuinfo.shopid}">去店铺逛逛&gt;</a></p>
+            </div>            
+            <!-- l_seenr  看了还看结束-->      
+           
+        </div>
+        <!--l_pro 产品展示 开始 -->
+    </div>
+    <!--所有分类第一屏结束 -->
+    <!--推荐搭配 优惠套装 开始 -->
+ <%if(isNotEmpty(pklist)){%>
+    <div class="fix nTab" id="group_tap">
+        <div class="TabTitle">
+            <ul id="myTab">
+                <!--<li class="active" onmouseover="nTabs(this,0);">推荐搭配</li>-->
+                <li class="normal" onmouseover="nTabs(this,1);">优惠套装</li>
+            </ul>
+        </div>
+  
+        <div class="TabContent">
+            <!--优惠套装 内容开始 -->
+            <div id="myTab_Content1">
+                <div class="l_yhtcsm" id="pack_count">
+                <% var pcon=1;
+                for(pk in pklist){
+                    if(pcon==1){
+                %>
+                    <a href="javascript:;" class="red" dpri="${pk.SkuPackPrice}" data="${pk.PackageID}">优惠套餐1</a>                    
+                    <%}else{%>
+                    <span></span><a href="javascript:;" dpri="${pk.SkuPackPrice}" data="${pk.PackageID}">优惠套餐${pcon}</a>
+                    <%}
+                  pcon++;
+                }%>
+                </div>
+
+                <div class="clear"></div>
+                <!--l_tjdpleft  begin -->
+                <div class="l_tjdpleft" style="display:none">
+                   <div class="l_tjdpmk">
+                        <a href="javascript:;"><img id="g_m_img" src="" width="131" height="131" alt=""></a>
+                        <p><a href="javascript:;"></a></p>
+                    </div>
+                   <!--l_tjdpmk stop -->
+                </div>
+                <!--l_tjdpleft  stop -->
+                <!--l_tjdpcenter  begin -->
+                <div class="l_tjdpcenter" style="height:204px;margin-left: 30px;">
+                  <%
+                  var pkcon=1,procon=1;
+                  for(pk in pklist){
+                      if(pkcon==1){
+                  %>
+                    <ul class="fix" name="package_group" data="${pk.PackageID}"> 
+                   <%}else{%>
+                    <ul class="fix none" name="package_group" data="${pk.PackageID}"> 
+                   <%}%>                   
+                        <%for(sku in pk.skus){%>
+                        <li>
+                        <%if(procon>1){%>
+                         <div class="l_xjh"><i></i></div>
+                        <%}%>                           
+                            <div class="l_tjdpmk">
+                                <a href="#"><img src="${sku.ImgUrl}" width="131" height="131" alt="${sku.SkuName}"></a>
+                                <p><a href="#">${sku.SkuName}</a></p>
+                            </div>                            
+                        </li>
+                       <% procon++;}%>
+                    </ul>
+                 <%pkcon++;}%>
+                    
+                </div>
+                <!--l_tjdpcenter  stop -->
+                <!--l_tjdpright  begin -->
+                <div class="l_tjdpright" style="margin-top:-32px;">
+                    <p id="packname"></p>
+                    <p class="mt30">套餐价：</p>
+                    <p class="red fon16 bolder mt5" id="packprice">￥ ${pklist[0].SkuPackPrice}</p>
+                    <p class="mt30"><a href="javascript:;">
+                    <%if(pklist[0].Count>0){%>
+                    <span class="l_jrgwc small" id="package_addcar">加入购物车</span>
+                    <%}else{%>
+                    <span class="l_jrgwc small disabeld" disable="true">加入购物车</span>
+                    <%}%>
+                    </a></p>
+                </div>
+                <!--l_tjdpright  stop -->
+            </div>
+            <!--优惠套装 内容结束 -->
+        </div>
+        
+    </div>
+ <%}%>
+    <!--推荐搭配 优惠套装 结束 -->
+    <!------l_spxqall 商品详情所有内容开始 ------>
+    <div class="l_spxqall fix">
+        <!--l_spxqleft商品详情左边内容 开始 -->
+        <div class="l_spxqleft">
+                <!-- w01con 店铺信息开始-->
+                <div class="w01con fix">
+                    <div class="w01top">
+                        <h3 id="h3_shopname">${shopinfo.name}</h3>
+                        <p>咨 询：<a href="#">联系客服</a></p>
+                    </div><!--w01top  stop -->
+                    <!--w01xmnr  begin -->
+                    <div class="w01xmnr">
+                        <p class="heise">店铺动态评分</p>
+                        <ul class="fix">
+                            <li class="fix"><span class="huise">描述相符：</span><!--<span class="l_gyhs"><i></i>高于</span>--><span class="red bolder span_shopdepict">100%</span></li>
+                            <li class="fix"><span class="huise">服务态度：</span><!--<span class="l_gyhs"><i></i>高于</span>--><span class="red bolder span_shopservice">100%</span></li>
+                            <li class="fix"><span class="huise">发货速度：</span><!--<span class="l_dyls"><i></i>低于</span>--><span class="red bolder span_shopspeed">100%</span></li>
+                        </ul>
+                        <div class="w01bottom">
+                            <a href="/web/shop/details.html?shopId=${spuinfo.shopid}" class="l_jrdpbut mr10">进入店铺</a>
+                            <a href="javascript:void(0);" class="l_jrdpbut l_scdp" onclick="shopCollect(${spuinfo.shopid})">收藏店铺</a>
+                        </div><!--w01bottom  stop -->
+                    </div>
+                    <!--w01xmnr  stop -->
+                </div>
+                <!-- w01con 店铺信息结束-->
+           <!--l_ssdnsp  搜索店内商品  开始 -->
+            <div class="l_ssdnsp fix">
+            	<h3>搜索店内商品</h3>
+                <div class="l_ssdncon fix">
+                	<p><span>关键字：</span><input id="sname" name="" type="text" class="l_gjzinp" value="" placeholder="请输入关键词" /></p>
+                    <p><span>价格：</span><input id="pmin" name="" type="text" class="l_gjzinp l_jginp" value="" placeholder="￥" />-<input id="pmax" name="" type="text" class="l_gjzinp l_jginp" value="" placeholder="￥"></p>
+                    <p class="mt15"><span></span><input id="searchsp" name="" type="button" value="搜索" class="l_ssdnbut"></p>
+                </div><!--l_ssdncon  stop -->
+            </div>
+            <!--l_ssdnsp  搜索店内商品  结束 -->
+            <!--l_bbfl  宝贝分类开始 -->
+            <div class="l_bbfl" style="display:none">
+            	<div class="l_bbfltop">宝贝分类</div>
+                <ul class="fix">
+                	<li>
+                    	<h3><span class="l_yzk"></span><a href="#">查看所有宝贝</a></h3>
+                        <div class="l_bbflmk mr5">
+                        	<a href="#">按综合</a><a href="#">按销量</a><a href="#">按新品</a>
+                        </div>
+                    </li>
+                    <li>
+                    	<h3><span class="l_yzk"></span><a href="#">热销TOP</a></h3>
+                        <div class="l_bbflmk mr5">
+                        	<a href="#">连衣裙</a><a href="#">牛仔裤</a><a href="#">衣服</a>
+                            <a href="#">连衣裙</a><a href="#">牛仔裤</a><a href="#">衣服</a>
+                            <a href="#">连衣裙</a><a href="#">牛仔裤</a><a href="#">衣服</a>
+                            <a href="#">连衣裙</a><a href="#">牛仔裤</a><a href="#">衣服</a>
+                        </div>
+                    </li>
+                    <li>
+                    	<h3><span class="l_yzk"></span><a href="#"><img src="images/nvzhuang/img_20.png" width="147" height="78" alt=""></a></h3>
+                        <div class="l_bbflmk mr5">
+                        	<div class="l_xpfb">
+                            	<a href="#">9月22日新品--“ 听“</a>
+                                <a href="#">9月22日新品--“ 听“</a>
+                                <a href="#">9月22日新品--“ 听“</a>
+                                <a href="#">9月22日新品--“ 听“</a>
+                            </div>
+                        </div>
+                    </li>                 
+                    
+                </ul>
+            </div>
+            <!--l_bbfl  宝贝分类结束 -->
+            <div style="border: 1px solid #D9D9D9;
+    width: 188px;    margin-top: 10px;
+    margin-bottom: 10px;">
+           <a href="http://www.ietrace.com"> <img  src="/resource/pc/web/images/pro.jpg" style="    width: 188px;
+    height: 54px;"></a>
+            </div>
+            <!--l-bbtjall 宝贝推荐 开始 -->
+            <%if (isNotEmpty(topsputj)){%>
+            <div class="l-bbtjall fix mt0">
+                <div class="l_bbtjtop">
+                                                        宝贝推荐
+                    <!--<span class="more"><a href="#">更多</a></span>-->
+                </div>
+                <!--l_bbtjcon  begin -->
+                <div class="l_bbtjcon">
+                    <ul class="fix">
+                        <%for(pro in topsputj){%>
+                        <li>
+                            <a href="/web/products/proinfo.html?spuid=${pro.spuid}"><img src="${pro.img}" width="180" height="214" alt="${pro.name}"></a>
+                            <p><a href="/web/products/proinfo.html?spuid=${pro.spuid}">${pro.name}</a></p>
+                            <p>￥ <span class="red fon16 bolder">${pro.price,numberFormat="0.00"}</span></p>
+                        </li>
+                        <%}%>
+                    </ul>
+                </div>
+                <!--l_bbtjcon  stop -->
+            </div>
+            <%}%>
+            <!--l-bbtjall 宝贝推荐 结束 -->
+            <%if (isNotEmpty(hisList)){%>
+            <div class="l-bbtjall fix">
+                <div class="l_bbtjtop">最近浏览</div>
+                <!--l_bbtjcon  begin -->
+                <div class="l_bbtjcon">
+                    <ul class="fix">
+                        <%for(his in hisList){%>
+                        <li>
+                            <a href="/web/products/proinfo.html?spuid=${his.spuid}">
+                                <img src="${his.imgurl}" width="180" height="214" alt="${his.spuname}">
+                            </a>
+                            <p><a href="/web/products/proinfo.html?spuid=${his.spuid}">${his.spuname}</a></p>
+                           
+                            <p>￥ <span class="red fon16 bolder">${his.price!0,numberFormat="0.00"}</span></p>
+                            
+                        </li>
+                        <%}%>
+                    </ul>
+                </div>
+                <!--l_bbtjcon  stop -->
+            </div>
+            <%}%>
+        </div>
+        <!--l_spxqleft商品详情左边内容 结束 -->
+        <!---l_spxqright 商品详情右边内容  开始--->
+        <!--<input type="hidden" id="spuInfo" value="$spu.SpuInfo" />
+        <input type="hidden" id="packingList" value="$spu.Packinglist" />
+        <input type="hidden" id="afterService" value="$spu.AfterService" />-->
+
+        <div class="l_spxqright">
+            <!--l_spxqtop  begin -->
+            <div class="l_spxqtop fix" id="fixed">
+                <ul class="fix">
+                    <a href="javascript:;"><li class="l_xzzt" id="detial_0">商品介绍</li></a>
+                    <a href="javascript:;"><li id="detial_1">累计评价  <span class="red comment_all">${spuinfo.cmtcount!0}</span></li></a>
+                    <a href="javascript:;"><li id="detial_2">包装清单</li></a>
+                    <a href="javascript:;"><li id="detial_3">规格参数</li></a>
+                    <a href="javascript:;"><li id="detial_4">售后服务</li></a>
+                    <a href="javascript:;"><li id="detial_5" style="margin-right:0px;"><i></i>商品咨询</li></a>
+                </ul>
+            </div>
+            <!--l_spxqtop  stop -->
+            <!--商品介绍-->
+            <div id="pro_detial_tap_0">
+                <!--l_wsplx  开始 -->
+                <div class="l_wsplx fix">
+                    <ul class="l_wsplxmk" name="InfoList">
+                    <%if(isNotEmpty(infospeces)){
+				    for(specs in infospeces)
+				      {
+				         for(spe in specs.childs){%>
+                            <li>${spe.name}:${spe.Value}</li>
+                            <%}%>                       
+                    <%}}%> 
+                    </ul><!--l_wsplxmk  stop -->
+                </div>
+                <!--l_wsplx  结束 -->
+                <!--l_allimg  开始 -->
+                <div class="l_allimg fix" name="div_spuInfo">
+                    ${spudetail}
+                </div>
+                <!--l_allimg  结束 -->
+            </div>
+            <!--包装清单-->
+            <div id="pro_detial_tap_2" style="display:none;">
+                <div class="mt15 heise" name="div_packingList">                   
+                                            暂无包装清单...                   
+                </div>
+                <!--l_fwcn  begin -->
+                <div class="l_fwcn fix">
+                    <p>服务承诺：</p>
+                    <ul>
+                        <li>中绿生活平台卖家销售并发货的商品，由平台卖家提供发票和相应的售后服务。请您放心购买！</li>
+                        <li>注：因厂家会在没有任何提前通知的情况下更改产品包装、产地或者一些附件，本司不能确保客户收到的货物与商城图片、产地、附件说明完全一致。只能确保为原厂正货！并且保证与当时市场上同样主流新品一致。若本商城没有及时更新，请大家谅解！</li>
+                    </ul>
+                </div>
+                <!--l_fwcn  stop -->
+                <!--l_qlsm 权力声明 开始 -->
+                <div class="l_qlsm">
+                    <p class="red">权利声明：</p>
+                    <ul>
+                        <li>中绿生活上的所有商品信息、客户评价、商品咨询、网友讨论等内容，是中绿生活重要的经营资源，未经许可，禁止非法转载使用。</li>
+                        <li>注：本站商品信息均来自于合作方，其真实性、准确性和合法性由信息拥有者（合作方）负责。本站不提供任何保证，并不承担任何法律责任。</li>
+                        <li>印刷版次不同，印刷时间和版次以实物为准。</li>
+                    </ul>
+                </div>
+                <!--l_qlsm 权力声明 结束 -->
+
+            </div>
+            <!--规格参数-->
+            <div id="pro_detial_tap_3" style="display:none;">
+                <!-- l_ggcs  基本信息开始-->               
+      
+                    <%if(isNotEmpty(specesinfo)){
+				    for(specs in specesinfo)
+				      {%>			  
+                    <div class="l_ggcs" name="div_specsList">
+                        <dl class='standard'>
+                            <%if(isEmpty(specs.name)){%>
+                            <dt></dt>
+                            <%}else{%>
+                            <dt>${specs.name}</dt>
+                            <%}%>
+                            <%for(spe in specs.childs){%>
+                            <dd><label>${spe.name}</label><span>${spe.Value}</span></dd>
+                            <%}%>
+                        </dl>
+                    </div>
+                    <%}}%>
+
+                    <script id="specsList_" type="text/html">
+                        {{each list as spec1 i}}
+                        <dl class="standard">
+                            <dt>{{specl.TypeName}}</dt>
+                            {{each spec1.Specs as child j}}
+                            <dd><label>{{child.Name}}</label><span>{{child.Value}}</span></dd>
+                            {{/each}}
+                        </dl>
+                        {{/each}}
+                    </script>
+                    <!-- l_ggcs  基本信息结束-->
+                    <!--l_qlsm 权力声明 开始 -->
+                    <div class="l_qlsm">
+                        <p class="red">权利声明：</p>
+                        <ul>
+                            <li>中绿生活上的所有商品信息、客户评价、商品咨询、网友讨论等内容，是中绿生活重要的经营资源，未经许可，禁止非法转载使用。</li>
+                            <li>注：本站商品信息均来自于合作方，其真实性、准确性和合法性由信息拥有者（合作方）负责。本站不提供任何保证，并不承担任何法律责任。</li>
+                            <li>印刷版次不同，印刷时间和版次以实物为准。</li>
+                        </ul>
+                    </div>
+                    <!--l_qlsm 权力声明 结束 -->
+                </div>
+                <!--售后服务-->
+                <div id="pro_detial_tap_4" style="display:none;">
+                    <!--l_shfw  begin -->
+                    <div class="l_shfw fix" name="div_afterService">
+                        <%if(isEmpty(spuafter)){%>
+                                                                       暂无售后服务...
+                        <%}else{%>
+                        ${spuafter}
+                        <%}%>
+                    </div>
+                    <!--l_shfw  stop -->
+                </div>
+                <!--商品咨询-->
+                <div id="pro_detial_tap_5">
+                    <div class="l_fwcn fix lineheight25">
+                        <span class="fon14">温馨提示：</span>因厂家更改产品包装、产地或者更换随机配件等任何提前通知，且每位咨询者购买情况、提问时间等不同，为此以下回复仅对提问者3天内有效，其他网友仅供参考！
+                        若由此给您带来不便请多多谅解，谢谢！
+                    </div><!--l_fwcn  stop -->
+                    <!--发表咨询  begin -->
+                    <div class="mt15">
+                        <a href="javascript:fbzx();"  id="fbzx"><span class="l_jrgwc small l_xqyzx">发表咨询</span></a>
+                        <div class="l_fbzxcon fix" id="div_addconsult">
+                        <form action="javascript:void(0)" id="fbzxform">
+                            <i></i>
+                            <p class="bolder">发表咨询：</p>
+                            <p>声明：您可购买前对产品包装、颜色、运输、库存等方面进行咨询，我们有专人进行回复！<span class="fon12">因厂家随时会更改一些产品的包装、颜色、产地等参数，所以该回复仅在当时对提问者有效，其他网友仅供参考！咨询回复的工作时间为：周一至周五，9：00至18：00，请耐心等待工作人员回复。</span></p>
+                            <div class="l_zxlxxm fix">
+                                <label>咨询类型：</label>
+                                <span><input name="radio_cousulttype" type="radio" value="0" checked>商品咨询</span>
+                                <span><input name="radio_cousulttype" type="radio" value="1">库存及配送</span>
+                                <span><input name="radio_cousulttype" type="radio" value="2">支付问题</span>
+                                <span><input name="radio_cousulttype" type="radio" value="3">发票及保修</span>
+                                <span><input name="radio_cousulttype" type="radio" value="4">促销及赠品</span>
+                            </div>
+                            <div class="l_zxlxxm fix mt10">
+                                <label class="mt10">咨询内容：</label>
+                                <textarea name="text_consultcontent" id="text_consultcontent" cols="" rows="" class="l_fbzxnrtext" placeholder="如何能尽快找到咨询答案？" style="color:#000"></textarea>
+                            </div>
+                            <div class="mt20"><label>&nbsp;</label><a href="javascript:void(0);" class="l_tjfbzx" id="a_consultsubmit">提交</a></div>
+                       	</form>
+                        </div><!--l_fbzxcon  stop -->
+                    </div>
+                    <!--发表咨询  stop -->
+                    <div id="div_consultlist" >
+                     <%for(consult in consults){%>
+                       
+                            <div class="l_zxxmnrmk fix">
+                                <div class="l_zxxmnrmk01">
+                                    <span>会 员 :  ${consult.consultname}</span> <span>${consult.consultdateStr}</span>
+                                </div>
+                                <div class="l_zxxmnrmk02">咨询内容：${consult.consultcontent}</div>
+                                <div class="l_zxxmnrmk03">
+                                    <span class="l_hfxm1">中绿回复：</span>
+                                    <span class="l_hfxm2">${consult.replycontent}</span>
+                                    <span class="l_hfxm3">${consult.replydateStr}</span>
+                                </div>
+                            </div><!-- l_zxxmnrmk  stop -->
+                        <%}%>
+                        <script type="text/html" id="consultlist">
+                            {{each list as consult i}}
+                            <div class="l_zxxmnrmk fix">
+                                <div class="l_zxxmnrmk01">
+                                    <span>会 员 :  {{consult.consultname}}</span> <span>{{consult.consultdateStr}}</span>
+                                </div>
+                                <div class="l_zxxmnrmk02">咨询内容： {{consult.consultcontent}}</div>
+                                <div class="l_zxxmnrmk03">
+                                    <span class="l_hfxm1">中绿回复：</span>
+                                    <span class="l_hfxm2">{{consult.replycontent}}</span>
+                                    <span class="l_hfxm3">{{consult.replydateStr}}</span>
+                                </div>
+                            </div><!--l_zxxmnrmk  stop -->
+                            {{/each}}
+                        </script>
+                    </div>
+                    <!--page_01  开始 -->
+                    <input type="hidden" id="consult_index" value="${consultindex}">
+                    <input type="hidden" id="consult_count" value="${consultmaxrow}">
+                    <div class="page_01" id="consultpager">
+                    </div>
+                    <!--page_01  结束 -->
+                </div>
+                <!--商品评价-->
+                <div id="pro_detial_tap_1">
+                    <!--l_ljpltb商品评价  begin -->
+                    <div class="l_ljpltb fix">
+                        <h3 class="fon14">商品评价</h3>
+                        <!--l_ljpltbcon  begin -->
+                        <div class="l_ljpltbcon fix">
+                            <div class="l_ljplmk"><h3 class="comment_goodp">${spuinfo.cmtgood!'100%'}</h3><p>好评度</p></div><!--l_ljplmk  stop -->
+                            <div class="l_ljplmk01 fix">
+                                <p class="fix">
+                                    <span class="l_hpbfb">好评<em class="comment_goodp2">（${spuinfo.cmtgood!'100%'}）</em></span>
+                                    <span class="l_hdhpd"><i class="l_pjbj_01 i_goodp" style="width:${spuinfo.cmtgood!'100%'}"></i></span>
+                                </p>
+                                <p class="fix">
+                                    <span class="l_hpbfb">中评<em class="comment_generalp">（0%）</em></span>
+                                    <span class="l_hdhpd"><i class="l_pjbj_02 i_generalp" style="width:0%"></i></span>
+                                </p>
+                                <p class="fix">
+                                    <span class="l_hpbfb">差评<em class="comment_poorp">（0%）</em></span>
+                                    <span class="l_hdhpd"><i class="l_pjbj_03 i_poorp" style="width:0%"></i></span>
+                                </p>
+                            </div><!--l_ljplmk01  stop -->
+                            <div class="l_ljplmk02 fix">
+                                <!--<p>买家印象：</p>
+                                <ul>
+                                    <li><span class="heise">款式好看</span>(10)</li>
+                                </ul>-->
+                            </div><!--l_ljplmk02  stop -->
+                            <div class="l_ljplmk03">
+                                <p>您可对已购商品进行评价</p>
+                                <p class="mt10"><a href="javascript:void(0);" class="l_fbpjnjf a_gocomment">发表评价拿积分</a></p>
+                            </div><!-- l_ljplmk03  stop-->
+
+                        </div>
+
+                        <!--l_ljpltbcon  stop -->
+                    </div>
+                    <!--l_ljpltb商品评价  stop -->
+                    <!--全部评论  选项卡开始 -->
+                    <div class="nTab Wqbpl">
+                        <div class="TabTitle">
+                            <ul id="myTab1">                               
+                                    <li class="active" onclick="changetype(this,-1);">全部评论（${spuinfo.cmtcount}）</li>
+                                    <li class="normal" onclick="changetype(this,2);">好评（${spucomms.good}）</li>
+                                    <li class="normal" onclick="changetype(this,1);">中评（${spucomms.mr}）</li>
+                                    <li class="normal" onclick="changetype(this,0);">差评（${spucomms.bad}）</li>
+                                    <li class="normal" onclick="changetype(this,4);">有图片的评论（${spucomms.picCom}）</li>                               
+                            </ul>
+                        </div>
+                        <div class="TabContent">
+                            <!--选项卡1 全部评论 的内容 开始  -->
+                            <div id="myTab1_Content0"> 
+                                <div class="Wqbpltop">
+                                    <div class="Wqbp_1">评论心得</div>
+                                    <div class="Wqbp_2">客户满意度</div>
+                                    <div class="Wqbp_3">购买信息</div>
+                                    <div class="Wqbp_4">评论者</div>
+                                </div><!--Wqbpltop  stop -->
+                                <ul class="fix Wqbpcon" id="ul_commentlist">
+                                    <%for(commt in spucomms.list){%>
+                                        <li class="fix">
+                                            <div class="lwq01">
+                                                <p>${commt.content}</p>
+                                                <p class="lwq01img">
+                                                  <%for(img in commt.ShowImgList){%>
+                                                        <img dataid="${img.id}" src="${img.imgurl}" width="230" height="214">
+                                                    <%}%>
+                                                </p>
+                                                <div class="imgda" style="display: none;">
+                                                    <img src="" width="230" height="214">
+												</div>
+                                                <!-- <p class="huise">commt.createtime</p> -->
+                                            </div><!--lwq01 stop -->
+                                            <div class="lwq02 div_star" star-data="${commt.star}">
+                                            <% var star=commt.star; switch(star){ %> <% case 5:%>
+                                                <span class="xing-yellow"></span><span class="xing-yellow"></span><span class="xing-yellow"></span>
+                                                <span class="xing-yellow"></span><span class="xing-yellow"></span>
+                                                <%break; case 4: %>
+                                                <span class="xing-huise"></span><span class="xing-yellow"></span><span class="xing-yellow"></span>
+                                                <span class="xing-yellow"></span><span class="xing-yellow"></span>
+                                                <%break; case 3: %>
+                                                <span class="xing-huise"></span><span class="xing-huise"></span><span class="xing-yellow"></span>
+                                                <span class="xing-yellow"></span><span class="xing-yellow"></span>
+                                                <%break; case 2: %>
+                                                <span class="xing-huise"></span><span class="xing-huise"></span><span class="xing-huise"></span>
+                                                <span class="xing-yellow"></span><span class="xing-yellow"></span>
+                                                <%break; case 1: %>
+                                                <span class="xing-huise"></span><span class="xing-huise"></span><span class="xing-huise"></span>
+                                                <span class="xing-huise"></span><span class="xing-yellow"></span>
+                                                <%break; default: %>
+                                                <span class="xing-yellow"></span><span class="xing-yellow"></span><span class="xing-yellow"></span>
+                                                <span class="xing-yellow"></span><span class="xing-yellow"></span>
+                                                <%}%>
+                                            </div><!--lwq02 stop -->
+                                            <div class="lwq03">
+                                                <!-- #foreach($specs in $commt.SpecsList) 
+                                                    <p><span class="huise">$specs.SpecsName：</span>$specs.SpecsValue</p>
+                                                #end-->
+                                            </div>
+                                            <div class="lwq04">
+                                                <p>${commt.username}</p>                                                
+                                                <p>普通会员</p>
+                                                <p>${commt.createtime}购买</p>
+                                                <p>来自中绿客户端</p>
+                                            </div><!--lwq04 stop -->
+                                            <div class="clear"></div>
+                                            <!--l_hfnrall  begin -->
+                                            <div class="l_hfnrall fix">
+                                                <p>
+                                                    <span class="l_hfdj p_reply"><a class="a_replycount" replycount-val="$commt.ReplyCount" href="javascript:void(0);">回复（0）</a></span>
+                                                    <span><!--<a href="javascript:void(0);">赞（0）</a>--></span>
+                                                </p>
+                                                <div class="l_hfnrcon">
+                                                    <span class="l_hfnrjt"></span>
+                                                    <textarea name="" class="l_textall textarea_reply" in placeholder="回复  用户："></textarea>
+                                                    <div class="l_hfnrbot"><input name="" id="" type="button" value="提交回复" class="l_tjhf btn_reply" commentid-val="$commt.ID" parentid-val="$commt.ID" byreplyuserid-val="$commt.BuyerID"></div>
+                                                </div><!--l_hfnrcon  stop -->
+                                            </div>
+                                            <!--l_hfnrall  stop -->
+                                        </li>
+                                    <%}%>
+                                    <script type="text/html" id="commentlist">
+                                        {{each list as commt i}}
+                                        <li class="fix">
+                                            <div class="lwq01">
+                                                <p>{{commt.content}}</p>
+                                                <p class="lwq01img">                                                   
+                                                  {{each commt.showImgList as img i}}
+                                                           <img dataid="{{img.id}}" src="{{img.imgurl}}" width="230" height="214">
+												  {{/each}}
+                                                </p>
+												<div class="imgda" style="display: none;">
+                                                    <img src="" width="230" height="214">
+												</div>
+                                                <p class="huise">{{commt.createdate}}</p>
+                                            </div><!--lwq01 stop -->
+                                            <div class="lwq02 div_star" star-data="{{commt.star}}">
+                                                <span class="xing-yellow"></span>
+                                                <span class="xing-yellow"></span>
+                                                <span class="xing-yellow"></span>
+                                                <span class="xing-yellow"></span>
+                                                <span class="xing-yellow"></span>
+                                            </div><!--lwq02 stop -->
+                                            <div class="lwq03">
+                                                
+                                            </div><!--lwq03 stop -->
+                                            <div class="lwq04">
+                                                <p>{{commt.username}}</p>
+                                                <p>普通用户</p>
+                                                <p>{{commt.createtime}}购买</p>
+                                                <p>来自中绿客户端</p>
+                                            </div><!--lwq04 stop -->
+                                            <div class="clear"></div>
+                                            <!--l_hfnrall  begin -->
+                                            <div class="l_hfnrall fix">
+                                                <p>
+                                                    <span class="l_hfdj p_reply"><a class="a_replycount" replycount-val="commt.ReplyCount" href="javascript:void(0);">回复（0）</a></span>
+                                                    <span><!--<a href="javascript:void(0);">赞（0）</a>--></span>
+                                                </p>
+                                                <div class="l_hfnrcon">
+                                                    <span class="l_hfnrjt"></span>
+                                                    <textarea name="" cols="" rows="" class="l_textall textarea_reply" in placeholder="回复commt.UserName："></textarea>
+                                                    <div class="l_hfnrbot"><input name="" id="" type="button" value="提交回复" class="l_tjhf btn_reply" commentid-val="commt.ID" parentid-val="commt.ID" byreplyuserid-val="commt.BuyerID"></div>
+                                                </div><!--l_hfnrcon  stop -->
+                                            </div>
+                                            <!--l_hfnrall  stop -->
+                                        </li>
+                                        {{/each}}
+                                    </script>
+                                </ul>
+                            </div>
+                            <!--选项卡1 全部评论 的内容 结束  -->
+                        </div>
+                    </div>
+                    <!--全部评论  选项卡结束 -->
+                    <!--page_01  开始 -->
+                    <input type="hidden" id="comment_index" value="${pindex}">
+                    <input type="hidden" id="comment_count" value="${maxrow}">
+                    <div class="page_01" id="pager">
+                    </div>
+                    <!--page_01  结束 -->
+                    <!--l_qlsm 权力声明 开始 -->
+                    <div class="l_qlsm">
+                        <p class="red">权利声明：</p>
+                        <ul>
+                            <li>中绿生活上的所有商品信息、客户评价、商品咨询、网友讨论等内容，是中绿生活重要的经营资源，未经许可，禁止非法转载使用。</li>
+                            <li>注：本站商品信息均来自于合作方，其真实性、准确性和合法性由信息拥有者（合作方）负责。本站不提供任何保证，并不承担任何法律责任。</li>
+                            <li>印刷版次不同，印刷时间和版次以实物为准。</li>
+                        </ul>
+                    </div>
+                    <!--l_qlsm 权力声明 结束 -->
+                </div>
+            </div>
+            <!---l_spxqright 商品详情右边内容  结束--->
+        </div>
+        <!------l_spxqall 商品详情所有内容结束 ------>
+        <input type="hidden" id="spuId" value="${spuid}"/>
+    </div>
+   
+    <script type="text/javascript">
+        function nTabs(thisObj, Num) {
+            if (thisObj.className == "active") return;
+            var tabObj = thisObj.parentNode.id;
+            var tabList = document.getElementById(tabObj).getElementsByTagName("li");
+            for (i = 0; i < tabList.length; i++) {
+                if (i == Num) {
+                    thisObj.className = "active";
+                    document.getElementById(tabObj + "_Content" + i).style.display = "block";
+                } else {
+                    tabList[i].className = "normal";
+                    document.getElementById(tabObj + "_Content" + i).style.display = "none";
+                }
+            }
+        }
+        var ifxs=0;
+        function fbzx(){
+        	if(ifxs==0){
+        		ifxs=1;
+			$("#div_addconsult").css("display",'block');   
+        	}else{
+        		ifxs=0;
+        		$("#div_addconsult").attr("style",'display:nono');   
+        	}
+        }
+    </script>
+<%}}%>

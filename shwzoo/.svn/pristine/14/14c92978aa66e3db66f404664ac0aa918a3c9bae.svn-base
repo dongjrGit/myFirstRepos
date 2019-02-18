@@ -1,0 +1,18 @@
+<meta charset="UTF-8">
+<%for(vo in list.data){%>
+<li class="fix">
+					<a href="/wap/activityView/getDetail?ch=3&id=${vo.id}">
+						<div class="brand_tconnr_l">
+							<img src="${vo.img}" class="img-responsive"/>
+						</div>
+						<div class="brand_tconnr_r">
+							<h3>${vo.title}<i>中绿组团</i></h3>
+							<p>${vo.listdesc}</p>
+							<div class="brand_tconnr_r_price">
+								¥ ${vo.cprice}
+							</div>
+						</div>
+					</a>
+					  <input name="pages" type="hidden" value="${list.page}"/>
+				</li>
+<%}%>

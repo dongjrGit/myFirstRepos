@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<title>中绿味道-菜谱大全</title>
+
+</head>
+<body class="bodybjhs">
+<% try{
+		include("/template/pc/nav/zlzq_nav.html",{flag:4}){}}catch(error){}%>
+<!--container 中间所有内容开始-->
+<div id="container" class="fix">
+	<div class="w945 fix">
+		<div class="l_pos fon14">
+	  	<span class="fon14"><a href="#">中绿味道 </a></span>
+	    <span class="l_jtyb">&gt;</span>
+	    <span class="fon14"><a href="#">菜谱大全 </a></span>
+	    <span class="l_jtyb">&gt;</span>
+	           西红柿炒鸡蛋
+		</div>
+		<div class="line mt15"></div>
+		<!--cpdq-arcnr begin-->
+		<div class="cpdq-arcnr fix">
+			<div class="cpdq-arcnr-l">
+				<h3 class="cpdq-arcnr-tit">西红柿炒鸡蛋</h3>
+				<img src="images/xzimg21.jpg" class="img-responsive1 mt20"/>
+				<h3 class="fon20 mt30">养生必读</h3>
+				<p class="fon16 mt10">西红柿：健胃、消食积、生津止渴</p>
+				<p class="fon16 mt5">鸡蛋：润燥、增强免疫力、护眼明目</p>
+				<p class="fon16 mt5">香菜：健胃、透疹、增强免疫力</p>
+				<h3 class="fon20 mt30">用料</h3>
+				<div class="cpdq-arcnr-pllbcon fix mt15">
+					<ul class="cpdq-arcnr-pllb fix">
+						<li><p class="fon18">西红柿 </p><p class="fon16 huise">2个 </p></li>
+						<li><p class="fon18">西红柿 </p><p class="fon16 huise">2个 </p></li>
+						<li><p class="fon18">西红柿 </p><p class="fon16 huise">2个 </p></li>
+						<li><p class="fon18">西红柿 </p><p class="fon16 huise">2个 </p></li>
+						<li><p class="fon18">西红柿 </p><p class="fon16 huise">2个 </p></li>
+						<li><p class="fon18">西红柿 </p><p class="fon16 huise">2个 </p></li>
+						<li><p class="fon18">西红柿 </p><p class="fon16 huise">2个 </p></li>
+					</ul>
+					<ul class="cpdq-arcnr-pllb fix">
+						<li><p class="fon18">西红柿 </p><p class="fon16 huise">2个 </p></li>
+						<li><p class="fon18">西红柿 </p><p class="fon16 huise">2个 </p></li>
+						<li><p class="fon18">西红柿 </p><p class="fon16 huise">2个 </p></li>
+					</ul>
+				</div>
+				<h3 class="fon20 mt30">做法</h3>
+				<ul class="cpdq-arcnr-zfdq fix">
+					<li class="fix">
+						<img src="images/xzimg21.jpg"/>
+						<p class="fon16"><span class="orange">1、</span>西红柿洗干净后，在顶部划十字刀</p>
+					</li>
+					<li class="fix">
+						<img src="images/xzimg21.jpg"/>
+						<p class="fon16"><span class="orange">1、</span>西红柿洗干净后，在顶部划十字刀</p>
+					</li>
+					<li class="fix">
+						<img src="images/xzimg21.jpg"/>
+						<p class="fon16"><span class="orange">1、</span>西红柿洗干净后，在顶部划十字刀</p>
+					</li>
+				</ul>
+				<h3 class="fon20 mt30">烹饪技巧</h3>
+				<p class="fon16 lineheight30 mt15">1、如今是什么都有添加剂或者药，西红柿就更厉害了一般外面卖的西红柿都是抹了增剂的，一般手感重，外面红润，里面少许绿，不够红，所有要买了放在家里几天，等里面完全熟透了再吃，这个时候药物挥发也基本很少了，做菜口味也很好，即使不放糖也不会很酸了。</p>
+				<p class="fon16 lineheight30">2、西红柿鸡蛋油要少放，否则会有油腻就不好吃了。</p>
+				<p class="fon16 lineheight30">3、要是做的多的话，就用一半的西红柿炒出酱汁，然后再放入另一半和鸡蛋，就很好看 也很好吃也很营养。</p>
+				<div class="cpdq-share fix">
+					<ul class="cpdq-share-l">
+						<li><i class="cpdq-shareico1"></i><p>308人喜欢</p></li>
+						<li><i class="cpdq-shareico2"></i><p>1083人收藏</p></li>
+					</ul>
+					<ul class="cpdq-share-r">
+						<li><a href="#"><i class="cpdq-shareico3"></i><p>新浪微博</p></a></li>
+						<li><a href="#"><i class="cpdq-shareico4"></i><p>微信</p></a></li>
+						<li><a href="#"><i class="cpdq-shareico5"></i><p>QQ空间</p></a></li>
+						<li><a href="#"><i class="cpdq-shareico6"></i><p>QQ好友</p></a></li>
+					</ul>
+				</div>
+			</div><!--cpdq-arcnr-l stop-->
+			<div class="cpdq-arcnr-r">
+				<h3><span>相关食材</span></h3>
+				<ul class="cpdq-xgscnr fix">
+					<li class="fix">
+						<a href="#"><img src="images/xzimg21.jpg"/></a>
+						<p class="fon14"><a href="#">晋龙鲜鸡蛋六无蛋晋龙鲜鸡蛋六无蛋晋龙鲜鸡蛋六无蛋晋龙鲜鸡蛋六无蛋 16枚 </a></p>
+						<p class="fon14 red">￥22.90 </p>
+					</li>
+					<li class="fix">
+						<a href="#"><img src="images/xzimg21.jpg"/></a>
+						<p class="fon14"><a href="#">晋龙鲜鸡蛋六无蛋 16枚 </a></p>
+						<p class="fon14 red">￥22.90 </p>
+					</li>
+					<li class="fix">
+						<a href="#"><img src="images/xzimg21.jpg"/></a>
+						<p class="fon14"><a href="#">晋龙鲜鸡蛋六无蛋 16枚 </a></p>
+						<p class="fon14 red">￥22.90 </p>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!--cpdq-arcnr stop-->
+	</div>
+</div>
+<!--container 中间所有内容结束-->
+<!--footer  底部开始 -->
+<!--footer  底部结束 -->
+</body>
+</html>

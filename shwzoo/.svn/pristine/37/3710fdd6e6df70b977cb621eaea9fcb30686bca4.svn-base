@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<title>中绿味道-厨房百科-详情</title>
+<link rel="stylesheet" href="css/common.css" />
+<link rel="stylesheet" href="css/top-footer.css" />
+<link rel="stylesheet" href="css/womenclothing.css" />
+<script type="text/javascript" src="js/jquery-1.8.3.js" ></script>
+<script type="text/javascript" src="js/index.js" ></script>
+</head>
+<body class="bodybjhs">
+<% try{
+		include("/template/pc/nav/zlzq_nav.html",{flag:4}){}}catch(error){}%>
+<!--container 中间所有内容开始-->
+<div id="container" class="fix">
+	<div class="l_pos fon14">
+  	<span class="fon14"><a href="#">中绿味道 </a></span>
+    <span class="l_jtyb">&gt;</span>
+    <span class="fon14"><a href="#">厨房百科 </a></span>
+    <span class="l_jtyb">&gt;</span>
+           橘子皮晒干之后就是陈皮吗？
+	</div>
+	<div class="cfbk-tit">橘子皮晒干之后就是陈皮吗？</div>
+	<p class="huise text-center mt5">时间：2016-09-21</p>
+	<!--cfbk-arcnr begin-->
+	<div class="cfbk-arcnr fix">
+		<div class="text-center mt20"><img src="images/xzimg23.jpg"/></div>
+		<p>很多市民喜欢把橘子皮晒干作为陈皮泡水喝，甚至用来当做佐料增加自制药膳的药效。但是，橘子皮晒干就是陈皮了吗？自制“陈皮”靠谱吗？</p>
+		<p>国家二级公共营养师巩宏斌表示，自己晒的橘子皮并不能当药用，从功效上来说虽然也有一定的理气、健胃功效，但是药效与真正的陈皮相去甚远。</p>
+		<p>做陈皮需要在太阳下将橘皮风干，然后存放于密封装置60天-150天，用湿度为80%的潮湿空气加湿，以使果皮软化，待果皮软化后，将其捆绑固定、风干，然后再放到太阳下晒干，最后将其密封存放。</p>
+		<p>与其他中药材不同的是，陈皮具有越陈越好的特殊性，品质比较好的陈皮，对取皮的时间有很严格的要求，也就是说存放的时间越久药效越好，一般放至隔年后才可以使用。陈皮隔年后挥发油含量大为减少，而黄酮类化合物含量就会相对增加，这时陈皮的药用价值才能体现出来。而鲜橘皮则含挥发油较多，不具备陈皮那样的药用功效，一些药店出售的名贵陈皮甚至存放了上百年。</p>
+		<p>巩宏斌表示，新鲜的橘子皮并不等于陈皮，不仅如此，新鲜柑橘皮也不是全都可以做成陈皮，只有成熟的柑橘皮才能做成陈皮。</p>
+		<p>此外，一些人喜欢用新鲜的橘子皮泡水喝。巩宏斌提醒，新鲜橘子皮中挥发油含量较高，用其泡水，不但不能发挥它的药用价值，还会刺激肠胃。另外橘皮表面附着有农药或保鲜剂，一般的水洗很难将这些有害物质去除干净，所以最好不要用鲜橘子皮泡茶或泡酒。</p>
+	</div>
+  <!--cfbk-arcnr stop-->
+  <div class="cfbk-arcnrbot fix">
+  	<p>上一篇：<a href="#">草莓八作用，春季常吃健康好</a></p>
+  	<p>下一篇：<a href="#">炒不同的菜肴用什么油温好</a></p>
+  	<div class="cfbk-arcnrbot-r">
+  		<span>分享:</span>
+  		<a href="#"><i class="cfbk-arcnrbotico1"></i></a>
+  		<a href="#"><i class="cfbk-arcnrbotico2"></i></a>
+  		<a href="#"><i class="cfbk-arcnrbotico3"></i></a>
+  		<a href="#"><i class="cfbk-arcnrbotico4"></i></a>
+  	</div>
+  </div>
+</div>
+<!--container 中间所有内容结束-->
+<!--footer  底部开始 -->
+<!--footer  底部结束 -->
+</body>
+</html>

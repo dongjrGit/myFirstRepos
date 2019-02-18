@@ -1,0 +1,86 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* container begin */
+#container{ width:100%;}
+.mainright{ width:99%; float:right; position:relative;}
+/* container stop */
+
+/* statement begin */
+.statement{ width:100%; margin-top:45px; color:#585657; font-size:16px; font-weight:bolder;}
+.statement-left{ width:50%; float:left;}
+.statement-right{ width:40%; margin-left:2%; float:left;}
+.statis-left-top{ width:100%; height:52px; line-height:52px; background:#e4e4e4; position:relative; border:1px solid #e4e4e4;}
+.statis-left-top-title{ margin-left:20px;}
+.refresh{ width:27px; height:27px; background:url(../images/icion_1.png) no-repeat 0px -166px; position:absolute; top:13px; right:20px; cursor:pointer;}
+.statis-left-con{ width:100%; height:470px; background:#FFF; border:1px solid #f2f2f2; text-align:center;
+-moz-box-shadow: 0px 3px 5px #ccc;
+-webkit-box-shadow: 0px 3px 5px #ccc;
+box-shadow: 0px 3px 5px #ccc
+/* For IE 8 */
+-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#f2f2f2')";
+/* For IE 5.5 - 7 */
+filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#f2f2f2');
+}
+.sta-rig-mk{ height:256px; margin-bottom:12px;}
+.sta-rig-mk-top{ width:100%; height:52px; line-height:52px; background:#e4e4e4; position:relative; border:1px solid #e4e4e4;}
+.top-title{ width:150px; height:52px; position:absolute; top:0px; left:20px;}
+.sta-rig-mk-con{ width:100%; height:200px; background:#FFF; border:1px solid #f2f2f2; text-align:center;
+-moz-box-shadow: 0px 3px 5px #ccc;
+-webkit-box-shadow: 0px 3px 5px #ccc;
+box-shadow: 0px 3px 5px #ccc
+/* For IE 8 */
+-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#f2f2f2')";
+/* For IE 5.5 - 7 */
+filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#f2f2f2');
+}
+.dpxse{ width:92%; color:#585657; font-size:16px; font-weight:bolder; margin-top:15px;}
+.dpxse-con{  width:100%; height:411px; background:#FFF; border:1px solid #f2f2f2; text-align:center;
+-moz-box-shadow: 0px 3px 5px #ccc;
+-webkit-box-shadow: 0px 3px 5px #ccc;
+box-shadow: 0px 3px 5px #ccc
+/* For IE 8 */
+-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#f2f2f2')";
+/* For IE 5.5 - 7 */
+filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#f2f2f2');
+}
+/* statis stop */
+
+.members-form{ width:100%; margin-top:35px; color:#000;}
+.members-form span{ margin-right:30px;}
+.members-form-inp{ width:150px; height:24px; border:1px solid #D4D4D4;}
+.text_time{	 width:110px; height:24px; border:1px solid #D4D4D4; color:#666; text-align:center;}
+.member-inp{ padding:3px 10px; background:#ffffff; border:1px solid #D3D3D3; border-radius:5px; color:#666;}
+.member-xz{ width:100%; margin-bottom:3px;}
+.member-xz span{ margin-right:10px;}
+.member-operate span{ margin-right:10px;}
+.table-con .data_list .dlgn th{ height:20px; background:#E4E4E4; font-size:18px; color:#000; font-weight:bolder; position:relative; text-align:left;}
+.dlgn-title{ width:150px; height:40px; line-height:40px; position:absolute; top:0px; left:20px;}
+.dlgn-con{ width:500px; height:40px; line-height:40px; position:absolute; top:0px; right:20px; text-align:right;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

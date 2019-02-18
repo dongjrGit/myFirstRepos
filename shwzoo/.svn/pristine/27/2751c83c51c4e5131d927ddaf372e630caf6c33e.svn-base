@@ -1,0 +1,24 @@
+<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>我的余额</title>
+<script type="text/javascript" src="${path}/wap/js/login.js"></script>
+</head>
+<body>
+
+
+<div class="top_title fix">
+         <a  href="/wap/userinfo/homepage?ch=3">
+		<div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div>
+		</a>
+		我的余额
+	</div>
+<div class="jifen-h" ><b>${userbalance}</b>当前可用余额</div>
+<!-- <div class="jifen-b">经彩豆兑换</div>
+<ul class="Eidvua-dizhi jifen">
+	<li><span>积分兑换</span><input type="text" placeholder="请输入您的姓名"><i>您最多可以兑换50个经彩豆</i></li>
+</ul> -->
+</body>
+    

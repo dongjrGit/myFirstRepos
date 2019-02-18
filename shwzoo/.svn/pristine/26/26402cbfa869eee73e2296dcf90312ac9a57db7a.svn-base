@@ -1,0 +1,87 @@
+<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>收货地址</title>
+
+<script src="${path}/wap/js/address/ReceiverAddres.js"></script>
+<script type="text/javascript" src="${path}/wap/js/login.js"></script>
+</head>
+<body>
+<div class="top_title fix">
+         <a  href="${href!'/wap/userinfo/homepage?ch=3'}">
+		<div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div>
+		</a>
+		收货地址
+	</div>
+	
+<ul class="souhuodz-gl" id="receiveraddress">
+<%for (address in addresss){%>
+	<li>
+		<%if(has(href)&&isNotEmpty(href)){%>
+		<a href="${href}?adid=${address.id}">
+		<%}else{%>
+		<a href="javascript:void(0)">	
+		<%}%>    	
+        	<h2><b>${address.name}</b>${address.mobile}</h2>
+            <p>${address.provincename} ${address.cityname} ${address.areaname} ${address.address}</p>
+        </a>
+        <div>
+       <%if(address.isdefault==1){%>
+        	<input adid="${address.id}" checked="checked" type="radio" class="yradio" name="deft" >默认地址
+        	<%}else{%>
+        	<input adid="${address.id}" type="radio" class="yradio" name="deft">设为默认
+        	<%}%>
+            <span><a href="/wap/receiveraddress/editAddrById?addressid=${address.id}&href=${href!''}"> <img src="${path}/wap/images/index_33.png">编辑</a><a id="deleteaddres" name="deleteaddres" value="${address.id}"><img src="${path}/wap/images/index_34.png">删除</a></span>
+        </div>
+    </li>
+<%}%>
+</ul>
+<a href="/wap/receiveraddress/WritAddress?href=${href!''}" class="ImMain-tcbtn">新建地址</a>
+
+<script type="text/javascript">
+   $(document).ready(function(){
+	   $("a[name='deleteaddres']").click(function(){
+		   if(login.isLogin()){ 
+			var addressid=$(this).attr("value");
+			receiveraddresss.deteleaddress(addressid);
+		  }else{
+				window.loaction.href="/wap/user/showlogin";
+			}
+		});
+		 //设为默认地址
+		 $(".yradio").click(function(){
+		   if(login.isLogin()){ 
+			var id=$(this).attr("adid");
+			setdefault(id);
+		  }else{
+				window.loaction.href="/wap/user/showlogin";
+			}
+		});
+		
+   })
+   function setdefault(id){
+   	$.ajax({
+   		  type : "post",
+            url : "/api/wap/receiveraddress/updateDeAddr",
+            dataType : "json",
+            data : {                
+                id : id
+            },
+            success : function(fh) {
+                if (fh.code == 0) {                   
+                    location.href = "/wap/receiveraddress/selectAddrByUserId";
+                } else {
+                    alert(fh.desc);
+                }
+            },
+            error : function(e) {
+
+            }
+   	})
+   }
+</script>
+</body>
+    
+    

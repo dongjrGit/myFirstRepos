@@ -1,0 +1,239 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>个人中心-未登录</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="stylesheet" href="css/public.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/index.css" type="text/css" media="screen">
+<script src="js/jquery.js"></script>
+</head>
+<body>
+<!--container  begin-->
+<div class="container fix">
+	<!--l_searchjg  begin -->
+    <div class="l_searchjg fix">
+    <div class="l_seadw fix">
+    	<div class="l_searchjg01"><img src="images/tp10.png" class="img-responsive l_maxwid"></div>     	<div class="l_searchjg02 l_hbtop">
+        店铺动态
+        </div>
+        <div class="l_searchjg03"><img src="images/sysrig.png" class="img-responsive"></div>
+    </div>
+    </div>
+    <!--l_searchjg  stop -->
+    <!--l_dpdtnr  begin -->
+    <div class="l_dpdtnr fix">
+    	<span class="l_dpdtime"><img src="images/dpdtico.png" class="img-responsive"></span><span>15:00</span><span>1条动态</span>
+    </div>
+    <!--l_dpdtnr  stop -->
+    <!--l_ynfdpdt  begin -->
+    <div class="l_ynfdpdt fix">
+    	<div class="l_ynfdpdttop fix">
+        	<div class="l_ynfdpdttop01"><img src="images/ynflogo.jpg" class="img-responsive"></div>
+            <div class="l_ynfdpdttop02">
+            	<p>荣耀官方旗舰店</p>
+                <p class="huise">猜你喜欢</p>
+            </div>
+            <div class="l_ynfdpdttop03">
+            	32999条动态 <span><img src="images/dpdticorow.png" class="img-responsive"></span>
+            </div>
+        </div>
+        <!--l_fzcxtop  begin -->
+        <div class="l_fzcxtop fix">
+            <span class="bjred">促销</span> <span class="huise">9.2折起促销，迟点就涨价</span> <span class="huise l_fzcxtopdw">今天 14:58</span>
+        </div>
+        <!--l_fzcxtop  stop -->
+        <div class="l_ynfullb mt3">
+            <ul>
+                <li>
+                    <a href="#"><img src="images/ynf.jpg" class="img-responsive" title="" alt=""></a>
+                    <p>￥ 79.00</p>
+                </li>
+                <li>
+                    <a href="#"><img src="images/ynf.jpg" class="img-responsive" title="" alt=""></a>
+                    <p>￥ 79.00</p>
+                </li>
+                <li>
+                    <a href="#"><img src="images/ynf.jpg" class="img-responsive" title="" alt=""></a>
+                    <p>￥ 79.00</p>
+                </li>
+                <li>
+                    <a href="#"><img src="images/ynf.jpg" class="img-responsive" title="" alt=""></a>
+                    <p>￥ 79.00</p>
+                </li>
+                <li>
+                    <a href="#"><img src="images/ynf.jpg" class="img-responsive" title="" alt=""></a>
+                    <p>￥ 79.00</p>
+                </li>
+            </ul>
+        </div> 
+    </div>
+    <!--l_ynfdpdt  stop -->
+    <!--l_dpdtnr  begin -->
+    <div class="l_dpdtnr fix">
+    	<span class="l_dpdtime"><img src="images/dpdtico.png" class="img-responsive"></span><span>15:00</span><span>1条动态</span>
+    </div>
+    <!--l_dpdtnr  stop -->
+    <!--l_ynfdpdt  begin -->
+    <div class="l_ynfdpdt fix">
+    	<div class="l_ynfdpdttop fix">
+        	<div class="l_ynfdpdttop01"><img src="images/ynflogo.jpg" class="img-responsive"></div>
+            <div class="l_ynfdpdttop02">
+            	<p>荣耀官方旗舰店</p>
+                <p class="huise">猜你喜欢</p>
+            </div>
+            <div class="l_ynfdpdttop03">
+            	323条动态 <span><img src="images/dpdticorow.png" class="img-responsive"></span>
+            </div>
+        </div>
+        <!--l_fzcxtop  begin -->
+        <div class="l_fzcxtop fix">
+            <span class="bjred bjhuangse">上新</span> <span class="huise">9.2折起促销，迟点就涨价</span> <span class="huise l_fzcxtopdw">今天 14:58</span>
+        </div>
+        <!--l_fzcxtop  stop -->
+        <div class="l_ynfullb mt3">
+            <ul>
+                <li>
+                    <a href="#"><img src="images/ynf.jpg" class="img-responsive" title="" alt=""></a>
+                    <p>￥ 79.00</p>
+                </li>
+                <li>
+                    <a href="#"><img src="images/ynf.jpg" class="img-responsive" title="" alt=""></a>
+                    <p>￥ 79.00</p>
+                </li>
+                <li>
+                    <a href="#"><img src="images/ynf.jpg" class="img-responsive" title="" alt=""></a>
+                    <p>￥ 79.00</p>
+                </li>
+                <li>
+                    <a href="#"><img src="images/ynf.jpg" class="img-responsive" title="" alt=""></a>
+                    <p>￥ 79.00</p>
+                </li>
+                <li>
+                    <a href="#"><img src="images/ynf.jpg" class="img-responsive" title="" alt=""></a>
+                    <p>￥ 79.00</p>
+                </li>
+            </ul>
+        </div>  
+    </div>
+    <!--l_ynfdpdt  stop -->
+    <!--l_dpdtnr  begin -->
+    <div class="l_dpdtnr fix">
+    	<span class="l_dpdtime"><img src="images/dpdtico.png" class="img-responsive"></span><span>15:00</span><span>1条动态</span>
+    </div>
+    <!--l_dpdtnr  stop -->
+    <!--l_ynfdpdt  begin -->
+    <div class="l_ynfdpdt fix">
+    	<div class="l_ynfdpdttop fix">
+        	<div class="l_ynfdpdttop01"><img src="images/ynflogo.jpg" class="img-responsive"></div>
+            <div class="l_ynfdpdttop02">
+            	<p>荣耀官方旗舰店</p>
+                <p class="huise">猜你喜欢</p>
+            </div>
+            <div class="l_ynfdpdttop03">
+            	32999条动态 <span><img src="images/dpdticorow.png" class="img-responsive"></span>
+            </div>
+        </div>
+        <!--l_fzcxtop  begin -->
+        <div class="l_fzcxtop fix">
+            <span class="bjred">促销</span> <span class="huise">9.2折起促销，迟点就涨价</span> <span class="huise l_fzcxtopdw">今天 14:58</span>
+        </div>
+        <!--l_fzcxtop  stop -->
+        <div class="l_ynfullb mt3">
+            <ul>
+                <li>
+                    <a href="#"><img src="images/ynf.jpg" class="img-responsive" title="" alt=""></a>
+                    <p>￥ 79.00</p>
+                </li>
+                <li>
+                    <a href="#"><img src="images/ynf.jpg" class="img-responsive" title="" alt=""></a>
+                    <p>￥ 79.00</p>
+                </li>
+                <li>
+                    <a href="#"><img src="images/ynf.jpg" class="img-responsive" title="" alt=""></a>
+                    <p>￥ 79.00</p>
+                </li>
+                <li>
+                    <a href="#"><img src="images/ynf.jpg" class="img-responsive" title="" alt=""></a>
+                    <p>￥ 79.00</p>
+                </li>
+                <li>
+                    <a href="#"><img src="images/ynf.jpg" class="img-responsive" title="" alt=""></a>
+                    <p>￥ 79.00</p>
+                </li>
+            </ul>
+        </div>
+        <div class="l_ckgdfx"><a href="#">查看更多<span class=" r_ckgdfx"><img src="images/gzxinico02.png" class="img-responsive"></span></a></div> 
+    </div>
+    <!--l_ynfdpdt  stop -->
+    <!--l_dpdtnr  begin -->
+    <div class="l_dpdtnr fix">
+    	<span class="l_dpdtime"><img src="images/dpdtico.png" class="img-responsive"></span><span>15:00</span><span>1条动态</span>
+    </div>
+    <!--l_dpdtnr  stop -->
+    <!--l_ynfdpdt  begin -->
+    <div class="l_ynfdpdt fix">
+    	<div class="l_ynfdpdttop fix">
+        	<div class="l_ynfdpdttop01"><img src="images/ynflogo.jpg" class="img-responsive"></div>
+            <div class="l_ynfdpdttop02">
+            	<p>荣耀官方旗舰店</p>
+                <p class="huise">猜你喜欢</p>
+            </div>
+            <div class="l_ynfdpdttop03">
+            	32999条动态 <span><img src="images/dpdticorow.png" class="img-responsive"></span>
+            </div>
+        </div>
+        <!--l_fzcxtop  begin -->
+        <div class="l_fzcxtop fix">
+            <span class="bjred">促销</span> <span class="huise">9.2折起促销，迟点就涨价</span> <span class="huise l_fzcxtopdw">今天 14:58</span>
+        </div>
+        <!--l_fzcxtop  stop -->
+        <div class="l_ynfullb mt3">
+            <ul>
+                <li>
+                    <a href="#"><img src="images/ynf.jpg" class="img-responsive" title="" alt=""></a>
+                    <p>￥ 79.00</p>
+                </li>
+                <li>
+                    <a href="#"><img src="images/ynf.jpg" class="img-responsive" title="" alt=""></a>
+                    <p>￥ 79.00</p>
+                </li>
+                <li>
+                    <a href="#"><img src="images/ynf.jpg" class="img-responsive" title="" alt=""></a>
+                    <p>￥ 79.00</p>
+                </li>
+                <li>
+                    <a href="#"><img src="images/ynf.jpg" class="img-responsive" title="" alt=""></a>
+                    <p>￥ 79.00</p>
+                </li>
+                <li>
+                    <a href="#"><img src="images/ynf.jpg" class="img-responsive" title="" alt=""></a>
+                    <p>￥ 79.00</p>
+                </li>
+            </ul>
+        </div>
+        <div class="l_ckgdfx"><a href="#">查看更多<span class=" r_ckgdfx"><img src="images/gzxinico02.png" class="img-responsive"></span></a></div> 
+    </div>
+    <!--l_ynfdpdt  stop -->
+    <div class="l_load mt5"><span><img src="images/tp09.gif" class="img-responsive"></span></div>
+</div>
+<!--container  stop -->
+<script>
+$(document).ready(function(){
+	var ynfdpdttopH=$(".l_ynfdpdttop01").height();
+	$(".l_ynfdpdttop03").css("line-height",ynfdpdttopH+"px")
+});	
+</script>
+<!--l_xsh  回到顶部图标 begin -->
+<div class="l_xsh"><img src="images/tp23.png" class="img-responsive"></div>
+<script>
+$(".l_xsh").click(function() { 
+	$("html, body").animate({ scrollTop: 0 }, "slow"); 
+	return false;  
+}); 
+</script>
+<!--l_xsh  回到顶部图标 stop -->
+</body>
+</html>

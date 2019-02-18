@@ -1,0 +1,130 @@
+<%var path="/resource";%>
+<head>
+<title>个人中心-未登录</title>
+<script src="${path}/wap/js/index.js"></script>
+
+<script src="${path}/wap/js/showFan/EditFan.js"></script>
+<script src="${path}/ajaxfileupload.js"></script>
+</head>
+<body>
+<!--container  begin-->
+<div class="container fix">
+	<!--l_alltop  begin -->
+	<div class="l_alltop fix">
+    	<a href="/wap/discover/selectSpu.html"><span><img src="${path}/wap/images/tp10.png" class="img-responsive l_maxwid"></span></a>
+    	描述
+    	  <span class="l_xybtb"><a  href="javascript:void(0)" onclick="save()">提交</a></span>
+    </div>
+    <!--l_alltop  stop -->
+    <form id="dataform">
+    <input type="hidden" id="skuid" name="skuid" value="${skuid}">
+    <div class="l_sfms">
+    	<textarea name="content" id="content" cols="10" rows="10" placeholder="写下详细的购物心得，帮助大家更好的 选购">
+     
+        </textarea>
+        <div class="l_sfmsbot">最多500字</div>
+    </div>
+    <!--l_xzspt  begin -->
+    <div class="l_xzspt fix">
+    	<ul class="imglist">
+        	<li id="sc"><span onclick="javascript:$('#mask').css('display','inherit');"><img src="${path}/wap/images/scfimg06.png" class="img-responsive"  hidden="116" width="116"></span></li>
+          <!--   <li><span><img id="loadimg"  src="" class="img-responsive"></span></li>
+            <li><span><img src="/wap/images/scfimg07.png" class="img-responsive"></span></li>
+            <li><span><img src="/wap/images/scfimg07.png" class="img-responsive"></span></li>
+            <li><span><img src="/wap/images/scfimg07.png" class="img-responsive"></span></li> -->
+        </ul>
+    </div>
+    </form>
+    <!--l_xzspt  stop -->
+</div>
+<!--container  stop -->
+<div class="merchantJS-mask" id="mask" onClick="$(this).hide()">
+	<!--l_xgtznr  begin -->
+	<div class="l_xgtznr fix">
+    	<ul>
+        	<li onclick="xiangce()"><input type="file" id="xiang" accept="image/*" name="xiang" style="display: none;"onchange="shangchuan('xiang')" />从手机相册选取</li>
+            <li onclick="paizhao()" ><input type="file" accept="image/*;capture=camcorder" id="pai" name="pai" style="display: none;" onchange="shangchuan('pai')"/>拍照</li>
+            <li class="l_nobor">取消</li>
+        </ul>
+    </div>
+    <!--l_xgtznr  stop -->
+</div>
+<!--merchantJS-mask  stop -->
+<!--container  stop -->
+<script>
+
+	window.onload=function(){
+		newArrival('.l_xzspt ul li img');
+		$("#content").val("");
+	}	
+	
+	function xiangce(){
+		$("#xiang")[0].click();
+	}
+	
+	function paizhao(){
+		$("#pai")[0].click();
+	}
+	
+	function shangchuan(obj){
+		$.ajaxFileUpload({
+			url : "/app/api/img/upload",
+			secureuri : false,
+			fileElementId : obj,
+			dataType : "json",
+			// ftype:上传文件类型（图片文件=1，其他文件=2）
+			// module: 模块（ 会员 = 0, 店铺 = 1, 平台 = 2, 产品 = 3, 其他 = 4,）
+			data : {
+				relationtype : 5
+			},
+			type : 'POST',
+			success : function(result) {
+				if (result.code == 0) {
+					/* $("#img").attr("src",result.data[0]);
+					$("#imasrc3").val(result.data[0]); */
+					
+					$.each(result.data,function(index,vo){
+						if(index<=3)
+						$(".imglist").append(' <li><span><input type="checkbox" checked="checked" name="imgsrc" value="'+vo+'" style="display: none;"/><img   hidden="116" width="116"   src="'+vo+'" class="img-responsive"></span></li>');
+					});
+						
+					if($(".imglist li").length>=4){
+						$("#sc").remove();
+					}
+				} 
+			},
+			error : function(e) {
+				// alert(JSON.stringify(e));
+
+			}
+		});
+		
+	} 
+	
+	function save(){
+		
+		$.ajax(({
+			type:"post",
+			url:"/api/wap/showfan/addShowarticle",
+		    dataType:"json",
+		    data:$("#dataform").serialize(),
+		  success: function (rsl) {
+			  rsl= eval('(' + rsl + ')');
+                if (rsl.code == 0) {
+                	alert("评论成功");
+                	//location.href = "/wap/userinfo/selectInfo?ch=3";
+                	window.location.href = "/wap/discover/guangchang.html";
+                    }
+                else{}
+
+                },
+		    error:function(e){
+		    	
+		    }
+
+		}))
+	}
+	
+</script>
+</body>
+

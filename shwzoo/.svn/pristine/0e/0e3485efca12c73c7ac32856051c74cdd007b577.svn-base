@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Expires" content="-1">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<title>中绿味道</title>
+<link rel="stylesheet" href="/resource/wap/css/greenLife.css" />
+<script type="text/javascript" src="/resource/jquery-1.9.1.min.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/Yeffect16_0118.min.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/greenLife.js" ></script>
+</head>
+<body>
+<!--septop begin-->
+<div class="septop rowreturn">
+	<div class="bigsize">菜谱大全</div>
+	<div id="rowreturn" onclick="javascript:window.location.href='/wap/zlwd/index.html'"></div>
+</div>
+<!--septop stop-->
+<ul class="zlnew-cpdq fix">
+	<li><a href="#"><img src="/resource/wap/images/img5.jpg"/><div><p>川菜</p></div></a></li>
+	<li><a href="#"><img src="/resource/wap/images/img12.jpg"/><div><p>川菜</p></div></a></li>
+	<li><a href="#"><img src="/resource/wap/images/img12.jpg"/><div><p>川菜</p></div></a></li>
+	<li><a href="#"><img src="/resource/wap/images/img12.jpg"/><div><p>川菜</p></div></a></li>
+	<li><a href="#"><img src="/resource/wap/images/img12.jpg"/><div><p>川菜</p></div></a></li>
+	<li><a href="#"><img src="/resource/wap/images/img12.jpg"/><div><p>川菜</p></div></a></li>
+	<li><a href="#"><img src="/resource/wap/images/img12.jpg"/><div><p>川菜</p></div></a></li>
+	<li><a href="#"><img src="/resource/wap/images/img12.jpg"/><div><p>川菜</p></div></a></li>
+</ul>
+<script>
+$(function(){
+	Yeffect.resizeHtWstr(".zlnew-cpdq li:visible",".zlnew-cpdq li img",296,221);
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.techown.wssc.web.mapper.ZooEditorMapper">
+	<resultMap id="BaseResultMap" type="com.techown.wssc.web.po.ZooEditor">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="title" jdbcType="VARCHAR" property="title" />
+		<result column="type" jdbcType="TINYINT" property="type" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+		<result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="operator" jdbcType="VARCHAR" property="operator" />
+		<result column="delState" jdbcType="TINYINT" property="delstate" />
+	</resultMap>
+	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+		type="com.techown.wssc.web.po.ZooEditor">
+		<result column="content" jdbcType="LONGVARCHAR" property="content" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, title, type, createTime, updateTime, creator, operator,
+		delState
+	</sql>
+	<sql id="Blob_Column_List">
+		content
+	</sql>
+
+	<sql id="criteria_query_title">
+		<if test="criteria.type!=null">
+			type=#{criteria.type}
+		</if>
+		<if test="criteria.title!=null and criteria.title!='' ">
+			and title like '%${criteria.title}%'
+		</if>
+		<if test="criteria.delState!=null">
+			and delState=#{criteria.delState}
+		</if>
+	</sql>
+
+	<select id="querylistPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from zoo_editor
+		<where>
+			<if test="criteria != null ">
+				<include refid="criteria_query_title" />
+			</if>
+		</where>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}
+		</if>
+	</select>
+
+	<select id="countCheckTitle" resultType="java.lang.Integer">
+		select count(id) from zoo_editor where title=#{title}
+		and type = #{type} and delState = 1
+		<if test="id != null">
+			and id !=#{id}
+		</if>
+	</select>
+
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from zoo_editor
+		where id = #{id,jdbcType=INTEGER}
+		<if test="delstate!=null">
+			and delState = #{delstate}
+		</if>
+	</select>
+
+	<select id="listByTitle" resultMap="BaseResultMap">
+		select id,title from zoo_editor
+		where delState = 1
+		and type =#{type}
+		<if test="title!='%%'">
+			and title like #{title}
+		</if>
+		limit 0,10
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		zoo_editor
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<update id="deleteById">
+		update zoo_editor set delState=0,
+		operator=#{operator}
+		where id=#{id}
+	</update>
+
+	<insert id="insert" parameterType="com.techown.wssc.web.po.ZooEditor">
+		insert into zoo_editor (id,
+		title, type,
+		createTime, updateTime, creator,
+		operator, delState,
+		content
+		)
+		values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+		#{type,jdbcType=TINYINT},
+		#{createtime,jdbcType=TIMESTAMP},
+		#{updatetime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR},
+		#{operator,jdbcType=VARCHAR}, #{delstate,jdbcType=TINYINT},
+		#{content,jdbcType=LONGVARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.techown.wssc.web.po.ZooEditor">
+		insert into zoo_editor
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="createtime != null">
+				createTime,
+			</if>
+			<if test="updatetime != null">
+				updateTime,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="operator != null">
+				operator,
+			</if>
+			<if test="delstate != null">
+				delState,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=TINYINT},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatetime != null">
+				#{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="delstate != null">
+				#{delstate,jdbcType=TINYINT},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.techown.wssc.web.po.ZooEditor">
+		update zoo_editor
+		<set>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=TINYINT},
+			</if>
+			<if test="createtime != null">
+				createTime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatetime != null">
+				updateTime = #{updatetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				operator = #{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="delstate != null">
+				delState = #{delstate,jdbcType=TINYINT},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.techown.wssc.web.po.ZooEditor">
+		update
+		zoo_editor
+		set title = #{title,jdbcType=VARCHAR},
+		type =
+		#{type,jdbcType=TINYINT},
+		createTime =
+		#{createtime,jdbcType=TIMESTAMP},
+		updateTime =
+		#{updatetime,jdbcType=TIMESTAMP},
+		creator =
+		#{creator,jdbcType=VARCHAR},
+		operator = #{operator,jdbcType=VARCHAR},
+		delState = #{delstate,jdbcType=TINYINT},
+		content =
+		#{content,jdbcType=LONGVARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.techown.wssc.web.po.ZooEditor">
+		update zoo_editor
+		set title = #{title,jdbcType=VARCHAR},
+		type = #{type,jdbcType=TINYINT},
+		createTime = #{createtime,jdbcType=TIMESTAMP},
+		updateTime =
+		#{updatetime,jdbcType=TIMESTAMP},
+		creator =
+		#{creator,jdbcType=VARCHAR},
+		operator = #{operator,jdbcType=VARCHAR},
+		delState = #{delstate,jdbcType=TINYINT}
+		where id =
+		#{id,jdbcType=INTEGER}
+	</update>
+</mapper>

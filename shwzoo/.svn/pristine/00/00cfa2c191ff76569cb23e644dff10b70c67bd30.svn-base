@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.OrderactivityHistoryMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.OrderactivityHistory" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="OrderID" property="orderid" jdbcType="INTEGER" />
+    <result column="OrderCode" property="ordercode" jdbcType="VARCHAR" />
+    <result column="OrderPrice" property="orderprice" jdbcType="REAL" />
+    <result column="OrderActualPrice" property="orderactualprice" jdbcType="REAL" />
+    <result column="OrderDate" property="orderdate" jdbcType="TIMESTAMP" />
+    <result column="OrderSellerID" property="ordersellerid" jdbcType="INTEGER" />
+    <result column="Activity_ID" property="activityId" jdbcType="INTEGER" />
+    <result column="Activity_Type" property="activityType" jdbcType="INTEGER" />
+    <result column="Activity_Num" property="activityNum" jdbcType="VARCHAR" />
+    <result column="Activity_Name" property="activityName" jdbcType="VARCHAR" />
+    <result column="Activity_Price" property="activityPrice" jdbcType="REAL" />
+    <result column="Activity_UserID" property="activityUserid" jdbcType="INTEGER" />
+    <result column="Activity_UserTime" property="activityUsertime" jdbcType="TIMESTAMP" />
+    <result column="Activity_FullPrice" property="activityFullprice" jdbcType="REAL" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+    <result column="FullGiftsType" property="fullgiftstype" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, OrderID, OrderCode, OrderPrice, OrderActualPrice, OrderDate, OrderSellerID, Activity_ID, 
+    Activity_Type, Activity_Num, Activity_Name, Activity_Price, Activity_UserID, Activity_UserTime, 
+    Activity_FullPrice, Status, FullGiftsType
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.OrderactivityHistoryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from orderactivity_history
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from orderactivity_history
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from orderactivity_history
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.OrderactivityHistoryExample" >
+    delete from orderactivity_history
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.OrderactivityHistory" >
+    insert into orderactivity_history (ID, OrderID, OrderCode, 
+      OrderPrice, OrderActualPrice, OrderDate, 
+      OrderSellerID, Activity_ID, Activity_Type, 
+      Activity_Num, Activity_Name, Activity_Price, 
+      Activity_UserID, Activity_UserTime, Activity_FullPrice, 
+      Status, FullGiftsType)
+    values (#{id,jdbcType=VARCHAR}, #{orderid,jdbcType=INTEGER}, #{ordercode,jdbcType=VARCHAR}, 
+      #{orderprice,jdbcType=REAL}, #{orderactualprice,jdbcType=REAL}, #{orderdate,jdbcType=TIMESTAMP}, 
+      #{ordersellerid,jdbcType=INTEGER}, #{activityId,jdbcType=INTEGER}, #{activityType,jdbcType=INTEGER}, 
+      #{activityNum,jdbcType=VARCHAR}, #{activityName,jdbcType=VARCHAR}, #{activityPrice,jdbcType=REAL}, 
+      #{activityUserid,jdbcType=INTEGER}, #{activityUsertime,jdbcType=TIMESTAMP}, #{activityFullprice,jdbcType=REAL}, 
+      #{status,jdbcType=INTEGER}, #{fullgiftstype,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.OrderactivityHistory" >
+    insert into orderactivity_history
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="orderid != null" >
+        OrderID,
+      </if>
+      <if test="ordercode != null" >
+        OrderCode,
+      </if>
+      <if test="orderprice != null" >
+        OrderPrice,
+      </if>
+      <if test="orderactualprice != null" >
+        OrderActualPrice,
+      </if>
+      <if test="orderdate != null" >
+        OrderDate,
+      </if>
+      <if test="ordersellerid != null" >
+        OrderSellerID,
+      </if>
+      <if test="activityId != null" >
+        Activity_ID,
+      </if>
+      <if test="activityType != null" >
+        Activity_Type,
+      </if>
+      <if test="activityNum != null" >
+        Activity_Num,
+      </if>
+      <if test="activityName != null" >
+        Activity_Name,
+      </if>
+      <if test="activityPrice != null" >
+        Activity_Price,
+      </if>
+      <if test="activityUserid != null" >
+        Activity_UserID,
+      </if>
+      <if test="activityUsertime != null" >
+        Activity_UserTime,
+      </if>
+      <if test="activityFullprice != null" >
+        Activity_FullPrice,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+      <if test="fullgiftstype != null" >
+        FullGiftsType,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderid != null" >
+        #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="ordercode != null" >
+        #{ordercode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderprice != null" >
+        #{orderprice,jdbcType=REAL},
+      </if>
+      <if test="orderactualprice != null" >
+        #{orderactualprice,jdbcType=REAL},
+      </if>
+      <if test="orderdate != null" >
+        #{orderdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ordersellerid != null" >
+        #{ordersellerid,jdbcType=INTEGER},
+      </if>
+      <if test="activityId != null" >
+        #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="activityType != null" >
+        #{activityType,jdbcType=INTEGER},
+      </if>
+      <if test="activityNum != null" >
+        #{activityNum,jdbcType=VARCHAR},
+      </if>
+      <if test="activityName != null" >
+        #{activityName,jdbcType=VARCHAR},
+      </if>
+      <if test="activityPrice != null" >
+        #{activityPrice,jdbcType=REAL},
+      </if>
+      <if test="activityUserid != null" >
+        #{activityUserid,jdbcType=INTEGER},
+      </if>
+      <if test="activityUsertime != null" >
+        #{activityUsertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activityFullprice != null" >
+        #{activityFullprice,jdbcType=REAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="fullgiftstype != null" >
+        #{fullgiftstype,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.OrderactivityHistoryExample" resultType="java.lang.Integer" >
+    select count(*) from orderactivity_history
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update orderactivity_history
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderid != null" >
+        OrderID = #{record.orderid,jdbcType=INTEGER},
+      </if>
+      <if test="record.ordercode != null" >
+        OrderCode = #{record.ordercode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderprice != null" >
+        OrderPrice = #{record.orderprice,jdbcType=REAL},
+      </if>
+      <if test="record.orderactualprice != null" >
+        OrderActualPrice = #{record.orderactualprice,jdbcType=REAL},
+      </if>
+      <if test="record.orderdate != null" >
+        OrderDate = #{record.orderdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ordersellerid != null" >
+        OrderSellerID = #{record.ordersellerid,jdbcType=INTEGER},
+      </if>
+      <if test="record.activityId != null" >
+        Activity_ID = #{record.activityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.activityType != null" >
+        Activity_Type = #{record.activityType,jdbcType=INTEGER},
+      </if>
+      <if test="record.activityNum != null" >
+        Activity_Num = #{record.activityNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activityName != null" >
+        Activity_Name = #{record.activityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activityPrice != null" >
+        Activity_Price = #{record.activityPrice,jdbcType=REAL},
+      </if>
+      <if test="record.activityUserid != null" >
+        Activity_UserID = #{record.activityUserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.activityUsertime != null" >
+        Activity_UserTime = #{record.activityUsertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.activityFullprice != null" >
+        Activity_FullPrice = #{record.activityFullprice,jdbcType=REAL},
+      </if>
+      <if test="record.status != null" >
+        Status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.fullgiftstype != null" >
+        FullGiftsType = #{record.fullgiftstype,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update orderactivity_history
+    set ID = #{record.id,jdbcType=VARCHAR},
+      OrderID = #{record.orderid,jdbcType=INTEGER},
+      OrderCode = #{record.ordercode,jdbcType=VARCHAR},
+      OrderPrice = #{record.orderprice,jdbcType=REAL},
+      OrderActualPrice = #{record.orderactualprice,jdbcType=REAL},
+      OrderDate = #{record.orderdate,jdbcType=TIMESTAMP},
+      OrderSellerID = #{record.ordersellerid,jdbcType=INTEGER},
+      Activity_ID = #{record.activityId,jdbcType=INTEGER},
+      Activity_Type = #{record.activityType,jdbcType=INTEGER},
+      Activity_Num = #{record.activityNum,jdbcType=VARCHAR},
+      Activity_Name = #{record.activityName,jdbcType=VARCHAR},
+      Activity_Price = #{record.activityPrice,jdbcType=REAL},
+      Activity_UserID = #{record.activityUserid,jdbcType=INTEGER},
+      Activity_UserTime = #{record.activityUsertime,jdbcType=TIMESTAMP},
+      Activity_FullPrice = #{record.activityFullprice,jdbcType=REAL},
+      Status = #{record.status,jdbcType=INTEGER},
+      FullGiftsType = #{record.fullgiftstype,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.OrderactivityHistory" >
+    update orderactivity_history
+    <set >
+      <if test="orderid != null" >
+        OrderID = #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="ordercode != null" >
+        OrderCode = #{ordercode,jdbcType=VARCHAR},
+      </if>
+      <if test="orderprice != null" >
+        OrderPrice = #{orderprice,jdbcType=REAL},
+      </if>
+      <if test="orderactualprice != null" >
+        OrderActualPrice = #{orderactualprice,jdbcType=REAL},
+      </if>
+      <if test="orderdate != null" >
+        OrderDate = #{orderdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ordersellerid != null" >
+        OrderSellerID = #{ordersellerid,jdbcType=INTEGER},
+      </if>
+      <if test="activityId != null" >
+        Activity_ID = #{activityId,jdbcType=INTEGER},
+      </if>
+      <if test="activityType != null" >
+        Activity_Type = #{activityType,jdbcType=INTEGER},
+      </if>
+      <if test="activityNum != null" >
+        Activity_Num = #{activityNum,jdbcType=VARCHAR},
+      </if>
+      <if test="activityName != null" >
+        Activity_Name = #{activityName,jdbcType=VARCHAR},
+      </if>
+      <if test="activityPrice != null" >
+        Activity_Price = #{activityPrice,jdbcType=REAL},
+      </if>
+      <if test="activityUserid != null" >
+        Activity_UserID = #{activityUserid,jdbcType=INTEGER},
+      </if>
+      <if test="activityUsertime != null" >
+        Activity_UserTime = #{activityUsertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activityFullprice != null" >
+        Activity_FullPrice = #{activityFullprice,jdbcType=REAL},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="fullgiftstype != null" >
+        FullGiftsType = #{fullgiftstype,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.OrderactivityHistory" >
+    update orderactivity_history
+    set OrderID = #{orderid,jdbcType=INTEGER},
+      OrderCode = #{ordercode,jdbcType=VARCHAR},
+      OrderPrice = #{orderprice,jdbcType=REAL},
+      OrderActualPrice = #{orderactualprice,jdbcType=REAL},
+      OrderDate = #{orderdate,jdbcType=TIMESTAMP},
+      OrderSellerID = #{ordersellerid,jdbcType=INTEGER},
+      Activity_ID = #{activityId,jdbcType=INTEGER},
+      Activity_Type = #{activityType,jdbcType=INTEGER},
+      Activity_Num = #{activityNum,jdbcType=VARCHAR},
+      Activity_Name = #{activityName,jdbcType=VARCHAR},
+      Activity_Price = #{activityPrice,jdbcType=REAL},
+      Activity_UserID = #{activityUserid,jdbcType=INTEGER},
+      Activity_UserTime = #{activityUsertime,jdbcType=TIMESTAMP},
+      Activity_FullPrice = #{activityFullprice,jdbcType=REAL},
+      Status = #{status,jdbcType=INTEGER},
+      FullGiftsType = #{fullgiftstype,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getbyOrderid" resultMap="BaseResultMap" parameterType="int">
+  select
+    <include refid="Base_Column_List" />
+    from orderactivity_history
+    where OrderID=#{0}
+  </select>
+    <select id="getbyOrdercode" resultMap="BaseResultMap" parameterType="String">
+  select
+    <include refid="Base_Column_List" />
+    from orderactivity_history
+    where OrderCode=#{0}
+  </select>
+</mapper>

@@ -1,0 +1,87 @@
+<%var path="/resource";%>
+<head>
+    <title>订单支付</title>
+    <script type="text/javascript" src="${path}/wap/js/index.js" ></script>
+    <script type="text/javascript" src="${path}/wap/js/activity/orderPay.js"></script>
+</head>
+<body>
+	<!--top_title  begin-->
+	<div class="top_title fix">
+		<a href="/wap/activityView/getOrderList.html?status=0"><div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div></a>
+		中绿收银台
+		<div class="top_title_dlr huise">
+			<a href="/wap/index.html">取消</a>
+		</div>
+	</div>
+	<!--top_title  stop-->
+	<div class="kjzfcon fix">
+		<div class="kjzfconmk fix">
+			<span class="huise">订单金额</span>
+			<div class="red floatr">${price}元</div>
+		</div>
+		<form id="payform" action="/api/wap/alipay/paybygroupnum" method="post">
+			<input type="hidden" id="ordercode" name="ordercode" value="${ogc}">
+			<input type="hidden" id="ch" name="ch" value="3">
+		</form>
+		<div class="kjzfconmk fix rigico">
+			<a href="javascript:void(0);">
+				<div name="payType" tag="1">
+					<div class="kjzfconmk_l">
+						<img src="${path}/wap/images/zffsico02.png" class="img-responsive" />
+					</div>
+					<div class="kjzfconmk_r">
+						支付宝
+						<div class="huise">支付宝安全支付</div>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="kjzfconmk fix rigico">
+			<a href="javascript:void(0);">
+				<div name="payType" tag="2">
+					<div class="kjzfconmk_l">
+						<img src="${path}/wap/images/zffsico01.png" class="img-responsive" />
+					</div>
+					<div class="kjzfconmk_r">
+						环迅支付
+						<div class="huise">环迅安全支付</div>
+					</div>
+				</div>
+			</a>
+		</div>
+	</div>
+	
+	<div class="kjzfcon fix mt3">
+		<div class="kjzfconmk fix">
+			<span class="huise">其他支付方式</span>
+		</div>
+		<div class="kjzfconmk fix rigico">
+			<a href="javascript:void(0);">
+				<div name="payType" tag="3">
+					<div class="kjzfconmk_l">
+						<img src="${path}/wap/images/zffsico04.png" class="img-responsive" />
+					</div>
+					<div class="kjzfconmk_r">
+						余额支付
+						<div class="huise">零钱余额￥${blance}</div>
+					</div>
+				</div>
+			</a>
+		</div>
+		<div class="kjzfconmk fix rigico">
+			<a href="javascript:void(0);">
+				<div name="payType" tag="4">
+					<div class="kjzfconmk_l">
+						<img src="${path}/wap/images/zffsico03.png" class="img-responsive" />
+					</div>
+					<div class="kjzfconmk_r">
+						快捷支付
+						<div class="huise">快捷支付服务</div>
+					</div>
+				</div>
+			</a>
+		</div>
+	</div>
+</body>

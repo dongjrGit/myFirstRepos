@@ -1,0 +1,87 @@
+<%var path="/resource";%>
+<head>
+    <title>注册</title>
+    <script type="text/javascript" src="${path}/wap/js/index.js" ></script>
+    <script src="${path}/wap/js/cookie.js"></script>
+
+     <script type="text/javascript">
+       function upd(){
+       	 var oldpwd = $("#oldpwd").val();
+       		var newPwd = $("#newpwd").val();
+       		var renewPwd= $("#newpwdtow").val();
+       		var token=GetCookie("_u_token");
+       		//var ch=1;
+       		//window.location.href="?mobile="+phone+"sms="+sms+"pwd="+pwd+"ch="+ch;
+       		 $.ajax(({
+       		        type: "post",
+       		        url: "/api/wap/userinfo/updatPwd",
+       		        dataType: "json",
+       		        data: {"token": token, 
+       		        	"oldpwd": oldpwd,
+       		        	"newPwd": newPwd,
+       		        	"renewPwd": renewPwd,
+       		        	"ch": 3},
+       		        success: function (rsl) {
+       		            if (rsl.code == 0) {
+       		            	/* var data=rsl.data;
+       		            	var info=eval("(" + data + ")"); */
+       		              /*  SetCookie("_u_token", info.Token);
+       		                SetCookie("_u_channel",info.Channel);
+       		                SetCookie("login", true);
+       		                alert("kd");*/
+       		                $("#div_errormessage").text(rsl.desc);
+       		             	window.setTimeout("window.location='/wap/user/showlogin'",2000);
+       		               	//window.location.href = "/wap/user/showlogin";
+       		            }
+       		            else {
+       		               // $("#userName").focus();
+       		                $("#div_errormessage").text(rsl.desc);
+       		            }
+       		        },
+       		        error: function (e) {
+       		        	$("#div_errormessage").text("注册失败");
+       		        }
+       		    }));
+       }
+       
+       
+       
+   </script>
+</head>
+
+<body>
+	<!--top_title  begin-->
+	<div class="top_title fix">
+		<div class="top_return">
+			<a href="/wap/user/showlogin"><img src="${path}/wap/images/top_return.png"/></a>
+		</div>
+		修改密码
+	</div>
+	<!--top_title  stop-->
+	<!--registered  begin-->
+	<div class="registered fix">
+		<div class="registeredmk fix">
+			<label>当前密码</label>
+			<input type="password" name="oldpwd" id="oldpwd" value="" placeholder="请输入您的旧密码" class="registeredmk_inp" />
+		</div>
+		<div class="registeredmk fix">
+			<label>新密码</label>
+			<input type="password" name="newpwd" id="newpwd" value="" placeholder="6-32位字母数字组合" class="registeredmk_inp" />
+		</div>
+		<div class="registeredmk fix">
+			<label>确认密码</label>
+			<input width="100px" type="password" name="newpwdtow" id="newpwdtow" value="" placeholder="6-32位字母数字组合" class="registeredmk_inp" />
+		</div>
+		<div id="div_errormessage" class="cwtsxx"></div>
+	</div>
+	<!--registered  stop-->
+	<div class="determine_an">
+		<a href="javascript:void(0);" onclick="upd()">确定</a>
+	</div>	
+<script>
+window.onload=function(){
+	fixed('.dsfzhdlbot');
+}	
+</script>
+</body>
+

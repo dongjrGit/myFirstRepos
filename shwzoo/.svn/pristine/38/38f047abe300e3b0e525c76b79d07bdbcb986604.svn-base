@@ -1,0 +1,307 @@
+<head>
+<title>商品搜索列表</title>
+<script type="text/javascript" src="/resource/coding.js"></script>
+<script src="/resource/artTemplate.js"></script>
+<script src="/resource/pc/web/js/spgl/keywordsSearch.js"></script>
+<script type="text/javascript" src="/resource/pc/web/js/pager1.js"></script>
+</head>
+
+<div id="container" class="fix">
+    <!--l_rmtj热卖推荐 开始 -->
+    <div class="l_rmtj fix">
+        <div class="l_rttb"><img src="/resource/pc/web/images/tjtb01.png" width="41" height="81" /></div>
+        <div class="l_rtcon">
+            <ul>
+            <%if(isNotEmpty(hotpros)){%>
+            <% for(pro in hotpros){ %>
+                <li>
+                    <img src="${pro.img}" width="152" height="108" title="" />
+                    <div class="l_rtmk">
+                        <p><a  target="_blank" href="/web/products/proinfo.html?spuid=${pro.spuid}">${pro.name}</a></p>
+                        <p class="l_tj">特价：<span class="red bolder">${pro.price}</span></p>
+                    </div>
+                </li>
+            <% }%>
+            <% }%>
+            </ul>
+        </div><!--l_rtcon  stop -->
+    </div>
+    <!--l_rmtj热卖推荐 结束 -->
+     <div class="l_pos">
+        <span class="fon14 bolder">全部结果</span><input id="keywords" type="hidden" value="${keywords}" />
+        <span class="l_jtyb">&gt;</span>
+        ${keywords}
+    </div>
+    <!--l_pos  stop -->
+    <!--l_screen  商品筛选开始 -->
+    <div class="l_screen">
+        <div class="l_scrtop">
+            <input id="cid" type="hidden" value="${cid}" />
+            <span class="fon14 bolder">商品筛选</span>
+            <span class="fon14">共 <span id="pro_count">${proBean.tr}</span>个商品</span>
+        </div><!-- l_scrtop  stop-->
+        <!--l_scrmk  begin -->
+        <div>
+       	  	<%if(isNotEmpty(classlist)){%>
+        	<div>
+        		<div class="l_scrmk">
+	                <div class="l_scrmkleft">分类</div><!--l_scrmkleft  stop -->
+	                <div class="l_scrmkright">
+	                    <ul class="fix">
+	                        <% for(item in classlist){ %>
+	                        	<li name="select_class" onclick="changeclass(this,${item.code})">${item.name}</li>
+	                        <% }%>
+	                    </ul>
+	                </div><!--l_scrmkright  stop -->
+	                <div class="clear"></div>
+	            </div>
+        	</div>
+        	<% }%>
+	        <div id="search_list">
+	            <% for (item in searchdata){ %>
+	            <div class="l_scrmk">
+	                <div class="l_scrmkleft">${item.name}</div><!--l_scrmkleft  stop -->
+	                <div class="l_scrmkright">
+	                    <ul class="fix" data_attrtype="${item.type}" data_typeid="${item.typeid}" data="${item.ischeckbox}">
+	                        <% for (val in item.values) {%>
+		                        <% if (item.type == 2) {%>
+		                        	<li name="search_values" data_type="${val.type}" data_tag="0" data_value="${val.minvalue}">${val.disvalue}</li>
+		                        <% }else{ %>
+		                        	<% if(val.type == 0){%>
+		                        		<li name="search_values" data_type="${val.type}" data_tag="0" data_value="${val.minvalue}">${val.disvalue}</li>
+	                        		<% }else {%>
+	                        			<li name="search_values" data_type="${val.type}" data_tag="0" data_value="${val.minvalue}" data-maxvalue="${val.maxvalue}">${val.disvalue}</li>
+	                        		<% }%>
+		                        <% }%>
+	                        <% }%>
+	                    </ul>
+	                </div><!--l_scrmkright  stop -->
+	                <div class="clear"></div>
+	            </div>
+	            <%} %>
+	             <script type="text/html" id="specsvalue_list">
+                {{each list as specs i}}
+                <div class="l_scrmk">
+                    <div class="l_scrmkleft">{{specs.name}}</div><!--l_scrmkleft  stop -->
+                    <div class="l_scrmkright">
+                        <ul class="fix" data_attrtype="{{specs.type}}" data_typeid="{{specs.typeid}}" data="{{specs.ischeckbox}}">
+                            {{each specs.values as specsvalue i}}                           
+                            {{if specs.type==2}}
+                            <li name="search_values" data_type="{{specsvalue.type}}" data_tag="0" data_value="{{specsvalue.minvalue}}">{{specsvalue.disvalue}}</li>
+                            {{else if specs.type==0}}
+                            <li name="search_values" data_type="{{specsvalue.type}}" data_tag="0" data_value="{{specsvalue.minvalue}}">{{specsvalue.disvalue}}</li>
+                            {{else}}
+                            <li name="search_values" data_type="{{specsvalue.type}}" data_tag="0" data_value="{{specsvalue.minvalue}}" data-maxvalue="{{specsvalue.maxvalue}}">{{specsvalue.disvalue}}</li>
+                            {{/if}}
+                            {{/each}}
+                        </ul>
+
+                    </div><!--l_scrmkright  stop -->
+                    <div class="clear"></div>
+                </div>
+                {{/each}}
+            </script>
+	        </div>
+        </div>
+        <div class="l_scrgdxx">
+            <span class="l_scrgdnr">更多选项<i></i></span>
+        </div><!--l_scrgdxx  stop -->
+    </div>
+    <!--l_screen  商品筛选结束 -->
+    <div class="clear"></div>
+    <!--l_spsort  商品排序开始 -->
+    <div class="l_spsort">
+        <ul class="l_spsort01" id="orderby">
+            <li class="l_zhss" data="0" data_tag="0" isselect="1"><a href="#">销量</a><i></i></li>
+
+            <li class="active" data="1" data_tag="1" isselect="0"><a href="#">价格</a><i></i></li>
+            <li data="2" data_tag="0" isselect="0"><a href="#">评论数</a><i></i></li>
+        </ul>
+        <!--l_shdz  stop -->
+        <!--f-search  stop -->
+        <div class="clear"></div>
+    </div>
+    <!--l_spsort  商品排序结束 -->
+    <!--l_splist  商品列表开始 -->
+    <div class="l_splist">
+        <ul class="l_splist01" id="productlist">
+            <% for(pro in proBean.beanList) {%>
+            <li>
+                <div class="l_splimk">
+                    <div class="p_img">
+                        <a target="_blank" href="/web/products/proinfo.html?spuid=${pro.spuid}">
+                            <% if(!isEmpty(pro.images)){ %>
+                                <% var index=0; %>
+                                <% for(img in pro.images){%>
+                                    <%if(index==0){%>
+                                    	<img src="${img.imgurl}" id="${pro.spuid}" width="215" height="205" />
+                                    	<% index=1; %>
+                                    <% }%>
+                                <% }%>
+                            <% }else{ %>
+                                <img src="" id="${pro.spuid}" width="215" height="205" />
+                            <% }%>
+                        </a>
+                        <div class="l_xtbgz"><span class="l_gzimg01"></span>关注</div><!--l_xtbgz  stop -->
+                    </div><!--p_img  stop -->
+                    <div class="p-scroll">
+                        <ul>
+                            <% for(img in pro.images){ %>
+                            <li>
+                                <img class="l_xdimg" src="${img.imgurl}" width="34" height="34" data-id="${pro.spuid}" />
+                                <div class="l_thisimg"><a href="#"><img src="${img.imgurl}" width="215" height="205" /></a></div>
+                            </li>
+                            <% }%>
+                        </ul>
+                    </div><!--p-scroll  stop -->
+                    <div class="clear p-price">
+                        	￥<span class="fon20">${pro.price}</span>
+                    </div><!--p-price  stop -->
+                    <div class="p-name"><a target="_blank" href="/web/products/proinfo.html?spuid=${pro.spuid}">${pro.name}</a></div><!--p-name  stop -->
+                    <div class="p-commit">已有<a href="#">${pro.commentcount}</a>人评价</div><!--p-commit  stop -->
+                    <div class="p-shop"><a href="/web/shop/details.html?shopId=${pro.shopid}" >
+                    	<% if(pro.isowned){ %>
+                    		平台直营 
+                   		<% } else { %>
+                   			${pro.shopname} 
+						<% }%></a></div>
+                </div><!--l_splimk  stop -->
+            </li>
+            <% }%>
+            <script type="text/html" id="pro_list">
+                {{each list as pro i}}
+                <li>
+                    <div class="l_splimk">
+                        <div class="p_img">
+                            <a href="/web/products/proinfo.html?spuid={{pro.spuid}}">
+                                {{if pro.images.length>0}}
+                                <img src="{{pro.images[0].imgurl}}" id="{{pro.spuid}}" width="215" height="205" />
+                                {{else}}
+                                <img src="" id="{{pro.spuid}}" width="215" height="205" />
+                                {{/if}}
+                            </a>
+                            <div class="l_xtbgz"><span class="l_gzimg01"></span>关注</div><!--l_xtbgz  stop -->
+                        </div><!--p_img  stop -->
+                        <div class="p-scroll">
+                            <ul>
+                                {{each pro.images as img j}}
+                                <li>
+                                    <img class="l_xdimg" src="{{img.imgurl}}" width="34" height="34" data-id="{{pro.spuid}}" />
+                                    <div class="l_thisimg"><a href="#"><img src="{{img.imgurl}}" width="215" height="205" /></a></div>
+                                </li>
+                                {{/each}}
+                            </ul>
+                        </div><!--p-scroll  stop -->
+                        <div class="clear p-price">
+                                                ￥<span class="fon20">{{pro.price}}</span>
+                        </div><!--p-price  stop -->
+                        <div class="p-name"><a href="/web/products/proinfo.html?spuid={{pro.spuid}}">{{pro.name}}</a></div><!--p-name  stop -->
+                        <div class="p-commit">已有<a href="#">{{pro.commentcount}}</a>人评价</div><!--p-commit  stop -->
+                        <div class="p-shop"><a href="/web/shop/details.html?shopId={{pro.shopid}}" >{{if pro.isowned}}直营{{else}}{{pro.shopname}}{{/if}}</a></div>
+                    </div><!--l_splimk  stop -->
+                </li>
+                {{/each}}
+            </script>
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <!--l_splist  商品列表结束 -->
+    <!--page  分页开始 -->
+    <input type="hidden" value="${proBean.tr}" id="pro_total">
+    <input type="hidden" value="${proBean.pc}" id="pro_index">
+    <div id="pager" class="page"></div>
+    <!--page  分页结束 -->
+    <!--l_spjx 商品精选 开始 -->
+    <div class="clear l_spjx">
+        <div class="l_spjxtop">商品精选</div>
+        <div class="l_spjxcon">
+            <ul>
+            	<% for(pro in recommpros){ %>
+                <li>
+                    <div class="l_spjxmk">
+                        <div class="l_spjximg"><a  target="_blank" href="/web/products/proinfo.html?spuid=${pro.spuid}"><img src="${pro.img}" width="223" height="222" /></a></div><!--l_spjximg  stop -->
+                        <div class="l_spjxtitle"><a  target="_blank" href="/web/products/proinfo.html?spuid=${pro.spuid}">${pro.name}</a></div>
+                        <div class="l_spjxprice">
+                            <span class="fon14 red">￥</span> <span class="fon16  bolder red">${pro.price}</span>
+                        </div><!--l_spjxprice  stop -->
+                    </div>
+                </li>
+                <% }%>
+            </ul>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <!--l_spjx 商品精选 结束 -->
+    <!--l_like 猜你喜欢 开始 -->
+    <div class="clear l_like">
+        <div class="l_liketop">
+            <span class="l_posleft"><em class="l_like01">猜你喜欢</em></span>
+        </div><!--l_liketop  stop -->
+        <div class="l_likecon">
+            <ul>
+           	<% for(pro in likedpros){ %>
+                <li>
+                    <a  target="_blank" href="/web/products/proinfo.html?spuid=${pro.spuid}"><img src="${pro.img}" width="230" height="214" /></a>
+                    <p class="l_cnxhp"><span class="fon14 red">￥</span> <span class="fon16  bolder red">${pro.price}</span></p>
+                    <p><a  target="_blank" href="/web/products/proinfo.html?spuid=${pro.spuid}">${pro.name}</a></p>
+                </li>
+           	<% }%>
+            </ul>
+        </div><!-- l_likecon  stop-->
+    </div>
+    <!--l_like 猜你喜欢 结束 -->
+    <div class="clear"></div>
+    <!--l_like 最近浏览 开始 -->
+    <% if(!isEmpty(history)){ %>
+    <div class="clear l_like">
+        <div class="l_liketop">
+            <span class="l_posleft"><em class="l_like01">最近浏览</em></span>
+        </div><!--l_liketop  stop -->
+        <div class="l_zjll">
+            <ul>
+           	<% for(his in history){ %>
+                <li>
+                    <a href="/web/products/proinfo.html?spuid=${his.spuid}"><img src="${his.imgurl}" width="136" height="137" /></a>
+                    <p><span class="fon14 red">￥</span> <span class="fon14 bolder red">${his.price}</span></p>
+                </li>
+           	<% }%>
+            </ul>
+        </div><!-- l_zjll  stop-->
+    </div>
+    <%}%>
+    <!--l_like 最近浏览 结束 -->
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+    	searchlist.bind();
+        //商品列表页图片效果
+        $(".l_xdimg").mouseenter(function () {
+            $(this).siblings("div").css("display", "block")
+        });
+        $(".l_xdimg").mouseleave(function () {
+            $(this).siblings("div").css("display", "none")
+        });
+
+        ////商品列表页筛选里面  点击多选事件
+        //$(".l_spsxdx").one("click", function () {
+        //    $(this).parent().siblings("ul").find("li").prepend('<input name="" type="checkbox" value="">');
+        //    $(this).parent().siblings("ul").find(".l_qdqx").css("display", "block")
+        //});
+
+
+       /*  //页面加载埋点
+        var kn = "pv/load/buy";
+        var isacc = infoc.getCookie("_isAcced");
+        if (isacc == undefined || isacc == null || isacc == "") {
+            kn += "/uv";
+            infoc.setCookie("_isAcced", 1, 24);
+        }
+        infoc.add(kn, "/Web/Goods/GoodsList", 21, 0); */
+    })
+
+    $(window).bind("beforeunload", function () {
+        //页面关闭埋点
+        infoc.add("load", "/web/products/proList.html", 22, 0);
+    })
+</script>

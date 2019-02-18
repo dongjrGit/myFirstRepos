@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.CategoryMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Category">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="Name" property="name" jdbcType="VARCHAR" />
+		<result column="FatherID" property="fatherid" jdbcType="INTEGER" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="Sort" property="sort" jdbcType="INTEGER" />
+		<result column="CreatTime" property="creattime" jdbcType="TIMESTAMP" />
+		<result column="ShopID" property="shopid" jdbcType="INTEGER" />
+		<result column="ClassType" property="classtype" jdbcType="INTEGER" />
+		<result column="WarnNum" property="warnnum" jdbcType="INTEGER" />
+		<result column="IsVirtual" property="isvirtual" jdbcType="BIT" />
+		<result column="IsEditable" property="iseditable" jdbcType="BIT" />
+		<result column="IsDel" property="isdel" jdbcType="BIT" />
+		<result column="DelTime" property="deltime" jdbcType="TIMESTAMP" />
+		<result column="DelUserID" property="deluserid" jdbcType="INTEGER" />
+		<result column="ClassLever" property="classlever" jdbcType="INTEGER" />
+		<result column="FullPath" property="fullpath" jdbcType="VARCHAR" />
+		<result column="searchpath" property="searchpath" jdbcType="VARCHAR" />
+		<result column="imageUrl" property="imageurl" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, Name, FatherID, Status, Sort, CreatTime, ShopID,
+		ClassType, WarnNum,
+		IsVirtual,
+		IsEditable, IsDel, DelTime, DelUserID,
+		ClassLever, FullPath, searchpath,imageUrl
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.CategoryExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from category
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from category
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		category
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.CategoryExample">
+		delete from category
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.Category">
+		insert into category (ID,
+		Name, FatherID,
+		Status, Sort, CreatTime,
+		ShopID, ClassType, WarnNum,
+		IsVirtual, IsEditable, IsDel, DelTime,
+		DelUserID, ClassLever, FullPath,
+		searchpath,imageUrl)
+		values (#{id,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR},
+		#{fatherid,jdbcType=INTEGER},
+		#{status,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER},
+		#{creattime,jdbcType=TIMESTAMP},
+		#{shopid,jdbcType=INTEGER},
+		#{classtype,jdbcType=INTEGER},
+		#{warnnum,jdbcType=INTEGER},
+		#{isvirtual,jdbcType=BIT}, #{iseditable,jdbcType=BIT},
+		#{isdel,jdbcType=BIT},
+		#{deltime,jdbcType=TIMESTAMP},
+		#{deluserid,jdbcType=INTEGER}, #{classlever,jdbcType=INTEGER},
+		#{fullpath,jdbcType=VARCHAR},
+		#{searchpath,jdbcType=VARCHAR},
+		#{imageurl,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Category">
+		insert into category
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="name != null">
+				Name,
+			</if>
+			<if test="fatherid != null">
+				FatherID,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+			<if test="sort != null">
+				Sort,
+			</if>
+			<if test="creattime != null">
+				CreatTime,
+			</if>
+			<if test="shopid != null">
+				ShopID,
+			</if>
+			<if test="classtype != null">
+				ClassType,
+			</if>
+			<if test="warnnum != null">
+				WarnNum,
+			</if>
+			<if test="isvirtual != null">
+				IsVirtual,
+			</if>
+			<if test="iseditable != null">
+				IsEditable,
+			</if>
+			<if test="isdel != null">
+				IsDel,
+			</if>
+			<if test="deltime != null">
+				DelTime,
+			</if>
+			<if test="deluserid != null">
+				DelUserID,
+			</if>
+			<if test="classlever != null">
+				ClassLever,
+			</if>
+			<if test="fullpath != null">
+				FullPath,
+			</if>
+			<if test="searchpath != null">
+				searchpath,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="fatherid != null">
+				#{fatherid,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="sort != null">
+				#{sort,jdbcType=INTEGER},
+			</if>
+			<if test="creattime != null">
+				#{creattime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="shopid != null">
+				#{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="classtype != null">
+				#{classtype,jdbcType=INTEGER},
+			</if>
+			<if test="warnnum != null">
+				#{warnnum,jdbcType=INTEGER},
+			</if>
+			<if test="isvirtual != null">
+				#{isvirtual,jdbcType=BIT},
+			</if>
+			<if test="iseditable != null">
+				#{iseditable,jdbcType=BIT},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=BIT},
+			</if>
+			<if test="deltime != null">
+				#{deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deluserid != null">
+				#{deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="classlever != null">
+				#{classlever,jdbcType=INTEGER},
+			</if>
+			<if test="fullpath != null">
+				#{fullpath,jdbcType=VARCHAR},
+			</if>
+			<if test="searchpath != null">
+				#{searchpath,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.CategoryExample"
+		resultType="java.lang.Integer">
+		select count(*) from category
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update category
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.name != null">
+				Name = #{record.name,jdbcType=VARCHAR},
+			</if>
+			<if test="record.fatherid != null">
+				FatherID = #{record.fatherid,jdbcType=INTEGER},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.sort != null">
+				Sort = #{record.sort,jdbcType=INTEGER},
+			</if>
+			<if test="record.creattime != null">
+				CreatTime = #{record.creattime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.shopid != null">
+				ShopID = #{record.shopid,jdbcType=INTEGER},
+			</if>
+			<if test="record.classtype != null">
+				ClassType = #{record.classtype,jdbcType=INTEGER},
+			</if>
+			<if test="record.warnnum != null">
+				WarnNum = #{record.warnnum,jdbcType=INTEGER},
+			</if>
+			<if test="record.isvirtual != null">
+				IsVirtual = #{record.isvirtual,jdbcType=BIT},
+			</if>
+			<if test="record.iseditable != null">
+				IsEditable = #{record.iseditable,jdbcType=BIT},
+			</if>
+			<if test="record.isdel != null">
+				IsDel = #{record.isdel,jdbcType=BIT},
+			</if>
+			<if test="record.deltime != null">
+				DelTime = #{record.deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.deluserid != null">
+				DelUserID = #{record.deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="record.classlever != null">
+				ClassLever = #{record.classlever,jdbcType=INTEGER},
+			</if>
+			<if test="record.fullpath != null">
+				FullPath = #{record.fullpath,jdbcType=VARCHAR},
+			</if>
+			<if test="record.searchpath != null">
+				searchpath = #{record.searchpath,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update category
+		set ID = #{record.id,jdbcType=INTEGER},
+		Name =
+		#{record.name,jdbcType=VARCHAR},
+		FatherID =
+		#{record.fatherid,jdbcType=INTEGER},
+		Status =
+		#{record.status,jdbcType=INTEGER},
+		Sort =
+		#{record.sort,jdbcType=INTEGER},
+		CreatTime =
+		#{record.creattime,jdbcType=TIMESTAMP},
+		ShopID =
+		#{record.shopid,jdbcType=INTEGER},
+		ClassType =
+		#{record.classtype,jdbcType=INTEGER},
+		WarnNum =
+		#{record.warnnum,jdbcType=INTEGER},
+		IsVirtual =
+		#{record.isvirtual,jdbcType=BIT},
+		IsEditable =
+		#{record.iseditable,jdbcType=BIT},
+		IsDel =
+		#{record.isdel,jdbcType=BIT},
+		DelTime =
+		#{record.deltime,jdbcType=TIMESTAMP},
+		DelUserID =
+		#{record.deluserid,jdbcType=INTEGER},
+		ClassLever =
+		#{record.classlever,jdbcType=INTEGER},
+		FullPath =
+		#{record.fullpath,jdbcType=VARCHAR},
+		searchpath =
+		#{record.searchpath,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Category">
+		update category
+		<set>
+			<if test="name != null">
+				Name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="fatherid != null">
+				FatherID = #{fatherid,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="sort != null">
+				Sort = #{sort,jdbcType=INTEGER},
+			</if>
+			<if test="creattime != null">
+				CreatTime = #{creattime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="shopid != null">
+				ShopID = #{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="classtype != null">
+				ClassType = #{classtype,jdbcType=INTEGER},
+			</if>
+			<if test="warnnum != null">
+				WarnNum = #{warnnum,jdbcType=INTEGER},
+			</if>
+			<if test="isvirtual != null">
+				IsVirtual = #{isvirtual,jdbcType=BIT},
+			</if>
+			<if test="iseditable != null">
+				IsEditable = #{iseditable,jdbcType=BIT},
+			</if>
+			<if test="isdel != null">
+				IsDel = #{isdel,jdbcType=BIT},
+			</if>
+			<if test="deltime != null">
+				DelTime = #{deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deluserid != null">
+				DelUserID = #{deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="classlever != null">
+				ClassLever = #{classlever,jdbcType=INTEGER},
+			</if>
+			<if test="fullpath != null">
+				FullPath = #{fullpath,jdbcType=VARCHAR},
+			</if>
+			<if test="searchpath != null">
+				searchpath = #{searchpath,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Category">
+		update category
+		set Name = #{name,jdbcType=VARCHAR},
+		FatherID =
+		#{fatherid,jdbcType=INTEGER},
+		Status = #{status,jdbcType=INTEGER},
+		Sort
+		= #{sort,jdbcType=INTEGER},
+		CreatTime =
+		#{creattime,jdbcType=TIMESTAMP},
+		ShopID = #{shopid,jdbcType=INTEGER},
+		ClassType = #{classtype,jdbcType=INTEGER},
+		WarnNum =
+		#{warnnum,jdbcType=INTEGER},
+		IsVirtual = #{isvirtual,jdbcType=BIT},
+		IsEditable = #{iseditable,jdbcType=BIT},
+		IsDel = #{isdel,jdbcType=BIT},
+		DelTime = #{deltime,jdbcType=TIMESTAMP},
+		DelUserID =
+		#{deluserid,jdbcType=INTEGER},
+		ClassLever =
+		#{classlever,jdbcType=INTEGER},
+		FullPath =
+		#{fullpath,jdbcType=VARCHAR},
+		searchpath =
+		#{searchpath,jdbcType=VARCHAR},
+		imageUrl= #{imageurl,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="getAcByFatherId" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from category where searchpath like '%,${fatherid},%' and isDel=0 order by sort
+		desc
+
+	</select>
+	<select id="getRecommClass" resultType="com.yinlian.api.app.dto.ClassDto">
+		SELECT
+		a.id,b.name,b.Imageurl,a.ORDERBY as Sort from recommclass a
+		JOIN
+		category b on a.classid=b.ID ORDER BY ORDERBY desc
+	</select>
+	<!-- 分页查询分類主題 -->
+	<sql id="criteria_query_topic">
+		<where>
+			t.id = r.topicid AND c.id = r.relatedid
+			and r.topicid =
+			#{criteria.topicid}
+		</where>
+	</sql>
+	<select id="selectTopicByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.TopicRelateInfo">
+		SELECT r.id,r.topicid topicid,t.title title,r.imgurl imgurl,c.name
+		categoryname,t.mark mark,r.sort sort,t.type type
+		FROM topic
+		t,topic_relate r,category c
+		<if test="criteria != null ">
+			<include refid="criteria_query_topic" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+	<select id="selectFirstClass" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from category
+		where isdel=0 and FatherID=0
+	</select>
+
+	<select id="selectChildrenClass" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from category
+		where  FatherID = #{fatherid,jdbcType=INTEGER} and IsDel = 0
+	</select>
+	<select id="queryAllList" resultMap="BaseResultMap">
+		select ID, Name,
+		FatherID,Status
+		from category
+	</select>
+	<select id="getbyFullpath" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from category where ClassLever=3 and isdel=0 and FullPath like
+		'%${fullpath}%'
+	</select>
+	<select id="querySan" resultMap="BaseResultMap">
+	select
+		<include refid="Base_Column_List" />
+		from category where ClassLever=3 and isdel=0
+	</select>
+	<select id="getListbyids" parameterType="java.util.List" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from category where IsDel=0 and id in
+		<if test="list != null">
+			<foreach collection="list" item="id" index="index" open="("
+				separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+	</select>
+</mapper>

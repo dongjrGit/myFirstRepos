@@ -1,0 +1,55 @@
+<%var path="/resource";%>
+<link rel="stylesheet" href="/resource/wap/css/greenLife.css" />
+<script src="${path}/json2.js"></script>
+<script src="${path}/wap/js/linq.min.js"></script>
+<script src="${path}/wap/js/login.js"></script>
+<script src="${path}/wap/js/shopingCart/shopcart.js"></script>
+<footer class="fx-footer" id="index_foot">
+	<a data="0" href="/wap/index.html"><img src="${path}/wap/images/fxIoc_01.png"><img src="${path}/wap/images/fxIoc_01a.png">首页</a> 
+	<a data="1" href="/wap/proclass/classList.html"><img src="${path}/wap/images/fxIoc_02.png"><img src="${path}/wap/images/fxIoc_02a.png">商城</a>
+	<a data="3" href="/wap/find/findindex.html"><img src="${path}/wap/images/fxIoc_03.png"><img src="${path}/wap/images/fxIoc_03a.png">发现</a>  
+	<a data="2" href="javascript:void(0)"><img src="${path}/wap/images/fxIoc_04.png"><img src="${path}/wap/images/fxIoc_04a.png">购物车<span id="g_count"></span></a>
+	<!-- class="fx-footer_num" -->	
+	<a data="4" href="/wap/userinfo/homepage?ch=3"><img src="${path}/wap/images/fxIoc_05.png"><img src="${path}/wap/images/fxIoc_05a.png">我的</a>
+</footer>
+<script>
+	$(function() {
+		//display
+		var display = parseInt(${display!''});
+		if(isNaN(display)){
+			display=parseInt(GetCookie("foot_dis"));
+		}
+		if (!isNaN(display)) {
+			$("footer").find("a").removeClass("current");
+			$("footer a").eq(display).addClass("current");
+		} else {
+			$("footer").find("a").removeClass("current");
+			$("footer a").eq(0).addClass("current");
+		}
+
+		$("footer").find("a").click(function() {
+			$("footer").find("a").removeClass("current");
+			$(this).addClass("current");
+			var dis = parseInt($(this).attr("data"));
+			SetCookie("foot_dis", dis);
+			if(dis=="2"){
+				window.location.href="/wap/shopcart/cartlist.html?v=1.0";
+			}			
+		});
+		Cart.getgoodscount(Cart.getcountcallback);
+		fxFooter('.fx-footer_num');
+		fixed('.fx-footer');
+	})
+	
+	//购物车圆角
+	function fxFooter(obj) {
+		var objWidth = $(obj).outerWidth();
+		$(obj).css('height', objWidth + 'px').css('line-height',
+				objWidth + 'px');
+	}
+//  绝对定位占据原来的位置
+	function fixed(obj){
+		var allHeight=$(obj).outerHeight();
+		$(obj).after('<div style="height:'+ allHeight+'px;">'+'&nbsp;</div>');
+	}
+</script>

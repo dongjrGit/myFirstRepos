@@ -1,0 +1,92 @@
+<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>选择城市</title>
+
+<script src="${path}/wap/js/userInfo/changcity.js"></script>
+<script src="${path}/wap/js/userInfo/UserInfo.js"></script>
+<script src="${path}/ajaxfileupload.js"></script>
+</head>
+<body style="background:#f0f0f0;">
+<div class="diquselect-search"><input type="search" placeholder="输入城市名或拼音查询"></div>
+<section class="diquselect-boxUp">
+    <div class="diquselect-dingwei" id="hometown" value="${changcity}" ><b>北京</b>GPS定位</div>
+    <%if(changcity=="hometown"){%>
+    <div class="diquselect-tile">请选择家乡城市</div>
+    <ul class="diquselect-ul" >
+        <li><p>
+        	<select class="yselect" id="province" yplaceholder=" " yplaceholder-opacity="0.6" style="width:100px;">
+            	<option>请选择</option>
+            </select>
+        </p></li>
+        <li><p>
+        	<select class="yselect" yplaceholder=" " id="city"  yplaceholder-opacity="0.6">
+            	<option>请选择</option>
+            </select></p></li>
+       <li><p>
+        	<select class="yselect" yplaceholder=" " id="area" yplaceholder-opacity="0.6">
+            	<option>请选择</option>
+            </select>
+          </p></li>
+        <li><input type="button" id="changcity" value="确认"></li>
+    </ul>
+    <%}else{%>
+     <div class="diquselect-tile">请选择本地城市</div>
+    <ul class="diquselect-ul" >
+        <li><p>
+        	<select class="yselect" id="province" yplaceholder=" " yplaceholder-opacity="0.6">
+            	<option>请选择</option>
+            </select>
+        </p></li>
+        <li><input type="button" id="changcity" value="确认"></li>
+    </ul>
+    <%}%>
+    <div class="diquselect-tile">附近热门城市</div>
+    <ul class="diquselect-ul">
+        <li><a href="javascript:void(0)">济南</a></li>
+        <li><a href="javascript:void(0)">天津</a></li>
+        <li><a href="javascript:void(0)">保定</a></li>
+        <li><a href="javascript:void(0)">廊坊</a></li>
+        <li><a href="javascript:void(0)">忻州</a></li>
+        <li><a href="javascript:void(0)">张家口</a></li>
+    </ul>
+    <div class="diquselect-tile">国内热门城市</div>
+    <ul class="diquselect-ul">
+        <li><a href="javascript:void(0)">上海</a></li>
+        <li><a href="javascript:void(0)">广州</a></li>
+        <li><a href="javascript:void(0)">深圳</a></li>
+        <li><a href="javascript:void(0)">成都</a></li>
+        <li><a href="javascript:void(0)">重庆</a></li>
+        <li><a href="javascript:void(0)">杭州</a></li>
+    </ul>
+    <div class="diquselect-tile">海外热门目的地</div>
+    <ul class="diquselect-ul">
+        <li><a href="javascript:void(0)">香港</a></li>
+        <li><a href="javascript:void(0)">澳门</a></li>
+        <li><a href="javascript:void(0)">台湾</a></li>
+    </ul>
+</section>
+<script type="text/javascript">
+$(document).ready(function(){
+	changcity.GetProvData();
+})
+$("#changcity").click(function(){
+    if($("#hometown").attr("value")=="hometown"){
+    	var provinceIndex = document.getElementById("province").selectedIndex;//获得是第几个被选中了
+		var province = document.getElementById("province").options[provinceIndex].text;
+		var cityIndex = document.getElementById("city").selectedIndex;//获得是第几个被选中了
+		var city = document.getElementById("city").options[cityIndex].text;
+		var areaIndex = document.getElementById("area").selectedIndex;//获得是第几个被选中了
+		var area = document.getElementById("area").options[areaIndex].text;
+	    var hometown = province+"-"+city+"-"+area;
+		UserInfo.upuserssmessage("","","","",hometown,"");
+	}else{
+		var selectIndex = document.getElementById("province").selectedIndex;//获得是第几个被选中了
+		var location = document.getElementById("province").options[selectIndex].text;
+		UserInfo.upuserssmessage("","","","","",location);
+	}
+	
+})
+</script>
+</body>
+

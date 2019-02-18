@@ -1,0 +1,47 @@
+﻿
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <link href="/template/default/css/css.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="/template/default/css/tcal.css" />
+
+    <script src="~/js/Guid.js"></script>
+    <script src="~/js/jquery-1.8.2.min.js"></script>
+    <script src="~/js/cookie.js"></script>
+    <script src="~/js/jquery.ajaxex.js"></script>
+    <title> @ViewBag.Title——海益宝电商平台</title>
+</head>
+<body>
+
+    <div class="g_body g_ejtdq">
+        <div class="g_gnqy">
+            <div class="g_logo g_drzxlg fl">
+                <a href="javascript:void(0);"><img src="/template/default/imgs/g_01.png" /></a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+     @RenderBody()
+    <div class="g_footer g_dlymdb">
+        <div class="g_footnr">
+            <div class="g_gyrxd">
+                <a href="javascript:void(0);">关于我们</a>|
+                <a href="javascript:void(0);">免责条款</a>|
+                <a href="javascript:void(0);">海益宝</a>|
+                <a href="javascript:void(0);">友情链接</a>|
+                <span>客服电话：0535-3335766</span>|
+                <span>销售热线：0535-3335766</span>
+            </div>
+            <p>
+                <font>Copyright © 2014</font> 海益宝 <font>Inc.</font> 保留所有权利<br />
+                海阳海益宝水产科技股份有限公司<br />
+                山东省海阳市龙山街道海滨西路海益宝产业园  邮编：<font>562100</font>
+            </p>
+        </div>
+    </div>
+    <div class="g_bdlt"></div>
+
+</body>
+</html>

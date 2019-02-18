@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.SpikeSpuMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.SpikeSpu">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="SpikeID" property="spikeid" jdbcType="INTEGER" />
+		<result column="SpuID" property="spuid" jdbcType="INTEGER" />
+		<result column="SpuCount" property="spucount" jdbcType="INTEGER" />
+		<result column="Price" property="price" jdbcType="REAL" />
+		<result column="OrderBy" property="orderby" jdbcType="INTEGER" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="IsPhone" property="isphone" jdbcType="INTEGER" />
+		<result column="SkuID" property="skuid" jdbcType="INTEGER" />
+		<result column="ShopID" property="shopid" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap id="SpikeSpuDtoResultMap" type="com.yinlian.wssc.web.dto.SpSpuDto">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="SpikeID" property="spikeID" jdbcType="INTEGER" />
+		<result column="DiscountPrice" property="discountPrice"
+			jdbcType="REAL" />
+		<result column="SpuID" property="spuID" jdbcType="INTEGER" />
+		<result column="Num" property="num" jdbcType="REAL" />
+		<result column="Name" property="name" jdbcType="VARCHAR" />
+		<result column="Price" property="price" jdbcType="REAL" />
+		<result column="IsPhone" property="isphone" jdbcType="INTEGER" />
+		<result column="ImgUrl" property="imgUrl" jdbcType="VARCHAR" />
+		<result column="SpuCount" property="spuCount" jdbcType="INTEGER" />
+		<result column="OrderBy" property="orderBy" jdbcType="INTEGER" />
+		<result column="StartTime" property="startTime" jdbcType="TIMESTAMP" />
+		<result column="EndTime" property="endTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, SpikeID, SpuID, SpuCount, Price, OrderBy, Status,
+		IsPhone, SkuID,
+		ShopID
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.SpikeSpuExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from spike_spu
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from spike_spu
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		spike_spu
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.SpikeSpuExample">
+		delete from spike_spu
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.SpikeSpu">
+		insert into spike_spu (ID,
+		SpikeID, SpuID,
+		SpuCount, Price, OrderBy,
+		Status, IsPhone, SkuID,
+		ShopID)
+		values (#{id,jdbcType=INTEGER}, #{spikeid,jdbcType=INTEGER},
+		#{spuid,jdbcType=INTEGER},
+		#{spucount,jdbcType=INTEGER},
+		#{price,jdbcType=REAL}, #{orderby,jdbcType=INTEGER},
+		#{status,jdbcType=INTEGER}, #{isphone,jdbcType=INTEGER},
+		#{skuid,jdbcType=INTEGER},
+		#{shopid,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.SpikeSpu">
+		insert into spike_spu
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="spikeid != null">
+				SpikeID,
+			</if>
+			<if test="spuid != null">
+				SpuID,
+			</if>
+			<if test="spucount != null">
+				SpuCount,
+			</if>
+			<if test="price != null">
+				Price,
+			</if>
+			<if test="orderby != null">
+				OrderBy,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+			<if test="isphone != null">
+				IsPhone,
+			</if>
+			<if test="skuid != null">
+				SkuID,
+			</if>
+			<if test="shopid != null">
+				ShopID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="spikeid != null">
+				#{spikeid,jdbcType=INTEGER},
+			</if>
+			<if test="spuid != null">
+				#{spuid,jdbcType=INTEGER},
+			</if>
+			<if test="spucount != null">
+				#{spucount,jdbcType=INTEGER},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=REAL},
+			</if>
+			<if test="orderby != null">
+				#{orderby,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="isphone != null">
+				#{isphone,jdbcType=INTEGER},
+			</if>
+			<if test="skuid != null">
+				#{skuid,jdbcType=INTEGER},
+			</if>
+			<if test="shopid != null">
+				#{shopid,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.SpikeSpuExample"
+		resultType="java.lang.Integer">
+		select count(*) from spike_spu
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update spike_spu
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.spikeid != null">
+				SpikeID = #{record.spikeid,jdbcType=INTEGER},
+			</if>
+			<if test="record.spuid != null">
+				SpuID = #{record.spuid,jdbcType=INTEGER},
+			</if>
+			<if test="record.spucount != null">
+				SpuCount = #{record.spucount,jdbcType=INTEGER},
+			</if>
+			<if test="record.price != null">
+				Price = #{record.price,jdbcType=REAL},
+			</if>
+			<if test="record.orderby != null">
+				OrderBy = #{record.orderby,jdbcType=INTEGER},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.isphone != null">
+				IsPhone = #{record.isphone,jdbcType=INTEGER},
+			</if>
+			<if test="record.skuid != null">
+				SkuID = #{record.skuid,jdbcType=INTEGER},
+			</if>
+			<if test="record.shopid != null">
+				ShopID = #{record.shopid,jdbcType=INTEGER},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update spike_spu
+		set ID = #{record.id,jdbcType=INTEGER},
+		SpikeID =
+		#{record.spikeid,jdbcType=INTEGER},
+		SpuID =
+		#{record.spuid,jdbcType=INTEGER},
+		SpuCount =
+		#{record.spucount,jdbcType=INTEGER},
+		Price =
+		#{record.price,jdbcType=REAL},
+		OrderBy =
+		#{record.orderby,jdbcType=INTEGER},
+		Status =
+		#{record.status,jdbcType=INTEGER},
+		IsPhone =
+		#{record.isphone,jdbcType=INTEGER},
+		SkuID =
+		#{record.skuid,jdbcType=INTEGER},
+		ShopID =
+		#{record.shopid,jdbcType=INTEGER}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.SpikeSpu">
+		update spike_spu
+		<set>
+			<if test="spikeid != null">
+				SpikeID = #{spikeid,jdbcType=INTEGER},
+			</if>
+			<if test="spuid != null">
+				SpuID = #{spuid,jdbcType=INTEGER},
+			</if>
+			<if test="spucount != null">
+				SpuCount = #{spucount,jdbcType=INTEGER},
+			</if>
+			<if test="price != null">
+				Price = #{price,jdbcType=REAL},
+			</if>
+			<if test="orderby != null">
+				OrderBy = #{orderby,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="isphone != null">
+				IsPhone = #{isphone,jdbcType=INTEGER},
+			</if>
+			<if test="skuid != null">
+				SkuID = #{skuid,jdbcType=INTEGER},
+			</if>
+			<if test="shopid != null">
+				ShopID = #{shopid,jdbcType=INTEGER},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.SpikeSpu">
+		update spike_spu
+		set SpikeID = #{spikeid,jdbcType=INTEGER},
+		SpuID =
+		#{spuid,jdbcType=INTEGER},
+		SpuCount = #{spucount,jdbcType=INTEGER},
+		Price = #{price,jdbcType=REAL},
+		OrderBy = #{orderby,jdbcType=INTEGER},
+		Status = #{status,jdbcType=INTEGER},
+		IsPhone =
+		#{isphone,jdbcType=INTEGER},
+		SkuID = #{skuid,jdbcType=INTEGER},
+		ShopID =
+		#{shopid,jdbcType=INTEGER}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateSpikeSpuCountByIds" parameterType="java.util.List">
+		<if test="list != null">
+			<foreach collection="list" item="uc" index="index" open=""
+				close="" separator=";">
+				update spike_spu
+				set SpuCount= SpuCount
+				-#{uc.count,jdbcType=INTEGER}
+				where id = #{uc.id,jdbcType=INTEGER}
+			</foreach>
+		</if>
+	</update>
+	<select id="getSpSpuDtoBySpikeID" resultMap="SpikeSpuDtoResultMap">
+		select
+		b.ID,b.SpikeID,b.ShopID,b.Price as DiscountPrice, c.ID as SpuID,
+		c.ProNum as Num,c.Price,b.SpuCount,b.OrderBy,b.IsPhone,
+		c.Name,(SELECT
+		d.ImgUrl FROM Product_Imgs d where c.ID=d.SPU_ID LIMIT 1) as ImgUrl
+		,(SELECT a.StartTime FROM
+		SpikeActivity a where a.ID=b.SpikeID LIMIT 1)
+		as StartTime,(SELECT a.EndTime FROM
+		SpikeActivity a where
+		a.ID=b.SpikeID LIMIT 1) as EndTime
+		from Spike_Spu b JOIN SPU c on
+		b.SpuID = c.ID
+		where b.SpikeID = #{spikeid} and b.SpuID = #{spuid}
+
+		LIMIT 1
+	</select>
+
+	<!-- 根据店铺ID删除参与活动的商品 -->
+	<delete id="deleteByShopID" parameterType="int">
+		delete from spike_spu
+		where ShopID=#{0} and SpikeID = #{1}
+	</delete>
+
+	<update id="updateIsPhone" parameterType="int">
+		update spike_spu
+		set IsPhone = #{0}
+		where id = #{1}
+	</update>
+</mapper>

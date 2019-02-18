@@ -1,0 +1,172 @@
+<%var path="/resource";%>
+<head>
+<title>涓汉涓績-鏈櫥褰�</title>
+<meta charset="utf-8">
+<script src="${path}/wap/js/index.js"></script>
+ <script src="/wap/js/cookie.js"></script>
+<script type="text/javascript" src="/wap/js/login.js"></script>
+<script type="text/javascript" src="/resource/artTemplate.js"></script>
+<script type="text/javascript" src="/resource/wap/js/wkh/page-common.js"></script>
+<script type="text/javascript">
+
+function like(){
+	loginContent=".container";
+
+	if(login.isLogin()){
+		var img=document.getElementById('addlike');
+		if(img.getAttribute("data")!=1){
+			var showid=$("#showid").val();
+			var userid=$("#userid").val();
+			var nickname=$("#nickname").val();
+			$.ajax({
+	            url: "/api/wap/showfan/addLike",
+	            type: "Post",
+	            data: { "showid": showid,
+	            	"userid": userid,
+	            	"nickname": nickname,
+	            	},
+	            dataType: "json",
+	            success: function (data) {
+	            	data= eval('(' + data + ')');
+	                if (data.code == 0) {
+	                	img.src="${path}/wap/images/scfico01_act.png";
+	                	img.setAttribute("data","1");
+	                }
+	               
+	            },
+	            error: function () {
+						alert("cuowu");
+	            }
+	        });
+		}
+		
+		
+	}else{
+		login.open();
+	}
+	
+}
+
+
+
+
+var quid='${showarticle.proid}';
+$(function(){
+	pageurl="/api/wap/discover/pl";
+  params={page:1,size:10,squId:quid};
+	
+	initWapPage();
+	$(window).scroll(function(){
+		var scrollTop=$(this).scrollTop();
+		var scrollHeight=$(document).height();
+		var windowHeight=$(this).height();
+		if(scrollTop+windowHeight==scrollHeight){
+			initWapPage();
+		}
+	});
+	
+});
+
+
+
+</script>
+</head>
+<body>
+<!--container  begin-->
+<div class="container fix">
+	<!--l_dpdttopxg  begin -->
+	<div class="l_dpdttopxg fix">
+		<div style="width:50%;position:absolute;top:0px;bottom:0px;left:0px;"  onclick="javascript:location.href='/wap/discover/guangchang.html'"></div>
+		鑼冨効璇︽儏${showarticle.proid}
+		<div class="l_l_dpdttopxgrig fexqico"  onclick="javascript:location.href='/wap/discover/share.html?showid=${showarticle.id}'"></div>
+	</div>
+    <!--l_dpdttopxg  stop -->
+    <!--l_frxqtop  begin -->
+    <div class="l_frxqtop fix">
+
+    	<div class="l_scfmk03_01"><%if(!isEmpty(imgurl)){%><img src="${imgurl}"  class="img-responsive" ><%}else{%><img src="/wap/images/index11.jpg"  class="img-responsive"><%}%></div>
+
+        <div class="l_scfmk03_02">
+            <p id="nickname">${showarticle.nickname}</p>
+            <p class="huise">${showarticle.createtimetr}</p>
+        </div>
+    </div>
+    <!--l_frxqtop  stop -->
+    <!--l_frxqcon  begin --> 
+    <input name="showid" type="hidden"  value="${showarticle.id}"/> 
+         <input name="userid" type="hidden"  value="${showarticle.userid}"/> 
+          <input name="nickname" type="hidden"  value="${showarticle.nickname}"/> 
+    
+    
+    <div class="l_frxqcon fix">
+     	<%if(showarticle.imgone!=null){%>
+        <div><img src="${showarticle.imgone}" class="img-responsive"></div>
+       <%}%>
+    	
+    	 <%if(showarticle.imgtwo!=null){%>
+        <div class="mt3"><img src="${showarticle.imgtwo}" class="img-responsive"></div>
+       <%}%>
+       
+       <%if(showarticle.imgthr!=null){%>
+         <div class="mt3"><img src="${showarticle.imgthr}" class="img-responsive"></div>
+       <%}%>
+      
+        <div class="l_fexqwzsm">
+        	<p>${showarticle.content}</p>
+        </div>
+    </div>
+    <!--l_frxqcon  stop -->
+    <!--l_frxqzjnr  begin -->
+    <div class="l_frxqzjnr fix">
+
+    	<div class="l_scfmk02_01"><a href="#"><img src="${showarticle.proimg}" class="img-responsive"></a></div>
+
+        <div class="l_scfmk02_02">
+            <h3><a href="#">${showarticle.proname}</a></h3>
+            <p class="red">￥ ${showarticle.proprice}</p>
+        </div>
+    </div>
+    <!--l_frxqzjnr  stop -->
+    <!--l_fxhwtj  begin -->
+    <div class="l_fxhwtj fix">
+    	<h3>评论</h3>
+        <div class="l_fzplxq">
+        	<ul id="list">
+                
+            </ul>
+            
+        </div>
+        
+    </div>
+    <!--l_fxhwtj  stop -->
+    <!--l_fxplbot  begin -->
+    <div class="l_fxplbot fix">
+    	<ul>
+
+        	<li><span><img src="${path}/wap/images/fxplico01.png" onclick="like()" class="img-responsive" id="addlike"></span>${count}</li>
+            <li class="l_nobor"><span><img src="${path}/wap/images/fxplico02.png" class="img-responsive"></span>璇勮</li>
+
+        </ul>
+    </div>
+    <!--l_fxplbot  stop -->
+</div>
+<script id="scriptlist">
+{{each list.list as pl}}
+<li class="fix">
+<div class="l_fzplxql"><div class="l_scfmk03_01"><img src="{{pl.imgUrl}}" class="img-responsive"></div></div>
+<div class="l_fzplxqr">
+	<p class="huise">{{pl.username}<span class="floatright">{{pl.createtime}}</span></p>
+    <p>{{pl.content}}</p>
+</div>
+</li>
+{{/each}}
+</script>
+<!--container  stop -->
+<script>
+	window.onload=function(){
+		newArrival('.l_scfmk03_01 img');
+		fixed('.l_fxplbot');
+		newArrival('.l_scfmk02_01 img');
+	}	
+</script>
+</body>

@@ -1,0 +1,895 @@
+package com.yinlian.wssc.platform.controller;
+
+import java.text.MessageFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.yinlian.Enums.CouponFromTypeEnum;
+import com.yinlian.Enums.CouponGetTypeEnum;
+import com.yinlian.Enums.CouponIssueTypeEnum;
+import com.yinlian.Enums.CouponTypeEnum;
+import com.yinlian.Enums.CouponUseTypeEnum;
+import com.yinlian.Enums.OperateRecordsFromEnum;
+import com.yinlian.Enums.OperateRecordsTypeEnum;
+import com.yinlian.Extended.LogType;
+import com.yinlian.wssc.platform.vo.ReusltItem;
+import com.yinlian.wssc.web.dto.SessionUser;
+import com.yinlian.wssc.web.interceptor.PageBean;
+import com.yinlian.wssc.web.po.Coupon;
+import com.yinlian.wssc.web.po.Shop;
+import com.yinlian.wssc.web.po.SpuWithBLOBs;
+import com.yinlian.wssc.web.service.CouponService;
+import com.yinlian.wssc.web.service.OperaterecordsService;
+import com.yinlian.wssc.web.service.SpuService;
+import com.yinlian.wssc.web.service.VoucherService;
+import com.yinlian.wssc.web.util.CriteriaActivity;
+import com.yinlian.wssc.web.util.DebugConfig;
+import com.yinlian.wssc.web.util.ProductNumUtil;
+import com.yinlian.wssc.web.util.SessionState;
+import com.yinlian.wssc.web.util.StringUtilsEX;
+import com.yl.soft.log.LogHandle;
+
+/**
+ * 新优惠劵控制层(经开项目)
+ * @author Administrator
+ *
+ */
+@RestController
+@RequestMapping("/platform/couponnew")
+public class CouponNewController {
+	@Autowired
+	private CouponService couponService;
+	@Autowired
+	private VoucherService voucherService;
+	@Autowired
+	private SpuService spuService;
+	
+	SessionUser user = null;
+	@Autowired
+    private OperaterecordsService operaterecordsService ;
+	/**
+	 * 添加优惠券
+	 * 
+	 * @param name
+	 * @param facevalue
+	 * @param count
+	 * @param coupontype
+	 * @param mjprice
+	 * @param status
+	 * @param starttime
+	 * @param endtime
+	 * @param endday
+	 * @param userlevel
+	 * @param gettype
+	 * @param getcount
+	 * @param shopid
+	 * @return
+	 */
+	@RequestMapping("/addCoupon")
+	public ReusltItem addCoupon(String name, String facevalue,
+			String count,String coupontype,String mjprice, String status, 
+			String starttime, String endtime,String endday, String userlevel,
+			String usetype, String spuid,
+			String gettype, String getcount,String shopid) {
+		ReusltItem item = new ReusltItem();
+		try {
+			user = SessionState.GetCurrentUser();
+			Coupon coupon = new Coupon();
+			coupon = checkParam(name, facevalue, count,coupontype, mjprice,
+					 status, starttime, endtime, endday,userlevel,
+					 gettype, getcount,usetype,spuid,shopid, "0", item);
+			if (item.getCode() < 0) {
+				return item;
+			}
+			if (couponService.insert(coupon) > 0) {
+				item.setCode(0);
+				item.setDesc("添加优惠券成功!");
+				LogHandle.info(
+						LogType.Coupon,
+						MessageFormat.format("添加优惠券成功! 编号:{0},用户ID:{1}",
+								coupon.getCouponnum(), user.getUserId()),
+						"Coupon/addCoupon");
+				//异步操作 不影响正常流程
+                ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
+    			cachedThreadPool.execute(new Runnable() {
+    				@Override
+    				public void run() {
+    					try{
+    						operaterecordsService.insertOperaterecords(
+                            		OperateRecordsTypeEnum.添加.getValue(), OperateRecordsFromEnum.系统后台.getValue(), 
+                            		user.getUserId(), user.getLoginName(), "yxgl_CouponNewAdd.jsp", "/platform/Coupon/addCoupon", "添加优惠劵");
+    					}
+    					catch(Exception e){
+    						LogHandle.error(LogType.OperateRecords,"添加优惠劵操作记录出错! 异常信息:",
+    								e, "/platform/Coupon/addCoupon");
+    					}
+    				}
+    			});
+			} else {
+				item.setCode(-200);
+				item.setDesc("添加优惠券失败");
+				LogHandle.warn(
+						LogType.Coupon,
+						MessageFormat.format("添加优惠券失败! 名称:{0},用户ID:{1}",
+								coupon.getCouponname(), user.getUserId()),
+						"/platform/Coupon/addCoupon");
+			}
+
+		} catch (Exception e) {
+			item.setCode(-900);
+			if (DebugConfig.BLUETOOTH_DEBUG) {
+			 item.setDesc("添加优惠券异常：" + e.getMessage());
+			} else {
+				item.setDesc("系统错误！");
+			}
+			LogHandle.error(LogType.Coupon,
+					MessageFormat.format("添加优惠券异常! 异常信息:{0}", e.getMessage()),
+					"/platform/Coupon/addCoupon");
+		}
+		return item;
+	}
+
+	/**
+	 * 编辑优惠券
+	 * 
+	 * @param id
+	 * @param name
+	 * @param facevalue
+	 * @param count
+	 * @param usetype
+	 * @param usetypeid
+	 * @param coupontype
+	 * @param mjprice
+	 * @param status
+	 * @param starttime
+	 * @param endtime
+	 * @param endday
+	 * @param userlevel
+	 * @param gettype
+	 * @param getcount
+	 * @return
+	 */
+	@RequestMapping("/updateCoupon")
+	public ReusltItem updateCoupon(String id, String name,
+			String facevalue, String count,String coupontype, String mjprice, 
+			String status, String starttime,String endtime, String endday,
+			String usetype, String spuid,
+		    String userlevel, String gettype,String getcount,String shopid
+			) {
+		ReusltItem item = new ReusltItem();
+		try {
+			Coupon coupon = new Coupon();
+			user = SessionState.GetCurrentUser();
+			coupon = checkParam(name, facevalue, count,
+					coupontype, mjprice, status, starttime, endtime, endday,
+					userlevel, gettype, getcount,usetype,spuid,shopid, id, item);
+			if (item.getCode() < 0) {
+				return item;
+			}
+			if (couponService.updateByID(coupon) > 0) {
+				item.setCode(0);
+				item.setDesc("编辑优惠券成功!");
+				LogHandle.info(LogType.Coupon, MessageFormat.format(
+						"编辑优惠券成功! id：{0},编号:{1},用户ID:{2}", id,
+						coupon.getCouponnum(), user.getUserId()),
+						"Coupon/updateCoupon");
+				//异步操作 不影响正常流程
+                ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
+    			cachedThreadPool.execute(new Runnable() {
+    				@Override
+    				public void run() {
+    					try{
+    						operaterecordsService.insertOperaterecords(
+                            		OperateRecordsTypeEnum.修改.getValue(), OperateRecordsFromEnum.系统后台.getValue(), 
+                            		user.getUserId(), user.getLoginName(), "yxgl_CouponNewEdit.jsp", "/platform/Coupon/updateCoupon", "修改优惠劵");
+    					}
+    					catch(Exception e){
+    						LogHandle.error(LogType.OperateRecords,"修改优惠劵操作记录出错! 异常信息:",
+    								e, "/platform/Coupon/updateCoupon");
+    					}
+    				}
+    			});
+			} else {
+				item.setCode(-200);
+				item.setDesc("编辑优惠券失败");
+				LogHandle.warn(LogType.Coupon, MessageFormat.format(
+						"编辑优惠券失败! id：{0},编号:{1},用户ID:{2}", id,
+						coupon.getCouponnum(), user.getUserId()),
+						"/platform/Coupon/updateCoupon");
+			}
+		} catch (Exception e) {
+			item.setCode(-900);
+			if (DebugConfig.BLUETOOTH_DEBUG) {
+				item.setDesc("编辑优惠券异常：" + e.getMessage());
+			} else {
+				item.setDesc("系统错误！");
+			}
+			LogHandle.error(LogType.Coupon,
+					MessageFormat.format("编辑优惠券异常! 异常信息:{0}", e.getMessage()),
+					"/platform/Coupon/updateCoupon");
+		}
+		return item;
+	}
+
+	private Coupon checkParam(String name, String facevalue, String count,
+		    String coupontype,String mjprice, String status,
+			 String starttime, String endtime,String endday, String userlevel,
+			 String gettype, String getcount,String usetype, String spuid,String shopid,
+			String id, ReusltItem item) throws Exception {
+		Coupon coupon = new Coupon();
+		user = SessionState.GetCurrentUser();
+		if (StringUtilsEX.IsNullOrWhiteSpace(name)) {
+			item.setCode(-102);
+			item.setDesc("优惠券名称不能为空");
+			return null;
+		}
+		if (StringUtilsEX.ToFloat(facevalue) < 0) {
+			item.setCode(-103);
+			item.setDesc("优惠券面值参数错误：" + facevalue);
+			return null;
+		}
+		if (StringUtilsEX.ToInt(count) <= 0) {
+			item.setCode(-104);
+			item.setDesc("优惠券数量参数错误：" + count);
+			return null;
+		}
+		
+		if(StringUtilsEX.ToInt(usetype)<0){
+			item.setCode(-105);
+			item.setDesc("优惠券使用对象参数错误：" + usetype);
+			return null;
+		}
+		if(StringUtilsEX.ToInt(usetype)==2){
+			if (StringUtilsEX.ToInt(shopid) <= 0) {
+				item.setCode(-105);
+				item.setDesc("所属店铺ID参数错误：" + shopid);
+				return null;
+			}
+		}
+		if(StringUtilsEX.ToInt(usetype)==0){
+			if (StringUtilsEX.ToInt(shopid) <= 0) {
+				item.setCode(-105);
+				item.setDesc("所属店铺ID参数错误：" + shopid);
+				return null;
+			}
+			if (StringUtilsEX.ToInt(spuid) <= 0) {
+				item.setCode(-105);
+				item.setDesc("商品ID参数错误：" + shopid);
+				return null;
+			}
+		}
+		if (StringUtilsEX.ToInt(coupontype) < 0) {
+			item.setCode(-106);
+			item.setDesc("优惠券类型参数错误：" + coupontype);
+			return null;
+		} else if (StringUtilsEX.ToInt(coupontype) == CouponTypeEnum.金额限制
+				.getValue()) {
+			if (StringUtilsEX.ToFloat(mjprice) < 0) {
+				item.setCode(-107);
+				item.setDesc("满减金额参数错误：" + mjprice);
+				return null;
+			}
+		}
+		if (StringUtilsEX.ToInt(status) < 0) {
+			item.setCode(-108);
+			item.setDesc("优惠券状态参数错误：" + status);
+			return null;
+		}
+		if (StringUtilsEX.IsNullOrWhiteSpace(starttime)) {
+			item.setCode(-109);
+			item.setDesc("发放时间参数错误：" + starttime);
+			return null;
+
+		}
+		if (StringUtilsEX.IsNullOrWhiteSpace(endtime)) {
+			item.setCode(-110);
+			item.setDesc("过期时间参数错误：" + endtime);
+			return null;
+		}
+		if (!StringUtilsEX.IsNullOrWhiteSpace(endday)) {
+			if (StringUtilsEX.ToInt(endday) < 0) {
+				item.setCode(-111);
+				item.setDesc("有效期参数错误：" + endday);
+				return null;
+			}
+		}
+//		if (StringUtilsEX.ToInt(userlevel) < 0) {
+//			item.setCode(-112);
+//			item.setDesc("用户等级参数错误：" + userlevel);
+//			return null;
+//		}
+		if (StringUtilsEX.ToInt(gettype) < CouponGetTypeEnum.买家领取.getValue()
+				|| StringUtilsEX.ToInt(gettype) > CouponGetTypeEnum.注册赠送
+						.getValue()) {
+			item.setCode(-113);
+			item.setDesc("领用方式参数错误：" + gettype);
+			return null;
+		}
+		if (StringUtilsEX.ToInt(getcount) < 0) {
+			item.setCode(-114);
+			item.setDesc("每人限领参数错误：" + getcount);
+			return null;
+		}
+		if (StringUtilsEX.ToInt(id) < 0) {
+			item.setCode(-101);
+			item.setDesc("优惠券ID参数错误：" + id);
+			return null;
+		}
+		if (StringUtilsEX.ToInt(id) == 0) {
+			coupon.setIsdel(false);
+			coupon.setCreatetime(new Date());
+			coupon.setCreateuserid(user.getUserId()); // 创建人ID
+//			coupon.setShopid(user.getShopid()); // 所属店铺ID
+			coupon.setShopid(StringUtilsEX.ToInt(shopid));
+			coupon.setCouponnum(ProductNumUtil.getCouponNum()); // 自动生成优惠券编号
+			coupon.setFromtype(CouponFromTypeEnum.平台.getValue());		
+			coupon.setUseplatform("2");
+		} else {
+			coupon = couponService.getByID(StringUtilsEX.ToInt(id));
+			if (coupon == null) {
+				LogHandle.error(LogType.Coupon,
+						MessageFormat.format("修改优惠券错误，根据ID未能检索到数据.ID:{0}", id),
+						"Coupon/updateCoupon");
+				item.setCode(-401);
+				item.setDesc("根据ID未能检索到数据");
+				return null;
+			}
+		}
+		coupon.setCouponname(name.trim());
+		coupon.setFacevalue(StringUtilsEX.ToFloat(facevalue));
+		coupon.setConponcount(StringUtilsEX.ToInt(count));
+		if(StringUtilsEX.ToInt(usetype)==3){
+			coupon.setCouponissuetype(CouponIssueTypeEnum.平台.getValue());
+		}else{
+			coupon.setCouponissuetype(CouponIssueTypeEnum.店铺.getValue());
+		}
+		//coupon.setCouponissuetype(CouponIssueTypeEnum.店铺.getValue());
+		//coupon.setUsetypeid(StringUtilsEX.ToInt(shopid));
+		coupon.setCouponusetype(StringUtilsEX.ToInt(usetype));
+		if(StringUtilsEX.ToInt(usetype)==0){
+			coupon.setUsetypeid(StringUtilsEX.ToInt(spuid));
+		}
+		if(StringUtilsEX.ToInt(usetype)==2){
+			coupon.setUsetypeid(StringUtilsEX.ToInt(shopid));
+		}
+		coupon.setShopid(StringUtilsEX.ToInt(shopid));
+		coupon.setCoupontype(StringUtilsEX.ToInt(coupontype));
+		if (StringUtilsEX.ToFloat(mjprice) > 0) {
+			coupon.setFullreductionvalue(StringUtilsEX.ToFloat(mjprice));
+		} else {
+			coupon.setFullreductionvalue(null);
+		}
+		coupon.setStatus(StringUtilsEX.ToInt(status)); // StringUtilsEX.ToInt()
+		if (StringUtilsEX.ToInt(endday) > 0) {
+			coupon.setEndday(StringUtilsEX.ToInt(endday));
+		} else {
+			coupon.setEndday(0);
+		}
+		//coupon.setGetuserlevel(StringUtilsEX.ToInt(userlevel));
+		coupon.setGetuserlevel(0);
+		coupon.setProvidetime(StringUtilsEX.ToDate(starttime));
+		coupon.setEndtime(StringUtilsEX.ToDate(endtime));
+		coupon.setGettype(StringUtilsEX.ToInt(gettype));
+		coupon.setGetcount(StringUtilsEX.ToInt(getcount));
+		
+		return coupon;
+	}
+	/**
+	 * 删除优惠券
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/deleteCoupon")
+	public ReusltItem deleteCoupon(String id) {
+		ReusltItem item = new ReusltItem();
+		try {
+			user = SessionState.GetCurrentUser();
+			if (StringUtilsEX.ToInt(id) <= 0) {
+				item.setCode(-101);
+				item.setData("优惠券ID参数错误，id：" + id);
+				return item;
+			}
+			Coupon coupon = new Coupon();
+			coupon.setId(StringUtilsEX.ToInt(id));
+			coupon.setDeluserid(1); // 操作人ID 默认为1
+			coupon.setDeltime(new Date());
+			if (couponService.deleteCoupon(coupon) > 0) {
+				item.setCode(0);
+				item.setDesc("删除优惠券成功");
+				LogHandle.info(LogType.Coupon, MessageFormat.format(
+						"删除优惠券成功! id：{0},用户ID:{1}", id, user.getUserId()),
+						"Coupon/deleteCoupon");
+				//异步操作 不影响正常流程
+                ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
+    			cachedThreadPool.execute(new Runnable() {
+    				@Override
+    				public void run() {
+    					try{
+    						operaterecordsService.insertOperaterecords(
+                            		OperateRecordsTypeEnum.删除.getValue(), OperateRecordsFromEnum.系统后台.getValue(), 
+                            		user.getUserId(), user.getLoginName(), "yxgl_CouponNewList.jsp", "/platform/Coupon/deleteCoupon", "删除优惠劵");
+    					}
+    					catch(Exception e){
+    						LogHandle.error(LogType.OperateRecords,"删除优惠劵操作记录出错! 异常信息:",
+    								e, "/platform/Coupon/deleteCoupon");
+    					}
+    				}
+    			});
+			} else {
+				item.setCode(-200);
+				item.setDesc("删除优惠券失败");
+				LogHandle.warn(LogType.Coupon, MessageFormat.format(
+						"删除优惠券失败! id：{0},用户ID:{1}", id, user.getUserId()),
+						"/platform/Coupon/deleteCoupon");
+			}
+		} catch (Exception e) {
+			item.setCode(-900);
+			if (DebugConfig.BLUETOOTH_DEBUG) {
+				item.setDesc("删除优惠券异常：" + e.getMessage());
+			} else {
+				item.setDesc("系统错误！");
+			}
+			LogHandle.error(LogType.Coupon,
+					MessageFormat.format("删除优惠券异常! 异常信息：{0}", e.getMessage()),
+					"/platform/Coupon/deleteCoupon");
+		}
+		return item;
+	}
+
+	/**
+	 * 获取优惠券列表
+	 * 
+	 * @param num
+	 * @param name
+	 * @param shopid
+	 * @param ctype
+	 * @param usetype
+	 * @param startf
+	 * @param startt
+	 * @param endf
+	 * @param endt
+	 * @param page
+	 * @param size
+	 * @return
+	 */
+	@RequestMapping("/getCouponList")
+	public ReusltItem getCouponList(String num, String name,
+			String shopid, String ctype, String usetype, String startf,String fromtype,
+			String startt, String endf, String endt, String page, String size) {
+		ReusltItem item = new ReusltItem();
+		try {
+			if (StringUtilsEX.ToInt(page) <= 0
+					|| StringUtilsEX.ToInt(size) <= 0) {
+				item.setCode(-101);
+				item.setDesc("分页参数错误，pageindex:" + page + ",pagesize:" + size);
+				return item;
+			}
+			CriteriaActivity cActivity = new CriteriaActivity();
+			if (!StringUtilsEX.IsNullOrWhiteSpace(num)) {
+				cActivity.setNum(num);
+			}
+			if (!StringUtilsEX.IsNullOrWhiteSpace(name)) {
+				cActivity.setName(name);
+			}
+			if (StringUtilsEX.ToInt(fromtype) >= 0) {
+				cActivity.setFromType(StringUtilsEX.ToInt(fromtype));
+			}
+			if (StringUtilsEX.ToInt(ctype) >= 0) {
+				cActivity.setCouponType(StringUtilsEX.ToInt(ctype));
+			}
+			if (StringUtilsEX.ToInt(usetype) >= 0) {
+				cActivity.setUserType(StringUtilsEX.ToInt(usetype));
+			}
+			if (!StringUtilsEX.IsNullOrWhiteSpace(startf)) {
+				cActivity.setStartFrom(StringUtilsEX.ToShortDate(startf));
+			}
+			if (!StringUtilsEX.IsNullOrWhiteSpace(startt)) {
+				cActivity.setStartTo(StringUtilsEX.ToShortDate(startt));
+			}
+			if (!StringUtilsEX.IsNullOrWhiteSpace(endf)) {
+				cActivity.setEndFrom(StringUtilsEX.ToShortDate(endf));
+			}
+			if (!StringUtilsEX.IsNullOrWhiteSpace(endt)) {
+				cActivity.setEndTo(StringUtilsEX.ToShortDate(endt));
+			}
+			if (StringUtilsEX.ToInt(shopid) > 0) {
+				cActivity.setShopid(StringUtilsEX.ToInt(shopid));
+			}
+
+			PageBean pBean = couponService.getList(cActivity,
+					StringUtilsEX.ToInt(page), StringUtilsEX.ToInt(size));
+			item.setCode(0);
+			item.setData(pBean.getBeanList());
+			item.setMaxRow(pBean.getTr());
+			item.setPageIndex(pBean.getPc());
+
+		} catch (Exception e) {
+			item.setCode(-900);
+			if (DebugConfig.BLUETOOTH_DEBUG) {
+				item.setDesc("获取优惠券列表异常：" + e.getMessage());
+			} else {
+				item.setDesc("系统错误！");
+			}
+			LogHandle
+					.error(LogType.Coupon,"获取优惠券列表异常， 异常信息：{0}",
+									e, "/platform/Coupon/getCouponList");
+		}
+		return item;
+	}
+	   /**
+     * 根据店铺的名字模糊查询
+     * 
+     * @param name
+     * @return
+     */
+    @RequestMapping("/getShopStartWithName")
+    public ReusltItem getShopStartWithName(String name) {
+        ReusltItem item = new ReusltItem();
+        try {
+            List<Shop> list = couponService.getShopStartWithName(name);
+            item.setCode(0);
+            item.setData(list);
+            item.setDesc("获取成功");
+        } catch (Exception e) {
+        	item.setCode(-900);
+			if (DebugConfig.BLUETOOTH_DEBUG) {
+				item.setDesc("店铺的名字模糊查询异常：{0}" + e.getMessage().toString());
+			} else {
+				item.setDesc("系统错误！");
+			}
+            LogHandle.error(LogType.Coupon,
+                MessageFormat.format("店铺的名字模糊查询异常! 异常信息:{0}", e.toString()),
+                "coupon/getShopStartWithName");
+        }
+        return item;
+    }
+    /**
+	 * 编辑优惠券状态 公开 不公开
+	 * 
+	 * @param id
+	 * @param status
+	 * @return
+	 */
+	@RequestMapping("/updateStatus")
+	public ReusltItem updateStatus(String id, String status) {
+		ReusltItem item = new ReusltItem();
+		try {
+			user = SessionState.GetCurrentUser();
+			if (StringUtilsEX.ToInt(id) <= 0) {
+				item.setCode(-101);
+				item.setDesc("id参数错误，id:" + id);
+				return item;
+			}
+			if (StringUtilsEX.ToInt(status) < 0) {
+				item.setCode(-102);
+				item.setDesc("优惠券状态参数错误，status:" + status);
+				return item;
+			}
+			if (couponService.updateStatus(StringUtilsEX.ToInt(status),
+					StringUtilsEX.ToInt(id)) > 0) {
+				item.setCode(0);
+				item.setDesc("编辑优惠券状态成功");
+				LogHandle.info(LogType.Coupon, MessageFormat.format(
+						"编辑优惠券状态成功! id：{0},用户ID:{1}", id, user.getId()),
+						"Coupon/updateStatus");
+				//异步操作 不影响正常流程
+                ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
+    			cachedThreadPool.execute(new Runnable() {
+    				@Override
+    				public void run() {
+    					try{
+    						operaterecordsService.insertOperaterecords(
+                            		OperateRecordsTypeEnum.修改.getValue(), OperateRecordsFromEnum.系统后台.getValue(), 
+                            		user.getUserId(), user.getLoginName(), "yxgl_CouponNewList.jsp", "/platform/Coupon/updateStatus", "修改优惠劵状态");
+    					}
+    					catch(Exception e){
+    						LogHandle.error(LogType.OperateRecords,"修改优惠劵状态操作记录出错! 异常信息:",
+    								e, "/platform/Coupon/updateStatus");
+    					}
+    				}
+    			});
+			} else {
+				item.setCode(-200);
+				item.setDesc("编辑优惠券状态失败");
+				LogHandle.warn(LogType.Coupon, MessageFormat.format(
+						"编辑优惠券状态失败! id：{0},用户ID:{1}", id, user.getId()),
+						"Coupon/updateStatus");
+			}
+		} catch (Exception e) {
+			item.setCode(-900);
+			if (DebugConfig.BLUETOOTH_DEBUG) {
+				item.setDesc("编辑优惠券状态异常：" + e.getMessage());
+			} else {
+				item.setDesc("系统错误！");
+			}
+			LogHandle
+					.error(LogType.Coupon,"编辑优惠券状态异常， 异常信息：{0}",
+									e, "/platform/Coupon/updateStatus");
+		}
+		return item;
+	}
+
+	/**
+	 * 获取优惠券列表
+	 * 
+	 * @param code
+	 * @param endf
+	 * @param endt
+	 * @param page
+	 * @param size
+	 * @return
+	 */
+	@RequestMapping("/getVoucherList")
+	public ReusltItem getVoucherList(String code, String endf, String endt, String page, String size) {
+		ReusltItem item = new ReusltItem();
+		try {
+			if (StringUtilsEX.ToInt(page) <= 0
+					|| StringUtilsEX.ToInt(size) <= 0) {
+				item.setCode(-101);
+				item.setDesc("分页参数错误，pageindex:" + page + ",pagesize:" + size);
+				return item;
+			}
+			CriteriaActivity cActivity = new CriteriaActivity();
+			cActivity.setOrderByClause("validity");
+			cActivity.setSort("desc");
+			if (!StringUtilsEX.IsNullOrWhiteSpace(code)) {
+				cActivity.setNum(code);
+			}			
+			if (!StringUtilsEX.IsNullOrWhiteSpace(endf)) {
+				cActivity.setEndFrom(StringUtilsEX.ToShortDate(endf));
+			}
+			if (!StringUtilsEX.IsNullOrWhiteSpace(endt)) {
+				cActivity.setEndTo(StringUtilsEX.ToShortDate(endt));
+			}
+
+			PageBean pBean = voucherService.getlistByPage(cActivity,
+					StringUtilsEX.ToInt(page), StringUtilsEX.ToInt(size));
+			item.setCode(0);
+			item.setData(pBean.getBeanList());
+			item.setMaxRow(pBean.getTr());
+			item.setPageIndex(pBean.getPc());
+
+		} catch (Exception e) {
+			item.setCode(-900);
+			if (DebugConfig.BLUETOOTH_DEBUG) {
+				item.setDesc("获取可分配优惠券列表异常：" + e.getMessage());
+			} else {
+				item.setDesc("系统错误！");
+			}
+			LogHandle
+					.error(LogType.Coupon,"获取可分配优惠券列表异常， 异常信息：{0}",
+									e, "/platform/Coupon/getVoucherList");
+		}
+		return item;
+	}
+	
+	@RequestMapping("/addAssignCoupon")
+	public ReusltItem addAssignCoupon(String code,String name, String facevalue,
+			String count,String coupontype,String mjprice, 
+			 String endtime,String usetype, String usetypeid,String gettype){
+		ReusltItem item=new ReusltItem();
+		try{
+			user=SessionState.GetCurrentUser();
+			Coupon coupon=new Coupon();
+			if (StringUtilsEX.IsNullOrWhiteSpace(code)) {
+				item.setCode(-101);
+				item.setDesc("优惠劵编码不能为空");
+				return item;
+			}
+			if (StringUtilsEX.IsNullOrWhiteSpace(name)) {
+				item.setCode(-102);
+				item.setDesc("优惠劵名称不能为空");
+				return item;
+			}
+			if (StringUtilsEX.ToFloat(facevalue) < 0) {
+				item.setCode(-103);
+				item.setDesc("优惠劵面值参数错误：" + facevalue);
+				return item;
+			}
+			if (StringUtilsEX.ToInt(count) <= 0) {
+				item.setCode(-104);
+				item.setDesc("优惠劵数量参数错误：" + count);
+				return item;
+			}
+			if (StringUtilsEX.ToInt(gettype) < 0) {
+				item.setCode(-105);
+				item.setDesc("优惠劵获取类型参数错误：" + gettype);
+				return item;
+			}
+			if (StringUtilsEX.ToFloat(mjprice) < 0) {
+				item.setCode(-109);
+				item.setDesc("满减金额参数错误：" + mjprice);
+				return item;
+			}
+			String usetypename = "";
+			if (StringUtilsEX.ToInt(usetype) < 0) {
+				item.setCode(-106);
+				item.setDesc("使用对象参数错误：" + usetype);
+				return item;
+			} else if (StringUtilsEX.ToInt(usetype) < CouponUseTypeEnum.通用
+					.getValue()) {
+				switch (StringUtilsEX.ToInt(usetype)) {
+				case 0:
+					usetypename = "商品";
+					break;
+				case 1:
+					usetypename = "分类";
+					break;
+				case 2:
+					usetypename = "店铺";
+					break;
+				default:
+					break;
+				}
+				if (StringUtilsEX.ToInt(usetypeid) <= 0) {
+					item.setCode(-107);
+					item.setDesc(usetypename + "ID参数错误：" + usetypeid);
+					return item;
+				}
+				
+			}
+			if (StringUtilsEX.IsNullOrWhiteSpace(endtime)) {
+				item.setCode(-112);
+				item.setDesc("过期时间参数错误：" + endtime);
+				return item;
+			}
+			coupon.setCouponname(name.trim());
+			coupon.setFacevalue(StringUtilsEX.ToFloat(facevalue));
+			coupon.setConponcount(StringUtilsEX.ToInt(count));
+
+			coupon.setCouponusetype(StringUtilsEX.ToInt(usetype));
+			if (coupon.getCouponusetype() == CouponUseTypeEnum.通用.getValue()) {
+				coupon.setCouponissuetype(CouponIssueTypeEnum.平台.getValue());
+			} else {
+				coupon.setCouponissuetype(CouponIssueTypeEnum.店铺.getValue());
+				
+			}
+			if (StringUtilsEX.ToInt(usetypeid) > 0) {
+				coupon.setUsetypeid(StringUtilsEX.ToInt(usetypeid));
+				if(coupon.getCouponusetype()==CouponUseTypeEnum.店铺.getValue()){
+					coupon.setShopid(StringUtilsEX.ToInt(usetypeid));
+				}else if(coupon.getCouponusetype()==CouponUseTypeEnum.商品.getValue()){
+					SpuWithBLOBs spu=spuService.queryById(StringUtilsEX.ToInt(usetypeid));
+					coupon.setShopid(spu.getShopid());
+				}
+			} else {
+				coupon.setUsetypeid(null);
+			}
+			coupon.setCoupontype(CouponTypeEnum.金额限制.getValue());
+			coupon.setFullreductionvalue(StringUtilsEX.ToFloat(mjprice));
+		
+			coupon.setStatus(0);
+			
+			coupon.setProvidetime(new Date());
+			coupon.setEndtime(StringUtilsEX.ToDate(endtime));
+			if(StringUtilsEX.ToInt(gettype)==1){
+				coupon.setGettype(CouponGetTypeEnum.抽奖专用.getValue());
+			}else{
+				coupon.setGettype(CouponGetTypeEnum.买家领取.getValue());
+			}
+			
+			coupon.setGetcount(1);
+			coupon.setIsdel(false);
+			coupon.setCreatetime(new Date());
+			coupon.setEndday(0);
+			coupon.setCreateuserid(user.getUserId()); // 创建人ID
+//			coupon.setShopid(user.getShopid()); // 所属店铺ID
+			coupon.setCouponnum(ProductNumUtil.getCouponNum()); // 自动生成优惠券编号
+			coupon.setFromtype(CouponFromTypeEnum.外部.getValue());		
+			coupon.setGroupcode(code);
+			if (couponService.insertAssign(coupon) > 0) {
+				item.setCode(0);
+				item.setDesc("添加优惠券成功!");
+				LogHandle.info(
+						LogType.Coupon,
+						MessageFormat.format("添加优惠券成功! 编号:{0},用户ID:{1}",
+								coupon.getCouponnum(), user.getUserId()),
+						"Coupon/addCoupon");
+				//异步操作 不影响正常流程
+                ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
+    			cachedThreadPool.execute(new Runnable() {
+    				@Override
+    				public void run() {
+    					try{
+    						operaterecordsService.insertOperaterecords(
+                            		OperateRecordsTypeEnum.添加.getValue(), OperateRecordsFromEnum.系统后台.getValue(), 
+                            		user.getUserId(), user.getLoginName(), "yxgl_CouponNewSave.jsp", "/platform/Coupon/addCoupon", "添加优惠劵");
+    					}
+    					catch(Exception e){
+    						LogHandle.error(LogType.OperateRecords,"添加优惠劵操作记录出错! 异常信息:",
+    								e, "/platform/Coupon/addCoupon");
+    					}
+    				}
+    			});
+			} else {
+				item.setCode(-200);
+				item.setDesc("添加优惠券失败");
+				LogHandle.warn(
+						LogType.Coupon,
+						MessageFormat.format("添加优惠券失败! 名称:{0},用户ID:{1}",
+								coupon.getCouponname(), user.getUserId()),
+						"/platform/Coupon/addCoupon");
+			}
+		} catch (Exception e) {
+			item.setCode(-900);
+			if (DebugConfig.BLUETOOTH_DEBUG) {
+				item.setDesc("分配优惠劵异常：" + e.getMessage());
+			} else {
+				item.setDesc("系统错误！");
+			}
+			LogHandle
+					.error(LogType.Coupon,"分配优惠劵异常， 异常信息：{0}",
+									e, "/platform/Coupon/addAssignCoupon");
+		}
+		return item;
+	}
+	
+	@RequestMapping("/getSpuStartWithName")
+	public ReusltItem getSpuStartWithName(String name,
+			String classid) {
+		ReusltItem item = new ReusltItem();
+		try {
+			if(StringUtilsEX.ToInt(classid)<=0){
+				item.setCode(-101);
+				item.setDesc("商品分类ID参数错误：" + classid);
+				return item;
+			}
+			item.setData(couponService.getSpuStartWithName(name,StringUtilsEX.ToInt(classid)));
+			item.setCode(0);
+		} catch (Exception e) {
+			item.setCode(-900);
+			if (DebugConfig.BLUETOOTH_DEBUG) {
+				item.setDesc("模糊检索商品列表异常：" + e.getMessage());
+			} else {
+				item.setDesc("系统错误！");
+			}
+			LogHandle.error(LogType.Coupon, "模糊检索商品列表异常:",e,
+					"platform/coupon/getSpuStartWithName");
+		}
+		return item;
+	}
+	
+	/**
+	 * 获取优惠券列表
+	 * 
+	 * @param code
+	 * @param endf
+	 * @param endt
+	 * @param page
+	 * @param size
+	 * @return
+	 */
+	@RequestMapping("/getVoucherAssign")
+	public ReusltItem getVoucherAssign(String code) {
+		ReusltItem item = new ReusltItem();
+		try {			
+			if (StringUtilsEX.IsNullOrWhiteSpace(code)) {
+				item.setCode(-101);
+				item.setDesc("优惠劵代码参数错误：" + code);
+				return item;
+			}			
+
+			item.setData(couponService.getbyGroupcode(code.trim()));
+			item.setCode(0);
+
+		} catch (Exception e) {
+			item.setCode(-900);
+			if (DebugConfig.BLUETOOTH_DEBUG) {
+				item.setDesc("获取优惠劵分配详情异常：" + e.getMessage());
+			} else {
+				item.setDesc("系统错误！");
+			}
+			LogHandle
+					.error(LogType.Coupon,"获取优惠劵分配详情异常， 异常信息：{0}",
+									e, "Coupon/getVoucherAssign");
+		}
+		return item;
+	}	
+}

@@ -1,0 +1,59 @@
+<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>添加收货地址</title>
+<script src="${path}/wap/js/address/ReceiverAddres.js"></script>
+<script type="text/javascript" src="${path}/wap/js/login.js"></script>
+<script type="text/javascript" src="${path}/wap/js/Yform.js"></script>
+
+</head>
+<body>
+<div class="top_title fix">
+        <a  href="${href!'/wap/receiveraddress/selectAddrByUserId?ch=3'}">
+		<div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div>
+		</a>
+		添加收货地址
+	</div>
+<ul class="Eidvua-dizhi">
+	<li><span>收货人姓名</span><input id="name" type="text" placeholder="请输入您的姓名"></li>
+    <li><span>手机号码</span><input id="mobile" type="text" placeholder="请输入您的手机号码"></li>
+    <li><span>收货地址</span>
+	   <div>   
+	   <select  class="yselect" id="province" yplaceholder=" " yplaceholder-opacity="0.6">
+	   <option value=''>请选择</option>
+	   </select>   
+	   </div>
+	   <div>   
+	   <select  class="yselect" id="city" yplaceholder=" " yplaceholder-opacity="0.6">
+	   <option value=''>请选择</option>
+	   </select>  
+	   </div>
+	   <div>   
+	   <select  class="yselect" id="area" yplaceholder=" " yplaceholder-opacity="0.6">
+	   <option value=''>请选择</option>
+	   </select>   
+	   </div>    	
+   </li>
+    <li><span>详细地址</span><textarea id="address" placeholder="请输入详细地址"></textarea></li>
+</ul>
+<div class="Eidvua-backdiv">
+	<input id="moren" type="checkbox" checked="" class="ycheckbox" data-html="<nobr>设为默认</nobr>">
+</div>
+<input class="Eidvuafrbtn" type="button" onclick="Save();" value="保存">
+<div class="clear"></div>
+<script type="text/javascript">
+$(document).ready(function(){
+	receiveraddresss.GetProvData();
+})
+function Save(){
+	 if(login.isLogin()){ 
+		 var href='${href!''}';
+	        receiveraddresss.creataddress(href);
+	 }else{
+			window.loaction.href="/wap/user/showlogin";
+		}
+}
+</script>
+</body>

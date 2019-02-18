@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<head>
+    <title>订单支付页</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link href="/resource/pc/web/css/top-footer.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="/resource/pc/web/css/common.css">
+    <link type="text/css" rel="stylesheet" href="/resource/pc/web/css/style.css">
+    <script type="text/javascript" src="/resource/jquery-1.9.1.min.js"></script>
+    <script language="javascript" type="text/javascript" src="/resource/pc/web/js/index.js"></script>
+   <script type="text/javascript" src="/resource/artTemplate.js"></script>
+   <script src="/resource/pc/web/js/login/login.js"></script>
+</head>
+<body>
+    
+<!--container  begin -->
+<div id="top" class="fix">
+		<!--topcon  begin -->
+		<div class="topcon">
+			<% if(userinfo!=null) {%> <span> ${userinfo.loginName}！ </span> <span
+				class="red"> <a href="javascript:signout();"
+				class="ulogin_click">退出</a>
+			</span> <%} else {%> <span> 你好，请<a href="/member/user/showlogin"
+				class="a_buyerlogin">登录</a>
+			</span> <span class="red"> <a href="/member/user/register ;"
+				class="a_buyerregister">免费注册</a>
+			</span> <%}%>
+			<div class="top_rig">
+				<ul>
+					<li><%if(userinfo!=null) {%> <a href="/member/order/getorder.html"
+						class="a_orderlist">我的订单</a> <%}%>
+					</li>
+					<li class="l_hx">|</li>
+					<li class="iphone"><img src="/resource/pc/web/images/iphone.jpg"
+						width="7" height="12" /><a href="#">手机版</a></li>
+					<li class="l_hx">|</li>
+					<li class="l_khfw" id="l_khfw"><a href="#">客户服务</a><span
+						class="l_toprow"></span>
+						 <!--l_khfwcon客户服务 弹出框内容 开始 -->
+                     <div class="l_khfwcon">
+                    <% if(isNotEmpty(navskhfw)) {%>
+                    
+                    <%for(nav in navskhfw){%>
+                    
+                    <%for(navs in nav.list){%>
+                   <div class="f-item-top">
+                        <h3>${navs.classname}</h3>
+                        <ol class="fix">
+                           <%for(child in navs.articles){%>
+                            <li><a href="/web/article/contact.html?id=${child.id}">${child.title}</a></li>
+                          <%}%> 
+                       </ol>
+                    </div>
+                    
+                    <%}%>
+                    
+                    <%}%>
+                    
+                    <%}%> 
+                    </div>
+                    <!--l_khfwcon客户服务 弹出框内容 结束 -->
+						</li>
+					<li class="l_hx">|</li>
+					<li><span class="l_gzwm">关注我们：</span>
+						<div class="l_wbx">
+							<span class="weibo"></span> <span class="weixin"></span>
+						</div></li>
+				</ul>
+			</div>
+			<!--top_rig  stop -->
+		</div>
+		<!--topcon  stop -->
+	</div>
+<div id="container" class="fix">
+    <!--r_notice  begin -->
+    <div class="r_notice">
+        <span>公告：</span>中绿生活11.11期间（11月9日00:00-11月12日24:00）未付款订单自动取消时效由原来的24小时临时调整为6小时，请您尽快完成支付。
+    </div>
+    <!--r_notice  stop -->
+    <!--r_zjcon 中间内容 开始 -->
+    <div class="r_zjcon fix">
+        <div class="r_ddtjcg">
+            <img src="/resource/pc/web/images/img01.png" width="90" height="90">
+            <h3>订单提交成功，请您尽快付款！订单号：${ordergroup}</h3>
+            <p class="red fon14">（请您在提交订单后24小时内完成支付逾期订单会自动取消）</p>
+        </div><!--r_ddtjcg  stop -->
+        <div class="r_shzcon fix">
+            <p><i></i>送货至： ${receiveinfo.address}    收货人：${receiveinfo.consignee}   ${receiveinfo.telphone} </p>
+        </div><!--r_shzcon  stop -->
+        <div class="r_yfje">
+            <form action="/pc/pay/alipypay" id="payform" method="post">
+                <p class="fon14">应付金额：<span class="red bolder fon18 mr10">￥${actualpay}</span>（在线支付）</p>
+                <input type="hidden" id="payMoney" name="payMoney" value="5.00">
+                <input type="hidden" id="groupCode" name="groupCode" value="yy1976861434811">
+                <div class="r_zffs">
+                    <input type="radio" name="pay_type" id="ye" value="1">
+                    <p><img src="/resource/pc/web/images/bank/yezf.jpg" tag="3" name="payType" alt="余额支付" width="130" height="52">余额支付</p>
+                </div><!--r_zffs  stop -->
+                <div class="r_zffs">
+                    <input type="radio" name="pay_type" value="2" class="zf_tyoe" checked >
+                    <p><img name="payType" src="/resource/pc/web/images/bank/alipay.jpg" tag="1" alt="支付宝" width="130" height="52">支付宝</p>
+                    <span class="r_shddxq r_qtpt"><a href="javascript:void(0)">选择其他支付平台<i></i></a></span>
+                    <!--r_qtzfpt  begin -->
+                    <div class="r_qtzfpt">
+                        <h3>支付平台<span class="r_shddxq r_sqwz"><a href="javascript:void(0)" class="sq">收起<i></i></a></span></h3>
+                        <ul class="fix">
+                            <li ><img name="payType"  class="zf" tag="1" src="/resource/pc/web/images/alipay.jpg"></li>
+                         <!--    <li><img class="zf" name="payType" tag="2" src="/resource/pc/web/images/zxzf.png"></li> -->
+                            <li><img name="payType" class="zf" tag="4" src="/resource/pc/web/images/wxzf.jpg"></li>
+                            <p id="wxcode" style="display:none;"><img style="-webkit-user-select: none" src="/pc/pay/createQRCode?groupnum=${ordergroup}&ch=1"></p>
+                        </ul>
+                        
+                    </div>
+                    <!-- r_qtzfpt  stop-->
+                </div><!--r_zffs  stop -->
+                <!--r_yfje  stop-->
+                <div class="r_ljzf">
+                <input type="submit" value="立即支付" class="r_ljzfbut"/>
+				<input type="hidden" id="groupnum" name="groupnum" value="${ordergroup}"/>
+				<input type="hidden" id="ch" name="ch" value="1"/>    
+                </div>
+            </form>
+        </div>
+        <!--r_zjcon 中间内容 结束 -->
+<!--footer  stop -->
+    </div>
+    <% try{include("/template/pc/head/footer.html",{newscone:newscone,newsctwo:newsctwo,newscwthree:newscwthree,newscfour:newscfour,newscfive:newscfive}){}}catch(error){}%>
+</div> <!--container  stop -->
+<script type="text/javascript" src="/resource/pc/commonjs/wkh/common-util.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function () {
+    	 /*  setTimeout(function () {
+            //页面加载埋点
+            var kn = "pv/load/buy";
+            var isacc = infoc.getCookie("_isAcced");
+            if (isacc == undefined || isacc == null || isacc == "") {
+                kn += "/uv";
+                infoc.setCookie("_isAcced", 1, 24);
+            }
+            infoc.add(kn, "/Web/Orders/order_pay", 71, 0);
+        }, 1);
+    });
+
+    $(window).unload(function () {
+        setTimeout(function () {
+            //页面关闭埋点
+            infoc.add("load", "/Web/Orders/order_pay", 72, 0);
+        }, 1);
+    })
+     */
+     $(document).on("click","input[name='pay_type']", function(){
+ 		var tag = $(this).attr("value");
+ 		var url = "";
+ 		if(tag == "1"){
+ 			$("#ye").prop({checked:true});
+ 			url = "/pc/pay/balancepay";
+ 		}else if (tag == "2") {
+ 			$(".zf_tyoe").prop({checked:true});
+ 			url = "/pc/pay/alipypay";
+ 		}
+ 		$("#payform").attr("action", url);
+ 	});	
+     $(document).on("click","img[name='payType']", function(){
+		var tag = $(this).attr("tag");
+		var url = "";
+		if(tag == "1"){
+			$(".zf_tyoe").prop({checked:true});
+			url = "/pc/pay/alipypay";
+		}else if (tag == "2") {
+			$(".zf_tyoe").prop({checked:true});
+			url = "/pc/pay/ipspay";
+		}else if (tag == "3") {			
+			$("#ye").prop({checked:true});
+			url = "/pc/pay/balancepay";
+		}else if (tag == "4") {
+			$("#wxcode").show();
+			setTimeout("location=location; ", 30000); 
+		}else{
+			alert("快捷支付暂未开通!");
+			return;
+		}
+		$("#payform").attr("action", url);
+	});
+	
+    
+	
+	$('body').on("click",".zf",function(){
+		$(".zf").css("border","");
+		$(".zf_tyoe").prop({checked:true});
+		$("input[name=payType]:eq(1)").prop({checked:true});
+		$(this).css("border","1px solid #f00");
+	});
+	
+	$("body").on("click",".sq",function(){
+		$(".zf").css("border","");
+	});
+});
+    
+</script>
+
+
+</body>

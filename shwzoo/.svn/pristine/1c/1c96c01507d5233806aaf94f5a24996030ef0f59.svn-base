@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.MenusMapperCustom">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.dto.MenusTreeDto">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="pId" property="pId" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="open" property="open" jdbcType="BIT" />
+	</resultMap>
+	<!-- 获取菜单树 -->
+	<select id="getTreeByType" parameterType="com.yinlian.wssc.web.util.Criteria"
+		resultMap="BaseResultMap">
+		SELECT ID AS id,NAME AS name,FatherID AS pId 
+		FROM menus Where IsDel=0
+		and Status = 0
+		<if test="menutype != null and menutype >=0 ">
+			and MenuType=#{menutype}
+		</if>
+		<if test="type != null and type >=0 ">
+			and Type=#{type}
+		</if>
+	</select>
+</mapper>

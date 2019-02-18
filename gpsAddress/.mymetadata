@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="gpsAddress"
+  id="myeclipse.1446016196984"
+  context-root="/gpsAddress"
+  j2ee-spec="6.0"
+  archive="gpsAddress.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

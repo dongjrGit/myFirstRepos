@@ -1,0 +1,136 @@
+<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>全部订单</title>
+<script src="${path}/wap/js/userInfo/OrderAll.js"></script>
+<script type="text/javascript" src="${path}/wap/js/login.js"></script>
+<script type="text/javascript" src="/resource/artTemplate.js"></script>
+<script type="text/javascript" src="/resource/wap/js/js.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/wap-common.js"></script>
+<script type="text/javascript">
+  	$(function(){
+		 pageData={page:1,size:10,ch:3,status:'${status!}'};
+		 pageUrl="/api/wap/order/getOrderall";
+		 content="#body";
+		initPage();
+	});
+  	</script>
+</head>
+<body>
+<div class="top_title fix">
+         <a  href="/wap/userinfo/homepage?ch=3">
+		<div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div>
+		</a>
+		全部订单
+	</div>
+<input type="hidden" id="h_orderstus" value="${status}">
+<div id="body">
+<script type="text/html" id="pagehtml">
+{{if list != null && list.length>0 }}
+{{each list as order i}}
+<section class="dingdan-list">
+	<div class="Hd">
+		<b>订单编号:{{order.code}}</b>
+		<span>{{if order.status==0}}
+         <span>待付款</span>
+         {{else if order.status==1}}
+         <span>待发货</span>
+         {{else if order.status==2}}
+         <span>待收货</span>
+         {{else if order.status==3}}
+         <span>已确认收货</span>
+         {{else if order.status==4}}
+         <span>未付款取消申请</span>
+         {{else if order.status==5}}
+         <span>未付款已取消</span>  <a href="javascript:void(0)"  name="delete"  class="delet"><div value="{{order.id}}" name="{{order.status}}"></div><img src="${path}/wap/images/index_14.png"></a>
+         {{else if order.status==6}}
+         <span>已付款已取申请</span>
+         {{else if order.status==7}}
+         <span>已付款已取消</span>  <a href="javascript:void(0)"  name="delete"  class="delet"><div value="{{order.id}}" name="{{order.status}}"></div><img src="${path}/wap/images/index_14.png"></a>
+         {{else if order.status==8}}
+         <span>已完成</span>  <a href="javascript:void(0)"  name="delete"  class="delet"><div value="{{order.id}}" name="{{order.status}}"></div><img src="${path}/wap/images/index_14.png"></a>
+         {{else if order.status==9}}
+         <span>申请退款退货中</span>
+         {{else if order.status==10}}
+         <span>已退款</span>  <a href="javascript:void(0)"  name="delete"  class="delet"><div value="{{order.id}}" name="{{order.status}}"></div><img src="${path}/wap/images/index_14.png"></a>
+       		{{/if}}</span>
+      
+   	</div>
+    <ul>
+    	{{each order.lsitdetais as product f }}
+    	<li>
+        	<a href="/wap/order/showOrderDetail?orderid={{order.id}}&href=/wap/order/getorder?status=${status}">
+            	<img src="{{product.productimg}}" class="L">
+                <div class="R">
+                	<b>{{order.shopname}}</b>
+           			<p>{{product.productname}}</p>
+                </div>
+            </a>
+            {{if product.status ==99 && (order.status==8 || order.status==3)}}
+             <a href="/wap/order/changproduct?orderdet={{product.id}}&ch=3" style="display: inline-block;position: absolute;top:0.5rem;right: 0.2rem;height: 0.38rem;line-height: 0.38rem;font-size: 0.22rem;color: #c7000b; padding: 0px 0.1rem; border: 1px solid #c7000b;border-radius: 0.05rem;">申请售后</a>
+        	{{/if}}
+        </li>
+        {{/each}}
+    </ul>
+    
+    <div class="FT">共{{order.lsitdetais.length}}件，实付款：<span>￥{{order.actualPay}}</span>
+       {{if order.status == 0 }}
+       <a href="/wap/order/pay.html?ogc={{order.groupcode}}">付款</a><a href="javascript:void()" name="cancel" data="{{order.status}}" value="{{order.id}}" >取消订单</a>
+       {{else if order.status==1 }}
+       <a href="javascript:void()" name="cancel" data="{{order.status}}" value="{{order.id}}">取消订单</a>
+       {{else if order.status==2 }}
+       <a href="javascript:void()" name="confirmationgood" value="{{order.id}}">收货</a>
+       <a href="/wap/logistic/getlogistic?orderid={{order.id}}&href='/wap/order/getorder?status=2'" name="wuliu" value="{{order.id}}">查看物流</a><a href="javascript:void(0)" name="cancel" data="{{order.status}}" value="{{order.id}}">取消订单</a>
+       {{else if order.status==3 || order.status==8}}
+       {{if order.iscomment!=1}}
+       <a href="/wap/comment/comment?orderid={{order.id}}&&ch=3">评价</a>
+       {{/if}}
+       <a href="/wap/logistic/getlogistic?orderid={{order.id}}&href=/wap/order/getorder?status=3" name="wuliu" value="{{order.id}}">查看物流</a>
+       {{else if order.status == 8}}
+       <a href="#">再次购买</a>
+       {{else if order.status == 9}}
+        <a href="javascript:void()">已申请退货退款</a>
+       {{/if}}
+       </div> 
+</section>
+{{/each}}
+{{else}}
+<div>您还没有订单</div>
+{{/if}}
+</script>
+
+</div>
+<img src="/resource/wap/images/index_42.png" class="qianggou-scrollTop">
+<script type="text/javascript">
+$(document).ready(function(){
+	var status=$("#h_orderstus").val();
+	if(isNaN(parseInt(status))||parseInt(status)<0){
+		status="";
+	}
+	$("a[name='delete']").click(function (){
+		//var id=$("a[name='delete']").attr("value");
+		if(confirm("确认要删除订单吗？")){
+			var id =$(this).find("div").attr("value");			
+			Order.deleteorder(id,status);
+		}
+	})
+	$("a[name='confirmationgood']").click(function(){
+		var orderid=$(this).attr("value");
+		Order.confirmationgood(orderid);
+	})
+	$("a[name='cancel']").click(function(){
+		var c =  prompt('请输入取消原因');
+		if(c!=null){
+			var orderid=$(this).attr("value");
+			var status=$(this).attr("data");
+			Order.cancel(status,orderid,c);
+		}
+		
+	})	
+	})
+
+</script>
+
+</body>

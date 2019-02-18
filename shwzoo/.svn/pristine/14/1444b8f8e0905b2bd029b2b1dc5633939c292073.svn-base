@@ -1,0 +1,81 @@
+<%var path="/resource";%>
+<head>
+<meta charset="UTF-8">
+<title>支付成功页</title>
+</head>
+<body>
+<!--toporder begin-->
+	<div class="toporder fix">
+		订单支付<%if(ispay=='true'){%>成功<%}else{%>失败<%}%>
+		<div class="toporder_right huise">
+			<a href="/wap/userinfo/homepage?ch=3">完成</a>
+		</div>
+	</div>
+	<!--toporder stop-->
+	<!--ordersuc begin-->
+	<div class="ordersuc fix">
+		<div class="ordersuc_top fix">
+		<%if(ispay=='true'){%>
+			<div class="ordersuc_top_l">
+				<img src="${path}/wap/images/order_topico.png" class="img-responsive"/>
+			</div>
+			<div class="ordersuc_top_r">
+				<p>支付方式：<span class="red">				
+				<%if(paytype=='1'){%>
+				支付宝支付
+				<%}else{if(paytype=='2'){%>
+				环迅支付
+				<%}else{if(paytype=='3'){%>
+				余额支付
+				<%}else{%>
+				在线支付
+				<%}}}%>
+				</span></p>
+				<%if(price=='0'){%>
+				<p>订单金额：<span class="red">￥${price}</span></p>
+				<%}%>
+			</div>
+		<%}else{%>
+        <div class="ordersuc_top_r">
+				<p><span class="red">支付失败
+				</span></p>
+				<p>失败原因：<span class="red">${reason!''}</span></p>
+			</div>
+        <%}%>
+		</div>
+		<div class="ordersuc_centrer fix">
+			<span class="ordersuc_a floatl"><a href="/wap/order/getorder?ch=3">查看订单</a></span>
+			<span class="ordersuc_a floatr"><a href="/wap/index.html">回首页</a></span>
+		</div>
+		<div class="ordersuc_bot huise">
+			注意：中绿不会以订单异常、系统升级为由，要求您点击任何链接进行退款操作。
+		</div>
+	</div>
+	<!--ordersuc stop-->
+	<!--recommend  begin-->
+	<div class="recommend fix">
+		<div class="recommend_top fix">
+		    <%if(adlist.~size>0){%>
+			<a href="${adlist[0].url}"><img src="${adlist[0].imag}" class="img-responsive"/></a>
+			<%}%> 
+			<div class="recommend_title">
+				<p><span>为您推荐</span>为您推荐</p>
+			</div>
+		</div>
+		<div>
+			<ul class="pordctMain-list qianggou">
+			<%if(sputj.~size>0){for(pro in sputj){%>
+				<li>
+			    	<a href="/wap/products/proDetail.html?spuid=${pro.spuid}">
+			        	<img src="${pro.img}">
+			            <b>${pro.name}</b>
+			            <span>￥${pro.price,numberFormat="0.00"}</span>
+			        </a>
+			    </li>
+			<%}}%> 
+			</ul>			
+		</div>
+	</div>
+	<!--recommend  stop-->
+	
+</body>

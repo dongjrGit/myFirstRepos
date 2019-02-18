@@ -1,0 +1,7 @@
+root_address=http\://m.shwzoo.com/
+time_address=${root_address}time.aspx
+instruction_address=${root_address}instruction.aspx
+introduce_address=${root_address}introduce.aspx
+ticknotice_address=${root_address}ticknotice.aspx
+gui_services_address=${root_address}gui_services.aspx
+redisExpireTime=600

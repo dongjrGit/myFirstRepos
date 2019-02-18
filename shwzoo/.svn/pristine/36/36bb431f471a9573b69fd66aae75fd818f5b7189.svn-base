@@ -1,0 +1,74 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*top  begin*/
+#top{ height:45px; background:#F2F2F4; line-height:45px; width:100%;}
+#top .wrapper{ width:1200px; height:100%; margin:0 auto; position:relative;}
+#top .wrapper span.huise{ color:#CCC; margin:0px 5px;}
+#top .wrapper span.sjapp:hover{ text-decoration:underline;}
+#top .wrapper span.lvse:hover{ text-decoration:underline;}
+#top .wrapper .top-dd{ width:500px; height:45px; position:absolute; top:0px; right:0px; font-size:14px;}
+#top .wrapper .top-dd .admin{ width:170px; height:45px; position:absolute; top:0px; right:0px;}
+.admin-tp{ width:48px; height:45px; background:url(../images/admin.png) no-repeat; display:inline-block; float:left;}
+/*top  stop*/
+
+/*container  begin*/
+#container{ width:1200px;margin:0 auto;}
+/*container  stop*/
+
+/*header  begin*/
+#container .header{ width:100%; position:relative;}
+.searh{ width:289px; height:40px; background:url(../images/searh.png) no-repeat; position:absolute; top:36px; right:0px;}
+.searh-inp{ background:none; border:none; width:230px; height:27px; padding-left:8px; margin:5px 0 0 0; float:left;  line-height:27px\0;}
+.searh-but{ width:50px; height:30px; margin:5px 0 0 0;background:none; border:none; cursor:pointer; line-height:30px;}
+/*header  stop*/
+
+/*main begin*/
+#container .main{ width:100%; border-top:1px solid #00B6FF;}
+.main-left{ width:200px; float:left; clear:both; background:#D2ECFB; height:1100px; overflow-x:hidden;}
+.main-right{ width:1000px; float:right;}
+/*main stop*/
+
+/*main-left  begin*/
+.main-left-title{ height:44px; line-height:44px; font-size:18px; padding-left:20px; color:#000; font-weight:500;}
+.main-left-title a{ color:#000;}
+.main-left-title a:hover{ color:#000; background:#9BD5F7;height:44px; width:200px; display:inline-block; margin-left:-20px; padding-left:20px;}
+
+.main-left-con{ background:#EFF8FD;}
+.main-left-con ul li{ padding:10px 0px 10px 25px; list-style-image:url(../images/list.png); list-style-position:inside; font-size:14px;border-top:1px solid #EBF4F9;}
+.main-left-con ul li a:hover{ color:#595758;}
+.main-left-con ul li:hover{ background:#FFFFFF; border-left:3px solid #009AEA;border-top:1px solid #EBF4F9;border-bottom:1px solid #EBF4F9;padding-left:22px;}
+.main-left-con ul li.main-left-con-hover{background:#FFFFFF; border-left:3px solid #009AEA;border-top:1px solid #EBF4F9;border-bottom:1px solid #EBF4F9; padding-left:22px;}
+/*main-left  stop*/
+
+/*zzfw begin*/
+.zzfw{ width:980px; margin-left:20px;}
+.zzfw-title{ height:30px; line-height:30px; font-size:18px; color:#000; font-weight:bolder; letter-spacing:2px; margin:35px 0px 20px 0px;}
+.zzfw-con{}
+.zzfw-mk{ width:290px; float:left; margin-right:55px; margin-bottom:30px;}
+.zzfw-mk-con{ width:170px; margin-left:100px;}
+.zzfw-mk-con-title{height:28px;font-size:16px; color:#000; font-weight:600;  letter-spacing:1px;}
+.zzfw-mk-con-con{ font-size:14px;}
+#container .main .main-right .zzfw .zzfw-con .zzfw-mk .zzfw-mk-con .zzfw-mk-con-con p{ line-height:30px;}
+#container .main .main-right .zzfw .zzfw-con .zzfw-mk .zzfw-mk-con .zzfw-mk-con-con p .huise{ color:#D9D9D9; margin:0px 10px; }
+#container .main .main-right .zzfw .zzfw-con .zzfw-mk .zzfw-mk-con .zzfw-mk-con-con p .decrti{ border-bottom:1px solid #D9D9D9; padding-bottom:5px;}
+.fwicon, .fwicon1, .fwicon2, .fwicon3, .fwicon4, .fwicon5{ width:88px; height:88px; background:url(../images/fwzx.png) no-repeat; float:left;}
+.fwicon{ background-position:0px 0px;}
+.fwicon1{ background-position:-120px 0px;}
+.fwicon2{ background-position:-250px 0px;}
+.fwicon3{ background-position:0px -125px;}
+.fwicon4{ background-position:-120px -125px;}
+.fwicon5{ background-position:-250px -125px;}
+/*zzfw stop*/
+
+/*sjkc  begin*/
+.sjkc{ width:980px; margin:0px 0px 100px 20px;}
+.sjkc-con{ width:100%;}
+.sjkc-con-mk{ width:275px; float:left; margin-right:70px;}
+.sjkc-mk-img{ width:100%; height:135px;}
+.sjkc-mk-img img{ width:100%; height:100%;}
+.sjkc-mk-con{ width:100%; background:#F2F2F2; padding:20px 0px 10px 0px;}
+.sjkc-mk-con-con{ margin-left:20px; font-size:14px; line-height:23px; color:#616161; margin-bottom:20px;}
+.sjkc-mk-con-con a{ color:#000000;}
+.sjkc-mk-con-con a:hover{ color:#000000; text-decoration:underline;}
+/*sjkc  stop*/

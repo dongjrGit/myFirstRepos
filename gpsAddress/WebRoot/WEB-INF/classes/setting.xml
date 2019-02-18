@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<conf>
+<!-- 
+一、非百度地图坐标进行转换服务 
+ -->
+<config name="convurl" value="http://api.map.baidu.com/geoconv/v1/?" />
+<!-- from
+1：GPS设备获取的角度坐标; 
+2：GPS获取的米制坐标、sogou地图所用坐标; 
+3：google地图、soso地图、aliyun地图、mapabc地图和amap地图所用坐标 
+4：3中列表地图坐标对应的米制坐标 
+5：百度地图采用的经纬度坐标 
+6：百度地图采用的米制坐标 
+7：mapbar地图坐标; 
+8：51地图坐标 
+-->
+<config name="from" value="1" />
+<!-- to
+ 5：bd09ll(百度经纬度坐标),
+ 6：bd09mc(百度米制经纬度坐标); 
+-->
+<config name="to" value="5" />	
+
+<!-- 
+二、从经纬度坐标到地址的转换服务
+-->
+<config name="url" value="http://api.map.baidu.com/geocoder/v2/" />
+<!-- 用户申请注册的key，自v2开始参数修改为“ak”，之前版本参数为“key -->
+<config name="ak" value="CaUFINd5T3CPEC8jWtVxHW3l" />
+<!-- 将json格式的返回值通过callback函数返回以实现jsonp功能  -->
+<config name="callback" value="renderReverse" />
+<!-- 输出格式为json或者xml  -->
+<config name="output" value="json" />
+<!-- 是否显示指定位置周边的poi，0为不显示，1为显示。当值为1时，显示周边100米内的poi。 -->
+<config name="pois" value="0" />
+
+
+<!-- 
+三、基站信息转换经纬度服务 
+-->
+<!-- p:返回数据类型：1: 表示纯文字   3: 文字+图片 -->
+<config name="baseUrl" value="http://minigps.net/cw?p=1"></config>
+<!-- 
+是否需要位置信息，1代表需要 0代表不需要（0访问会快很多）,默认为1,大量访问请使用0,目前没有开启地址返回
+-->
+<config name="needaddress" value="0"></config>
+<!-- 
+0：表示使用标准经纬度
+1：根据mcc所在的国家自动  目前是 百度经纬度
+2：Google地图的经纬度
+-->
+<config name="mt" value="1"></config>
+
+</conf>

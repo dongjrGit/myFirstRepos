@@ -1,0 +1,116 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.2.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-4.2.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.2.xsd ">
+
+<!-- 注解的注入装配bean  扫描包名 -->
+<context:annotation-config />
+<context:component-scan base-package="com.yinlian.wssc.web.service" /> 
+<context:component-scan base-package="com.techown.wssc.web.service" /> 
+
+<!-- 管理员的业务类 -->		
+<bean id="accountsService" class="com.yinlian.wssc.web.service.impl.AccountsServiceImpl"></bean>
+<!-- 商品分类的业务类 -->
+<bean id="categoryService" class="com.yinlian.wssc.web.service.impl.CategoryServiceImpl"></bean>
+<!-- 商品规格的业务类 -->
+<bean id="productSpecsService" class="com.yinlian.wssc.web.service.impl.ProductSpecsServiceImpl"></bean>
+<!-- 商品规格值的业务类 -->
+<bean id="specsvaluesService" class="com.yinlian.wssc.web.service.impl.SpecsvaluesServiceImpl"></bean>
+
+<!-- 商品品牌的业务类 -->
+<bean id="brandService" class="com.yinlian.wssc.web.service.impl.BrandServiceImpl"></bean>
+<!--  商品规格类型的业务类-->
+<bean id="specstypeService" class="com.yinlian.wssc.web.service.impl.SpecstypeServiceImpl"></bean>
+<!-- 搜索属性的业务类 -->
+<bean id="searchattrService" class="com.yinlian.wssc.web.service.impl.SearchattrServiceImpl"></bean>
+<!-- 搜索属性值得业务类 -->
+<bean id="searchvalueService" class="com.yinlian.wssc.web.service.impl.SearchvalueServiceImpl"></bean>
+<!-- 直营商品的业务类 -->
+<bean id="spuService" class="com.yinlian.wssc.web.service.impl.SpuServiceImpl"></bean>
+
+<!-- 查询模板的业务类 -->
+<bean id="freightService" class="com.yinlian.wssc.web.service.impl.FreightServiceImpl"></bean>   
+<!-- 菜单的业务类 -->
+<bean id="menuService" class="com.yinlian.wssc.web.service.impl.MenuServiceImpl"></bean>
+<!-- 库存商品的业务类 -->
+<bean id="skuService" class="com.yinlian.wssc.web.service.impl.SkuServiceImpl"></bean>
+<!-- 商品图片的业务类 -->
+<bean id="ProductImgsService" class="com.yinlian.wssc.web.service.impl.ProductImgsServiceImpl"></bean>
+<!-- 用户的业务了类 -->
+<bean id="userService" class="com.yinlian.wssc.web.service.impl.UserServiceImpl"></bean>
+<!-- 用户余额的业务类 -->
+<bean id="usercapitalService" class="com.yinlian.wssc.web.service.impl.UsercapitalServiceImpl"></bean>
+<!-- 商品相关的业务类 -->
+<bean id="productService" class="com.yinlian.wssc.web.service.impl.ProductServiceImpl"></bean>
+
+<!-- 店铺相关的业务类 -->
+<bean id="storeLevelService" class="com.yinlian.wssc.web.service.impl.StoreLevelServiceImpl"></bean>
+
+<!-- 店铺的业务类 -->
+<bean id="shopService" class="com.yinlian.wssc.web.service.impl.ShopServiceImpl"></bean>
+<!--  -->
+<bean id="shopAuthenticationService" class="com.yinlian.wssc.web.service.impl.ShopAuthenticationServiceImpl"></bean>
+<!-- 店铺关联的分类 业务 -->
+<bean id="shopClassService" class="com.yinlian.wssc.web.service.impl.ShopClassServiceImpl"></bean>
+<!-- 店铺品牌的业务类 -->
+<bean id="shopBrandService" class="com.yinlian.wssc.web.service.impl.ShopBrandServiceImpl"></bean>
+<!-- 店铺通知的业务类 -->
+<bean id="shopnoticeService" class="com.yinlian.wssc.web.service.impl.ShopnoticeServiceImpl"></bean>
+
+<!-- 省的业务类 -->
+<bean id="provinceServcice" class="com.yinlian.wssc.web.service.impl.ProvinceServciceImpl"></bean>
+<!-- 城市的业务类 -->
+<bean id="cityService" class="com.yinlian.wssc.web.service.impl.CityServcieImpl"></bean>
+<!-- 控制面板地区管理相关的业务类 -->
+<bean id="areaService" class="com.yinlian.wssc.web.service.impl.AreaServiceImpl"></bean>
+
+<!-- 控制面板配置相关的业务类 -->
+<bean id="configsetService" class="com.yinlian.wssc.web.service.impl.ConfigSetServiceImpl"></bean>
+
+<!-- 支付方式的业务类 -->
+<bean id="paySetService" class="com.yinlian.wssc.web.service.impl.PaySetServiceImpl"></bean>
+
+<!-- 会员的业务类 -->
+<bean id="employeeService" class="com.yinlian.wssc.web.service.impl.EmployeeServiceImpl"></bean>
+
+<!-- 角色的业务类 -->
+<bean id="roleService" class="com.yinlian.wssc.web.service.impl.RoleServiceImpl"></bean>
+
+<!-- 部门管理的业务类 -->
+<bean id="departmentService" class="com.yinlian.wssc.web.service.impl.DepartmentServiceImpl"></bean>
+
+<!-- 验证码的业务类 -->
+<bean id="smsService" class="com.yinlian.wssc.web.service.impl.SmsServiceImpl"></bean>
+
+<!-- 收货人的业务类 -->
+<bean id="receiveAddressService" class="com.yinlian.wssc.web.service.impl.ReceiveAddressServiceImpl"></bean>
+
+<!-- 订单的业务类 -->
+<bean id="orderService" class="com.yinlian.wssc.web.service.impl.OrderServiceImpl"></bean>
+<bean id="receiveInfoService" class="com.yinlian.wssc.web.service.impl.ReceiveInfoServiceImpl"></bean>
+<bean id="dispatchingService" class="com.yinlian.wssc.web.service.impl.DispatchingServiceImpl"></bean>
+
+<!-- 对账 的业务类 -->
+<bean id="businessbillsService" class="com.yinlian.wssc.web.service.impl.BusinessbillsServiceImpl"></bean>
+
+<!-- 秒杀活动的业务类 -->
+<bean id="spikeActivityService" class="com.yinlian.wssc.web.service.impl.SpikeActivityServiceImpl"></bean>
+
+<!-- 组合商品的业务类 -->
+<bean id="packageService" class="com.yinlian.wssc.web.service.impl.PackageServiceImpl"></bean>
+
+
+<!-- 活动相关的业务类 -->
+<bean id="activityService" class="com.yinlian.wssc.web.service.impl.ActivityServiceImpl"></bean>
+
+</beans> 

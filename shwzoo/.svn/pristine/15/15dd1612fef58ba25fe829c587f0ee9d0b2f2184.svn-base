@@ -1,0 +1,11 @@
+<meta charset="utf-8">
+<%for (vo in pageData.data){%>
+<li>
+    	<a href="/wap/products/ProDetail.html?spuid=${vo.proid}&type=2">
+        	<img src="${vo.img}">
+            <b>${vo.name}</b>
+            <span>￥${vo.price}<i class="text-decthrough huise">￥${vo.yPrice}</i><i class="floatr">剩余<i>${vo.count}</i>件</i></span>
+        </a>
+        <input name="pages" type="hidden" value="${pageData.page}"/>
+</li>
+<%}%>

@@ -1,0 +1,15 @@
+[{
+	"id":"H",
+	"text":"小时",
+	"selected":true,
+	"desc":""
+},{
+	"id":"M",
+	"text":"分钟",
+	"desc":""
+},{
+	"id":"S",
+	"text":"秒",
+	"desc":""
+}
+]

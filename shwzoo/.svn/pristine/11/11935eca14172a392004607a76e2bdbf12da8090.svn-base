@@ -1,0 +1,45 @@
+@charset "utf-8";
+/* CSS Document */
+.pos{ width:100%; height:45px; background:#ffffff;  color:#585858; line-height:45px; font-size:18px; }
+.merchan-members{ background:url(../images/icion_hs.png) no-repeat -135px 0px; width:28px; height:25px; display:inline-block; margin:10px 8px auto 30px; float:left;}
+#screening a{ color:#333;}
+#screening a:active{ color:#f00;}
+#screening a:hover{ color:#f00; text-decoration:none; cursor:pointer;}
+#screening-con{width:100%;display:none; margin-top:15px;}
+.preserve-inp{ width:80px; height:40px; border:1px solid #ccc; border-radius:5px; background:#efefef; font-size:18px; font-weight:bolder;}
+.touxi-dpgl-wgdp{ width:42px; height:36px; background: url(../images/index_icion.png) no-repeat -90px -79px; display:inline-block; margin-top:25px;}
+.editor-red{ padding:3px 10px; border-radius:3px; border-left:1px solid #E2E2E2; border-bottom:1px solid #ACACAC; border-right:1px solid #ACACAC; border-top:none; background:#E6E6E6; display:inline-block; cursor:pointer; }
+.emails{ padding:3px 10px; border-radius:3px; border-left:1px solid #E2E2E2; border-bottom:1px solid #ACACAC; border-right:1px solid #ACACAC; border-top:none; background:#E6E6E6; display:inline-block; cursor:pointer;}
+.iphone{ padding:3px 10px; border-radius:3px; border-left:1px solid #E2E2E2; border-bottom:1px solid #ACACAC; border-right:1px solid #ACACAC; border-top:none; background:#E6E6E6; display:inline-block; cursor:pointer;}
+.information{ padding:3px 10px; border-radius:3px; border-left:1px solid #E2E2E2; border-bottom:1px solid #ACACAC; border-right:1px solid #ACACAC; border-top:none; background:#E6E6E6; display:inline-block; cursor:pointer;}
+.browse-red{ padding:3px 10px; border-radius:3px; border-left:1px solid #E2E2E2; border-bottom:1px solid #ACACAC; border-right:1px solid #ACACAC; border-top:none; background:#E6E6E6; display:inline-block; cursor:pointer;}
+.editor-red:hover{padding:3px 10px; border-radius:3px; border-left:1px solid #E2E2E2; border-bottom:1px solid #ACACAC; border-right:1px solid #ACACAC; border-top:none; background:#ccc; display:inline-block;}
+.emails:hover{ padding:3px 10px; border-radius:3px; border-left:1px solid #E2E2E2; border-bottom:1px solid #ACACAC; border-right:1px solid #ACACAC; border-top:none; background:#ccc; display:inline-block;}
+.iphone:hover{padding:3px 10px; border-radius:3px; border-left:1px solid #E2E2E2; border-bottom:1px solid #ACACAC; border-right:1px solid #ACACAC; border-top:none; background:#ccc; display:inline-block;}
+.information:hover{padding:3px 10px; border-radius:3px; border-left:1px solid #E2E2E2; border-bottom:1px solid #ACACAC; border-right:1px solid #ACACAC; border-top:none; background:#ccc; display:inline-block;}
+.browse-red:hover{padding:3px 10px; border-radius:3px; border-left:1px solid #E2E2E2; border-bottom:1px solid #ACACAC; border-right:1px solid #ACACAC; border-top:none; background:#ccc; display:inline-block;}
+.glance-over span { margin:0 30px;}
+/*members-form  开始*/
+.members-form{ width:100%; margin-top:35px; color:#000;}
+.members-form span{ margin-right:30px;}
+.members-form-inp{ width:150px; height:24px; border:1px solid #D4D4D4;}
+.text_time{	 width:110px; height:24px; border:1px solid #D4D4D4; color:#666; text-align:center;}
+.member-inp{ padding:3px 10px; background:#ffffff; border:1px solid #D3D3D3; border-radius:5px; color:#666;}
+.member-xz{ width:100%; margin-bottom:3px;}
+.member-xz span{ margin-right:10px;}
+.member-operate span{ margin-right:10px;}
+.con_box1_img{ width:230px; height:140px; background:url(../images/icion_members.png) no-repeat -20px -150px; margin:260px auto 10px auto;}
+.con_box1_mesno{ text-align:center; font-size:16px; color:#595758; letter-spacing:2px;}
+.glance-over-con{width:500px; height:480px; padding:20px 0; background:#ffffff; border:1px solid #efefef; border-radius:10px; position:absolute; top:60px; right:32%; display:none;
+-moz-box-shadow: 0px 0px 5px #ccc;
+-webkit-box-shadow: 0px 0px 5px #ccc;
+box-shadow: 0px 0px 5px #ccc
+/* For IE 8 */
+-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#f2f2f2')";
+/* For IE 5.5 - 7 */
+filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#f2f2f2');
+}	
+.glance-over-con table{ width:100%; background:#D8D8D8;}
+.glance-over-con p{ text-align:center; margin-top:20px;}
+.go-back{ padding:8px 30px; background:#efefef; border:1px solid #D4D4D4; border-radius:5px; font-size:20px; font-weight:bolder; color:#666; cursor:pointer;}
+/*members-form  结束*/

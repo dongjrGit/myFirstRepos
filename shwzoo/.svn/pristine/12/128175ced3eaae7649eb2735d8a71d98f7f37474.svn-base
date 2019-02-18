@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.ReceiveaddressMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Receiveaddress" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="UserID" property="userid" jdbcType="INTEGER" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="ProvinceCode" property="provincecode" jdbcType="VARCHAR" />
+    <result column="CityCode" property="citycode" jdbcType="VARCHAR" />
+    <result column="AreaCode" property="areacode" jdbcType="VARCHAR" />
+    <result column="Address" property="address" jdbcType="VARCHAR" />
+    <result column="IsHome" property="ishome" jdbcType="INTEGER" />
+    <result column="Mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="IsDefault" property="isdefault" jdbcType="INTEGER" />
+    <result column="Tel_AreaCode" property="telAreacode" jdbcType="VARCHAR" />
+    <result column="Tel_Number" property="telNumber" jdbcType="VARCHAR" />
+    <result column="Tel_Extension" property="telExtension" jdbcType="VARCHAR" />
+    <result column="IsReceive" property="isreceive" jdbcType="BIT" />
+    <result column="ProvinceName" property="provincename" jdbcType="VARCHAR" />
+    <result column="CityName" property="cityname" jdbcType="VARCHAR" />
+    <result column="AreaName" property="areaname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, UserID, Name, ProvinceCode, CityCode, AreaCode, Address, IsHome, Mobile, IsDefault, 
+    Tel_AreaCode, Tel_Number, Tel_Extension, IsReceive, ProvinceName, CityName, AreaName
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.ReceiveaddressExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from receiveaddress
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from receiveaddress
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from receiveaddress
+    where UserID = #{userid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from receiveaddress
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.ReceiveaddressExample" >
+    delete from receiveaddress
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Receiveaddress" >
+    insert into receiveaddress (ID, UserID, Name, 
+      ProvinceCode, CityCode, AreaCode, 
+      Address, IsHome, Mobile, 
+      IsDefault, Tel_AreaCode, Tel_Number, 
+      Tel_Extension, IsReceive, ProvinceName, 
+      CityName, AreaName)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{provincecode,jdbcType=VARCHAR}, #{citycode,jdbcType=VARCHAR}, #{areacode,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{ishome,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, 
+      #{isdefault,jdbcType=INTEGER}, #{telAreacode,jdbcType=VARCHAR}, #{telNumber,jdbcType=VARCHAR}, 
+      #{telExtension,jdbcType=VARCHAR}, #{isreceive,jdbcType=BIT}, #{provincename,jdbcType=VARCHAR}, 
+      #{cityname,jdbcType=VARCHAR}, #{areaname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Receiveaddress" >
+    insert into receiveaddress
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userid != null" >
+        UserID,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="provincecode != null" >
+        ProvinceCode,
+      </if>
+      <if test="citycode != null" >
+        CityCode,
+      </if>
+      <if test="areacode != null" >
+        AreaCode,
+      </if>
+      <if test="address != null" >
+        Address,
+      </if>
+      <if test="ishome != null" >
+        IsHome,
+      </if>
+      <if test="mobile != null" >
+        Mobile,
+      </if>
+      <if test="isdefault != null" >
+        IsDefault,
+      </if>
+      <if test="telAreacode != null" >
+        Tel_AreaCode,
+      </if>
+      <if test="telNumber != null" >
+        Tel_Number,
+      </if>
+      <if test="telExtension != null" >
+        Tel_Extension,
+      </if>
+      <if test="isreceive != null" >
+        IsReceive,
+      </if>
+      <if test="provincename != null" >
+        ProvinceName,
+      </if>
+      <if test="cityname != null" >
+        CityName,
+      </if>
+      <if test="areaname != null" >
+        AreaName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="provincecode != null" >
+        #{provincecode,jdbcType=VARCHAR},
+      </if>
+      <if test="citycode != null" >
+        #{citycode,jdbcType=VARCHAR},
+      </if>
+      <if test="areacode != null" >
+        #{areacode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="ishome != null" >
+        #{ishome,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="isdefault != null" >
+        #{isdefault,jdbcType=INTEGER},
+      </if>
+      <if test="telAreacode != null" >
+        #{telAreacode,jdbcType=VARCHAR},
+      </if>
+      <if test="telNumber != null" >
+        #{telNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="telExtension != null" >
+        #{telExtension,jdbcType=VARCHAR},
+      </if>
+      <if test="isreceive != null" >
+        #{isreceive,jdbcType=BIT},
+      </if>
+      <if test="provincename != null" >
+        #{provincename,jdbcType=VARCHAR},
+      </if>
+      <if test="cityname != null" >
+        #{cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="areaname != null" >
+        #{areaname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.ReceiveaddressExample" resultType="java.lang.Integer" >
+    select count(*) from receiveaddress
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update receiveaddress
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userid != null" >
+        UserID = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        Name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provincecode != null" >
+        ProvinceCode = #{record.provincecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.citycode != null" >
+        CityCode = #{record.citycode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areacode != null" >
+        AreaCode = #{record.areacode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        Address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ishome != null" >
+        IsHome = #{record.ishome,jdbcType=INTEGER},
+      </if>
+      <if test="record.mobile != null" >
+        Mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isdefault != null" >
+        IsDefault = #{record.isdefault,jdbcType=INTEGER},
+      </if>
+      <if test="record.telAreacode != null" >
+        Tel_AreaCode = #{record.telAreacode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telNumber != null" >
+        Tel_Number = #{record.telNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.telExtension != null" >
+        Tel_Extension = #{record.telExtension,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isreceive != null" >
+        IsReceive = #{record.isreceive,jdbcType=BIT},
+      </if>
+      <if test="record.provincename != null" >
+        ProvinceName = #{record.provincename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityname != null" >
+        CityName = #{record.cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaname != null" >
+        AreaName = #{record.areaname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update receiveaddress
+    set ID = #{record.id,jdbcType=INTEGER},
+      UserID = #{record.userid,jdbcType=INTEGER},
+      Name = #{record.name,jdbcType=VARCHAR},
+      ProvinceCode = #{record.provincecode,jdbcType=VARCHAR},
+      CityCode = #{record.citycode,jdbcType=VARCHAR},
+      AreaCode = #{record.areacode,jdbcType=VARCHAR},
+      Address = #{record.address,jdbcType=VARCHAR},
+      IsHome = #{record.ishome,jdbcType=INTEGER},
+      Mobile = #{record.mobile,jdbcType=VARCHAR},
+      IsDefault = #{record.isdefault,jdbcType=INTEGER},
+      Tel_AreaCode = #{record.telAreacode,jdbcType=VARCHAR},
+      Tel_Number = #{record.telNumber,jdbcType=VARCHAR},
+      Tel_Extension = #{record.telExtension,jdbcType=VARCHAR},
+      IsReceive = #{record.isreceive,jdbcType=BIT},
+      ProvinceName = #{record.provincename,jdbcType=VARCHAR},
+      CityName = #{record.cityname,jdbcType=VARCHAR},
+      AreaName = #{record.areaname,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Receiveaddress" >
+    update receiveaddress
+    <set >
+      <if test="userid != null" >
+        UserID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="provincecode != null" >
+        ProvinceCode = #{provincecode,jdbcType=VARCHAR},
+      </if>
+      <if test="citycode != null" >
+        CityCode = #{citycode,jdbcType=VARCHAR},
+      </if>
+      <if test="areacode != null" >
+        AreaCode = #{areacode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        Address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="ishome != null" >
+        IsHome = #{ishome,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null" >
+        Mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="isdefault != null" >
+        IsDefault = #{isdefault,jdbcType=INTEGER},
+      </if>
+      <if test="telAreacode != null" >
+        Tel_AreaCode = #{telAreacode,jdbcType=VARCHAR},
+      </if>
+      <if test="telNumber != null" >
+        Tel_Number = #{telNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="telExtension != null" >
+        Tel_Extension = #{telExtension,jdbcType=VARCHAR},
+      </if>
+      <if test="isreceive != null" >
+        IsReceive = #{isreceive,jdbcType=BIT},
+      </if>
+      <if test="provincename != null" >
+        ProvinceName = #{provincename,jdbcType=VARCHAR},
+      </if>
+      <if test="cityname != null" >
+        CityName = #{cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="areaname != null" >
+        AreaName = #{areaname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Receiveaddress" >
+    update receiveaddress
+    set UserID = #{userid,jdbcType=INTEGER},
+      Name = #{name,jdbcType=VARCHAR},
+      ProvinceCode = #{provincecode,jdbcType=VARCHAR},
+      CityCode = #{citycode,jdbcType=VARCHAR},
+      AreaCode = #{areacode,jdbcType=VARCHAR},
+      Address = #{address,jdbcType=VARCHAR},
+      IsHome = #{ishome,jdbcType=INTEGER},
+      Mobile = #{mobile,jdbcType=VARCHAR},
+      IsDefault = #{isdefault,jdbcType=INTEGER},
+      Tel_AreaCode = #{telAreacode,jdbcType=VARCHAR},
+      Tel_Number = #{telNumber,jdbcType=VARCHAR},
+      Tel_Extension = #{telExtension,jdbcType=VARCHAR},
+      IsReceive = #{isreceive,jdbcType=BIT},
+      ProvinceName = #{provincename,jdbcType=VARCHAR},
+      CityName = #{cityname,jdbcType=VARCHAR},
+      AreaName = #{areaname,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateDefault" parameterType="map" >
+    update receiveaddress
+    set IsDefault = 0      
+    where ID != #{adrid,jdbcType=INTEGER}
+          and UserID=#{uid,jdbcType=INTEGER};
+    update receiveaddress
+    set IsDefault = 1      
+    where ID = #{adrid,jdbcType=INTEGER};
+  </update>
+</mapper>

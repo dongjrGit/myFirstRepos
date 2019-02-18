@@ -1,0 +1,31 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* main 开始*/
+#main{ width:1200px; margin:0 auto;margin-top:22px;}
+#main .main-left{ width:200px; float:left; position:relative;}
+#main .main-center{ width:645px;float:left; margin-left:33px;}
+#main .main-right{ width:300px;float:left; margin-left:22px;}
+/* main 结束*/
+
+/*main-left  开始*/
+/*main-left-top  begin*/
+.main-left-top{ width:205px; height:38px; position:absolute; top:0px; right:0px; background:#FF9000; border:1px solid #C89961; color:#FFEEF0; text-align:center; line-height:38px; font-size:14px; letter-spacing:1px;-ms-box-shadow: -3px 2px 5px #CE6102;-moz-box-shadow: -3px 2px 5px #CE6102;-o-box-shadow: -3px 2px 5px #CE6102;-webkit-box-shadow: -3px 2px 5px #CE6102;box-shadow: -3px 2px 5px #CE6102;}
+/*main-left-top  stop*/
+/*dpxx begin*/
+.dpxx{ width:188px; border:1px solid #AAA6A3; background:#FFAE53; padding:15px 0px 15px 10px; margin-top:40px;}
+.dpxx-img{ width:57px; height:57px; background:#CCC; border:3px solid #FFF; float:left; -moz-border-radius:57px;-ms-border-radius:57px;-o-border-radius:57px;-webkit-border-radius:57px;border-radius:57px;}
+.dpxx-con{ width:120px; float:left; margin-left:5px; padding-top:10px;}
+.dpxx-con p{ color:#FFEEF0; line-height:23px;}
+/*dpxx stop*/
+/*dh-mk begin*/
+.dh-mk{ width:148px; border:1px solid #D5D5D5; border-top:none; padding:10px 0px 5px 50px; font-size:14px;}
+.dh-mk ul li.dh-mk-title{ font-weight:bolder; font-size:15px; margin-bottom:3px;}
+.dh-mk ul li{ line-height:30px;}
+/*dh-mk stop*/
+/*main-left  结束*/
+
+/*我的订单只有两大块的右边  开始*/
+.rightside{ width:967px;float:left; margin-left:33px;}
+.hover-banli a{ color:#FFAE53;}
+/*我的订单只有两大块的右边  结束*/

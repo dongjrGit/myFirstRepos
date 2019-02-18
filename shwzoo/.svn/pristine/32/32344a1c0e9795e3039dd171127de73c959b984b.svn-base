@@ -1,0 +1,75 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>优惠券</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="stylesheet" href="/css/public.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/css/index.css" type="text/css" media="screen">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/artTemplate.js"></script>
+    <script src="/js/Couponlist.js"></script>
+</head>
+
+<body>
+    <!--container  begin-->
+    <div class="container fix">
+        <!--l_alltop  begin -->
+        <div class="l_alltop fix">
+            <span><img src="/images/tp10.png" class="img-responsive l_maxwid"></span>
+            优惠券
+        </div>
+        <!--l_alltop  stop -->
+        <!--l_sdhb begin -->
+        <div class="l_sdhb l_yhqsg" id="l_sdhb">
+            <ul class="fix list" >
+                <li class="active" style="cursor:pointer" data-id="1" >未使用</li>
+                <li style="cursor:pointer"  data-id="2" >已使用</li>
+                <li style="cursor:pointer" data-id="3" >已过期</li>
+            </ul>
+        </div>
+        <!--l_sdhb stop -->
+        <!--l_yhqgqmk  begin -->
+        <div id="coupon">
+        <script type="text/html" id="couponlist">
+            {{each list as cpn i}}
+            <div class="l_yhqgqmk">
+                <div class="l_yhqgqmktop">
+                    <div class="text-right 1_yhqmy">{{cpn.CouponType}}</div>
+                    <div>￥<span class="zt2b">{{cpn.FaceValue}}</span></div>
+                    <div class="l_yhqxmbor"></div>
+                </div>
+                <div class="l_yhqgqmkbot">
+                    <div>{{cpn.CouponName}}</div>
+                    <div class="huise ztsmall">有效期：{{cpn.ProvideTime | toDateDay}}--{{cpn.OutTime | toDateDay}}</div>
+                </div>
+            </div>
+            {{/each}}
+        </script>
+            </div>
+    </div>
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        Couponlist.getList(1, 1, 1);
+        $(".list").find("li").each(function () {
+            var $obj = $(this);
+            $obj.bind("click", function () {
+                Couponlist.getList(1, $obj.attr("data-id"), 1);
+                $(".list").find("li").each(function () {
+                    var $obj1 = $(this);
+                    if ($obj1.attr("data-id") == $obj.attr("data-id"))
+                    {
+                        $obj1.addClass("active");
+                    }else
+                    {
+                        $obj1.removeClass("active");
+                    }
+                });
+            });
+        });
+    })
+</script>

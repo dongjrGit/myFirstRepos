@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SpringMVC 请求参数测试页面</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+	<script src="../scripts/boot.js" type="text/javascript"></script>
+  </head>
+  
+  <body>
+  	<h1>SpringMVC 请求参数测试页面</h1>
+  	
+  	<div class="mini-panel" title="接收简单参数" style="width:500px;height:250px;" 
+    showCollapseButton="true" bodyStyle="padding:0;" expanded="false">
+	  	<div id="paramForm" class="form" align="left" style="margin-left: 20px">
+	        <div>
+		      	<span>用户姓名：</span>
+		      	<span><input  name="userName" class="mini-textbox"   required="true"/></span>
+	      	</div>
+	      	<div>
+		      	<span>用户编号：</span>
+		      	<span><input  name="userCode" class="mini-textbox"   required="true"/></span>
+	      	</div>
+	      	<div>
+		      	<span>手机号码：</span>
+		      	<span><input  name="userPhone" class="mini-textbox" vtype="int" required="true" requiredErrorText="手机号码必须输入数字" onvalidation="onUserNameValidation"/></span>
+	      		<span id="userPhone_error" class="errorText"></span>
+	      	</div>
+			<div>
+	      		<a class="mini-button" href="javascript:postParam()">提交</a> 
+	            <a class="mini-button" href="javascript:resetForm()">重置</a>
+	      	</div>
+	      </div>
+      </div>
+  	
+  	<div class="mini-panel" title="POJO接收参数" style="width:500px;height:250px;" 
+    showCollapseButton="true" bodyStyle="padding:0;" expanded="false">
+	  	<div id="pojoParamForm" class="form" align="left" style="margin-left: 20px">
+	        <div>
+		      	<span>用户姓名：</span>
+		      	<span><input  name="userName" class="mini-textbox"   required="true"/></span>
+	      	</div>
+	      	<div>
+		      	<span>用户编号：</span>
+		      	<span><input  name="userCode" class="mini-textbox"   required="true"/></span>
+	      	</div>
+	      	<div>
+		      	<span>手机号码：</span>
+		      	<span><input  name="userPhone" class="mini-textbox"   required="false"/></span>
+	      	</div>
+			<div>
+	      		<a class="mini-button" href="javascript:postPojoParam()">提交</a> 
+	            <a class="mini-button" href="javascript:resetPojoForm()">重置</a>
+	      	</div>
+	      </div>
+      </div>
+		<div class="mini-panel" title="URL 路径接收参数"
+			style="width:500px;height:250px;" showCollapseButton="true"
+			bodyStyle="padding:0;" expanded="false">
+			<div id="pathParamForm" class="form" align="left"
+				style="margin-left: 20px">
+				<div>
+					<span>用户&nbsp&nbsp&nbspID：</span> <span><input name="userID"
+						class="mini-textbox" required="true" />
+					</span>
+				</div>
+				<div>
+					<span>用户邮箱：</span> <span><input name="userMail"
+						class="mini-textbox" required="true" />
+					</span>
+				</div>
+				<div>
+					<span>手机&nbsp&nbspQQ：</span> <span><input name="userQQ"
+						class="mini-textbox" required="true" />
+					</span>
+				</div>
+				<div>
+					<a class="mini-button" href="javascript:postPathParam()">提交</a> 
+					<a class="mini-button" href="javascript:resetPathForm()">重置</a>
+				</div>
+			</div>
+		</div>
+		<div class="mini-panel" title="接收数组"
+			style="width:500px;height:250px;" showCollapseButton="true"
+			bodyStyle="padding:0;" expanded="false">
+			<div id="arrayParamForm" class="form" align="left"
+				style="margin-left: 20px">
+				<div>
+					<span>用户&nbsp&nbsp&nbspID：</span> <span><input name="userName1"
+						class="mini-textbox" required="true" />
+					</span>
+				</div>
+				<div>
+					<span>用户邮箱：</span> <span><input name="userName2"
+						class="mini-textbox" required="true" />
+					</span>
+				</div>
+				<div>
+					<span>手机&nbsp&nbspQQ：</span> <span><input name="userName3"
+						class="mini-textbox" required="true" />
+					</span>
+				</div>
+				<div>
+					<a class="mini-button" href="javascript:postArrayParam()">提交</a> 
+					<a class="mini-button" href="javascript:resetArrayForm()">重置</a>
+				</div>
+			</div>
+		</div>
+	<script type="text/javascript">
+		function postParam() {
+			var form = new mini.Form("#paramForm");
+			form.validate();
+			if (form.isValid() == false)
+				return;
+			var reqJson = form.getData();
+			//将json转换为字符串
+			//var json = mini.encode(o);
+			jQuery.ajax({
+				url : "../controller/param/params",
+				data : reqJson,
+				type : "post",
+				dataType : 'json',
+				success : function(data) {
+					mini.alert(data.msg);
+				}
+			});
+		}
+		function resetForm() {
+			var form = new mini.Form("#paramForm");
+			form.reset();
+		}
+	
+		function postPojoParam() {
+			var form = new mini.Form("#pojoParamForm");
+			form.validate();
+			if (form.isValid() == false)
+				return;
+			var reqJson = form.getData();
+			//将json转换为字符串
+			//var json = mini.encode(o);
+			jQuery.ajax({
+				url : "../controller/param/pojoParams",
+				data : reqJson,
+				type : "post",
+				dataType : 'json',
+				success : function(data) {
+					mini.alert(data.msg);
+				}
+			});
+		}
+		function resetPojoForm() {
+			var form = new mini.Form("#pojoParamForm");
+			form.reset();
+		}
+		
+		function postPathParam() {
+			var form = new mini.Form("#pathParamForm");
+			form.validate();
+			if (form.isValid() == false)
+				return;
+			var reqJson = form.getData();
+			//将json转换为字符串
+			//var json = mini.encode(o);
+			jQuery.ajax({
+				url : "../controller/param/pathParams/" + reqJson.userID + "/" + reqJson.userMail + "/" + reqJson.userQQ,
+				type : "get",
+				dataType : 'json',
+				success : function(data) {
+					mini.alert(data.msg);
+				}
+			});
+		}
+		function resetPathForm() {
+			var form = new mini.Form("#pathParamForm");
+			form.reset();
+		}
+		
+		function postArrayParam() {
+			var form = new mini.Form("#arrayParamForm");
+			form.validate();
+			if (form.isValid() == false)
+				return;
+			var reqJson = form.getData();
+			//将json转换为字符串
+			//var json = mini.encode(o);
+			jQuery.ajax({
+				url : "../controller/param/arrayParams?name=" + reqJson.userName1 + "&name=" + reqJson.userName2 + "&name=" + reqJson.userName3,
+				type : "get",
+				dataType : 'json',
+				success : function(data) {
+					mini.alert(data.msg);
+				}
+			});
+		}
+		function resetArrayForm() {
+			var form = new mini.Form("#arrayParamForm");
+			form.reset();
+		}
+		
+        function updateError(e) {
+            var id = e.sender.name + "_error";
+            var el = document.getElementById(id);
+            if (el) {
+                el.innerHTML = e.errorText;
+            }
+        }
+        function onUserNameValidation(e) {                  
+            updateError(e);
+        }
+	</script>
+  </body>
+</html>
