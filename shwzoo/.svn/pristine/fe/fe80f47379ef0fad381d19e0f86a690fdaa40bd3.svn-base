@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.ApplyshopMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Applyshop" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="shopname" property="shopname" jdbcType="VARCHAR" />
+    <result column="contactsname" property="contactsname" jdbcType="VARCHAR" />
+    <result column="pcode" property="pcode" jdbcType="VARCHAR" />
+    <result column="ccode" property="ccode" jdbcType="VARCHAR" />
+    <result column="acode" property="acode" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="iscontact" property="iscontact" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, mobile, shopname, contactsname, pcode, ccode, acode, address, iscontact
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.ApplyshopExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from applyshop
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from applyshop
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from applyshop
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.ApplyshopExample" >
+    delete from applyshop
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Applyshop" >
+    insert into applyshop (id, mobile, shopname, 
+      contactsname, pcode, ccode, 
+      acode, address, iscontact
+      )
+    values (#{id,jdbcType=INTEGER}, #{mobile,jdbcType=VARCHAR}, #{shopname,jdbcType=VARCHAR}, 
+      #{contactsname,jdbcType=VARCHAR}, #{pcode,jdbcType=VARCHAR}, #{ccode,jdbcType=VARCHAR}, 
+      #{acode,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{iscontact,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Applyshop" >
+    insert into applyshop
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="mobile != null" >
+        mobile,
+      </if>
+      <if test="shopname != null" >
+        shopname,
+      </if>
+      <if test="contactsname != null" >
+        contactsname,
+      </if>
+      <if test="pcode != null" >
+        pcode,
+      </if>
+      <if test="ccode != null" >
+        ccode,
+      </if>
+      <if test="acode != null" >
+        acode,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="iscontact != null" >
+        iscontact,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="shopname != null" >
+        #{shopname,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsname != null" >
+        #{contactsname,jdbcType=VARCHAR},
+      </if>
+      <if test="pcode != null" >
+        #{pcode,jdbcType=VARCHAR},
+      </if>
+      <if test="ccode != null" >
+        #{ccode,jdbcType=VARCHAR},
+      </if>
+      <if test="acode != null" >
+        #{acode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="iscontact != null" >
+        #{iscontact,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.ApplyshopExample" resultType="java.lang.Integer" >
+    select count(*) from applyshop
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update applyshop
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.mobile != null" >
+        mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopname != null" >
+        shopname = #{record.shopname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactsname != null" >
+        contactsname = #{record.contactsname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcode != null" >
+        pcode = #{record.pcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ccode != null" >
+        ccode = #{record.ccode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.acode != null" >
+        acode = #{record.acode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iscontact != null" >
+        iscontact = #{record.iscontact,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update applyshop
+    set id = #{record.id,jdbcType=INTEGER},
+      mobile = #{record.mobile,jdbcType=VARCHAR},
+      shopname = #{record.shopname,jdbcType=VARCHAR},
+      contactsname = #{record.contactsname,jdbcType=VARCHAR},
+      pcode = #{record.pcode,jdbcType=VARCHAR},
+      ccode = #{record.ccode,jdbcType=VARCHAR},
+      acode = #{record.acode,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      iscontact = #{record.iscontact,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Applyshop" >
+    update applyshop
+    <set >
+      <if test="mobile != null" >
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="shopname != null" >
+        shopname = #{shopname,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsname != null" >
+        contactsname = #{contactsname,jdbcType=VARCHAR},
+      </if>
+      <if test="pcode != null" >
+        pcode = #{pcode,jdbcType=VARCHAR},
+      </if>
+      <if test="ccode != null" >
+        ccode = #{ccode,jdbcType=VARCHAR},
+      </if>
+      <if test="acode != null" >
+        acode = #{acode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="iscontact != null" >
+        iscontact = #{iscontact,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Applyshop" >
+    update applyshop
+    set mobile = #{mobile,jdbcType=VARCHAR},
+      shopname = #{shopname,jdbcType=VARCHAR},
+      contactsname = #{contactsname,jdbcType=VARCHAR},
+      pcode = #{pcode,jdbcType=VARCHAR},
+      ccode = #{ccode,jdbcType=VARCHAR},
+      acode = #{acode,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      iscontact = #{iscontact,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <!-- 分页查询申请店铺 -->
+   <sql id="criteria_query">
+   <where>  
+    <if test="criteria.contactsname != null and criteria.contactsname != '' ">
+     and contactsname like '%${criteria.contactsname}%'
+     </if>
+     <if test="criteria.mobile != null and criteria.mobile != '' ">
+     and mobile like '%${criteria.mobile}%'
+     </if>
+       <if test="criteria.shopname != null and criteria.shopname != '' ">
+     and shopname like '%${criteria.shopname}%'
+     </if>
+     </where> 
+  </sql>
+   <select id="selectApplyShopByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" resultType="com.yinlian.wssc.web.po.Applyshop">
+    SELECT 
+    <include refid="Base_Column_List" />
+    from applyshop
+     
+     <if test="criteria != null ">
+     <include refid="criteria_query"/> 
+     </if>
+     <if test="criteria.orderByClause != null and criteria.orderByClause != '' " >
+      order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序     此处只能使用${} 而不能使用#{} 会设置参数失败 -->
+    </if>
+  </select>
+</mapper>

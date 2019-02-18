@@ -1,0 +1,730 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.ActivityMarketMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.ActivityMarket">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="ActNum" property="actnum" jdbcType="VARCHAR" />
+		<result column="ActName" property="actname" jdbcType="VARCHAR" />
+		<result column="ShopID" property="shopid" jdbcType="INTEGER" />
+		<result column="ActType" property="acttype" jdbcType="INTEGER" />
+		<result column="StartTime" property="starttime" jdbcType="TIMESTAMP" />
+		<result column="EndTime" property="endtime" jdbcType="TIMESTAMP" />
+		<result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="CreateUserID" property="createuserid" jdbcType="INTEGER" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="CheckStatus" property="checkstatus" jdbcType="INTEGER" />
+		<result column="IsDel" property="isdel" jdbcType="BIT" />
+		<result column="DelUserID" property="deluserid" jdbcType="INTEGER" />
+		<result column="DelTime" property="deltime" jdbcType="TIMESTAMP" />
+		<result column="Stock" property="stock" jdbcType="INTEGER" />
+		<result column="IsCheck" property="ischeck" jdbcType="BIT" />
+		<result column="UseType" property="usetype" jdbcType="INTEGER" />
+		<result column="SpuID" property="spuid" jdbcType="INTEGER" />
+		<result column="Count" property="count" jdbcType="INTEGER" />
+		<result column="FullValue" property="fullvalue" jdbcType="REAL" />
+		<result column="SubValue" property="subvalue" jdbcType="REAL" />
+		<result column="IsPhone" property="isphone" jdbcType="INTEGER" />
+		<result column="usesite" property="usesite" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, ActNum, ActName, ShopID, ActType, StartTime, EndTime,
+		CreateTime,
+		CreateUserID,
+		Status, CheckStatus, IsDel, DelUserID,
+		DelTime, Stock, IsCheck, UseType,
+		SpuID, Count,
+		FullValue, SubValue,
+		IsPhone,usesite
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.ActivityMarketExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from activity_market
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from activity_market
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		activity_market
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.ActivityMarketExample">
+		delete from activity_market
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.ActivityMarket">
+		insert into activity_market
+		(ID, ActNum, ActName,
+		ShopID, ActType, StartTime,
+		EndTime, CreateTime,
+		CreateUserID,
+		Status, CheckStatus, IsDel,
+		DelUserID, DelTime, Stock,
+		IsCheck, UseType, SpuID,
+		Count, FullValue, SubValue,
+		IsPhone,usesite)
+		values
+		(#{id,jdbcType=INTEGER}, #{actnum,jdbcType=VARCHAR},
+		#{actname,jdbcType=VARCHAR},
+		#{shopid,jdbcType=INTEGER},
+		#{acttype,jdbcType=INTEGER}, #{starttime,jdbcType=TIMESTAMP},
+		#{endtime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP},
+		#{createuserid,jdbcType=INTEGER},
+		#{status,jdbcType=INTEGER},
+		#{checkstatus,jdbcType=INTEGER}, #{isdel,jdbcType=BIT},
+		#{deluserid,jdbcType=INTEGER}, #{deltime,jdbcType=TIMESTAMP},
+		#{stock,jdbcType=INTEGER},
+		#{ischeck,jdbcType=BIT},
+		#{usetype,jdbcType=INTEGER}, #{spuid,jdbcType=INTEGER},
+		#{count,jdbcType=INTEGER}, #{fullvalue,jdbcType=REAL},
+		#{subvalue,jdbcType=REAL},
+		#{isphone,jdbcType=INTEGER},#{usesite,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.ActivityMarket">
+		insert into activity_market
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="actnum != null">
+				ActNum,
+			</if>
+			<if test="actname != null">
+				ActName,
+			</if>
+			<if test="shopid != null">
+				ShopID,
+			</if>
+			<if test="acttype != null">
+				ActType,
+			</if>
+			<if test="starttime != null">
+				StartTime,
+			</if>
+			<if test="endtime != null">
+				EndTime,
+			</if>
+			<if test="createtime != null">
+				CreateTime,
+			</if>
+			<if test="createuserid != null">
+				CreateUserID,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+			<if test="checkstatus != null">
+				CheckStatus,
+			</if>
+			<if test="isdel != null">
+				IsDel,
+			</if>
+			<if test="deluserid != null">
+				DelUserID,
+			</if>
+			<if test="deltime != null">
+				DelTime,
+			</if>
+			<if test="stock != null">
+				Stock,
+			</if>
+			<if test="ischeck != null">
+				IsCheck,
+			</if>
+			<if test="usetype != null">
+				UseType,
+			</if>
+			<if test="spuid != null">
+				SpuID,
+			</if>
+			<if test="count != null">
+				Count,
+			</if>
+			<if test="fullvalue != null">
+				FullValue,
+			</if>
+			<if test="subvalue != null">
+				SubValue,
+			</if>
+			<if test="isphone != null">
+				IsPhone,
+			</if>
+			<if test="usesite != null">
+				usesite,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="actnum != null">
+				#{actnum,jdbcType=VARCHAR},
+			</if>
+			<if test="actname != null">
+				#{actname,jdbcType=VARCHAR},
+			</if>
+			<if test="shopid != null">
+				#{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="acttype != null">
+				#{acttype,jdbcType=INTEGER},
+			</if>
+			<if test="starttime != null">
+				#{starttime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endtime != null">
+				#{endtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createuserid != null">
+				#{createuserid,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="checkstatus != null">
+				#{checkstatus,jdbcType=INTEGER},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=BIT},
+			</if>
+			<if test="deluserid != null">
+				#{deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="deltime != null">
+				#{deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="stock != null">
+				#{stock,jdbcType=INTEGER},
+			</if>
+			<if test="ischeck != null">
+				#{ischeck,jdbcType=BIT},
+			</if>
+			<if test="usetype != null">
+				#{usetype,jdbcType=INTEGER},
+			</if>
+			<if test="spuid != null">
+				#{spuid,jdbcType=INTEGER},
+			</if>
+			<if test="count != null">
+				#{count,jdbcType=INTEGER},
+			</if>
+			<if test="fullvalue != null">
+				#{fullvalue,jdbcType=REAL},
+			</if>
+			<if test="subvalue != null">
+				#{subvalue,jdbcType=REAL},
+			</if>
+			<if test="isphone != null">
+				#{isphone,jdbcType=INTEGER},
+			</if>
+			<if test="usesite != null">
+				#{usesite,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.ActivityMarketExample"
+		resultType="java.lang.Integer">
+		select count(*) from activity_market
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update activity_market
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.actnum != null">
+				ActNum = #{record.actnum,jdbcType=VARCHAR},
+			</if>
+			<if test="record.actname != null">
+				ActName = #{record.actname,jdbcType=VARCHAR},
+			</if>
+			<if test="record.shopid != null">
+				ShopID = #{record.shopid,jdbcType=INTEGER},
+			</if>
+			<if test="record.acttype != null">
+				ActType = #{record.acttype,jdbcType=INTEGER},
+			</if>
+			<if test="record.starttime != null">
+				StartTime = #{record.starttime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.endtime != null">
+				EndTime = #{record.endtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.createtime != null">
+				CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.createuserid != null">
+				CreateUserID = #{record.createuserid,jdbcType=INTEGER},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.checkstatus != null">
+				CheckStatus = #{record.checkstatus,jdbcType=INTEGER},
+			</if>
+			<if test="record.isdel != null">
+				IsDel = #{record.isdel,jdbcType=BIT},
+			</if>
+			<if test="record.deluserid != null">
+				DelUserID = #{record.deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="record.deltime != null">
+				DelTime = #{record.deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.stock != null">
+				Stock = #{record.stock,jdbcType=INTEGER},
+			</if>
+			<if test="record.ischeck != null">
+				IsCheck = #{record.ischeck,jdbcType=BIT},
+			</if>
+			<if test="record.usetype != null">
+				UseType = #{record.usetype,jdbcType=INTEGER},
+			</if>
+			<if test="record.spuid != null">
+				SpuID = #{record.spuid,jdbcType=INTEGER},
+			</if>
+			<if test="record.count != null">
+				Count = #{record.count,jdbcType=INTEGER},
+			</if>
+			<if test="record.fullvalue != null">
+				FullValue = #{record.fullvalue,jdbcType=INTEGER},
+			</if>
+			<if test="record.subvalue != null">
+				SubValue = #{record.subvalue,jdbcType=REAL},
+			</if>
+			<if test="record.isphone != null">
+				IsPhone = #{record.isphone,jdbcType=REAL},
+			</if>
+			<if test="record.usesite != null">
+				usesite = #{record.usesite,jdbcType=BIT},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update activity_market
+		set ID = #{record.id,jdbcType=INTEGER},
+		ActNum =
+		#{record.actnum,jdbcType=VARCHAR},
+		ActName =
+		#{record.actname,jdbcType=VARCHAR},
+		ShopID =
+		#{record.shopid,jdbcType=INTEGER},
+		ActType =
+		#{record.acttype,jdbcType=INTEGER},
+		StartTime =
+		#{record.starttime,jdbcType=TIMESTAMP},
+		EndTime =
+		#{record.endtime,jdbcType=TIMESTAMP},
+		CreateTime =
+		#{record.createtime,jdbcType=TIMESTAMP},
+		CreateUserID =
+		#{record.createuserid,jdbcType=INTEGER},
+		Status =
+		#{record.status,jdbcType=INTEGER},
+		CheckStatus =
+		#{record.checkstatus,jdbcType=INTEGER},
+		IsDel =
+		#{record.isdel,jdbcType=BIT},
+		DelUserID =
+		#{record.deluserid,jdbcType=INTEGER},
+		DelTime =
+		#{record.deltime,jdbcType=TIMESTAMP},
+		Stock =
+		#{record.stock,jdbcType=INTEGER},
+		IsCheck =
+		#{record.ischeck,jdbcType=BIT},
+		UseType =
+		#{record.usetype,jdbcType=INTEGER},
+		SpuID =
+		#{record.spuid,jdbcType=INTEGER},
+		Count =
+		#{record.count,jdbcType=INTEGER},
+		FullValue =
+		#{record.fullvalue,jdbcType=REAL},
+		SubValue =
+		#{record.subvalue,jdbcType=REAL},
+		IsPhone =
+		#{record.isphone,jdbcType=INTEGER},
+		usesite =
+		 #{record.usesite,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.ActivityMarket">
+		update activity_market
+		<set>
+			<if test="actnum != null">
+				ActNum = #{actnum,jdbcType=VARCHAR},
+			</if>
+			<if test="actname != null">
+				ActName = #{actname,jdbcType=VARCHAR},
+			</if>
+			<if test="shopid != null">
+				ShopID = #{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="acttype != null">
+				ActType = #{acttype,jdbcType=INTEGER},
+			</if>
+			<if test="starttime != null">
+				StartTime = #{starttime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endtime != null">
+				EndTime = #{endtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createtime != null">
+				CreateTime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createuserid != null">
+				CreateUserID = #{createuserid,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="checkstatus != null">
+				CheckStatus = #{checkstatus,jdbcType=INTEGER},
+			</if>
+			<if test="isdel != null">
+				IsDel = #{isdel,jdbcType=BIT},
+			</if>
+			<if test="deluserid != null">
+				DelUserID = #{deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="deltime != null">
+				DelTime = #{deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="stock != null">
+				Stock = #{stock,jdbcType=INTEGER},
+			</if>
+			<if test="ischeck != null">
+				IsCheck = #{ischeck,jdbcType=BIT},
+			</if>
+			<if test="usetype != null">
+				UseType = #{usetype,jdbcType=INTEGER},
+			</if>
+			<if test="spuid != null">
+				SpuID = #{spuid,jdbcType=INTEGER},
+			</if>
+			<if test="count != null">
+				Count = #{count,jdbcType=INTEGER},
+			</if>
+			<if test="fullvalue != null">
+				FullValue = #{fullvalue,jdbcType=REAL},
+			</if>
+			<if test="subvalue != null">
+				SubValue = #{subvalue,jdbcType=REAL},
+			</if>
+			<if test="isphone != null">
+				IsPhone = #{isphone,jdbcType=INTEGER},
+			</if>
+			<if test="usesite != null">
+				usesite = #{usesite,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.ActivityMarket">
+		update
+		activity_market
+		set ActNum = #{actnum,jdbcType=VARCHAR},
+		ActName =
+		#{actname,jdbcType=VARCHAR},
+		ShopID = #{shopid,jdbcType=INTEGER},
+		ActType = #{acttype,jdbcType=INTEGER},
+		StartTime =
+		#{starttime,jdbcType=TIMESTAMP},
+		EndTime =
+		#{endtime,jdbcType=TIMESTAMP},
+		CreateTime =
+		#{createtime,jdbcType=TIMESTAMP},
+		CreateUserID =
+		#{createuserid,jdbcType=INTEGER},
+		Status = #{status,jdbcType=INTEGER},
+		CheckStatus = #{checkstatus,jdbcType=INTEGER},
+		IsDel =
+		#{isdel,jdbcType=BIT},
+		DelUserID = #{deluserid,jdbcType=INTEGER},
+		DelTime = #{deltime,jdbcType=TIMESTAMP},
+		Stock =
+		#{stock,jdbcType=INTEGER},
+		IsCheck = #{ischeck,jdbcType=BIT},
+		UseType =
+		#{usetype,jdbcType=INTEGER},
+		SpuID = #{spuid,jdbcType=INTEGER},
+		Count =
+		#{count,jdbcType=INTEGER},
+		FullValue = #{fullvalue,jdbcType=REAL},
+		SubValue = #{subvalue,jdbcType=REAL},
+		IsPhone =
+		#{isphone,jdbcType=INTEGER},
+		usesite =
+		#{usesite,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<update id="deleteLogicById">
+		update activity_market
+		set IsDel=1,
+		DelUserID=#{0},
+		DelTime=now()
+		where ID=#{1}
+	</update>
+
+	<sql id="criteria_query">
+		<if test="criteria.num != null and criteria.num != '' ">
+			and ActNum like '%${criteria.num}%'
+		</if>
+		<if test="criteria.name != null and criteria.name != '' ">
+			and ActName like '%${criteria.name}%'
+		</if>
+		<if test="criteria.actType != null and criteria.actType >=0 ">
+			and ActType=#{criteria.actType}
+		</if>
+		<if test="criteria.userType != null and criteria.userType >=0 ">
+			and UseType=#{criteria.userType}
+		</if>
+		<if test="criteria.shopid != null and criteria.shopid >0 ">
+			and ShopID=#{criteria.shopid}
+		</if>
+		<if test="criteria.status != null and criteria.status >=0">
+			and IsCheck=#{criteria.status}
+		</if>
+		<if test="criteria.startFrom != null ">
+			and DATEDIFF(StartTime,#{criteria.startFrom} )<![CDATA[ >= ]]>0
+		</if>
+		<if test="criteria.startTo != null ">
+			and DATEDIFF(StartTime,#{criteria.startTo} )<![CDATA[ <= ]]>0
+		</if>
+		<if test="criteria.endFrom != null ">
+			and DATEDIFF(EndTime,#{criteria.endFrom} )<![CDATA[ >= ]]>0
+		</if>
+		<if test="criteria.endTo != null ">
+			and DATEDIFF(EndTime,#{criteria.endTo} )<![CDATA[ <= ]]>0
+		</if>
+	</sql>
+	<select id="getListPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		FROM activity_market where IsDel=0
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	<select id="getStockByIds"  parameterType="java.util.List" resultType="com.yinlian.api.app.dto.UpDateActDto">
+	select id,Stock as count from activity_market where id in 
+	<foreach collection="list" item="vo" index="index" open="(" separator="," close=")">
+	#{vo,jdbcType=INTEGER}
+	</foreach> 
+	</select>
+	<update id="updateStockByIds" parameterType="java.util.List">
+		<if test="list != null">
+			<foreach collection="list" item="uc" index="index" open=""
+				close="" separator=";">
+				update activity_market
+				set Stock= Stock
+				-#{uc.count,jdbcType=INTEGER}
+				where id = #{uc.id,jdbcType=INTEGER}
+			</foreach>
+		</if>
+	</update>
+
+	<update id="changeStatus" parameterType="int">
+		update activity_market
+		set Status=#{0}
+		where ID=#{1}
+	</update>
+
+	<update id="isCheck">
+		update activity_market
+		set IsCheck=#{0}
+		where ID=#{1}
+	</update>
+
+	<update id="updateCheckList" parameterType="java.util.List">
+		<if test="list != null">
+			<foreach collection="list" item="id" index="index" open=""
+				close="" separator=";">
+				update activity_market
+				set IsCheck=1
+				where id
+				=#{id}
+			</foreach>
+		</if>
+	</update>
+
+	<select id="getAvailableActivityBySpu" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		FROM activity_market
+		where IsDel = 0 and Status = 0 and IsCheck = 1 and
+		Stock > 0 and UseType = 1
+		and TIME_TO_SEC(TIMEDIFF(StartTime,SYSDATE()))<![CDATA[ <= ]]>0
+		and TIME_TO_SEC(TIMEDIFF(EndTime,SYSDATE()))<![CDATA[ >= ]]>0
+		And FIND_IN_SET(#{usesites},usesite)
+		<if test="list != null and list.size() > 0">
+			and SpuID in
+			<foreach collection="list" item="id" index="index" open="("
+				close=")" separator=",">
+				#{id}
+			</foreach>
+		</if>
+	</select>
+	<select id="getAvailableActivityByShop" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		FROM activity_market
+		where IsDel = 0 and Status = 0 and IsCheck = 1 and
+		Stock > 0 and UseType = 0
+		and TIME_TO_SEC(TIMEDIFF(StartTime,SYSDATE()))<![CDATA[ <= ]]>0
+		and TIME_TO_SEC(TIMEDIFF(EndTime,SYSDATE()))<![CDATA[ >= ]]>0
+		And FIND_IN_SET(#{usesites},usesite)
+		<if test="list != null and list.size()>0">
+		and ShopID in
+			<foreach collection="list" item="id" index="index" open="("
+				close=")" separator=",">
+				#{id}
+			</foreach>
+		</if>
+	</select>
+
+	<select id="getActivityDtoByIDs" parameterType="java.util.List"
+		resultType="com.yinlian.wssc.web.dto.ActivityDto">
+		select
+		ID as id,
+		ActNum as actnum,
+		ActName as actname,
+		ActType as acttype,
+		SpuID as spuid,
+		Count as count,
+		ShopID as shopid,
+		StartTime as starttime,
+		EndTime as endtime,
+		UseType as usetype,
+		SubValue as subvalue,
+		Stock as stock
+		FROM activity_market
+		where ID in
+		<if test="list != null">
+			<foreach collection="list" item="id" index="index" open="("
+				close=")" separator=",">
+				#{id}
+			</foreach>
+		</if>
+	</select>
+	<select id="getActivityDtoByID" parameterType="int"
+		resultType="com.yinlian.wssc.web.dto.ActivityDto">
+		select
+		ID as id,
+		ActNum as actnum,
+		ActName as actname,
+		ActType
+		as acttype,
+		SpuID as spuid,
+		Count as count,
+		ShopID as shopid,
+		StartTime as
+		starttime,
+		EndTime as endtime,
+		UseType as usetype,
+		SubValue as subvalue,
+		Stock as stock
+		FROM activity_market
+		where ID =#{0}
+	</select>
+</mapper>

@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.ShopormemberstatushistoryMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Shopormemberstatushistory" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Type" property="type" jdbcType="INTEGER" />
+    <result column="ObjID" property="objid" jdbcType="INTEGER" />
+    <result column="CurrentID" property="currentid" jdbcType="INTEGER" />
+    <result column="CurrentName" property="currentname" jdbcType="VARCHAR" />
+    <result column="LastID" property="lastid" jdbcType="INTEGER" />
+    <result column="LastName" property="lastname" jdbcType="VARCHAR" />
+    <result column="OperatorID" property="operatorid" jdbcType="INTEGER" />
+    <result column="OperatorName" property="operatorname" jdbcType="VARCHAR" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, Type, ObjID, CurrentID, CurrentName, LastID, LastName, OperatorID, OperatorName, 
+    CreateTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.ShopormemberstatushistoryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from shopormemberstatushistory
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from shopormemberstatushistory
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+ 
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from shopormemberstatushistory
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.ShopormemberstatushistoryExample" >
+    delete from shopormemberstatushistory
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Shopormemberstatushistory" >
+    insert into shopormemberstatushistory (ID, Type, ObjID, 
+      CurrentID, CurrentName, LastID, 
+      LastName, OperatorID, OperatorName, 
+      CreateTime)
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{objid,jdbcType=INTEGER}, 
+      #{currentid,jdbcType=INTEGER}, #{currentname,jdbcType=VARCHAR}, #{lastid,jdbcType=INTEGER}, 
+      #{lastname,jdbcType=VARCHAR}, #{operatorid,jdbcType=INTEGER}, #{operatorname,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Shopormemberstatushistory" >
+    insert into shopormemberstatushistory
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="type != null" >
+        Type,
+      </if>
+      <if test="objid != null" >
+        ObjID,
+      </if>
+      <if test="currentid != null" >
+        CurrentID,
+      </if>
+      <if test="currentname != null" >
+        CurrentName,
+      </if>
+      <if test="lastid != null" >
+        LastID,
+      </if>
+      <if test="lastname != null" >
+        LastName,
+      </if>
+      <if test="operatorid != null" >
+        OperatorID,
+      </if>
+      <if test="operatorname != null" >
+        OperatorName,
+      </if>
+      <if test="createtime != null" >
+        CreateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="objid != null" >
+        #{objid,jdbcType=INTEGER},
+      </if>
+      <if test="currentid != null" >
+        #{currentid,jdbcType=INTEGER},
+      </if>
+      <if test="currentname != null" >
+        #{currentname,jdbcType=VARCHAR},
+      </if>
+      <if test="lastid != null" >
+        #{lastid,jdbcType=INTEGER},
+      </if>
+      <if test="lastname != null" >
+        #{lastname,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorid != null" >
+        #{operatorid,jdbcType=INTEGER},
+      </if>
+      <if test="operatorname != null" >
+        #{operatorname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.ShopormemberstatushistoryExample" resultType="java.lang.Integer" >
+    select count(*) from shopormemberstatushistory
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update shopormemberstatushistory
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        Type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.objid != null" >
+        ObjID = #{record.objid,jdbcType=INTEGER},
+      </if>
+      <if test="record.currentid != null" >
+        CurrentID = #{record.currentid,jdbcType=INTEGER},
+      </if>
+      <if test="record.currentname != null" >
+        CurrentName = #{record.currentname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastid != null" >
+        LastID = #{record.lastid,jdbcType=INTEGER},
+      </if>
+      <if test="record.lastname != null" >
+        LastName = #{record.lastname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operatorid != null" >
+        OperatorID = #{record.operatorid,jdbcType=INTEGER},
+      </if>
+      <if test="record.operatorname != null" >
+        OperatorName = #{record.operatorname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update shopormemberstatushistory
+    set ID = #{record.id,jdbcType=INTEGER},
+      Type = #{record.type,jdbcType=INTEGER},
+      ObjID = #{record.objid,jdbcType=INTEGER},
+      CurrentID = #{record.currentid,jdbcType=INTEGER},
+      CurrentName = #{record.currentname,jdbcType=VARCHAR},
+      LastID = #{record.lastid,jdbcType=INTEGER},
+      LastName = #{record.lastname,jdbcType=VARCHAR},
+      OperatorID = #{record.operatorid,jdbcType=INTEGER},
+      OperatorName = #{record.operatorname,jdbcType=VARCHAR},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Shopormemberstatushistory" >
+    update shopormemberstatushistory
+    <set >
+      <if test="type != null" >
+        Type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="objid != null" >
+        ObjID = #{objid,jdbcType=INTEGER},
+      </if>
+      <if test="currentid != null" >
+        CurrentID = #{currentid,jdbcType=INTEGER},
+      </if>
+      <if test="currentname != null" >
+        CurrentName = #{currentname,jdbcType=VARCHAR},
+      </if>
+      <if test="lastid != null" >
+        LastID = #{lastid,jdbcType=INTEGER},
+      </if>
+      <if test="lastname != null" >
+        LastName = #{lastname,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorid != null" >
+        OperatorID = #{operatorid,jdbcType=INTEGER},
+      </if>
+      <if test="operatorname != null" >
+        OperatorName = #{operatorname,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Shopormemberstatushistory" >
+    update shopormemberstatushistory
+    set Type = #{type,jdbcType=INTEGER},
+      ObjID = #{objid,jdbcType=INTEGER},
+      CurrentID = #{currentid,jdbcType=INTEGER},
+      CurrentName = #{currentname,jdbcType=VARCHAR},
+      LastID = #{lastid,jdbcType=INTEGER},
+      LastName = #{lastname,jdbcType=VARCHAR},
+      OperatorID = #{operatorid,jdbcType=INTEGER},
+      OperatorName = #{operatorname,jdbcType=VARCHAR},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+   <select id="selectNewStatus" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from shopormemberstatushistory
+    where ObjID = #{objid,jdbcType=INTEGER}
+    order by CreateTime desc limit 1
+  </select>
+  
+</mapper>

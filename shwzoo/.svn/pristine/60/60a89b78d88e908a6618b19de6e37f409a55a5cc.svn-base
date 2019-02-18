@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.GroupbuyorderMapperCustom">
+	<resultMap id="GroupOrderDtoResult" type="com.yinlian.api.app.dto.GroupOrderDto">
+		<id column="oid" property="id" jdbcType="INTEGER" />
+		<result column="ordercode" property="ordercode" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="ordercount" property="ordercount" jdbcType="INTEGER" />
+		<result column="orderprice" property="orderprice" jdbcType="DECIMAL" />
+		<result column="startdate" property="startdate" jdbcType="TIMESTAMP" />
+		<result column="enddate" property="enddate" jdbcType="TIMESTAMP" />
+		<result column="createdate" property="createdate" jdbcType="TIMESTAMP" />
+		<result column="shopid" property="shopid" jdbcType="INTEGER" />
+		<result column="shopname" property="shopname" jdbcType="VARCHAR" />
+		<result column="img" property="img" jdbcType="VARCHAR" />
+		<result column="ostatus" property="ostatus" jdbcType="INTEGER" />
+		<result column="groupbuyid" property="groupbuyid" jdbcType="INTEGER" />
+		<collection property="detaillist" column="{id=oid,status=status}"
+			select="selectdetails"></collection>
+	</resultMap>
+	<resultMap type="com.yinlian.api.app.dto.GroupOrderDetailDto"
+		id="detaillist">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="orderid" property="orderid" jdbcType="INTEGER" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="price" property="price" jdbcType="REAL" />
+		<result column="usetime" property="usetime" jdbcType="TIMESTAMP" />
+		<result column="systemtime" property="systemtime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<select id="getGroupOrderList" parameterType="java.util.List"
+		resultMap="GroupOrderDtoResult">
+		SELECT a.ID AS oid, a.ShopID AS shopid, a.OrderCode AS ordercode,
+		a.CreateTime AS createdate, a.StartTime AS startdate, a.EndTime AS
+		enddate,
+		a.COUNT AS ordercount, a.PayPrice AS orderprice, c.Name AS
+		shopname, b.Title
+		AS title, d.ID AS id, d.OrderID AS orderid, d.Code AS
+		code, d.Price AS
+		price,
+		d.UseTime AS usedate, d.STATUS AS status FROM
+		groupbuyorder AS a JOIN
+		groupbuyhistory
+		AS b ON a.GroupBuyCode=b.HaCode
+		JOIN shop AS c ON a.ShopID=c.ID LEFT
+		JOIN
+		grouporderdetail AS d ON
+		a.ID=d.OrderID
+		where a.id in
+		<if test="list != null">
+			<foreach collection="list" item="id" index="index" open="("
+				separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+	</select>
+	<select id="getByIDPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="int">
+		SELECT a.ID FROM groupbuyorder a
+		JOIN groupbuyhistory AS b
+		ON
+		a.GroupBuyCode=b.HaCode
+		JOIN shop AS c ON
+		a.ShopID=c.ID
+		LEFT JOIN
+		grouporderdetail d ON a.ID=d.OrderID
+		<where>
+			<if test="criteria.userid != null and criteria.userid >0 ">
+				AND a.BuyerID=#{criteria.userid}
+			</if>
+			<if test="criteria.status != null and criteria.status >=0 ">
+				<if test="criteria.status==3">
+					AND d.status=#{criteria.status}
+					AND a.EndTime>SYSDATE()
+				</if>
+				<if test="criteria.status &gt; 3">
+					AND d.status=#{criteria.status}
+				</if>
+				<if test="criteria.status &lt; 3">
+					AND a.status=#{criteria.status}
+				</if>
+			</if>
+		</where>
+		GROUP BY a.ID
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+	<select id="getGroupOrderPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="GroupOrderDtoResult">
+		SELECT a.ID AS oid, a.ShopID AS shopid, a.OrderCode AS ordercode,
+		a.CreateTime AS createdate, a.StartTime AS startdate, a.EndTime AS
+		enddate,
+		a.COUNT AS ordercount, a.PayPrice AS orderprice, c.Name AS
+		shopname, b.Title
+		AS title, d.ID AS id, d.OrderID AS orderid, d.Code AS
+		code, d.Price AS price,a.Status as ostatus,
+		d.UseTime AS usedate, d.STATUS AS status, 
+		b.groupid AS groupbuyid,
+		(SELECT  ad.imgurl FROM advert_img ad  WHERE  ad.groupbyid=b.groupid AND ad.type=3 AND ad.isdel=0 
+		ORDER BY  ad.sort LIMIT
+		1) AS img
+		FROM
+		groupbuyorder AS a JOIN
+		groupbuyhistory
+		AS b ON a.GroupBuyCode=b.HaCode
+		JOIN shop AS c ON a.ShopID=c.ID LEFT
+		JOIN
+		grouporderdetail AS d ON
+		a.ID=d.OrderID
+		where a.IsDel=0
+		<if test="criteria.userid != null and criteria.userid >0 ">
+			AND a.BuyerID=#{criteria.userid}
+		</if>
+		<if test="criteria.status != null and criteria.status >=0 ">
+		<choose>
+		<when test="criteria.detailstatus != null and criteria.detailstatus >=0 ">
+		  AND d.status=#{criteria.detailstatus}
+		</when>
+		<otherwise>
+		AND a.status=#{criteria.status}
+		</otherwise>
+		</choose>
+		</if>
+		GROUP BY a.ID
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	<select id="selectdetails" resultMap="detaillist">
+		select d.ID AS id, d.OrderID AS orderid, d.Code AS code, d.Price AS
+		price,
+		d.UseTime AS usedate, d.STATUS AS status,
+		SYSDATE() as systemtime
+		from grouporderdetail AS d
+		where d.OrderID=#{id}
+		<if test="status!=null and status>=0">
+			and d.STATUS=#{status}
+		</if>
+	</select>
+	<select id="getGroupOrderByToTalPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.GroupbuyorderDto">
+		select a.shopid,s.name as shopname,
+		count(a.id) as total,
+		sum(a.orderprice) as totalprice,
+		count((case when (a.Status=0) then a.id end)) as daicount,
+		sum((case when (a.Status=0) then a.orderprice end)) as daiprice,
+		count((case when (a.Status=1) then a.id end)) as daixiaocount,
+		sum((case when (a.Status=1) then a.orderprice end)) as daixiaoprice,
+		count((case when (a.Status=5 or a.Status=6) then a.id end)) as endcount,
+		sum((case when (a.Status=5 or a.Status=6) then a.orderprice end)) as endprice,
+		count((case when (a.Status=2) then a.id end)) as qucount,
+		sum((case when (a.Status=2) then a.orderprice end)) as quprice
+		from groupbuyorder as a LEFT
+		JOIN shop as s on a.shopid=s.id
+		where a.isDel=0
+		<if test="criteria.shopid != null and criteria.shopid >0 ">
+			AND a.shopid=#{criteria.shopid}
+		</if>
+		<!--
+		<if test="criteria.shopid ! = null and criteria.shopid >0">
+			AND a.shopid=#{criteria.shopid}
+		</if> -->
+		<if test="criteria.startFrom != null and criteria.startFrom != ''  and criteria.startTo !=null and criteria.startTo !=''">
+			AND a.createtime between #{criteria.startFrom} and #{criteria.startTo}
+		</if>
+		<if test="criteria.endFrom != null and criteria.endFrom != ''">
+			AND DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= date(a.createtime)
+		</if>
+		<if test="criteria.time != null and criteria.time != ''">
+			AND a.createtime like '%${criteria.time}%'
+		</if>  
+		GROUP BY a.shopid
+		<!-- <if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败
+		</if> -->
+	</select>
+	
+	
+</mapper>

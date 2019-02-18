@@ -1,0 +1,354 @@
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>个人中心</title>
+<link href="/resource/artDialog/skins/default.css" rel="stylesheet" />
+<link type="text/css" rel="stylesheet" href="/resource/pc/web/css/style01.css" />
+<link type="text/css" rel="stylesheet" href="/resource/ui-dialog.css" />
+ <link href="/resource/pc/member/css/pager2.css" rel="stylesheet" />
+    
+<link href="/resource/public/commoncss/jQuery.Validate.css" rel="stylesheet" />
+ <script src="/resource/pc/member/js/Concern/syconcernlist.js"></script>
+<script src="/resource/pc/web/js/browsehistory/browsehistory.js"></script>
+<script src="/resource/pc/web/js/index.js"></script>
+<script src="/resource/pc/member/js/pager2.js"></script>
+<script src="/resource/pc/member/js/showdate.js"></script>
+ <script src="/resource/artTemplate.js"></script>
+ <script src="/resource/dialog-plus.js"></script>
+ <script src="/resource/dialogShow.js"></script>
+<script src="/resource/jQueryRotate.2.2.js"></script>
+ <script src="/resource/Guid.js"></script>
+<script src="/resource/GetQueryString.js"></script>
+<script src="/resource/My97DatePicker/WdatePicker.js"></script>
+
+<script type="text/javascript" src="/resource/public/commonjs/Birthday-picker.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/style.js"></script>
+
+<script src="/resource/public/commonjs/AjaxFileUploaderV2.1/ajaxfileupload.js"></script>
+<script src="/resource/public/commonjs/jquery.validate.js"></script>
+<script src="/resource/public/commonjs/messages_cn.js"></script>
+<script src="/resource/public/commonjs/jquery.validate-methods.js"></script>
+
+<script src="/resource/public/commonjs/public-user.js"></script>
+
+<script src="/resource/public/commonjs/jquery.form.js"></script>
+<script src="/resource/pc/web/js/jquery.banner.js"></script>
+
+    
+ <script src="/resource/pc/member/js/zhsz/PersonalInformation.js"></script>
+<script type="text/javascript">
+
+$(function(){
+	 //初始化
+    Init.bind();
+
+    Vaildate.bind();
+    //更多信息表单提交
+    VaildateOther.bind();
+    
+    receiveraddresss.GetProvData();
+	 
+});
+
+function tab1submit() {
+	
+    $("#saveMemberBasicInfoForm").submit();
+}
+
+function tab3submit() {
+    $("#saveMemberOtherInfoForm").submit();
+}
+
+</script>
+<style type="text/css">
+            #Tab2 {
+                width: 100%;
+                margin: 0px auto 0px auto;
+            }
+
+            .Menubox {
+                width: 100%;
+                height: 40px;
+                line-height: 39px;
+                background: none;
+                border-bottom: 1px solid #FFAB61;
+            }
+
+                .Menubox ul {
+                    margin: 0px;
+                    padding: 0px;
+                }
+
+                .Menubox li {
+                    float: left;
+                    width: auto;
+                    display: block;
+                    cursor: pointer;
+                    text-align: center;
+                    padding: 0px 30px;
+                    height: 39px;
+                    line-height: 39px;
+                    font-size: 16px;
+                    border: 1px solid #FFAB61;
+                    border-top-left-radius: 5px;
+                    border-top-right-radius: 5px;
+                    margin-right: 8px;
+                    background: #FFAE53;
+                    color: #ffffff;
+                    font-weight: normal;
+                }
+
+                    .Menubox li.hover {
+                        padding: 0px;
+                        color: #c31;
+                        height: 40px;
+                        line-height: 39px;
+                        font-weight: normal;
+                        width: auto;
+                        padding: 0px 30px;
+                        background: #FFF;
+                        color: #FFAB55;
+                        border-bottom: none;
+                    }
+
+            .Contentbox {
+                clear: both;
+                padding: 20px 0px;
+            }
+        </style>
+</head>
+<body>
+<!--main  主要内容  开始 -->
+<div id="main" class="fix">
+    <!--main-left 左边内容  开始 -->
+      <% include("/template/pc/memberCenter/zhsz/_PartialLeftside.html",{}){}%> 
+    <!--main-left 左边内容  结束 -->
+    <!--rightside 右边内容  结束 -->
+    <div class="rightside">
+        <!--Tab2 申请返修退换货开始 -->
+        <div id="Tab2" class="l_jfmx mt0 fix">
+            <div class="l_jfmxtop">
+                <h3>
+                    <a href="javascript:void(0);" id="two1" onclick="setTab('two',1,4)" class="active">基本信息 </a>
+                    <a href="javascript:void(0);" id="two2" onclick="setTab('two',2,4)">头像信息</a>
+                    <a href="javascript:void(0);" id="two3" onclick="setTab('two',3,4)">更多个人信息</a>
+                </h3>
+            </div>
+            <div class="Contentbox">
+                <!--con_two_1 选项卡1对应内容开始 -->
+                <div id="con_two_1">
+                    <div class="perinfor">
+                        <form id="saveMemberBasicInfoForm">
+                            <table>
+                                <tr>
+                                    <td class="perinfor-left"><span class="red">*</span>昵称：</td>
+                                    <td><input name="text_nickname" id="text_nickname" type="text" class="inp-most"></td>
+                                </tr>
+                                <tr>
+                                    <td class="perinfor-left"><span class="red">*</span>性别：</td>
+                                    <td>
+                                        <span class="mr10"><input name="radio_sex" id="radio_man" type="radio" value="1">男</span>
+                                        <span class="mr10"><input name="radio_sex" id="radio_woman" type="radio" value="2">女</span>
+                                        <span class="mr10"><input name="radio_sex" id="radio_secret" type="radio" value="0">保密</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="perinfor-left">生日：</td>
+                                    <td>
+                                        <div class="g_lxybd fl div_birthday">
+                                        </div>
+                                        <span class="huise">填生日有惊喜哟~</span>
+                                    </td>
+                                </tr>
+                       
+                                <tr>
+                                    <td class="perinfor-left">邮箱：</td>
+                                    <td id="td_email">
+                                    <!--     @* 112344566666@qq.com -->
+                                            <span class=" shenlan ml10"><a href="#">修改</a></span>
+                                            <span class="huise ml5">已验证</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="perinfor-left"><span class="red">*</span>真实姓名：</td>
+                                    <td>
+                                        <input name="text_realname" id="text_realname" type="text" class="inp-most">
+                                    </td>
+                                </tr>
+								<tr>
+									  <td class="perinfor-left">所在地：</td>
+                                    <td>
+                                        <select id="select_province" name="select_province" class="smallbj-sel" >
+                                            <option value="-1" >请选择</option>
+                                            <script id="proviceselect" type="text/html">
+                                                {{each list as Pro index}}
+                                                <option value="{{Pro.code}}">{{Pro.name}}</option>
+                                                {{/each}}
+                                            </script>
+                                        </select>
+                                        <span class="mr10"></span>
+                                        <select id="select_city" name="select_city" class="smallbj-sel">
+                                            <option value="-1" >请选择</option>
+                                            <script id="cityselect" type="text/html">
+                                                {{each list as Pro index}}
+                                                <option value="{{Pro.code}}" >{{Pro.name}}</option>
+                                                {{/each}}
+                                            </script>
+                                        </select>
+                                        <span class="mr10"></span>
+                                        <select id="select_area" name="select_area" class="smallbj-sel">
+                                            <option value="-1" >请选择</option>
+                                            <script id="areaselect" type="text/html">
+                                                {{each list as Pro index}}
+                                                <option value="{{Pro.code}}">{{Pro.name}}</option>
+                                                {{/each}}
+                                            </script>
+                                        </select>
+                                        <p class="mt10"><input name="text_address" id="text_address" type="text" class="inp-big" value=""></p>
+                                        <p class="huise">请填写具体的街道地址</p>
+                                    </td>
+
+								</tr>
+								<tr>
+									<td class="perinfor-left">&nbsp;</td>
+									<td><a href="javascript:void(0);" class="l_tjfxthh"
+										onclick="tab1submit()"> 提交 </a></td>
+								</tr>
+							</table>
+                        </form>
+                        <div class="grxx-right fix">
+                            <div class="l_grxximg">
+                                <img src="" id="img_headscr" style="width: 100px; height: 100px;" />
+                            </div>
+                            <p class="bolder" id="p_username"></p>
+                            <p class=" shenlan" id="p_userlevel">普通会员</p>
+                            <p id="p_usablepoints"></p>
+                            <p>会员类型：个人用户</p>
+                            <p>账户安全：较高</p>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </div>
+                <!--con_two_1 选项卡1对应内容结束 -->
+                <!--con_two_2 选项卡2对应内容开始 -->
+                <div id="con_two_2" style="display:none">
+                    <div class="txzpupload">
+                        <form id="saveMemberImgForm">
+                            <div class="txzpupload-left">
+                                <div class="txzpupload-left-top">
+                                    <p><input name="file_userimg" type="file" id="file_userimg"></p>
+                                    <p class="yscmh mt5">仅支持bmp、png、gif、jpg格式，文件小于2048KB</p>
+                                </div><!--txzpupload-left-top  stop -->
+                                <div class="txzpupload-left-center">
+                                    <img id="img_showuserimg" style="width: 450px; height: 237px;" />
+                                </div><!--txzpupload-left-center  stop -->
+                                <div class="txzpupload-left-bottom">
+                                    <h3>系统头像</h3>
+                                    <ul>
+                                        <li><img src="/resource/pc/member/images/img05.png" width="55" height="55"></li>
+                                        <li><img src="/resource/pc/member/images/img05.png" width="55" height="55"></li>
+                                        <li><img src="/resource/pc/member/images/img05.png" width="55" height="55"></li>
+                                        <li><img src="/resource/pc/member/images/img05.png" width="55" height="55"></li>
+                                        <li><img src="/resource/pc/member/images/img05.png" width="55" height="55"></li>
+                                        <li><img src="/resource/pc/member/images/img05.png" width="55" height="55"></li>
+                                        <li><img src="/resource/pc/member/images/img05.png" width="55" height="55"></li>
+                                        <li><img src="/resource/pc/member/images/img05.png" width="55" height="55"></li>
+                                        <li><img src="/resource/pc/member/images/img05.png" width="55" height="55"></li>
+                                        <li><img src="/resource/pc/member/images/img05.png" width="55" height="55"></li>
+                                        <li><img src="/resource/pc/member/images/img05.png" width="55" height="55"></li>
+                                        <li><img src="/resource/pc/member/images/img05.png" width="55" height="55"></li>
+                                        <div class="clear"></div>
+                                    </ul>
+                                    <p><a href="javascript:void(0);" id="img_submit" class="l_tjfxthh" onclick="shangchuan()" >提交</a></p>
+                                </div><!--txzpupload-left-bottom  stop -->
+                                <div class="clear"></div>
+                            </div><!--txzpupload-left  stop -->
+                            <div class="txzpupload-right">
+                                <h3>效果预览</h3>
+                                <p class="shen-huise">你上传的图片会自动生成2中尺寸，请注意小尺寸的头像</p>
+                                <p class="shen-huise">是否清晰</p>
+                                <div class="xgyl-big"></div>
+                                <p class="shen-huise">100px * 100px</p>
+                                <div class="xgyl-small"></div>
+                                <p class="shen-huise">50px * 50px</p>
+                            </div><!--txzpupload-right  stop -->
+                            <div class="clear"></div>
+                        </form>
+                    </div><!--txzpupload   stop -->
+                </div>
+                <!--con_two_2 选项卡2对应内容结束 -->
+                <!--con_two_3 选项卡3对应内容开始 -->
+                <div id="con_two_3" style="display:none">
+                    <div class="gdgrxx">
+                        <form id="saveMemberOtherInfoForm">
+                            <table>
+                                <tr>
+                                    <td class="perinfor-left">婚姻状况：</td>
+                                    <td>
+                                        <span class="mr10"><input name="radio_marital" id="radio_no_marital" type="radio" value="1">未婚</span>
+                                        <span class="mr10"><input name="radio_marital" id="radio_yes_marital" type="radio" value="2">已婚</span>
+                                        <span class="mr10"><input name="radio_marital" id="radio_secret_marital" type="radio" value="0">保密</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="perinfor-left">月收入：</td>
+                                    <td>
+                                        <select class="sel-most" id="select_incomemonth">
+                                            <option value="-1">请选择</option>
+                                            <script id="incomemonthtypeselect" type="text/html">
+                                                {{each list as value index}}
+                                                <option value="{{value.code}}">{{value.name}}</option>
+                                                {{/each}}
+                                            </script>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="perinfor-left">身份证号码：</td>
+                                    <td>
+                                        <input name="text_card" id="text_card" type="text" class="inp-big">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="perinfor-left">&nbsp;</td>
+                                    <td>
+                                        <a href="javascript:void(0);" class="l_tjfxthh" onclick="tab3submit();">
+                                            提交
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div><!--gdgrxx  stop -->
+                </div>
+                <!--con_two_3 选项卡3对应内容结束 -->
+            </div>
+        </div>
+        <!--Tab2 申请返修退换货结束 -->
+        <div class="clear"></div>
+    </div>
+    <!--rightside 右边内容  结束 -->
+    <div class="clear"></div>
+</div>
+</body>
+<!--main  主要内容  结束 -->
+<script type="text/javascript">
+    $(document).ready(function () {
+    
+        //初始化
+        Init.bind();
+        //基本信息表单提交
+        Vaildate.bind();
+        //更多信息表单提交
+        VaildateOther.bind();
+        receiveraddresss.GetProvData();
+    })
+
+    function tab1submit() {
+        $("#saveMemberBasicInfoForm").submit();
+    }
+
+    function tab3submit() {
+        $("#saveMemberOtherInfoForm").submit();
+    }
+</script>

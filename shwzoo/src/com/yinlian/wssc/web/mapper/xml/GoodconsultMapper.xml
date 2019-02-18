@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.GoodconsultMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Goodconsult" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="SellerID" property="sellerid" jdbcType="INTEGER" />
+    <result column="SPUID" property="spuid" jdbcType="INTEGER" />
+    <result column="ConsultID" property="consultid" jdbcType="INTEGER" />
+    <result column="ReplyID" property="replyid" jdbcType="INTEGER" />
+    <result column="ConsultType" property="consulttype" jdbcType="INTEGER" />
+    <result column="ConsultContent" property="consultcontent" jdbcType="VARCHAR" />
+    <result column="ReplyContent" property="replycontent" jdbcType="VARCHAR" />
+    <result column="ConsultDate" property="consultdate" jdbcType="TIMESTAMP" />
+    <result column="ReplyDate" property="replydate" jdbcType="TIMESTAMP" />
+    <result column="VaildFlag" property="vaildflag" jdbcType="INTEGER" />
+    <result column="DelDate" property="deldate" jdbcType="TIMESTAMP" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, SellerID, SPUID, ConsultID, ReplyID, ConsultType, ConsultContent, ReplyContent, 
+    ConsultDate, ReplyDate, VaildFlag, DelDate, Status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.GoodconsultExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from goodconsult
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from goodconsult
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from goodconsult
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.GoodconsultExample" >
+    delete from goodconsult
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Goodconsult" >
+    insert into goodconsult (ID, SellerID, SPUID, 
+      ConsultID, ReplyID, ConsultType, 
+      ConsultContent, ReplyContent, ConsultDate, 
+      ReplyDate, VaildFlag, DelDate, 
+      Status)
+    values (#{id,jdbcType=INTEGER}, #{sellerid,jdbcType=INTEGER}, #{spuid,jdbcType=INTEGER}, 
+      #{consultid,jdbcType=INTEGER}, #{replyid,jdbcType=INTEGER}, #{consulttype,jdbcType=INTEGER}, 
+      #{consultcontent,jdbcType=VARCHAR}, #{replycontent,jdbcType=VARCHAR}, #{consultdate,jdbcType=TIMESTAMP}, 
+      #{replydate,jdbcType=TIMESTAMP}, #{vaildflag,jdbcType=INTEGER}, #{deldate,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Goodconsult" >
+    insert into goodconsult
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="sellerid != null" >
+        SellerID,
+      </if>
+      <if test="spuid != null" >
+        SPUID,
+      </if>
+      <if test="consultid != null" >
+        ConsultID,
+      </if>
+      <if test="replyid != null" >
+        ReplyID,
+      </if>
+      <if test="consulttype != null" >
+        ConsultType,
+      </if>
+      <if test="consultcontent != null" >
+        ConsultContent,
+      </if>
+      <if test="replycontent != null" >
+        ReplyContent,
+      </if>
+      <if test="consultdate != null" >
+        ConsultDate,
+      </if>
+      <if test="replydate != null" >
+        ReplyDate,
+      </if>
+      <if test="vaildflag != null" >
+        VaildFlag,
+      </if>
+      <if test="deldate != null" >
+        DelDate,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sellerid != null" >
+        #{sellerid,jdbcType=INTEGER},
+      </if>
+      <if test="spuid != null" >
+        #{spuid,jdbcType=INTEGER},
+      </if>
+      <if test="consultid != null" >
+        #{consultid,jdbcType=INTEGER},
+      </if>
+      <if test="replyid != null" >
+        #{replyid,jdbcType=INTEGER},
+      </if>
+      <if test="consulttype != null" >
+        #{consulttype,jdbcType=INTEGER},
+      </if>
+      <if test="consultcontent != null" >
+        #{consultcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="replycontent != null" >
+        #{replycontent,jdbcType=VARCHAR},
+      </if>
+      <if test="consultdate != null" >
+        #{consultdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replydate != null" >
+        #{replydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vaildflag != null" >
+        #{vaildflag,jdbcType=INTEGER},
+      </if>
+      <if test="deldate != null" >
+        #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.GoodconsultExample" resultType="java.lang.Integer" >
+    select count(*) from goodconsult
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update goodconsult
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.sellerid != null" >
+        SellerID = #{record.sellerid,jdbcType=INTEGER},
+      </if>
+      <if test="record.spuid != null" >
+        SPUID = #{record.spuid,jdbcType=INTEGER},
+      </if>
+      <if test="record.consultid != null" >
+        ConsultID = #{record.consultid,jdbcType=INTEGER},
+      </if>
+      <if test="record.replyid != null" >
+        ReplyID = #{record.replyid,jdbcType=INTEGER},
+      </if>
+      <if test="record.consulttype != null" >
+        ConsultType = #{record.consulttype,jdbcType=INTEGER},
+      </if>
+      <if test="record.consultcontent != null" >
+        ConsultContent = #{record.consultcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.replycontent != null" >
+        ReplyContent = #{record.replycontent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.consultdate != null" >
+        ConsultDate = #{record.consultdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.replydate != null" >
+        ReplyDate = #{record.replydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.vaildflag != null" >
+        VaildFlag = #{record.vaildflag,jdbcType=INTEGER},
+      </if>
+      <if test="record.deldate != null" >
+        DelDate = #{record.deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        Status = #{record.status,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update goodconsult
+    set ID = #{record.id,jdbcType=INTEGER},
+      SellerID = #{record.sellerid,jdbcType=INTEGER},
+      SPUID = #{record.spuid,jdbcType=INTEGER},
+      ConsultID = #{record.consultid,jdbcType=INTEGER},
+      ReplyID = #{record.replyid,jdbcType=INTEGER},
+      ConsultType = #{record.consulttype,jdbcType=INTEGER},
+      ConsultContent = #{record.consultcontent,jdbcType=VARCHAR},
+      ReplyContent = #{record.replycontent,jdbcType=VARCHAR},
+      ConsultDate = #{record.consultdate,jdbcType=TIMESTAMP},
+      ReplyDate = #{record.replydate,jdbcType=TIMESTAMP},
+      VaildFlag = #{record.vaildflag,jdbcType=INTEGER},
+      DelDate = #{record.deldate,jdbcType=TIMESTAMP},
+      Status = #{record.status,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Goodconsult" >
+    update goodconsult
+    <set >
+      <if test="sellerid != null" >
+        SellerID = #{sellerid,jdbcType=INTEGER},
+      </if>
+      <if test="spuid != null" >
+        SPUID = #{spuid,jdbcType=INTEGER},
+      </if>
+      <if test="consultid != null" >
+        ConsultID = #{consultid,jdbcType=INTEGER},
+      </if>
+      <if test="replyid != null" >
+        ReplyID = #{replyid,jdbcType=INTEGER},
+      </if>
+      <if test="consulttype != null" >
+        ConsultType = #{consulttype,jdbcType=INTEGER},
+      </if>
+      <if test="consultcontent != null" >
+        ConsultContent = #{consultcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="replycontent != null" >
+        ReplyContent = #{replycontent,jdbcType=VARCHAR},
+      </if>
+      <if test="consultdate != null" >
+        ConsultDate = #{consultdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replydate != null" >
+        ReplyDate = #{replydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vaildflag != null" >
+        VaildFlag = #{vaildflag,jdbcType=INTEGER},
+      </if>
+      <if test="deldate != null" >
+        DelDate = #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Goodconsult" >
+    update goodconsult
+    set SellerID = #{sellerid,jdbcType=INTEGER},
+      SPUID = #{spuid,jdbcType=INTEGER},
+      ConsultID = #{consultid,jdbcType=INTEGER},
+      ReplyID = #{replyid,jdbcType=INTEGER},
+      ConsultType = #{consulttype,jdbcType=INTEGER},
+      ConsultContent = #{consultcontent,jdbcType=VARCHAR},
+      ReplyContent = #{replycontent,jdbcType=VARCHAR},
+      ConsultDate = #{consultdate,jdbcType=TIMESTAMP},
+      ReplyDate = #{replydate,jdbcType=TIMESTAMP},
+      VaildFlag = #{vaildflag,jdbcType=INTEGER},
+      DelDate = #{deldate,jdbcType=TIMESTAMP},
+      Status = #{status,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+      <!-- 以下是自定义的 接口 分页查询 -->
+   <sql id="criteria_query">
+   <where>
+     p.id = g.spuid and s.id = g.sellerid and u.id = s.userid 
+    <if test="criteria.title != null and criteria.title != '' ">
+     and p.title = #{criteria.title}
+     </if>
+     <if test="criteria.pronumstr != null and criteria.pronumstr != '' ">
+     and p.pronum = #{criteria.pronumstr}
+     </if>
+     <if test="criteria.spuId != null and criteria.spuId != ''">
+     and g.SPUID = #{criteria.spuId}
+     </if>
+	and g.vaildflag=0
+     </where> 
+  </sql>
+   <select id="selectGoodConsuByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" resultType="goodConsultDto">
+        select g.id id,
+		(select username from users u where u.id = g.consultid) consultname,
+		(select username from users u where u.id = g.replyid) replyname,
+		u.username sellname,s.name shopname,
+		p.name spuname,p.pronum pronumstr,
+		g.consulttype consulttype,g.consultcontent consultcontent,g.replycontent replycontent,
+		g.consultdate consultdate,g.replydate replydate,g.status status
+		from shop s,spu p,goodconsult g,users u
+     <if test="criteria != null ">
+     <include refid="criteria_query"/> 
+     </if>
+     <if test="criteria.orderByClause != null and criteria.orderByClause != '' " >
+      order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序     此处只能使用${} 而不能使用#{} 会设置参数失败 -->
+    </if>
+  </select>
+  <select id="queryPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" resultType="com.yinlian.wssc.web.dto.GoodConsultDto">
+  
+  select good.replydate,good.consultcontent,good.replycontent,u.UserName as consultname,good.consultdate  from goodconsult good
+  left join users u on good.ConsultID=u.id
+  <where>
+  <if test="criteria.spuId != null and criteria.spuId != ''">
+   good.SPUID = #{criteria.spuId}
+  </if>
+  
+  and good.Status=1 and good.VaildFlag=0
+  </where>
+  
+  order by good.ReplyDate desc
+  </select>
+  
+  
+      <!-- 以下是自定义的 接口 分页查询 -->
+   <sql id="criteria_query1">
+   <where>
+     p.id = g.spuid and s.id = g.sellerid and u.id = s.userid 
+    <if test="criteria.userid != null and criteria.userid != '' ">
+     and g.consultid = #{criteria.userid}
+     </if>
+	and g.vaildflag=0
+     </where> 
+   </sql>
+  
+  <select id="selectUserGoodConsuByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" resultType="goodConsultDto">
+        select g.id id,
+		(select username from users u where u.id = g.consultid) consultname,
+		(select username from users u where u.id = g.replyid) replyname,
+		u.username sellname,s.name shopname,
+		p.name spuname,p.pronum pronumstr,p.ImgUrl_App proImg,
+		g.consulttype consulttype,g.consultcontent consultcontent,g.replycontent replycontent,
+		g.consultdate consultdate,g.replydate replydate,g.status status
+		from shop s,spu p,goodconsult g,users u
+     <if test="criteria != null ">
+     <include refid="criteria_query1"/> 
+     </if>
+     <if test="criteria.orderByClause != null and criteria.orderByClause != '' " >
+      order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序     此处只能使用${} 而不能使用#{} 会设置参数失败 -->
+    </if>
+  </select>
+</mapper>

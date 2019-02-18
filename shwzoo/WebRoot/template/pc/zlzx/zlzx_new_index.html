@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>中绿资讯</title>
+<meta name="title" content="中绿资讯" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link type="text/css" rel="stylesheet" href="/resource/pc/web/css/common.css">
+<link type="text/css" rel="stylesheet" href="/resource/pc/web/css/top-footer.css">
+<link type="text/css" rel="stylesheet" href="/resource/pc/web/css/index.css">
+<script type="text/javascript" src="/resource/pc/web/js/jquery-1.8.2.js"></script>
+<script type="text/javascript" src="/resource/pc/web/js/index.js"></script>
+<style type="text/css">
+</style>
+</head>
+
+<body class="bodybjhs">
+<!--navigation  导航开始 -->
+<div id="navigation-1" class="fix">
+	<!--导航 Start-->
+	<div class="menu xzlsb">
+		<div class="nav">                                                                                  
+			<ul class="clearfix">
+				<li><a href="/index.html">首页</a></li>
+				<li><a href="/lszg/index.html">绿色食品中国</a></li>
+				<li><a href="http://www.nzgjpw.com/">农展精品馆</a></li>
+				<li><a href="/zlzx/zlwd.html">中绿味道</a></li>
+				<li><a href="/zlzx/zlzq_index.html">中绿展示</a></li>
+				<li  class="current"><a href="/zlzx/zlzx_index.html">中绿资讯</a></li>
+			</ul>
+		</div>
+	</div>
+	<!--导航 End-->
+</div>
+<!--navigation  导航结束 -->
+<!--container 中间所有内容开始-->
+<div id="container" class="fix">
+	<div class="zltitxz">
+		<b>今日热门</b>
+		<a href="/zlzx/zlzx_gd.html?title=今日热门&ctype=30">更多&gt;&gt;</a>
+	</div>
+	<ul class="xzlsgs-ulnr fix">
+		<%for(vo in jrrm){%>
+			<li class="fix">
+				<a href="/zlzx/newsinfo.html?cid=${vo.id}&&title=中绿资讯&&url=/zlzx/zlzx_index.html">
+					<img src="${vo.imgurl}">
+					<div class="xzlsgs-ulnr-js">${vo.title}</div>
+				</a>
+			</li>
+		<%}%>
+	</ul>
+	<div class="zltitxz">
+		<b>精选推荐</b>
+		<a href="/zlzx/zlzx_gd.html?title=精选推荐&ctype=31">更多&gt;&gt;</a>
+	</div>
+	<ul class="xzlsgs-ulnr fix">
+		<%for(vo in jxtj){%>
+			<li class="fix">
+				<a href="/zlzx/newsinfo.html?cid=${vo.id}&&title=中绿资讯&&url=/zlzx/zlzx_index.html">
+					<img src="${vo.imgurl}">
+					<div class="xzlsgs-ulnr-js">${vo.title}</div>
+				</a>
+			</li>
+		<%}%>
+	</ul>
+	<div class="zltitxz">
+		<b>视频专题</b>
+		<a href="/zlzx/zlzx_gd.html?title=视频专题&ctype=32">更多&gt;&gt;</a>
+	</div>
+	<div class="spztcon fix">
+		<%if(spzq.~size > 0){%>	
+			<div class="spztcon-l">
+				<ul class="xzlsgs-ulnr fix">
+					<li class="fix">
+						<a href="/zlzx/newsinfo.html?cid=${spzq[0].id}&&title=中绿资讯&&url=/zlzx/zlzx_index.html">
+							<img src="${spzq[0].imgurl}">
+							<div class="xzlsgs-ulnr-js">${spzq[0].title}</div>
+						</a>
+					</li>
+				</ul>
+			</div>
+		<%}%>
+		<div class="spztcon-r">
+			<ul>
+			<%if(spzq.~size > 1){%>	
+			<%for(var i=1;i<(spzq.~size>=9?9:spzq.~size);i++){%>
+				<li><a href="/zlzx/newsinfo.html?cid=${spzq[i].id}&&title=中绿资讯&&url=/zlzx/zlzx_index.html">${spzq[i].title}</a><span>${spzq[i].updatetime,dateFormat="yyyy-MM-dd"}</span></li>
+			<%}}%>
+			</ul>
+		</div>
+	</div>
+	<ul class="xzlsgs-ulnr fix spzt">
+		<%if(spzq.~size > 9){%>	
+			<%for(var i=9;i<(spzq.~size>=12?12:spzq.~size);i++){%>
+			<li class="fix">
+				<a href="/zlzx/newsinfo.html?cid=${spzq[i].id}&&title=中绿资讯&&url=/zlzx/zlzx_index.html">
+					<img src="${spzq[i].imgurl}">
+					<div class="xzlsgs-ulnr-js">${spzq[i].title}</div>
+				</a>
+			</li>
+			<%}}%>
+	</ul>
+</div>
+<!--container 中间所有内容结束-->
+</body>
+</html>

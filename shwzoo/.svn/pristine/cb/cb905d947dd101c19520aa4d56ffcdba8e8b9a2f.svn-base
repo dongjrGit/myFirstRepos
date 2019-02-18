@@ -1,0 +1,67 @@
+<%var path="/resource";%>
+<head>
+<title>登录</title>
+<link rel="stylesheet" href="${path}/wap/css/indexNew.css" type="text/css" media="screen">
+
+<script type="text/javascript">
+function xiayibu(){
+	var phone = $("#phone").val();
+	var sms = $("#sms").val();
+	var pwd= $("#pwd").val();
+	//var ch=1;
+	//window.location.href="?mobile="+phone+"sms="+sms+"pwd="+pwd+"ch="+ch;
+	 $.ajax(({
+	        type: "post",
+	        url: "/api/wap/userinfo/register",
+	        dataType: "json",
+	        data: {mobile: phone, 
+	        	sms: sms,
+	        	password: pwd,
+	        	ch: 1},
+	        success: function (rsl) {
+	            if (rsl.code == 0) {
+	            	/* var data=rsl.data;
+	            	var info=eval("(" + data + ")"); */
+	              /*  SetCookie("_u_token", info.Token);
+	                SetCookie("_u_channel",info.Channel);
+	                SetCookie("login", true);
+	                alert("kd");*/
+	                $("#div_errormessage").text(rsl.desc);
+	                window.location.href = "/wap/user/showlogin";
+	            }
+	            else {
+	               // $("#userName").focus();
+	                $("#div_errormessage").text(rsl.desc);
+	            }
+	        },
+	        error: function (e) {
+	        	$("#div_errormessage").text("注册失败");
+	        }
+	    }));
+}
+</script>
+</head>
+<body>
+<!--container  begin-->
+<div class="container fix">
+	<!--l_alltop  begin -->
+	<div class="l_alltop fix">
+    	<a href="/wap/user/showRegisterSms"><span><img src="${path}/wap/images/tp10.png" class="img-responsive l_maxwid"></span></a>
+    	手机快速注册
+    </div>
+    <!--l_alltop  stop -->
+    <!--l_logcon  begin -->
+     <input type="hidden" id="phone" value="${phone}">
+      <input type="hidden" id="sms" value="${sms}">
+    <div class="l_logcon">
+    	<div class="l_logconmk fix l_nobor">
+            <input name="pwd" id="pwd"  type="password" placeholder="请设置登录密码" class="l_srsjh">
+        </div><!-- l_logconmk  stop-->
+    </div>
+    <div class="l_tyyhxy lh25">密码由6-20位字符组成，包含两种以上字母、数字，或者半角字符，区分大小写。</div>
+    <div id="div_errormessage" class="cwtsxx"></div>
+    <!--l_logcon  stop -->
+    <div class="l_dlan l_wcan"><a href="javascript:void(0);" onclick="xiayibu()">完成</a></div>
+</div>
+<!--container  stop -->
+</body>

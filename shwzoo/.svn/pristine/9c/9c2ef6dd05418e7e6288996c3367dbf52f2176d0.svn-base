@@ -1,0 +1,109 @@
+
+<head>
+<meta charset="utf-8">
+
+<title>发现</title>
+<link rel="stylesheet" href="/resource/app/css/greenLife.css" />
+<script type="text/javascript" src="/resource/jquery-1.9.1.min.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/Yeffect16_0118.min.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/greenLife.js" ></script>
+<script type="text/javascript" src="/resource/artTemplate.js"></script>
+<script type="text/javascript" src="/resource/wap/js/wap-common.js"></script>
+<script type="text/javascript" src="/resource/wap/js/js.js" ></script>
+
+<script type="text/javascript" src="/resource/GetQueryString.js"></script>
+<script type="text/javascript">
+  	$(function(){
+		 pageData={page:1,size:10};
+		 pageUrl="/wap/zlzx/getpagelist";
+		 content="#ullist";
+		initPage();
+	});
+  	</script>
+<%if(ch==2){%>
+<style>
+.septop {padding-top: 18px;}
+</style>
+<%}%>
+</head>
+<body>
+<!--septop begin-->
+<div class="septop fixed">
+	<span class="bigsize">发现</span>
+	<!-- <div class="septop_l">
+		北京
+	</div> -->
+</div>
+<!--septop stop-->
+<!--banner-->
+<div class="fx-banner">
+	<ul>
+		<% var imgcon=0;
+		if(isNotEmpty(ads)){
+			for(ad in ads){
+				imgcon++;
+	    %>
+  	    <li><a href="${ad.url}"><img src="${ad.imgurl}"></a></li>   
+        <%}}%>
+  </ul>
+	<p>
+		<%if(imgcon>0){for(var i=0;i<imgcon;i++){%>
+		<i></i>
+	    <%}}%>
+	</p>
+</div>
+<script>
+$(function(){
+	/////banner	
+	Yeffect.mobileBanner(".fx-banner ul",".fx-banner ul li",".fx-banner p i","","","current",5000);
+	var fx_banner=$(".fx-banner");
+	Yeffect.resizeHtW(fx_banner,fx_banner,640,248);
+})
+</script>
+<!--banner***-->
+<div class="modi-fxul fix">
+	<ul class="fix">
+		<li><a href="/wap/app/findzlzq.html?ch=${ch}"><i><img src="/resource/wap/images/fx_ico1.png" class="img-responsive"/></i><p>中绿展示</p></a></li>
+		<li><a href="/wap/app/lszgindex.html?ch=${ch}&href=/wap/app/findindex.html"><i><img src="/resource/wap/images/fx_ico2.png" class="img-responsive"/></i><p>绿色食品中国</p></a></li>
+		<li><a href="/wap/zlwd/app_index.html?ch=${ch}"><i><img src="/resource/wap/images/fx_ico6.png" class="img-responsive"/></i><p>中绿味道</p></a></li>
+		<!-- <li><a href="/wap/find/findbyzs.html"><i><img src="/resource/wap/images/fx_ico3.png" class="img-responsive"/></i><p>包邮直送</p></a></li> -->
+		<!-- <li><a href="#"><i><img src="/resource/wap/images/fx_ico4.png" class="img-responsive"/></i><p>抢购</p></a></li> -->
+		<!-- <li><a href="#"><i><img src="/resource/wap/images/fx_ico5.png" class="img-responsive"/></i><p>闪购</p></a></li>		 -->
+	</ul>
+</div>
+<h3 class="sep-title">中绿资讯</h3>
+<ul class="sep-zlzx fix" id="ullist">
+	<!-- <li class="fix">
+		<a href="#">
+			<img src="images/img1.jpg"/>
+			<div class="sep-zlzx-r">
+				<h3>柴沟堡熏肉柴沟堡熏肉柴沟堡熏肉柴沟堡熏肉柴沟堡熏肉</h3>
+				<p>柴沟堡熏肉是有名的熟肉制品，是河北省怀安县柴沟堡镇传统的特色名吃。距今已有200多年的…</p>
+			</div>
+		</a>
+	</li> -->	
+</ul>
+<img src="/resource/wap/images/index_42.png" class="qianggou-scrollTop">
+<script type="text/html" id="pagehtml">
+{{each list as zx i}}
+<li class="fix">
+		<a href="/wap/app/newsdetail.html?id={{zx.id}}&mark=1&ch=${ch}">
+			<img src="{{zx.imgurl}}"/>
+			<div class="sep-zlzx-r">
+				<h3>{{zx.title}}</h3>
+				<p >{{zx.subtitle}}</p>
+			</div>
+		</a>
+	</li>
+{{/each}}
+</script>
+
+<script>
+$(function(){
+	fixed('.fx-footer');
+	fixed('.septop');
+	Yeffect.resizeHtWstr(".sep-zlzx li:visible",".sep-zlzx li img",199,49);
+	screenHeight('#areacon');
+})
+</script>
+</body>

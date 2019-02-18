@@ -1,0 +1,205 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>个人中心-未登录</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="stylesheet" href="css/public.css" type="text/css" media="screen">
+<link rel="stylesheet" href="css/index.css" type="text/css" media="screen">
+<script src="js/jquery.js"></script>
+</head>
+<body>
+
+<!--container  begin-->
+<div class="container fix">
+	<!--l_searchjg  begin -->
+    <div class="l_searchjg fix">
+    <div class="l_seadw fix">
+    	<div class="l_searchjg01"><img src="images/tp10.png" class="img-responsive l_maxwid"></div>     	<div class="l_searchjg02 l_hbtop">
+        文章详情
+        </div>
+        <div class="l_searchjg03"><img src="images/tp21.png" class="img-responsive l_maxwid"></div>
+    </div>
+    </div>
+    <!--l_searchjg  stop -->
+    <!--l_fzwzxq  begin -->
+    <div class="l_fzwzxq">
+    	<img src="images/fximg01.jpg" class="img-responsive" title="">
+        <div class="l_fzwzxqdw">
+        	<p class="bolder">女神也会有的尴尬，赶走它</p>
+            <p>2016年04月05日</p>
+        </div>
+    </div>
+    <!--l_fzwzxq  stop -->
+    <!--l_fxdmc  begin -->
+    <div class="l_fxdmc fix">
+    	<div class="l_fxdmc01"><img src="images/fxtb01.png" class="img-responsive"></div>
+        <div class="l_fxdmc02">
+        	<p>韩后</p>
+            <p class="huise">懂爱，并懂爱自己，是一种智慧</p>
+        </div>
+        <div class="l_fxdmc03">
+        	<a href="#"><span>+</span><span>关注</span></a>
+        </div>
+    </div>
+    <!--l_fxdmc  stop -->
+    <!--l_fxconwz  begin -->
+    <div class="l_fxconwz fix">
+    	<img src="images/fximg02.png" alt="" title="" class="img-responsive">
+        <p>酸味能给人以爽快、刺激的感觉,具有增强食欲的作用,在食品加工中使用酸味剂,一般都有一定的防腐效果,还有助于溶解纤维素及钙、磷等物质,既可帮助消化,增强营养素的吸收,又具有一定的杀菌解毒功效。</p>
+        <p>酸味能给人以爽快、刺激的感觉,具有增强食欲的作用,在食品加工中使用酸味剂,一般都有一定的防腐效果,还有助于溶解纤维素及钙、磷等物质,既可帮助消化,增强营养素的吸收,又具有一定的杀菌解毒功效。</p>
+        <img src="images/fximg02.png" alt="" title="" class="img-responsive">
+        <p>酸味能给人以爽快、刺激的感觉,具有增强食欲的作用,在食品加工中使用酸味剂,一般都有一定的防腐效果,还有助于溶解纤维素及钙、磷等物质,既可帮助消化,增强营养素的吸收,又具有一定的杀菌解毒功效。</p>
+        <img src="images/fximg02.png" alt="" title="" class="img-responsive">
+    </div>
+    <!--l_fxconwz  stop -->
+    <!--l_fxhwtj  begin -->
+    <div class="l_fxhwtj fix">
+    	<h3>好物推荐</h3>
+        <div class="l_fxhwtjbot">
+            <ul>
+                <li class="fix">
+                	<div class="l_fxhwtjl"><a href="#"><img src="images/img16.jpg" class="img-responsive"></a></div>
+                    <div class="l_fxhwtjr">
+                    	<p><a href="#">韩后乳清蛋白洁颜乳120ml</a></p>
+                        <p class="red">￥ 126.00</p>
+                    </div>
+                </li>
+                <li class="fix">
+                	<div class="l_fxhwtjl"><a href="#"><img src="images/img16.jpg" class="img-responsive"></a></div>
+                    <div class="l_fxhwtjr">
+                    	<p><a href="#">韩后乳清蛋白洁颜乳120ml</a></p>
+                        <p class="red">￥ 126.00</p>
+                    </div>
+                </li>
+                <li class="fix">
+                	<div class="l_fxhwtjl"><a href="#"><img src="images/img16.jpg" class="img-responsive"></a></div>
+                    <div class="l_fxhwtjr">
+                    	<p><a href="#">韩后乳清蛋白洁颜乳120ml</a></p>
+                        <p class="red">￥ 126.00</p>
+                    </div>
+                </li>
+                <li class="fix">
+                	<div class="l_fxhwtjl"><a href="#"><img src="images/img16.jpg" class="img-responsive"></a></div>
+                    <div class="l_fxhwtjr">
+                    	<p><a href="#">韩后乳清蛋白洁颜乳120ml</a></p>
+                        <p class="red">￥ 126.00</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--l_fxhwtj  stop -->
+    <!--l_fxhwtj  begin -->
+    <div class="l_fxhwtj fix">
+    	<h3>相关文章</h3>
+        <!--l_fxjxnr  begin -->
+        <div class="l_fxjxnr fix">
+            <div class="l_fxjxnrbot">
+                <ul>
+                    <a href="#">
+                    <li>
+                        <div class="l_fxbj">
+                            <img src="images/fximg01.jpg" class="img-responsive" title="">
+                            <div class="l_fxtime">
+                                <div class="l_fxtimel">
+                                    <p>2015</p>
+                                    <p>04月</p>
+                                </div>
+                                <div class="l_fxtimer">05</div>
+                            </div>
+                            <div class="l_fxtitle">
+                                <div class="l_fxtitlel">女神也会有的尴尬，赶走它。</div>
+                                <div class="l_fxtitler">
+                                    <span><img src="images/fxheart.png" class="img-responsive"></span>
+                                    666666
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    </a>
+                    <a href="#">
+                    <li>
+                        <div class="l_fxbj">
+                            <img src="images/fximg01.jpg" class="img-responsive" title="">
+                            <div class="l_fxtime">
+                                <div class="l_fxtimel">
+                                    <p>2015</p>
+                                    <p>04月</p>
+                                </div>
+                                <div class="l_fxtimer">05</div>
+                            </div>
+                            <div class="l_fxtitle">
+                                <div class="l_fxtitlel">女神也会有的尴尬，赶走它。</div>
+                                <div class="l_fxtitler">
+                                    <span><img src="images/fxheart.png" class="img-responsive"></span>
+                                    666666
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    </a>
+                </ul>
+                <script>
+                    var lfxtimelHeight=$(".l_fxtimel").height();
+                    $(".l_fxtimer").css("line-height",lfxtimelHeight+"px");
+                    var ltitspHeight=$(".l_fxtitler span").height();
+                    $(".l_fxtitle").css("line-height",ltitspHeight+"px");
+                </script>
+            </div><!--l_fxjxnrbot  stop -->
+        </div>
+        <!--l_fxjxnr  stop -->
+    </div>
+    <!--l_fxhwtj  stop -->
+    <!--l_fxhwtj  begin -->
+    <div class="l_fxhwtj fix">
+    	<h3>评论 2</h3>
+        <div class="l_fzplxq">
+        	<ul>
+            	<li class="fix">
+                	<div class="l_fzplxql"><img src="images/fxtximg.png" class="img-responsive"></div>
+                    <div class="l_fzplxqr">
+                    	<p class="huise">点点酸味<span class="floatright">4月6日</span></p>
+                        <p>不错的化妆品</p>
+                    </div>
+                </li>
+                <li class="fix">
+                	<div class="l_fzplxql"><img src="images/fxtximg.png" class="img-responsive"></div>
+                    <div class="l_fzplxqr">
+                    	<p class="huise">点点酸味<span class="floatright">4月6日</span></p>
+                        <p>很有用的推荐，打算最近入手一款很有用的推荐，打算最近入手一款</p>
+                    </div>
+                </li>
+                <li class="fix">
+                	<div class="l_fzplxql"><img src="images/fxtximg.png" class="img-responsive"></div>
+                    <div class="l_fzplxqr">
+                    	<p class="huise">点点酸味<span class="floatright">4月6日</span></p>
+                        <p>不错的化妆品</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="l_fxplno">没有更多评论啦~！</div>
+    </div>
+    <!--l_fxhwtj  stop -->
+    <!--l_fxplbot  begin -->
+    <div class="l_fxplbot fix">
+    	<ul>
+        	<a href="#"><li><span><img src="images/fxplico01.png" class="img-responsive"></span>66</li></a>
+            <a href="#"><li class="l_nobor"><span><img src="images/fxplico02.png" class="img-responsive"></span>评论</li></a>
+        </ul>
+    </div>
+    <script>
+    	$(document).ready(function(){
+			var lfxplbotHei=$(".l_fxplbot").outerHeight();
+			$(".l_fxplbot").after("<div id='lfxplbothmnr'></div>");
+			$("#lfxplbothmnr").css("height",lfxplbotHei+"px");
+		})
+    </script>
+    <!--l_fxplbot  stop -->
+</div>
+<!--container  stop -->
+</body>
+</html>

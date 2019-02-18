@@ -1,0 +1,107 @@
+<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>消息</title>
+<link type="text/css" rel="stylesheet"
+	href="${path}/pc/member/css/common.css" />
+<link type="text/css" rel="stylesheet"
+	href="${path}/pc/member/css/style01.css" />
+<link type="text/css" rel="stylesheet" href="${path}/ui-dialog.css" />
+<link type="text/css" rel="stylesheet"
+	href="${path}/pc/member/css/top-footer.css" />
+<link type="text/css" rel="stylesheet"
+	href="${path}/pc/member/css/pager2.css" />
+<link type="text/css" rel="stylesheet"
+	href="${path}/pc/member/css/jQuery.Validate.css" />
+<link type="text/css" rel="stylesheet"
+	href="${path}/pc/member/css/left.css" />
+<link href="${path}/pc/member/css/default.css" rel="stylesheet" />
+<script src="${path}/pc/member/js/OrderCenter/OrderList.js"></script>
+<script src="${path}/pc/member/js/browsehistory/browsehistory.js"></script>
+<script src="${path}/pc/member/js/jquery-1.8.2.min.js"></script>
+<script src="${path}/pc/member/js/index.js"></script>
+<script src="${path}/pc/member/js/jquery.validate.js"></script>
+<script src="${path}/pc/member/js/pager2.js"></script>
+<script src="${path}/pc/member/js/showdate.js"></script>
+<script src="${path}/artTemplate.js"></script>
+<script src="${path}/dialog-plus.js"></script>
+<script src="${path}/dialogShow.js"></script>
+<script src="${path}/jQueryRotate.2.2.js"></script>
+<script src="/resource/pc/member/js/khfw/MessageList.js"></script>
+<script src="${path}/pc/commonjs/wkh/common-util.js"></script>
+<script src="${path}/pc/commonjs/wkh/page-pc.js" ></script>
+<script type="text/javascript">
+$(function(){
+	 pageUtil.initialize("/pc/pcmessage/messagelist");
+});
+</script>
+</head>
+<div id="main" class="fix">
+	<div class="l_mesxxtop">
+		<span>系统消息</span>
+	</div>
+	<!--l_mesxxtop  stop -->
+	<!--l_mesxxcon  begin -->
+	<div class="l_mesxxcon fix">
+		<div class="l_mesxxconleft">
+			<a href="#">
+				<div class="l_mesleftmk fix active">
+					<div class="l_mesleftmk01">
+						<i></i>
+					</div>
+					<div class="l_mesleftmk02">
+						<h3>系统通知</h3>
+						<!-- <p>无未读消息</p> -->
+					</div>
+				</div>
+				<!--l_mesleftmk  stop -->
+			</a>
+
+		</div>
+		<!--l_mesxxconleft  stop -->
+		<div class="l_mesxxconright">
+			<div>
+				<div class="l_xttztop" id="Messagedata">
+					<span>系统通知<i></i></span> <a href="javascript:;">
+						<div class="l_pbmesxx none">
+							<ul>
+								<li>清空</li>
+							</ul>
+							<i></i>
+						</div>
+					</a>
+				</div>
+				<div id="contentRows"></div>
+				<script id="rowslist" type="text/html">
+                    {{each list as vo}}
+                    <div class="l_xxtzmk">
+					<div class="l_xxtzmktop">
+						<span>{{if vo.sendtime != null}}{{vo.sendtime | toDate}}{{/if}}</span>
+					</div>
+					<div class="l_xxtzmkcon">
+						<h3>{{vo.title}}</h3>
+						<p>{{vo.content}}</p>
+						<div class="l_gbyhqchc" style='background:none;'>
+						<img src="/resource/pc/member/images/close.png"></img>
+							<input name="chMes" id="ids" type="hidden" value='{{vo.id}}'>
+						</div>
+					</div>
+				</div>
+                    {{/each}}
+                    </script>
+			</div>
+			<div class="pager" id="pager"></div>
+			<!--  <div class="mt30 text-center"><a href="javascript:;">查看更多消息</a></div>-->
+		</div>
+		
+		<!--l_mesxxconright  stop -->
+	</div>
+	<!--l_mesxxcon  stop -->
+</div>
+ <!--  <script type="text/javascript">
+$(".l_gbyhqchc").live("click", function () {
+    var id = $(this).find("input").val();
+    // ConfirmShow("确认要删除信息吗？", del, id); //confirm弹出框 js/dialogShow.js
+    del(id);
+});
+</script>-->

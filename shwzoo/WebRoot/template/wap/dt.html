@@ -1,0 +1,99 @@
+<%var path="/resource";%>
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>附近商盟</title>
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+    <script src="http://webapi.amap.com/maps?v=1.3&key=38c609a5937524bb6bbe8dcd3d6edcad"></script>
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+    
+<link rel="stylesheet" href="/resource/wap/css/indexNew.css" type="text/css" media="screen">
+<script type="text/javascript" src="/resource/wap/js/wkh/common.js"></script>
+<style type="text/css">
+#container {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+}
+.amap-geo{
+	margin-left: 10px;
+}
+</style>
+<script type="text/javascript">
+
+$(function(){
+	var a=document.documentElement.clientHeight;
+	var b=$('#tit').outerHeight();
+	$('#container').css('height',a-b+'px');
+
+});
+
+</script>
+</head>
+<body>
+
+	<!--top_title  begin-->
+	<div class="top_title fix" id="tit">
+		<a href="/wap/index.html"><div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div></a>
+		附近商盟
+	</div>
+    
+	<div id="container" ></div>
+
+<script>
+
+    var map, geolocation;
+    //加载地图，调用浏览器定位服务
+    map = new AMap.Map('container', {
+        resizeEnable: true,
+        zoom: 10
+    });
+    map.plugin('AMap.Geolocation', function() {
+        geolocation = new AMap.Geolocation({
+            enableHighAccuracy: true,//是否使用高精度定位，默认:true
+            timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+            buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+            zoomToAccuracy: false,      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+            buttonPosition:'RB'
+        });
+        map.addControl(geolocation);
+        geolocation.getCurrentPosition();
+        AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+        AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+    });
+
+    function onError(){
+       // alert("获取位置失败")
+    }
+
+    function onComplete(data){
+        var ajaxdata=ajaxUtil.Post("/api/wap/queryscopshop", {"ch":3,"longitude":data.position.getLng(),"latitude":data.position.getLat(),"page":1,"size":6});
+        
+        $.each(ajaxdata.data,function(index,item){
+        	 marker = new AMap.Marker({
+                 map: map,
+                 icon: 'http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png',
+                 position: [item.longitude,item.latitude]
+             });
+             // 设置label标签
+             marker.setLabel({//label默认蓝框白底左上角显示，样式className为：amap-marker-label
+                 offset: new AMap.Pixel(0, 30),//修改label相对于maker的位置
+                 content: [item.name+"-距离："+parseFloat(item.distances).toFixed(2)+"km"]
+             });
+             //添加点标记，并使用自己的icon
+        });
+        
+        
+    }
+</script>
+</body>
+</html>

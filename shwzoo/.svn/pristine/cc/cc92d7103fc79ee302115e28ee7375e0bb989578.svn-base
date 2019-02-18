@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.VSpecsinfoMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.VSpecsinfo">
+		<result column="SKU_ID" property="skuid" jdbcType="INTEGER" />
+		<result column="ValueID" property="valueid" jdbcType="INTEGER" />
+		<result column="Value" property="value" jdbcType="VARCHAR" />
+		<result column="SpecsID" property="specsid" jdbcType="INTEGER" />
+		<result column="Name" property="name" jdbcType="VARCHAR" />
+		<result column="TypeID" property="typeid" jdbcType="INTEGER" />
+		<result column="TypeName" property="typename" jdbcType="VARCHAR" />
+		<result column="TypeOrder" property="typeorder" jdbcType="INTEGER" />
+		<result column="SpecsOrder" property="specsorder" jdbcType="INTEGER" />
+		<result column="DisplayLocation" property="displaylocation"
+			jdbcType="VARCHAR" />
+		<result column="Fullpath" property="fullpath" jdbcType="VARCHAR" />
+		<result column="ClassID" property="classid" jdbcType="INTEGER" />
+		<result column="TypeStatus" property="typestatus" jdbcType="INTEGER" />
+		<result column="ValueStatus" property="valuestatus" jdbcType="INTEGER" />
+		<result column="SpecsStatus" property="specsstatus" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		SKU_ID, ValueID, Value, SpecsID, Name, TypeID, TypeName,
+		TypeOrder,
+		SpecsOrder, DisplayLocation,
+		Fullpath, ClassID, TypeStatus,
+		ValueStatus, SpecsStatus
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.VSpecsinfoExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from v_specsinfo
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.VSpecsinfoExample">
+		delete from v_specsinfo
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.VSpecsinfo">
+		insert into v_specsinfo
+		(SKU_ID, ValueID, Value,
+		SpecsID, Name, TypeID,
+		TypeName, TypeOrder,
+		SpecsOrder,
+		DisplayLocation, Fullpath, ClassID,
+		TypeStatus, ValueStatus,
+		SpecsStatus
+		)
+		values (#{skuid,jdbcType=INTEGER},
+		#{valueid,jdbcType=INTEGER},
+		#{value,jdbcType=VARCHAR},
+		#{specsid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+		#{typeid,jdbcType=INTEGER},
+		#{typename,jdbcType=VARCHAR},
+		#{typeorder,jdbcType=INTEGER},
+		#{specsorder,jdbcType=INTEGER},
+		#{displaylocation,jdbcType=VARCHAR}, #{fullpath,jdbcType=VARCHAR},
+		#{classid,jdbcType=INTEGER},
+		#{typestatus,jdbcType=INTEGER},
+		#{valuestatus,jdbcType=INTEGER},
+		#{specsstatus,jdbcType=INTEGER}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.VSpecsinfo">
+		insert into v_specsinfo
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="skuid != null">
+				SKU_ID,
+			</if>
+			<if test="valueid != null">
+				ValueID,
+			</if>
+			<if test="value != null">
+				Value,
+			</if>
+			<if test="specsid != null">
+				SpecsID,
+			</if>
+			<if test="name != null">
+				Name,
+			</if>
+			<if test="typeid != null">
+				TypeID,
+			</if>
+			<if test="typename != null">
+				TypeName,
+			</if>
+			<if test="typeorder != null">
+				TypeOrder,
+			</if>
+			<if test="specsorder != null">
+				SpecsOrder,
+			</if>
+			<if test="displaylocation != null">
+				DisplayLocation,
+			</if>
+			<if test="fullpath != null">
+				Fullpath,
+			</if>
+			<if test="classid != null">
+				ClassID,
+			</if>
+			<if test="typestatus != null">
+				TypeStatus,
+			</if>
+			<if test="valuestatus != null">
+				ValueStatus,
+			</if>
+			<if test="specsstatus != null">
+				SpecsStatus,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="skuid != null">
+				#{skuid,jdbcType=INTEGER},
+			</if>
+			<if test="valueid != null">
+				#{valueid,jdbcType=INTEGER},
+			</if>
+			<if test="value != null">
+				#{value,jdbcType=VARCHAR},
+			</if>
+			<if test="specsid != null">
+				#{specsid,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="typeid != null">
+				#{typeid,jdbcType=INTEGER},
+			</if>
+			<if test="typename != null">
+				#{typename,jdbcType=VARCHAR},
+			</if>
+			<if test="typeorder != null">
+				#{typeorder,jdbcType=INTEGER},
+			</if>
+			<if test="specsorder != null">
+				#{specsorder,jdbcType=INTEGER},
+			</if>
+			<if test="displaylocation != null">
+				#{displaylocation,jdbcType=VARCHAR},
+			</if>
+			<if test="fullpath != null">
+				#{fullpath,jdbcType=VARCHAR},
+			</if>
+			<if test="classid != null">
+				#{classid,jdbcType=INTEGER},
+			</if>
+			<if test="typestatus != null">
+				#{typestatus,jdbcType=INTEGER},
+			</if>
+			<if test="valuestatus != null">
+				#{valuestatus,jdbcType=INTEGER},
+			</if>
+			<if test="specsstatus != null">
+				#{specsstatus,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.VSpecsinfoExample"
+		resultType="java.lang.Integer">
+		select count(*) from v_specsinfo
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update v_specsinfo
+		<set>
+			<if test="record.skuid != null">
+				SKU_ID = #{record.skuid,jdbcType=INTEGER},
+			</if>
+			<if test="record.valueid != null">
+				ValueID = #{record.valueid,jdbcType=INTEGER},
+			</if>
+			<if test="record.value != null">
+				Value = #{record.value,jdbcType=VARCHAR},
+			</if>
+			<if test="record.specsid != null">
+				SpecsID = #{record.specsid,jdbcType=INTEGER},
+			</if>
+			<if test="record.name != null">
+				Name = #{record.name,jdbcType=VARCHAR},
+			</if>
+			<if test="record.typeid != null">
+				TypeID = #{record.typeid,jdbcType=INTEGER},
+			</if>
+			<if test="record.typename != null">
+				TypeName = #{record.typename,jdbcType=VARCHAR},
+			</if>
+			<if test="record.typeorder != null">
+				TypeOrder = #{record.typeorder,jdbcType=INTEGER},
+			</if>
+			<if test="record.specsorder != null">
+				SpecsOrder = #{record.specsorder,jdbcType=INTEGER},
+			</if>
+			<if test="record.displaylocation != null">
+				DisplayLocation =
+				#{record.displaylocation,jdbcType=VARCHAR},
+			</if>
+			<if test="record.fullpath != null">
+				Fullpath = #{record.fullpath,jdbcType=VARCHAR},
+			</if>
+			<if test="record.classid != null">
+				ClassID = #{record.classid,jdbcType=INTEGER},
+			</if>
+			<if test="record.typestatus != null">
+				TypeStatus = #{record.typestatus,jdbcType=INTEGER},
+			</if>
+			<if test="record.valuestatus != null">
+				ValueStatus = #{record.valuestatus,jdbcType=INTEGER},
+			</if>
+			<if test="record.specsstatus != null">
+				SpecsStatus = #{record.specsstatus,jdbcType=INTEGER},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update v_specsinfo
+		set SKU_ID = #{record.skuid,jdbcType=INTEGER},
+		ValueID = #{record.valueid,jdbcType=INTEGER},
+		Value =
+		#{record.value,jdbcType=VARCHAR},
+		SpecsID =
+		#{record.specsid,jdbcType=INTEGER},
+		Name =
+		#{record.name,jdbcType=VARCHAR},
+		TypeID =
+		#{record.typeid,jdbcType=INTEGER},
+		TypeName =
+		#{record.typename,jdbcType=VARCHAR},
+		TypeOrder =
+		#{record.typeorder,jdbcType=INTEGER},
+		SpecsOrder =
+		#{record.specsorder,jdbcType=INTEGER},
+		DisplayLocation =
+		#{record.displaylocation,jdbcType=VARCHAR},
+		Fullpath =
+		#{record.fullpath,jdbcType=VARCHAR},
+		ClassID =
+		#{record.classid,jdbcType=INTEGER},
+		TypeStatus =
+		#{record.typestatus,jdbcType=INTEGER},
+		ValueStatus =
+		#{record.valuestatus,jdbcType=INTEGER},
+		SpecsStatus =
+		#{record.specsstatus,jdbcType=INTEGER}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+
+	<select id="getBySkuId" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+
+		from v_specsinfo where SKU_ID=#{0} GROUP BY SpecsID order by TypeName desc
+	</select>
+
+	<select id="getBySpuId" resultMap="BaseResultMap">
+	SELECT	<include refid="Base_Column_List" />
+		  from v_specsinfo where SKU_ID in(SELECT id from sku where
+		SPU_ID=#{0})
+	</select>
+
+	
+	<!-- 获取购物车页面的商品规格信息 -->
+	<select id="getcartspecslist" parameterType="list" resultMap="BaseResultMap">
+		<if test="list!=null">
+			SELECT a.SKU_ID,a.NAME,a.VALUE FROM v_specsinfo a WHERE a.DisplayLocation LIKE '%4'
+			AND a.SKU_ID in 
+			<foreach collection="list" item="id" index="index" open="("
+				close=")" separator=",">
+				#{id}
+			</foreach>
+			 GROUP BY SpecsID
+		</if>
+	</select>
+	
+	<select id="getcartspecsBySkuid" parameterType="int" resultMap="BaseResultMap">
+			SELECT a.NAME,a.VALUE FROM v_specsinfo a WHERE a.SKU_ID=#{0} AND
+			a.DisplayLocation LIKE '%4' GROUP BY SpecsID limit 2
+	</select>
+</mapper>

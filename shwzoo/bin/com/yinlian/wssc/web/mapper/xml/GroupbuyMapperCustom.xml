@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.GroupbuyMapperCustom">
+	<resultMap type="com.yinlian.api.app.dto.GroupBuyDetailDto"
+		id="GroupDetailResult">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="cprice" property="cprice" jdbcType="DECIMAL" />
+		<result column="oprice" property="oprice" jdbcType="DECIMAL" />
+		<result column="validitystart" property="validitystart"
+			jdbcType="TIMESTAMP" />
+		<result column="validityend" property="validityend" jdbcType="TIMESTAMP" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="isAnytime" property="isanytime" jdbcType="BIT" />
+		<result column="isBook" property="isbook" jdbcType="BIT" />
+		<result column="isExpired" property="isexpired" jdbcType="BIT" />
+		<result column="detaildesc" property="detaildesc" jdbcType="VARCHAR" />
+		<result column="shopid" property="shopid" jdbcType="INTEGER" />
+		<result column="stock" property="stock" jdbcType="INTEGER" />
+		<result column="salesCount" property="salescount" jdbcType="INTEGER" />
+		<result column="content" property="content" jdbcType="LONGVARCHAR" />
+		<result column="buynotes" property="buynotes" jdbcType="LONGVARCHAR" />
+		<association property="shop" javaType="com.yinlian.api.app.dto.ShopBaseDto" column="shopid" select="selectshop" />
+		<collection property="commentlist" select="selectComments"
+			column="id" ofType="com.yinlian.wssc.web.po.Comment"></collection>
+		<collection property="imglist" select="selectImgs" column="id"
+			ofType="com.yinlian.wssc.web.po.AdvertImg"></collection>
+	</resultMap>
+	<select id="getGroupByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.api.app.dto.GroupBuyDto">
+		SELECT a.id,
+		a.title,
+		a.cprice,
+		a.oprice,
+		a.listdesc,
+		a.shopid,
+		b.Name AS
+		shopname,
+		(SELECT c.imgurl FROM advert_img c WHERE a.id=c.groupbyid and c.type=3 and c.isdel=0 
+		ORDER BY c.sort LIMIT
+		1) AS img
+		FROM groupbuy AS a JOIN shop AS b ON
+		a.shopid=b.ID
+		WHERE a.validitystart<![CDATA[ < ]]>SYSDATE()
+		AND a.validityend<![CDATA[ > ]]>SYSDATE()
+		AND a.stock>0 AND a.isdel=0 AND a.status=0
+		<if test="criteria.status != null and criteria.status >=0 ">
+			and b.status=#{criteria.status}
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	<select id="getDetail" resultMap="GroupDetailResult" parameterType="int">
+		SELECT id,
+		title,
+		cprice,
+		oprice,
+		validitystart,
+		validityend,
+		type,
+		content,
+		buynotes,
+		isanytime,
+		isbook,
+		isexpired,
+		detaildesc,
+		shopid,
+		stock,
+		salescount
+		FROM groupbuy
+		where id=#{0}
+	</select>
+	<select id="selectshop" parameterType="int" resultType="com.yinlian.api.app.dto.ShopBaseDto">
+	SELECT a.id,a.Name as name,a.SupportTel as phone,a.ShopAddress as address,b.Longitude as longitude,b.latitude  
+	FROM shop AS a JOIN shop_authentication AS b ON a.ID=b.ShopID
+	where a.id=#{0}
+	</select>
+	<select id="selectComments" parameterType="int" resultType="com.yinlian.wssc.web.po.Comment">
+	SELECT 	ID, fkid, BuyerID, ShopID, TYPE, Star, Title, Content, 
+	DATE, ReplyCount, ShowName, Star_Depict, Star_Service, Star_Speed	 
+	FROM comment where fkid=#{0} and TYPE=4
+	</select>
+	<select id="selectImgs" parameterType="int" resultType="com.yinlian.wssc.web.po.AdvertImg">
+	SELECT 	id, imgurl, groupbyid, shopid, sort	 
+	FROM advert_img where groupbyid=#{0} and type=3 and isdel=0 
+	order by sort desc
+	</select>
+</mapper>

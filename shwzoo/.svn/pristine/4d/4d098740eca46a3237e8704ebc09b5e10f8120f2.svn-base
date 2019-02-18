@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta http-equiv="Content-Type" content="text/html">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="format-detection" content="telephone=no">
+	<meta http-equiv="Expires" content="-1">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+    <title>搜索页面</title>
+    <link rel="stylesheet" type="text/css" href="/resource/wap/css/css.css">
+    <script type="text/javascript" src="/resource/jquery-1.9.1.min.js" ></script>
+    <script type="text/javascript" src="/resource/wap/js/index.js" ></script>
+    
+<script>
+window.onload=function(){
+	borderRadius('.top_news_num');
+	fixed('.top');
+//	newArrival('.l_flconmk_img img');
+}	
+
+function search(){
+	if($("#se").val()!=null&&$("#se").val()!='')
+	location.href='/wap/products/keywordlist.html?keyword='+$("#se").val();
+}
+</script>
+</head>
+<body>
+<style>
+.top_scan img{width:0.2rem;height:auto;margin-top:0.15rem;}
+</style>
+	<!--top begin-->
+	<div class="top fix">
+		<div class="top_scan">
+			<a href="${href!'/wap/proclass/classList.html'}">
+				<span><img src="/resource/wap/images/top_return1.png"/></span>
+				<div class="top_color"></div>
+			</a>
+		</div>
+		<div class="top_search">
+			<input type="text" name="" id="se" value="" placeholder="请输入关键字搜索" class="top_searchinput" />
+			<div class="top_searchico" onclick="search()"><img src="/resource/wap/images/top_search.png"/></div>
+		</div>
+		<div class="top_news">
+			<a href="/wap/messages/queryMessages?ch=3">
+				<span><img src="/resource/wap/images/top_news.png"/></span>
+				<div class="top_color">消息</div>
+				<div class="top_news_num">
+					${messagecount}
+				</div>
+			</a>
+		</div>
+	</div>
+	<!--top stop-->
+	<div class="searchcon_nr fix">
+		<div class="searchcon_nrmk fix">
+			<div class="searchcon_nrmk_top fix">
+				<img src="/resource/wap/images/searchcon_nrmk01.png"/>
+				
+			</div>
+			<ul class="fix">
+			<% for (var keyws in keysdata) {%>
+					<li><a href="/wap/products/keywordlist.html?keyword=${keyws.keywords}">${keyws.keywords}</a></li>
+			<%}%>
+			</ul>
+		</div>
+	</div>
+</body>
+</html>

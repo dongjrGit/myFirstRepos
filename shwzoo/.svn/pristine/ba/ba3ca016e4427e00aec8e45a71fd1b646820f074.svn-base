@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Expires" content="-1">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<title>首页</title>
+<link rel="stylesheet" href="/resource/wap/css/greenLife.css" />
+<link rel="stylesheet" href="/resource/wap/css/swiper.min.css" />
+<script type="text/javascript" src="/resource/jquery-1.9.1.min.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/Yeffect16_0118.min.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/greenLife.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/wkh/varCommon.js"></script>
+<script type="text/javascript" src="/resource/wap/js/wkh/ajaxCommon.js"></script>
+<script type="text/javascript" src="/resource/wap/js/wkh/appCommon.js"></script>
+<script type="text/javascript" src="/resource/artTemplate.js"></script>
+<script type="text/javascript" src="/resource/wap/js/swiper.min.js" ></script>
+
+	<script type="text/javascript" src="/resource/wap/js/js.js" ></script>
+<script type="text/javascript">
+var isEndword=false;
+//首次加载
+$(function(){
+	$("body").css("background","#fff");
+	var tokens=GetCookie("_u_token");
+	pageUrl="/api/wap/findspu";
+	params={page:1,size:2,mark:4,ch:3};
+	content="fix";
+	initPage(0);
+	miaosha();
+	
+	fixed('.fx-footer');
+	borderRadius('.top_news_num');
+	$(window).scroll(function(){
+		var scrollTop=$(this).scrollTop();
+		var scrollHeight=$(document).height();
+		var windowHeight=$(this).height();
+		if(scrollTop+windowHeight==scrollHeight){
+			initPage(0);
+		}
+	});
+});
+		//秒杀数据读取
+		function miaosha(){
+			var ajaxdata=AjaxUtil.Get("/api/wap/findmshd",{ch:3,page:1,size:10});
+			if(ajaxdata.code==0&&ajaxdata.data.length>0){
+				timemiao(ajaxdata.data[0].enddate);
+				setTimeout("timemiao('"+ajaxdata.data[0].enddate+"')", 1000);
+				var listdata = {
+			                     list: ajaxdata.data[0].productList
+			            };
+				 var html = template("miaohtml", listdata);
+				$("#miaocontent").html(html);
+				cssinit();
+				$(".miaosha").css("display","");
+			}else{
+				$(".miaosha").css("display","none");
+			}
+		}
+		
+		
+		//秒杀时间倒计时
+		function timemiao(enddate){
+			var diff=new Date(enddate)-new Date();
+			var day = parseInt(diff / 86400000);                         //以天数为单位取整  
+            var hour= parseInt(diff % 86400000 / 3600000);               //以小时为单位取整  
+            var min = parseInt(diff % 86400000 % 3600000 / 60000);       //以分钟为单位取整  
+            var seconds = parseInt(diff % 86400000 % 3600000 % 60000 / 1000);   //以秒为单位取整  
+            if(day<=0&&hour<=0&min<=0&&seconds<=0){
+				miaosha();
+			}else{
+            	var timehtml='还剩<span>'+day+'</span>:<span>'+(hour<10?"0"+hour:hour)+'</span>:<span>'+(min<10?"0"+min:min)+'</span>:<span>'+(seconds<10?"0"+seconds:seconds)+'</span>';
+				$("#miaotime").html(timehtml);
+				setTimeout("timemiao('"+enddate+"')", 1000);
+			}
+		}
+</script>
+</head>
+<body>
+<!--top begin-->
+<div class="top fix">
+	<div class="top_scan">
+		<!-- <a href="#">
+		<span><img src="/resource/wap/images/top_scan.png"/></span>
+		<div class="top_color">
+			扫一扫
+		</div>
+		</a> -->
+	</div>
+	<div class="top_search">
+		<input type="text" name="" id="" value="" onclick="javascript:location.href='/wap/search.html?href=/wap/index.html'" placeholder="春运启程 把爱带回家" class="top_searchinput"/>
+		<div class="top_searchico">
+			<img src="/resource/wap/images/top_search.png"/>
+		</div>
+	</div>
+	<div class="top_news">
+		<a href="/wap/messages/queryMessages?ch=3&href=/wap/index.html">
+		<span><img src="/resource/wap/images/top_news.png"/></span>
+		<div class="top_color" >
+			消息
+		</div>
+		<div class="top_news_num">
+					${messagecount}
+		</div>
+		</a>
+	</div>
+</div>
+<!--top stop-->
+<div style="height: 0.88rem;"></div>
+<!--banner-->
+<div class="fx-banner">
+	<ul>
+	<% for (vo in ban){%>	
+	    	<li ><a href="${vo.url}" target="_blank"><img src="${vo.img}"></a></li>
+	<%}%>
+  </ul>
+</div>
+<script>
+$(function(){
+	/////banner	
+	Yeffect.mobileBanner(".fx-banner ul",".fx-banner ul li",".fx-banner p i","","","current",5000);
+	var fx_banner=$(".fx-banner");
+	Yeffect.resizeHtW(fx_banner,fx_banner,640,248);
+})
+</script>
+<!--banner***-->
+<div class="modi-fxul fix lszgbtul">
+	<ul class="fix">
+ 
+		<li><a href="/wap/coupon/getShopCoupon?ch=3"><i><img src="/resource/wap/images/zlindexico1.png" class="img-responsive"/></i><p>天天抢券</p></a></li>
+		<li><a href="/wap/qianview/qian"><i><img src="/resource/wap/images/zlindexico2.png" class="img-responsive"/></i><p>每日签到</p></a></li>
+		<li><a href="/wap/activityView/miao.html"><i><img src="/resource/wap/images/zlindexico3.png" class="img-responsive"/></i><p>秒杀</p></a></li>
+		<li><a href="/wap/activityView/shan.html"><i><img src="/resource/wap/images/zlindexico4.png" class="img-responsive"/></i><p>闪购</p></a></li>
+		<li><a href="/wap/topicdet.html?mark=18"><i><img src="/resource/wap/images/zlindexico5.png" class="img-responsive"/></i><p>独家品牌</p></a></li>
+		<li><a href="/wap/topicdet.html?mark=19"><i><img src="/resource/wap/images/zlindexico6.png" class="img-responsive"/></i><p>值得购</p></a></li>
+		<li><a href="/wap/wap/mrx.html"><i><img src="/resource/wap/images/zlindexico7.png" class="img-responsive"/></i><p>每日鲜</p></a></li>
+		<li><a href="/wap/proclass/classList.html"><i><img src="/resource/wap/images/zlindexico8.png" class="img-responsive"/></i><p>全部分类</p></a></li>
+	</ul>
+</div>
+<hr class="back" />
+<div class="zlindex-tit rowmore miaosha" onclick="javascript:location.href='/wap/activityView/miao.html'">
+	<img src="/resource/wap/images/zltit1.png"/>
+	<b>限时秒杀</b>
+	<div class="zlindex-tit-time" id="miaotime">
+		还剩
+		<span>00</span>
+		:
+		<span>00</span>
+		:
+		<span>00</span>
+		:
+		<span>00</span>
+	</div>
+</div>
+<!-- Swiper -->
+<div class="swiper-container martb2 miaosha">
+  <div class="swiper-wrapper"  id="miaocontent">
+  </div>
+  <!-- Add Pagination -->
+  <div class="swiper-pagination disnone"></div>
+</div>
+<script type="text/html" id="miaohtml">
+{{each list as vo i}}
+	 <div class="swiper-slide zlxsmsmk">
+    	<a href="/wap/products/ProDetail.html?spuid={{vo.proid}}&type=2"><img src="{{vo.img}}"/></a>
+    	<h3><a href="/wap/products/ProDetail.html?spuid={{vo.proid}}&type=2">{{vo.name}}</a></h3>
+    	<p><span class="red">￥{{vo.price}}</span><span class="text-decthrough">￥{{vo.oldprice}}</span></p>
+    </div>
+{{/each}}
+</script>
+<!-- Swiper end-->
+<div class="hotnews fix">
+	<div class="hotnews_l">
+		<span>最新</span><span>消息</span>
+	</div>
+	<div class="hotnews_r">
+		<ul>
+			<li>
+				<a href="#">年货抢购攻略！！</a>
+			</li>
+		</ul>
+	</div>
+</div>
+<hr class="back" />
+<div class="zlindex-tit">
+	<img src="/resource/wap/images/zltit2.png"/>
+	<b>特色频道</b>
+</div>
+<div class="zlindex-tspd fix">
+	<div class="zlindex-tspdcon">
+		<div class="zlindex-tspdcon-l"><a href="/wap/find/lszgindex.html?pagetype=index"><img src="/resource/wap/images/zlindeximg2.jpg"/></a></div>
+		<div class="zlindex-tspdcon-r">
+			<a href="/wap/zlwd/index.html?pagetype=index"><img src="/resource/wap/images/zlindeximg3.jpg"/></a>
+			<a href="/wap/find/findbyzs.html"><img src="/resource/wap/images/zlindeximg4.jpg"/></a>
+		</div>
+	</div>
+	<a href="/wap/find/findzlzq.html?pagetype=index"><img src="/resource/wap/images/zlindeximg5.jpg" class="img-responsive" style="max-height: 1.55rem;"/></a>
+</div>
+<hr class="back" />
+<div class="zlindex-tit nobor">
+	<img src="/resource/wap/images/zltit3.png"/>
+	<b>品牌街</b>
+</div>
+<div class="zlindex-ppj fix">
+	<div class="zlindex-ppj-l">
+		<%for(var i=0;i < ppj.~size;i++){%>
+		<div class="zlindex-ppjmk">
+			<a href="/wap/brand/brandpros.html?bid=${ppj[i].bid}&&bname=${ppj[i].bname}">
+				<img src="${ppj[i].imgurl}"/>
+				<div><p><span>${ppj[i].bname}</span></p></div>
+			</a>
+		</div>
+		<%if(i==2){break;}%>
+		<%}%>
+	</div>
+	
+	<div class="zlindex-ppj-r">
+		<%for(var i=3;i < ppj.~size;i++){%>
+		<div class="zlindex-ppjmk">
+			<a href="/wap/brand/brandpros.html?bid=${ppj[i].bid}">
+				<img src="${ppj[i].imgurl}"/>
+				<div><p><span>${ppj[i].bname}</span></p></div>
+			</a>
+		</div>
+		<%}%>
+	</div>
+	
+</div>
+<hr class="back" />
+<%for(vo in gg1){%>
+		<img src="${vo.imag}" class="img-responsive maxH150" />
+		<%}%>
+<hr class="back" />
+<div class="zlindex-tit nobor rowmore" onclick="javascript:location.href='/wap/topicdet.html?mark=3'">
+	<img src="/resource/wap/images/zltit4.png" />
+	<b>新品尝鲜</b>
+</div>
+<ul class="zlindex-xpcx fix">
+<%for(vo in xpss){%>
+	<li>
+		<a href="/wap/products/ProDetail.html?spuid=${vo.spuid}">
+			<img src="${vo.img}" />
+			<p>¥${vo.price}</p>
+		</a>
+	</li>
+				<%}%>
+</ul>
+<hr class="back" />
+<%for(vo in gg3){%>
+		<img src="${vo.imag}" class="img-responsive maxH150" />
+		<%}%>
+<hr class="back" />
+<div class="zlindex-tit nobor rowmore"  onclick="javascript:location.href='/wap/findfxhd.html'">
+	<img src="/resource/wap/images/zltit5.png"/>
+	<b>发现好店</b>
+</div>
+<ul class="zlindex-fzhd fix">
+<%for(vo in fxhd){%>
+<li>
+		<a href="/wap/shop/index.html?id=${vo.shopid}&href=/wap/index.html">
+			<img src="${vo.img}" />
+			<div class="zlindex-fzhddiv">
+				<div>
+					<h3>${vo.shopname}</h3>
+				</div>
+			</div>
+		</a>
+	</li>
+			<%}%>
+	
+</ul>
+<hr class="back" />
+<%for(vo in gg2){%>
+		<img src="${vo.imag}" class="img-responsive maxH150" />
+		<%}%>
+<hr class="back" />
+<div class="zlindex-tit nobor text-center">
+	<span class="zlsbcenter">
+		<img src="/resource/wap/images/zltit6.png"/>
+		<b>发现好货</b>
+	</span>
+	<div class="zlindex-tithg"></div>
+</div>
+<div class="bodybjhs">
+	<ul class="zlindex-fxhh fix" id="fix">
+		
+	</ul>
+</div>
+<img src="/resource/wap/images/index_42.png" class="qianggou-scrollTop">
+<%
+    include("/template/wap/index_foot.html",{display:0}){}
+    %>
+<script>
+function cssinit(){
+var swiper = new Swiper('.swiper-container', {
+	pagination: '.swiper-pagination',
+	slidesPerView: 3,
+	paginationClickable: true,
+	spaceBetween: 15,
+	freeMode: true
+});
+	Yeffect.resizeHtWstr(".zlxsmsmk:visible",".zlxsmsmk img",138,138);
+	Yeffect.resizeHtWstr(".zlindex-xpcx li:visible",".zlindex-xpcx li img",197,197);
+	Yeffect.resizeHtWstr(".zlindex-fzhd li:visible",".zlindex-fzhd li img",314,314);
+	Yeffect.resizeHtWstr(".zlindex-fxhh li:visible",".zlindex-fxhh li img",316,240);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Expires" content="-1">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<title>地方馆</title>
+<link rel="stylesheet" href="/resource/app/css/greenLife.css" />
+<script type="text/javascript" src="/resource/jquery-1.9.1.min.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/js.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/Yeffect16_0118.min.js" ></script>
+<script type="text/javascript" src="/resource/GetQueryString.js"></script>
+<script type="text/javascript" src="/resource/wap/js/greenLife.js" ></script>
+<script type="text/javascript" src="/resource/artTemplate.js"></script>
+<script type="text/javascript" src="/resource/wap/js/wap-common.js"></script>
+<script type="text/javascript">
+var citycode="${citycode!}";
+  	$(function(){
+  		pro();
+  		$(".bigsize").bind("click",function(){
+  			if(GetQueryStringByName("b")==1){
+  				window.location.href='url:///back';
+  			}else{
+  				location.href='url:///back';
+  			}
+  		});
+	});
+	
+  	function loadcss(){
+  		Yeffect.mobileBanner(".fx-banner ul",".fx-banner ul li",".fx-banner p i","","","current",5000);
+  			var fx_banner=$(".fx-banner");
+  			Yeffect.resizeHtW(fx_banner,fx_banner,640,248);
+  			}
+	function pro(){
+		$("#probody").css("display","inline");
+		pageIndex=1;
+		pageTotal=1;
+		 pageData={page:1,size:10,ch:3,proid:"${proid!}"};
+		 pageUrl="/wap/zlzx/queryrmcs";
+		 content="#probody";
+		 scripthtml="pro";
+		initPage();
+		loadcss();
+	}
+	
+  	</script>
+ <%if(ch==2){%>
+<style>
+.septop {padding-top: 18px;}
+.septop.rowreturn.bjwhite{background: #fff url(/resource/app/images/rowreturn_heise.png) no-repeat 3% 0.6rem;background-size: 0.17rem auto;}
+</style>
+<%}%>
+</head>
+<body>
+<!--septop begin-->
+<div class="septop rowreturn fixed bjwhite">
+	<div class="bigsize"><span>${cityname!'全国'}</span><i></i></div>
+	<div id="rowreturn" onclick="javascirpt:location.href='url:///back'"></div>
+</div>
+<ul class="sep-byzslist fix" id="probody" style="display: none;">
+	
+</ul>
+
+<img src="/resource/wap/images/index_42.png" class="qianggou-scrollTop">
+
+<script type="text/html" id="pro">
+{{each list as vo i}}
+<li>
+		<a href="/wap/app/dfginfo.html?topicid={{vo.id}}&procode=${procode}">
+			<img src="{{vo.imgurl}}"/>
+			<h3>{{vo.name}}</h3>
+		</a>
+	</li>
+{{/each}}
+</script>
+
+<script>
+$(function(){
+	fixed('.septop');
+	Yeffect.resizeHtWstr(".sep-byzslist li:visible",".sep-byzslist li img",296,296);
+})
+</script>
+</body>
+</html>

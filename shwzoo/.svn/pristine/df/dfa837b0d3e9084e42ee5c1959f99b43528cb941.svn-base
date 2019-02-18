@@ -1,0 +1,38 @@
+#image_src=http://yinlink.f3322.net:91  http://36.32.8.159:90
+image_src=http://172.28.22.40:8080
+
+
+#发送邮件的信息
+email_username=playwool@163.com
+email_password=xxx1201101
+email_from=playwool@163.com
+email_smtp=smtp.163.com
+
+#message 
+#smsurl
+#smsurl=http://api.itrigo.net/mt.jsp?cpName=yinliankeji&cpPwd=yinlian
+smsusername=020839
+smspassword=shangye
+smsurl=http://101.227.68.68:7891/mt?
+#upload ext
+upload_ext=jpg,png,gif,doc,docx,jpeg
+#tiao shi wei true  zheng shi shang xian jian yi  gai wei false
+is_debug=true
+
+
+#jpush name:password
+appkey=71c573da915ef9d3891c0954
+mastersecret=afebe7cf4541f92393e96801
+offlineday=1
+#ios
+iosappkey=4331d151b8e8b3ca1190c21b
+iosmastersecret=71aac56ba21f5774142151fe
+iosofflineday=1
+
+#piaowu
+serviceRequest=http://zyb-zff.sendinfo.com.cn/boss/service/code.htm
+serviceCode=TESTFX
+serviceUser=admin
+serviceKey=TESTFX
+#weixinzhengshu
+certificatepath=F:/apiclient_cert.p12

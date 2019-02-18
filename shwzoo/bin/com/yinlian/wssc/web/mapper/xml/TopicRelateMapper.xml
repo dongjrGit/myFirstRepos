@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.TopicRelateMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.TopicRelate" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="topicid" property="topicid" jdbcType="INTEGER" />
+    <result column="relatedid" property="relatedid" jdbcType="INTEGER" />
+    <result column="imgurl" property="imgurl" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="ClassifyId" property="classifyid" jdbcType="VARCHAR"/>
+    <result column="ClassifyName" property="classifyname" jdbcType="VARCHAR"/>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, topicid, relatedid, imgurl,sort,ClassifyId,ClassifyName
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.TopicRelateExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from topic_relate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from topic_relate
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from topic_relate
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.TopicRelateExample" >
+    delete from topic_relate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.TopicRelate" >
+    insert into topic_relate (id, topicid, relatedid, 
+      imgurl,sort)
+    values (#{id,jdbcType=INTEGER}, #{topicid,jdbcType=INTEGER}, #{relatedid,jdbcType=INTEGER}, 
+      #{imgurl,jdbcType=VARCHAR},#{sort,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.TopicRelate" >
+    insert into topic_relate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="topicid != null" >
+        topicid,
+      </if>
+      <if test="relatedid != null" >
+        relatedid,
+      </if>
+      <if test="imgurl != null" >
+        imgurl,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+       <if test="classifyid != null" >
+        ClassifyId,
+      </if>
+      <if test="classifyname != null" >
+        ClassifyName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="topicid != null" >
+        #{topicid,jdbcType=INTEGER},
+      </if>
+      <if test="relatedid != null" >
+        #{relatedid,jdbcType=INTEGER},
+      </if>
+      <if test="imgurl != null" >
+        #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+       <if test="classifyid != null" >
+        #{classifyid,jdbcType=INTEGER},
+      </if>
+      <if test="classifyname != null" >
+        #{classifyname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.TopicRelateExample" resultType="java.lang.Integer" >
+    select count(*) from topic_relate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update topic_relate
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.topicid != null" >
+        topicid = #{record.topicid,jdbcType=INTEGER},
+      </if>
+      <if test="record.relatedid != null" >
+        relatedid = #{record.relatedid,jdbcType=INTEGER},
+      </if>
+      <if test="record.imgurl != null" >
+        imgurl = #{record.imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sort != null" >
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update topic_relate
+    set id = #{record.id,jdbcType=INTEGER},
+      topicid = #{record.topicid,jdbcType=INTEGER},
+      relatedid = #{record.relatedid,jdbcType=INTEGER},
+      imgurl = #{record.imgurl,jdbcType=VARCHAR}
+      sort = #{record.sort,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.TopicRelate" >
+    update topic_relate
+    <set >
+      <if test="topicid != null" >
+        topicid = #{topicid,jdbcType=INTEGER},
+      </if>
+      <if test="relatedid != null" >
+        relatedid = #{relatedid,jdbcType=INTEGER},
+      </if>
+      <if test="imgurl != null" >
+        imgurl = #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByTopicRelate" parameterType="com.yinlian.wssc.web.po.TopicRelate" >
+    update topic_relate
+    set topicid = #{topicid,jdbcType=INTEGER},
+      relatedid = #{relatedid,jdbcType=INTEGER},
+      imgurl = #{imgurl,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      ClassifyId = #{classifyid,jdbcType=INTEGER},
+      ClassifyName = #{classifyname,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+    <select id="queryByTopicId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from topic_relate
+    where topicid = #{topicid,jdbcType=INTEGER}
+  </select>
+   <!-- 以下是自定义的 接口 分页查询 -->
+   <sql id="criteria_query">
+   <where>
+   	 r.topicid = #{criteria.topicid}
+     </where> 
+  </sql>  
+   <select id="selectTopicRelateByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" resultType="com.yinlian.wssc.web.dto.TopicRelateInfo">
+	SELECT r.id,r.topicid topicid,t.title title,r.imgurl imgurl,t2.description description,r.order
+	FROM topic t left join topic_relate r on  t.id = r.topicid left join topic t2 on r.relatedid = t2.id
+     <if test="criteria != null ">
+     <include refid="criteria_query"/> 
+     </if>
+     <if test="criteria.orderByClause != null and criteria.orderByClause != '' " >
+      order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序     此处只能使用${} 而不能使用#{} 会设置参数失败 -->
+    </if>
+  </select>
+  <select id="getRelatedid" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		select r.relatedid from topic_relate r left join topic on topic.id=r.topicid where topicid=#{0}
+	</select>
+  <select id="getRelatedidAndreleteId"  resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select r.relatedid from topic_relate r left join topic on topic.id=r.topicid where topicid=#{0} and relatedid=#{1}
+	</select>
+		
+</mapper>

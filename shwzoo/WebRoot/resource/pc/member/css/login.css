@@ -1,0 +1,93 @@
+@charset "utf-8";
+/* CSS Document */
+
+html,body{height:100%; width:100%; overflow:hidden; margin:0; padding:0;}
+
+/*top  begin*/
+#top{ width:100%; height:68px; background:#0199EF; border-bottom:1px solid #EAEAEA;}
+#top .wrapper{ width:1200px; margin:0 auto; height:68px; position:relative;}
+.logo{ width:80px; height:55px; background:url(../images/icion.png) no-repeat 0px 0px; float:left; margin:10px 0px 0px 15px;}
+.top-right{ width:300px; position:absolute; top:0px; right:0px; text-align:right; height:68px; line-height:68px; font-size:14px; color:#FFF;}
+#top .wrapper .top-right .lvse{ margin-left:15px; font-size:12px;}
+#top .wrapper .top-right .lvse a{ color:#FFF;}
+#top .wrapper .top-right .lvse a:hover{ color:#FFF; text-decoration:underline;}
+/*top  stop*/
+
+/*main  begin*/
+#main{ background:#FEF9F5;width:100%; height:100%; overflow:hidden; margin:0; padding:0;}
+#main .wrapper{width:1200px; height:100%; margin:0 auto;background:url(../images/bj-all.jpg) no-repeat;} 
+.mainleft{ width:715px; height:704px; float:left; clear:both;}
+.mainright{ width:388px; float:right; background:#ffffff; padding:35px 0px 40px 0px; border:1px solid #DEDEDC; border-top:3px solid #0496EB; margin-top:110px;}
+.mainright-top{ font-size:18px; color:#0F8EED; letter-spacing:5px; text-align:center; font-weight:bolder;}
+.loginyhm{ width:274px; height:40px; background:url(../images/img_login01.png) no-repeat; margin:23px auto 20px auto;}
+.loginmima{ width:274px; height:40px; background:url(../images/img_login02.png) no-repeat; margin:0px auto 20px auto;}
+.login-dl{ height:37px; float:right; width:230px; line-height:37px; background:none; border:none; color:#A0A0A0; padding-left:5px;}
+.wjmm{ width:274px; margin:0 auto; height:35px; line-height:35px; margin-top:10px; position:relative;}
+.mfzc{ width:100px; height:35px; position:absolute; top:0px; right:0px; text-align:right; display:inline-block;}
+.login-dlaniu{ width:274px; height:39px; margin:0 auto;}
+.elselogin{ width:274px; border-top:1px dashed #BABABA; margin:20px auto 0px auto;}
+.qtdl{ height:42px; line-height:42px; color:#BEBEBE;}
+.qtdl-img span{ margin-right:10px;}
+.qq_login, .wx_login, .wb_login{ width:35px; height:32px; display:inline-block; background:url(../images/login_else.png) no-repeat; cursor:pointer;}
+.qq_login{ background-position:0px 0px;}
+.wx_login{ background-position:-60px 0px;}
+.wb_login{ background-position:-120px 0px;}
+.tsmess{ color:#c31; line-height:20px; width:274px; margin:-15px auto 0px auto;}
+/*main  stop*/
+
+/*yxzc 邮箱注册 begin*/
+.yxzc{ height:39px;}
+.yxzc-wz{ height:37px; line-height:36px; padding:0px 35px; border:1px solid #BFBFBF; border-top:3px solid #4AB9EE; display:inline-block; font-size:16px; color:#42BCE3; border-bottom:none; background:#FFF; margin:0px 5px 0px 200px;filter:progid:DXImageTransform.Microsoft.gradient(enabled='true',startColorstr='#ffffff',endColorstr='#ffffff');background:rgba(255,253,254,0.9); }
+.yxzc-wz a{ color:#42BCE3;}
+.sjzc-wz a{ color:#42BCE3;}
+.sjzc-wz{ height:37px; line-height:37px; padding:0px 35px; border:1px solid #BFBFBF; display:inline-block; font-size:16px; color:#42BCE3; border-bottom:none;background:#FFF; }
+.yxyzcon{ background:#ffffff; border:1px solid #C0C0C0; padding:70px;filter:progid:DXImageTransform.Microsoft.gradient(enabled='true',startColorstr='#ffffff',endColorstr='#ffffff');background:rgba(255,253,254,0.9);}
+.yxyzcon-left{ width:545px; border-right:1px solid #585858; float:left; clear:both;}
+.yxyzcon-left .yxyzmk{height:45px; margin-bottom:20px;}
+.yxyzcon-left .yxyzmk .yxyzmk-left{ width:102px; text-align:right; height:45px; line-height:45px; font-size:16px; padding-right:5px; float:left; color:#000;}
+.yxyzcon-left .yxyzmk .yxyzmk-right{ background:url(../images/img_bj02.png) no-repeat; height:45px; width:273px; float:left;}
+.inp-yz{ height:43px; width:263px; background: none; border:none; padding:0px 5px; color:#C0C0C0; line-height:43px; font-size:14px; }
+.yxyzcon-left .yxyzmk .yxyzmk-right-yzm{ background:url(../images/img_bj03.png) no-repeat; height:45px; width:273px; float:left;}
+.inp-yz-yzm{ height:43px; width:140px; background: none; border:none; padding:0px 5px; color:#C0C0C0; line-height:43px; float:left;font-size:14px; }
+.verification-yzm{ width:83px; height:45px; display:inline-block; overflow:hidden; float:left;}
+#main .wrapper .yxyzcon .yxyzcon-left .yxyzmk .yxyzmk-right-yzm .lvse{ height:45px; line-height:45px; display:inline-block; float: left;}
+#main .wrapper .yxyzcon .yxyzcon-left .yxyzmk .yxyzmk-right-yzm .lvse a:hover{ text-decoration:underline;}
+.yxyzmk-right-bottom{ height:30px; width:273px; float:left; line-height:30px; font-size:16px; color:#0F0F0F;}
+.yxyzcon-right{ width:350px; float:right;}
+.yyzc-img{ height:65px;}
+.qyzc-wzjs{ height:30px; line-height:30px; color:#101010;}
+.qyzc-wzjs a{color:#101010;}
+.qyzc-wzjs a:hover{color:#c31;}
+.hqyzm-sj{ width:110px; height:43px; display:inline-block;float:right; line-height:45px; text-align:center; cursor:pointer; border:1px solid #ACACAC;color:#C0C0C0; font-size:14px;}
+/*yxzc 邮箱注册 stop*/
+
+/*企业注册  开始*/
+.hyzcqyyh{ font-size:24px; color:#009BFF; padding:0px 70px;}
+/*fwlbcon  begin*/
+.fwlbcon{ margin-top:25px; padding:0px 70px;}
+.fwlbcon-mk{ width:290px; font-size:14px; float:left;}
+.fwlbcon-mktitle{ font-weight:bolder; color:#000; height:30px; line-height:30px;}
+.fwlbcon-mkcon{}
+.fwlbcon-mkcon ul li{ line-height:25px;}
+/*fwlbcon  stop*/
+/*zhxx-qyzc  begin*/
+.zhxx-qyzc{ margin:50px 0px 0px 0px;}
+.zhxx-qyzctop{ height:38px; background:#E4E2E3; border-top:1px solid #BCB5AD; padding-left:70px; line-height:38px; font-size:16px; color:#000; font-weight:bolder;}
+.zhxxform{ padding:60px 0px 0px 0px;}
+.zhxxmk{height:45px; margin-bottom:20px;}
+.zhxxmk-left{ width:460px; text-align:right; height:45px; line-height:45px; font-size:16px; padding-right:5px; float:left; color:#000;}
+.zhxxmk-right{ background:url(../images/img_bj02.png) no-repeat; height:45px; width:273px; float:left;}
+.zhxxmk-right-szbm{height:45px; width:700px; float:left;}
+.selcon{ width:154px; height:46px; background:url(../images/imgsel02.png) no-repeat; position: relative; float:left; margin-right:15px;}
+.selcon-left{ width:125px; height:46px; position:absolute; top:0px; left:0px; line-height:46px; text-align:center; font-size:16px;}
+.selcon-right{ width:29px; height:46px; position:absolute; top:0px; left:125px;}
+.selcon-main{ width:152px; height:300px; position:absolute; top:47px; left:0px; background:#F5F5F5; z-index:20; border:1px solid #7F7F7F; overflow:auto; display:none; }
+.selcon-main ul li{ padding-left:15px; font-size:14px; height:25px; line-height:25px; cursor:default;}
+.zhxxmk-right-yzm{ background:url(../images/img_bj03.png) no-repeat; height:45px; width:273px; float:left;}
+.hqyzm-sj-zhxxmk{ width:110px; height:43px; display:inline-block;float:right; line-height:45px; text-align:center; cursor:pointer; border:1px solid #ACACAC; font-size:14px; background:#EFEFEF;}
+.zhxxmk-right-szbm .fxk-zhxxmk li{ font-size:16px; float:left; margin:0px 15px 10px 0px;}
+#main .wrapper .yxyzcon .zhxx-qyzc .zhxxform .zhxxmk .zhxxmk-right-yzm .lvse{ height:45px; line-height:45px; display:inline-block; float: left;}
+#main .wrapper .yxyzcon .zhxx-qyzc .zhxxform .zhxxmk .zhxxmk-right-yzm .lvse a:hover{ text-decoration:underline;}
+.zhxxmk-right-bottom{ height:30px; width:273px; float:left; line-height:30px; font-size:16px; color:#0F0F0F;}
+/*zhxx-qyzc  stop*/
+/*企业注册  结束*/

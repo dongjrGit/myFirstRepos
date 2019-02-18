@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.GroupbuyMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Groupbuy">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="cprice" property="cprice" jdbcType="REAL" />
+		<result column="oprice" property="oprice" jdbcType="REAL" />
+		<result column="validitystart" property="validitystart"
+			jdbcType="TIMESTAMP" />
+		<result column="validityend" property="validityend" jdbcType="TIMESTAMP" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="isAnytime" property="isanytime" jdbcType="BIT" />
+		<result column="isBook" property="isbook" jdbcType="BIT" />
+		<result column="isExpired" property="isexpired" jdbcType="BIT" />
+		<result column="detaildesc" property="detaildesc" jdbcType="VARCHAR" />
+		<result column="listdesc" property="listdesc" jdbcType="VARCHAR" />
+		<result column="shopid" property="shopid" jdbcType="INTEGER" />
+		<result column="stock" property="stock" jdbcType="INTEGER" />
+		<result column="salesCount" property="salescount" jdbcType="INTEGER" />
+		<result column="isdel" property="isdel" jdbcType="BIT" />
+		<result column="creattime" property="creattime" jdbcType="TIMESTAMP" />
+		<result column="deltime" property="deltime" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="hacode" property="hacode" jdbcType="VARCHAR" />
+		<result column="usesite" property="usesite" jdbcType="VARCHAR" />		
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.yinlian.wssc.web.po.GroupbuyWithBLOBs"
+		extends="BaseResultMap">
+		<result column="content" property="content" jdbcType="LONGVARCHAR" />
+		<result column="buynotes" property="buynotes" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		id, title, cprice, oprice, validitystart, validityend, type, isAnytime,
+		isBook, isExpired,
+		detaildesc, listdesc, shopid, stock, salesCount, isdel, creattime, deltime,status,hacode,usesite
+	</sql>
+	<sql id="Blob_Column_List">
+		content, buynotes
+	</sql>
+	<select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+		parameterType="com.yinlian.wssc.web.po.GroupbuyExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from groupbuy
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.GroupbuyExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from groupbuy
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from groupbuy
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from groupbuy
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.GroupbuyExample">
+		delete from groupbuy
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.GroupbuyWithBLOBs">
+		insert into groupbuy (id, title, cprice,
+		oprice, validitystart, validityend,
+		type, isAnytime, isBook, isExpired,
+		detaildesc, listdesc, shopid,
+		stock, salesCount, isdel,
+		creattime, deltime, content,
+		buynotes,status,hacode,usesite)
+		values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+		#{cprice,jdbcType=REAL},
+		#{oprice,jdbcType=REAL}, #{validitystart,jdbcType=TIMESTAMP},
+		#{validityend,jdbcType=TIMESTAMP},
+		#{type,jdbcType=INTEGER}, #{isanytime,jdbcType=BIT}, #{isbook,jdbcType=BIT},
+		#{isexpired,jdbcType=BIT},
+		#{detaildesc,jdbcType=VARCHAR}, #{listdesc,jdbcType=VARCHAR}, #{shopid,jdbcType=INTEGER},
+		#{stock,jdbcType=INTEGER}, #{salescount,jdbcType=INTEGER},
+		#{isdel,jdbcType=BIT},
+		#{creattime,jdbcType=TIMESTAMP}, #{deltime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR},
+		#{buynotes,jdbcType=LONGVARCHAR},#{status,jdbcType=INTEGER},#{hacode,jdbcType=VARCHAR},#{usesite,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.GroupbuyWithBLOBs">
+		insert into groupbuy
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="cprice != null">
+				cprice,
+			</if>
+			<if test="oprice != null">
+				oprice,
+			</if>
+			<if test="validitystart != null">
+				validitystart,
+			</if>
+			<if test="validityend != null">
+				validityend,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="isanytime != null">
+				isAnytime,
+			</if>
+			<if test="isbook != null">
+				isBook,
+			</if>
+			<if test="isexpired != null">
+				isExpired,
+			</if>
+			<if test="detaildesc != null">
+				detaildesc,
+			</if>
+			<if test="listdesc != null">
+				listdesc,
+			</if>
+			<if test="shopid != null">
+				shopid,
+			</if>
+			<if test="stock != null">
+				stock,
+			</if>
+			<if test="salescount != null">
+				salesCount,
+			</if>
+			<if test="isdel != null">
+				isdel,
+			</if>
+			<if test="creattime != null">
+				creattime,
+			</if>
+			<if test="deltime != null">
+				deltime,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+			<if test="buynotes != null">
+				buynotes,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="usesite != null">
+				usesite,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="cprice != null">
+				#{cprice,jdbcType=REAL},
+			</if>
+			<if test="oprice != null">
+				#{oprice,jdbcType=REAL},
+			</if>
+			<if test="validitystart != null">
+				#{validitystart,jdbcType=TIMESTAMP},
+			</if>
+			<if test="validityend != null">
+				#{validityend,jdbcType=TIMESTAMP},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="isanytime != null">
+				#{isanytime,jdbcType=BIT},
+			</if>
+			<if test="isbook != null">
+				#{isbook,jdbcType=BIT},
+			</if>
+			<if test="isexpired != null">
+				#{isexpired,jdbcType=BIT},
+			</if>
+			<if test="detaildesc != null">
+				#{detaildesc,jdbcType=VARCHAR},
+			</if>
+			<if test="listdesc != null">
+				#{listdesc,jdbcType=VARCHAR},
+			</if>
+			<if test="shopid != null">
+				#{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="stock != null">
+				#{stock,jdbcType=INTEGER},
+			</if>
+			<if test="salescount != null">
+				#{salescount,jdbcType=INTEGER},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=BIT},
+			</if>
+			<if test="creattime != null">
+				#{creattime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deltime != null">
+				#{deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="buynotes != null">
+				#{buynotes,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="usesite != null">
+				#{usesite,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.GroupbuyExample"
+		resultType="java.lang.Integer">
+		select count(*) from groupbuy
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update groupbuy
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.title != null">
+				title = #{record.title,jdbcType=VARCHAR},
+			</if>
+			<if test="record.cprice != null">
+				cprice = #{record.cprice,jdbcType=REAL},
+			</if>
+			<if test="record.oprice != null">
+				oprice = #{record.oprice,jdbcType=REAL},
+			</if>
+			<if test="record.validitystart != null">
+				validitystart = #{record.validitystart,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.validityend != null">
+				validityend = #{record.validityend,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.type != null">
+				type = #{record.type,jdbcType=INTEGER},
+			</if>
+			<if test="record.isanytime != null">
+				isAnytime = #{record.isanytime,jdbcType=BIT},
+			</if>
+			<if test="record.isbook != null">
+				isBook = #{record.isbook,jdbcType=BIT},
+			</if>
+			<if test="record.isexpired != null">
+				isExpired = #{record.isexpired,jdbcType=BIT},
+			</if>
+			<if test="record.detaildesc != null">
+				detaildesc = #{record.detaildesc,jdbcType=VARCHAR},
+			</if>
+			<if test="record.listdesc != null">
+				listdesc = #{record.listdesc,jdbcType=VARCHAR},
+			</if>
+			<if test="record.shopid != null">
+				shopid = #{record.shopid,jdbcType=INTEGER},
+			</if>
+			<if test="record.stock != null">
+				stock = #{record.stock,jdbcType=INTEGER},
+			</if>
+			<if test="record.salescount != null">
+				salesCount = #{record.salescount,jdbcType=INTEGER},
+			</if>
+			<if test="record.isdel != null">
+				isdel = #{record.isdel,jdbcType=BIT},
+			</if>
+			<if test="record.creattime != null">
+				creattime = #{record.creattime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.deltime != null">
+				deltime = #{record.deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.content != null">
+				content = #{record.content,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.buynotes != null">
+				buynotes = #{record.buynotes,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.usesite != null">
+				usesite = #{record.usesite,jdbcType=BIT},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExampleWithBLOBs" parameterType="map">
+		update groupbuy
+		set id = #{record.id,jdbcType=INTEGER},
+		title = #{record.title,jdbcType=VARCHAR},
+		cprice = #{record.cprice,jdbcType=REAL},
+		oprice = #{record.oprice,jdbcType=REAL},
+		validitystart = #{record.validitystart,jdbcType=TIMESTAMP},
+		validityend = #{record.validityend,jdbcType=TIMESTAMP},
+		type = #{record.type,jdbcType=INTEGER},
+		isAnytime = #{record.isanytime,jdbcType=BIT},
+		isBook = #{record.isbook,jdbcType=BIT},
+		isExpired = #{record.isexpired,jdbcType=BIT},
+		detaildesc = #{record.detaildesc,jdbcType=VARCHAR},
+		listdesc = #{record.listdesc,jdbcType=VARCHAR},
+		shopid = #{record.shopid,jdbcType=INTEGER},
+		stock = #{record.stock,jdbcType=INTEGER},
+		salesCount = #{record.salescount,jdbcType=INTEGER},
+		isdel = #{record.isdel,jdbcType=BIT},
+		creattime = #{record.creattime,jdbcType=TIMESTAMP},
+		deltime = #{record.deltime,jdbcType=TIMESTAMP},
+		content = #{record.content,jdbcType=LONGVARCHAR},
+		buynotes = #{record.buynotes,jdbcType=LONGVARCHAR},
+		status = #{record.status,jdbcType=INTEGER},
+		usesite =
+		 #{record.usesite,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update groupbuy
+		set id = #{record.id,jdbcType=INTEGER},
+		title = #{record.title,jdbcType=VARCHAR},
+		cprice = #{record.cprice,jdbcType=REAL},
+		oprice = #{record.oprice,jdbcType=REAL},
+		validitystart = #{record.validitystart,jdbcType=TIMESTAMP},
+		validityend = #{record.validityend,jdbcType=TIMESTAMP},
+		type = #{record.type,jdbcType=INTEGER},
+		isAnytime = #{record.isanytime,jdbcType=BIT},
+		isBook = #{record.isbook,jdbcType=BIT},
+		isExpired = #{record.isexpired,jdbcType=BIT},
+		detaildesc = #{record.detaildesc,jdbcType=VARCHAR},
+		listdesc = #{record.listdesc,jdbcType=VARCHAR},
+		shopid = #{record.shopid,jdbcType=INTEGER},
+		stock = #{record.stock,jdbcType=INTEGER},
+		salesCount = #{record.salescount,jdbcType=INTEGER},
+		isdel = #{record.isdel,jdbcType=BIT},
+		creattime = #{record.creattime,jdbcType=TIMESTAMP},
+		deltime = #{record.deltime,jdbcType=TIMESTAMP},
+		status = #{record.status,jdbcType=INTEGER},
+		usesite =
+		 #{record.usesite,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.GroupbuyWithBLOBs">
+		update groupbuy
+		<set>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="cprice != null">
+				cprice = #{cprice,jdbcType=REAL},
+			</if>
+			<if test="oprice != null">
+				oprice = #{oprice,jdbcType=REAL},
+			</if>
+			<if test="validitystart != null">
+				validitystart = #{validitystart,jdbcType=TIMESTAMP},
+			</if>
+			<if test="validityend != null">
+				validityend = #{validityend,jdbcType=TIMESTAMP},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="isanytime != null">
+				isAnytime = #{isanytime,jdbcType=BIT},
+			</if>
+			<if test="isbook != null">
+				isBook = #{isbook,jdbcType=BIT},
+			</if>
+			<if test="isexpired != null">
+				isExpired = #{isexpired,jdbcType=BIT},
+			</if>
+			<if test="detaildesc != null">
+				detaildesc = #{detaildesc,jdbcType=VARCHAR},
+			</if>
+			<if test="listdesc != null">
+				listdesc = #{listdesc,jdbcType=VARCHAR},
+			</if>
+			<if test="shopid != null">
+				shopid = #{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="stock != null">
+				stock = #{stock,jdbcType=INTEGER},
+			</if>
+			<if test="salescount != null">
+				salesCount = #{salescount,jdbcType=INTEGER},
+			</if>
+			<if test="isdel != null">
+				isdel = #{isdel,jdbcType=BIT},
+			</if>
+			<if test="creattime != null">
+				creattime = #{creattime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deltime != null">
+				deltime = #{deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="buynotes != null">
+				buynotes = #{buynotes,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="usesite != null">
+				usesite = #{usesite,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yinlian.wssc.web.po.GroupbuyWithBLOBs">
+		update groupbuy
+		set title = #{title,jdbcType=VARCHAR},
+		cprice = #{cprice,jdbcType=REAL},
+		oprice = #{oprice,jdbcType=REAL},
+		validitystart = #{validitystart,jdbcType=TIMESTAMP},
+		validityend = #{validityend,jdbcType=TIMESTAMP},
+		type = #{type,jdbcType=INTEGER},
+		isAnytime = #{isanytime,jdbcType=BIT},
+		isBook = #{isbook,jdbcType=BIT},
+		isExpired = #{isexpired,jdbcType=BIT},
+		detaildesc = #{detaildesc,jdbcType=VARCHAR},
+		listdesc = #{listdesc,jdbcType=VARCHAR},
+		shopid = #{shopid,jdbcType=INTEGER},
+		stock = #{stock,jdbcType=INTEGER},
+		salesCount = #{salescount,jdbcType=INTEGER},
+		isdel = #{isdel,jdbcType=BIT},
+		creattime = #{creattime,jdbcType=TIMESTAMP},
+		deltime = #{deltime,jdbcType=TIMESTAMP},
+		content = #{content,jdbcType=LONGVARCHAR},
+		buynotes = #{buynotes,jdbcType=LONGVARCHAR},
+		status = #{status,jdbcType=INTEGER},
+		hacode=#{hacode,jdbcType=VARCHAR},
+		usesite =
+		#{usesite,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Groupbuy">
+		update groupbuy
+		set title = #{title,jdbcType=VARCHAR},
+		cprice = #{cprice,jdbcType=REAL},
+		oprice = #{oprice,jdbcType=REAL},
+		validitystart = #{validitystart,jdbcType=TIMESTAMP},
+		validityend = #{validityend,jdbcType=TIMESTAMP},
+		type = #{type,jdbcType=INTEGER},
+		isAnytime = #{isanytime,jdbcType=BIT},
+		isBook = #{isbook,jdbcType=BIT},
+		isExpired = #{isexpired,jdbcType=BIT},
+		detaildesc = #{detaildesc,jdbcType=VARCHAR},
+		listdesc = #{listdesc,jdbcType=VARCHAR},
+		shopid = #{shopid,jdbcType=INTEGER},
+		stock = #{stock,jdbcType=INTEGER},
+		salesCount = #{salescount,jdbcType=INTEGER},
+		isdel = #{isdel,jdbcType=BIT},
+		creattime = #{creattime,jdbcType=TIMESTAMP},
+		deltime = #{deltime,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER},
+		hacode=#{hacode,jdbcType=VARCHAR},
+		usesite =
+		#{usesite,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 获取团购列表 -->
+	<select id="getListByPage" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		select
+		<include refid="Base_Column_List" />
+		FROM groupbuy where isdel=0
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	<sql id="criteria_query">
+		<if test="criteria.name != null and criteria.name != '' ">
+			and title like '%${criteria.name}%'
+		</if>
+		<if test="criteria.type != null and criteria.type >=0 ">
+			and type=#{criteria.type}
+		</if>
+		<if test="criteria.shopid != null and criteria.shopid >0 ">
+			and shopid=#{criteria.shopid}
+		</if>
+		<if test="criteria.startFrom != null ">
+			and DATEDIFF(validitystart,#{criteria.startFrom} )<![CDATA[ >= ]]>0
+		</if>
+		<if test="criteria.startTo != null ">
+			and DATEDIFF(validitystart,#{criteria.startTo} )<![CDATA[ <= ]]>0
+		</if>
+		<if test="criteria.endFrom != null ">
+			and DATEDIFF(validityend,#{criteria.endFrom} )<![CDATA[ >= ]]>0
+		</if>
+		<if test="criteria.endTo != null ">
+			and DATEDIFF(validityend,#{criteria.endTo} )<![CDATA[ <= ]]>0
+		</if>
+	</sql>
+	<update id="deleteGroup" parameterType="com.yinlian.wssc.web.po.Groupbuy">
+		update groupbuy set
+		isdel = #{isdel},
+		deltime = #{deltime}
+		where id = #{id}
+	</update>
+    <update id="updateStatus" parameterType="int">
+		update groupbuy set
+		status = #{0}
+		where id = #{1}
+	</update>
+	<select id="selectByHaCode" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Blob_Column_List" />
+		from groupbuy
+		where hacode = #{0}  limit 1
+	</select>
+</mapper>

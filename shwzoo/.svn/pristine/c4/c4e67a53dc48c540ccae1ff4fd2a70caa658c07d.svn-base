@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>订单结算-中绿生活|中国绿色食品展销中心|365Greenlife.com</title>
+ <link href="/resource/pc/web/css/common.css" rel="stylesheet" />
+<link href="/resource/pc/web/css/top-footer.css" rel="stylesheet" />
+<link href="/resource/pc/web/css/index.css" rel="stylesheet" />
+<link href="/resource/ui-dialog.css"  rel="stylesheet" />
+<link href="/resource/pc/commoncss/jQuery.Validate.css" rel="stylesheet" /><!---validate自定义验证样式-->
+<script type="text/javascript" src="/resource/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/linq.min.js"></script>
+<script type="text/javascript" src="/resource/cookie.js"></script>
+<script type="text/javascript" src="/resource/Guid.js"></script>
+<script type="text/javascript" src="/resource/infoc.js"></script>
+<script src="/resource/pc/web/js/index.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/jquery.validate.js"></script>          <!---validate验证--> 
+<script type="text/javascript" src="/resource/pc/commonjs/messages_cn.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/jquery.validate-methods.js"></script>
+<script type="text/javascript" src="/resource/pc/web/js/order/AddressSet.js"></script>
+<script type="text/javascript" src="/resource/pc/web/js/order/order_jiesuan.js"></script>
+<script src="/resource/pc/web/js/login/login.js"></script>
+</head>
+<body>
+    <!--l_logocon  logo一块搜索  开始 -->
+    <div id="top" class="fix">
+		<!--topcon  begin -->
+		<div class="topcon">
+			<% if(userinfo!=null) {%> <span> ${userinfo.loginName}！ </span> <span
+				class="red"> <a href="javascript:signout();"
+				class="ulogin_click">退出</a>
+			</span> <%} else {%> <span> 你好，请<a href="/member/user/showlogin"
+				class="a_buyerlogin">登录</a>
+			</span> <span class="red"> <a href="/member/user/register ;"
+				class="a_buyerregister">免费注册</a>
+			</span> <%}%>
+			<div class="top_rig">
+				<ul>
+					<li><%if(userinfo!=null) {%> <a href="/member/order/getorder.html"
+						class="a_orderlist">我的订单</a> <%}%>
+					</li>
+					<li class="l_hx">|</li>
+					<li class="iphone"><img src="/resource/pc/web/images/iphone.jpg"
+						width="7" height="12" /><a href="#">手机版</a></li>
+					<li class="l_hx">|</li>
+					<li class="l_khfw" id="l_khfw"><a href="#">客户服务</a><span
+						class="l_toprow"></span>
+						 <!--l_khfwcon客户服务 弹出框内容 开始 -->
+                    <div class="l_khfwcon">
+                    <% if(isNotEmpty(navskhfw)) {%>
+                    
+                    <%for(nav in navskhfw){%>
+                    
+                    <%for(navs in nav.list){%>
+                   <div class="f-item-top">
+                        <h3>${navs.classname}</h3>
+                        <ol class="fix">
+                           <%for(child in navs.articles){%>
+                            <li><a href="/web/article/contact.html?id=${child.id}">${child.title}</a></li>
+                          <%}%> 
+                       </ol>
+                    </div>
+                    
+                    <%}%>
+                    
+                    <%}%>
+                    
+                    <%}%> 
+                    </div>
+                    <!--l_khfwcon客户服务 弹出框内容 结束 -->
+					</li>
+					<li class="l_hx">|</li>
+					<li><span class="l_gzwm">关注我们：</span>
+						<div class="l_wbx">
+							<span class="weibo"></span> <span class="weixin"></span>
+						</div></li>
+				</ul>
+			</div>
+			<!--top_rig  stop -->
+		</div>
+		<!--topcon  stop -->
+	</div>
+    <div class="l_logocon fix">
+        <div class="logo">
+            <a href="/index.html"><img src="/resource/pc/web/images/logo.png" width="211" height="47"></a>
+        </div><!--logo  stop -->
+        <!--l_tjdd  begin -->
+        <div class="l_tjdd">
+            <ul>
+                <li class="l_tjdd01">
+                    <span class="l_tjdd01_1"><i></i></span>
+                    <span>我的购物车</span>
+                </li>
+                <li class="l_tjdd02">
+                    <span class="l_tjdd01_2">2</span>
+                    <span>填写核对订单信息</span>
+                </li>
+                <li class="l_tjdd03">
+                    <span class="l_tjdd01_3">3</span>
+                    <span>成功提交订单</span>
+                </li>
+            </ul>
+        </div>
+        <!--l_tjdd  stop -->
+    </div>
+    <!--l_logocon  logo一块搜索  结束 -->
+    <!--container 中间所有内容开始 -->
+    <div id="container" class="fix">
+        <div class="l_txddxx">填写并核对订单信息</div>
+        <!--l_xzshdz  begin -->
+        <div class="l_xzshdz fix">
+            <div class="l_xzshdztop">
+                选择收货地址
+                <div class="l_xzshdzrig"><span>+</span><a href="javascript:void(0)">新增收货地址</a></div>
+                <!--l_xzszall  begin -->
+                <div class="l_xzszall" id="addressdiv">
+                    <form id="addr_Form">
+                        <h3>收货人信息<span class="l_gban"></span></h3>
+                        <ol>
+                            <li><label><em class="red">*</em>收货人：</label><input class="lsh_inp" name="recName" type="text" id="recName"></li>
+                            <li>
+                                <label><em class="red">*</em>所在地区：</label>
+                                <select name="adProv" id="adProv">
+                                    <option>请选择</option>
+                                </select>
+                                <select name="adCity" id="adCity">
+                                    <option>请选择</option>
+                                </select>
+                                <select name="adArea" id="adArea">
+                                    <option>请选择</option>
+                                </select>
+                            </li>
+                            <li><label><em class="red">*</em>详细地址：</label><input class="lsh_inp" name="adInfo" type="text" id="adInfo" style="width:280px;"></li>
+                            <li><label><em class="red">*</em>手机号码：</label><input class="lsh_inp" name="phoneNum" type="text" id="phoneNum"></li>
+                            <li><label>固定电话：</label><input class="lsh_inp" name="telNum" type="text" id="telNum"></li>
+                        </ol>
+                        <div class="l_xzszxm">
+                            <p class="yscmh"></p>
+                            <div class="l_bcqx">
+                                <a class="m10" href="javascript:;" id="addaddr" name="addaddr">保存</a>
+                            </div><!--l_bcqx  stop -->
+                        </div>
+                    </form>
+                </div>
+
+                <!--l_xzszall  stop -->
+            </div><!--l_xzshdztop  stop -->
+            <ul class="address fix">
+            <% if(isNotEmpty(defaultaddr)){ %>
+                       <li class="active" name="receiveAddress_list" data_tag="1">
+                            <input type="hidden" value="${defaultaddr.id}" data="${defaultaddr.province}" />
+                            <p class="l_xzshdzp01">${defaultaddr.username}  ${defaultaddr.province} </p>
+                            <p class="l_xzshdzp02">${defaultaddr.city}  ${defaultaddr.area}  ${defaultaddr.address} ${defaultaddr.mobile}</p>
+                            <p class="l_xzshdzp03"><a href="javascript:;" class="editAd">修改</a></p>
+                            <div class="l_shdzhover"></div>
+                        </li>
+            <%}%>
+                    <% if(isNotEmpty(address) && address.~size>0){ %>
+                <%for (addr in address) { %>
+                 <% if(isNotEmpty(defaultaddr)) { %>
+                 <% if(defaultaddr.id!=addr.id) { %>
+                  <li name="receiveAddress_list" data_tag="0">
+                            <input type="hidden" value="${addr.id}" data="${addr.province}" />
+                            <p class="l_xzshdzp01">${addr.username}  ${addr.province} </p>
+                            <p class="l_xzshdzp02">${addr.city}  ${addr.area}  ${addr.address} ${addr.mobile}</p>
+                            <p class="l_xzshdzp03"><a href="javascript:;" class="editAd">修改</a></p>
+                            <div class="l_shdzhover"></div>
+                        </li>
+                  <%}%>
+                 <% }else{%>
+                        <li name="receiveAddress_list" data_tag="0">
+                            <input type="hidden" value="${addr.id}" data="${addr.province}" />
+                            <p class="l_xzshdzp01">${addr.username}  ${addr.province} </p>
+                            <p class="l_xzshdzp02">${addr.city}  ${addr.area}  ${addr.address} ${addr.mobile}</p>
+                            <p class="l_xzshdzp03"><a href="javascript:;" class="editAd">修改</a></p>
+                            <div class="l_shdzhover"></div>
+                        </li>
+                   <%}%>
+                <%}%>
+                 <%}%>
+            </ul>
+            <p class="l_glshdz"><a href="javascript:;">管理收货地址</a></p>
+        </div>
+        <!--l_xzshdz  stop -->
+        <!--l_xzshdz  begin -->
+        <!--l_xzshdz  stop -->
+        <div class="l_txddxx mt15">确认订单信息</div>
+        <!--l_ddxxmes  begin -->
+        <div class="l_ddxxmes">
+            <div class="l_ddxxtop">
+                <div class="l_ddxx01">商品</div>
+                <div class="l_ddxx02">单价(元)</div>
+                <div class="l_ddxx03">数量</div>
+                <div class="l_ddxx05">小计(元)</div>
+                <div class="l_ddxx06">配送方式</div>
+            </div><!--l_ddxxtop  stop -->
+            <div class="l_ddxxcon div_cart">
+                <!-----------------------l_ddxxmk订单内容  begin-------------------------- -->
+                 <% if(isNotEmpty(cartdto)){ %>
+                 
+                <% for (shop in cartdto.shops){ %>
+                
+                    <div class="l_ddxxmk fix" name="shop_table" shopid="${shop.shopid}" totalmoney="${shop.totalmoney}" delmoney="${shop.delmoney}">
+                        <h3>商家：${shop.shopname}</h3>
+                        <% if(isNotEmpty(shop.shopasd) && shop.shopasd.id > 0){ %>
+                        <% if (isNotEmpty(shop.shopasd.skuscd) && shop.shopasd.skuscd.~size > 0){ var gif=0; %>
+                           <% for (skugif in shop.shopasd.skuscd){ %>
+                             <% if(skugif.count>0){gif=gif+skugif.count;%>
+                        <%}%> 
+                         <%}%>
+                         <% if (gif>0){ %>
+                            <p class="l_ddmkp1 mb5" name="shopact" id="p_shopact" shopactid="${shop.shopasd.id}" shopactdel="${shop.shopasd.delmoney}"><span>${shop.shopasd.typename}</span>${shop.shopasd.name}</p>
+                        <%}%> 
+                        <%}else if (isNotEmpty(shop.shopasd.gifscd) && shop.shopasd.gifscd.~size > 0){ var gif=0; %> 
+                        <% for (skugif in shop.shopasd.gifscd){ %>
+                             <% if(skugif.count>0){gif=gif+skugif.count;%>
+                        <%}%> 
+                         <%}%>
+                         <% if (gif>0){ %>
+                            <p class="l_ddmkp1 mb5" name="shopact" id="p_shopact" shopactid="${shop.shopasd.id}" shopactdel="${shop.shopasd.delmoney}"><span>${shop.shopasd.typename}</span>${shop.shopasd.name}</p>
+                        <%}%>
+                        <%}%>  
+                        <%}%>  
+                        <div class="all_ddmk fix">
+                            <% var i=0;
+                            for (spu in shop.spuscd) { %>
+                            
+                               <% if (spu.skuscd.~size== 0){ continue; } %>
+                                <div class="div_spu">
+                                    <input type="hidden" class="hidden_spuinfo"
+                                           spuid="${spu.id}"
+                                           sputotalmoney="${spu.totalmoney}"
+                                           spudelmoney="${spu.delmoney}" />
+                                    <% var j=0;
+                                    for (sku in spu.skuscd){ %>
+                                        <div class="l_ddxxmkcon fix div_spusku" name="product_tr">
+                                        <% if (isNotEmpty(spu.spuasd) && spu.spuasd.id>0){ %>
+                                         <input type="hidden" class="hidden_spuskuinfo"
+                                                   skuid="${sku.id}"
+                                                   skucount="${sku.count}"
+                                                   spuid="${spu.id}"
+                                                   spuact="${spu.spuasd.id}"
+                                                   spikeid="${sku.spikeid}"
+                                                   skutype="${sku.protype}"
+                                                   shopcartproid="${sku.shopcartproid}" />
+                                        <%}else{%>
+                                         <input type="hidden" class="hidden_spuskuinfo"
+                                                   skuid="${sku.id}"
+                                                   skucount="${sku.count}"
+                                                   spuid="${spu.id}"
+                                                   spuact="0"
+                                                   spikeid="${sku.spikeid}"
+                                                   skutype="${sku.protype}"
+                                                   shopcartproid="${sku.shopcartproid}" />
+                                         <%}%>
+                                           
+                                           <% if(j== 0){ %>
+                                               <% if (i== 0){ %>
+                                                   <% if (isNotEmpty(shop.shopasd) && shop.shopasd.id > 0 && isNotEmpty(shop.shopasd.skuscd) && shop.shopasd.skuscd.~size > 0){ %>
+                                                       <% for (skugif in shop.shopasd.skuscd){ %>
+                                                        <% if(skugif.count>0){ %>
+                                                            <div class="l_ddxxleftmk fix div_shopskugif">
+                                                                <input type="hidden" class="hidden_shopskugifinfo"
+                                                                       skuid="${skugif.id}"
+                                                                       skucount="${skugif.count}"
+                                                                       skutype="4" />
+                                                                <div class="l_ddxxmk01">
+                                                                    <div class="ddxxmk01_1">
+                                                                        <a href="/web/products/proinfo.html?spuid=${spu.id}"><img src="${skugif.img}"></a>
+                                                                    </div>
+                                                                    <div class="ddxxmk01_2">
+                                                                        <p><a href="/web/products/proinfo.html?spuid=${spu.id}">【赠品】${skugif.name}</a></p>
+                                                                        <p class="l_ddmkp2"><i>7</i>7天无理由退货</p>
+                                                                    </div>
+                                                                    <div class="ddxxmk01_3 div_specs" specsval="${skugif.specsinfo}">
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="l_ddxxmk02"><span name="sku_price">${skugif.price,numberFormat="0.00"}</span></div>
+                                                                <div class="l_ddxxmk03" name="sku_count">${skugif.count}</div>
+                                                                <div class="l_ddxxmk05" name="totalPrice">${skugif.count * skugif.price,numberFormat="0.00"}</div>
+                                                            </div>
+                                                        <%}}%>
+                                                    <%}%>
+                                                <%}%>
+                                                <%if (isNotEmpty(spu.spuasd) && spu.spuasd.id > 0){ %>
+                                                  <%if (isNotEmpty(spu.spuasd.skuscd) && spu.spuasd.skuscd.~size > 0){ var sgif=0; %>
+                                                        <% for (skugif in spu.spuasd.skuscd){ %>
+                                                         <% if(skugif.count>0){ sgif=sgif+skugif.count;%>
+                                                         <%}%>
+                                                         <%}%>
+                                                         <% if (sgif>0){ %>
+                                                              <p class="l_ddmkp1 mb5" name="spuact"><span>${spu.spuasd.typename}</span>${spu.spuasd.name}</p>
+                                                           <%}%> 
+                                                         <%}else if (isNotEmpty(spu.spuasd.gifscd) && spu.spuasd.gifscd.~size > 0){ var gif=0; %> 
+                                                           <% for (skugif in spu.spuasd.gifscd){ %>
+                                                                 <% if(skugif.count>0){gif=gif+skugif.count;%>
+                                                                 <%}%> 
+                                                          <%}%>
+                                                          <% if (gif>0){ %>
+                                                          <p class="l_ddmkp1 mb5" name="spuact"><span>${spu.spuasd.typename}</span>${spu.spuasd.name}</p>
+                                                          <%}%>
+                                                        <%}%> 
+                                                    <%if (isNotEmpty(spu.spuasd.skuscd) && spu.spuasd.skuscd.~size > 0){ %>
+                                                        <% for (skugif in spu.spuasd.skuscd){ %>
+                                                         <% if(skugif.count>0){ %>
+                                                            <div class="l_ddxxleftmk fix div_spuskugif">
+                                                                <input type="hidden" class="hidden_spuskugifinfo"
+                                                                       skuid="${skugif.id}"
+                                                                       skucount="${skugif.count}"
+                                                                       skutype="4" />
+                                                                <div class="l_ddxxmk01">
+                                                                    <div class="ddxxmk01_1">
+                                                                        <a href="/web/products/proinfo.html?spuid=${spu.id}"><img src="${skugif.img}"></a>
+                                                                    </div>
+                                                                    <div class="ddxxmk01_2">
+                                                                        <p><a href="/web/products/proinfo.html?spuid=${spu.id}">【赠品】 ${skugif.name}</a></p>
+                                                                        <p class="l_ddmkp2"><i>7</i>7天无理由退货</p>
+                                                                    </div>
+                                                                    <div class="ddxxmk01_3 div_specs" specsval="${skugif.specsinfo}">
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="l_ddxxmk02"><span name="sku_price">${skugif.price,numberFormat="0.00"}</span></div>
+                                                                <div class="l_ddxxmk03" name="sku_count">${skugif.count}</div>
+                                                                <div class="l_ddxxmk05" name="totalPrice">${skugif.count * skugif.price,numberFormat="0.00"}</div>
+                                                            </div>
+                                                        <%}}%>
+                                                    <%}%>
+                                                <%}%>
+                                            <%}%>
+                                            <div class="l_ddxxleftmk fix">
+                                                <div class="l_ddxxmk01">
+                                                    <div class="ddxxmk01_1">
+                                                        <a href="/web/products/proinfo.html?spuid=${spu.id}&protype=0"><img src="${sku.img}"></a>
+                                                    </div>
+                                                    <div class="ddxxmk01_2">
+                                                        <p><a href="/web/products/proinfo.html?spuid=${spu.id}&protype=0">${sku.name}</a></p>
+                                                        <p class="l_ddmkp2"><i>7</i>7天无理由退货</p>
+                                                    </div>
+                                                    <div class="ddxxmk01_3 div_specs" specsval="${sku.specsinfo}">
+
+                                                    </div>
+                                                </div>
+                                                <div class="l_ddxxmk02"><span name="sku_price">${sku.price ,numberFormat="0.00"}</span></div>
+                                                <div class="l_ddxxmk03" name="sku_count">${sku.count}</div>
+                                                <div class="l_ddxxmk05" name="totalPrice">${sku.count * sku.price ,numberFormat="0.00"}</div>
+                                            </div>
+                                        </div>
+                                     <%} j=j+1;%>
+                                </div>
+                             <%} i=i+1;%>                           
+                            <% for (pack in shop.packscd) { %>
+                            <div class="clear"></div>
+                            <div class="div_pack" data-count="${shop.packscd.~size}">
+                                    <p class="bolder mb10">【组合套餐】 ${pack.name}</p>
+                                    <input type="hidden" class="hidden_packinfo"
+                                           packtotalmoney="${pack.price*pack.count}"
+                                           shopcartproid="${pack.shopcartproid}" />
+                                    <% for (sku in pack.skuscd) { %>
+                                    <input type="hidden" class="hidden_spuinfo"
+                                           spuid="${sku.spuid}"
+                                           />      
+                                        <div class="l_ddxxmkcon fix div_packsku" name="product_tr">
+                                            <input type="hidden" class="hidden_packskuinfo"
+                                                   skuid="${sku.id}"
+                                                   skucount="${sku.count}"
+                                                   spikeid="${sku.spikeid}"
+                                                   packageid="${pack.id}"
+                                                   skutype="${sku.protype}" />
+                                            <div class="l_ddxxleftmk fix">
+                                                <div class="l_ddxxmk01">
+                                                    <div class="ddxxmk01_1">
+                                                        <a href="/web/products/proinfo.html?skuid=${sku.id}"><img src="${sku.img}"></a>
+                                                    </div>
+                                                    <div class="ddxxmk01_2">
+                                                        <p><a href="j/web/products/proinfo.html?skuid=${sku.id}">${sku.name}</a></p>
+                                                        <p class="l_ddmkp2"><i>7</i>7天无理由退货</p>
+                                                    </div>
+                                                    <div class="ddxxmk01_3 div_specs" specsval="${sku.specsinfo}">
+
+                                                    </div>
+                                                </div>
+                                                <div class="l_ddxxmk02"><span name="sku_price">${sku.price,numberFormat="0.00"}</span></div>
+                                                <div class="l_ddxxmk03" name="sku_count">${sku.count}</div>
+                                                <div class="l_ddxxmk05" name="totalPrice">${sku.price * sku.count,numberFormat="0.00"}</div>
+                                            </div>
+                                        </div>
+                                    <%}%>
+                                    <div class="l_zhjg">组合套餐价格：<span class="red bolder">${pack.price*pack.count,numberFormat="0.00"}</span></div>                         
+                            </div>
+                             <%}%>
+                            <span name="freight_span" style="display:none;">0.00</span>
+                            <!--l_ddxxmkcon下面所有内容 左边结束   stop -->
+                            <div class="l_ddxxmk06">
+                                <ul class="l_zffs l_kdys fix">
+                                    <li class="active">快递运输<div class="l_zffshover"></div></li>
+                                </ul>
+                            </div><!--l_ddxxmk06下面所有内容 左边结束   stop -->
+                        </div>
+                        <!--all_ddmk 下面所有内容开始   begin -->
+                    </div>
+                <%}%>
+               <%}%>
+                <!-----------------------l_ddxxmk订单内容  stop-------------------------- -->
+                <input type="hidden" id="act_del_price" value="0" />
+            </div><!--l_ddxxcon  stop -->
+        </div>
+        <!--l_ddxxmes  stop -->
+        <!--l_fpxx 发票信息  开始 -->
+        <div class="mt10">
+            是否需要发票：<input type="radio" name="isNeed" checked value="0" />不需要<input type="radio" name="isNeed" value="1" />需要
+        </div>
+        <div class="l_fpxx" id="isneedinvoice" style="display:none">
+            <h3>发票信息</h3>
+            <p class="yscmh"><span id="linType">普通发票（纸质）</span><span id="lhType">个人</span><span id="liContent">明细</span></p>
+            <a href="javascript:;" class="l_xgfpxx" id="editshow">修改</a>
+            <!-------l_xgfpnr  begin ---------->
+            <div class="l_xgfpnr" id="invoiceDiv" style="display:none">
+                <h3>发票信息<span class="invoice l_gban"></span></h3>
+                <input type="hidden" id="inType_hide" value="0" /> <!-- @*发票类型*@ -->
+                <input type="hidden" id="hType_hide" value="0" /><!-- @*发票抬头类型*@ -->
+                <input type="hidden" id="iTitle_hide" /><!-- @*发票公司抬头*@ -->
+                <input type="hidden" id="iContent_hide" value="1" /><!-- @*发票内容*@ -->
+                <div class="l_xgfpcon">
+                    <ul class="l_zffs fix mr10" id="inType">
+                        <li style="cursor: pointer;" data_tag="1" class="active">普通发票<div class="l_zffshover"></div></li>
+                        <li  style="cursor: pointer;" data_tag="2">电子发票<div class="l_zffshover"></div></li>
+                        <!-- <li data_tag="3" class="disable">增值税发票</li> -->
+                    </ul>
+                    <div class="l_dzfpwz" style="display:none" name="dzfpts">
+                        <p>电子发票是税务局认可的有效收付款凭证，具有售后维权的法律效力，暂不支持企业报销</p>
+                        <p class="lanse"><a href="#">什么是电子发票</a></p>
+                    </div><!--l_dzfpwz  stop -->
+                    <div class="l_fptt fon14" name="fptt">
+                        <span>发票抬头：</span>
+                        <div class="l_fpttright">
+                            <div class="l_fpttmk active" id="hType">个人<div class="l_zffshover"></div></div>
+                            <p class="addComInv l_xzdwfp"><a href="javascript:void(0)">新增单位发票</a></p><p class="l_xzdwfp" id="resMessge" style="color:red;"></p>
+                            <div class="l_fpttmk l_fpttnone" name="comTitle"><input id="iTitle" type="text" value="新增单位发票抬头" onfocus="if (value == '新增单位发票抬头') { value = '' }" onblur="    if (value == '') { value = '新增单位发票抬头' }"><a href="javascript:;" class="lanse" id="saveComTitle">保存</a></div>
+                        </div>
+                    </div><!--l_fptt  stop-->
+                    <div class="l_fptt" name="fpnr">
+                        <span class="fon14" style="line-height:30px;">发票内容：</span>
+                        <div class="l_fpttright">
+                            <ul class="l_zffs fix l_fpnr" id="iContent">
+                                <li class="active" data_tag="0">明细<div class="l_zffshover"></div></li>
+                                <li data_tag="1">办公用品<div class="l_zffshover"></div></li>
+                                <li data_tag="2">电脑配件<div class="l_zffshover"></div></li>
+                                <li data_tag="3">耗材<div class="l_zffshover"></div></li>
+                            </ul>
+                        </div><!--l_fptt  stop-->
+                    </div>
+                    <ul class="l_fpul" style="display:none" name="dzfpdhyx">
+                        <li><label>发票人电话：</label><input class="lsh_inp" id="InvMobile" type="text" value=""></li>
+                        <li><label>发票人邮件：</label><input class="lsh_inp" id="InvEmail" type="text" value=""></li>
+                    </ul>
+                    <div class="l_fpbot" name="fpbc">
+                        <div class="l_bcqx">
+                            <a href="javascript:;" id="editBtn">保存</a>
+                            <a href="javascript:;" class="invoice">取消</a>
+                        </div><!--l_bcqx  stop -->
+                        <p class="yscmh">温馨提示：发票的开票金额不包括优惠券和积分支付部分</p>
+                        <p class="lanse"><a href="/web/help/newsinfo.html?ctype=212">发票信息相关问题&gt;&gt;</a></p>
+                    </div>
+
+                    <div name="zhsfp" style="display:none">
+                        <!--增值税发票  begin -->
+                        <div class="l_dzfpwz">
+                            <p class="lanse" style="margin-top:0px;"><a href="#">委托书下载</a> | <a href="#">发票制度说明</a> | <a href="#">首次开具增值税发票阅读</a></p>
+                        </div>
+                        <div class="l_zzsfp"><span class="l_zzswz01">1.填写公司信息</span>2.填写收票人信息</div>
+                        <ul class="l_fpul" style="margin-top:15px;">
+                            <li><label><em class="red">*</em>单位名称：</label><input class="lsh_inp big" name="" type="text" value=""></li>
+                            <li><label><em class="red">*</em>纳税人识别码：</label><input class="lsh_inp big" name="" type="text" value=""></li>
+                            <li><label><em class="red">*</em>注册地址：</label><input class="lsh_inp big" name="" type="text" value=""></li>
+                            <li><label><em class="red">*</em>注册电话：</label><input class="lsh_inp big" name="" type="text" value=""></li>
+                            <li><label><em class="red">*</em>开户银行：</label><input class="lsh_inp big" name="" type="text" value=""></li>
+                            <li><label><em class="red">*</em>银行账户：</label><input class="lsh_inp big" name="" type="text" value=""></li>
+                        </ul>
+                        <div class="l_fpbot">
+                            <div class="l_bcqx">
+                                <a href="#">下一步</a>
+                                <a href="#">取消</a>
+                            </div><!--l_bcqx  stop -->
+                            <p class="yscmh">温馨提示：发票的开票金额不包括优惠券和积分支付部分</p>
+                            <p class="lanse"><a href="/web/help/list.html?classid=67">发票信息相关问题&gt;&gt;</a></p>
+                        </div>
+                    </div><!--增值税发票  end -->
+                </div><!--l_xgfpcon  stop -->
+            </div>
+            <!-------l_xgfpnr  stop ---------->
+        </div>
+        <!--l_fpxx 发票信息  结束 -->
+        <!--l_syyhq  begin -->
+        <div class="l_syyhq fix">
+            <h3><span class="span_expand">+</span>使用优惠券</h3>
+            <div class="l_yhqcon fix clear" name="coupon_points" style="display:none">
+                <h3 id="cnum">可用优惠券(0)</h3>
+                <div class="l_yhqall clear">
+                    <p>
+                        <span class="yscmh"></span>
+                        <span class="yscmh">您可以</span>
+                        <span class="lanse"><a href="/member/coupon/Coupons">查看所有优惠券</a></span>
+                        <span class="yscmh">了解使用限制。</span>
+                    </p>
+                    <div class="l_yhqtm fix">
+                        <ul id="cupon_list">
+                           <!--  @*优惠券信息*@ -->
+                        </ul>
+                    </div>
+                    <p>共使用了 <span class="red" id="coupon_num">0</span> 张优惠券　可以优惠 <span class="red" id="coupon_price">0.00</span> 元</p>
+                </div>
+            </div><!--l_yhqcon  stop -->
+        </div>
+        <!--l_syyhq  stop -->
+        <!--l_syyhq  begin -->
+        <div class="l_syyhq fix">
+            <h3 class="fix"><span class="span_expand">+</span>使用中绿积分</h3>
+            <div class="clear l_syjf fix" name="coupon_points" style="display:none">
+                使用积分<input name="" id="usepoints" type="text">点 <span class="red" id="pointsmoney">-¥0.00</span>
+                <p>（可用${usepoints}点）</p>
+            </div>
+        </div>
+        <!--l_syyhq  stop -->
+        <!-- l_spjscon  begin-->
+        <div class="l_spjscon fix">
+            <ul>
+                <li>
+                    <b class="red" id="total_proCount">${cartdto.totalcount}</b>
+                    件商品，商品金额：<span id="total_price">${cartdto.totalmoney,numberFormat="0.00"}</span>
+                </li>
+                <li>运费：<span id="total_freight">0.00</span></li>
+                <li>商品优惠：<span id="span_alldelmoney" actdelmoney="${cartdto.delmoney}">${cartdto.delmoney,numberFormat="0.00"}</span></li>
+            </ul>
+            <input type="hidden" id="com_to_m" value="0" />
+        </div>
+        <!--l_spjscon  stop -->
+        <!--l_yfzedd  begin -->
+        <div class="l_yfzedd fix">
+            <div class="l_yfzeddleft">
+                <p class="fon16"><span class="yscmh">应付总额：</span><span class="red fon18 bolder" name="total_money" id="span_paymoney" paymoney="${cartdto.paymoney}">￥${cartdto.paymoney,numberFormat="0.00"}</span></p>
+                <p class="fon14"><span class="yscmh">可获得积分：</span>0点</p>
+            </div>
+            <div class="l_yfzeddright">
+                <a href="javascript:;" id="commit">提交订单</a>
+            </div>
+        </div>
+        <!--l_yfzedd  stop -->
+    </div>
+    <input type="hidden" id="h_points" value="${points}">	
+	<input type="hidden" id="h_usepoints" value="${usepoints}">
+	<input type="hidden" id="h_pay" value="${cartdto.paymoney}">	
+    <!--container 中间所有内容结束 -->
+    <!--footer  底部开始 -->
+
+<% try{include("/template/pc/head/footer.html",{newscone:newscone,newsctwo:newsctwo,newscwthree:newscwthree,newscfour:newscfour,newscfive:newscfive}){}}catch(error){}%>
+
+    <!--footer  底部结束 -->
+</body>
+</html>

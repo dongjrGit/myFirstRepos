@@ -1,0 +1,42 @@
+<!--navigation  导航开始 -->
+<div id="navigation-1" class="fix">
+	<!--导航 Start-->
+	<div class="menu xzlsb">
+		<div class="nav">                                                                                  
+			<ul class="clearfix">
+				<%if(flag==1){%>
+				<li class="current"><a href="/index.html">首页</a></li>
+				<%}else{%>
+				<li><a href="/index.html">首页</a></li>
+				<%}%>
+				<%if(flag==2){%>
+				<li class="current"><a href="/lszg/index.html">绿色食品中国</a></li>
+				<%}else{%>
+				<li ><a href="/lszg/index.html">绿色食品中国</a></li>
+				<%}%>
+				<%if(flag==3){%>
+				<li class="current"><a href="http://www.nzgjpw.com/">农展精品馆</a></li>
+				<%}else{%>
+				<li ><a href="http://www.nzgjpw.com/">农展精品馆</a></li>
+				<%}%>
+				<%if(flag==4){%>
+				<li  class="current"><a href="/zlzx/zlwd.html">中绿味道</a></li>
+				<%}else{%>
+				<li ><a href="/zlzx/zlwd.html">中绿味道</a></li>
+				<%}%>
+				<%if(flag==5){%>
+				<li  class="current"><a href="/zlzx/zlzq_index.html">中绿展示</a></li>
+				<%}else{%>
+				<li ><a href="/zlzx/zlzq_index.html">中绿展示</a></li>
+				<%}%>
+				<%if(flag==6){%>
+				<li class="current"><a href="/zlzx/zlzx_index.html">中绿资讯</a></li>
+				<%}else{%>
+				<li ><a href="/zlzx/zlzx_index.html">中绿资讯</a></li>
+				<%}%>
+			</ul>
+		</div>
+	</div>
+	<!--导航 End-->
+</div>
+<!--navigation  导航结束 -->

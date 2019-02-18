@@ -1,0 +1,175 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>订单列表</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="stylesheet" href="/css/public.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/css/index.css" type="text/css" media="screen">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/artTemplate.js"></script>
+    <script src="/js/orderList.js"></script>
+</head>
+<body>
+    <!--container  begin-->
+    <div class="container fix">
+        <!--l_qbddtop  begin -->
+        <div class="l_qbddtop fix" id="l_qbddtop">
+            全部订单
+            <div class="l_qbddtop01"><img src="/images/qbdd01.png" class="img-responsive"></div>
+            <div class="l_qbddtop02"><img src="/images/qbdd02.png" class="img-responsive"></div>
+        </div>
+        <!--l_qbddtop  stop -->
+        <!--l_ddmk  begin -->
+        <script type="text/html" id="orderslist">
+            {{each list as odl i}}
+            <div class="l_ddmk fix">
+                <div class="l_ddmk01">
+                    {{odl.ShopName}}
+                    <div class="floatright red">
+                        {{if odl.Status==0}}
+                        <a href="javascript:void(0);">待付款</a>
+                        {{else if odl.Status==1}}
+                        <a href="javascript:void(0);">待发货</a>
+                        {{else if odl.Status==2}}
+                        <a href="javascript:void(0);">待收货</a>
+                        {{else if odl.Status==3}}
+                        <a href="javascript:void(0);">已确认收货</a>
+                        {{else if odl.Status==4 }}
+                        <a href="javascript:void(0);">取消申请中</a>
+                        {{else if odl.Status==5 }}
+                        <a href="javascript:void(0);">已取消</a>
+                        {{else if odl.Status==6 }}
+                        <a href="javascript:void(0);">退货申请中</a>
+                        {{else if odl.Status==7 }}
+                        <a href="javascript:void(0);">退货中</a>
+                        {{else if odl.Status==8 }}
+                        <a href="javascript:void(0);">已退货</a>
+                        {{else if odl.Status==9 }}
+                        <a href="javascript:void(0);">已退款</a>
+                        {{else if odl.Status==10 }}
+                        <a href="javascript:void(0);">换货申请中</a>
+                        {{else if odl.Status==11 }}
+                        <a href="javascript:void(0);">换货卖家待收货</a>
+                        {{else if odl.Status==12 }}
+                        <a href="javascript:void(0);">取消驳回</a>
+                        {{else if odl.Status==13 }}
+                        <a href="javascript:void(0);">换货待发货</a>
+                        {{else if odl.Status==14 }}
+                        <a href="javascript:void(0);">换货待收货</a>
+                        {{else if odl.Status==15 }}
+                        <a href="javascript:void(0);">已评价</a>
+                        {{else if odl.Status==16 }}
+                        <a href="javascript:void(0);">换货确认收货</a>
+                        {{else if odl.Status==17 }}
+                        <a href="javascript:void(0);">退货驳回</a>
+                        {{else if odl.Status==18 }}
+                        <a href="javascript:void(0);">换货驳回</a>
+                        {{/if}}
+                    </div>
+                    {{if odl.Status==3 || odl.Status==5 || odl.Status==8 || odl.Status==9 || odl.Status==15 || odl.Status==16}}
+                    <i><img src="/images/ddwc.png" class="img-responsive"></i>
+                    {{/if}}
+                </div>
+                <div class="l_ddmk02 fix">
+                    {{if odl.Children.Count > 0}}
+                        <ul class="l_ddmk02dgnr fix">
+                            {{each odl.Children as detail j}}
+                            <li><a href="/html/prodetail.html?sid={{odl.Children.SKU_ID}}"><img src="{{detail.ProductImg}}" class="img-responsive"></a></li>
+                            {{/each}}    
+                        </ul>
+                    {{else}}
+                    <div class="l_ddmk02_l">
+                        <a href="/html/prodetail.html?sid={{odl.Children.SKU_ID}}"><img src="{{odl.Children[0].ProductImg}}" class="img-responsive"></a>
+                    </div>
+                    <div class="l_ddmk02_r">
+                        <p><a href="/html/prodetail.html?sid={{odl.Children.SKU_ID}}">{{odl.Children[0].ProductName}}</a></p>
+                        <p class="huise"></p>
+                    </div>
+                    {{/if}}
+                    
+                    <!--<div class="l_ddsc"><a href="javascript.void(0);" onclick="orderList.del({{odl.ID}})"><img src="/images/delete.png" class="img-responsive"></a></div>-->
+                </div><!--l_ddmk02  stop -->
+                <div class="l_ddmk03 fix">
+                    实付款：￥{{odl.ActualPay}}
+                    <div class="l_ddmk03_r">
+                        {{if odl.Status==3}}
+                        <a href="javascript:void(0);" class="l_ddzcgm" id="l_ddzcgm" orderid-val="{{odl.ID}}">评价晒单</a><a href="/html/prodetail.html?sid={{odl.Children.SKU_ID}}" class="l_ddzcgm">再次购买</a>
+                        {{else if odl.Status==0}}
+                        <a href="javascript.void(0);" class="l_ddzcgm" id="l_djzhifu" orderid-val="{{odl.ID}}">点击支付</a>
+                        {{else if odl.Status==2}}
+                        <a href="javascript.void(0);" class="l_ddzcgm" id="l_querenshouhuo" orderid-val="{{odl.ID}}">确认收货</a>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </script>
+        <!--l_ddmk  stop -->
+        <!--l_ddmk  begin -->
+        <!--<div class="l_ddmk fix">
+            <div class="l_ddmk01">话费充值<div class="floatright red">等待付款</div></div>
+            <div class="l_ddmk02 fix">
+                <div class="l_ddmk02_l">
+                    <a href="#"><img src="/images/tp30.png" class="img-responsive"></a>
+                </div>
+                <div class="l_ddmk02_r">
+                    <p><a href="#">北京移动手机话费充值北京移动手机话费充值10元10元 快充</a></p>
+                    <p class="huise">手机号码：137***1166</p>
+                </div>
+                <div class="l_ddsc"><a href="#"><img src="/images/delete.png" class="img-responsive"></a></div>
+            </div>-->
+        <!--l_ddmk02  stop -->
+        <!--<div class="l_ddmk03 fix">
+                实付款：￥100.00
+                <div class="l_ddmk03_r"><a href="#" class="l_ddzcgm">点击支付</a></div>
+            </div>
+        </div>-->
+        <!--l_ddmk  stop -->
+        <!--l_ddmk  begin -->
+        <!--<div class="l_ddmk fix">
+            <div class="l_ddmk01">三只松鼠旗舰店<div class="floatright red">已发货</div></div>
+            <div class="l_ddmk02 fix">
+                <ul class="l_ddmk02dgnr fix">
+                    <li><a href="#"><img src="/images/tp30.png" class="img-responsive"></a></li>
+                    <li><a href="#"><img src="/images/tp30.png" class="img-responsive"></a></li>
+                </ul>
+                <div class="l_ddsc"><a href="#"><img src="/images/delete.png" class="img-responsive"></a></div>
+            </div>-->
+        <!--l_ddmk02  stop -->
+        <!--<div class="l_ddmk03 fix">
+                实付款：￥100.00
+                <div class="l_ddmk03_r"><a href="#" class="l_ddzcgm">确认收货</a></div>
+            </div>
+        </div>-->
+        <!--l_ddmk  stop -->
+        <!--l_ddmk  begin -->
+        <!--<div class="l_ddmk fix">
+            <div class="l_ddmk01">话费充值<i><img src="/images/ddwc.png" class="img-responsive"></i></div>
+            <div class="l_ddmk02 fix">
+                <div class="l_ddmk02_l">
+                    <a href="#"><img src="/images/tp30.png" class="img-responsive"></a>
+                </div>
+                <div class="l_ddmk02_r">
+                    <p><a href="#">北京移动手机话费充值北京移动手机话费充值10元10元 快充</a></p>
+                    <p class="huise">手机号码：137***1166</p>
+                </div>
+                <div class="l_ddsc"><a href="#"><img src="/images/delete.png" class="img-responsive"></a></div>
+            </div>-->
+        <!--l_ddmk02  stop -->
+        <!--<div class="l_ddmk03 fix">
+                实付款：￥100.00
+                <div class="l_ddmk03_r"><a href="#" class="l_ddzcgm">评价晒单</a><a href="#" class="l_ddzcgm">再次购买</a></div>
+            </div>
+        </div>-->
+        <!--l_ddmk  stop -->
+    </div>
+    <!--container  stop -->
+</body>
+</html>
+<script>
+    $(document).ready(function () { orderList.getlist(1); })
+</script>
+

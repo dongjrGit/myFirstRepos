@@ -1,0 +1,348 @@
+package com.yinlian.wssc.web.service;
+
+import java.util.List;
+
+import com.yinlian.Enums.OrderApplyTypeEnum;
+import com.yinlian.api.app.dto.ApplyAfterDto;
+import com.yinlian.wssc.platform.vo.BaseResult;
+import com.yinlian.wssc.platform.vo.ReusltItem;
+import com.yinlian.wssc.web.dto.SessionUser;
+import com.yinlian.wssc.web.po.Orders;
+
+/**
+ * 订单生成后流程操作
+ * @author Administrator
+ *
+ */
+public interface OrderStatusService {
+
+    /**
+     * 申请取消订单
+     * @param id
+     * @param type
+     * @param reason
+     * @return
+     * @throws Exception
+     */
+    int updateCancelOrder(String groupcode, int userid, String reason) throws Exception;
+
+    /**
+     * 卖家审核取消订单
+     * @param id
+     * @param type
+     * @param agreetype
+     * @param reason
+     * @return
+     * @throws Exception
+     */
+    int updateCheckCancel(int id, int type, int userid, int agreetype, String reason, Orders[] order,String username,String imgUrl)
+                                                                                                     throws Exception;
+
+    //    /**
+    //     * 去支付
+    //     * 
+    //     * @param id
+    //     * @param status
+    //     * @param userid
+    //     * @return
+    //     * @throws Exception
+    //     */
+    //    int gotoPay(String[] id, int status, int userid, float totalMoney, String userip,
+    //                BaseResult item) throws Exception;
+
+	/***
+	 * 订单发货处理
+	 * @author Fjh
+	 * 
+	 * @param orderID 订单id
+	 * @param logisticsName 物流名称
+	 * @param logisticsCode 物流单号
+	 * @param ip 操作用户ip
+	 * @param user 当前登录用户
+	 * @return 1 处理成功   0处理失败
+     * @throws Exception
+     */
+    int updateSendProForOrder(int orderID, String logisticsName, String logisticsCode, String ip,
+                              SessionUser user) throws Exception;
+
+    /**
+     * 订单确认收货
+     * @param orderid
+     * @param user
+     * @param userip
+     * @return
+     * @throws Exception
+     */
+    int updatecomfirmReceive(int orderid, SessionUser user, String userip) throws Exception;
+
+    /**
+     * 余额支付-组编号
+     * @param groupNum
+     * @param userid
+     * @param totalMoney
+     * @param userip
+     * @param item
+     * @return
+     * @throws Exception
+     */
+    int updatePayforBalanceCode(String groupNum, int userid, String userip,
+                                BaseResult item) throws Exception;
+
+    /**
+     * 余额支付-订单ID
+     * @param orderid
+     * @param userid
+     * @param userip
+     * @param item
+     * @return
+     * @throws Exception
+     */
+    int updatePayforBalanceID(int orderid, int userid, String userip, BaseResult item)
+                                                                                      throws Exception;
+
+    /**
+     * 售后服务申请(买家未收货申请退款)
+     * 
+     * @param orderid
+     * @param userid
+     * @param status
+     * @param userip
+     * @param reason
+     * @param item
+     * @return
+     * @throws Exception
+     */
+    public int updateAftermarketNoReceipt(Integer orderdetailid, Integer userid, Integer status,
+                                          String reason, String[] images) throws Exception;
+
+    /**
+     * 卖家审核-->买家未收货申请退款
+     * 
+     * @param orderdetailid
+     * @param userid
+     * @param status
+     * @param reason
+     * @param images
+     * @param applyTypeEnum
+     * @param item
+     * @return
+     * @throws Exception
+     */
+    public int updateChekAftermarketNoReceipt(Integer orderdetailid, Integer userid,
+                                              Integer status, Integer agreetype, String reason,String image,
+                                              Orders orders) throws Exception;
+
+
+    /**
+     * 商家审核售后服务(收货申请退货退款,收货申请换货)
+     * 
+     * @param orderid
+     * @param userid
+     * @param status
+     * @param agreetype
+     * @param reason
+     * @param orders
+     * @return
+     * @throws Exception
+     */
+    public int checkApplyAftermarket(Integer orderdetailid, Integer userid, Integer status,
+                                     Integer agreetype, String reason, String[] images,
+                                     OrderApplyTypeEnum applyTypeEnum, Orders orders)
+                                                                                     throws Exception;
+
+    /**
+     * 售后发货
+     * @param orderdetailID
+     * @param applytype
+     * @param sender
+     * @param logisticsName
+     * @param logisticsCode
+     * @return
+     * @throws Exception
+     */
+	/*int updateSendProForOrderDetail(int orderdetailID, int applytype,int sender,
+			String logisticsName, String logisticsCode) throws Exception;*/
+	
+	/**
+	 * 售后申请
+	 * @param orderdateilID
+	 * @param type
+	 * @param userid
+	 * @param reason
+	 * @param imgs
+	 * @param item
+	 * @return
+	 * @throws Exception
+	 */
+	public int updateAfterServiceApply(int orderdateilID,int type,int userid,
+			String reason,String imgs,BaseResult item)throws Exception;
+	
+	/**
+	 * 售后申请审核（中绿售后流程调整，产品如需要请恢复注释）
+	 * @param orderdetailID
+	 * @param type
+	 * @param userid
+	 * @param isagree
+	 * @param reason
+	 * @param imgurl
+	 * @return
+	 * @throws Exception
+	 */
+	/*int updateCheckAfterApply(int orderdetailID, int type, int userid, int isagree, String reason, String imgurl)throws Exception;*/
+	
+	/**
+	 * 售后确认收货 （中绿售后流程调整，产品如需要请恢复注释）
+	 * @param orderdetailID
+	 * @param sender
+	 * @param user
+	 * @param userip
+	 * @return
+	 * @throws Exception
+	 */
+	/*int updateAfterServiceReceive(int orderdetailID, int applytype, String userip)throws Exception;*/
+
+	/**
+	 * 售后商家同意处理
+	 * @author Fjh
+	 * 
+	 * @param orderdetailID 子订单id
+	 * @param type 订单售后请求类型（订单未付款取消(0), 订单退货退款(1), 订单换货(2), 订单维修(3), 订单退款(4),订单已付款取消(5)）
+	 * @param userip 用户ip
+	 * @param isagree 是否同意  0否  1是
+	 * @param reason 不同意原因
+	 * @param imgurl 不同意图片说明
+	 * @return >0 处理成功
+	 */
+	public int updateCheckAfterApply(int orderdetailID, int type, int isagree, String reason, String imgurl, String userip) throws Exception;
+	
+	/**
+	 * 售后商家纠纷同意处理
+	 * @author rw
+	 * 
+	 * @param orderdetailID 子订单id
+	 * @param type 订单售后请求类型（订单未付款取消(0), 订单退货退款(1), 订单换货(2), 订单维修(3), 订单退款(4),订单已付款取消(5)）
+	 * @param userip 用户ip
+	 * @param reason 原因
+	 * @param imgurl 图片说明
+	 * @return >0 处理成功
+	 */
+	public int dealAfterApply(int orderdetailID, int type, String reason, String imgurl, String userip) throws Exception;
+	
+	/**
+	 * 申请退款/退货
+	 * @param toInt
+	 * @param reason
+	 * @return
+	 * @throws Exception
+	 */
+	int refundReturn(Integer orderid, String reason) throws Exception;
+	
+    /**
+     * 在线支付-组编号
+     * @param groupNum
+     * @param userip
+     * @param paynum
+     * @param price
+     * @param item
+     * @return
+     * @throws Exception
+     */
+    int updatePayforAlipayCode(String groupNum,String userip,String paynum,String price,
+                                Integer paytype,BaseResult item) throws Exception;
+    
+    /**
+	 * 更新订单状态
+	 * @param orderid
+	 * @return
+	 * @throws Exception
+	 */
+	int updateStatus(Integer orderid,Integer status, int userid)throws Exception;
+
+	int addBalance(String out_trade_no,String trade_no, String total_fee,
+			ReusltItem item)throws Exception;
+	
+    int addBalancetoBond(double total_fee,Integer userid, ReusltItem item)throws Exception;
+    
+    /**
+     * 申请退款
+     * @param orderdetailid
+     * @param userid
+     * @param reason
+     * @param item
+     * @return
+     * @throws Exception
+     */
+    public int updateApplyTK(Integer orderdetailid, Integer userid, String reason, BaseResult item)throws Exception;
+    
+    /**
+     * 核销通知
+     * @param orderdetailid
+     * @param reason
+     * @param item
+     * @return
+     * @throws Exception
+     */
+    public int updateDetailUse(String detailcode, BaseResult item)throws Exception;
+    
+    /**
+     * 退款通知
+     * @param orderdetailid
+     * @param userid
+     * @param reason
+     * @param item
+     * @return
+     * @throws Exception
+     */
+    public int updateDetailTK(String detailcode,String status, BaseResult item)throws Exception;
+    
+    /**
+     * 主订单完结通知
+     * @param groupcode
+     * @param item
+     * @return
+     * @throws Exception
+     */
+    public int updateFinishOrder(String groupcode, BaseResult item)throws Exception;
+    
+    /**
+     * 部分退款
+     * @param orderdetailid
+     * @param userid
+     * @param item
+     * @return
+     * @throws Exception
+     */
+    public int updatePartTK(Integer orderdetailid, Integer userid, ReusltItem item)throws Exception;
+    
+    /**
+     * 整单退款
+     * @param groupnum
+     * @param userid
+     * @param item
+     * @return
+     * @throws Exception
+     */
+    public int updateOrderTK(String groupnum, Integer userid, ReusltItem item)throws Exception;
+
+    /**
+     * 获取售后详情
+     * @param toInt
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+	ApplyAfterDto getApplyDetail(Integer orderdetailid)throws Exception;
+	
+	/** 获取出票失败的订单 用于退款处理
+	 * @Company: 安徽因联
+	* @author 毛俊贤
+	* @date 2017年10月26日 上午10:01:10
+	* @return
+	* @throws Exception
+	 */
+	public int UntickOrdersStatus()throws Exception;
+
+	void updateInvalidOrder(List<Orders> orders)throws Exception;
+	
+	public int updproStock(Integer orderdetailid)throws Exception;
+}

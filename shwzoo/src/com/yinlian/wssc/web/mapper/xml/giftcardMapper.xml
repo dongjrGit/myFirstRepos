@@ -1,0 +1,486 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.giftcardMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.giftcard" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="Code" property="code" jdbcType="VARCHAR" />
+    <result column="Img" property="img" jdbcType="VARCHAR" />
+    <result column="FaceValue" property="facevalue" jdbcType="DECIMAL" />
+    <result column="Price" property="price" jdbcType="DECIMAL" />
+    <result column="Password" property="password" jdbcType="VARCHAR" />
+    <result column="Remark" property="remark" jdbcType="VARCHAR" />
+    <result column="Type" property="type" jdbcType="VARCHAR" />
+    <result column="UsedUserID" property="useduserid" jdbcType="INTEGER" />
+    <result column="RechargeTime" property="rechargetime" jdbcType="TIMESTAMP" />
+    <result column="IsUsed" property="isused" jdbcType="BIT" />
+    <result column="IsDel" property="isdel" jdbcType="BIT" />
+    <result column="DelTime" property="deltime" jdbcType="TIMESTAMP" />
+    <result column="DelUserID" property="deluserid" jdbcType="INTEGER" />
+    <result column="UsedMobile" property="usedmobile" jdbcType="VARCHAR" />
+    <result column="BatchNum" property="batchnum" jdbcType="VARCHAR" />
+    <result column="Ex1" property="ex1" jdbcType="VARCHAR" />
+    <result column="Ex2" property="ex2" jdbcType="VARCHAR" />
+    <result column="Ex3" property="ex3" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, Name, Code, Img, FaceValue, Price, Password, Remark, Type, UsedUserID, RechargeTime, 
+    IsUsed, IsDel, DelTime, DelUserID, UsedMobile, BatchNum, Ex1, Ex2, Ex3
+  </sql>
+  <select id="getgiftcardList"  resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" >
+  select <include refid="Base_Column_List" />
+    from giftcard 
+   <where>
+   		isdel=0 
+	    <if test="criteria.name != null and criteria.name != '' ">
+			and Name LIKE '%${criteria.name}%'
+		</if>
+		<if test="criteria.isused != null and criteria.isused != '' ">
+			and Isused LIKE '%${criteria.isused}%'
+		</if>
+		<if test="criteria.code != null and criteria.code != '' ">
+			and Code LIKE '%${criteria.code}%'
+		</if>
+		<if test="criteria.facevalue != null and criteria.facevalue != '' ">
+			and Facevalue = '${criteria.facevalue}'
+		</if>
+		 <if test="criteria.type != null and criteria.type != '' ">
+			and Type = '${criteria.type}'
+		</if>
+		 <if test="criteria.batchnum != null and criteria.batchnum != '' ">
+			and Batchnum = '${criteria.batchnum}'
+		</if>
+		 <if test="criteria.starttime != null and criteria.starttime != '' ">
+			and	DATEDIFF(RechargeTime,${criteria.starttime}) >= 0
+		</if>
+		<if test="criteria.endtime != null and criteria.endtime != '' ">
+			 and DATEDIFF(RechargeTime,${criteria.endtime} ) >= 0	 
+		</if>
+   </where>
+  </select>
+  
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.giftcardExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from giftcard
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from giftcard
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="getByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+    <include refid="Base_Column_List" />
+    from giftcard
+    where Code = #{code,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from giftcard
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.giftcardExample" >
+    delete from giftcard
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.giftcard" >
+    insert into giftcard (ID, Name, Code, 
+      Img, FaceValue, Price, 
+      Password, Remark, Type, 
+      UsedUserID, RechargeTime, IsUsed, 
+      IsDel, DelTime, DelUserID, 
+      UsedMobile, BatchNum, Ex1, 
+      Ex2, Ex3)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{img,jdbcType=VARCHAR}, #{facevalue,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, 
+      #{password,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{useduserid,jdbcType=INTEGER}, #{rechargetime,jdbcType=TIMESTAMP}, #{isused,jdbcType=BIT}, 
+      #{isdel,jdbcType=BIT}, #{deltime,jdbcType=TIMESTAMP}, #{deluserid,jdbcType=INTEGER}, 
+      #{usedmobile,jdbcType=VARCHAR}, #{batchnum,jdbcType=VARCHAR}, #{ex1,jdbcType=VARCHAR}, 
+      #{ex2,jdbcType=VARCHAR}, #{ex3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.giftcard" >
+    insert into giftcard
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="code != null" >
+        Code,
+      </if>
+      <if test="img != null" >
+        Img,
+      </if>
+      <if test="facevalue != null" >
+        FaceValue,
+      </if>
+      <if test="price != null" >
+        Price,
+      </if>
+      <if test="password != null" >
+        Password,
+      </if>
+      <if test="remark != null" >
+        Remark,
+      </if>
+      <if test="type != null" >
+        Type,
+      </if>
+      <if test="useduserid != null" >
+        UsedUserID,
+      </if>
+      <if test="rechargetime != null" >
+        RechargeTime,
+      </if>
+      <if test="isused != null" >
+        IsUsed,
+      </if>
+      <if test="isdel != null" >
+        IsDel,
+      </if>
+      <if test="deltime != null" >
+        DelTime,
+      </if>
+      <if test="deluserid != null" >
+        DelUserID,
+      </if>
+      <if test="usedmobile != null" >
+        UsedMobile,
+      </if>
+      <if test="batchnum != null" >
+        BatchNum,
+      </if>
+      <if test="ex1 != null" >
+        Ex1,
+      </if>
+      <if test="ex2 != null" >
+        Ex2,
+      </if>
+      <if test="ex3 != null" >
+        Ex3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="facevalue != null" >
+        #{facevalue,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="useduserid != null" >
+        #{useduserid,jdbcType=INTEGER},
+      </if>
+      <if test="rechargetime != null" >
+        #{rechargetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isused != null" >
+        #{isused,jdbcType=BIT},
+      </if>
+      <if test="isdel != null" >
+        #{isdel,jdbcType=BIT},
+      </if>
+      <if test="deltime != null" >
+        #{deltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deluserid != null" >
+        #{deluserid,jdbcType=INTEGER},
+      </if>
+      <if test="usedmobile != null" >
+        #{usedmobile,jdbcType=VARCHAR},
+      </if>
+      <if test="batchnum != null" >
+        #{batchnum,jdbcType=VARCHAR},
+      </if>
+      <if test="ex1 != null" >
+        #{ex1,jdbcType=VARCHAR},
+      </if>
+      <if test="ex2 != null" >
+        #{ex2,jdbcType=VARCHAR},
+      </if>
+      <if test="ex3 != null" >
+        #{ex3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.giftcardExample" resultType="java.lang.Integer" >
+    select count(*) from giftcard
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update giftcard
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        Name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.code != null" >
+        Code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.img != null" >
+        Img = #{record.img,jdbcType=VARCHAR},
+      </if>
+      <if test="record.facevalue != null" >
+        FaceValue = #{record.facevalue,jdbcType=DECIMAL},
+      </if>
+      <if test="record.price != null" >
+        Price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.password != null" >
+        Password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        Remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        Type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.useduserid != null" >
+        UsedUserID = #{record.useduserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.rechargetime != null" >
+        RechargeTime = #{record.rechargetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isused != null" >
+        IsUsed = #{record.isused,jdbcType=BIT},
+      </if>
+      <if test="record.isdel != null" >
+        IsDel = #{record.isdel,jdbcType=BIT},
+      </if>
+      <if test="record.deltime != null" >
+        DelTime = #{record.deltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deluserid != null" >
+        DelUserID = #{record.deluserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.usedmobile != null" >
+        UsedMobile = #{record.usedmobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.batchnum != null" >
+        BatchNum = #{record.batchnum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ex1 != null" >
+        Ex1 = #{record.ex1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ex2 != null" >
+        Ex2 = #{record.ex2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ex3 != null" >
+        Ex3 = #{record.ex3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update giftcard
+    set ID = #{record.id,jdbcType=INTEGER},
+      Name = #{record.name,jdbcType=VARCHAR},
+      Code = #{record.code,jdbcType=VARCHAR},
+      Img = #{record.img,jdbcType=VARCHAR},
+      FaceValue = #{record.facevalue,jdbcType=DECIMAL},
+      Price = #{record.price,jdbcType=DECIMAL},
+      Password = #{record.password,jdbcType=VARCHAR},
+      Remark = #{record.remark,jdbcType=VARCHAR},
+      Type = #{record.type,jdbcType=VARCHAR},
+      UsedUserID = #{record.useduserid,jdbcType=INTEGER},
+      RechargeTime = #{record.rechargetime,jdbcType=TIMESTAMP},
+      IsUsed = #{record.isused,jdbcType=BIT},
+      IsDel = #{record.isdel,jdbcType=BIT},
+      DelTime = #{record.deltime,jdbcType=TIMESTAMP},
+      DelUserID = #{record.deluserid,jdbcType=INTEGER},
+      UsedMobile = #{record.usedmobile,jdbcType=VARCHAR},
+      BatchNum = #{record.batchnum,jdbcType=VARCHAR},
+      Ex1 = #{record.ex1,jdbcType=VARCHAR},
+      Ex2 = #{record.ex2,jdbcType=VARCHAR},
+      Ex3 = #{record.ex3,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.giftcard" >
+    update giftcard
+    <set >
+      <if test="name != null" >
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        Code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        Img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="facevalue != null" >
+        FaceValue = #{facevalue,jdbcType=DECIMAL},
+      </if>
+      <if test="price != null" >
+        Price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="password != null" >
+        Password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        Type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="useduserid != null" >
+        UsedUserID = #{useduserid,jdbcType=INTEGER},
+      </if>
+      <if test="rechargetime != null" >
+        RechargeTime = #{rechargetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isused != null" >
+        IsUsed = #{isused,jdbcType=BIT},
+      </if>
+      <if test="isdel != null" >
+        IsDel = #{isdel,jdbcType=BIT},
+      </if>
+      <if test="deltime != null" >
+        DelTime = #{deltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deluserid != null" >
+        DelUserID = #{deluserid,jdbcType=INTEGER},
+      </if>
+      <if test="usedmobile != null" >
+        UsedMobile = #{usedmobile,jdbcType=VARCHAR},
+      </if>
+      <if test="batchnum != null" >
+        BatchNum = #{batchnum,jdbcType=VARCHAR},
+      </if>
+      <if test="ex1 != null" >
+        Ex1 = #{ex1,jdbcType=VARCHAR},
+      </if>
+      <if test="ex2 != null" >
+        Ex2 = #{ex2,jdbcType=VARCHAR},
+      </if>
+      <if test="ex3 != null" >
+        Ex3 = #{ex3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.giftcard" >
+    update giftcard
+    set Name = #{name,jdbcType=VARCHAR},
+      Code = #{code,jdbcType=VARCHAR},
+      Img = #{img,jdbcType=VARCHAR},
+      FaceValue = #{facevalue,jdbcType=DECIMAL},
+      Price = #{price,jdbcType=DECIMAL},
+      Password = #{password,jdbcType=VARCHAR},
+      Remark = #{remark,jdbcType=VARCHAR},
+      Type = #{type,jdbcType=VARCHAR},
+      UsedUserID = #{useduserid,jdbcType=INTEGER},
+      RechargeTime = #{rechargetime,jdbcType=TIMESTAMP},
+      IsUsed = #{isused,jdbcType=BIT},
+      IsDel = #{isdel,jdbcType=BIT},
+      DelTime = #{deltime,jdbcType=TIMESTAMP},
+      DelUserID = #{deluserid,jdbcType=INTEGER},
+      UsedMobile = #{usedmobile,jdbcType=VARCHAR},
+      BatchNum = #{batchnum,jdbcType=VARCHAR},
+      Ex1 = #{ex1,jdbcType=VARCHAR},
+      Ex2 = #{ex2,jdbcType=VARCHAR},
+      Ex3 = #{ex3,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

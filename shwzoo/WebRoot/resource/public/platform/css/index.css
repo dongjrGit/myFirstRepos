@@ -1,0 +1,188 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+/* container begin */
+#container{ width:100%;}
+.mainright{position:relative; padding:20px ;}
+/* container stop */
+
+.pos{ width:100%; height:45px; background:#ffffff;  color:#585858; line-height:45px; font-size:18px; }
+.merchan1{ background:url(../images/pos.png) no-repeat; width:28px; height:25px; display:inline-block; margin:10px 8px auto 30px; float:left;}
+.merchan1{ background-position:0px 0px;}
+
+/* user begin*/
+.mainright .user{ border-top:1px dashed #bebcbd; border-bottom:1px dashed #bebcbd; padding:10px 0px; width:100%; margin-top:45px;}
+.user-mk{  height:99px; position:relative; float:left; margin-right:20px;}
+.user-mk-left{ width:85px; height:90px; position:absolute; left:0; top:4px; background:#01b7ff; text-align:center;}
+.user-mk-left1{ width:85px; height:90px; position:absolute; left:0; top:4px; background:#28b477; text-align:center;}
+.user-mk-left2{ width:85px; height:90px; position:absolute; left:0; top:4px; background:#fcb549; text-align:center;}
+.user-mk-left3{ width:85px; height:90px; position:absolute; left:0; top:4px; background:#f44c4c; text-align:center;}
+.user-mk-dpgl{ width:85px; height:90px; position:absolute; left:0; top:4px; background:#F44C4C; text-align:center;}
+.user-mk-right{ padding:0px 20px; height:90px; float:left; margin-left:85px; margin-top:2px; background: #FFF;border:1px solid #f2f2f2; text-align:center;
+-moz-box-shadow: 0px 3px 5px #ccc;
+-webkit-box-shadow: 0px 3px 5px #ccc;
+box-shadow: 0px 3px 5px #ccc
+/* For IE 8 */
+-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#f2f2f2')";
+/* For IE 5.5 - 7 */
+filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#f2f2f2'); color:#333; text-align:center;
+}
+.touxi{ width:42px; height:36px; background: url(../images/icion_1.png) no-repeat -15px 0px; display:inline-block; margin-top:25px;}
+.touxi1{ width:42px; height:36px; background: url(../images/icion_1.png) no-repeat -70px 0px; display:inline-block; margin-top:25px;}
+.touxi2{ width:42px; height:36px; background: url(../images/icion_1.png) no-repeat -120px 0px; display:inline-block; margin-top:25px;}
+.touxi3{ width:42px; height:36px; background: url(../images/icion_1.png) no-repeat -180px 0px; display:inline-block; margin-top:25px;}
+.touxi-dpgl{ width:42px; height:36px; background: url(../images/index_icion.png) no-repeat -10px -79px; display:inline-block; margin-top:25px;}
+.number{ font-size:40px; font-weight:bolder; letter-spacing: normal; color:#898989; margin-top:10px;}
+/* user stop*/
+
+/* statis begin */
+.statis{ width:100%; margin-top:28px; color:#585657; font-size:16px; font-weight:bolder;}
+.statis-left{ width:60%; float:left; clear:both;}
+.statis-right{ width:38%; float:right;}
+.statis-left-top{ width:100%; height:52px; line-height:52px; background:#e4e4e4; position:relative; border:1px solid #e4e4e4;}
+.statis-left-top-title{ margin-left:20px;}
+.refresh{ width:27px; height:27px; background:url(../images/icion_1.png) no-repeat 0px -166px; position:absolute; top:13px; right:20px; cursor:pointer;}
+.statis-left-con{ width:100%; height:355px; background:#FFF; border:1px solid #f2f2f2; text-align:center;
+-moz-box-shadow: 0px 3px 5px #ccc;
+-webkit-box-shadow: 0px 3px 5px #ccc;
+box-shadow: 0px 3px 5px #ccc
+/* For IE 8 */
+-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#f2f2f2')";
+/* For IE 5.5 - 7 */
+filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#f2f2f2');
+}
+.statis-right-mk{ width:100%; height:70px; position:relative; clear:both; margin-bottom:14px;}
+.statis-right-mk-left{ width:70px; height:70px; float:left; background:#7b8996;}
+.statis-right-mk-right{ height:69px; background:#FFF; border:1px solid #f2f2f2;-moz-box-shadow: 0px 0px 5px #ccc;-webkit-box-shadow: 0px 0px 5px #ccc; box-shadow: 0px 0px 5px #ccc}
+.mainright .statis .statis-right .statis-right-mk .statis-right-mk-right p{ margin-left:80px;}
+.saok{ width:42px; height:36px; background: url(../images/icion_1.png) no-repeat -15px -60px; display:inline-block; margin:12px auto auto 15px;}
+.saok1{ width:42px; height:36px; background: url(../images/icion_1.png) no-repeat -15px 0px; display:inline-block; margin:12px auto auto 15px;}
+.saok2{ width:42px; height:36px; background: url(../images/icion_1.png) no-repeat -70px -60px; display:inline-block; margin:12px auto auto 18px;}
+.saok3{ width:42px; height:36px; background: url(../images/icion_1.png) no-repeat -119px -60px; display:inline-block; margin:12px auto auto 20px;}
+.saok4{ width:42px; height:36px; background: url(../images/icion_1.png) no-repeat -170px -60px; display:inline-block;  margin:12px auto auto 9px;}
+.yonghu{ font-weight:normal; margin:10px 0px 0px 0px;}
+.shuzi{ font-size:30px;color:#898989; margin:-5px 0px 0px 0px;}
+/* statis stop */
+
+/* weather begin */
+.weather{ width:100%; margin-top:30px;}
+.weather-left{ width:43%; float:left; clear:both;}
+.weather-right{ width:55%; float:right;}
+#showtime{ width:100%; height:50px;}
+.wea-con-top{ height:240px; font-size:26px; font-weight:bolder; text-align:center; line-height:200px; color:#01B7FF;}
+.wea-con-wea{ width:90%; margin:0 auto; height:100px;}
+.wea-con{ width:100%; height:305px; background:url(../images/weather.png) no-repeat;}
+.wea-bottom{ width:100%; height:60px; background:#01b7ff; line-height:60px; position:relative;}
+.pos-ddwz{ width:100px; height:50px; display:inline-block; font-size:17px; position:absolute; top:0px; right:50px;}
+.ddwz{ width:42px; height:36px; background: url(../images/icion_1.png) no-repeat -50px -168px; display:inline-block; position:absolute; top:18px; right:10px;}
+.weather-right-top{ width:100%; height:52px; background:#e4e4e4; border:1px solid #e4e4e4; line-height:52px; position:relative; }
+.weather-right-con{width:100%; height:310px; background:#FFF; border:1px solid #f2f2f2; text-align:center;
+-moz-box-shadow: 0px 3px 5px #ccc;
+-webkit-box-shadow: 0px 3px 5px #ccc;
+box-shadow: 0px 3px 5px #ccc
+/* For IE 8 */
+-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#f2f2f2')";
+/* For IE 5.5 - 7 */
+filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#f2f2f2');
+}
+.bzsr{ width:100px; height:52px; font-size:16px; color:#666; font-weight:bolder; position:absolute; top:0px; left:20px;}
+.yuefen{ width:110px; height:50px; background:#FFF; position:absolute; top:0px; right:130px;border:1px solid #f2f2f2; color:#00B6FF; line-height:normal;-moz-box-shadow: 0px 3px 5px #ccc;-webkit-box-shadow: 0px 3px 5px #ccc;box-shadow: 0px 3px 5px #ccc;}
+.yuefen-mou{ font-size:16px; font-weight:bolder; margin-left:5px;}	
+.yuefen-today{font-size:30px; font-weight:bolder; margin:-8px auto auto 5px;}
+.up{ width:110px; height:52px; background:#01b7ff; position:absolute; top:0px; right:20px; font-size:20px; color:#FFF; }
+.up-icon{ width:30px; height:36px; background: url(../images/icion_1.png) no-repeat -90px -168px; display:inline-block; margin:13px 0px auto 5px; float:left;}
+.up-wz{}
+/* weather stop */
+
+/*top  开始*/
+#top{ height:80px; width:100%; position:relative;}
+.top_1{ height:50px; background:#1680B2;}
+.top_2{ height:30px; background:#DCE4F1;}
+.lefttop{ width:200px; height:80px; background:#169ADA; position:absolute; top:0px; left:0px; text-align:center;}
+.lefttop img{ margin:15px 0px 0px 0px; }
+.l_xzb{ width:200px; height:18px; position:absolute; bottom:0px; left:0px; background:#0082AE; text-align:right; }
+#top .l_xzb img{ line-height:normal; margin:0px 5px 0px 0px;}
+.l_xzb_2{width:200px; height:18px; position:absolute; bottom:0px; left:0px; background:#0082AE; text-align:left;display:none;}
+#top .l_xzb_2 img{ line-height:normal; margin:0px 0px 0px 5px;}
+/*top  结束*/
+
+#lib_Tab1_sx{width:200px;margin:0px;padding:0px; height:100%;}
+.lib_tabborder_sx{}
+.lib_Menubox_sx {float:left; width:30px; margin-left:1px;height:100%; overflow-y:auto; overflow-x:hidden;}
+.lib_Menubox_sx ul{list-style:none; width:30px; width:100%}
+.lib_Menubox_sx li{width:14px;display:block;cursor:pointer;background-color:#169ADA; text-align:center; color:#fff; margin-top:4px; font-size:14px; padding:5px 8px; line-height:16px;
+-webkit-border-top-left-radius: 4px; 
+-moz-border-top-left-radius: 4px;
+border-top-left-radius: 4px;
+-webkit-border-bottom-left-radius: 4px;
+-moz-border-bottom-left-radius: 4px;
+border-bottom-left-radius: 4px;
+}
+.lib_Menubox_sx li.hover{width:14px;background:#DCE4F1; color:#169ADA; padding:5px 8px;}
+.lib_Contentbox_sx{background:#DCE4F1; height:100%; margin-left:31px; overflow-y:auto; overflow-x:hidden;}
+/*container 开始*/
+#l_left{width:200px; float:left;}
+#l_right{margin-left:200px; overflow-y:auto;overflow-x:hidden; }
+#content{ width:100%;}
+.l_zdlb{ padding:10px 0px 20px 18px; width:164px;}
+.l_zdlb ul li{ color:#169ADA; font-weight:bolder; font-size:14px; width:164px; position:relative; padding:13px 0px; cursor:default; }
+.row01{ width:8px; height:7px; background:url(../images/row01.png) no-repeat;position:absolute; top:45%; right:30px; display:inline-block;}
+.l_zdlb ul .l_zdlbone ul li{margin-top:0px; padding:8px 0px 8px 8px; font-weight:normal; color:#000;}
+.l_zdlb ul .l_zdlbone ul li:hover{ background:#fff; border-top-left-radius:5px;border-bottom-left-radius:5px;}
+.row02{ width:8px; height:7px; position:absolute; top:45%; right:40px; display:inline-block;background:url(../images/row02.png) no-repeat; }
+.martop30{ margin-top:30px;}
+.l_zdlb ul .l_zdlbone ul .viscount ul li{ font-weight:normal; padding:5px 0px 5px 20px; }
+.l_zdlb ul .l_zdlbone ul .viscount ul li:hover{ background:none;}
+.l_zdlb ul .l_zdlbone ul .viscount ul li a:hover{ color:#0199CB; text-decoration:underline;}
+.viscount{ display:none;}
+#footer{ height:30px; background:#EAEDF2; text-align:center; line-height:30px; font-size:16px; color:#6F7F8F; }
+/*container 结束*/
+
+/*l_tjzdymk  begin*/
+.l_tjzdymk{ background:#ffffff; border:1px dashed #A0A0A0; height:85px; line-height:85px; text-align:center; color:#0099CB; font-size:22px;}
+.l_tjzdymk img{margin:0px 10px 0px 0px;}
+/*l_tjzdymk  stop*/
+
+/*l_xyhdd  begin*/
+.l_xyhdd{ width:99.9%; margin:25px 0px 0px 0px;}
+.l_xyhddmk, .l_xyhddmk_1, .l_xyhddmk_2, .l_xyhddmk_3{ width:31%; height:65px; margin-right:3%; float:left;  padding:35px 0px; }
+.l_xyhddmk{background:#8692A0;}
+.l_xyhddmk_1{background:#9BA5AF;}
+.l_xyhddmk_2{background:#A3ACB5;}
+.l_xyhddmk_3{ background:#B1BAC1;}
+.l_xyhddmk:hover{ background:#6D7B8B;}
+.l_xyhddmk_1:hover{background:#7E8B98;}
+.l_xyhddmk_2:hover{background:#939DA8;}
+.l_xyhddmk_3:hover{background:#949FA9;}
+.l_xyhddmkleft, .l_xyhddmkleft_1, .l_xyhddmkleft_2, .l_xyhddmkleft_3{ width:70px; height:70px; background:url(../images/img_ico01.png) no-repeat; float:left; margin:0px 5px 0px 30px;}
+.l_xyhddmkleft{ background-position:0px 0px;}
+.l_xyhddmkleft_1{background-position:-150px 0px;}
+.l_xyhddmkleft_2{background-position:-297px 3px;}
+.l_xyhddmkleft_3{background-position:-413px -5px;}
+.l_xyhddmkright{ float:left; color:#fff; font-size:14px; padding-top:6px;}
+.l_bol{ font-size:36px;}
+.l_lett{ letter-spacing:5px;}
+/*l_xyhdd  stop*/
+.l_index{ font-size:14px; margin-top:10px; display:inline-block;font-weight:bolder;}
+.l_index a{color:#169ADA;}
+#lib_Tab1_sx #lib_Contentbox_sx .li_hover{ color:#FF6600;}
+#lib_Tab1_sx #lib_Contentbox_sx .li_hover a{ color:#FF6600;}
+
+/*n_khfw  首页下面服务热线  开始*/
+.n_khfw{ color:#727073; margin:60px 0px 0px 20px;}
+.n_khfwmk{ margin-bottom:15px;}
+
+/*n_khfw  首页下面服务热线  结束*/
+
+/*spxltj  开始*/
+.spxltj{ width:100%; margin:25px 0px 0px 0px;}
+.spxltj-title{ font-size:16px; color:#0099CD; font-weight:bolder; height:25px; line-height:25px;}
+.xtb-spxltj{ width:5px; height:25px; background:#0099CD; display:inline-block; float:left; margin-right:15px;}
+.spxltjcon{ width:100%; margin-top:15px;}
+.spxltjcon-mk{ width:48%; float:left; margin-right:2.5%; border:1px solid #ccc; min-height:320px;}
+.spxltjcon-mk table{ width:100%; border-collapse:collapse;}
+.spxltjcon-mk table tr{ border:1px solid #CCCCCC; }
+.spxltjcon-mk table tr td{padding:8px 5px; text-align:center;}
+.spxltjcon-mk table tr td.top-spxltjtr{ font-weight:bolder; font-size:14px;}
+.spxltjcon-mk table tr.bjs-spxltj td{ background:#EAEDF2;}
+/*spxltj  结束*/

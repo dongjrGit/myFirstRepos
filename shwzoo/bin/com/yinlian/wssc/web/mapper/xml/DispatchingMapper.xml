@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.DispatchingMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Dispatching" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="OrderGroupCode" property="ordergroupcode" jdbcType="VARCHAR" />
+    <result column="Type" property="type" jdbcType="INTEGER" />
+    <result column="DateType" property="datetype" jdbcType="INTEGER" />
+    <result column="TimeType" property="timetype" jdbcType="INTEGER" />
+    <result column="ValidFlag" property="validflag" jdbcType="INTEGER" />
+    <result column="DelDate" property="deldate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, OrderGroupCode, Type, DateType, TimeType, ValidFlag, DelDate
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.DispatchingExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dispatching
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from dispatching
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from dispatching
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.DispatchingExample" >
+    delete from dispatching
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Dispatching" >
+    insert into dispatching (ID, OrderGroupCode, Type, 
+      DateType, TimeType, ValidFlag, 
+      DelDate)
+    values (#{id,jdbcType=INTEGER}, #{ordergroupcode,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{datetype,jdbcType=INTEGER}, #{timetype,jdbcType=INTEGER}, #{validflag,jdbcType=INTEGER}, 
+      #{deldate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Dispatching" >
+    insert into dispatching
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="ordergroupcode != null" >
+        OrderGroupCode,
+      </if>
+      <if test="type != null" >
+        Type,
+      </if>
+      <if test="datetype != null" >
+        DateType,
+      </if>
+      <if test="timetype != null" >
+        TimeType,
+      </if>
+      <if test="validflag != null" >
+        ValidFlag,
+      </if>
+      <if test="deldate != null" >
+        DelDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="ordergroupcode != null" >
+        #{ordergroupcode,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="datetype != null" >
+        #{datetype,jdbcType=INTEGER},
+      </if>
+      <if test="timetype != null" >
+        #{timetype,jdbcType=INTEGER},
+      </if>
+      <if test="validflag != null" >
+        #{validflag,jdbcType=INTEGER},
+      </if>
+      <if test="deldate != null" >
+        #{deldate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.DispatchingExample" resultType="java.lang.Integer" >
+    select count(*) from dispatching
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update dispatching
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.ordergroupcode != null" >
+        OrderGroupCode = #{record.ordergroupcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        Type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.datetype != null" >
+        DateType = #{record.datetype,jdbcType=INTEGER},
+      </if>
+      <if test="record.timetype != null" >
+        TimeType = #{record.timetype,jdbcType=INTEGER},
+      </if>
+      <if test="record.validflag != null" >
+        ValidFlag = #{record.validflag,jdbcType=INTEGER},
+      </if>
+      <if test="record.deldate != null" >
+        DelDate = #{record.deldate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update dispatching
+    set ID = #{record.id,jdbcType=INTEGER},
+      OrderGroupCode = #{record.ordergroupcode,jdbcType=VARCHAR},
+      Type = #{record.type,jdbcType=INTEGER},
+      DateType = #{record.datetype,jdbcType=INTEGER},
+      TimeType = #{record.timetype,jdbcType=INTEGER},
+      ValidFlag = #{record.validflag,jdbcType=INTEGER},
+      DelDate = #{record.deldate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Dispatching" >
+    update dispatching
+    <set >
+      <if test="ordergroupcode != null" >
+        OrderGroupCode = #{ordergroupcode,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        Type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="datetype != null" >
+        DateType = #{datetype,jdbcType=INTEGER},
+      </if>
+      <if test="timetype != null" >
+        TimeType = #{timetype,jdbcType=INTEGER},
+      </if>
+      <if test="validflag != null" >
+        ValidFlag = #{validflag,jdbcType=INTEGER},
+      </if>
+      <if test="deldate != null" >
+        DelDate = #{deldate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Dispatching" >
+    update dispatching
+    set OrderGroupCode = #{ordergroupcode,jdbcType=VARCHAR},
+      Type = #{type,jdbcType=INTEGER},
+      DateType = #{datetype,jdbcType=INTEGER},
+      TimeType = #{timetype,jdbcType=INTEGER},
+      ValidFlag = #{validflag,jdbcType=INTEGER},
+      DelDate = #{deldate,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectGroupCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from dispatching
+    where OrderGroupCode = #{ordergroupcode,jdbcType=INTEGER}
+  </select>
+</mapper>

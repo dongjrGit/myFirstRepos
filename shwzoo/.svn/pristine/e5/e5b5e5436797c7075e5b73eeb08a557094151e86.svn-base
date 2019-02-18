@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>绿色食品中国-地方馆</title>
+<meta name="title" content="" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+</head>
+
+<body class="bodybjhs">
+
+	<% include("/template/pc/nav/navclass_ls.html",{pagetype:2}){}%>
+<!--lv-areacon  begin-->
+<div class="lv-areacon fix">
+	<div class="lv-areacontop fix">
+		<div class="lv-areacontop-l"><p>地域</p><p>分区</p></div>
+		<div class="lv-areacontop-r">
+			<ul>
+			<%for(entry in dqlist){%>
+				<li>
+					<div class="lv-areatitle">${entry.key}<i>&or;</i></div>
+					<div class="lv-areatitnr fix">
+					<%for(pro in entry.value){%>
+						<span><a href="/lszg/dfg.html?provinceid=${pro.id}">${pro.name}</a></span>
+						<%}%>
+					</div>
+				</li>
+				<%}%>
+			</ul>
+		</div>
+	</div>
+</div>
+<%for(vo in adverlist){%>
+<img src="${vo.imag}" class="img-responsive1" style="height:414px">
+<%break;}%>
+<!--container 中间所有内容开始-->
+<div id="container" class="fix">
+ <%for(vo in biglist){%>
+	<h3 class="dfgzy-tit">${vo.name}</h3>
+	<ul class="xz-rmcity fix">
+	<%for(topic in vo.list){%>
+		<li>
+			<a href="/lszg/dfginfo.html?topicid=${topic.id}">
+				<img src="${topic.imgurl}">
+				<div class="zxkgulnr-mc"></div>
+				<div class="xz-rmcity-tit"><span>${topic.title}</span></div>
+			</a>
+		</li>
+		<%}%>
+	</ul>
+ <%}%>
+</div>
+<!--container 中间所有内容结束-->
+</body>
+</html>

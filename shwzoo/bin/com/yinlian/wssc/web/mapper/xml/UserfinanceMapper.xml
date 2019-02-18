@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.UserfinanceMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Userfinance">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="UserID" property="userid" jdbcType="INTEGER" />
+		<result column="Balance" property="balance" jdbcType="REAL" />
+		<result column="Money" property="money" jdbcType="REAL" />
+		<result column="Type" property="type" jdbcType="INTEGER" />
+		<result column="Number" property="number" jdbcType="VARCHAR" />
+		<result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="PayNum" property="paynum" jdbcType="VARCHAR" />
+		<result column="UserIP" property="userip" jdbcType="VARCHAR" />
+		<result column="Description" property="description" jdbcType="VARCHAR" />
+		<result column="FinanceType" property="financetype" jdbcType="VARCHAR" />
+		<result column="paytype" property="paytype" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, UserID, Balance, Money, Type, Number, CreateTime,
+		Status, PayNum,
+		UserIP, Description,FinanceType,paytype
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.UserfinanceExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from userfinance
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from userfinance
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		userfinance
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.UserfinanceExample">
+		delete from userfinance
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.Userfinance">
+		insert into userfinance (ID, UserID, Balance,
+		Money, Type, Number,
+		CreateTime,
+		Status, PayNum, UserIP,
+		Description,FinanceType,paytype)
+		values
+		(#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER},
+		#{balance,jdbcType=REAL},
+		#{money,jdbcType=REAL},
+		#{type,jdbcType=INTEGER}, #{number,jdbcType=VARCHAR},
+		#{createtime,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER},
+		#{paynum,jdbcType=VARCHAR}, #{userip,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR},#{financetype,jdbcType=VARCHAR},
+		#{paytype,jdbcType=INTEGER})
+		<selectKey resultType="int" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Userfinance">
+		insert into userfinance
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="userid != null">
+				UserID,
+			</if>
+			<if test="balance != null">
+				Balance,
+			</if>
+			<if test="money != null">
+				Money,
+			</if>
+			<if test="type != null">
+				Type,
+			</if>
+			<if test="number != null">
+				Number,
+			</if>
+			<if test="createtime != null">
+				CreateTime,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+			<if test="paynum != null">
+				PayNum,
+			</if>
+			<if test="userip != null">
+				UserIP,
+			</if>
+			<if test="description != null">
+				Description,
+			</if>
+			<if test="financetype != null">
+				FinanceType,
+			</if>
+			<if test="paytype != null">
+				paytype,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=INTEGER},
+			</if>
+			<if test="balance != null">
+				#{balance,jdbcType=REAL},
+			</if>
+			<if test="money != null">
+				#{money,jdbcType=REAL},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="number != null">
+				#{number,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="paynum != null">
+				#{paynum,jdbcType=VARCHAR},
+			</if>
+			<if test="userip != null">
+				#{userip,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="financetype != null">
+				#{financetype,jdbcType=VARCHAR},
+			</if>
+			<if test="paytype != null">
+				#{paytype,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.UserfinanceExample"
+		resultType="java.lang.Integer">
+		select count(*) from userfinance
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update userfinance
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.userid != null">
+				UserID = #{record.userid,jdbcType=INTEGER},
+			</if>
+			<if test="record.balance != null">
+				Balance = #{record.balance,jdbcType=REAL},
+			</if>
+			<if test="record.money != null">
+				Money = #{record.money,jdbcType=REAL},
+			</if>
+			<if test="record.type != null">
+				Type = #{record.type,jdbcType=INTEGER},
+			</if>
+			<if test="record.number != null">
+				Number = #{record.number,jdbcType=VARCHAR},
+			</if>
+			<if test="record.createtime != null">
+				CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.paynum != null">
+				PayNum = #{record.paynum,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userip != null">
+				UserIP = #{record.userip,jdbcType=VARCHAR},
+			</if>
+			<if test="record.description != null">
+				Description = #{record.description,jdbcType=VARCHAR},
+			</if>
+			<if test="record.financetype != null">
+				FinanceType = #{record.financetype,jdbcType=VARCHAR},
+			</if>
+			<if test="record.paytype != null">
+				paytype = #{record.paytype,jdbcType=INTEGER},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update userfinance
+		set ID = #{record.id,jdbcType=INTEGER},
+		UserID =
+		#{record.userid,jdbcType=INTEGER},
+		Balance =
+		#{record.balance,jdbcType=REAL},
+		Money = #{record.money,jdbcType=REAL},
+		Type = #{record.type,jdbcType=INTEGER},
+		Number =
+		#{record.number,jdbcType=VARCHAR},
+		CreateTime =
+		#{record.createtime,jdbcType=TIMESTAMP},
+		Status =
+		#{record.status,jdbcType=INTEGER},
+		PayNum =
+		#{record.paynum,jdbcType=VARCHAR},
+		UserIP =
+		#{record.userip,jdbcType=VARCHAR},
+		Description =
+		#{record.description,jdbcType=VARCHAR},
+		FinanceType =
+		#{record.financetype,jdbcType=VARCHAR},
+		paytype =
+		#{record.paytype,jdbcType=INTEGER},
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Userfinance">
+		update userfinance
+		<set>
+			<if test="userid != null">
+				UserID = #{userid,jdbcType=INTEGER},
+			</if>
+			<if test="balance != null">
+				Balance = #{balance,jdbcType=REAL},
+			</if>
+			<if test="money != null">
+				Money = #{money,jdbcType=REAL},
+			</if>
+			<if test="type != null">
+				Type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="number != null">
+				Number = #{number,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				CreateTime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="paynum != null">
+				PayNum = #{paynum,jdbcType=VARCHAR},
+			</if>
+			<if test="userip != null">
+				UserIP = #{userip,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				Description = #{description,jdbcType=VARCHAR},
+			</if>
+			<if test="financetype != null">
+				FinanceType = #{financetype,jdbcType=VARCHAR},
+			</if>
+			<if test="paytype != null">
+				paytype = #{paytype,jdbcType=INTEGER},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Userfinance">
+		update userfinance
+		set UserID = #{userid,jdbcType=INTEGER},
+		Balance =
+		#{balance,jdbcType=REAL},
+		Money = #{money,jdbcType=REAL},
+		Type =
+		#{type,jdbcType=INTEGER},
+		Number = #{number,jdbcType=VARCHAR},
+		CreateTime = #{createtime,jdbcType=TIMESTAMP},
+		Status =
+		#{status,jdbcType=INTEGER},
+		PayNum = #{paynum,jdbcType=VARCHAR},
+		UserIP
+		= #{userip,jdbcType=VARCHAR},
+		Description =
+		#{description,jdbcType=VARCHAR},
+		FinanceType =
+		#{financetype,jdbcType=VARCHAR},
+		paytype =
+		#{paytype,jdbcType=INTEGER}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="getLastUserFinance" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from userfinance
+		where UserID =#{0} order by CreateTime desc LIMIT 1
+	</select>
+
+	<select id="getListByNumber" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from userfinance
+		where Number =${0} and Status=#{1}
+	</select>
+	<select id="getUserFinance" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from userfinance
+		where id =#{0} and Status=#{1} order by CreateTime
+		desc LIMIT 1
+	</select>
+	<select id="getListByNumberAndType" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from userfinance
+		where Number =#{0} and Type=#{1} LIMIT 1
+	</select>
+
+
+	<select id="selectByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from userfinance
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}
+		</if>
+	</select>
+
+	<sql id="criteria_query">
+		<where>
+			and 1=1
+			<if test="criteria.userid != null ">
+				and UserID = #{criteria.userid}
+			</if>
+			<if test="criteria.type != null and criteria.type != -1 ">
+				and Type =#{criteria.type}
+			</if>
+			<if test="criteria.status!= null and criteria.status != -1 ">
+				and Status =#{criteria.status}
+			</if>
+			<if test="criteria.number != null and criteria.number != '' ">
+				and Number = #{criteria.number}
+			</if>
+			<if test="criteria.paynum != null and criteria.paynum != '' ">
+				and PayNum = #{criteria.paynum}
+			</if>
+			<if
+				test="criteria.start != null and criteria.start != '' and criteria.end != null and criteria.end != ''  ">
+				and CreateTime between #{criteria.start} and #{criteria.end}
+			</if>
+			<if
+				test="criteria.start != null and criteria.start != '' and criteria.end == null">
+				<![CDATA[ and CreateTime <  #{criteria.start}]]>
+			</if>
+		</where>
+	</sql>
+
+	<select id="getUseridandTimeFinance" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from userfinance
+		where UserID = #{0} and CreateTime between #{1} and
+		#{2}
+
+	</select>
+
+	<select id="getUseridandMonthFinance" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from userfinance
+		where UserID = #{0}
+		<![CDATA[ and CreateTime < #{1} ]]>
+
+	</select>
+
+	<select id="getUseridFinance" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from userfinance
+		where UserID = #{userIDS,jdbcType=INTEGER}
+	</select>
+
+
+	<select id="selectPlatformByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.UserfinanceDto">
+		select p.ID as id,p.Balance as balance,p.Status as status,p.Money as
+		money,p.Type as type,
+		p.Number as number,p.CreateTime as
+		createtime,p.PayNum as paynum,p.paytype,
+		p.Description as
+		description,u.UserName as username,u.NickName as buyername
+		from
+		userfinance p left join users u on p.UserID=u.ID
+		<if test="criteria != null ">
+			<include refid="criteriaFinance" />
+		</if>
+		<if test="criteria.username != null and criteria.username != ''">
+			and u.UserName like '%${criteria.username }%'
+		</if>
+		<!-- <if test="criteria.buyername != null and criteria.buyername != ''">
+			and m.doorname like '%${criteria.buyername }%'
+		</if> -->
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	<sql id="criteriaFinance">
+		<where>
+			and p.Status = 1
+			<if test="criteria.userid != null and criteria.userid > 0 ">
+				and p.UserID = #{criteria.userid}
+			</if>
+			<if test="criteria.types !=null and criteria.types !=''">
+				and p.Type in (${criteria.types})
+			</if>
+			<if test="criteria.number != null and criteria.number !=''  ">
+				and p.Number = #{criteria.number }
+			</if>
+			<if test="criteria.paynum !=null and criteria.paynum !=''">
+				and p.PayNum = #{criteria.paynum }
+			</if>
+			<if test="criteria.type != null and criteria.type  >= 0  ">
+				and p.Type = #{criteria.type }
+			</if>
+			<if test="criteria.start != null and criteria.start != '' ">
+      			<![CDATA[ and DATEDIFF(p.CreateTime,#{criteria.start})>=0]]>
+			</if>
+			<if test="criteria.end != null and criteria.end != ''  ">
+      			<![CDATA[ and DATEDIFF(p.CreateTime,#{criteria.end})<=0]]>
+			</if>
+			<if test="criteria.paytype != null and criteria.paytype  >= 0  ">
+				and p.paytype = #{criteria.paytype }
+			</if>
+			<if test="criteria.paytypes != null and criteria.paytypes != '' ">
+				and p.paytype in (${criteria.paytypes})
+			</if>
+			<if test="criteria.shopname != null and criteria.shopname != ''">
+				and s.Name like '%${criteria.shopname }%'
+			</if>
+			<if test="criteria.moneybegin != null ">
+      			<![CDATA[ and p.money>=#{criteria.moneybegin}]]>
+			</if>
+			<if test="criteria.moneyend != null ">
+      			<![CDATA[ and p.money<=#{criteria.moneyend}]]>
+			</if>
+		</where>
+	</sql>
+
+	<select id="selectPlatformList" parameterType="com.yinlian.wssc.web.util.Criteria"
+		resultType="com.yinlian.wssc.web.dto.UserfinanceDto">
+		select p.ID as id,p.Balance as balance,p.Status as status,p.Money as
+		money,p.Type as type,
+		p.Number as number,p.CreateTime as
+		createtime,p.PayNum as paynum,p.paytype,
+		p.Description as
+		description,u.UserName as username,u.NickName as buyername
+		from
+		userfinance p left join users u on p.UserID=u.ID
+		<if test="criteria != null ">
+			<include refid="criteriaFinance" />
+		</if>
+		<if test="criteria.username != null and criteria.username != ''">
+			and u.UserName like '%${criteria.username }%'
+		</if>
+		<!-- <if test="criteria.buyername != null and criteria.buyername != ''">
+			and m.doorname like '%${criteria.buyername }%'
+		</if> -->
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+	<select id="selectShopFinanceByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.UserfinanceDto">
+		select p.ID as id,p.Balance as balance,p.Status,p.Money as
+		money,p.Type as type,
+		p.Number as number,p.CreateTime as
+		createtime,p.PayNum as paynum,p.paytype,
+		p.Description as
+		description,s.Name as username,s.shopnum as
+		codingnum
+		from
+		userfinance p left join shop s on p.UserID=s.userid
+		<if test="criteria != null ">
+			<include refid="criteriaFinance" />
+		</if>
+		<if test="criteria.username != null and criteria.username != ''">
+			and s.shopnum like '%${criteria.username }%'
+		</if>
+		order by createtime desc,id desc
+	</select>
+
+	<select id="selectShopFinanceList" parameterType="com.yinlian.wssc.web.util.Criteria"
+		resultType="com.yinlian.wssc.web.dto.UserfinanceDto">
+		select p.ID as id,p.Balance as balance,p.Status,p.Money as
+		money,p.Type as type,
+		p.Number as number,p.CreateTime as createtime,p.PayNum as paynum,p.paytype,
+		p.Description as description,s.Name as username,s.shopnum as
+		codingnum
+		from userfinance p left join shop s on p.UserID=s.userid
+		<if test="criteria != null ">
+			<include refid="criteriaFinance" />
+		</if>
+		<if test="criteria.username != null and criteria.username != ''">
+			and s.shopnum like '%${criteria.username }%'
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+</mapper>

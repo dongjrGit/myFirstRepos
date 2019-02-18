@@ -1,0 +1,897 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.CouponMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Coupon">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="CouponNum" property="couponnum" jdbcType="VARCHAR" />
+		<result column="CouponName" property="couponname" jdbcType="VARCHAR" />
+		<result column="FaceValue" property="facevalue" jdbcType="REAL" />
+		<result column="ConponCount" property="conponcount" jdbcType="INTEGER" />
+		<result column="CouponIssueType" property="couponissuetype"
+			jdbcType="INTEGER" />
+		<result column="CouponUseType" property="couponusetype"
+			jdbcType="INTEGER" />
+		<result column="UseTypeID" property="usetypeid" jdbcType="INTEGER" />
+		<result column="CouponType" property="coupontype" jdbcType="INTEGER" />
+		<result column="FullReductionValue" property="fullreductionvalue"
+			jdbcType="REAL" />
+		<result column="CreateUserID" property="createuserid" jdbcType="INTEGER" />
+		<result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="ProvideTime" property="providetime" jdbcType="TIMESTAMP" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="EndDay" property="endday" jdbcType="INTEGER" />
+		<result column="EndTime" property="endtime" jdbcType="TIMESTAMP" />
+		<result column="GetUserLevel" property="getuserlevel" jdbcType="INTEGER" />
+		<result column="IsDel" property="isdel" jdbcType="BIT" />
+		<result column="DelUserID" property="deluserid" jdbcType="INTEGER" />
+		<result column="DelTime" property="deltime" jdbcType="TIMESTAMP" />
+		<result column="GetType" property="gettype" jdbcType="INTEGER" />
+		<result column="GetCount" property="getcount" jdbcType="INTEGER" />
+		<result column="ShopID" property="shopid" jdbcType="INTEGER" />
+		<result column="FromType" property="fromtype" jdbcType="INTEGER" />
+		<result column="GroupCode" property="groupcode" jdbcType="VARCHAR" />
+		<result column="shopname" property="shopname" jdbcType="VARCHAR" />
+		<result column="UsePlatform" property="useplatform" jdbcType="VARCHAR" />
+		<result column="ImgUrl" property="imgurl" jdbcType="VARCHAR" />
+		<result column="ImgUrl_App" property="imgurlApp" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, CouponNum, CouponName, FaceValue, ConponCount,
+		CouponIssueType,
+		CouponUseType,
+		UseTypeID, CouponType,
+		FullReductionValue, CreateUserID, CreateTime,
+		ProvideTime,
+		Status,
+		EndDay, EndTime, GetUserLevel, IsDel, DelUserID, DelTime, GetType,
+		GetCount,
+		ShopID,FromType,GroupCode,UsePlatform, ImgUrl,ImgUrl_App 
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.CouponExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from coupon
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from coupon
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from coupon
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.CouponExample">
+		delete from coupon
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.Coupon">
+		insert into coupon (ID,
+		CouponNum, CouponName,
+		FaceValue, ConponCount, CouponIssueType,
+		CouponUseType, UseTypeID, CouponType,
+		FullReductionValue, CreateUserID,
+		CreateTime,
+		ProvideTime, Status, EndDay,
+		EndTime, GetUserLevel, IsDel,
+		DelUserID, DelTime, GetType,
+		GetCount, ShopID,FromType,GroupCode,UsePlatform,ImgUrl,ImgUrl_App)
+		values  
+		(#{id,jdbcType=INTEGER}, 
+		#{couponnum,jdbcType=VARCHAR},
+		#{couponname,jdbcType=VARCHAR},
+		#{facevalue,jdbcType=REAL},
+		#{conponcount,jdbcType=INTEGER}, 
+		#{couponissuetype,jdbcType=INTEGER},
+		#{couponusetype,jdbcType=INTEGER}, 
+		#{usetypeid,jdbcType=INTEGER},
+		#{coupontype,jdbcType=INTEGER},
+		#{fullreductionvalue,jdbcType=REAL},
+		#{createuserid,jdbcType=INTEGER}, 
+		#{createtime,jdbcType=TIMESTAMP},
+		#{providetime,jdbcType=TIMESTAMP}, 
+		#{status,jdbcType=INTEGER},
+		#{endday,jdbcType=INTEGER},
+		#{endtime,jdbcType=TIMESTAMP},
+		#{getuserlevel,jdbcType=INTEGER}, 
+		#{isdel,jdbcType=BIT},
+		#{deluserid,jdbcType=INTEGER}, 
+		#{deltime,jdbcType=TIMESTAMP},
+		#{gettype,jdbcType=INTEGER},
+		#{getcount,jdbcType=INTEGER},
+		#{shopid,jdbcType=INTEGER},
+		#{fromtype,jdbcType=INTEGER},
+		#{groupcode,jdbcType=VARCHAR},
+		#{useplatform,jdbcType=VARCHAR},
+		#{imgurl,jdbcType=VARCHAR},
+		#{imgurlApp,jdbcType=VARCHAR}
+		) 
+	</insert>
+	
+	<select id="queryByShopId" resultType="com.yinlian.wssc.web.po.Coupon">
+	  select <include refid="Base_Column_List" /> 
+	from coupon 
+	where IsDel = 0 And Status = 0 
+	    And EndTime > SYSDATE() 
+	    AND ProvideTime <![CDATA[ <= ]]> SYSDATE() 
+		And ConponCount >0
+		And (shopid=#{0} or CouponUseType=3)
+	</select>
+	
+	
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Coupon">
+		insert into coupon
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="couponnum != null">
+				CouponNum,
+			</if>
+			<if test="couponname != null">
+				CouponName,
+			</if>
+			<if test="facevalue != null">
+				FaceValue,
+			</if>
+			<if test="conponcount != null">
+				ConponCount,
+			</if>
+			<if test="couponissuetype != null">
+				CouponIssueType,
+			</if>
+			<if test="couponusetype != null">
+				CouponUseType,
+			</if>
+			<if test="usetypeid != null">
+				UseTypeID,
+			</if>
+			<if test="coupontype != null">
+				CouponType,
+			</if>
+			<if test="fullreductionvalue != null">
+				FullReductionValue,
+			</if>
+			<if test="createuserid != null">
+				CreateUserID,
+			</if>
+			<if test="createtime != null">
+				CreateTime,
+			</if>
+			<if test="providetime != null">
+				ProvideTime,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+			<if test="endday != null">
+				EndDay,
+			</if>
+			<if test="endtime != null">
+				EndTime,
+			</if>
+			<if test="getuserlevel != null">
+				GetUserLevel,
+			</if>
+			<if test="isdel != null">
+				IsDel,
+			</if>
+			<if test="deluserid != null">
+				DelUserID,
+			</if>
+			<if test="deltime != null">
+				DelTime,
+			</if>
+			<if test="gettype != null">
+				GetType,
+			</if>
+			<if test="getcount != null">
+				GetCount,
+			</if>
+			<if test="shopid != null">
+				ShopID,
+			</if>
+			<if test="fromtype != null">
+				FromType,
+			</if>
+			<if test="groupcode != null">
+				GroupCode,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="couponnum != null">
+				#{couponnum,jdbcType=VARCHAR},
+			</if>
+			<if test="couponname != null">
+				#{couponname,jdbcType=VARCHAR},
+			</if>
+			<if test="facevalue != null">
+				#{facevalue,jdbcType=REAL},
+			</if>
+			<if test="conponcount != null">
+				#{conponcount,jdbcType=INTEGER},
+			</if>
+			<if test="couponissuetype != null">
+				#{couponissuetype,jdbcType=INTEGER},
+			</if>
+			<if test="couponusetype != null">
+				#{couponusetype,jdbcType=INTEGER},
+			</if>
+			<if test="usetypeid != null">
+				#{usetypeid,jdbcType=INTEGER},
+			</if>
+			<if test="coupontype != null">
+				#{coupontype,jdbcType=INTEGER},
+			</if>
+			<if test="fullreductionvalue != null">
+				#{fullreductionvalue,jdbcType=REAL},
+			</if>
+			<if test="createuserid != null">
+				#{createuserid,jdbcType=INTEGER},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="providetime != null">
+				#{providetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="endday != null">
+				#{endday,jdbcType=INTEGER},
+			</if>
+			<if test="endtime != null">
+				#{endtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="getuserlevel != null">
+				#{getuserlevel,jdbcType=INTEGER},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=BIT},
+			</if>
+			<if test="deluserid != null">
+				#{deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="deltime != null">
+				#{deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="gettype != null">
+				#{gettype,jdbcType=INTEGER},
+			</if>
+			<if test="getcount != null">
+				#{getcount,jdbcType=INTEGER},
+			</if>
+			<if test="shopid != null">
+				#{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="fromtype != null">
+				#{fromtype,jdbcType=INTEGER},
+			</if>
+			<if test="groupcode != null">
+				#{groupcode,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.CouponExample"
+		resultType="java.lang.Integer">
+		select count(*) from coupon
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update coupon
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.couponnum != null">
+				CouponNum = #{record.couponnum,jdbcType=VARCHAR},
+			</if>
+			<if test="record.couponname != null">
+				CouponName = #{record.couponname,jdbcType=VARCHAR},
+			</if>
+			<if test="record.facevalue != null">
+				FaceValue = #{record.facevalue,jdbcType=REAL},
+			</if>
+			<if test="record.conponcount != null">
+				ConponCount = #{record.conponcount,jdbcType=INTEGER},
+			</if>
+			<if test="record.couponissuetype != null">
+				CouponIssueType =
+				#{record.couponissuetype,jdbcType=INTEGER},
+			</if>
+			<if test="record.couponusetype != null">
+				CouponUseType = #{record.couponusetype,jdbcType=INTEGER},
+			</if>
+			<if test="record.usetypeid != null">
+				UseTypeID = #{record.usetypeid,jdbcType=INTEGER},
+			</if>
+			<if test="record.coupontype != null">
+				CouponType = #{record.coupontype,jdbcType=INTEGER},
+			</if>
+			<if test="record.fullreductionvalue != null">
+				FullReductionValue =
+				#{record.fullreductionvalue,jdbcType=REAL},
+			</if>
+			<if test="record.createuserid != null">
+				CreateUserID = #{record.createuserid,jdbcType=INTEGER},
+			</if>
+			<if test="record.createtime != null">
+				CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.providetime != null">
+				ProvideTime = #{record.providetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.endday != null">
+				EndDay = #{record.endday,jdbcType=INTEGER},
+			</if>
+			<if test="record.endtime != null">
+				EndTime = #{record.endtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.getuserlevel != null">
+				GetUserLevel = #{record.getuserlevel,jdbcType=INTEGER},
+			</if>
+			<if test="record.isdel != null">
+				IsDel = #{record.isdel,jdbcType=BIT},
+			</if>
+			<if test="record.deluserid != null">
+				DelUserID = #{record.deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="record.deltime != null">
+				DelTime = #{record.deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.gettype != null">
+				GetType = #{record.gettype,jdbcType=INTEGER},
+			</if>
+			<if test="record.getcount != null">
+				GetCount = #{record.getcount,jdbcType=INTEGER},
+			</if>
+			<if test="record.shopid != null">
+				ShopID = #{record.shopid,jdbcType=INTEGER},
+			</if>
+			<if test="record.fromtype != null">
+				FromType = #{record.fromtype,jdbcType=INTEGER},
+			</if>
+			<if test="record.groupcode != null">
+				GroupCode = #{record.groupcode,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update coupon
+		set ID = #{record.id,jdbcType=INTEGER},
+		CouponNum =
+		#{record.couponnum,jdbcType=VARCHAR},
+		CouponName =
+		#{record.couponname,jdbcType=VARCHAR},
+		FaceValue =
+		#{record.facevalue,jdbcType=REAL},
+		ConponCount =
+		#{record.conponcount,jdbcType=INTEGER},
+		CouponIssueType =
+		#{record.couponissuetype,jdbcType=INTEGER},
+		CouponUseType =
+		#{record.couponusetype,jdbcType=INTEGER},
+		UseTypeID =
+		#{record.usetypeid,jdbcType=INTEGER},
+		CouponType =
+		#{record.coupontype,jdbcType=INTEGER},
+		FullReductionValue =
+		#{record.fullreductionvalue,jdbcType=REAL},
+		CreateUserID =
+		#{record.createuserid,jdbcType=INTEGER},
+		CreateTime =
+		#{record.createtime,jdbcType=TIMESTAMP},
+		ProvideTime =
+		#{record.providetime,jdbcType=TIMESTAMP},
+		Status =
+		#{record.status,jdbcType=INTEGER},
+		EndDay =
+		#{record.endday,jdbcType=INTEGER},
+		EndTime =
+		#{record.endtime,jdbcType=TIMESTAMP},
+		GetUserLevel =
+		#{record.getuserlevel,jdbcType=INTEGER},
+		IsDel =
+		#{record.isdel,jdbcType=BIT},
+		DelUserID =
+		#{record.deluserid,jdbcType=INTEGER},
+		DelTime =
+		#{record.deltime,jdbcType=TIMESTAMP},
+		GetType =
+		#{record.gettype,jdbcType=INTEGER},
+		GetCount =
+		#{record.getcount,jdbcType=INTEGER},
+		ShopID =
+		#{record.shopid,jdbcType=INTEGER},
+		FromType =
+		#{record.fromtype,jdbcType=INTEGER},
+		GroupCode =
+		#{record.groupcode,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Coupon">
+		update coupon
+		<set>
+			<if test="couponnum != null">
+				CouponNum = #{couponnum,jdbcType=VARCHAR},
+			</if>
+			<if test="couponname != null">
+				CouponName = #{couponname,jdbcType=VARCHAR},
+			</if>
+			<if test="facevalue != null">
+				FaceValue = #{facevalue,jdbcType=REAL},
+			</if>
+			<if test="conponcount != null">
+				ConponCount = #{conponcount,jdbcType=INTEGER},
+			</if>
+			<if test="couponissuetype != null">
+				CouponIssueType = #{couponissuetype,jdbcType=INTEGER},
+			</if>
+			<if test="couponusetype != null">
+				CouponUseType = #{couponusetype,jdbcType=INTEGER},
+			</if>
+			<if test="usetypeid != null">
+				UseTypeID = #{usetypeid,jdbcType=INTEGER},
+			</if>
+			<if test="coupontype != null">
+				CouponType = #{coupontype,jdbcType=INTEGER},
+			</if>
+			<if test="fullreductionvalue != null">
+				FullReductionValue = #{fullreductionvalue,jdbcType=REAL},
+			</if>
+			<if test="createuserid != null">
+				CreateUserID = #{createuserid,jdbcType=INTEGER},
+			</if>
+			<if test="createtime != null">
+				CreateTime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="providetime != null">
+				ProvideTime = #{providetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="endday != null">
+				EndDay = #{endday,jdbcType=INTEGER},
+			</if>
+			<if test="endtime != null">
+				EndTime = #{endtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="getuserlevel != null">
+				GetUserLevel = #{getuserlevel,jdbcType=INTEGER},
+			</if>
+			<if test="isdel != null">
+				IsDel = #{isdel,jdbcType=BIT},
+			</if>
+			<if test="deluserid != null">
+				DelUserID = #{deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="deltime != null">
+				DelTime = #{deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="gettype != null">
+				GetType = #{gettype,jdbcType=INTEGER},
+			</if>
+			<if test="getcount != null">
+				GetCount = #{getcount,jdbcType=INTEGER},
+			</if>
+			<if test="shopid != null">
+				ShopID = #{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="fromtype != null">
+				FromType = #{fromtype,jdbcType=INTEGER},
+			</if>
+			<if test="groupcode != null">
+				GroupCode = #{groupcode,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Coupon">
+		update coupon
+		set
+		CouponNum = #{couponnum,jdbcType=VARCHAR},
+		CouponName =
+		#{couponname,jdbcType=VARCHAR},
+		FaceValue = #{facevalue,jdbcType=REAL},
+		ConponCount = #{conponcount,jdbcType=INTEGER},
+		CouponIssueType =
+		#{couponissuetype,jdbcType=INTEGER},
+		CouponUseType =
+		#{couponusetype,jdbcType=INTEGER},
+		UseTypeID =
+		#{usetypeid,jdbcType=INTEGER},
+		CouponType =
+		#{coupontype,jdbcType=INTEGER},
+		FullReductionValue =
+		#{fullreductionvalue,jdbcType=REAL},
+		CreateUserID =
+		#{createuserid,jdbcType=INTEGER},
+		CreateTime =
+		#{createtime,jdbcType=TIMESTAMP},
+		ProvideTime =
+		#{providetime,jdbcType=TIMESTAMP},
+		Status = #{status,jdbcType=INTEGER},
+		EndDay = #{endday,jdbcType=INTEGER},
+		EndTime =
+		#{endtime,jdbcType=TIMESTAMP},
+		GetUserLevel =
+		#{getuserlevel,jdbcType=INTEGER},
+		IsDel = #{isdel,jdbcType=BIT},
+		DelUserID = #{deluserid,jdbcType=INTEGER},
+		DelTime =
+		#{deltime,jdbcType=TIMESTAMP},
+		GetType = #{gettype,jdbcType=INTEGER},
+		GetCount = #{getcount,jdbcType=INTEGER},
+		ShopID =
+		#{shopid,jdbcType=INTEGER},
+		FromType =
+		#{fromtype,jdbcType=INTEGER},
+		GroupCode = #{groupcode,jdbcType=VARCHAR},
+		UsePlatform=#{useplatform,jdbcType=VARCHAR},
+		ImgUrl=#{imgurl,jdbcType=VARCHAR},
+		ImgUrl_App=#{imgurlApp,jdbcType=VARCHAR} 
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 修改状态 -->
+	<update id="updateStatus" parameterType="com.yinlian.wssc.web.po.Coupon">
+		update coupon set
+		Status
+		= #{status,jdbcType=INTEGER}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<!-- 查询优惠卷 不分页 -->
+	<select id="queryCoupon" parameterType="com.yinlian.wssc.web.util.Criteria"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from coupon
+		where IsDel=0 and Status=0
+		<if test="couponType !=null and couponType >=0">
+			and CouponType=#{couponType}
+		</if>
+		<if test="userType !=null and userType >=0">
+			and CouponUseType=#{userType}
+		</if>
+		<if test="issueType !=null and issueType >=0">
+			and CouponIssueType=#{issueType}
+		</if>
+	</select>
+	<!-- 查询优惠卷 分页 -->
+	<select id="getCouponByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from coupon where IsDel=0
+		<if test="criteria.couponType !=null and criteria.couponType >=0">
+			and CouponType=#{criteria.couponType}
+		</if>
+		<if test="criteria.userType !=null and criteria.userType >=0">
+			and CouponUseType=#{criteria.userType}
+		</if>
+		<if test="criteria.issueType !=null and criteria.issueType >=0">
+			and CouponIssueType=#{criteria.issueType}
+		</if>
+		<if test="criteria.fromType !=null and criteria.fromType >=0">
+			and FromType=#{criteria.fromType}
+		</if>
+		<if test="criteria.num !=null and criteria.num !=''">
+			and CouponNum like '%${criteria.num}%'
+		</if>
+		<if test="criteria.name !=null and criteria.name !=''">
+			and CouponName like '%${criteria.name}%'
+		</if>
+		<if test="criteria.shopid >0">
+			and ShopID=#{criteria.shopid}
+		</if>
+		<if test="criteria.startFrom !=null and criteria.startFrom !=''">			
+			 <![CDATA[ and DATE_FORMAT(ProvideTime,'%Y-%m-%d') >= #{criteria.startFrom} ]]>
+		</if>
+		<if test="criteria.startTo !=null and criteria.startTo !=''">
+		  <![CDATA[ and DATE_FORMAT(ProvideTime,'%Y-%m-%d') <= #{criteria.startTo} ]]>
+		</if>
+		<if test="criteria.endFrom !=null and criteria.endFrom !=''">			
+			 <![CDATA[ and DATE_FORMAT(EndTime,'%Y-%m-%d') >= #{criteria.endFrom} ]]>
+		</if>
+		<if test="criteria.endTo !=null and criteria.endTo !=''">
+		  <![CDATA[ and DATE_FORMAT(EndTime,'%Y-%m-%d') <= #{criteria.endTo} ]]>
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+		
+	</select>
+
+	<!-- 删除优惠卷 -->
+	<update id="deleteCoupon" parameterType="com.yinlian.wssc.web.po.Coupon">
+		update coupon set
+		IsDel =
+		#{isdel,jdbcType=BIT},
+		DelUserID = #{deluserid,jdbcType=INTEGER},
+		DelTime = #{deltime,jdbcType=TIMESTAMP}
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 用户领取优惠卷 -->
+	<update id="updateCount" parameterType="com.yinlian.wssc.web.po.Coupon">
+		update coupon set
+		ConponCount = #{conponcount,jdbcType=INTEGER}
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 查询所有可领取的优惠卷 -->
+	<select id="getAvailableCoupon" parameterType="int" resultType="com.yinlian.api.app.dto.AvailableCouponDto">
+		select  id,
+	            couponnum,
+	            couponname,
+	            facevalue,
+	            couponusetype,
+	            coupontype,
+	            fullreductionvalue,
+	            providetime,
+	            endtime as outtime
+		from coupon
+		where IsDel = 0 And Status = 0 And GetType =0 And EndTime >
+		SYSDATE() And ConponCount>0
+		<if test="shopid!=null and shopid>0 ">
+			And ShopID=#{shopid}
+		</if>
+
+	</select>
+
+	<!-- 查询满返优惠卷 -->
+	<select id="getCouponStartwithName" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from coupon
+		where IsDel = 0 And Status = 0 And GetType =1 And EndTime >
+		SYSDATE() And ConponCount>0 and ShopID=#{0}
+		<if test="param2 != null and param2 != ''">
+			and CouponName like '%${1}%'
+		</if>
+		limit 0,10
+	</select>
+	<select id="getListByIds" resultMap="BaseResultMap"
+		parameterType="list">
+		select
+		<include refid="Base_Column_List" />
+		from coupon
+		where id in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<!-- 查询所有可领取的优惠卷 -->
+	<select id="getAvailableFirst" parameterType="int" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from coupon
+		where IsDel = 0 And Status = 0 And GetType =0 And EndTime >
+		SYSDATE() And
+		ConponCount>0
+		<if test="shopid!=null and shopid>0 ">
+			And ShopID=#{shopid}
+		</if>
+		LIMIT 1
+	</select>
+	<!-- 查询所有优惠券(按平台) -->
+    <select id="getShopCoupon" parameterType="int" resultType="com.yinlian.wssc.web.po.Coupon">
+     select ID,CouponNum,CouponName,FaceValue,CouponType,FullReductionValue, providetime,
+       endtime  
+	from coupon 
+	where IsDel = 0 And Status = 0 And GetType =0 
+	    And EndTime > SYSDATE() 
+		And ConponCount>0
+		And FIND_IN_SET(#{usesite},useplatform)
+	</select>
+	<!-- 查询店铺可领取的优惠卷 -->
+	<select id="getShopAvailableCoupon" parameterType="int"
+		resultMap="BaseResultMap">
+		select ID,CouponNum,CouponName,FaceValue,CouponType,FullReductionValue
+		from coupon
+		where IsDel = 0 And Status = 0 And GetType =0 And EndTime >
+		SYSDATE() And ConponCount>0
+		<if test="shopid!=null and shopid>0 ">
+			And ShopID=#{shopid}
+		</if>
+		limit 3
+	</select>
+
+	<!-- 获取可领取的优惠卷列表 -->
+	<select id="getAvailableCouponByPage" 
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.api.app.dto.AvailableCouponDto">
+		select  id,
+	            couponnum,
+	            couponname,
+	            facevalue,
+	            couponusetype,
+	            coupontype,
+	            fullreductionvalue,
+	            providetime,
+	            endtime as outtime
+		from coupon
+		where IsDel = 0 And Status = 0 And GetType =0 And EndTime >
+		SYSDATE() And ConponCount>0
+		<if test="criteria !=null">
+			<if test="criteria.shopid !=null and criteria.shopid >=0">
+				and ShopID=#{criteria.shopid}
+			</if>
+			<if test="criteria.useplatform !=null and criteria.useplatform >=0">
+				and FIND_IN_SET(#{criteria.useplatform},UsePlatform)
+			</if>
+		</if>
+	</select>
+	<select id="getbyGroupcodeAndUsetype" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from coupon
+		where IsDel = 0 And Status = 0 And FromType = 1
+		And
+		GroupCode = #{0} And CouponUseType=#{1}
+		limit 1
+	</select>
+	<select id="getbyGroupcode" resultMap="BaseResultMap">
+		SELECT CASE WHEN
+		a.couponusetype=0 THEN c.name
+		WHEN a.couponusetype=1 THEN d.name
+		WHEN
+		a.couponusetype=2 THEN b.name
+		WHEN a.couponusetype=3 THEN '' END AS
+		shopname,
+		(a.conponcount+(SELECT COUNT(id) FROM user_coupon WHERE
+		a.id=user_coupon.CouponID AND user_coupon.FromType=1)) AS conponcount,
+		a.ID,
+		a.CouponNum,
+		a.CouponName,
+		a.FaceValue,
+		a.CouponIssueType,
+		a.CouponUseType,
+		a.UseTypeID,
+		a.ProvideTime,
+		a.EndTime,
+		a.CreateTime,
+		a.FromType,
+		a.GroupCode,
+		a.GetType
+		FROM coupon a
+		LEFT JOIN shop b ON a.usetypeid=b.id
+		LEFT JOIN spu c ON
+		a.usetypeid=c.id
+		LEFT JOIN category d ON a.usetypeid=d.id
+		WHERE a.groupcode=#{0}
+		AND a.isdel=0
+	</select>
+	 <select id="selectCount" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		select count(*)
+		from user_coupon
+		where UserID=#{userid,jdbcType=INTEGER} and IsDel=0
+	</select>
+	<select id="getByIDandUsesite" resultMap="BaseResultMap" >
+	select <include refid="Base_Column_List" />
+		from coupon
+		where id=#{0}
+	  and FIND_IN_SET(#{1},UsePlatform)
+	
+	</select>
+	<!-- 查询所有优惠券 -->
+    <select id="getShopCouponApi" resultType="com.yinlian.wssc.web.po.Coupon">
+     select <include refid="Base_Column_List" /> 
+	from coupon 
+	where IsDel = 0 And Status = 0 
+     	And GetType =0
+	    And EndTime > SYSDATE() 
+		And ConponCount>0
+		And shopid=#{0}
+		And FIND_IN_SET(#{1},UsePlatform)
+	</select>
+	
+	
+	 <select id="queryCouponCount" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+		
+		select count(*)
+		from user_coupon u left join coupon c on u.CouponID=c.id
+		where u.UserID=#{userId} and FIND_IN_SET(#{webSet},c.UsePlatform)  and u.IsDel=0
+	</select>
+</mapper>

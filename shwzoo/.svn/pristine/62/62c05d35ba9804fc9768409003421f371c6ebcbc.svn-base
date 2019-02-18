@@ -1,0 +1,38 @@
+<%var path="/resource";%>
+<head>
+<title>登录</title>
+<!-- <link rel="stylesheet" href="/wap/css/public.css" type="text/css" media="screen"> -->
+<link rel="stylesheet" href="${path}/wap/css/indexNew.css" type="text/css" media="screen">
+
+<script type="text/javascript">
+function xiayibu(){
+	var phone = $("#phone").val();
+	var sms = $("#sms").val();
+	window.location.href="/wap/user/showRegisterPwd?phone="+phone+"&sms="+sms;
+}
+</script>
+</head>
+<body>
+<!--container  begin-->
+<div class="container fix">
+	<!--l_alltop  begin -->
+	<div class="l_alltop fix">
+    	<a href="/wap/user/showRegisterPhone"><span><img src="${path}/wap/images/tp10.png" class="img-responsive l_maxwid"></span></a>
+    	手机快速注册
+    </div>
+    <!--l_alltop  stop -->
+    <!--l_logcon  begin -->
+    <input type="hidden" id="phone" value="${phone}">
+    <div class="l_logcon">
+    	<div class="l_logconmk fix l_nobor">
+            <input name="sms" id="sms"  type="text" placeholder="请输入收到的验证码" class="l_srsjh l_active">
+        </div><!-- l_logconmk  stop-->
+    </div>
+    <div class="l_tyyhxy text-right">60s重新发送验证码</div>
+    <!--l_logcon  stop -->
+    <div class="l_dlan l_wcan"><a href="javascript:void(0);" onclick="xiayibu()">下一步</a></div>
+    <div class="l_tyyhxy text-center">遇到问题？请<a href="#" class="underline">联系客服</a></div>
+</div>
+<!--container  stop -->
+</body>
+

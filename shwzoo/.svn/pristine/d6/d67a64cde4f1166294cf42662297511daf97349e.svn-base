@@ -1,0 +1,15 @@
+﻿<!--main-left 左边内容  开始 -->
+<div class="main-left">
+    <div class="dh-mk">
+        <ul>
+            <li class="dh-mk-title">账户设置</li>
+            <li ><a href="/member/userInfo/personalInformation.html">个人信息</a></li>
+            <li><a href="/member/userInfo/accountBinding.html">账号绑定</a></li>
+            <li><a href="/member/userInfo/accountSecurity.html">账户安全</a></li>    
+            <li><a href="/member/userInfo/receiveAddress.html">收货地址</a></li>
+        </ul>
+    </div><!--dh-mk  stop -->
+    <div class="clear"></div>
+</div>
+
+<!--main-left 左边内容  结束 -->

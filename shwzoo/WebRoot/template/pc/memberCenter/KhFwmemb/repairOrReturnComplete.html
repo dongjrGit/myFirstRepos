@@ -1,0 +1,102 @@
+﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>返修退换货</title>
+<link href="/resource/artDialog/skins/default.css" rel="stylesheet" />
+ <link type="text/css" rel="stylesheet" href="/resource/pc/web/css/common.css" />
+<link type="text/css" rel="stylesheet" href="/resource/pc/web/css/top-footer.css" />
+<link type="text/css" rel="stylesheet" href="/resource/pc/web/css/style01.css" />
+<link type="text/css" rel="stylesheet" href="/resource/ui-dialog.css" />
+
+    
+<link href="/resource/public/commoncss/jQuery.Validate.css" rel="stylesheet" />
+ <script src="/resource/pc/member/js/Concern/syconcernlist.js"></script>
+<script src="/resource/pc/web/js/browsehistory/browsehistory.js"></script>
+<script src="/resource/jquery-1.8.2.min.js"></script>
+<script src="/resource/pc/web/js/index.js"></script>
+<script src="/resource/pc/member/js/pager2.js"></script>
+<script src="/resource/pc/member/js/showdate.js"></script>
+ <script src="/resource/artTemplate.js"></script>
+ <script src="/resource/dialog-plus.js"></script>
+ <script src="/resource/dialogShow.js"></script>
+<script src="/resource/jQueryRotate.2.2.js"></script>
+ <script src="/resource/Guid.js"></script>
+ 
+  <link href="/resource/pc/member/css/pager2.css" rel="stylesheet" />
+    <script type="text/javascript" src="/resource/pc/member/js/pager2.js"></script>
+
+<script type="text/javascript" src="/resource/public/commonjs/Birthday-picker.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/style.js"></script>
+<script type="text/javascript" src="/resource/pc/member/js/zhsz/PersonalInformation.js"></script>
+<script type="text/javascript" src="/resource/public/commonjs/Birthday-picker.js"></script>
+
+<script src="/resource/public/commonjs/AjaxFileUploaderV2.1/ajaxfileupload.js"></script>
+<script src="/resource/public/commonjs/jquery.validate.js"></script>
+<script src="/resource/public/commonjs/messages_cn.js"></script>
+<script src="/resource/public/commonjs/jquery.validate-methods.js"></script>
+
+
+    <!--弹出框样式-->
+    
+    <script src="/resource/GetQueryString.js"></script>
+    <script src="/resource/dialog-plus.js" type="text/javascript"></script>
+    <script src="/resource/dialogShow.js"></script> <!--设置统一dialog弹出框-->
+    <script src="/resource/My97DatePicker/WdatePicker.js"></script>
+    <!--文件上传-->
+    <!--用户公共-->
+    <script src="/resource/public/commonjs/public-user.js"></script>
+    <!--表单验证css&&js-->
+    
+    <link href="/resource/public/commoncss/jQuery.Validate.css" rel="stylesheet" />
+    <script src="/resource/public/commonjs/jquery.validate.js"></script>
+    <script src="/resource/public/commonjs/messages_cn.js"></script>
+    <script src="/resource/public/commonjs/jquery.validate-methods.js"></script>
+    <script src="/resource/public/commonjs/jquery.form.js"></script>
+    </head>
+    <body>
+<!--main  主要内容  开始 -->
+<div id="main" class="fix">
+    <!--main-left 左边内容  开始 -->
+   <% include("/template/pc/memberCenter/Shared/_PartialLeftside.html",{}){}%>
+    <!--main-left 左边内容  结束 -->
+    <!--rightside 右边内容  结束 -->
+    <div class="rightside">
+        <!--l_jfmx积分明细  begin -->
+        <div class="l_jfmx mt0">
+            <!--l_jfmxtop  begin -->
+            <div class="l_jfmxtop">
+                <h3><a href="#">退换货服务</a></h3>
+              <!--   @*<div class="l_shfwan"><a href="#">售后服务</a></div>*@ -->
+            </div><!--l_jfmxtop  stop -->
+            <!--l_fxtjcg  begin -->
+            <div class="l_fxtjcg fix">
+                <div class="l_fxtjcgleft"></div>
+                <div class="l_fxtjcgright">
+                    <h3>提交成功！</h3>
+                    <p>服务人员奖在24消失内进行审核，审核结果会以短信形式告诉您。</p>
+                    <p>您也可以在查看 <a href="/member/khFwmemb/afterServiceOrderList.html" class="shenlan">返修退换货</a> 中进行查询。</p>
+                </div>
+            </div>
+            <!--l_fxtjcg   stop -->
+        </div>
+        <!--l_jfmx积分明细  stop -->
+        <!--l_cjwt  begin -->
+        <div class="l_cjwt">
+            <h3>返修/退换货申请常见问题</h3>
+            <ul>
+                <li>1. “申请”按钮若为灰色，可能是因为订单尚未完成或该商品正在返修/退换货中;</li>
+                <li>2. 查看 <span class="shenlan"><a href="/member/pcarticles/showarticles?classfy=1">售后政策</a></span>;</li>
+            </ul>
+        </div>
+         <% include("/template/pc/memberCenter/Common_M/M_GuessYouLike.html",{}){}%>
+        <!--l_cjwt  stop -->
+        <!--l_like 猜你喜欢 开始 -->
+      <!--   @{
+            Html.RenderAction("M_GuessYouLike", "Common_M");
+        } -->
+        <!--l_like 猜你喜欢 结束 -->
+    </div>
+    <!--rightside 右边内容  结束 -->
+    <div class="clear"></div>
+</div>
+</body>
+<!--main  主要内容  结束 -->

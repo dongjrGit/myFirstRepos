@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.GroupbuyorderMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Groupbuyorder">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="BuyerID" property="buyerid" jdbcType="INTEGER" />
+		<result column="ShopID" property="shopid" jdbcType="INTEGER" />
+		<result column="OrderCode" property="ordercode" jdbcType="VARCHAR" />
+		<result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="GroupBuyCode" property="groupbuycode" jdbcType="VARCHAR" />
+		<result column="StartTime" property="starttime" jdbcType="TIMESTAMP" />
+		<result column="EndTime" property="endtime" jdbcType="TIMESTAMP" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="IsDel" property="isdel" jdbcType="INTEGER" />
+		<result column="DelTime" property="deltime" jdbcType="TIMESTAMP" />
+		<result column="OrderPrice" property="orderprice" jdbcType="REAL" />
+		<result column="PayPrice" property="payprice" jdbcType="REAL" />
+		<result column="Count" property="count" jdbcType="INTEGER" />
+		<result column="DisCount" property="discount" jdbcType="REAL" />	
+		<result column="PayTime" property="paytime" jdbcType="TIMESTAMP" />	
+		<result column="BeansCount" property="beanscount" jdbcType="INTEGER" />
+		<result column="PCouponID" property="pcouponid" jdbcType="INTEGER" />
+		<result column="SCouponID" property="scouponid" jdbcType="INTEGER" />
+		<result column="ReceivablePrice" property="receivableprice" jdbcType="REAL" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, BuyerID, ShopID, OrderCode, CreateTime,
+		GroupBuyCode,
+		StartTime,OrderPrice,Count,PayPrice,DisCount,
+		EndTime, Status, IsDel, DelTime,PayTime,BeansCount
+		,PCouponID,SCouponID,ReceivablePrice
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.GroupbuyorderExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from groupbuyorder 
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from groupbuyorder
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		groupbuyorder
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.GroupbuyorderExample">
+		delete from groupbuyorder
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.Groupbuyorder">
+		insert into groupbuyorder (ID,
+		BuyerID, ShopID,
+		OrderCode, CreateTime,
+		OrderPrice,Count,PayPrice,
+		GroupBuyCode,StartTime,
+		EndTime, Status, IsDel,
+		DelTime,DisCount,PayTime,BeansCount
+		,PCouponID,SCouponID,ReceivablePrice)
+		values
+		(#{id,jdbcType=INTEGER}, #{buyerid,jdbcType=INTEGER},
+		#{shopid,jdbcType=INTEGER},
+		#{ordercode,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP},
+		#{orderprice,jdbcType=REAL},#{count,jdbcType=INTEGER},
+		#{payprice,jdbcType=REAL},
+		#{groupbuycode,jdbcType=VARCHAR},
+		#{starttime,jdbcType=TIMESTAMP},
+		#{endtime,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER}, #{isdel,jdbcType=INTEGER},
+		#{deltime,jdbcType=TIMESTAMP},#{discount,jdbcType=REAL},
+		#{paytime,jdbcType=TIMESTAMP},
+		#{beanscount,jdbcType=INTEGER},
+		#{pcouponid,jdbcType=INTEGER},
+		#{scouponid,jdbcType=INTEGER},
+		#{receivableprice,jdbcType=REAL})
+		<selectKey resultType="int" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Groupbuyorder">
+		insert into groupbuyorder
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="buyerid != null">
+				BuyerID,
+			</if>
+			<if test="shopid != null">
+				ShopID,
+			</if>
+			<if test="ordercode != null">
+				OrderCode,
+			</if>
+			<if test="createtime != null">
+				CreateTime,
+			</if>
+			<if test="groupbuycode != null">
+				GroupBuyCode,
+			</if>
+			<if test="starttime != null">
+				StartTime,
+			</if>
+			<if test="endtime != null">
+				EndTime,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+			<if test="isdel != null">
+				IsDel,
+			</if>
+			<if test="deltime != null">
+				DelTime,
+			</if>
+			<if test="discount != null">
+				DisCount,
+			</if>
+			<if test="paytime != null">
+				PayTime,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="buyerid != null">
+				#{buyerid,jdbcType=INTEGER},
+			</if>
+			<if test="shopid != null">
+				#{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="ordercode != null">
+				#{ordercode,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="groupbuycode != null">
+				#{groupbuycode,jdbcType=VARCHAR},
+			</if>
+			<if test="starttime != null">
+				#{starttime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endtime != null">
+				#{endtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=INTEGER},
+			</if>
+			<if test="deltime != null">
+				#{deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="discount != null">
+				#{discount,jdbcType=REAL},
+			</if>
+			<if test="paytime != null">
+				#{paytime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.GroupbuyorderExample"
+		resultType="java.lang.Integer">
+		select count(*) from groupbuyorder
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update groupbuyorder
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.buyerid != null">
+				BuyerID = #{record.buyerid,jdbcType=INTEGER},
+			</if>
+			<if test="record.shopid != null">
+				ShopID = #{record.shopid,jdbcType=INTEGER},
+			</if>
+			<if test="record.ordercode != null">
+				OrderCode = #{record.ordercode,jdbcType=VARCHAR},
+			</if>
+			<if test="record.createtime != null">
+				CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.groupbuycode != null">
+				GroupBuyCode = #{record.groupbuycode,jdbcType=VARCHAR},
+			</if>
+			<if test="record.starttime != null">
+				StartTime = #{record.starttime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.endtime != null">
+				EndTime = #{record.endtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.isdel != null">
+				IsDel = #{record.isdel,jdbcType=INTEGER},
+			</if>
+			<if test="record.deltime != null">
+				DelTime = #{record.deltime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update groupbuyorder
+		set ID = #{record.id,jdbcType=INTEGER},
+		BuyerID =
+		#{record.buyerid,jdbcType=INTEGER},
+		ShopID =
+		#{record.shopid,jdbcType=INTEGER},
+		OrderCode =
+		#{record.ordercode,jdbcType=VARCHAR},
+		CreateTime =
+		#{record.createtime,jdbcType=TIMESTAMP},
+		GroupBuyCode =
+		#{record.groupbuycode,jdbcType=VARCHAR},
+		StartTime =
+		#{record.starttime,jdbcType=TIMESTAMP},
+		EndTime =
+		#{record.endtime,jdbcType=TIMESTAMP},
+		Status =
+		#{record.status,jdbcType=INTEGER},
+		IsDel =
+		#{record.isdel,jdbcType=INTEGER},
+		DelTime =
+		#{record.deltime,jdbcType=TIMESTAMP}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Groupbuyorder">
+		update groupbuyorder
+		<set>
+			<if test="buyerid != null">
+				BuyerID = #{buyerid,jdbcType=INTEGER},
+			</if>
+			<if test="shopid != null">
+				ShopID = #{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="ordercode != null">
+				OrderCode = #{ordercode,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				CreateTime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="groupbuycode != null">
+				GroupBuyCode = #{groupbuycode,jdbcType=VARCHAR},
+			</if>
+			<if test="starttime != null">
+				StartTime = #{starttime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endtime != null">
+				EndTime = #{endtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="isdel != null">
+				IsDel = #{isdel,jdbcType=INTEGER},
+			</if>
+			<if test="deltime != null">
+				DelTime = #{deltime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Groupbuyorder">
+		update
+		groupbuyorder
+		set BuyerID = #{buyerid,jdbcType=INTEGER},
+		ShopID =
+		#{shopid,jdbcType=INTEGER},		
+		OrderCode =
+		#{ordercode,jdbcType=VARCHAR},
+		CreateTime =
+		#{createtime,jdbcType=TIMESTAMP},
+		OrderPrice=#{orderprice,jdbcType=REAL},
+		Count=#{count,jdbcType=INTEGER},
+		PayPrice=#{payprice,jdbcType=REAL},
+		GroupBuyCode =
+		#{groupbuycode,jdbcType=VARCHAR},
+		StartTime = #{starttime,jdbcType=TIMESTAMP},
+		EndTime =
+		#{endtime,jdbcType=TIMESTAMP},
+		Status = #{status,jdbcType=INTEGER},
+		IsDel =
+		#{isdel,jdbcType=INTEGER},
+		DelTime = #{deltime,jdbcType=TIMESTAMP},
+		DisCount = #{discount,jdbcType=REAL},
+		PayTime = #{paytime,jdbcType=TIMESTAMP}
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 删除团购订单 -->
+	<update id="delOrder" parameterType="int">
+		update groupbuyorder set
+		IsDel=1,DelTime=SYSDATE()
+		where ID=#{0}
+	</update>
+	<!-- 批量删除订单 -->
+	<update id="delOrderList" parameterType="List">
+		update groupbuyorder set
+		IsDel=1,DelTime=SYSDATE()
+		where ID in
+		<if test="list != null">
+			<foreach collection="list" item="id" index="index" open="("
+				separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+	</update>
+	
+	<!-- 更改团购订单状态 -->
+	<update id="updateStatus" parameterType="int">
+		update groupbuyorder set
+		Status=#{0}
+		where ID=#{1}
+	</update>
+	<!-- 团购订单付款 -->
+	<update id="updateFK" parameterType="com.yinlian.wssc.web.po.Groupbuyorder">
+		update groupbuyorder set
+		PayPrice=#{payprice,jdbcType=REAL},
+		Status = #{status,jdbcType=INTEGER},
+		PayTime=SYSDATE()
+		where ID=#{id,jdbcType=INTEGER}
+	</update>
+	
+	<!-- 获取团购订单列表 -->
+	<select id="getListOrderByPage" resultType="com.yinlian.wssc.web.dto.GroupByorderDto"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		select a.*,s.name as shopname,u.username  from  groupbuyorder a left join shop 
+		s on a.shopid=s.id left join users u on u.id=a.buyerid
+		where a.IsDel=0
+		<if test="criteria.status !=null and criteria.status >=0">
+			and a.Status=#{criteria.status}
+		</if>
+		<if test="criteria.shopid !=null and criteria.shopid >0">
+			and a.ShopId=#{criteria.shopid}
+		</if>
+		<if test="criteria.buyid !=null and criteria.buyid >0">
+			and a.BuyerID =#{criteria.buyid}
+		</if>
+		<if test="criteria.ordercode !=null and criteria.ordercode !=''">
+			and a.OrderCode like '%${criteria.ordercode}%'
+		</if>
+		<if test="criteria.begin !=null and criteria.begin !=''">			
+			 <![CDATA[ and DATEDIFF(a.createtime,#{criteria.begin})>=0]]>
+		</if>
+		<if test="criteria.end !=null and criteria.end!=''">
+			 <![CDATA[ and DATEDIFF(a.createtime,#{criteria.end})<=0]]>
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	
+	<resultMap id="OrderGroupByDtoResult" type="com.yinlian.wssc.web.dto.OrderGroupByDto">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="ordercode" property="ordercode" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="ordercount" property="ordercount" jdbcType="INTEGER" />
+		<result column="orderprice" property="orderprice" jdbcType="REAL" />
+		<result column="payprice" property="payprice" jdbcType="REAL" />
+		<result column="discount" property="discount" jdbcType="REAL" />
+		<result column="starttime" property="starttime" jdbcType="TIMESTAMP" />
+		<result column="endtime" property="endtime" jdbcType="TIMESTAMP" />
+		<result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="shopid" property="shopid" jdbcType="INTEGER" />
+		<result column="shopname" property="shopname" jdbcType="VARCHAR" />
+		<result column="buyerid" property="buyerid" jdbcType="INTEGER" />
+		<result column="buyname" property="buyname" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="count" property="count" jdbcType="INTEGER" />
+		<collection property="detaillist" column="id" select="selectdetails"
+		ofType="com.yinlian.wssc.web.po.Grouporderdetail"></collection>
+	</resultMap>
+	<select id="getGroupOrderByPage" resultMap="OrderGroupByDtoResult"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+	SELECT a.ID, a.BuyerID, a.ShopID, a.OrderCode, a.CreateTime,
+		a.StartTime,a.OrderPrice,a.Count,a.PayPrice,
+		a.EndTime, a.Status,a.DisCount,
+	    s.name AS shopname,u.username as buyname,h.Title 
+	    FROM  groupbuyorder a LEFT JOIN shop 
+		s ON a.shopid=s.id LEFT JOIN users u ON u.id=a.buyerid
+		LEFT JOIN groupbuyhistory h ON a.GroupBuyCode=h.HaCode
+		WHERE a.IsDel=0
+	    <if test="criteria.status !=null and criteria.status >=0">
+			and a.Status=#{criteria.status}
+		</if>
+		<if test="criteria.shopid !=null and criteria.shopid >0">
+			and a.ShopId=#{criteria.shopid}
+		</if>
+		<if test="criteria.buyid !=null and criteria.buyid >0">
+			and a.BuyerID =#{criteria.buyid}
+		</if>
+		<if test="criteria.ordercode !=null and criteria.ordercode !=''">
+			and a.OrderCode like '%${criteria.ordercode}%'
+		</if>
+		<if test="criteria.begin !=null and criteria.begin !=''">			
+			 <![CDATA[ and DATEDIFF(a.createtime,#{criteria.begin})>=0]]>
+		</if>
+		<if test="criteria.end !=null and criteria.end!=''">
+			 <![CDATA[ and DATEDIFF(a.createtime,#{criteria.end})<=0]]>
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	<select id="selectdetails" resultType="com.yinlian.wssc.web.po.Grouporderdetail"
+		parameterType="int">
+	select ID, OrderID, 
+	CODE, Price, GroupBuyCode, 
+	UseTime, STATUS, CreateTime, ShopID	 
+	FROM grouporderdetail 
+	where OrderID=#{0} and IsDel=0
+	</select>
+	
+	<select id="getByOrderCode" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from groupbuyorder
+		where OrderCode = #{0}
+		limit 1
+	</select>
+
+	<select id="getCount" parameterType="java.lang.Integer"
+		resultType="com.yinlian.api.app.dto.OrderCountDto">
+		select
+			  count((case when (Status = 0) then ID end)) AS dfk, 
+			  count((case when (Status = 1) then ID end)) AS dsh,
+			  count((case when (Status = 1) then ID end)) AS dsh,
+			  count((case when (Status = 6) then ID end)) AS tk
+
+		from groupbuyorder
+		where BuyerID=#{userid,jdbcType=INTEGER} and (IsDel=0 or IsDel is null)
+	</select>
+		<!-- 查询下单1天后未付款的订单 -->
+	<select id="getUnpaidGroupOrders" resultMap="BaseResultMap">
+		SELECT ID, OrderCode,BuyerID FROM groupbuyorder
+		WHERE STATUS=0
+		AND IsDel=0 AND
+		TO_DAYS(SYSDATE()) - TO_DAYS(CreateTime) >=1
+	</select>
+</mapper>

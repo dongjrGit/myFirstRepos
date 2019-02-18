@@ -1,0 +1,310 @@
+<script src="/js/GetQueryString.js"></script>
+<script src="/web_new/js/spgl/pro_detail_tap.js"></script>
+<script src="/web_new/js/spgl/product_comment.js"></script>
+<script src="/web_new/js/spgl/product_consult.js"></script>
+<script src="/web_new/js/login/login.js"></script>
+<!---l_spxqright 商品详情右边内容  开始--->
+<div class="l_spxqright">
+    <!--l_spxqtop  begin -->
+    <div class="l_spxqtop fix" id="fixed">
+        <ul class="fix">
+            <a href="javascript:;"><li class="l_xzzt" id="detial_0">商品详情</li></a>
+            <a href="javascript:;"><li id="detial_1">累计评价  <span class="red comment_all">0</span></li></a>
+            <a href="javascript:;"><li id="detial_2">包装清单</li></a>
+            <a href="javascript:;"><li id="detial_3">规格参数</li></a>
+            <a href="javascript:;"><li id="detial_4">售后服务</li></a>
+            <a href="javascript:;"><li id="detial_5" style="margin-right:0px;"><i></i>商品咨询</li></a>
+        </ul>
+    </div>
+    <!--l_spxqtop  stop -->
+    <!--商品详情-->
+    <div id="pro_detial_tap_0">
+        <!--l_wsplx  开始 -->
+        <div class="l_wsplx fix">
+            <ul class="l_wsplxmk" name="InfoList"></ul><!--l_wsplxmk  stop -->
+        </div>
+        <!--l_wsplx  结束 -->
+        <!--l_allimg  开始 -->
+        <div class="l_allimg fix" name="div_spuInfo">
+
+        </div>
+        <!--l_allimg  结束 -->
+    </div>
+    <!--包装清单-->
+    <div id="pro_detial_tap_2" style="display:none;">
+        <div class="mt15 heise" name="div_packingList">包装清单...</div>
+        <!--l_fwcn  begin -->
+        <div class="l_fwcn fix">
+            <p>服务承诺：</p>
+            <ul>
+                <li>中绿生活平台卖家销售并发货的商品，由平台卖家提供发票和相应的售后服务。请您放心购买！</li>
+                <li>注：因厂家会在没有任何提前通知的情况下更改产品包装、产地或者一些附件，本司不能确保客户收到的货物与商城图片、产地、附件说明完全一致。只能确保为原厂正货！并且保证与当时市场上同样主流新品一致。若本商城没有及时更新，请大家谅解！</li>
+            </ul>
+        </div>
+        <!--l_fwcn  stop -->
+        <!--l_qlsm 权力声明 开始 -->
+        <div class="l_qlsm">
+            <p class="red">权利声明：</p>
+            <ul>
+                <li>中绿生活上的所有商品信息、客户评价、商品咨询、网友讨论等内容，是中绿生活重要的经营资源，未经许可，禁止非法转载使用。</li>
+                <li>注：本站商品信息均来自于合作方，其真实性、准确性和合法性由信息拥有者（合作方）负责。本站不提供任何保证，并不承担任何法律责任。</li>
+                <li>印刷版次不同，印刷时间和版次以实物为准。</li>
+            </ul>
+        </div>
+        <!--l_qlsm 权力声明 结束 -->
+
+    </div>
+    <!--规格参数-->
+    <div id="pro_detial_tap_3" style="display:none;">
+        <!-- l_ggcs  基本信息开始-->
+        <div class="l_ggcs" name="div_specsList">
+            <!--<div id="div_specsList"></div>-->
+
+        </div>
+        
+        <script id="specsList_" type="text/html">
+            {{each list as spec1 i}}
+            <dl class="standard">
+                <dt>{{specl.TypeName}}</dt>
+                {{each spec1.Specs as child j}}
+                <dd><label>{{child.Name}}</label><span>{{child.Value}}</span></dd>
+                {{/each}}
+            </dl>
+            {{/each}}
+        </script>
+        <!-- l_ggcs  基本信息结束-->
+        <!--l_qlsm 权力声明 开始 -->
+        <div class="l_qlsm">
+            <p class="red">权利声明：</p>
+            <ul>
+                <li>中绿生活上的所有商品信息、客户评价、商品咨询、网友讨论等内容，是中绿生活重要的经营资源，未经许可，禁止非法转载使用。</li>
+                <li>注：本站商品信息均来自于合作方，其真实性、准确性和合法性由信息拥有者（合作方）负责。本站不提供任何保证，并不承担任何法律责任。</li>
+                <li>印刷版次不同，印刷时间和版次以实物为准。</li>
+            </ul>
+        </div>
+        <!--l_qlsm 权力声明 结束 -->
+    </div>
+    <!--售后服务-->
+    <div id="pro_detial_tap_4" style="display:none;">
+        <!--l_shfw  begin -->
+        <div class="l_shfw fix" name="div_afterService">
+            售后服务...
+        </div>
+        <!--l_shfw  stop -->
+    </div>
+    <!--商品咨询-->
+    <div id="pro_detial_tap_5">
+        <div class="l_fwcn fix lineheight25">
+            <span class="fon14">温馨提示：</span>因厂家更改产品包装、产地或者更换随机配件等任何提前通知，且每位咨询者购买情况、提问时间等不同，为此以下回复仅对提问者3天内有效，其他网友仅供参考！
+            若由此给您带来不便请多多谅解，谢谢！
+        </div><!--l_fwcn  stop -->
+        <!--发表咨询  begin -->
+        <div class="mt15">
+            <a href="javascript:;"><span class="l_jrgwc small l_xqyzx">发表咨询</span></a>
+            <div class="l_fbzxcon fix" id="div_addconsult">
+                <i></i>
+                <p class="bolder">发表咨询：</p>
+                <p>声明：您可购买前对产品包装、颜色、运输、库存等方面进行咨询，我们有专人进行回复！<span class="fon12">因厂家随时会更改一些产品的包装、颜色、产地等参数，所以该回复仅在当时对提问者有效，其他网友仅供参考！咨询回复的工作时间为：周一至周五，9：00至18：00，请耐心等待工作人员回复。</span></p>
+                <div class="l_zxlxxm fix">
+                    <label>咨询类型：</label>
+                    <span><input name="radio_cousulttype" type="radio" value="1" checked>商品咨询</span>
+                    <span><input name="radio_cousulttype" type="radio" value="2">库存及配送</span>
+                    <span><input name="radio_cousulttype" type="radio" value="3">支付问题</span>
+                    <span><input name="radio_cousulttype" type="radio" value="4">发票及保修</span>
+                    <span><input name="radio_cousulttype" type="radio" value="5">促销及赠品</span>
+                </div>
+                <div class="l_zxlxxm fix mt10">
+                    <label class="mt10">咨询内容：</label>
+                    <textarea name="text_consultcontent" id="text_consultcontent" cols="" rows="" class="l_fbzxnrtext" placeholder="如何能尽快找到咨询答案？"></textarea>
+                </div>
+                <div class="mt20"><label>&nbsp;</label><a href="javascript:void(0);" class="l_tjfbzx" id="a_consultsubmit">提交</a></div>
+            </div><!--l_fbzxcon  stop -->
+        </div>
+        <!--发表咨询  stop -->
+        <div id="div_consultlist">
+            <script type="text/html" id="consultlist">
+                {{each list as consult i}}
+                <div class="l_zxxmnrmk fix">
+                    <div class="l_zxxmnrmk01">
+                        <span>会 员 :  {{consult.ConsultName}}</span> <span>{{consult.ConsultDate}}</span>
+                    </div>
+                    <div class="l_zxxmnrmk02">咨询内容： {{consult.ConsultContent}}</div>
+                    <div class="l_zxxmnrmk03">
+                        <span class="l_hfxm1">中绿生活回复：</span>
+                        <span class="l_hfxm2">{{consult.ReplyContent}}</span>
+                        <span class="l_hfxm3">{{consult.ReplyDate}}</span>
+                    </div>
+                </div><!--l_zxxmnrmk  stop -->
+                {{/each}}
+            </script>
+        </div>
+        <!--page_01  开始 -->
+        <div class="page_01" id="consultpager">
+        </div>
+        <!--page_01  结束 -->
+    </div>
+    <!--商品评价-->
+    <div id="pro_detial_tap_1">
+        <!--l_ljpltb商品评价  begin -->
+        <div class="l_ljpltb fix">
+            <h3 class="fon14">商品评价</h3>
+            <!--l_ljpltbcon  begin -->
+            <div class="l_ljpltbcon fix">
+                <div class="l_ljplmk"><h3 class="comment_goodp">100%</h3><p>好评度</p></div><!--l_ljplmk  stop -->
+                <div class="l_ljplmk01 fix">
+                    <p class="fix">
+                        <span class="l_hpbfb">好评<em class="comment_goodp2">（100%）</em></span>
+                        <span class="l_hdhpd"><i class="l_pjbj_01 i_goodp" style="width:100%"></i></span>
+                    </p>
+                    <p class="fix">
+                        <span class="l_hpbfb">中评<em class="comment_generalp">（0%）</em></span>
+                        <span class="l_hdhpd"><i class="l_pjbj_02 i_generalp" style="width:0%"></i></span>
+                    </p>
+                    <p class="fix">
+                        <span class="l_hpbfb">差评<em class="comment_poorp">（0%）</em></span>
+                        <span class="l_hdhpd"><i class="l_pjbj_03 i_poorp" style="width:0%"></i></span>
+                    </p>
+                </div><!--l_ljplmk01  stop -->
+                <div class="l_ljplmk02 fix">
+                    <!--<p>买家印象：</p>
+                    <ul>
+                        <li><span class="heise">款式好看</span>(10)</li>
+                        <li><span class="heise">款式好看</span>(10)</li>
+                        <li><span class="heise">款式好看</span>(10)</li>
+                        <li><span class="heise">款式好看</span>(10)</li>
+                        <li><span class="heise">款式好看</span>(10)</li>
+                        <li><span class="heise">款式好看</span>(10)</li>
+                        <li><span class="heise">款式好看</span>(10)</li>
+                        <li><span class="heise">款式好看</span>(10)</li>
+                    </ul>-->
+                </div><!--l_ljplmk02  stop -->
+                <div class="l_ljplmk03">
+                    <p>您可对已购商品进行评价</p>
+                    <p class="mt10"><a href="javascript:void(0);" class="l_fbpjnjf a_gocomment">发表评价拿积分</a></p>
+                </div><!-- l_ljplmk03  stop-->
+
+            </div>
+
+            <!--l_ljpltbcon  stop -->
+        </div>
+        <!--l_ljpltb商品评价  stop -->
+        <!--全部评论  选项卡开始 -->
+        <div class="nTab Wqbpl">
+            <div class="TabTitle">
+                <ul id="myTab1">
+                    <script type="text/html" id="commenttj">
+                        <li class="active" onclick="changetype(this,0);">全部评论（{{result.Count_Total}}）</li>
+                        <li class="normal" onclick="changetype(this,1);">好评（{{result.Count_Good}}）</li>
+                        <li class="normal" onclick="changetype(this,2);">中评（{{result.Count_General}}）</li>
+                        <li class="normal" onclick="changetype(this,3);">差评（{{result.Count_Poor}}）</li>
+                        <li class="normal" onclick="changetype(this,4);">有图片的评论（{{result.Count_Img}}）</li>
+                    </script>
+                </ul>
+            </div>
+            <div class="TabContent">
+                <!--选项卡1 全部评论 的内容 开始  -->
+                <div id="myTab1_Content0">
+                    <!--loginfil  begin -->
+                    <div class="div_cover" style="display:none; position: absolute; left: 0px; top: 0px; opacity: 0.15; z-index: 9999998; background-color: rgb(0, 0, 0); width: 1903px; height: 6908px;"></div>
+                    <div class="loginfil div_login" hidden style="display: none; width: 410px; position: fixed; z-index: 9999999;  overflow: hidden; top: 30%; left: 742.5px; ">
+                        <div class="shopjslogin-top">
+                            您尚未登录
+                            <div class="shop_close div_colselogin" onclick="hidelogindiv();">X</div>
+                        </div><!--shopjslogin-top   stop -->
+                        <div class="shopcon">
+                            <form id="loginForm">
+                                <p>
+                                    <label>用户名：</label>
+                                    <input name="text_username" id="text_username" type="text">
+                                </p>
+                                <p id="p_pwd">
+                                    <label>密码：</label>
+                                    <input name="password_loginpwd" id="password_loginpwd" type="password" onkeydown="WebLogin.enterpress();">
+                                </p>
+                                <div class="l_zddlmm">
+                                    <input name="asdas" id="asdas" type="checkbox" value="" checked>自动登录
+                                    <a href="javascript:void(0);">忘记密码?</a>
+                                </div>
+                                <input name="submit_ok" id="submit_ok" type="button" value="登录" class="shop-inp">
+                                <p class="l_myzhzc">没有账号?<a href="/Member/DlZc/Register">立即注册</a></p>
+                            </form>
+                        </div>
+                    </div>
+                    <!--loginfil  stop -->
+                    <div class="Wqbpltop">
+                        <div class="Wqbp_1">评论心得</div>
+                        <div class="Wqbp_2">客户满意度</div>
+                        <div class="Wqbp_3">购买信息</div>
+                        <div class="Wqbp_4">评论者</div>
+                    </div><!--Wqbpltop  stop -->
+                    <ul class="fix Wqbpcon" id="ul_commentlist">
+                        <script type="text/html" id="commentlist">
+                            {{each list as commt i}}
+                            <li class="fix">
+                                <div class="lwq01">
+                                    <p>{{commt.Content}}</p>
+                                    <p class="lwq01img">
+                                        {{each commt.ShowImgList as img l}}
+                                        <img src="{{img.ImgUrl}}" width="230" height="214">
+                                        {{/each}}
+                                    </p>
+                                    <p class="huise">{{commt.CreateDate}}</p>
+                                </div><!--lwq01 stop -->
+                                <div class="lwq02 div_star" star-data="{{commt.Star}}">
+                                    <span class="xing-yellow"></span>
+                                    <span class="xing-yellow"></span>
+                                    <span class="xing-yellow"></span>
+                                    <span class="xing-yellow"></span>
+                                    <span class="xing-yellow"></span>
+                                </div><!--lwq02 stop -->
+                                <div class="lwq03">
+                                    {{each commt.SpecsList as specs j}}
+                                    <p><span class="huise">{{specs.SpecsName}}：</span>{{specs.SpecsValue}}</p>
+                                    {{/each}}
+                                </div><!--lwq03 stop -->
+                                <div class="lwq04">
+                                    <p>{{commt.UserName}}</p>
+                                    <p>{{commt.LevelName}}</p>
+                                    <p>{{commt.PayDate}}购买</p>
+                                    <p>来自中绿生活客户端</p>
+                                </div><!--lwq04 stop -->
+                                <div class="clear"></div>
+                                <!--l_hfnrall  begin -->
+                                <div class="l_hfnrall fix">
+                                    <p>
+                                        <span class="l_hfdj p_reply"><a class="a_replycount" replycount-val="{{commt.ReplyCount}}" href="javascript:void(0);">回复（{{commt.ReplyCount}}）</a></span>
+                                        <span><!--<a href="javascript:void(0);">赞（0）</a>--></span>
+                                    </p>
+                                    <div class="l_hfnrcon">
+                                        <span class="l_hfnrjt"></span>
+                                        <textarea name="" cols="" rows="" class="l_textall textarea_reply" in placeholder="回复{{commt.UserName}}："></textarea>
+                                        <div class="l_hfnrbot"><input name="" id="" type="button" value="提交回复" class="l_tjhf btn_reply" commentid-val="{{commt.ID}}" parentid-val="{{commt.ID}}" byreplyuserid-val="{{commt.BuyerID}}"></div>
+                                    </div><!--l_hfnrcon  stop -->
+                                </div>
+                                <!--l_hfnrall  stop -->
+                            </li>
+                            {{/each}}
+                        </script>
+                    </ul>
+                </div>
+                <!--选项卡1 全部评论 的内容 结束  -->
+            </div>
+        </div>
+        <!--全部评论  选项卡结束 -->
+        <!--page_01  开始 -->
+        <div class="page_01" id="pager">
+        </div>
+        <!--page_01  结束 -->
+        <!--l_qlsm 权力声明 开始 -->
+        <div class="l_qlsm">
+            <p class="red">权利声明：</p>
+            <ul>
+                <li>中绿生活上的所有商品信息、客户评价、商品咨询、网友讨论等内容，是中绿生活重要的经营资源，未经许可，禁止非法转载使用。</li>
+                <li>注：本站商品信息均来自于合作方，其真实性、准确性和合法性由信息拥有者（合作方）负责。本站不提供任何保证，并不承担任何法律责任。</li>
+                <li>印刷版次不同，印刷时间和版次以实物为准。</li>
+            </ul>
+        </div>
+        <!--l_qlsm 权力声明 结束 -->
+    </div>
+</div>
+<!---l_spxqright 商品详情右边内容  结束--->

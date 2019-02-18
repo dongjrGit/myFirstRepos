@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.ProductImgsMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.ProductImgs" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="ImgUrl" property="imgurl" jdbcType="VARCHAR" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+    <result column="OrderBy" property="orderby" jdbcType="INTEGER" />
+    <result column="AddTime" property="addtime" jdbcType="TIMESTAMP" />
+    <result column="SKU_ID" property="skuId" jdbcType="INTEGER" />
+    <result column="SPU_ID" property="spuId" jdbcType="INTEGER" />
+    <result column="imgsite" property="imgsite" jdbcType="VARCHAR" />
+    <result column="img_pc" property="imgpc" jdbcType="VARCHAR" />
+    <result column="img_app" property="imgapp" jdbcType="VARCHAR" />
+    <result column="img_wap" property="imgwap" jdbcType="VARCHAR" />
+    <result column="img_wechat" property="imgwechat" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, ImgUrl, Status, OrderBy, AddTime, SKU_ID, SPU_ID, imgsite,img_pc,img_app,img_wap,img_wechat
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.ProductImgsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from product_imgs
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from product_imgs
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from product_imgs
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.ProductImgsExample" >
+    delete from product_imgs
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.ProductImgs" >
+    insert into product_imgs (ID, ImgUrl, Status, 
+      OrderBy, AddTime, SKU_ID, 
+      SPU_ID, imgsite,img_pc,img_app,img_wap,img_wechat)
+    values (#{id,jdbcType=INTEGER}, #{imgurl,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{orderby,jdbcType=INTEGER}, #{addtime,jdbcType=TIMESTAMP}, #{skuId,jdbcType=INTEGER}, 
+      #{spuId,jdbcType=INTEGER}, #{imgsite,jdbcType=VARCHAR}
+      , #{imgpc,jdbcType=VARCHAR}, #{imgapp,jdbcType=VARCHAR}
+      , #{imgwap,jdbcType=VARCHAR}, #{imgwechat,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.ProductImgs" >
+    insert into product_imgs
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="imgurl != null" >
+        ImgUrl,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+      <if test="orderby != null" >
+        OrderBy,
+      </if>
+      <if test="addtime != null" >
+        AddTime,
+      </if>
+      <if test="skuId != null" >
+        SKU_ID,
+      </if>
+      <if test="spuId != null" >
+        SPU_ID,
+      </if>
+      <if test="isapp != null" >
+        imgsite,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="imgurl != null" >
+        #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="orderby != null" >
+        #{orderby,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null" >
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="skuId != null" >
+        #{skuId,jdbcType=INTEGER},
+      </if>
+      <if test="spuId != null" >
+        #{spuId,jdbcType=INTEGER},
+      </if>
+      <if test="imgsite != null" >
+        #{imgsite,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.ProductImgsExample" resultType="java.lang.Integer" >
+    select count(*) from product_imgs
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update product_imgs
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.imgurl != null" >
+        ImgUrl = #{record.imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        Status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderby != null" >
+        OrderBy = #{record.orderby,jdbcType=INTEGER},
+      </if>
+      <if test="record.addtime != null" >
+        AddTime = #{record.addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.skuId != null" >
+        SKU_ID = #{record.skuId,jdbcType=INTEGER},
+      </if>
+      <if test="record.spuId != null" >
+        SPU_ID = #{record.spuId,jdbcType=INTEGER},
+      </if>
+      <if test="record.imgsite != null" >
+        imgsite = #{record.imgsite,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update product_imgs
+    set ID = #{record.id,jdbcType=INTEGER},
+      ImgUrl = #{record.imgurl,jdbcType=VARCHAR},
+      Status = #{record.status,jdbcType=INTEGER},
+      OrderBy = #{record.orderby,jdbcType=INTEGER},
+      AddTime = #{record.addtime,jdbcType=TIMESTAMP},
+      SKU_ID = #{record.skuId,jdbcType=INTEGER},
+      SPU_ID = #{record.spuId,jdbcType=INTEGER},
+      imgsite = #{record.imgsite,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.ProductImgs" >
+    update product_imgs
+    <set >
+      <if test="imgurl != null" >
+        ImgUrl = #{imgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="orderby != null" >
+        OrderBy = #{orderby,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null" >
+        AddTime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="skuId != null" >
+        SKU_ID = #{skuId,jdbcType=INTEGER},
+      </if>
+      <if test="spuId != null" >
+        SPU_ID = #{spuId,jdbcType=INTEGER},
+      </if>
+      <if test="imgsite != null" >
+        imgsite = #{imgsite,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.ProductImgs" >
+    update product_imgs
+    set ImgUrl = #{imgurl,jdbcType=VARCHAR},
+      Status = #{status,jdbcType=INTEGER},
+      OrderBy = #{orderby,jdbcType=INTEGER},
+      AddTime = #{addtime,jdbcType=TIMESTAMP},
+      SKU_ID = #{skuId,jdbcType=INTEGER},
+      SPU_ID = #{spuId,jdbcType=INTEGER},
+      imgsite = #{imgsite,jdbcType=VARCHAR},
+      img_pc= #{imgpc,jdbcType=VARCHAR},
+      img_app= #{imgapp,jdbcType=VARCHAR},
+      img_wap= #{imgwap,jdbcType=VARCHAR},
+      img_wechat= #{imgwechat,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+   <!-- 根据skuId获取图片列表 -->
+  <select id="selectBySku" resultMap="BaseResultMap" parameterType="java.lang.Integer" > 
+    select
+    <include refid="Base_Column_List" />
+    from product_imgs
+    where SKU_ID = #{0}
+    order by OrderBy
+  </select>
+  
+  <!-- 根据spuId获取图片列表 -->
+   <select id="selectBySpu" resultMap="BaseResultMap" parameterType="java.lang.Integer" > 
+    select
+    <include refid="Base_Column_List" />
+    from product_imgs
+    where SPU_ID = #{0}
+    order by OrderBy
+  </select>
+  
+</mapper>

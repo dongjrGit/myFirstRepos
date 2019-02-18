@@ -1,0 +1,167 @@
+<%var path="/resource";%>
+<head>
+<meta charset="utf-8">
+<title>经开商城</title>
+
+<script src="${path}/wap/js/Yeffect16_0118.min.js"></script>
+<script src="${path}/wap/js/Yform.js"></script>
+
+<script type="text/javascript" src="${path}/wap/js/wkh/varCommon.js"></script>
+
+<script type="text/javascript" src="${path}/wap/js/wkh/ajaxCommon.js"></script>
+<script type="text/javascript" src="${path}/wap/js/wkh/appCommon.js"></script>
+<style type="text/css">
+.pordctMain-list li span i.text-decthrough{ font-style: normal; font-size:60%;}
+</style>
+<script type="text/javascript">
+page=[1,1];//当前页
+pages=[1,1];//总页数
+isEndword=false;
+	$(function() {
+		miao();
+		shan();
+	});
+	
+	function shan(){
+		pageUrl = "/api/wap/qiang/index";//页面url
+		content = "shangou";//主体
+		params = {
+			"page" : 1,
+			"size" : 10
+		};//参数
+		initPage(0);
+	}
+	function miao(){
+		pageUrl = "/api/wap/qiang/getSpike";//页面url
+		content = "miao";//主体
+		params = {
+			"page" : 1,
+			"size" : 10,
+			"ch":3,
+		};//参数
+		initPage(1);
+		
+	}
+	var is=0;
+	$(function(){
+		$(window).scroll(function(){
+			var scrollTop=$(this).scrollTop();
+			var scrollHeight=$(document).height();
+			var windowHeight=$(this).height();
+			if(scrollTop+windowHeight==scrollHeight){
+				if(is==0){
+					pageUrl = "/api/wap/qiang/getSpike";//页面url
+					content = "miao";//主体
+					params = {
+							"page" : page[1],
+							"size" : 10
+						};//参数
+					initPage(1); 	
+				}
+				else{
+					pageUrl = "/api/wap/qiang/index";//页面url
+					content = "shangou";//主体
+					params = {
+							"page" : page[0],
+							"size" : 10
+						};//参数
+					initPage(0);
+				}
+			}
+		});
+	});
+</script>
+<style type="text/css">
+.snapup{ height: 0.7rem;background: #2C3844; line-height: 0.7rem;}
+.snapup ul li{ float: left;width: 50%; text-align: center;height: 0.7rem; font-size: 110%;position: relative;}
+.snapup ul li.active{ background: #FC353A;}
+.snapup ul li a{ color: #AAAAAB;}
+.snapup ul li.active a{ color: #fff;}
+.snapup ul li i{ display: inline-block;width: 0;height: 0;border-left: 8px solid transparent;border-right: 8px solid transparent;border-top: 8px solid transparent;position: absolute;left: 50%;top: 100%;z-index: 99999;margin-left: -8px;}
+.snapup ul li.active i{border-top-color: #FC353A;}
+.pordctMain-list li span i.floatr{ font-style: normal; font-size: 0.15rem;color: #AEAEAE; margin-right: 0.2rem;}
+.pordctMain-list li span i.floatr i{font-style: normal;color:#E88140; font-size: 0.2rem;}
+</style>
+<script type="text/javascript">
+
+$(function(){
+	$("#shang").css("display","none");	
+	$("#miao").css("display","");
+	$("#dh li").click(function(){
+		$("#dh li").attr("class","");
+		$(this).attr("class","active");
+	});
+});
+function sg(){
+	$("#miao").css("display","none");
+	$("#shang").css("display","");
+	is=1;
+}
+function ms(){
+	$("#shang").css("display","none");
+	$("#miao").css("display","");
+	is=0;
+}
+</script>
+</head>
+<body>
+	<!--top_title  begin-->
+	<div class="top_title fix orangebj" onclick="javascirpt:location.href='/wap/index.html'">
+		<div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div>
+		抢购活动
+	</div>
+	
+	<div class="snapup fix">
+	<ul id="dh">
+		<li class="active" onclick="ms()"><a href="javascript:void(0)">秒杀</a><i></i></li>
+		<li onclick="sg()"><a href="javascript:void(0)">闪购</a><i></i></li>
+	</ul>
+</div>
+
+
+	<!--top_title  stop-->
+
+<div class="fx-banner">
+	<ul>
+		<%for(vo in gg){%>
+    	<li onclick="javascript:location.href='${vo.url}'"><img src="${vo.imag}"></li>
+    	<%}%>
+    </ul>
+	<p>
+	<%for(vo in gg){%>
+    	<i></i>
+    	<%}%>
+	</p>
+</div>
+
+<script>
+$(function(){
+	///banner	
+	Yeffect.mobileBanner(".fx-banner ul",".fx-banner ul li",".fx-banner p i","","","current",5000);
+	var fx_banner=$(".fx-banner");
+	Yeffect.resizeHtW(fx_banner,fx_banner,640,347);
+})
+</script>
+<!--banner***-->
+<hr class="back">
+<div  id="miao" style="display: none;">
+
+</div>
+
+<script>
+$(function(){
+	Yeffect.resizeHtWstr(".pordctMain-list li",".pordctMain-list li a img",317,240);
+	
+})
+</script>
+<div id="shang" style="display: none;">
+<div class="qianggou-tile"><hr><b>热门闪购</b></div>
+<ul class="pordctMain-list qianggou" id="shangou">
+
+</ul>
+<img src="${path}/wap/images/index_42.png" class="qianggou-scrollTop">
+</div>
+</body>
+

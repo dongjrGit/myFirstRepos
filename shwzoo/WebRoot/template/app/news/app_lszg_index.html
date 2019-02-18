@@ -1,0 +1,90 @@
+
+<head>
+<meta charset="utf-8">
+
+<title>绿色食品中国</title>
+<link rel="stylesheet" href="/resource/app/css/greenLife.css" />
+<script type="text/javascript" src="/resource/jquery-1.9.1.min.js" ></script>
+<script type="text/javascript" src="/resource/GetQueryString.js"></script>
+<script type="text/javascript" src="/resource/wap/js/Yeffect16_0118.min.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/greenLife.js" ></script>
+<script type="text/javascript" src="/resource/artTemplate.js"></script>
+<script type="text/javascript" src="/resource/wap/js/js.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/wap-common.js"></script>
+<script type="text/javascript" src="/resource/GetQueryString.js"></script>
+<script type="text/javascript">
+  	$(function(){
+		 pageData={page:1,pagesize:10,hotis:"1"};
+		 pageUrl="/wap/zlzx/queryrmcs";
+		 content="#body";
+		initPage();
+
+	});
+  	</script>
+<%if(ch==2){%>
+<style>
+.septop {padding-top: 18px;}
+.septop.rowreturn.bjwhite{background: #fff url(/resource/app/images/rowreturn_heise.png) no-repeat 3% 0.6rem;background-size: 0.17rem auto;}
+</style>
+<%}%>
+</head>
+<body>
+<!--septop begin-->
+<div class="septop rowreturn bjwhite">
+	<div class="bigsize">绿色食品中国</div>
+	<div id="rowreturn"  onclick="javascirpt:location.href='url:///back'" ></div>
+</div>
+<!--septop stop-->
+<%for(vo in adver){%>
+<img src="${vo.imgurl}" class="img-responsive"/>
+<%break;}%>
+<div class="modi-fxul fix lszgbtul">
+	<ul class="fix">
+		<li><a href="/wap/app/dfg.html?ch=${ch}"><i><img src="/resource/wap/images/lszg_ico1.png" class="img-responsive"/></i><p>地方馆</p></a></li>
+		<li><a href="/wap/app/lszgtcdq.html?ch=${ch}"><i><img src="/resource/wap/images/lszg_ico2.png" class="img-responsive"/></i><p>特产大全</p></a></li>
+		<li><a href="#"><i><img src="/resource/wap/images/lszg_ico3.png" class="img-responsive"/></i><p>绿色追溯</p></a></li>
+		<li><a href="/wap/app/lszglsgs.html?ch=${ch}"><i><img src="/resource/wap/images/lszg_ico4.png" class="img-responsive"/></i><p>绿色故事</p></a></li>
+	</ul>
+</div>
+<hr class="back" />
+<div class="lszg-title fix">
+	<span class="bolder">实时推荐</span><span class="huise">地道推荐，猜你喜欢</span>
+</div>
+<ul class="sep-byzslist fix">
+<%for(vo in vhpskulist){%>
+	<li>
+		<a href="url://prodetailed|||${vo.spuid}">
+			<img src="${vo.imgurl}"/>
+			<h3>${vo.name}</h3>
+			<p class="orange">￥${vo.price}</p>
+		</a>
+	</li>
+	<%}%>
+</ul>
+<hr class="back" />
+<div class="lszg-title fix borderbot">
+	<span class="bolder">热门城市</span><span class="huise">热门城市 一手掌握</span>
+</div>
+<ul class="sep-zlzx fix" id="body" style="background-color: white;">
+</ul>
+<img src="/resource/wap/images/index_42.png" class="qianggou-scrollTop">	
+<script type="text/html" id="pagehtml">
+{{each list as vo i}}
+<li class="fix">
+		<a href="/wap/app/dfg/info.html?id={{vo.id}}&ch=${ch}&name={{vo.name}}">
+			<img src="{{vo.imgurl}}"/>
+			<div class="sep-zlzx-r">
+				<h3>{{vo.name}}</h3>
+				<p style="word-wrap: break-word;">{{vo.description}}</p>
+			</div>
+		</a>
+	</li>
+{{/each}}
+</script>
+<script>
+$(function(){
+	Yeffect.resizeHtWstr(".sep-byzslist li:visible",".sep-byzslist li img",296,296);
+	Yeffect.resizeHtWstr(".sep-zlzx li:visible",".sep-zlzx li img",199,49);
+})
+</script>
+</body>

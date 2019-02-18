@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh>
+    <mapping decorator="/decorators/decorator.jsp" /> 
+    
+    
+  <!--   <mapping path="/WEB-INF/jsp/error.jsp" excluded="true" /> -->
+   
+</sitemesh>

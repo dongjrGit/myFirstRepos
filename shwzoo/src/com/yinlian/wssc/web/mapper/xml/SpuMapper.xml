@@ -1,0 +1,1569 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.SpuMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Spu">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="Name" property="name" jdbcType="VARCHAR" />
+		<result column="ProNum" property="pronum" jdbcType="VARCHAR" />
+		<result column="Title" property="title" jdbcType="VARCHAR" />
+		<result column="Title_short" property="titleShort" jdbcType="VARCHAR" />
+		<result column="ClassID" property="classid" jdbcType="INTEGER" />
+		<result column="UserID" property="userid" jdbcType="INTEGER" />
+		<result column="ImgUrl" property="imgurl" jdbcType="VARCHAR" />
+		<result column="ImgUrl_App" property="imgurlApp" jdbcType="VARCHAR" />
+		<result column="ImgSmall" property="imgsmall" jdbcType="VARCHAR" />
+		<result column="ImgSmall_App" property="imgsmallApp" jdbcType="VARCHAR" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="CustomCID" property="customcid" jdbcType="INTEGER" />
+		<result column="Tag" property="tag" jdbcType="VARCHAR" />
+		<result column="Producer" property="producer" jdbcType="VARCHAR" />
+		<result column="BrandID" property="brandid" jdbcType="INTEGER" />
+		<result column="Pack" property="pack" jdbcType="INTEGER" />
+		<result column="Weight" property="weight" jdbcType="DECIMAL" />
+		<result column="ShelfLife" property="shelflife" jdbcType="INTEGER" />
+		<result column="CommentCount" property="commentcount" jdbcType="INTEGER" />
+		<result column="FreightID" property="freightid" jdbcType="INTEGER" />
+		<result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="IsDel" property="isdel" jdbcType="BIT" />
+		<result column="DelTime" property="deltime" jdbcType="TIMESTAMP" />
+		<result column="DelUserID" property="deluserid" jdbcType="INTEGER" />
+		<result column="IsOwned" property="isowned" jdbcType="BIT" />
+		<result column="ShopID" property="shopid" jdbcType="INTEGER" />
+		<result column="FullPath" property="fullpath" jdbcType="VARCHAR" />
+		<result column="Price" property="price" jdbcType="DECIMAL" />
+		<result column="Praise" property="praise" jdbcType="INTEGER" />
+		<result column="MediumReview" property="mediumreview" jdbcType="INTEGER" />
+		<result column="BadReview" property="badreview" jdbcType="INTEGER" />
+		<result column="SalesCount" property="salescount" jdbcType="INTEGER" />
+		<result column="ShelveTime" property="shelvetime" jdbcType="TIMESTAMP" />
+		<result column="AppPrice" property="appprice" jdbcType="DECIMAL" />
+		<result column="WapPrice" property="wapprice" jdbcType="DECIMAL" />
+		<result column="WeChatPrice" property="wechatprice" jdbcType="DECIMAL" />
+		<result column="ImgUrl_Wap" property="imgurlWap" jdbcType="VARCHAR" />
+		<result column="ImgUrl_Wechat" property="imgurlWechat"
+			jdbcType="VARCHAR" />
+		<result column="IsPostage" property="ispostage" jdbcType="BIT" />
+		<result column="isoffer" property="isoffer" jdbcType="INTEGER" />
+		<result column="protype" property="protype" jdbcType="INTEGER" />
+		<result column="istoday" property="istoday" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.yinlian.wssc.web.po.SpuWithBLOBs"
+		extends="BaseResultMap">
+		<result column="Description" property="description" jdbcType="LONGVARCHAR" />
+		<result column="AfterService" property="afterservice" jdbcType="LONGVARCHAR" />
+		<result column="SpuInfo" property="spuinfo" jdbcType="LONGVARCHAR" />
+		<result column="Packinglist" property="packinglist" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, Name, ProNum, Title, Title_short, ClassID, UserID,
+		ImgUrl,
+		ImgUrl_App, ImgSmall,
+		ImgSmall_App, Status, CustomCID, Tag,
+		Producer, BrandID, Pack, Weight, ShelfLife,
+		CommentCount, FreightID,
+		CreateTime, IsDel, DelTime, DelUserID,
+		IsOwned, ShopID,
+		FullPath, Price,
+		Praise, MediumReview, BadReview,
+		SalesCount,ShelveTime,AppPrice,
+		WapPrice, WeChatPrice,ImgUrl_Wap,ImgUrl_Wechat,IsPostage,isoffer,protype,istoday
+	</sql>
+	<sql id="Blob_Column_List">
+		Description, AfterService, SpuInfo, Packinglist
+	</sql>
+	<select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+		parameterType="com.yinlian.wssc.web.po.SpuExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from spu
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.SpuExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from spu
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from spu
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from spu
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.SpuExample">
+		delete from spu
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.SpuWithBLOBs">
+		insert into spu (ID, Name,
+		ProNum,
+		Title, Title_short, ClassID,
+		UserID, ImgUrl, ImgUrl_App,
+		ImgSmall, ImgSmall_App, Status,
+		CustomCID, Tag, Producer,
+		BrandID, Pack,
+		Weight,
+		ShelfLife, CommentCount, FreightID,
+		CreateTime, IsDel, DelTime,
+		DelUserID, IsOwned, ShopID,
+		FullPath, Price, Praise,
+		MediumReview,
+		BadReview, SalesCount,
+		Description, AfterService, SpuInfo,
+		Packinglist,AppPrice,WapPrice, WeChatPrice,ImgUrl_Wap,
+		ImgUrl_Wechat,isoffer)
+		values (#{id,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR},
+		#{pronum,jdbcType=VARCHAR},
+		#{title,jdbcType=VARCHAR}, #{titleShort,jdbcType=VARCHAR},
+		#{classid,jdbcType=INTEGER},
+		#{userid,jdbcType=INTEGER},
+		#{imgurl,jdbcType=VARCHAR},
+		#{imgurlApp,jdbcType=VARCHAR},
+		#{imgsmall,jdbcType=VARCHAR}, #{imgsmallApp,jdbcType=VARCHAR},
+		#{status,jdbcType=INTEGER},
+		#{customcid,jdbcType=INTEGER},
+		#{tag,jdbcType=VARCHAR},
+		#{producer,jdbcType=VARCHAR},
+		#{brandid,jdbcType=INTEGER}, #{pack,jdbcType=INTEGER},
+		#{weight,jdbcType=DECIMAL},
+		#{shelflife,jdbcType=INTEGER},
+		#{commentcount,jdbcType=INTEGER},
+		#{freightid,jdbcType=INTEGER},
+		#{createtime,jdbcType=TIMESTAMP}, #{isdel,jdbcType=BIT},
+		#{deltime,jdbcType=TIMESTAMP},
+		#{deluserid,jdbcType=INTEGER},
+		#{isowned,jdbcType=BIT},
+		#{shopid,jdbcType=INTEGER},
+		#{fullpath,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL},
+		#{praise,jdbcType=INTEGER},
+		#{mediumreview,jdbcType=INTEGER},
+		#{badreview,jdbcType=INTEGER},
+		#{salescount,jdbcType=INTEGER},
+		#{description,jdbcType=LONGVARCHAR},
+		#{afterservice,jdbcType=LONGVARCHAR},
+		#{spuinfo,jdbcType=LONGVARCHAR},
+		#{packinglist,jdbcType=LONGVARCHAR},
+		#{appprice,jdbcType=DECIMAL},
+		#{wapprice,jdbcType=DECIMAL},
+		#{wechatprice,jdbcType=DECIMAL},
+		#{imgurlWap,jdbcType=VARCHAR},
+		#{imgurlWechat,jdbcType=VARCHAR},#{isoffer,jdbcType=INTEGER}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.SpuWithBLOBs">
+		insert into spu
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="name != null">
+				Name,
+			</if>
+			<if test="pronum != null">
+				ProNum,
+			</if>
+			<if test="title != null">
+				Title,
+			</if>
+			<if test="titleShort != null">
+				Title_short,
+			</if>
+			<if test="classid != null">
+				ClassID,
+			</if>
+			<if test="userid != null">
+				UserID,
+			</if>
+			<if test="imgurl != null">
+				ImgUrl,
+			</if>
+			<if test="imgurlApp != null">
+				ImgUrl_App,
+			</if>
+			<if test="imgsmall != null">
+				ImgSmall,
+			</if>
+			<if test="imgsmallApp != null">
+				ImgSmall_App,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+			<if test="customcid != null">
+				CustomCID,
+			</if>
+			<if test="tag != null">
+				Tag,
+			</if>
+			<if test="producer != null">
+				Producer,
+			</if>
+			<if test="brandid != null">
+				BrandID,
+			</if>
+			<if test="pack != null">
+				Pack,
+			</if>
+			<if test="weight != null">
+				Weight,
+			</if>
+			<if test="shelflife != null">
+				ShelfLife,
+			</if>
+			<if test="commentcount != null">
+				CommentCount,
+			</if>
+			<if test="freightid != null">
+				FreightID,
+			</if>
+			<if test="createtime != null">
+				CreateTime,
+			</if>
+			<if test="isdel != null">
+				IsDel,
+			</if>
+			<if test="deltime != null">
+				DelTime,
+			</if>
+			<if test="deluserid != null">
+				DelUserID,
+			</if>
+			<if test="isowned != null">
+				IsOwned,
+			</if>
+			<if test="shopid != null">
+				ShopID,
+			</if>
+			<if test="fullpath != null">
+				FullPath,
+			</if>
+			<if test="price != null">
+				Price,
+			</if>
+			<if test="praise != null">
+				Praise,
+			</if>
+			<if test="mediumreview != null">
+				MediumReview,
+			</if>
+			<if test="badreview != null">
+				BadReview,
+			</if>
+			<if test="salescount != null">
+				SalesCount,
+			</if>
+			<if test="description != null">
+				Description,
+			</if>
+			<if test="afterservice != null">
+				AfterService,
+			</if>
+			<if test="spuinfo != null">
+				SpuInfo,
+			</if>
+			<if test="packinglist != null">
+				Packinglist,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="pronum != null">
+				#{pronum,jdbcType=VARCHAR},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="titleShort != null">
+				#{titleShort,jdbcType=VARCHAR},
+			</if>
+			<if test="classid != null">
+				#{classid,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=INTEGER},
+			</if>
+			<if test="imgurl != null">
+				#{imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="imgurlApp != null">
+				#{imgurlApp,jdbcType=VARCHAR},
+			</if>
+			<if test="imgsmall != null">
+				#{imgsmall,jdbcType=VARCHAR},
+			</if>
+			<if test="imgsmallApp != null">
+				#{imgsmallApp,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="customcid != null">
+				#{customcid,jdbcType=INTEGER},
+			</if>
+			<if test="tag != null">
+				#{tag,jdbcType=VARCHAR},
+			</if>
+			<if test="producer != null">
+				#{producer,jdbcType=VARCHAR},
+			</if>
+			<if test="brandid != null">
+				#{brandid,jdbcType=INTEGER},
+			</if>
+			<if test="pack != null">
+				#{pack,jdbcType=INTEGER},
+			</if>
+			<if test="weight != null">
+				#{weight,jdbcType=DECIMAL},
+			</if>
+			<if test="shelflife != null">
+				#{shelflife,jdbcType=INTEGER},
+			</if>
+			<if test="commentcount != null">
+				#{commentcount,jdbcType=INTEGER},
+			</if>
+			<if test="freightid != null">
+				#{freightid,jdbcType=INTEGER},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=BIT},
+			</if>
+			<if test="deltime != null">
+				#{deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deluserid != null">
+				#{deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="isowned != null">
+				#{isowned,jdbcType=BIT},
+			</if>
+			<if test="shopid != null">
+				#{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="fullpath != null">
+				#{fullpath,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=DECIMAL},
+			</if>
+			<if test="praise != null">
+				#{praise,jdbcType=INTEGER},
+			</if>
+			<if test="mediumreview != null">
+				#{mediumreview,jdbcType=INTEGER},
+			</if>
+			<if test="badreview != null">
+				#{badreview,jdbcType=INTEGER},
+			</if>
+			<if test="salescount != null">
+				#{salescount,jdbcType=INTEGER},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="afterservice != null">
+				#{afterservice,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="spuinfo != null">
+				#{spuinfo,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="packinglist != null">
+				#{packinglist,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.SpuExample"
+		resultType="java.lang.Integer">
+		select count(*) from spu
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update spu
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.name != null">
+				Name = #{record.name,jdbcType=VARCHAR},
+			</if>
+			<if test="record.pronum != null">
+				ProNum = #{record.pronum,jdbcType=VARCHAR},
+			</if>
+			<if test="record.title != null">
+				Title = #{record.title,jdbcType=VARCHAR},
+			</if>
+			<if test="record.titleShort != null">
+				Title_short = #{record.titleShort,jdbcType=VARCHAR},
+			</if>
+			<if test="record.classid != null">
+				ClassID = #{record.classid,jdbcType=INTEGER},
+			</if>
+			<if test="record.userid != null">
+				UserID = #{record.userid,jdbcType=INTEGER},
+			</if>
+			<if test="record.imgurl != null">
+				ImgUrl = #{record.imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="record.imgurlApp != null">
+				ImgUrl_App = #{record.imgurlApp,jdbcType=VARCHAR},
+			</if>
+			<if test="record.imgsmall != null">
+				ImgSmall = #{record.imgsmall,jdbcType=VARCHAR},
+			</if>
+			<if test="record.imgsmallApp != null">
+				ImgSmall_App = #{record.imgsmallApp,jdbcType=VARCHAR},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.customcid != null">
+				CustomCID = #{record.customcid,jdbcType=INTEGER},
+			</if>
+			<if test="record.tag != null">
+				Tag = #{record.tag,jdbcType=VARCHAR},
+			</if>
+			<if test="record.producer != null">
+				Producer = #{record.producer,jdbcType=VARCHAR},
+			</if>
+			<if test="record.brandid != null">
+				BrandID = #{record.brandid,jdbcType=INTEGER},
+			</if>
+			<if test="record.pack != null">
+				Pack = #{record.pack,jdbcType=INTEGER},
+			</if>
+			<if test="record.weight != null">
+				Weight = #{record.weight,jdbcType=DECIMAL},
+			</if>
+			<if test="record.shelflife != null">
+				ShelfLife = #{record.shelflife,jdbcType=INTEGER},
+			</if>
+			<if test="record.commentcount != null">
+				CommentCount = #{record.commentcount,jdbcType=INTEGER},
+			</if>
+			<if test="record.freightid != null">
+				FreightID = #{record.freightid,jdbcType=INTEGER},
+			</if>
+			<if test="record.createtime != null">
+				CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.isdel != null">
+				IsDel = #{record.isdel,jdbcType=BIT},
+			</if>
+			<if test="record.deltime != null">
+				DelTime = #{record.deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.deluserid != null">
+				DelUserID = #{record.deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="record.isowned != null">
+				IsOwned = #{record.isowned,jdbcType=BIT},
+			</if>
+			<if test="record.shopid != null">
+				ShopID = #{record.shopid,jdbcType=INTEGER},
+			</if>
+			<if test="record.fullpath != null">
+				FullPath = #{record.fullpath,jdbcType=VARCHAR},
+			</if>
+			<if test="record.price != null">
+				Price = #{record.price,jdbcType=DECIMAL},
+			</if>
+			<if test="record.praise != null">
+				Praise = #{record.praise,jdbcType=INTEGER},
+			</if>
+			<if test="record.mediumreview != null">
+				MediumReview = #{record.mediumreview,jdbcType=INTEGER},
+			</if>
+			<if test="record.badreview != null">
+				BadReview = #{record.badreview,jdbcType=INTEGER},
+			</if>
+			<if test="record.salescount != null">
+				SalesCount = #{record.salescount,jdbcType=INTEGER},
+			</if>
+			<if test="record.description != null">
+				Description = #{record.description,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.afterservice != null">
+				AfterService =
+				#{record.afterservice,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.spuinfo != null">
+				SpuInfo = #{record.spuinfo,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="record.packinglist != null">
+				Packinglist = #{record.packinglist,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExampleWithBLOBs" parameterType="map">
+		update spu
+		set ID = #{record.id,jdbcType=INTEGER},
+		Name =
+		#{record.name,jdbcType=VARCHAR},
+		ProNum =
+		#{record.pronum,jdbcType=VARCHAR},
+		Title =
+		#{record.title,jdbcType=VARCHAR},
+		Title_short =
+		#{record.titleShort,jdbcType=VARCHAR},
+		ClassID =
+		#{record.classid,jdbcType=INTEGER},
+		UserID =
+		#{record.userid,jdbcType=INTEGER},
+		ImgUrl =
+		#{record.imgurl,jdbcType=VARCHAR},
+		ImgUrl_App =
+		#{record.imgurlApp,jdbcType=VARCHAR},
+		ImgSmall =
+		#{record.imgsmall,jdbcType=VARCHAR},
+		ImgSmall_App =
+		#{record.imgsmallApp,jdbcType=VARCHAR},
+		Status =
+		#{record.status,jdbcType=INTEGER},
+		CustomCID =
+		#{record.customcid,jdbcType=INTEGER},
+		Tag =
+		#{record.tag,jdbcType=VARCHAR},
+		Producer =
+		#{record.producer,jdbcType=VARCHAR},
+		BrandID =
+		#{record.brandid,jdbcType=INTEGER},
+		Pack =
+		#{record.pack,jdbcType=INTEGER},
+		Weight =
+		#{record.weight,jdbcType=DECIMAL},
+		ShelfLife =
+		#{record.shelflife,jdbcType=INTEGER},
+		CommentCount =
+		#{record.commentcount,jdbcType=INTEGER},
+		FreightID =
+		#{record.freightid,jdbcType=INTEGER},
+		CreateTime =
+		#{record.createtime,jdbcType=TIMESTAMP},
+		IsDel =
+		#{record.isdel,jdbcType=BIT},
+		DelTime =
+		#{record.deltime,jdbcType=TIMESTAMP},
+		DelUserID =
+		#{record.deluserid,jdbcType=INTEGER},
+		IsOwned =
+		#{record.isowned,jdbcType=BIT},
+		ShopID =
+		#{record.shopid,jdbcType=INTEGER},
+		FullPath =
+		#{record.fullpath,jdbcType=VARCHAR},
+		Price =
+		#{record.price,jdbcType=DECIMAL},
+		Praise =
+		#{record.praise,jdbcType=INTEGER},
+		MediumReview =
+		#{record.mediumreview,jdbcType=INTEGER},
+		BadReview =
+		#{record.badreview,jdbcType=INTEGER},
+		SalesCount =
+		#{record.salescount,jdbcType=INTEGER},
+		Description =
+		#{record.description,jdbcType=LONGVARCHAR},
+		AfterService =
+		#{record.afterservice,jdbcType=LONGVARCHAR},
+		SpuInfo =
+		#{record.spuinfo,jdbcType=LONGVARCHAR},
+		Packinglist =
+		#{record.packinglist,jdbcType=LONGVARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update spu
+		set ID = #{record.id,jdbcType=INTEGER},
+		Name =
+		#{record.name,jdbcType=VARCHAR},
+		ProNum =
+		#{record.pronum,jdbcType=VARCHAR},
+		Title =
+		#{record.title,jdbcType=VARCHAR},
+		Title_short =
+		#{record.titleShort,jdbcType=VARCHAR},
+		ClassID =
+		#{record.classid,jdbcType=INTEGER},
+		UserID =
+		#{record.userid,jdbcType=INTEGER},
+		ImgUrl =
+		#{record.imgurl,jdbcType=VARCHAR},
+		ImgUrl_App =
+		#{record.imgurlApp,jdbcType=VARCHAR},
+		ImgSmall =
+		#{record.imgsmall,jdbcType=VARCHAR},
+		ImgSmall_App =
+		#{record.imgsmallApp,jdbcType=VARCHAR},
+		Status =
+		#{record.status,jdbcType=INTEGER},
+		CustomCID =
+		#{record.customcid,jdbcType=INTEGER},
+		Tag =
+		#{record.tag,jdbcType=VARCHAR},
+		Producer =
+		#{record.producer,jdbcType=VARCHAR},
+		BrandID =
+		#{record.brandid,jdbcType=INTEGER},
+		Pack =
+		#{record.pack,jdbcType=INTEGER},
+		Weight =
+		#{record.weight,jdbcType=DECIMAL},
+		ShelfLife =
+		#{record.shelflife,jdbcType=INTEGER},
+		CommentCount =
+		#{record.commentcount,jdbcType=INTEGER},
+		FreightID =
+		#{record.freightid,jdbcType=INTEGER},
+		CreateTime =
+		#{record.createtime,jdbcType=TIMESTAMP},
+		IsDel =
+		#{record.isdel,jdbcType=BIT},
+		DelTime =
+		#{record.deltime,jdbcType=TIMESTAMP},
+		DelUserID =
+		#{record.deluserid,jdbcType=INTEGER},
+		IsOwned =
+		#{record.isowned,jdbcType=BIT},
+		ShopID =
+		#{record.shopid,jdbcType=INTEGER},
+		FullPath =
+		#{record.fullpath,jdbcType=VARCHAR},
+		Price =
+		#{record.price,jdbcType=DECIMAL},
+		Praise =
+		#{record.praise,jdbcType=INTEGER},
+		MediumReview =
+		#{record.mediumreview,jdbcType=INTEGER},
+		BadReview =
+		#{record.badreview,jdbcType=INTEGER},
+		SalesCount =
+		#{record.salescount,jdbcType=INTEGER}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.SpuWithBLOBs">
+		update spu
+		<set>
+			<if test="name != null">
+				Name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="pronum != null">
+				ProNum = #{pronum,jdbcType=VARCHAR},
+			</if>
+			<if test="title != null">
+				Title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="titleShort != null">
+				Title_short = #{titleShort,jdbcType=VARCHAR},
+			</if>
+			<if test="classid != null">
+				ClassID = #{classid,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				UserID = #{userid,jdbcType=INTEGER},
+			</if>
+			<if test="imgurl != null">
+				ImgUrl = #{imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="imgurlApp != null">
+				ImgUrl_App = #{imgurlApp,jdbcType=VARCHAR},
+			</if>
+			<if test="imgsmall != null">
+				ImgSmall = #{imgsmall,jdbcType=VARCHAR},
+			</if>
+			<if test="imgsmallApp != null">
+				ImgSmall_App = #{imgsmallApp,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="customcid != null">
+				CustomCID = #{customcid,jdbcType=INTEGER},
+			</if>
+			<if test="tag != null">
+				Tag = #{tag,jdbcType=VARCHAR},
+			</if>
+			<if test="producer != null">
+				Producer = #{producer,jdbcType=VARCHAR},
+			</if>
+			<if test="brandid != null">
+				BrandID = #{brandid,jdbcType=INTEGER},
+			</if>
+			<if test="pack != null">
+				Pack = #{pack,jdbcType=INTEGER},
+			</if>
+			<if test="weight != null">
+				Weight = #{weight,jdbcType=DECIMAL},
+			</if>
+			<if test="shelflife != null">
+				ShelfLife = #{shelflife,jdbcType=INTEGER},
+			</if>
+			<if test="commentcount != null">
+				CommentCount = #{commentcount,jdbcType=INTEGER},
+			</if>
+			<if test="freightid != null">
+				FreightID = #{freightid,jdbcType=INTEGER},
+			</if>
+			<if test="createtime != null">
+				CreateTime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isdel != null">
+				IsDel = #{isdel,jdbcType=BIT},
+			</if>
+			<if test="deltime != null">
+				DelTime = #{deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deluserid != null">
+				DelUserID = #{deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="isowned != null">
+				IsOwned = #{isowned,jdbcType=BIT},
+			</if>
+			<if test="shopid != null">
+				ShopID = #{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="fullpath != null">
+				FullPath = #{fullpath,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				Price = #{price,jdbcType=DECIMAL},
+			</if>
+			<if test="praise != null">
+				Praise = #{praise,jdbcType=INTEGER},
+			</if>
+			<if test="mediumreview != null">
+				MediumReview = #{mediumreview,jdbcType=INTEGER},
+			</if>
+			<if test="badreview != null">
+				BadReview = #{badreview,jdbcType=INTEGER},
+			</if>
+			<if test="salescount != null">
+				SalesCount = #{salescount,jdbcType=INTEGER},
+			</if>
+			<if test="description != null">
+				Description = #{description,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="afterservice != null">
+				AfterService = #{afterservice,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="spuinfo != null">
+				SpuInfo = #{spuinfo,jdbcType=LONGVARCHAR},
+			</if>
+			<if test="packinglist != null">
+				Packinglist = #{packinglist,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yinlian.wssc.web.po.SpuWithBLOBs">
+		update
+		spu
+		set Name = #{name,jdbcType=VARCHAR},
+		ProNum =
+		#{pronum,jdbcType=VARCHAR},
+		Title = #{title,jdbcType=VARCHAR},
+		Title_short = #{titleShort,jdbcType=VARCHAR},
+		ClassID =
+		#{classid,jdbcType=INTEGER},
+		UserID = #{userid,jdbcType=INTEGER},
+		ImgUrl = #{imgurl,jdbcType=VARCHAR},
+		ImgUrl_App =
+		#{imgurlApp,jdbcType=VARCHAR},
+		ImgSmall = #{imgsmall,jdbcType=VARCHAR},
+		ImgSmall_App = #{imgsmallApp,jdbcType=VARCHAR},
+		Status =
+		#{status,jdbcType=INTEGER},
+		CustomCID = #{customcid,jdbcType=INTEGER},
+		Tag = #{tag,jdbcType=VARCHAR},
+		Producer = #{producer,jdbcType=VARCHAR},
+		BrandID = #{brandid,jdbcType=INTEGER},
+		Pack = #{pack,jdbcType=INTEGER},
+		Weight = #{weight,jdbcType=DECIMAL},
+		ShelfLife =
+		#{shelflife,jdbcType=INTEGER},
+		CommentCount =
+		#{commentcount,jdbcType=INTEGER},
+		FreightID =
+		#{freightid,jdbcType=INTEGER},
+		CreateTime =
+		#{createtime,jdbcType=TIMESTAMP},
+		IsDel = #{isdel,jdbcType=BIT},
+		DelTime = #{deltime,jdbcType=TIMESTAMP},
+		DelUserID =
+		#{deluserid,jdbcType=INTEGER},
+		IsOwned = #{isowned,jdbcType=BIT},
+		ShopID = #{shopid,jdbcType=INTEGER},
+		FullPath =
+		#{fullpath,jdbcType=VARCHAR},
+		Price = #{price,jdbcType=DECIMAL},
+		Praise
+		= #{praise,jdbcType=INTEGER},
+		MediumReview =
+		#{mediumreview,jdbcType=INTEGER},
+		BadReview =
+		#{badreview,jdbcType=INTEGER},
+		SalesCount =
+		#{salescount,jdbcType=INTEGER},
+		Description =
+		#{description,jdbcType=LONGVARCHAR},
+		AfterService =
+		#{afterservice,jdbcType=LONGVARCHAR},
+		SpuInfo =
+		#{spuinfo,jdbcType=LONGVARCHAR},
+		Packinglist =
+		#{packinglist,jdbcType=LONGVARCHAR},
+		AppPrice=#{appprice,jdbcType=DECIMAL},
+		WapPrice=
+		#{wapprice,jdbcType=DECIMAL},
+		WeChatPrice=
+		#{wechatprice,jdbcType=DECIMAL},
+		ImgUrl_Wap=#{imgurlWap,jdbcType=VARCHAR},
+		ImgUrl_Wechat=#{imgurlWechat,jdbcType=VARCHAR},
+		IsPostage =
+		#{ispostage,jdbcType=BIT},
+		isoffer = #{isoffer,jdbcType=INTEGER},
+		protype = #{protype,jdbcType=INTEGER},
+		istoday = #{istoday,jdbcType=INTEGER}
+		where
+		ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Spu">
+		update spu
+		set Name
+		= #{name,jdbcType=VARCHAR},
+		ProNum = #{pronum,jdbcType=VARCHAR},
+		Title =
+		#{title,jdbcType=VARCHAR},
+		Title_short =
+		#{titleShort,jdbcType=VARCHAR},
+		ClassID = #{classid,jdbcType=INTEGER},
+		UserID = #{userid,jdbcType=INTEGER},
+		ImgUrl =
+		#{imgurl,jdbcType=VARCHAR},
+		ImgUrl_App = #{imgurlApp,jdbcType=VARCHAR},
+		ImgSmall = #{imgsmall,jdbcType=VARCHAR},
+		ImgSmall_App =
+		#{imgsmallApp,jdbcType=VARCHAR},
+		Status = #{status,jdbcType=INTEGER},
+		CustomCID = #{customcid,jdbcType=INTEGER},
+		Tag =
+		#{tag,jdbcType=VARCHAR},
+		Producer = #{producer,jdbcType=VARCHAR},
+		BrandID = #{brandid,jdbcType=INTEGER},
+		Pack = #{pack,jdbcType=INTEGER},
+		Weight = #{weight,jdbcType=DECIMAL},
+		ShelfLife =
+		#{shelflife,jdbcType=INTEGER},
+		CommentCount =
+		#{commentcount,jdbcType=INTEGER},
+		FreightID =
+		#{freightid,jdbcType=INTEGER},
+		CreateTime =
+		#{createtime,jdbcType=TIMESTAMP},
+		IsDel = #{isdel,jdbcType=BIT},
+		DelTime = #{deltime,jdbcType=TIMESTAMP},
+		DelUserID =
+		#{deluserid,jdbcType=INTEGER},
+		IsOwned = #{isowned,jdbcType=BIT},
+		ShopID = #{shopid,jdbcType=INTEGER},
+		FullPath =
+		#{fullpath,jdbcType=VARCHAR},
+		Price = #{price,jdbcType=DECIMAL},
+		Praise
+		= #{praise,jdbcType=INTEGER},
+		MediumReview =
+		#{mediumreview,jdbcType=INTEGER},
+		BadReview =
+		#{badreview,jdbcType=INTEGER},
+		SalesCount =
+		#{salescount,jdbcType=INTEGER},
+		AppPrice=#{appprice,jdbcType=DECIMAL},
+		WapPrice= #{wapprice,jdbcType=DECIMAL},
+		WeChatPrice=
+		#{wechatprice,jdbcType=DECIMAL},
+		ImgUrl_Wap=#{imgurlWap,jdbcType=VARCHAR},
+		ImgUrl_Wechat=#{imgurlWechat,jdbcType=VARCHAR},
+		IsPostage =
+		#{ispostage,jdbcType=BIT},
+		isoffer = #{isoffer,jdbcType=INTEGER},
+		istoday = #{istoday,jdbcType=INTEGER}
+		where
+		ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<update id="updateById" parameterType="java.lang.Integer">
+		update spu
+		set
+		CommentCount=CommentCount+1
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 下面是自定义的分页查询语句 -->
+	<sql id="criteria_query">
+		<where>
+			<if test="criteria.classid != null and criteria.classid != '' ">
+				and ClassID = #{criteria.classid}
+			</if>
+			<if test="criteria.shopid != null and criteria.shopid != '' ">
+				and ShopID = #{criteria.shopid}
+			</if>
+			<if test="criteria.status != null and criteria.status != -1 ">
+				and Status = #{criteria.status}
+			</if>
+			<if test="criteria.shopnum != null and criteria.shopnum != '' ">
+				and ProNum = #{criteria.shopnum}
+			</if>
+			<if test="criteria.name != null and criteria.name != '' ">
+				and Name LIKE '%${criteria.name}%'
+			</if>
+			and IsDel = 0
+		</where>
+	</sql>
+
+	<!-- 查询直营商品的分页信息 -->
+	<select id="selectDirectPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from spu
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	<sql id="criteria_bid">
+		<where>
+			<if test="criteria.bid != null and criteria.bid >0 ">
+				and s.BrandID = #{criteria.bid}
+			</if>
+			and (s.IsDel = 0 or s.IsDel=null) and s.status=3
+		</where>
+	</sql>
+	<!-- 根据品牌id获取商品列表 -->
+	<select id="getSpuByBidPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.api.app.dto.Api_ProductsDto">
+		select
+		s.id as id,s.name as name,s.price as price,s.imgurl as imgurl,
+		(select sum(sku.SalesCount) from sku where sku.spu_id=s.id) as
+		salescount
+		from spu s
+		<if test="criteria != null ">
+			<include refid="criteria_bid" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	<select id="queryByPageShop" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from spu
+		<where>
+			<if test="criteria.shopId != 0">
+				ShopID=#{criteria.shopId}
+			</if>
+		</where>
+
+
+	</select>
+
+	<update id="updateBatchStatus" parameterType="com.yinlian.wssc.web.po.SpuUpdateStatus">
+		update spu
+		set
+		Status = #{status,jdbcType=INTEGER}
+		where ID in
+		(${ids}) and
+		IsOwned=#{isowend,jdbcType=BIT}
+	</update>
+	<!-- 添加spu并返回主键 -->
+	<insert id="insertSpu" parameterType="com.yinlian.wssc.web.po.SpuWithBLOBs">
+		<selectKey resultType="int" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into spu (ID, Name, ProNum,
+		Title, Title_short, ClassID, UserID,
+		ImgUrl, ImgUrl_App,
+		ImgSmall, ImgSmall_App, Status,
+		CustomCID, Tag,
+		Producer,
+		BrandID, Pack, Weight,
+		ShelfLife, CommentCount, FreightID,
+		CreateTime, IsDel, DelTime,
+		DelUserID, IsOwned, ShopID,
+		FullPath, Price,
+		Praise,
+		MediumReview, BadReview, Description,
+		AfterService, SpuInfo,
+		Packinglist,AppPrice,WapPrice, WeChatPrice,
+		ImgUrl_Wap,
+		ImgUrl_Wechat,
+		IsPostage,isoffer,SalesCount, ShelveTime,
+		protype,istoday
+		)
+		values
+		(#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+		#{pronum,jdbcType=VARCHAR},
+		#{title,jdbcType=VARCHAR},
+		#{titleShort,jdbcType=VARCHAR}, #{classid,jdbcType=INTEGER},
+		#{userid,jdbcType=INTEGER}, #{imgurl,jdbcType=VARCHAR},
+		#{imgurlApp,jdbcType=VARCHAR},
+		#{imgsmall,jdbcType=VARCHAR},
+		#{imgsmallApp,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
+		#{customcid,jdbcType=INTEGER}, #{tag,jdbcType=VARCHAR},
+		#{producer,jdbcType=VARCHAR},
+		#{brandid,jdbcType=INTEGER},
+		#{pack,jdbcType=INTEGER}, #{weight,jdbcType=DECIMAL},
+		#{shelflife,jdbcType=INTEGER}, #{commentcount,jdbcType=INTEGER},
+		#{freightid,jdbcType=INTEGER},
+		#{createtime,jdbcType=TIMESTAMP},
+		#{isdel,jdbcType=BIT}, #{deltime,jdbcType=TIMESTAMP},
+		#{deluserid,jdbcType=INTEGER}, #{isowned,jdbcType=BIT},
+		#{shopid,jdbcType=INTEGER},
+		#{fullpath,jdbcType=VARCHAR},
+		#{price,jdbcType=DECIMAL}, #{praise,jdbcType=INTEGER},
+		#{mediumreview,jdbcType=INTEGER}, #{badreview,jdbcType=INTEGER},
+		#{description,jdbcType=LONGVARCHAR},
+		#{afterservice,jdbcType=LONGVARCHAR}, #{spuinfo,jdbcType=LONGVARCHAR},
+		#{packinglist,jdbcType=LONGVARCHAR},
+		#{appprice,jdbcType=DECIMAL},
+		#{wapprice,jdbcType=DECIMAL},
+		#{wechatprice,jdbcType=DECIMAL},
+		#{imgurlWap,jdbcType=VARCHAR},
+		#{imgurlWechat,jdbcType=VARCHAR},
+		#{ispostage,jdbcType=BIT},#{isoffer,jdbcType=INTEGER},
+		#{salescount,jdbcType=INTEGER},#{shelvetime,jdbcType=TIMESTAMP},
+		#{protype,jdbcType=INTEGER},#{istoday,jdbcType=INTEGER}
+		)
+
+	</insert>
+
+	<!-- 调整商品价格 -->
+	<update id="updatePrice" parameterType="com.yinlian.wssc.web.po.Spu">
+		update spu
+		set Price =
+		#{price,jdbcType=DECIMAL}
+		where ID =#{id,jdbcType=INTEGER}
+	</update>
+
+	<update id="updateAppPrice" parameterType="com.yinlian.wssc.web.po.Spu">
+		update spu
+		set AppPrice
+		=
+		#{appprice,jdbcType=DECIMAL}
+		where ID =#{id,jdbcType=INTEGER}
+	</update>
+
+	<update id="updateWapPrice" parameterType="com.yinlian.wssc.web.po.Spu">
+		update spu
+		set WapPrice
+		=
+		#{wapprice,jdbcType=DECIMAL}
+		where ID =#{id,jdbcType=INTEGER}
+	</update>
+
+	<update id="updateChatPrice" parameterType="com.yinlian.wssc.web.po.Spu">
+		update spu
+		set
+		WeChatPrice =
+		#{wechatprice,jdbcType=DECIMAL}
+		where ID
+		=#{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 根据店铺ID和名称获取spu列表 -->
+	<select id="getSpuStartWithName" parameterType="com.yinlian.wssc.web.po.Spu"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from spu where IsDel=0
+		<if test="name != null and name != ''">
+			and Name like '%${name}%'
+		</if>
+		<if test="status >0 ">
+			and Status=#{status}
+		</if>
+		<if test="shopid >0 ">
+			and ShopID=#{shopid}
+		</if>
+		<if test="classid >0 ">
+			and ClassID =#{classid}
+		</if>
+		limit 0,10
+	</select>
+	<select id="getCountByShopId" resultType="java.lang.Integer">
+		select count(1) from
+		spu where shopid=#{0}
+	</select>
+
+
+	<select id="selectAll" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from spu
+		where IsDel = 0 and Status=#{0}
+	</select>
+
+	<!-- 分页查询商品主題 -->
+	<sql id="criteria_query_topic">
+		<where>
+			r.topicid = #{criteria.topicid}
+		</where>
+	</sql>
+	<select id="selectTopicByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.TopicRelateInfo">
+		SELECT r.id,r.topicid topicid, t.title title,r.imgurl imgurl,p.name
+		spuname,t.mark mark,r.sort,t.type type
+		FROM topic t left join
+		topic_relate r on t.id=r.topicid left join spu p on p.id=r.relatedid
+		<if test="criteria != null ">
+			<include refid="criteria_query_topic" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+
+	<sql id="criteria_query_find">
+		<where>
+			r.findid = #{criteria.findid}
+		</where>
+	</sql>
+	<select id="seleteFindRelationByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.FindRelationDto">
+		select r.id as id,f.id as findid,p.id as relationid, f.type as
+		type,f.title as findName,p.name as relateionName,r.sort as sort
+		from
+		findrecord f left join find_relation r on f.id=r.findid left join spu
+		p on p.id=r.relationid
+		<if test="criteria != null ">
+			<include refid="criteria_query_find" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+	<!-- app端的查询 -->
+	<select id="selectDirectAppPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from spu where Status =3
+		<if test="criteria != null ">
+			<if test="criteria.shopid != null and criteria.shopid != '' ">
+				and ShopID = #{criteria.shopid}
+			</if>
+			<if test="criteria.customcId != null and criteria.customcId != ''">
+				and CustomCID = #{criteria.customcId}
+			</if>
+			and IsDel = 0
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	<!-- pc端的查询 -->
+	<select id="selectShopSpuPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from spu where Status =3
+		<if test="criteria != null ">
+			<if test="criteria.pricemax != null and criteria.pricemax >0 ">
+				<![CDATA[ and price <= #{criteria.pricemax} ]]>
+			</if>
+			<if test="criteria.pricemin != null and criteria.pricemin >=0 ">
+				 <![CDATA[ and price >= #{criteria.pricemin} ]]>
+			</if>
+
+			<if test="criteria.spuname != null and criteria.spuname !='' ">
+				and name like '%${criteria.spuname}%'
+			</if>
+			<if test="criteria.shopid != null and criteria.shopid >0 ">
+				and ShopID = #{criteria.shopid}
+			</if>
+			<if test="criteria.customcId != null and criteria.customcId >0">
+				and CustomCID = #{criteria.customcId}
+			</if>
+			and IsDel = 0
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+	<update id="updateShelves" parameterType="com.yinlian.wssc.web.po.SpuUpdateStatus">
+		update spu
+		set
+		Status =
+		#{status,jdbcType=INTEGER},
+		ShelveTime=SYSDATE()
+		where ID in
+		(${ids}) and
+		IsOwned=#{isowend,jdbcType=BIT}
+	</update>
+	<update id="updateShelve" parameterType="int">
+		update spu
+		set Status =
+		#{0},
+		ShelveTime=SYSDATE()
+		where ID =#{1}
+	</update>
+
+	<select id="getBySkuIDs" parameterType="List">
+		<if test="List!=null">
+			select distinct a.ID,a.SalesCount
+			from spu a,sku b where a.ID=b.SPU_ID
+			and b.ID in
+			<foreach collection="list" item="item" index="index" open="("
+				close=")" separator=",">
+				#{item}
+			</foreach>
+		</if>
+
+	</select>
+	<select id="getBySpuIDs" parameterType="List" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+
+		from spu a
+		where a.status=3 and (a.isdel=0 or isdel=null)
+		and a.ID in
+		<foreach collection="list" item="item" index="index" open="("
+			close=")" separator=",">
+			#{item}
+		</foreach>
+
+	</select>
+	<update id="updateSalesCount" parameterType="List">
+		<if test="list!=null">
+			<foreach collection="list" item="item" index="index" open=""
+				close="" separator=";">
+				update spu set SalesCount=#{item.salescount}
+				where ID=#{item.id}
+			</foreach>
+		</if>
+	</update>
+	<select id="getSpuStartWithNamesIsby" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from spu where IsDel=0 and status=3 <!--选取上架的商品 -->
+		<choose>
+			<when test="#{_parameter} != null and #{_parameter} != ''">
+				and IsPostage=1 and Name like '%${_parameter}%' limit
+				0,10
+			</when>
+
+		</choose>
+	</select>
+	<select id="getSpuStartWithNamesIszk" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from spu where IsDel=0 and status=3 and isoffer=1 <!--选取上架的商品 -->
+		<choose>
+			<when test="name != null and name != ''">
+				and Name like '%${name}%' limit 0,10
+			</when>
+
+		</choose>
+	</select>
+	<select id="getSpuStartWithNames" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from spu where IsDel=0 and status=3 <!--选取上架的商品 -->
+		<choose>
+			<when test="#{_parameter} != null and #{_parameter} != ''">
+				and Name like '%${_parameter}%' limit 0,10
+			</when>
+
+		</choose>
+	</select>
+
+	<select id="querySpuList" resultType="com.yinlian.pc.dto.PcSpuDto"
+		parameterType="java.lang.Integer">
+		select spu.id as id, spu.ImgUrl_App
+		as imgurl,spu.price
+		as price
+		from spu left join
+
+		(select spu_id,sum(sku.SalesCount) as
+		sumSalesCount from sku group by
+		sku.spu_id desc) b on spu.id=b.spu_id
+		where spu.shopid =#{0}
+
+	</select>
+
+
+	<select id="queryShevelSpuList" parameterType="com.yinlian.wssc.web.util.CriteriaShopSheive"
+		resultType="com.yinlian.wap.dto.ShevelSpuDto">
+		select s.id as spuid,s.name as spuname,s.imgurl_app as
+		spuImg,s.WapPrice as wapPrice
+		from spu s
+		where s.shopid=#{shopid} and
+		IsDel = 0 and Status=3
+		<![CDATA[ and s.CreateTime >= #{startTime } ]]>
+		<![CDATA[ and s.CreateTime <= #{endTime } ]]>
+	</select>
+
+
+	<select id="getShevelSpuPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wap.dto.ShevelSpuDto">
+		select s.id as spuid,s.name as spuname,s.imgurl_app as
+		spuImg,s.WapPrice as wapPrice
+		from spu s
+		where IsDel = 0 and Status=3
+		<if test="criteria != null ">
+			<if test="criteria.shopid != null and criteria.shopid != '' ">
+				and s.shopid = #{criteria.shopid}
+			</if>
+			<if test="criteria.startTime != null and criteria.startTime != ''">
+				<![CDATA[ and s.CreateTime >= #{criteria.startTime } ]]>
+			</if>
+			<if test="criteria.endTime != null and criteria.endTime != ''">
+				<![CDATA[ and s.CreateTime <= #{criteria.endTime } ]]>
+			</if>
+
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+	<select id="getBySkuName" resultType="com.yinlian.wssc.web.dto.VSkuShopName"
+		parameterType="java.lang.String">
+		select k.ID,k.`Name` as kname,k.Price,s.`Name` as sname
+		from sku k LEFT JOIN
+		shop s on
+		k.shopid=s.ID where k.name LIKE
+		'%${name}%' limit 20
+	</select>
+	<select id="getBySkuId" resultType="com.yinlian.wssc.web.dto.VSkuShopName"
+		parameterType="java.lang.Integer">
+		select k.ID,k.`Name` as kname,k.Price,s.`Name` as sname
+		from sku k LEFT JOIN
+		shop s on
+		k.shopid=s.ID where k.ID=#{0} limit 1
+	</select>
+
+	<select id="platgetSspuStartWithName" resultMap="BaseResultMap">
+		select id,name,price
+		from spu where (isdel IS NULL OR isdel=0) and
+		status=3
+		<if test="name != null and name != ''">
+			and name like '%${name}%'
+		</if>
+		<if test="shopid != null and shopid >0">
+			and ShopID = #{shopid}
+		</if>
+		limit 0,10
+	</select>
+	<select id="getByName" resultMap="BaseResultMap">
+		select id,name,price
+		from spu where (isdel IS NULL OR isdel=0)
+		<if test="name != null and name != ''">
+			and name = #{name}
+		</if>
+		<if test="id != null and id >0">
+			and ID != #{id}
+		</if>
+		limit 1
+	</select>
+
+	<select id="getProByShopIdByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.po.Spu">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from spu
+		<if test="criteria != null">
+			<where>
+				<if test="criteria.sid != null and criteria.sid > 0 ">
+					and ShopID = #{criteria.sid}
+				</if>
+				<if test="criteria.keywords != null and criteria.keywords != '' ">
+					and Name like '%${criteria.keywords}%' 
+				</if>
+				and Status=3 and IsDel = 0
+			</where>
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	
+	<select id="getProByShopId" parameterType="com.yinlian.wssc.search.Api_SpuCriteria"
+		resultType="com.yinlian.wssc.web.po.Spu">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from spu
+		<if test="criteria != null">
+			<where>
+				<if test="criteria.sid != null and criteria.sid > 0 ">
+					and ShopID = #{criteria.sid}
+				</if>
+				<if test="criteria.keywords != null and criteria.keywords != '' ">
+					and Name like '%${criteria.keywords}%' 
+				</if>
+				and Status=3 and IsDel = 0
+			</where>
+		</if>
+	</select>
+	
+	<select id="getProByNameByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from spu
+		<if test="criteria != null">
+			<where>
+				<if test="criteria.name != null and criteria.name != '' ">
+					and Name like '%${criteria.name}%'
+				</if>
+				and Status=3 and IsDel = 0
+			</where>
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	<update id="deleteSpuByShop" parameterType="java.lang.Integer">
+	  update spu set IsDel = 1,DelTime=SYSDATE() where ShopID =#{0}
+	</update>
+
+</mapper>

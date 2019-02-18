@@ -1,0 +1,121 @@
+<%var path="/resource";%>
+<head>
+    <title>团购活动</title>
+
+    <link href="${path}/wap/css/iscroll.css" rel="stylesheet" />
+
+    <script src="${path}/wap/js/activity/groupby.js"></script>
+	<style type="text/css">
+		.brand_tcon{position:relative;}
+		#wrapper{position:relative;top:0px;left:0px;}
+	</style>
+    <script type="text/javascript" src="/resource/wap/js/Yeffect16_0118.min.js" ></script>
+    <script type="text/javascript" src="/resource/wap/js/index.js" ></script>
+	<script type="text/javascript" src="${path}/wap/js/wkh/varCommon.js"></script>
+	<script type="text/javascript" src="${path}/wap/js/wkh/ajaxCommon.js"></script>
+	<script type="text/javascript" src="${path}/wap/js/wkh/appCommon.js"></script>
+	<script type="text/javascript">
+
+	$(function(){
+		/////banner	
+		Yeffect.mobileBanner(".fx-banner ul",".fx-banner ul li",".fx-banner p i","","","current",5000);
+		var fx_banner=$(".fx-banner");
+		Yeffect.resizeHtW(fx_banner,fx_banner,640,220);
+	})
+	$(function(){
+		$(window).scroll(function(){
+			var scrollTop=$(this).scrollTop();
+			var scrollHeight=$(document).height();
+			var windowHeight=$(this).height();
+			if(scrollTop+windowHeight==scrollHeight){
+				initPage();
+			}
+		});
+	});
+	$(function(){
+		isEndword=false;
+		pageUrl="/api/wap/activity/tuan"
+		params={page:1,size:10};//鍙傛暟
+		content="list";//涓讳綋
+		initPage();
+	})
+	
+	</script>
+</head>
+<body>
+	<!--top_title  begin-->
+	<div class="top_title fix orangebj" style="position:fixed;top:-1px;left:0px;width:100%;z-index:999999;" onclick="javascirpt:location.href='/wap/index.html'">
+		<div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div>
+		团购活动
+	</div>
+	<!--top_title  stop-->
+	<!--banner-->
+	<div class="fx-banner">
+		<ul>
+		<%for(vo in gg){%>
+    	<li onclick="javascript:location.href='${vo.url}'"><img src="${vo.imag}" ></li>
+    	<%}%>
+    </ul>
+	<p>
+	<%for(vo in gg){%>
+    	<i></i>	
+    	<%}%>
+	</p>
+	</div>
+	<script>
+	</script>
+	<!--banner***-->
+	<!--brand_tcon  begin-->
+	<div class="brand_tcon fix">
+		<div class="brand_tcontop fix">
+			<span>
+				<i></i>
+				<b>品牌团</b>
+				<img src="${path}/wap/images/brand_tcontop.png"/>
+			</span>
+			<div class="brand_tcontop_hx"></div>
+		</div>
+		
+		<div class="l_sppjnr fix">
+			<div id="wrapper">
+				<div id="scroller-content">
+					<ul id="list">
+						
+						
+						
+					</ul>
+				</div>
+			</div>
+
+		</div>
+	
+	
+	<!-- <!-- brand_tcon  stop
+	loading  begin
+	<div id="loading">
+		<div id="loading-center">
+			<div id="loading-center-absolute">
+				<div class="object" id="object_one"></div>
+				<div class="object" id="object_two"></div>
+				<div class="object" id="object_three"></div>
+				<div class="object" id="object_four"></div>
+				<div class="object" id="object_five"></div>
+				<div class="object" id="object_six"></div>
+				<div class="object" id="object_seven"></div>
+				<div class="object" id="object_eight"></div>
+			</div>
+		</div>
+	</div>
+	loading  stop --> 
+	<img src="${path}/wap/images/index_42.png" class="qianggou-scrollTop">
+<script>
+window.onload=function(){
+	borderRadius('.brand_tconnr_r i');
+	goodslist('.brand_tconnr_l img');
+	fixed('.top_title');	
+}	
+</script>
+</body>
+

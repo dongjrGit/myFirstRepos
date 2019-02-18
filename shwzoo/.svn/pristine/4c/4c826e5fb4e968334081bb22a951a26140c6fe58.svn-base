@@ -1,0 +1,345 @@
+<% var path="/resource/pc";%>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>${title}—中绿生活|中国绿色食品展销中心|365Greenlife.com</title>
+<meta name="title" content="${title}—中绿生活|中国绿色食品展销中心|365Greenlife.com" />
+<meta name="keywords" content="${keywords}" />
+<meta name="description" content="${desc}" />
+<link href="${path}/wab/css/common.css" rel="stylesheet" />
+<link href="${path}/wab/css/top-footer.css" rel="stylesheet" />
+<link href="${path}/wab/css/womenclothing.css" rel="stylesheet" />
+<link href="${path}/wab/css/index.css" rel="stylesheet" />
+<script src="/resource/jquery-1.9.1.min.js"></script>
+
+<script src="${path}/wab/js/jquery.banner.js"></script>
+<script src="${path}/wab/js/jquery.SuperSlide.js"></script>
+
+</head>
+<body>
+	<!-- <script src="${path}/js/index.js"></script> -->
+	<% try{include("/template/pc/head/top.html",{userinfo:userinfo,keysdata:keysdata}){}}catch(error){}
+	%> <% try{
+	include("/template/pc/nav/navclass.html",{classlist:classlist,isindex:false}){}
+	}catch(error){}%>
+	<div id="container" class="fix">
+		<!--l_rmtj热卖推荐 开始 -->
+		<div class="l_rmtj fix">
+			<div class="l_rttb">
+				<img src="${path}/images/tjtb01.png" width="41" height="81">
+			</div>
+			<div class="l_rtcon">
+				<ul>
+					<% for(var sp in hotSpecs) { %>
+					<li><img src="@sp.ProImg" width="152" height="108" title="">
+							<div class="l_rtmk">
+								<p>
+									<a href="@sp.ProUrl?sid=@sp.ProID">@sp.ProName</a>
+								</p>
+								<p class="l_tj">
+									特价：<span class="red bolder">￥@Math.Round(sp.ProPrice.Value,2)</span>
+								</p>
+							</div></li> 
+					<% }%>
+				</ul>
+			</div>
+			<!--l_rtcon  stop -->
+		</div>
+		<!--l_rmtj热卖推荐 结束 -->
+		<div class="l_pos">
+			<span class="fon14 bolder"><a href="#">${fsclsname}</a></span> <span
+				class="l_jtyb">&gt;</span> <a href="#">${scclsname}</a> <span
+				class="l_jtyb">&gt;</span> ${thclsname}
+		</div>
+		<!--l_pos  stop -->
+		<!--l_screen  商品筛选开始 -->
+		<div class="l_screen">
+			<div class="l_scrtop">
+				<input id="cid" type="hidden" value="@ViewBag.Cid" /> <span
+					class="red fon16 bolder">${thclsname}</span> <span
+					class="fon14 bolder">商品筛选</span> <span class="fon14">共 <span
+					id="pro_count">${procount}</span>个商品
+				</span>
+			</div>
+			<!-- l_scrtop  stop-->
+			<!--l_scrmk  begin -->
+			<div id="search_list">
+
+				<% for ( item in seachatrrlist) {%>
+				<div class="l_scrmk">
+					<div class="l_scrmkleft">${item.name}</div>
+					<!--l_scrmkleft  stop -->
+					<div class="l_scrmkright">
+						<ul class="fix">
+							<%for ( val in item.values) { if (item.type == 2) {%>
+							<li name="search_values" data_type="@val.Type" data_tag="0"
+								data_value="@val.Value">${val.disvalue}</li> <% } else{%>
+							<li name="search_values" data_type="@val.Type" data_tag="0"
+								data_value="@val.Value">${val.disvalue}</li> <%} } %>
+						</ul>
+
+					</div>
+					<!--l_scrmkright  stop -->
+					<div class="clear"></div>
+				</div>
+				<%}%>
+			</div>
+			<div class="l_scrgdxx">
+				<span class="l_scrgdnr">更多选项<i></i></span>
+			</div>
+			<!--l_scrgdxx  stop -->
+		</div>
+		<!--l_screen  商品筛选结束 -->
+		<div class="clear"></div>
+		<!--l_spsort  商品排序开始 -->
+		<div class="l_spsort">
+			<ul class="l_spsort01" id="orderby">
+				<li class="l_zhss" data="0" data_tag="0" isselect="1"><a
+					href="#">销量</a><i></i></li>
+				<li class="active" data="1" data_tag="1" isselect="0"><a
+					href="#">价格</a><i></i></li>
+				<li data="2" data_tag="0" isselect="0"><a href="#">评论数</a><i></i></li>
+			</ul>
+
+			<!-- l_ysxx  stop-->
+		</div>
+		<!--l_spsort  商品排序结束 -->
+		<!--l_splist  商品列表开始 -->
+		<div class="l_splist">
+			<ul class="l_splist01" id="productlist">
+				<script type="text/html" id="pro_list">
+                {{each list as pro i}}
+                <li>
+                    <div class="l_splimk">
+                        <div class="p_img">
+                            <a href="/Web/Goods/pro_detail?sid={{pro.ProInfo.SPUID}}">
+                                {{if pro.Imgs.length>0}}
+                                <img src="{{pro.Imgs[0].ImgUrl}}" id="{{pro.ProInfo.SPUID}}" width="215" height="205">
+                                {{else}}
+                                <img src="" id="{{pro.ProInfo.SPUID}}" width="215" height="205">
+                                {{/if}}
+                            </a>
+                            <div class="l_xtbgz"><span class="l_gzimg01"></span>关注</div><!--l_xtbgz  stop -->
+                        </div><!--p_img  stop -->
+                        <div class="p-scroll">
+                            <ul>
+                                {{each pro.Imgs as img j}}
+                                <li>
+                                    <img class="l_xdimg" src="{{img.ImgUrl}}" width="34" height="34" data-id="{{pro.ProInfo.SPUID}}">
+                                    <div class="l_thisimg"><a href="#"><img src="{{img.ImgUrl}}" width="215" height="205"></a></div>
+                                </li>
+                                {{/each}}
+                            </ul>
+                        </div><!--p-scroll  stop -->
+                        <div class="clear p-price">
+                            ￥<span class="fon20">{{pro.ProInfo.Price}}</span>
+                        </div><!--p-price  stop -->
+                        <div class="p-name"><a href="/Web/Goods/pro_detail?sid={{pro.ProInfo.SPUID}}">{{pro.ProInfo.Name}}</a></div><!--p-name  stop -->
+                        <div class="p-commit">已有<a href="#">{{pro.ProInfo.CommentCount}}</a>人评价</div><!--p-commit  stop -->
+                        <div class="p-shop"><a href="/Web/Sy/ShopHome?shopid=@ViewBag.SPU.ShopID" title="{{pro.ProInfo.ShopID}}">{{if pro.ProInfo.IsOwned}}平台直营{{else}}{{pro.ProInfo.ShopName}}{{/if}}</a></div>
+                    </div><!--l_splimk  stop -->
+                </li>
+                {{/each}}
+            </script>
+			</ul>
+			<div class="clear"></div>
+		</div>
+		<!--l_splist  商品列表结束 -->
+		<!--page  分页开始 -->
+		<div id="pager" class="page"></div>
+
+		<div class="clear page">
+			<div class="p-wrap">
+				<a class="pn-prev"><i>&lt;</i><em>上一页</em></a> <a
+					href="javascript:;">1</a> <a href="javascript:;" class="curr">2</a>
+				<a href="javascript:;">3</a> <a href="javascript:;">4</a> <a
+					href="javascript:;">5</a> <a href="javascript:;">6</a> <a
+					href="javascript:;">7</a> <b class="pn-break">...</b> <a
+					class="pn-next disabled" href="javascript:;"
+					title="使用方向键右键也可翻到下一页哦！"><em>下一页</em><i>&gt;</i></a> <span
+					class="p-skip"><em>共<b>100</b>页&nbsp;&nbsp;到第
+				</em><input class="input-txt" type="text" value="1"><em>页</em><a
+						class="btn btn-default" href="javascript:;">确定</a></span>
+			</div>
+		</div>
+		<!--page  分页结束 -->
+		<!--l_spjx 商品精选 开始 -->
+		<div class="clear l_spjx">
+			<div class="l_spjxtop">商品精选</div>
+			<div class="l_spjxcon">
+				<ul>
+					@foreach (var pro in selectSpecs) {
+					<li>
+						<div class="l_spjxmk">
+							<div class="l_spjximg">
+								<a href="@pro.ProUrl?sid=@pro.ProID"><img src="@pro.ProImg"
+									width="223" height="222"></a>
+							</div>
+							<!--l_spjximg  stop -->
+							<div class="l_spjxtitle">
+								<a href="@pro.ProUrl?sid=@pro.ProID">@pro.ProName</a>
+							</div>
+							<div class="l_spjxprice">
+								<span class="fon14 red">￥</span> <span class="fon16  bolder red">@Math.Round(pro.ProPrice.Value,
+									2)</span>
+							</div>
+							<!--l_spjxprice  stop -->
+						</div>
+					</li> }
+				</ul>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<!--l_spjx 商品精选 结束 -->
+		<!--l_like 猜你喜欢 开始 -->
+		<div class="clear l_like">
+			<div class="l_liketop">
+				<span class="l_posleft"><em class="l_like01">猜你喜欢</em></span>
+			</div>
+			<!--l_liketop  stop -->
+			<div class="l_likecon">
+				<ul>
+					@foreach (var pro in likeSpecs) {
+					<li><a href="@pro.ProUrl?sid=@pro.ProID"><img
+							src="@pro.ProImg" width="230" height="214"></a>
+						<p class="l_cnxhp">
+							<span class="fon14 red">￥</span> <span class="fon16  bolder red">@Math.Round(pro.ProPrice.Value,
+								2)</span>
+						</p>
+						<p>
+							<a href="@pro.ProUrl?sid=@pro.ProID">@pro.ProName</a>
+						</p></li> }
+
+				</ul>
+			</div>
+			<!-- l_likecon  stop-->
+		</div>
+		<!--l_like 猜你喜欢 结束 -->
+		<div class="clear"></div>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			list.bind();
+			//商品列表页图片效果
+			$(".l_xdimg").mouseenter(function() {
+				$(this).siblings("div").css("display", "block")
+			});
+			$(".l_xdimg").mouseleave(function() {
+				$(this).siblings("div").css("display", "none")
+			});
+
+			////商品列表页筛选里面  点击多选事件
+			//$(".l_spsxdx").one("click", function () {
+			//    $(this).parent().siblings("ul").find("li").prepend('<input name="" type="checkbox" value="">');
+			//    $(this).parent().siblings("ul").find(".l_qdqx").css("display", "block")
+			//});
+
+			//页面加载埋点
+			setTimeout(function() {
+				var kn = "pv/load/buy";
+				var isacc = infoc.getCookie("_isAcced");
+				if (isacc == undefined || isacc == null || isacc == "") {
+					kn += "/uv";
+					infoc.setCookie("_isAcced", 1, 24);
+				}
+				infoc.add(kn, "/Web/Goods/GoodsList", 21, 0);
+			}, 1);
+		})
+
+		$(window).bind("beforeunload", function() {
+			//页面关闭埋点
+			setTimeout(function() {
+				infoc.add("load", "/Web/Goods/GoodsList", 22, 0);
+			}, 1);
+		})
+	</script>
+	s
+
+</body>
+</html>
+<script language="javascript">
+	var isindex = true;
+	$(document)
+			.ready(
+					function() {
+						//购物车商品总数
+						//Cart.getgoodscount(Cart.getgoodscountcallback);
+
+						$(".a_buyerlogin").bind("click", function() {
+							window.location.href = '/Member/dlzc/Login';
+						});
+						$(".a_buyerregister").bind("click", function() {
+							window.location.href = '/Member/dlzc/Register';
+						});
+						$(".ulogin_click").bind("click", function() {
+							DelCookie("_u_token");
+							DelCookie("_uid");
+							DelCookie("_un");
+							window.location.href = '/Member/dlzc/Login';
+						});
+						$(".a_orderlist").bind("click", function() {
+							window.location.href = '/Member/DdZx/OrderList';
+						});
+						$(".div_membercenter")
+								.bind(
+										"click",
+										function() {
+											if (user.IsLogin()) {
+												window.location.href = '/Member/zhsz/PersonalInformation';
+											} else {
+												//TODO 登陆
+												showlogindiv();
+											}
+										})
+						$(".div_mycart").bind("click", function() {
+							window.location.href = '/Web/Cart/Cart_List';
+						});
+						//关键字搜索
+						//autoxl.bindex("select_key", getKeysStartwithName, 440);
+						$(".btn-search")
+								.bind(
+										"click",
+										function() {
+											var searchkey = $("#select_key")
+													.val();
+											if ($("#select_key").attr("data") != undefined
+													&& $("#select_key").attr(
+															"data") != ""
+													&& $("#select_key").attr(
+															"data") != "select_key") {
+												searchkey = $("#select_key")
+														.attr("data");
+											}
+											setTimeout(function() {
+												infoc.add(searchkey,
+														"Sypt/Search", 0, 1);
+											}, 1);
+											location.href = "/Web/Goods/SearchList?keys="
+													+ searchkey;
+										});
+					});
+</script>
+<script type="text/javascript">
+	//菜单浮动效果
+	$('.all-sort-list > .item').hover(function() {
+		var eq = $('.all-sort-list > .item').index(this), //获取当前滑过是第几个元素
+		h = $('.all-sort-list').offset().top, //获取当前下拉菜单距离窗口多少像素
+		s = $(window).scrollTop(), //获取游览器滚动了多少高度
+		i = $(this).offset().top, //当前元素滑过距离窗口多少像素
+		item = $(this).children('.item-list').height(), //下拉菜单子类内容容器的高度
+		sort = $('.all-sort-list').height(); //父类分类列表容器的高度
+
+		$(this).addClass('hover');
+		$(this).children('.item-list').css('display', 'block');
+	}, function() {
+		$(this).removeClass('hover');
+		$(this).children('.item-list').css('display', 'none');
+	});
+
+	$('.item > .item-list > .close').click(function() {
+		$(this).parent().parent().removeClass('hover');
+		$(this).parent().hide();
+	});
+</script>

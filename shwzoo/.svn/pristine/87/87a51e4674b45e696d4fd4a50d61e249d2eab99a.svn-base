@@ -1,0 +1,56 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>物流信息</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="stylesheet" href="/css/public.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/css/index.css" type="text/css" media="screen">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/artTemplate.js"></script>
+    <script src="/js/public.js"></script>
+    <script src="/js/logisticInfo.js"></script>
+</head>
+<body>
+    <!--container  begin-->
+    <div class="container fix">
+
+        <script type="text/html" id="logisticInfo">
+            <!--l_alltop  begin -->
+            <div class="l_alltop fix">
+                <span><img src="/images/tp10.png" class="img-responsive l_maxwid"></span>
+                订单跟踪
+            </div>
+            <!--l_alltop  stop -->
+            <div class="l_dzcyr">
+                <p>订 单 号：<span id="orderCode"></span></p>
+                <p>支付方式：<span id="paytype"></span></p>
+            </div>
+            <!--l_ddgznr  begin -->
+            <div class="l_ddgznr fix">
+                <ul>
+                    {{each list as info i}}
+                    <li>
+                        <div class="l_ddgznrmk mt0">
+                            <p>{{info.AcceptStation}}</p>
+                            <p class="huise">{{info.AcceptTime}}</p>
+                        </div>
+                        <div class="l_dgqr"><img src="/images/duigou02.png" class="img-responsive"></div>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+            <!--l_ddgznr  stop -->
+
+        </script>
+    </div>
+    <!--container  stop -->
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        logisticInfo.getlogisticInfo();
+    })
+</script>

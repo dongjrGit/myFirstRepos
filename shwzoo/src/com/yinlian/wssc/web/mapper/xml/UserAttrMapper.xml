@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.UserAttrMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.UserAttr" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="UserID" property="userid" jdbcType="INTEGER" />
+    <result column="Sex" property="sex" jdbcType="INTEGER" />
+    <result column="Birthday" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="Phone" property="phone" jdbcType="VARCHAR" />
+    <result column="ProvinceCode" property="provincecode" jdbcType="VARCHAR" />
+    <result column="ProvinceName" property="provincename" jdbcType="VARCHAR" />
+    <result column="CityCode" property="citycode" jdbcType="VARCHAR" />
+    <result column="CityName" property="cityname" jdbcType="VARCHAR" />
+    <result column="AreaCode" property="areacode" jdbcType="VARCHAR" />
+    <result column="AreaName" property="areaname" jdbcType="VARCHAR" />
+    <result column="Address" property="address" jdbcType="VARCHAR" />
+    <result column="PostCode" property="postcode" jdbcType="VARCHAR" />
+    <result column="IncomeMonth" property="incomemonth" jdbcType="INTEGER" />
+    <result column="TotalPoints" property="totalpoints" jdbcType="INTEGER" />
+    <result column="MaritalStatus" property="maritalstatus" jdbcType="INTEGER" />
+    <result column="Interests" property="interests" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, UserID, Sex, Birthday, Phone, ProvinceCode, ProvinceName, CityCode, CityName, 
+    AreaCode, AreaName, Address, PostCode, IncomeMonth, TotalPoints, MaritalStatus, Interests
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.UserAttrExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_attr
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_attr
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_attr
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.UserAttrExample" >
+    delete from user_attr
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.UserAttr" >
+    insert into user_attr (ID, UserID, Sex, 
+      Birthday, Phone, ProvinceCode, 
+      ProvinceName, CityCode, CityName, 
+      AreaCode, AreaName, Address, 
+      PostCode, IncomeMonth, TotalPoints, 
+      MaritalStatus, Interests)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{sex,jdbcType=INTEGER}, 
+      #{birthday,jdbcType=TIMESTAMP}, #{phone,jdbcType=VARCHAR}, #{provincecode,jdbcType=VARCHAR}, 
+      #{provincename,jdbcType=VARCHAR}, #{citycode,jdbcType=VARCHAR}, #{cityname,jdbcType=VARCHAR}, 
+      #{areacode,jdbcType=VARCHAR}, #{areaname,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{postcode,jdbcType=VARCHAR}, #{incomemonth,jdbcType=INTEGER}, #{totalpoints,jdbcType=INTEGER}, 
+      #{maritalstatus,jdbcType=INTEGER}, #{interests,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.UserAttr" >
+    insert into user_attr
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userid != null" >
+        UserID,
+      </if>
+      <if test="sex != null" >
+        Sex,
+      </if>
+      <if test="birthday != null" >
+        Birthday,
+      </if>
+      <if test="phone != null" >
+        Phone,
+      </if>
+      <if test="provincecode != null" >
+        ProvinceCode,
+      </if>
+      <if test="provincename != null" >
+        ProvinceName,
+      </if>
+      <if test="citycode != null" >
+        CityCode,
+      </if>
+      <if test="cityname != null" >
+        CityName,
+      </if>
+      <if test="areacode != null" >
+        AreaCode,
+      </if>
+      <if test="areaname != null" >
+        AreaName,
+      </if>
+      <if test="address != null" >
+        Address,
+      </if>
+      <if test="postcode != null" >
+        PostCode,
+      </if>
+      <if test="incomemonth != null" >
+        IncomeMonth,
+      </if>
+      <if test="totalpoints != null" >
+        TotalPoints,
+      </if>
+      <if test="maritalstatus != null" >
+        MaritalStatus,
+      </if>
+      <if test="interests != null" >
+        Interests,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="provincecode != null" >
+        #{provincecode,jdbcType=VARCHAR},
+      </if>
+      <if test="provincename != null" >
+        #{provincename,jdbcType=VARCHAR},
+      </if>
+      <if test="citycode != null" >
+        #{citycode,jdbcType=VARCHAR},
+      </if>
+      <if test="cityname != null" >
+        #{cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="areacode != null" >
+        #{areacode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaname != null" >
+        #{areaname,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null" >
+        #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="incomemonth != null" >
+        #{incomemonth,jdbcType=INTEGER},
+      </if>
+      <if test="totalpoints != null" >
+        #{totalpoints,jdbcType=INTEGER},
+      </if>
+      <if test="maritalstatus != null" >
+        #{maritalstatus,jdbcType=INTEGER},
+      </if>
+      <if test="interests != null" >
+        #{interests,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.UserAttrExample" resultType="java.lang.Integer" >
+    select count(*) from user_attr
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user_attr
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userid != null" >
+        UserID = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.sex != null" >
+        Sex = #{record.sex,jdbcType=INTEGER},
+      </if>
+      <if test="record.birthday != null" >
+        Birthday = #{record.birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.phone != null" >
+        Phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provincecode != null" >
+        ProvinceCode = #{record.provincecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provincename != null" >
+        ProvinceName = #{record.provincename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.citycode != null" >
+        CityCode = #{record.citycode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityname != null" >
+        CityName = #{record.cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areacode != null" >
+        AreaCode = #{record.areacode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaname != null" >
+        AreaName = #{record.areaname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        Address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postcode != null" >
+        PostCode = #{record.postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.incomemonth != null" >
+        IncomeMonth = #{record.incomemonth,jdbcType=INTEGER},
+      </if>
+      <if test="record.totalpoints != null" >
+        TotalPoints = #{record.totalpoints,jdbcType=INTEGER},
+      </if>
+      <if test="record.maritalstatus != null" >
+        MaritalStatus = #{record.maritalstatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.interests != null" >
+        Interests = #{record.interests,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user_attr
+    set ID = #{record.id,jdbcType=INTEGER},
+      UserID = #{record.userid,jdbcType=INTEGER},
+      Sex = #{record.sex,jdbcType=INTEGER},
+      Birthday = #{record.birthday,jdbcType=TIMESTAMP},
+      Phone = #{record.phone,jdbcType=VARCHAR},
+      ProvinceCode = #{record.provincecode,jdbcType=VARCHAR},
+      ProvinceName = #{record.provincename,jdbcType=VARCHAR},
+      CityCode = #{record.citycode,jdbcType=VARCHAR},
+      CityName = #{record.cityname,jdbcType=VARCHAR},
+      AreaCode = #{record.areacode,jdbcType=VARCHAR},
+      AreaName = #{record.areaname,jdbcType=VARCHAR},
+      Address = #{record.address,jdbcType=VARCHAR},
+      PostCode = #{record.postcode,jdbcType=VARCHAR},
+      IncomeMonth = #{record.incomemonth,jdbcType=INTEGER},
+      TotalPoints = #{record.totalpoints,jdbcType=INTEGER},
+      MaritalStatus = #{record.maritalstatus,jdbcType=INTEGER},
+      Interests = #{record.interests,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.UserAttr" >
+    update user_attr
+    <set >
+      <if test="userid != null" >
+        UserID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null" >
+        Sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null" >
+        Birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phone != null" >
+        Phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="provincecode != null" >
+        ProvinceCode = #{provincecode,jdbcType=VARCHAR},
+      </if>
+      <if test="provincename != null" >
+        ProvinceName = #{provincename,jdbcType=VARCHAR},
+      </if>
+      <if test="citycode != null" >
+        CityCode = #{citycode,jdbcType=VARCHAR},
+      </if>
+      <if test="cityname != null" >
+        CityName = #{cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="areacode != null" >
+        AreaCode = #{areacode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaname != null" >
+        AreaName = #{areaname,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        Address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null" >
+        PostCode = #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="incomemonth != null" >
+        IncomeMonth = #{incomemonth,jdbcType=INTEGER},
+      </if>
+      <if test="totalpoints != null" >
+        TotalPoints = #{totalpoints,jdbcType=INTEGER},
+      </if>
+      <if test="maritalstatus != null" >
+        MaritalStatus = #{maritalstatus,jdbcType=INTEGER},
+      </if>
+      <if test="interests != null" >
+        Interests = #{interests,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.UserAttr" >
+    update user_attr
+    set UserID = #{userid,jdbcType=INTEGER},
+      Sex = #{sex,jdbcType=INTEGER},
+      Birthday = #{birthday,jdbcType=TIMESTAMP},
+      Phone = #{phone,jdbcType=VARCHAR},
+      ProvinceCode = #{provincecode,jdbcType=VARCHAR},
+      ProvinceName = #{provincename,jdbcType=VARCHAR},
+      CityCode = #{citycode,jdbcType=VARCHAR},
+      CityName = #{cityname,jdbcType=VARCHAR},
+      AreaCode = #{areacode,jdbcType=VARCHAR},
+      AreaName = #{areaname,jdbcType=VARCHAR},
+      Address = #{address,jdbcType=VARCHAR},
+      PostCode = #{postcode,jdbcType=VARCHAR},
+      IncomeMonth = #{incomemonth,jdbcType=INTEGER},
+      TotalPoints = #{totalpoints,jdbcType=INTEGER},
+      MaritalStatus = #{maritalstatus,jdbcType=INTEGER},
+      Interests = #{interests,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

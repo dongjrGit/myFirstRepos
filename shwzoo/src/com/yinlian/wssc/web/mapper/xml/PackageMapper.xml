@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.PackageMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Package">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="PackType" property="packtype" jdbcType="INTEGER" />
+		<result column="PackTypeID" property="packtypeid" jdbcType="INTEGER" />
+		<result column="Num" property="num" jdbcType="VARCHAR" />
+		<result column="Name" property="name" jdbcType="VARCHAR" />
+		<result column="Count" property="count" jdbcType="INTEGER" />
+		<result column="Price" property="price" jdbcType="REAL" />
+		<result column="StartTime" property="starttime" jdbcType="TIMESTAMP" />
+		<result column="EndTime" property="endtime" jdbcType="TIMESTAMP" />
+		<result column="UserLevel" property="userlevel" jdbcType="INTEGER" />
+		<result column="Integral" property="integral" jdbcType="INTEGER" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="OrderBy" property="orderby" jdbcType="INTEGER" />
+		<result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="CreateUserID" property="createuserid" jdbcType="INTEGER" />
+		<result column="ShopID" property="shopid" jdbcType="INTEGER" />
+		<result column="CheckStatus" property="checkstatus" jdbcType="INTEGER" />
+		<result column="IsCheck" property="ischeck" jdbcType="BIT" />
+		<result column="usesite" property="usesite" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, PackType, PackTypeID, Num, Name, Count, Price,
+		StartTime, EndTime,
+		UserLevel,
+		Integral, Status, OrderBy, CreateTime,
+		CreateUserID, ShopID, CheckStatus,
+		IsCheck,usesite
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.PackageExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from package
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from package
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		package
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.PackageExample">
+		delete from package
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.Package">
+		insert into package (ID,
+		PackType, PackTypeID,
+		Num, Name, Count, Price,
+		StartTime, EndTime,
+		UserLevel,
+		Integral, Status, OrderBy,
+		CreateTime, CreateUserID, ShopID,
+		CheckStatus, IsCheck,usesite)
+		values (#{id,jdbcType=INTEGER},
+		#{packtype,jdbcType=INTEGER},
+		#{packtypeid,jdbcType=INTEGER},
+		#{num,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+		#{count,jdbcType=INTEGER},
+		#{price,jdbcType=REAL},
+		#{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP},
+		#{userlevel,jdbcType=INTEGER},
+		#{integral,jdbcType=INTEGER},
+		#{status,jdbcType=INTEGER},
+		#{orderby,jdbcType=INTEGER},
+		#{createtime,jdbcType=TIMESTAMP}, #{createuserid,jdbcType=INTEGER},
+		#{shopid,jdbcType=INTEGER},
+		#{checkstatus,jdbcType=INTEGER},
+		#{ischeck,jdbcType=BIT},#{usesite,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Package">
+		insert into package
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="packtype != null">
+				PackType,
+			</if>
+			<if test="packtypeid != null">
+				PackTypeID,
+			</if>
+			<if test="num != null">
+				Num,
+			</if>
+			<if test="name != null">
+				Name,
+			</if>
+			<if test="count != null">
+				Count,
+			</if>
+			<if test="price != null">
+				Price,
+			</if>
+			<if test="starttime != null">
+				StartTime,
+			</if>
+			<if test="endtime != null">
+				EndTime,
+			</if>
+			<if test="userlevel != null">
+				UserLevel,
+			</if>
+			<if test="integral != null">
+				Integral,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+			<if test="orderby != null">
+				OrderBy,
+			</if>
+			<if test="createtime != null">
+				CreateTime,
+			</if>
+			<if test="createuserid != null">
+				CreateUserID,
+			</if>
+			<if test="shopid != null">
+				ShopID,
+			</if>
+			<if test="checkstatus != null">
+				CheckStatus,
+			</if>
+			<if test="ischeck != null">
+				IsCheck,
+			</if>
+			<if test="usesite != null">
+				usesite,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="packtype != null">
+				#{packtype,jdbcType=INTEGER},
+			</if>
+			<if test="packtypeid != null">
+				#{packtypeid,jdbcType=INTEGER},
+			</if>
+			<if test="num != null">
+				#{num,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="count != null">
+				#{count,jdbcType=INTEGER},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=REAL},
+			</if>
+			<if test="starttime != null">
+				#{starttime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endtime != null">
+				#{endtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userlevel != null">
+				#{userlevel,jdbcType=INTEGER},
+			</if>
+			<if test="integral != null">
+				#{integral,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="orderby != null">
+				#{orderby,jdbcType=INTEGER},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createuserid != null">
+				#{createuserid,jdbcType=INTEGER},
+			</if>
+			<if test="shopid != null">
+				#{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="checkstatus != null">
+				#{checkstatus,jdbcType=INTEGER},
+			</if>
+			<if test="ischeck != null">
+				#{ischeck,jdbcType=BIT},
+			</if>
+			<if test="usesite != null">
+				#{usesite,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.PackageExample"
+		resultType="java.lang.Integer">
+		select count(*) from package
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update package
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.packtype != null">
+				PackType = #{record.packtype,jdbcType=INTEGER},
+			</if>
+			<if test="record.packtypeid != null">
+				PackTypeID = #{record.packtypeid,jdbcType=INTEGER},
+			</if>
+			<if test="record.num != null">
+				Num = #{record.num,jdbcType=VARCHAR},
+			</if>
+			<if test="record.name != null">
+				Name = #{record.name,jdbcType=VARCHAR},
+			</if>
+			<if test="record.count != null">
+				Count = #{record.count,jdbcType=INTEGER},
+			</if>
+			<if test="record.price != null">
+				Price = #{record.price,jdbcType=REAL},
+			</if>
+			<if test="record.starttime != null">
+				StartTime = #{record.starttime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.endtime != null">
+				EndTime = #{record.endtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.userlevel != null">
+				UserLevel = #{record.userlevel,jdbcType=INTEGER},
+			</if>
+			<if test="record.integral != null">
+				Integral = #{record.integral,jdbcType=INTEGER},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.orderby != null">
+				OrderBy = #{record.orderby,jdbcType=INTEGER},
+			</if>
+			<if test="record.createtime != null">
+				CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.createuserid != null">
+				CreateUserID = #{record.createuserid,jdbcType=INTEGER},
+			</if>
+			<if test="record.shopid != null">
+				ShopID = #{record.shopid,jdbcType=INTEGER},
+			</if>
+			<if test="record.checkstatus != null">
+				CheckStatus = #{record.checkstatus,jdbcType=INTEGER},
+			</if>
+			<if test="record.ischeck != null">
+				IsCheck = #{record.ischeck,jdbcType=BIT},
+			</if>
+			<if test="record.usesite != null">
+				usesite = #{record.usesite,jdbcType=BIT},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update package
+		set ID = #{record.id,jdbcType=INTEGER},
+		PackType =
+		#{record.packtype,jdbcType=INTEGER},
+		PackTypeID =
+		#{record.packtypeid,jdbcType=INTEGER},
+		Num =
+		#{record.num,jdbcType=VARCHAR},
+		Name = #{record.name,jdbcType=VARCHAR},
+		Count = #{record.count,jdbcType=INTEGER},
+		Price =
+		#{record.price,jdbcType=REAL},
+		StartTime =
+		#{record.starttime,jdbcType=TIMESTAMP},
+		EndTime =
+		#{record.endtime,jdbcType=TIMESTAMP},
+		UserLevel =
+		#{record.userlevel,jdbcType=INTEGER},
+		Integral =
+		#{record.integral,jdbcType=INTEGER},
+		Status =
+		#{record.status,jdbcType=INTEGER},
+		OrderBy =
+		#{record.orderby,jdbcType=INTEGER},
+		CreateTime =
+		#{record.createtime,jdbcType=TIMESTAMP},
+		CreateUserID =
+		#{record.createuserid,jdbcType=INTEGER},
+		ShopID =
+		#{record.shopid,jdbcType=INTEGER},
+		CheckStatus =
+		#{record.checkstatus,jdbcType=INTEGER},
+		IsCheck =
+		#{record.ischeck,jdbcType=BIT},
+		usesite =
+		 #{record.usesite,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Package">
+		update package
+		<set>
+			<if test="packtype != null">
+				PackType = #{packtype,jdbcType=INTEGER},
+			</if>
+			<if test="packtypeid != null">
+				PackTypeID = #{packtypeid,jdbcType=INTEGER},
+			</if>
+			<if test="num != null">
+				Num = #{num,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				Name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="count != null">
+				Count = #{count,jdbcType=INTEGER},
+			</if>
+			<if test="price != null">
+				Price = #{price,jdbcType=REAL},
+			</if>
+			<if test="starttime != null">
+				StartTime = #{starttime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endtime != null">
+				EndTime = #{endtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userlevel != null">
+				UserLevel = #{userlevel,jdbcType=INTEGER},
+			</if>
+			<if test="integral != null">
+				Integral = #{integral,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="orderby != null">
+				OrderBy = #{orderby,jdbcType=INTEGER},
+			</if>
+			<if test="createtime != null">
+				CreateTime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createuserid != null">
+				CreateUserID = #{createuserid,jdbcType=INTEGER},
+			</if>
+			<if test="shopid != null">
+				ShopID = #{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="checkstatus != null">
+				CheckStatus = #{checkstatus,jdbcType=INTEGER},
+			</if>
+			<if test="ischeck != null">
+				IsCheck = #{ischeck,jdbcType=BIT},
+			</if>
+			<if test="usesite != null">
+				usesite = #{usesite,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Package">
+		update package
+		set
+		PackType = #{packtype,jdbcType=INTEGER},
+		PackTypeID =
+		#{packtypeid,jdbcType=INTEGER},
+		Num = #{num,jdbcType=VARCHAR},
+		Name =
+		#{name,jdbcType=VARCHAR},
+		Count = #{count,jdbcType=INTEGER},
+		Price =
+		#{price,jdbcType=REAL},
+		StartTime = #{starttime,jdbcType=TIMESTAMP},
+		EndTime = #{endtime,jdbcType=TIMESTAMP},
+		UserLevel =
+		#{userlevel,jdbcType=INTEGER},
+		Integral = #{integral,jdbcType=INTEGER},
+		Status = #{status,jdbcType=INTEGER},
+		OrderBy =
+		#{orderby,jdbcType=INTEGER},
+		CreateTime =
+		#{createtime,jdbcType=TIMESTAMP},
+		CreateUserID =
+		#{createuserid,jdbcType=INTEGER},
+		ShopID = #{shopid,jdbcType=INTEGER},
+		CheckStatus = #{checkstatus,jdbcType=INTEGER},
+		IsCheck =
+		#{ischeck,jdbcType=BIT},
+		usesite =
+		#{usesite,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 修改组合商品价格 -->
+	<update id="updatePrice" parameterType="com.yinlian.wssc.web.po.Package">
+		update package
+		set Price =
+		#{price,jdbcType=REAL}, IsCheck = #{ischeck,jdbcType=BIT}
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</update>
+	<!-- 修改组合商品状态 -->
+	<update id="updateStatus" parameterType="com.yinlian.wssc.web.po.Package">
+		update package
+		set Status
+		= #{status,jdbcType=INTEGER}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<!-- 修改组合商品审核 -->
+	<update id="updateCheck" parameterType="com.yinlian.wssc.web.po.Package">
+		update package
+		set IsCheck
+		= #{ischeck,jdbcType=BIT}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 批量审核组合商品活动 -->
+	<update id="updateCheckList" parameterType="list">
+		<if test="list != null">
+			<foreach collection="list" item="pack" index="index" open=""
+				close="" separator=";">
+				update package
+				set IsCheck =
+				#{pack.ischeck,jdbcType=BIT}
+				where ID = #{pack.id,jdbcType=INTEGER}
+			</foreach>
+		</if>
+	</update>
+
+	<!-- 获取组合商品活动列表 -->
+	<select id="getPackageByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from package
+		<where>
+			<if test="criteria.status !=null and criteria.status >=0">
+				and IsCheck=#{criteria.status}
+			</if>
+			<if test="criteria.num !=null and criteria.num !=''">
+				and Num like '%${criteria.num}%'
+			</if>
+			<if test="criteria.name !=null and criteria.name !=''">
+				and Name like '%${criteria.name}%'
+			</if>
+			<if test="criteria.shopid >0">
+				and ShopID=#{criteria.shopid}
+			</if>
+			<if test="criteria.startFrom !=null and criteria.startFrom !=''">			
+			 <![CDATA[ and DATE_FORMAT(StartTime,'%Y-%m-%d') >= #{startFrom} ]]>
+			</if>
+			<if test="criteria.startTo !=null and criteria.startTo !=''">
+		  <![CDATA[ and DATE_FORMAT(StartTime,'%Y-%m-%d') <= #{startTo} ]]>
+			</if>
+			<if test="criteria.endFrom !=null and criteria.endFrom !=''">			
+			 <![CDATA[ and DATE_FORMAT(EndTime,'%Y-%m-%d') >= #{endFrom} ]]>
+			</if>
+			<if test="criteria.endTo !=null and criteria.endTo !=''">
+		  <![CDATA[ and DATE_FORMAT(EndTime,'%Y-%m-%d') <= #{endTo} ]]>
+			</if>
+			<if
+				test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+				order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+					而不能使用#{} 会设置参数失败 -->
+			</if>
+		</where>
+	</select>
+
+	<!-- 根据组合商品ID获取关联商品信息 -->
+	<select id="getByPackageID" parameterType="int"
+		resultType="com.yinlian.wssc.web.dto.SkuPackageDto">
+		SELECT
+		a.ID,a.SKUID AS SkuID,
+		a.PackageID,a.SKUPrice AS SkuPackPrice,
+		b.Num AS
+		SkuNum,
+		b.Name AS SkuName,
+		b.OldPrice AS SkuPrice
+		FROM SKU_Package AS a 
+		JOIN SKU AS b ON a.SKUID = b.ID
+		where a.PackageID=#{0}
+	</select>
+	<!-- 根据 组合商品Ids 获取组合 商品信息 -->
+	<select id="getByIDs" resultMap="BaseResultMap" parameterType="java.util.List">
+		select
+		<include refid="Base_Column_List"></include>
+		from package
+		where id in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+		<!-- 根据ids修改组合商品数量 -->
+	<update id="updateCountByids" parameterType="java.util.List">	<if test="list != null">
+			<foreach collection="list" item="uc" index="index" open=""
+				close="" separator=";">
+				update package
+				set Count= Count -#{uc.count,jdbcType=INTEGER} 
+				where id = #{uc.id,jdbcType=INTEGER} 
+			</foreach>
+		</if>
+		</update>
+	<!-- 根据店铺ID，组合商品ID和名称模糊检索sku商品列表 -->
+	<select id="getSkuStartwithName" resultType="com.yinlian.wssc.web.po.Sku">
+		SELECT sku.ID,sku.Name
+		FROM sku JOIN spu ON sku.SPU_ID=spu.ID
+		WHERE sku.ID NOT IN (SELECT SKUID FROM package,sku_package
+		WHERE package.ID=sku_package.PackageID and package.ID=#{1})
+		AND spu.status=3 and spu.isdel!=1 AND spu.ShopID=#{0}
+		<if test="name != null and name != ''">
+		AND sku.Name like '%${name}%' 
+		</if>
+		limit 0,10
+	</select>
+	
+	<!-- 根据组合商品ID获取关联商品信息 -->
+	<select id="getPackSkuDtoByPackID" parameterType="int"
+		resultType="com.yinlian.wssc.web.dto.PackageSkuDto">
+		SELECT
+		a.SKUID AS SkuID,
+		a.PackageID,a.SKUPrice AS SkuPackPrice,
+		b.Num AS SkuNum,
+		b.Name AS SkuName,
+		b.Price AS SkuPrice,
+		b.ImgUrl_App as ImgUrl,b.SPU_ID as spuid
+		FROM SKU_Package AS a JOIN
+		SKU AS b ON a.SKUID = b.ID
+		where a.PackageID=#{0}
+	</select>
+</mapper>

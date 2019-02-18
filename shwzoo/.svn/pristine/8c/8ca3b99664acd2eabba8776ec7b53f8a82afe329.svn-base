@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>绿色食品中国-特色大全 </title>
+<script type="text/javascript" src="/resource/pc/web/js/index.js"></script>
+<script type="text/javascript" src="/resource/pc/member/js/pager2.js"></script>
+<script src="/resource/pc/web/js/spgl/producttg.js"></script>
+<script src="/resource/artTemplate.js"></script>
+
+<script type="text/javascript" src="/resource/pc/web/js/pager1.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/wkh/common-util.js"></script>
+
+<script type="text/javascript" src="/resource/pc/commonjs/wkh/page-pc.js"></script>
+<script type="text/javascript">
+var url="";
+function load(orderByClause,srot){
+pageUtil.initialize("/pc/lszg/querytsdqspu",{pagesize:15,"fl":'${isNotEmpty(fl)?fl:''}'
+	,"min":"${isNotEmpty(min)?min:''}","max":"${isNotEmpty(max)?max:''}"
+	,"orderByClause":orderByClause,"sort":srot});
+	$("#pageindex").html(initializePage);
+	$("#pagetotal").html(initializePageTotal);
+	if(VarUtil.isNotNull(GetQueryString("min"))&&VarUtil.isNotNull(GetQueryString("max"))){
+		$.each($("#jglist li"),function(){
+			if($(this).find("a").html()==GetQueryString("min")+"-"+GetQueryString("max")){
+				$(this).addClass("active");
+			}
+		});
+	}
+	//商品列表页图片效果
+	$(".l_xdimg").mouseenter(function(){
+		$(this).siblings("div").show();
+	});
+	$(".l_xdimg").mouseleave(function(){
+		$(this).siblings("div").hide();	
+	});
+	
+}
+$(function(){
+    url=location.search; 
+	load();
+	//	列表页排序
+	$('.l_spsort01 li').click(function(){
+		$('.l_spsort01 li').each(function(){
+			$(this).removeClass('l_zhss');
+		})
+		$(this).toggleClass('l_zhss active');
+	});
+	
+	//排序
+	$(".l_spsort01 li").click(function(){
+		var sort="";
+		if($(this).attr("class")=="l_zhss"){
+			sort="desc";					
+		}else{
+			sort="asc";
+		}
+		load($(this).attr("dataorder"),sort);
+	});
+	
+	
+	 $("body").on("click",".l_xtbgz", function() {
+			var spuid = $(this).attr("data-id");
+			if (WebLogin.isLogin()) {
+				var ajaxdata=AjaxUtil.Post("/pc/products/collectbuySpu",{"spuid" : spuid,"ch" : 1});
+				Dalert(ajaxdata.desc);
+			} else {
+				showlogindiv();
+			}
+	 });
+});
+	function flaction(obj){
+		var classval=$(obj).attr("class");
+		url=delQueStr(url,"fl");
+		if(classval=="active"){
+		location.href='/lszg/tsdq.html'+(VarUtil.isNotNull(url)?url:"");
+		}else
+		location.href='/lszg/tsdq.html'+(VarUtil.isNotNull(url)?url+"&":"?")+'fl='+$(obj).attr("dataid");
+	}
+	
+	function jgaction(obj){
+		var classval=$(obj).attr("class");
+		url=delQueStr(url,"min");
+	    url=delQueStr(url,"max");
+		if(classval=="active"){
+		location.href='/lszg/tsdq.html'+(VarUtil.isNotNull(url)?url:"");
+		}else{
+			var price=$(obj).find("a").html().split("-");
+			location.href='/lszg/tsdq.html'+(VarUtil.isNotNull(url)?url+"&":"?")+'min='+price[0]+"&max="+price[1];
+		}
+	}
+	
+	
+	 //删除参数值
+        function delQueStr(url, ref) {
+            var str = "";
+            if (url.indexOf('?') != -1) {
+                str = url.substr(url.indexOf('?') + 1);
+            }
+            else {
+                return url;
+            }
+            var arr = "";
+            var returnurl = "";
+            var setparam = "";
+            if (str.indexOf('&') != -1) {
+                arr = str.split('&');
+                for (i in arr) {
+                    if (arr[i].split('=')[0] != ref) {
+                        returnurl = returnurl + arr[i].split('=')[0] + "=" + arr[i].split('=')[1] + "&";
+                    }
+                }
+                return url.substr(0, url.indexOf('?')) + "?" + returnurl.substr(0, returnurl.length - 1);
+            }
+            else {
+                arr = str.split('=');
+                if (arr[0] == ref) {
+                    return url.substr(0, url.indexOf('?'));
+                }
+                else {
+                    return url;
+                }
+            }
+        }
+        
+        function qraction(){
+	        url=delQueStr(url,"min");
+	        url=delQueStr(url,"max");
+			location.href='/lszg/tsdq.html'+(VarUtil.isNotNull(url)?url+"&":"?")+'min='+(VarUtil.isNull($("#min").val())?'00':$("#min").val())+"&max="+(VarUtil.isNull($("#max").val())?'00':$("#max").val());
+        }
+</script>
+</head>
+<body class="bodybjhs">
+<% include("/template/pc/nav/navclass_ls.html",{pagetype:3}){}%>
+<!--container 中间所有内容开始-->
+<div class="mt40"></div>
+<div id="container" class="fix">
+	<div class="l_pos">
+		<span class="fon18">特色大全 </span>
+	</div>
+	<!--l_pos  stop -->
+	<!--l_screen  商品筛选开始 -->
+	<div class="l_screen">
+		<!--<div class="l_scrtop">
+			<span class="red fon16 bolder">毛呢大衣</span>
+			<span class="fon14 bolder">商品筛选</span>
+			<span class="fon14">共&nbsp;15831个商品</span>
+		</div>-->
+		<!-- l_scrtop  stop-->
+		<!--l_scrmk  begin -->
+		<div class="l_scrmk">
+			<div class="l_scrmkleft">
+				价格
+			</div>
+			<!--l_scrmkleft  stop -->
+			<div class="l_scrmkright">
+				<ul id="jglist">
+					<li onclick="jgaction(this)"><a href="javascript:void(0)">0-99</a></li>
+					<li onclick="jgaction(this)"><a href="javascript:void(0)">100-199</a></li>
+					<li onclick="jgaction(this)"><a href="javascript:void(0)">200-299</a></li>
+					<li onclick="jgaction(this)"><a href="javascript:void(0)">300-399</a></li>
+					<li onclick="jgaction(this)"><a href="javascript:void(0)">400-499</a></li>
+					<li onclick="jgaction(this)"><a href="javascript:void(0)">500-699</a></li>
+					<li onclick="jgaction(this)"><a href="javascript:void(0)">700-999</a></li>
+					<li onclick="jgaction(this)"><a href="javascript:void(0)">1000-1499</a></li>
+					<li onclick="jgaction(this)"><a href="javascript:void(0)">1500-1999</a></li>
+				</ul>
+				<div class="l_scrjgqj">
+					<input id="min" value="${isNotEmpty(min)&&min != '00'?min:''}" name="min" type="text" class="inp_xd">
+					<span class="l_xhx">-</span>
+					<input id="max" value="${isNotEmpty(max) && max != '00'?max:''}" name="max" type="text" class="inp_xd">
+					<a href="javascript:;" class="btn-small" onclick="qraction()">确定</a>
+				</div>
+				<!--l_scrjgqj  stop -->
+			</div>
+			<!--l_scrmkright  stop -->
+			<div class="clear">
+			</div>
+		</div>
+		<!--l_scrmk  stop -->
+		<!--l_scrmk  begin -->
+		<div class="l_scrmk">
+			<div class="l_scrmkleft">
+				分类
+			</div>
+			<!--l_scrmkleft  stop -->
+			<div class="l_scrmkright">
+				<ul>
+				<%for(vo in spelist){%>
+				<%if(isNotEmpty(fl)&&fl==vo.id){%> 
+					<li class="active" onclick="flaction(this)" dataid="${vo.id}"><a href="javascript:void(0)">${vo.showname}</li>
+				<%}else{%>
+					<li onclick="flaction(this)"  dataid="${vo.id}"><a href="javascript:void(0)">${vo.showname}</li>
+					<%}%>
+				<%}%>
+					<div class="clear">
+					</div>
+					<div class="l_qdqx">
+						<a href="javascript:;" class="btn-primary">确定</a>
+						<a href="javascript:;" class="btn-small">取消</a>
+					</div>
+					<!-- l_qdqx   stop-->
+				</ul>
+				
+				<!--l_gdxz  stop -->
+			</div>
+			<!--l_scrmkright  stop -->
+			<div class="clear">
+			</div>
+		</div>
+		<!--l_scrmk  stop -->
+	</div>
+	<!--l_screen  商品筛选结束 -->
+	<div class="clear">
+	</div>
+	<!--l_spsort  商品排序开始 -->
+	<div class="l_spsort fix">
+		<ul class="l_spsort01">
+			<li dataorder="commentsum"><a href="javascript:void(0)" >销量</a><i></i></li>
+			<li dataorder="p.price"><a href="javascript:void(0)" >价格</a><i></i></li>
+			<li dataorder="commentsum"><a href="javascript:void(0)" >评论数</a><i></i></li>
+				<div class="clear">
+			</div>
+		</ul>
+		<div class="l_ysxx">
+    	<span><em class="red" id="pageindex">1</em>/<string id="pagetotal">1</string></span>
+      <span class="l_prepag"><i></i></span>
+      <span class="l_nextpag"><i></i></span>	
+    </div>
+	</div>
+	<!--l_spsort  商品排序结束 -->
+	<!--l_splist  商品列表开始 -->
+	<div class="l_splist fix">
+		<ul class="l_splist01" id="contentRows">
+			<div class="clear">
+			</div>
+		</ul>
+		<div class="clear">
+		</div>
+	</div>
+	<!--l_splist  商品列表结束 -->
+	<script type="text/html" id="rowslist">
+	{{each list as vo i}}
+		<li {{if i % 5 == 0 & i != 0}}style="margin-right:0px;"{{/if}}><!--li 循环5个一组   最后一个要加上 style="margin-right:0px;" -->
+			<div class="l_splimk">
+				<div class="p_img">
+					<a href="/web/products/proinfo.html?spuid={{vo.spuid}}"><img src="{{vo.img}}" width="215" height="205"></a>
+					<div class="l_xtbgz" data-id="{{vo.spuid}}">
+						<span class="l_gzimg01" ></span>关注
+					</div>
+					<!--l_xtbgz  stop -->
+				</div>
+				<!--p_img  stop -->
+				<div class="p-scroll">
+					<ul>
+						<li>
+						<img class="l_xdimg" src="{{vo.img}}" width="34" height="34">
+						<div class="l_thisimg">
+							<a href="/web/products/proinfo.html?spuid={{vo.spuid}}"><img src="{{vo.img}}" width="215" height="205"></a>
+						</div>
+						</li>
+					</ul>
+				</div>
+				<!--p-scroll  stop -->
+				<div class="clear p-price">
+	                    	￥
+					<span class="fon20">{{vo.price}}</span>
+					<span class="text-decthrough huise">￥{{vo.oldPrice}}</span>
+				</div>
+				<!--p-price  stop -->
+				<div class="p-name">
+					<a href="/web/products/proinfo.html?spuid={{vo.spuid}}">{{vo.name}}</a>
+				</div>
+				<!--p-name  stop -->
+				<div class="p-commit">
+					已有<a target="_blank" href="#">{{vo.commentsum}}</a>人评价
+				</div>
+				<!--p-commit  stop -->
+				<div class="p-shop">
+					<a target="_blank" href="/web/shop/details.html?shopId={{vo.shopid}}" title="{{vo.shopname}}">{{vo.shopname}}</a>
+				</div>
+			</div>
+			<!--l_splimk  stop -->
+			</li>
+	{{/each}}
+	</script>
+    <div id="pager" class="page"></div>
+</div>
+</body>
+</html>

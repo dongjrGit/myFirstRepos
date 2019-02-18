@@ -1,0 +1,75 @@
+
+<head>
+<meta charset="utf-8">
+
+<title>中绿味道</title>
+<link rel="stylesheet" href="/resource/wap/css/greenLife.css" />
+
+<script type="text/javascript" src="/resource/wap/js/Yeffect16_0118.min.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/greenLife.js" ></script>
+<script type="text/javascript" src="/resource/artTemplate.js"></script>
+<script type="text/javascript" src="/resource/wap/js/wap-common.js"></script>
+<script type="text/javascript">
+  	$(function(){
+		 pageData={page:1,size:10,ctype:14};
+		 pageUrl="/wap/zlzx/getwdpagelist";
+		 content="#ullist";
+		initPage();
+		//筛选条件点击
+		$(".sep-dqxz li").click(function() {
+		 var tag=$(this).attr("tag");
+		 var liclass=$(this).attr("class");
+		 
+		 pageData={page:1,size:10,ctype:14,order:tag,isdesc:liclass=="active"?0:1};
+		 pageUrl="/wap/zlzx/getwdpagelist";
+		 content="#ullist";
+		 $("#ullist").html("");
+		 pageIndex=1;
+		 initPage();
+		});
+	});
+</script>
+</head>
+<body class='bodybjhs'>
+<!--septop begin-->
+<div class="septop rowreturn">
+	<div class="bigsize">菜谱大全</div>
+	<div id="rowreturn" onclick="javascript:window.location.href='/wap/zlwd/index.html'"></div>
+</div>
+<!--septop stop-->
+<ul class="sep-dqxz fix">
+	<li tag="0"><p><span>收藏</span><i></i></p></li>
+	<li tag="1"><p><span>人气</span><i></i></p></li>
+	<li tag="2"><p><span>时间</span><i></i></p></li>
+</ul>
+<ul class="zlnew-cdlb fix" id="ullist">
+	<!-- <li class="fix">
+		<a href="#"><img src="/resource/wap/images/img14.jpg"/></a>
+		<div>
+			<h3><a href="#">红烧肉红烧肉红烧肉红烧肉红烧肉红烧肉红烧肉红烧肉红烧肉红烧肉红烧肉红烧肉</a></h3>
+			<h4>五花肉,姜,草果,冰糖,八角五花肉姜草果冰糖,八角五花肉,姜,草果,冰糖,八角五花肉,姜,草果,冰糖,八角五花肉,姜,草果,冰糖,八角</h4>
+			<p><span>5680浏览</span><span>1320收藏</span></p>
+		</div>
+	</li> -->	
+</ul>
+<script type="text/html" id="pagehtml">
+{{each list as cp i}}
+<li class="fix">
+		<a href="/wap/find/newsdetail.html?id={{cp.id}}&mark=5">
+			<img src="{{cp.imgurl}}"/></a>
+		<div>
+			<h3><a href="#">{{cp.title}}</a></h3>
+			<h4>{{cp.subtitle}}</h4>
+			<p>
+				<span>{{if cp.ex1==null}}0{{else}}{{cp.ex1}}{{/if}}浏览</span>
+				<span>{{if cp.yconut==null}}0{{else}}{{cp.yconut}}{{/if}}收藏</span></p>
+		</div>
+</li>
+{{/each}}
+</script>
+<script>
+$(function(){
+	Yeffect.resizeHtWstr(".zlnew-cdlb li:visible",".zlnew-cdlb li img",200,50);
+})
+</script>
+</body>

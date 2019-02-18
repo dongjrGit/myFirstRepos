@@ -1,0 +1,199 @@
+<%var path="/resource";%>
+<head>
+<title>涓汉涓績-鏈櫥褰�</title>
+<script src="${path}/wap/js/index.js"></script>
+ <script src="${path}/cookie.js"></script>
+<script type="text/javascript" src="${path}/wap/js/wkh/varCommon.js"></script>
+<script type="text/javascript" src="${path}/wap/js/wkh/ajaxCommon.js"></script>
+<script type="text/javascript" src="${path}/wap/js/wkh/appCommon.js"></script>
+<script type="text/javascript" src="${path}/wap/js/login.js"></script>
+<!-- <script src="/js/AjaxFileUploaderV2.1/ajaxfileupload.js"></script> -->
+<script src="${path}/ajaxfileupload.js"></script>
+<script type="text/javascript">
+
+	
+	function loginSuccess(){
+		location.reload();
+	}
+
+	$(function() {
+		loginContent=".container";
+		if(!login.isLogin()){
+			login.open();
+		}else{
+			pageUrl = "/api/wap/showfan/showLikeList";//椤甸潰url
+			content = "showlist";//涓讳綋
+			params = {
+				"page" : 1,
+				"size" : 2
+			};//鍙傛暟
+			initPage();
+		}
+	});
+	
+	
+	$(function(){
+		$(window).scroll(function(){
+			var scrollTop=$(this).scrollTop();
+			var scrollHeight=$(document).height();
+			var windowHeight=$(this).height();
+			if(scrollTop+windowHeight==scrollHeight){
+				initPage();
+			}
+		});
+	})
+	
+	function showDetail(){
+			var showid=$(".showid").val();
+			window.location.href="/wap/discover/fandetail.html?showid="+showid;
+	} 
+	
+	
+	
+</script>
+</head>
+<body>
+<!--container  begin-->
+<div class="container fix">
+	<!--l_gzbjsm  begin -->
+    <div class="l_gzbjsm fix r_scfwd">
+    	<div class="l_wfbtop fix">
+        	<span class="l_wfbtop01" onclick="javascript:location.href='/wap/discover/index.html'"><img src="${path}/wap/images/scfwfbico01.png" class="img-responsive"></span>
+            <span class="l_wfbtop03" onclick="javascript:location.href='/wap/showsetting/setting'"><img src="${path}/wap/images/scfwfbico03.png" class="img-responsive"></span>
+            <span class="l_wfbtop02" onclick="javascript:location.href='/wap/discover/message.html'"><img src="${path}/wap/images/scfwfbico02.png" class="img-responsive"></span>
+        </div>
+    	<!--l_gzbjsmtx  begin -->
+    	<div class="l_gzbjsmtx fix">
+
+        	
+        	<span onclick="javascript:$('#mask').css('display','inherit');" ><!-- <img src="#" class="img-responsive"> --><%if(!isEmpty(imgurl)){%><img src="${imgurl}" id="img1" name="img1" class="img-responsive" ><%}else{%><img src="${path}/wap/images/index11.jpg" id="img" name="img" class="img-responsive"><%}%></span>
+            <div class="l_gzdlzc"><a href="/wap/discover/updname.html"><%if(!isEmpty(username)){%>${username}<%}else{%>张三<%}%></a></div>
+        </div>
+        <!--l_gzbjsmtx  stop -->
+    </div>
+    <!--l_gzbjsm  stop -->
+    <!--l_fbxh  begin -->
+    <div class="l_fbxh fix">
+    	<ul>
+        	<li><a href="/wap/discover/mypublish.html">我发布的</a></li>
+            <li class="l_nobor red"><a href="/wap/discover/mylike.html">我喜欢的</a></li>
+        </ul>
+    </div>
+
+    
+    <div class="l_sfxzsp fix" id="showlist">
+    	
+    </div>
+
+   
+    <!--l_scfmk  stop -->
+	<!--l_scfindex  begin -->
+    <div class="l_scfindex fix">
+    	<ul>
+        	<a href="/wap/discover/guangchang.html">
+        	<li>
+            	<span><img src="${path}/wap/images/scfindex01.png" class="img-responsive"></span>
+                <p>广场</p>
+            </li>
+            </a>
+            <a href="/wap/discover/selectSpu.html">
+        	<li>
+            	<span><img src="${path}/wap/images/scfindex02.png" class="img-responsive"></span>
+                <p>晒范</p>
+            </li>
+            </a>
+            <a href="/wap/index.html">
+        	<li>
+            	<span><img src="${path}/wap/images/scfindex03.png" class="img-responsive"></span>
+                <p>商城</p>
+            </li>
+            </a>
+            <a href="/wap/discover/mypublish.html">
+        	<li  class="active">
+            	<span><img src="${path}/wap/images/scfindex04_act.png" class="img-responsive"></span>
+                <p>我的</p>
+            </li>
+            </a>
+        </ul>
+    </div>
+    <!--l_scfindex  stop -->
+    <div class="merchantJS-mask" id="mask" onClick="$(this).hide()">
+	<!--l_xgtznr  begin -->
+	<div class="l_xgtznr fix">
+    	<ul>
+        	<li onclick="xiangce()"><input type="file" id="xiang" accept="image/*" name="xiang" style="display: none;"onchange="shangchuan('xiang')" />从手机相册选取</li>
+            <li onclick="paizhao()" ><input type="file" accept="image/*;capture=camcorder" id="pai" name="pai" style="display: none;" onchange="shangchuan('pai')"/>拍照</li>
+            <li class="l_nobor">取消</li>
+        </ul>
+    </div>
+</div>
+
+<!--container  stop -->
+<script>
+	window.onload=function(){
+		fixed('.l_scfindex');
+		newArrival('.l_scfmk03_01 img');
+		newArrival('.l_scfmk02_01 img');
+		newArrival('.l_gzbjsmtx span img');
+	}	
+	
+	function xiangce(){
+		$("#xiang")[0].click();
+	}
+	
+	function paizhao(){
+		$("#pai")[0].click();
+	}
+	
+	function shangchuan(obj){
+		$.ajaxFileUpload({
+			url : "/app/api/img/upload",
+			secureuri : false,
+			fileElementId : obj,
+			dataType : "json",
+			// ftype:涓婁紶鏂囦欢绫诲瀷锛堝浘鐗囨枃浠�=1锛屽叾浠栨枃浠�=2锛�
+			// module: 妯″潡锛� 浼氬憳 = 0, 搴楅摵 = 1, 骞冲彴 = 2, 浜у搧 = 3, 鍏朵粬 = 4,锛�
+			data : {
+				relationtype : 5
+			},
+			type : 'POST',
+			success : function(result) {
+				if (result.code == 0) {
+					$("#img1").attr("src",result.data[0]);
+					/* $("#img").attr("src",result.data[0]);
+					$("#imasrc3").val(result.data[0]); */
+					//var img=$("#img1").val();
+					
+					$.ajax(({
+						type:"post",
+						url:"/api/wap/showfan/updateImgurl",
+					    dataType:"json",
+					    data:{
+					    	"imgurl":result.data[0]
+					    },
+					  success: function (rsl) {
+						  rsl= eval('(' + rsl + ')');
+				            if (rsl.code == 0) {
+				            	alert("修改成功");
+				            	//location.href = "/wap/userinfo/selectInfo?ch=3";
+				            	window.location.href = "/wap/discover/mypublish.html";
+				                }
+				            else{}
+
+				            },
+					    error:function(e){
+					    	
+					    }
+
+					}));
+				} 
+			},
+			error : function(e) {
+				// alert(JSON.stringify(e));
+
+			}
+		});
+		
+	}
+</script>
+</body>

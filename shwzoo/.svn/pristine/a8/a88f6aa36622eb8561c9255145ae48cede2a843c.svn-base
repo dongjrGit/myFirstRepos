@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<title>中绿味道-专家讲堂</title>
+
+</head>
+<body class="bodybjhs">
+<% try{
+		include("/template/pc/nav/zlzq_nav.html",{flag:6}){}}catch(error){}%>
+<!--container 中间所有内容开始-->
+<div id="container" class="fix">
+	<div class="l_pos fon14">
+  	<span class="fon14"><a href="/zlzx/zlzx_index.html">中绿咨询 </a></span>
+    <span class="l_jtyb">&gt;</span>
+          ${title}
+	</div>
+	<div class="xzzlwd-tit fix mt20">
+		<span class="fon22">${title}</span>
+		<p><i></i></p>
+	</div>
+	<!--zjjtulnr begin-->
+	<ul class="zjjtulnr fix" id="zjjt_ul">
+		<script type="text/html" id="zjjt_list">
+			{{each list as news i}}
+                <li>
+                   	<a href="/zlzx/newsinfo.html?cid={{news.id}}&title=${title}&url=/zlzx/zlzx_gd.html?title=${title}&ctype=${ctype}">
+						<img src="{{news.imgurl}}">
+						<div class="zjjtulnr-mc">
+							{{if ${ctype} == '32'}}
+							<i></i>
+							{{else}}<i style="background:none;"></i>
+							{{/if}}
+							<p>{{news.subtitle}}</p>
+						</div>
+					</a>
+                </li>
+            {{/each}}
+        </script>
+	</ul>
+	<!--page  分页开始 -->
+    <div id="pager" class="page"></div>
+    <!--page  分页结束 -->
+	<!--zjjtulnr stop-->
+</div>
+<!--container 中间所有内容结束-->
+<!--footer  底部开始 -->
+<!--footer  底部结束 -->
+<script type="text/javascript">
+	var pindex = 1,psize=15;
+	var pcount;
+	var ZJJT = {
+		getlist : function(index) {
+			$.ajax({
+				url : "/zlnews/zlwd/getwdpagelist",
+				type : "Post",
+				data : {
+					"pageindex" : pindex,
+					"pagesize" : psize,
+					"ctype": "${ctype}"
+				},
+				dataType : "json",
+				success : function(data) {
+					if (data.code < 0) {
+						alert(data.desc);
+					} else {
+						var listdata = {
+							list : data.data
+						}
+						var html = template('zjjt_list', listdata);
+						$("#zjjt_ul").html(html);
+
+						pcount = data.maxRow;
+						pindex = data.pageIndex;
+						// 分页
+						$("#pager").html(pagination(pcount, pindex, psize, "ZJJT.getlist"));
+					}
+				},
+				error : function() {
+				}
+			});
+		}
+	}
+	$(document).ready(function(){
+		ZJJT.getlist(1);
+	})
+</script>
+</body>
+</html>

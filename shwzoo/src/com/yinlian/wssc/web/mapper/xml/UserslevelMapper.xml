@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.UserslevelMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Userslevel" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="Level" property="level" jdbcType="INTEGER" />
+    <result column="Cycle" property="cycle" jdbcType="INTEGER" />
+    <result column="CycleUnit" property="cycleunit" jdbcType="VARCHAR" />
+    <result column="LevelDown" property="leveldown" jdbcType="INTEGER" />
+    <result column="PointDown" property="pointdown" jdbcType="INTEGER" />
+    <result column="UpStandard" property="upstandard" jdbcType="INTEGER" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, Name, Level, Cycle, CycleUnit, LevelDown, PointDown, UpStandard, Status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.UserslevelExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from userslevel
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from userslevel
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from userslevel
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.UserslevelExample" >
+    delete from userslevel
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Userslevel" >
+    insert into userslevel (ID, Name, Level, 
+      Cycle, CycleUnit, LevelDown, 
+      PointDown, UpStandard, Status
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, 
+      #{cycle,jdbcType=INTEGER}, #{cycleunit,jdbcType=VARCHAR}, #{leveldown,jdbcType=INTEGER}, 
+      #{pointdown,jdbcType=INTEGER}, #{upstandard,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Userslevel" >
+    insert into userslevel
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="level != null" >
+        Level,
+      </if>
+      <if test="cycle != null" >
+        Cycle,
+      </if>
+      <if test="cycleunit != null" >
+        CycleUnit,
+      </if>
+      <if test="leveldown != null" >
+        LevelDown,
+      </if>
+      <if test="pointdown != null" >
+        PointDown,
+      </if>
+      <if test="upstandard != null" >
+        UpStandard,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="cycle != null" >
+        #{cycle,jdbcType=INTEGER},
+      </if>
+      <if test="cycleunit != null" >
+        #{cycleunit,jdbcType=VARCHAR},
+      </if>
+      <if test="leveldown != null" >
+        #{leveldown,jdbcType=INTEGER},
+      </if>
+      <if test="pointdown != null" >
+        #{pointdown,jdbcType=INTEGER},
+      </if>
+      <if test="upstandard != null" >
+        #{upstandard,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.UserslevelExample" resultType="java.lang.Integer" >
+    select count(*) from userslevel
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update userslevel
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        Name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.level != null" >
+        Level = #{record.level,jdbcType=INTEGER},
+      </if>
+      <if test="record.cycle != null" >
+        Cycle = #{record.cycle,jdbcType=INTEGER},
+      </if>
+      <if test="record.cycleunit != null" >
+        CycleUnit = #{record.cycleunit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leveldown != null" >
+        LevelDown = #{record.leveldown,jdbcType=INTEGER},
+      </if>
+      <if test="record.pointdown != null" >
+        PointDown = #{record.pointdown,jdbcType=INTEGER},
+      </if>
+      <if test="record.upstandard != null" >
+        UpStandard = #{record.upstandard,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        Status = #{record.status,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update userslevel
+    set ID = #{record.id,jdbcType=INTEGER},
+      Name = #{record.name,jdbcType=VARCHAR},
+      Level = #{record.level,jdbcType=INTEGER},
+      Cycle = #{record.cycle,jdbcType=INTEGER},
+      CycleUnit = #{record.cycleunit,jdbcType=VARCHAR},
+      LevelDown = #{record.leveldown,jdbcType=INTEGER},
+      PointDown = #{record.pointdown,jdbcType=INTEGER},
+      UpStandard = #{record.upstandard,jdbcType=INTEGER},
+      Status = #{record.status,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Userslevel" >
+    update userslevel
+    <set >
+      <if test="name != null" >
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        Level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="cycle != null" >
+        Cycle = #{cycle,jdbcType=INTEGER},
+      </if>
+      <if test="cycleunit != null" >
+        CycleUnit = #{cycleunit,jdbcType=VARCHAR},
+      </if>
+      <if test="leveldown != null" >
+        LevelDown = #{leveldown,jdbcType=INTEGER},
+      </if>
+      <if test="pointdown != null" >
+        PointDown = #{pointdown,jdbcType=INTEGER},
+      </if>
+      <if test="upstandard != null" >
+        UpStandard = #{upstandard,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Userslevel" >
+    update userslevel
+    set Name = #{name,jdbcType=VARCHAR},
+      Level = #{level,jdbcType=INTEGER},
+      Cycle = #{cycle,jdbcType=INTEGER},
+      CycleUnit = #{cycleunit,jdbcType=VARCHAR},
+      LevelDown = #{leveldown,jdbcType=INTEGER},
+      PointDown = #{pointdown,jdbcType=INTEGER},
+      UpStandard = #{upstandard,jdbcType=INTEGER},
+      Status = #{status,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getlevelList" resultMap="BaseResultMap">
+  select ID,Name,Level from userslevel where Status=0 order by Level
+  </select>
+  
+  <select id="levelOrder" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from userslevel
+    order by Level asc limit 1
+  </select>
+</mapper>

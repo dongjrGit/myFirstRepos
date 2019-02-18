@@ -1,0 +1,235 @@
+﻿<%var path="/resource";%>
+<head>
+    <title>签到</title>
+	
+    <link rel="stylesheet" href="${path}/wap/css/lanrenzhijia.css" media="all">
+     <script type="text/javascript" src="/resource/wap/js/shopingCart/shopcart.js"></script>
+    <script type="text/javascript" src="${path}/wap/js/qiandao/calendar.js"></script>
+    <script src="${path}/cookie.js"></script>
+   
+	<script type="text/javascript" src="/resource/wap/js/login.js"></script>
+    <script type="text/javascript">
+    $(function(){
+    	var uc=GetCookie("_u_token")==null?"":GetCookie("_u_token");
+    	$.ajax({
+			type:'POST', //请求类型
+			dataType: "JSON",
+			url:"/api/wap/qiandao/queryQian",//请求位置 
+			data:{"token":uc},
+			success: function(data){ //成功
+				
+				 //data= eval('(' + data + ')');
+			if (data.code==0) {
+ 				
+ 				$.each(data.data, function(i, item){   
+ 					
+ 					$("span[datatime='"+item.ct+"']").append('<i><img src="${path}/wap/images/flags.png"/></i>');
+ 				});   
+ 			
+			}},
+			error: function(){ //错误
+				alert("错误");
+			}
+			});
+    	
+    })
+    
+    function  getRecords(){
+    	var uc=GetCookie("_u_token")==null?"":GetCookie("_u_token");
+    	$.ajax({
+			type:'POST', //请求类型
+			dataType: "JSON",
+			url:"/api/wap/qiandao/queryQian",//请求位置 
+			data:{"token":uc},
+			success: function(data){ //成功
+				// data= eval('(' + data + ')');
+			if (data.code==0) {
+ 				
+ 				$.each(data.data, function(i, item){     
+ 					$("span[datatime='"+item.ct+"']").append('<i><img src="${path}/wap/images/flags.png"/></i>');
+ 				});
+ 			
+			}},
+			error: function(){ //错误
+				alert("错误");
+			}
+			});
+    }
+    
+    	function qiandao(){
+    		if(login.isLogin()){
+    		var uc=GetCookie("_u_token")==null?"":GetCookie("_u_token");
+    		$.ajax(({
+    	        type:'POST', //请求类型
+    			dataType: "JSON",
+    	        url: " /api/wap/qiandao/pointRecordAdd",
+    	        cache: false,//true，dataType 为 script 和 jsonp 时默认为 false。设置为 false 将不缓存此页面。
+    			async: false,
+    	        data: {"token":uc, 
+    	        	"ch": 3
+    	        	},
+    	        success: function (rsl) {
+    	        	//rsl= eval('(' + rsl + ')');  	
+    	            if (rsl.code == 0) {
+    	            	
+    	            	 $("#qiand").addClass("huise");
+    	        		document.getElementById("isqian").innerHTML="已签到";
+    	        		refresh();
+    	        		/*var data=rsl.data;
+    	        		$("span[datatime='"+data.ct+"']").append('<i><img src="/wap/images/flags.png"/></i>'); */
+    	        		//$("#SD5").append('<i><img src="/wap/images/flags.png"/></i>');
+    	          }
+    	            else if(rsl.code==-405){
+    	             	alert("今日已签到");
+    	            }else if(rsl.code=-200){
+    	            	alert("请先添加签到规则");
+    	            }
+    	            
+    	        },
+    	        error: function (e) {
+    	        	alert("错误");
+    	        }
+    	    }));
+    		}else{
+    			login.open();
+    			
+    		}
+    	}
+    
+    function refresh() {
+    	 location.reload();
+    	
+    }
+    
+    function loginSuccess(){
+    	
+    	getRecords();
+		window.location.href="/wap/qianview/qian";
+    }
+    
+    
+    </script>
+</head>
+<body>
+	<!--top_title  begin-->
+	<div class="top_title fix">
+		<a href="/wap/index.html"><div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div></a>
+		签到
+	</div>
+	<!--top_title  stop-->
+	<!--l_sjqdnr  begin -->
+    <div class="l_sjqdnr fix">
+    	<div class="l_sjqdnrtop fix">
+        	<div class="l_sjqdnrtop01 ">
+        		<select name="" id="monthListContent" onchange="dateSelection.setMonth(this.value)"  >
+        		</select><div style="display: none" id="dateSelectionOkBtn" onclick="">确定</div>
+        	</div>
+            <div class="l_sjqdnrtop02">活跃天数 <span class="green">${count}</span> 天</div>
+            <%if(isqian==0){%>
+            <div id="qiand" class="l_sjqdnrtop03 " >
+            <a href="javascript:void(0)" onclick="qiandao()" style="border-radius: 45px;" id="isqian">签到</a>
+            </div>
+            <%}else{%>
+            <div id="qiand" class="l_sjqdnrtop03 huise" >
+            <a href="javascript:void(0)" style="border-radius: 45px;" id="isqian">已签到</a>
+            </div>
+            <%}%>
+        </div>
+        <script>
+        	var sjqdnr03Height=$(".l_sjqdnrtop03").height();
+			$(".l_sjqdnrtop01 , .l_sjqdnrtop02").css("line-height",sjqdnr03Height+"px")
+        </script>
+        <table class="dateqd">
+        	<tr class="huise">
+            	<td>日</td>
+                <td>一</td>
+                <td>二</td>
+                <td>三</td>
+                <td>四</td>
+                <td>五</td>
+                <td>六</td>
+            </tr><!--
+            <tr>
+                <td>&nbsp;</td>
+                <td><span class="active">1<i><img src="images/flags.png"/></i></span></td>
+                <td><span class="active">2<i><img src="images/flags.png"/></i></span></td>
+                <td><span class="active">3<i><img src="images/flags.png"/></i></span></td>
+                <td><span class="on">4<i><img src="images/flags.png"/></i></span></td>
+                <td><span>5<i><img src="images/flags.png"/></i></span></td>
+                <td><span>6<i><img src="images/flags.png"/></i></span></td>
+            </tr>-->
+            <SCRIPT language="JavaScript">
+                var gNum;
+                for (var i = 0; i < 6; i++) {
+                    document.write('<tr align=center height="50" id="tt">');
+                    for (var j = 0; j < 7; j++) {
+                        gNum = i * 7 + j ;
+                        var htmls='<td  id="GD' + gNum + '" on="0"  style="color:#000000"><span   id="SD' + gNum + '" style="font-size:12px;"   face="Arial"　TITLE=""　';
+                        document.write(htmls);
+
+
+
+                        if (j == 0) {
+                            document.write('color="#000000"');
+                        }
+                        if (j == 6){
+                            if (i % 2 == 1) {
+                                document.write('color="#000000"');
+                            }
+                        }else{
+                            document.write('"color=#000000"');
+                        }
+                        document.write(' ></span><font style="display: none" id="LD' + gNum + '"  size=2  style="white-space:nowrap;overflow:hidden;cursor:default;color:#000000">  </font></td>');
+                    }
+                    document.write('</tr>');
+                }
+            </SCRIPT>
+        </table>
+    </div>
+    <!--l_sjqdnr  stop -->
+    <!--l_qdtsjh  begin -->
+    <div class="l_qdtsjh fix">
+    	<div class="l_qdtsjhl">
+        	<p>已连续签到 <span class="yellow">${continousCount}</span> 天</p>
+            <p>今日签到可得 <span class="yellow">${getPoint}</span> 积分</p>
+        </div>
+        <div class="l_qdtsjhr">
+        	<a href="/wap/userinfo/totalPoints" class="l_ckjffx"  style="border-radius: 42px;">查看积分</a>
+        </div>
+    </div>
+    <!--l_qdtsjh  stop -->
+
+
+    <!--新加导航功能-->
+    <div style="left: 10px;top:107px;; display: none;" id="dateSelectionDiv">
+        <div id="dateSelectionHeader"></div>
+        <div id="dateSelectionBody" >
+            <div id="yearList" style="display: none">
+                <div id="yearListPrev" onclick="dateSelection.prevYearPage()">&lt;</div>
+                <div id="yearListContent"></div>
+                <div id="yearListNext" onclick="dateSelection.nextYearPage()">&gt;</div>
+            </div>
+            <div id="dateSeparator"></div>
+            <div id="monthList">
+                <div style="clear:both;"></div>
+            </div>
+            <div id="dateSelectionBtn">
+                <div id="dateSelectionTodayBtn" onclick="dateSelection.goToday()" style="display: none">今天</div>
+
+                <div id="dateSelectionCancelBtn" onclick="dateSelection.hide()"  style="display: none">取消</div>
+            </div>
+        </div>
+        <div id="dateSelectionFooter"></div>
+    </div>
+    <font id=GZ style="display: none" class="topDateFont"></font>
+
+<!-- <script>
+	window.onload=function(){
+	  //  borderRadius('.l_ckjffx');
+		//borderRadius('.l_sjqdnrtop03 a');
+		goodslist('.goods_list_img img');	
+	}	
+</script> -->
+</body>

@@ -1,0 +1,406 @@
+<%var path="/resource";%>
+<head>
+<title>经开商城</title>  
+
+	<script src="${path}/wap/js/choujiang/Interface.js"></script>
+	<script src="${path}/wap/js/index.js"></script>
+    <script src="${path}/wap/js/js.js"></script>
+    <script src="${path}/wap/js/cookie.js"></script>
+   	<script type="text/javascript" src="${path}/wap/js/login.js"></script>
+
+<style>
+body{background: #e84144;}
+.paswrd_rede{background: #e84144;}
+.zpImgback{display: block; width: 100%;}
+.zhuanP_over{position: relative; overflow: hidden;}
+.zhuanPre{width: 640px; height: 616px; position: relative; left:50%; margin-left:-320px; transform-origin:center top;-webkit-transform-origin:center top;}
+.zhuanPa{width: 481px; height: 482px; position: relative; margin: 0px auto; display: block; z-index:10; transition:all 3s cubic-bezier(0.3,0.2,0.8,0.99);-webkit-transition:all 3s cubic-bezier(0.3,0.2,0.8,99);}
+.zhuanPb{width:164px; height:164px; position:absolute; left:50%; margin-left:-82px; top:241px; margin-top:-82px; z-index:15; cursor:pointer;}
+.zhuanPb img{position:absolute; width:164px; bottom:0px;}
+.yingyin{width:239px; height:19px; position:absolute; left:50%; margin-left:-119px; top:470px;}
+.tipText{width:100%; height:50px; line-height:50px; text-align:center; font-size:30px; color:#fff; position:absolute; left:0px; bottom:30px;}
+.tipText span{color:#ffec14; margin:0px 10px;}
+.textboxshw{background:#fff8b0; border-radius:0.07rem; margin:0px 0.2rem; margin-bottom:0.23rem; box-shadow:0px 0px 0.07rem rgba(0,0,0,0.5);-webkit-box-shadow:0px 0px 0.07rem rgba(0,0,0,0.5); padding:0.08rem;}
+.textboxshw .P{border:1px dashed #9d8432; border-radius:0.07rem; padding:0.13rem 0.18rem; font-size:0.24rem; color:#333; line-height:0.34rem; }
+.zhuanPa{position:relative;}
+.zhuanPa img{display:block;}
+.zhuanPatext{position:absolute; width:0px; height:0px; position:absolute; z-index:10; left:50%; top:50%;}
+.zhuanPatext span{display:block; width:40px; height:195px; text-align:center; font-size:21px; color:#ae6112; left:-20px; bottom:0px; position:absolute; line-height:21px; transform-origin:center bottom;-webkit-transform-origin:center bottom;}
+.zhuanPatext span:nth-child(6){transform:rotate(30deg);-webkit-transform:rotate(30deg);}
+.zhuanPatext span:nth-child(5){transform:rotate(90deg);-webkit-transform:rotate(90deg);}
+.zhuanPatext span:nth-child(4){transform:rotate(150deg);-webkit-transform:rotate(150deg);}
+.zhuanPatext span:nth-child(3){transform:rotate(210deg);-webkit-transform:rotate(210deg);}
+.zhuanPatext span:nth-child(2){transform:rotate(270deg);-webkit-transform:rotate(270deg);}
+.zhuanPatext span:nth-child(1){transform:rotate(330deg);-webkit-transform:rotate(330deg);}
+.textboxshw p{margin:0px; padding:5px 0px;}
+
+
+</style>
+
+</head>
+<body class="paswrd_rede" style="background:#f00;">
+<!--top_title  begin-->
+	<div class="top_title fix" style="position:fixed;top:-1px;left:0px;width:100%;z-index:999999;">
+		<a href="/wap/index.html"><div class="top_return">
+			<img src="/resource/wap/images/top_return.png"/>
+		</div></a>
+		幸运大转盘
+	</div>
+	<!--top_title  stop-->
+<img src="/resource/wap/images/zhuanpan_01.png" class="zpImgback">
+<div class="zhuanP_over fix">
+    <div class="zhuanPre">
+        <div class="zhuanPa">
+        	<div class="zhuanPatext">
+            	<span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <img src="/resource/wap/images/zhuanpan_03.png">
+        </div>
+		<div class="zhuanPb" onclick="cj()"><img src="/resource/wap/images/zhuanpan_02.png"></div>
+        <img src="/resource/wap/images/zhuanpan_04.png" class="yingyin">
+        <div class="tipText">您还有<span>0</span>次抽奖机会</div>
+    </div>
+    <div style="clear:both;"></div>
+</div>
+<style>
+.zhuanPats{transition:0s all linear;-webkit-transition:0s all linear;}
+</style>
+<script>
+
+var token=getToken("token");
+var ch=3;
+var isCou=true;
+var coujih=0;
+$(function(){
+	//getCount();
+strLoading();
+$(".zhuanPb").click(function(){
+	if(	login.isLogin()){
+		
+		
+		//call_net(hrefurl+"/api/wap/waplottery/getcount",'{"ch":"'+ch+'","token":"'+token+'"}','callback_cjB');//////抽奖次数//////
+		getCount();
+		
+		var SYint=parseInt($(".tipText span").text());
+		coujih=SYint;
+		if(!isCou) return;
+		if(SYint>0){
+			$(".zhuanPa").removeAttr("style").addClass("zhuanPats");
+			setTimeout(function(){
+				$(".zhuanPa").removeClass("zhuanPats");
+			},500)
+			//call_net(hrefurl+"/api/wap/waplottery/award",'{"ch":"'+ch+'","token":"'+token+'"}','callback_cjD');//////开始抽奖//////
+			
+			beginLottery();
+			isCou=false;
+		}else{
+			alert("您的抽奖机会为0,不能参与抽奖！");
+		}
+	}else{
+	
+		login.open();
+		
+	}
+	/* if(!token){
+		alert("请先登录获得抽奖机会!");
+		return;
+	}
+	
+	 */
+
+	})
+	var windowObs=$(window);
+	var zhuanP_over=$(".zhuanP_over");
+	var zhuanPre=$(".zhuanPre");
+	function resizeZp(){
+		var windowBili=windowObs.width()/640;
+		zhuanP_over.height(windowBili*616).css({top:-108*windowBili,marginBottom:-108*windowBili});
+		zhuanPre.css({"transform":"scale("+windowBili+")","-webkit-transform":"scale("+windowBili+")"});
+	};
+	windowObs.resize(resizeZp);
+	resizeZp();
+	
+	
+	//////数据接口////////
+	//getLottery(hrefurl+"/api/wap/waplottery/lottery",'{"ch":"'+ch+'"}','callback_cjA');//////奖项设置//////
+	setLottery();
+	
+	//////数据接口////////
+	/* if(token){
+		call_net(hrefurl+"/api/wap/waplottery/getcount",'{"ch":"'+ch+'","token":"'+token+'"}','callback_cjB');//////抽奖次数//////
+	} */
+	getCount();
+})
+
+function setLottery(){
+	$.ajax({
+		type:'POST', //请求类型
+		dataType: "JSON",
+		url:"/api/wap/waplottery/lottery",//请求位置 
+		data:{
+			"ch":ch},
+		success: function(data){ //成
+		
+			// eval(callbackA)(JSON.stringify(json));
+			//alert(JSON.stringify(data));
+			callback_cjA(JSON.stringify(data));
+			
+		},
+		error: function(){ //错误
+			alert("错误");
+		}
+		});
+}
+
+
+function beginLottery(){
+	var token=GetCookie("_u_token");
+	$.ajax({
+		type:'POST', //请求类型
+		dataType: "JSON",
+		url:"/api/wap/waplottery/award",//请求位置 
+		data:{"token":token,
+			"ch":ch},
+		success: function(data){
+		
+			callback_cjD(JSON.stringify(data));
+			
+		},
+		error: function(){ //错误
+			alert("错误");
+		}
+		});
+}
+
+function getCount(){
+	var token=GetCookie("_u_token");
+	$.ajax({
+		type:'POST', //请求类型
+		dataType: "JSON",
+		url:"/api/wap/waplottery/getcount",//请求位置 
+		data:{"token":token,
+			"ch":ch},
+		success: function(data){ //成
+		if (data.code==0) {
+			//alert(data.data);
+			callback_cjB(JSON.stringify(data));
+				//$(".tipText span").text(data.data);
+			
+		}},
+		error: function(){ //错误
+			alert("错误");
+		}
+		});
+}
+
+
+
+
+function loginSuccess(){
+	var token=getToken("token");
+	//call_net(hrefurl+"/api/wap/waplottery/getcount",'{"ch":"'+ch+'","token":"'+token+'"}','callback_cjB');//////抽奖次数//////
+	getCount();
+	
+}
+
+var jiangxiang=[];
+////////奖项设置///////
+function callback_cjA(data){
+	var datajon=JSON.parse(data);
+	if(datajon.code!=0){
+		return;
+	}
+	var zhuanPatextspan=$(".zhuanPatext span");
+	var dtass=de(datajon.data);
+	var ayrs0c=JSON.stringify(datajon.data);
+	jiangxiang=JSON.parse(ayrs0c);
+	for(var i=0;i<jiangxiang.length;i++){
+		var dtO=jiangxiang[i];
+		zhuanPatextspan.eq(i).text(dtO.description).attr("ida",dtO.id);
+	}
+	//call_net(hrefurl+"/api/wap/waplottery/getlottery",'{"ch":"'+ch+'"}','callback_cjC');//////中奖用户//////
+	
+	getlottery();
+}
+
+function getlottery(){
+	$.ajax({
+		type:'POST', //请求类型
+		dataType: "JSON",
+		url:"/api/wap/waplottery/getlottery",//请求位置 
+		data:{
+			"ch":ch},
+		success: function(data){ 
+			callback_cjC(JSON.stringify(data));
+		},
+		error: function(){ //错误
+			alert("错误");
+		}
+		});
+}
+////////抽奖次数///////
+function callback_cjB(data){
+	
+	var datajon=JSON.parse(data);
+	if(datajon.code!=0){
+		return;
+	}
+	var dtass=datajon.data;
+	$(".tipText span").text(dtass);
+
+}
+
+
+
+
+////////中奖用户///////
+function callback_cjC(data){
+	//console.log(data)
+	var datajon=JSON.parse(data);
+	if(datajon.code!=0){
+		return;
+	}
+	endLoading();
+	var dtass=datajon.data;
+	var htmlss="";
+	var lengs=0;
+	for(var i=0;i<dtass.length;i++){
+		var dts=dtass[i];
+		var zjiangstr=dtass[i].description;
+		if(zjiangstr.indexOf("参与")<0 && lengs<10){
+			lengs++;
+			htmlss+="<div class='lis'>";
+			htmlss+=("<span>"+dts.username+"</span>");
+			var zjiangstrAy=zjiangstr.split(" ");
+			//htmlss+=("<span>"+(zjiangstrAy[1].split("中")[0]+" "+zjiangstrAy[2])+"</span>");
+			htmlss+=("<span>"+zjiangstrAy[zjiangstrAy.length-1]+"</span>");
+			htmlss+="</div>";
+		}
+	}
+
+	$(".mingdan").html(htmlss);
+
+}
+
+////////开始抽奖///////
+function callback_cjD(data){
+	var datajon=JSON.parse(data);
+	if(datajon.code!=0){
+		return;
+	}
+	coujih--;
+	$(".tipText span").text(coujih);
+	var dtass=datajon.data;
+	var idpar=parseInt(dtass);
+	/*var zjiangstr=jiangxiang[idpar-1].name;
+	console.log("data:"+idpar);
+	console.log("zjiangstr:"+zjiangstr);*/
+	
+	var degInt=0;
+	var alertST="";
+	/*if(zjiangstr.indexOf("参与")>-1){
+		alertST="谢谢参与！";
+		degInt=300+Math.random()*60;
+	}else{
+		alertST="恭喜您,获得"+zjiangstr;
+		if(zjiangstr.indexOf("积分")>-1){
+			if(Math.random()>0.5){
+				degInt=240+60*Math.random();
+			}else{
+				degInt=60+60*Math.random();
+			}
+
+		}else if(zjiangstr.indexOf("优惠券")>-1){
+			if(Math.random()>0.5){
+				degInt=60*Math.random();
+			}else{
+				degInt=180+60*Math.random();
+			}
+
+		}else if(zjiangstr.indexOf("商品")>-1){
+			degInt=120+60*Math.random();
+
+		}
+	}*/
+	var datInt=parseInt(dtass);
+	datInt=$(".zhuanPatext span").index($(".zhuanPatext span[ida="+datInt+"]"))+1;
+	degInt=(datInt-1)*60+60*Math.random();
+	
+	setTimeout(function(){
+		//call_net(hrefurl+"/api/wap/waplottery/getlottery",'{"ch":"'+ch+'"}','callback_cjC');//////中奖用户//////
+		getlottery();
+		alert(datajon.desc)
+			isCou=true;
+	},4000)
+
+console.log("degInt:"+degInt+"   zong:"+(degInt+360))
+	$(".zhuanPa").css({"transform":"rotate("+(degInt+360)+"deg)"});
+
+
+}
+
+
+
+
+</script>
+
+
+
+<div class="textboxshw">
+	<div class="P">
+    活动说明：<br>
+		<div class="guizhe"><p>1、所有实物奖品（除代金券以外的其他实物），颜色随机。客服会在1-3天和用户联系，确认发货事宜。如一周之内联系不上对方，则视为自动放弃。</p>
+<p>2、实物奖品中奖信息以收到短信提示为准，无质量问题不接受退换，不可兑换现金，请以收到实物为准。</p>
+<p>3、所有中奖代金券在订单满相应的金额可以使用。</p>
+<p>4、每笔订单限制一张优惠券，适用范围依照优惠券说明。</p>
+<p>5、本活动最终解释权归北京经开电子商务有限公司所有。</p>
+<p>自提门店营业时间:9:00--17:30</p>
+<p>I北工大软件园店</p>
+<p>亦庄地盛北街1号荣京道CD区41号楼104室  010-67855658</p>
+<p>II数字工场店</p>
+<p>亦庄路东区经海五路58号院5号楼地下一层   010-56381008</p>
+<p>III国际企业大道店</p>
+<p>亦庄景园北街2号国际企业大道I、II期59号楼一层  010-87162476</p>
+<p>IV用友软件园店</p>
+<p>海淀区北清路68号院西区3E（15101）</p>
+<p>V永昌科技广场店</p>
+<p>永昌北路3号永昌工业园714单元二层A01室(近万源街地铁站)</p>
+</div>
+
+    </div>
+</div>
+<!--<div class="textboxshw">-->
+	<!--<div class="P">-->
+    <!--活动时间：<br>-->
+<!--2015年09月15日 00:00:00<br>-->
+<!--2015年10月31日 00:00:00-->
+    <!--</div>-->
+<!--</div-->
+<!--&gt;<div class="textboxshw">-->
+	<!--<div class="P">-->
+    <!--奖项设置：<br>-->
+<!--一等奖：商城50元抵金卷（1000名）<br>-->
+<!--二等奖：商城10元抵金卷（3000名）<br>-->
+<!--三等奖：商城5元抵金卷（5000名）-->
+    <!--</div>-->
+<!--</div>-->
+<div class="textboxshw">
+	<div class="P">
+    中奖用户：<br>
+	<div class="mingdan"></div>
+    </div>
+</div>
+<script>
+var allHeight=$('.top_title').outerHeight();
+$('.top_title').after('<div style="height:'+ allHeight+'px;">'+'&nbsp;</div>');
+</script>
+</body>
+
+
+
+

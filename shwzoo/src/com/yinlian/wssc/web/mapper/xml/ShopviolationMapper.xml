@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.ShopviolationMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Shopviolation" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="shopid" property="shopid" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="result" property="result" jdbcType="VARCHAR" />
+    <result column="isdel" property="isdel" jdbcType="BIT" />
+    <result column="creattime" property="creattime" jdbcType="TIMESTAMP" />
+    <result column="deltime" property="deltime" jdbcType="TIMESTAMP" />
+    <result column="iscurrent" property="iscurrent" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, shopid, type, description, result, isdel, creattime, deltime, iscurrent
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.ShopviolationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from shopviolation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from shopviolation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from shopviolation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.ShopviolationExample" >
+    delete from shopviolation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Shopviolation" >
+    insert into shopviolation (id, shopid, type, 
+      description, result, isdel, 
+      creattime, deltime, iscurrent
+      )
+    values (#{id,jdbcType=INTEGER}, #{shopid,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{description,jdbcType=VARCHAR}, #{result,jdbcType=VARCHAR}, #{isdel,jdbcType=BIT}, 
+      #{creattime,jdbcType=TIMESTAMP}, #{deltime,jdbcType=TIMESTAMP}, #{iscurrent,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Shopviolation" >
+    insert into shopviolation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="shopid != null" >
+        shopid,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="result != null" >
+        result,
+      </if>
+      <if test="isdel != null" >
+        isdel,
+      </if>
+      <if test="creattime != null" >
+        creattime,
+      </if>
+      <if test="deltime != null" >
+        deltime,
+      </if>
+      <if test="iscurrent != null" >
+        iscurrent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="shopid != null" >
+        #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null" >
+        #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="isdel != null" >
+        #{isdel,jdbcType=BIT},
+      </if>
+      <if test="creattime != null" >
+        #{creattime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deltime != null" >
+        #{deltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="iscurrent != null" >
+        #{iscurrent,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.ShopviolationExample" resultType="java.lang.Integer" >
+    select count(*) from shopviolation
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update shopviolation
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopid != null" >
+        shopid = #{record.shopid,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.result != null" >
+        result = #{record.result,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isdel != null" >
+        isdel = #{record.isdel,jdbcType=BIT},
+      </if>
+      <if test="record.creattime != null" >
+        creattime = #{record.creattime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deltime != null" >
+        deltime = #{record.deltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.iscurrent != null" >
+        iscurrent = #{record.iscurrent,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update shopviolation
+    set id = #{record.id,jdbcType=INTEGER},
+      shopid = #{record.shopid,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      description = #{record.description,jdbcType=VARCHAR},
+      result = #{record.result,jdbcType=VARCHAR},
+      isdel = #{record.isdel,jdbcType=BIT},
+      creattime = #{record.creattime,jdbcType=TIMESTAMP},
+      deltime = #{record.deltime,jdbcType=TIMESTAMP},
+      iscurrent = #{record.iscurrent,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Shopviolation" >
+    update shopviolation
+    <set >
+      <if test="shopid != null" >
+        shopid = #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null" >
+        result = #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="isdel != null" >
+        isdel = #{isdel,jdbcType=BIT},
+      </if>
+      <if test="creattime != null" >
+        creattime = #{creattime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deltime != null" >
+        deltime = #{deltime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="iscurrent != null" >
+        iscurrent = #{iscurrent,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Shopviolation" >
+    update shopviolation
+    set shopid = #{shopid,jdbcType=INTEGER},
+      type = #{type,jdbcType=INTEGER},
+      description = #{description,jdbcType=VARCHAR},
+      result = #{result,jdbcType=VARCHAR},
+      isdel = #{isdel,jdbcType=BIT},
+      creattime = #{creattime,jdbcType=TIMESTAMP},
+      deltime = #{deltime,jdbcType=TIMESTAMP},
+      iscurrent = #{iscurrent,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 分页查询违规店铺 -->
+	<sql id="criteria_query">
+		<where>
+			<if test="criteria.type != null and criteria.type != '' and criteria.type >0 ">
+				and type = #{criteria.type}
+			</if>
+			<if test="criteria.shopid != null and criteria.shopid != '' and criteria.shopid !=-1">
+				and shopid = #{criteria.shopid}
+			</if>
+			and sv.isdel=0 
+			and sv.iscurrent=1
+		</where>
+	</sql>
+	<select id="selectVoilationShopByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.VoilationShopDTO">
+		select s.name shopname,s.id shopid,u.username username, u.id userid,sv.type type,sv.description description,sv.result result,sv.creattime createtime,sv.id id
+
+		from shopviolation sv  left join shop s on s.id=sv.shopid left join users u on u.id=s.userid
+		
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	
+	<sql id="criteria_query_class">
+		<where>
+			<if test="criteria.type != null and criteria.type != '' and criteria.type >0 ">
+				and type = #{criteria.type}
+			</if>
+			<if test="criteria.shopid != null and criteria.shopid != '' and criteria.shopid !=-1">
+				and shopid = #{criteria.shopid}
+			</if>
+			and sv.isdel=0 
+		</where>
+	</sql>
+	
+	<select id="selectHistoryVoilationShopByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.VoilationShopDTO">
+		select s.name shopname,s.id shopid,u.username username, u.id userid,sv.type type,sv.description description,sv.result result,sv.creattime createtime,sv.id id 
+
+		from shopviolation sv  left join shop s on s.id=sv.shopid left join users u on u.id=s.userid
+		
+		<if test="criteria != null ">
+			<include refid="criteria_query_class" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+  
+</mapper>

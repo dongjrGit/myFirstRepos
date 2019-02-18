@@ -1,0 +1,123 @@
+﻿<!-- @{
+    ViewBag.Title = "买家中心-会员注册";
+}
+ -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>会员注册</title>
+    <meta name="title" content="" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link type="text/css" rel="stylesheet" href="/resource/pc/web/css/common.css">
+    <link type="text/css" rel="stylesheet" href="/resource/pc/web/css/top-footer.css">
+    <link type="text/css" rel="stylesheet" href="/resource/pc/web/css/index.css">
+     <script src="/resource/jquery-1.9.1.min.js"></script>
+    <script language="javascript" type="text/javascript" src="/resource/pc/web/js/index.js"></script>
+
+  <script src="/resource/Guid.js"></script> 
+  <script src="/resource/cookie.js"></script>
+    <!--弹出框-->
+    <link href="/resource/ui-dialog.css" rel="stylesheet" />
+    <script src="/resource/dialog-min.js"></script>
+    <script src="/resource/dialogShow.js"></script> 
+    <!--表单验证css&&js-->
+    <link href="/resource/public/commoncss/jQuery.Validate.css" rel="stylesheet" />
+    <script src="/resource/public/commonjs/jquery.validate.js"></script>
+    <script src="/resource/public/commonjs/messages_cn.js"></script>
+    <script src="/resource/public/commonjs/jquery.validate-methods.js"></script>
+    <script src="/resource/pc/member/js/LoginRegister/Register.js"></script>
+    
+    <style type="text/css">
+    .zc_hqdzyzm a{vertical-align: middle;}
+	.hqyzm-sj{width: auto;height: auto;line-height: 40px;border: none;}
+
+.zx_nrcon ul li label.error{display:block;margin-left:5px; padding:0px 5px;color:#D92323; min-width:200px;text-align:left; font-size:13px; padding-left:155px; line-height:30px; margin-bottom:-20px; border:none; background:none; height:auto;}    </style>
+</head>
+
+<body bgcolor="#F5F5F5">
+    <!--dl_top  begin -->
+    <div class="dl_top">
+        <div class="w1100">
+            <div class="dl_top01"><a href="/index.html"><img src="/resource/pc/web/images/logo.png"></a></div>
+            <div class="dl_top02">欢迎注册</div>
+        </div>
+    </div>
+    <!--dl_top  stop -->
+    <div class="dl_nr fix">
+        <div class="w1100 zc_nr fix">
+            <!--zc_nrleft  begin -->
+            <div class="zc_nrleft">
+                <div class="zc_nrtop">
+                    <div class="zc_nrtopmk"><i></i>个人用户<div class="active"><i></i></div></div>
+                    <div class="zc_nrtopmk nobor" onclick="location.href='/seller/register'"><i></i>企业用户</div>
+                </div><!-- zc_nrtop  stop-->
+                <div class="zx_nrcon fix">
+                    <form id="signupForm">
+                        <ul>
+                            <li><label><span class="red">*</span>用户名：</label><input name="text_username" id="text_username" type="text" class="zc_inp" ></li>
+                            <li><label><span class="red">*</span>设置密码：</label><input name="password_pwd" id="password_pwd" type="password" class="zc_inp"></li>
+                            <li><label><span class="red">*</span>请确认密码：</label><input name="password_pwdagain" id="password_pwdagain" type="password" class="zc_inp"></li>
+                            <li><label><span class="red">*</span>验证手机：</label><input name="text_mobile" id="text_mobile" type="text" class="zc_inp"><span class="yscmh ml10"><!-- 或</span><span class="red ml5"><a href="#">验证邮箱</a></span> --></li>
+                            <li>
+                                <label><span class="red">*</span>验证码：</label>
+                                <input name="text_verification" id="text_verification" type="text" class="zc_inp small">
+                                <span class="ml10"><img src="/VerifyCodeServlet" class="refleshverification_img" width="102" height="38" alt="验证码" /></span>
+                                <span class="ml10 yscmh">看不清？</span>
+                                <span class="red"><a href="javascript:void(0);" class="refleshverification" onclick="MemberRegister.refleshverification();">换一张</a></span>
+                             </li>
+                            <li>
+                                <label><span class="red">*</span>短信验证码：</label>
+                                <input name="text_mobilecode" id="text_mobilecode" type="text" class="zc_inp small">
+                                <span class="ml10 zc_hqdzyzm">
+                                  <!--   <a href="#">获取短信验证码</a> -->
+                                    <a href="javascript:void(0);" class="g_hqyzm" style="color: rgb(0, 0, 0);"><span class="hqyzm-sj"><b style="display: none;">60</b><font>获取短信验证码</font></span></a>
+                                </span>
+                            </li>
+                        </ul>
+                        <div class="zc_ydty fix">
+                            <div><input name="" type="checkbox" value="" checked>我已阅读并同意<span class="red"><a href="/web/help/newsinfo.html?ctype=213">《用户注册协议》</a></span></div>
+                            <div class="dl_lja mt30 uerregister" style="width:274px;"><a href="javascript:void(0);">立即注册</a></div>
+                        </div><!--zc_ydty  stop -->
+                    </form>
+                </div><!--zx_nrcon  stop -->
+            </div>
+            <!--zc_nrleft  stop -->
+            <div class="zc_nrright">
+                <div class="zc_nrrigcon">
+                    <img src="/resource/pc/web/images/tp_23.png">
+                    <p class="fon16 mt15">我已经注册，现在就</p>
+                    <div class="dl_lja dl_ybdl"><a href="/member/user/showlogin">登录</a></div>
+                </div>
+            </div>
+            <!--zc_nrright   stop -->
+        </div>
+    </div>
+    <!--footer  底部开始 -->
+    <div id="footer" class="fix">
+        <!--footcon  begin -->
+        <div class="footcon">
+           <!--l_gywm 关于我们开始 -->
+            <div class="l_gywm">
+                <p class="links">
+                    <a href="#">关于我们</a>|
+                    <a href="#">帮助中心</a>|
+                    <a href="#">友情链接</a>|
+                    <a href="#">诚征英才</a>|
+                    <a href="#">商家登录</a>|
+                    <a href="#">供应商登录</a>|
+                    <a href="#">联系我们</a>|
+                    <a href="#">网站合作</a>|
+                    <a href="#">开放平台</a>|
+                    <a href="#">法律声明</a>
+                </p>
+                <p>Copyright&copy;&amp; 中绿网上超市 2014-2018，All Rights Reserved</p>
+            </div>
+            <!--l_gywm 关于我们结束 -->
+        </div>
+        <!--footcon  stop -->
+    </div>
+    <!--footer  底部结束 -->
+</body>
+</html>

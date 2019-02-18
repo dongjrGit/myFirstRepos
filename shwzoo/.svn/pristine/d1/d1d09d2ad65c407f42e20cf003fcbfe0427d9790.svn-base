@@ -1,0 +1,287 @@
+﻿@{
+    ViewBag.Title = "买家中心-我的订单";
+    Layout = "~/Areas/Member/Views/Shared/_Layout_Member_Center.cshtml";
+}
+
+@{
+    int WaitPay = ViewBag.WaitPay;
+    int WaitReceipt = ViewBag.WaitReceipt;
+    int WaitComment = ViewBag.WaitComment;
+}
+
+<script type="text/javascript" src="~/js/artTemplate.js"></script>
+<script src="~/mv10/js/OrderCenter/OrderList.js"></script>
+<!--main  主要内容  开始 -->
+<div id="main">
+    <!--main-left 左边内容  开始 -->
+    @Html.Partial("~/Areas/Member/Views/Shared/_PartialLeftside.cshtml")
+    <!--main-left 左边内容  结束 -->
+    <!--rightside 右边内容  结束 -->
+    <div class="rightside">
+        <div class="wddd-title">我的订单</div><!--wddd-title  stop -->
+        <div class="wddd-form">
+            <div class="qbdd">
+                <a href="javascript:void(0);" id="a_all">
+                    <span id="span_all" class="qbdd-title">全部订单</span>
+                </a>
+                <a href="javascript:void(0);" id="a_waitpay">
+                    <span id="span_waitpay">待付款</span>
+                    @if (WaitPay > 0)
+                    {
+                    <span class="huangs">(@WaitPay)</span>
+                    }
+                </a>
+                <a href="javascript:void(0);" id="a_waitreceipt">
+                    <span id="span_waitreceipt">待收货</span>
+                    @if (WaitReceipt > 0)
+                    {
+                    <span class="huangs">(@WaitReceipt)</span>
+                    }
+                </a>
+                <a href="javascript:void(0);" id="a_waitcomment">
+                    <span id="span_waitcomment">待评价</span>
+                    @if (WaitComment > 0)
+                    {
+                    <span class="huangs">(@WaitComment)</span>
+                    }
+                </a>
+                <div class="searh-wddd">
+                    <input id="text_search" name="" type="text" class="searh-wddd-inp">
+                    <input id="btn_search" name="" type="button" class="searh-wddd-but">
+                </div>
+            </div><!--qbdd  stop -->
+            <div class="clear"></div>
+        </div><!--wddd-form   stop -->
+        <!--wddd-tab-bbnr  开始 -->
+        <div class="wddd-tab-bbnr">
+            <table id="orderslist_table">
+                <tr class="tab-title">
+                    <td width="420px">宝贝</td>
+                    <td width="90px">数量</td>
+                    <td width="130px">价格</td>
+                    <td width="180px">订单状态</td>
+                    <td>操作</td>
+                </tr>
+                <script type="text/html" id="orderslist">
+                    {{each list as pro i}}
+                    <tr>
+                        <td colspan="5">
+                            <div class="td-tablenr">
+                                <table>
+                                    {{if pro.AllCount>1}}
+                                    <tr class="td-tablenr-title">
+                                        <td colspan="5">
+                                            {{pro.OrderList[0].AddOrderDate}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;订单号：{{pro.GroupCode}}
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            您订单中的商品在不同库房或属不同商家，故拆分为以下订单分开配送，给您带来的不便敬请谅解。
+                                        </td>
+                                    </tr>
+                                    <tr class="n_shdz">
+                                        <td colspan="5">
+                                            <div class="n_shdzsjdw">&and;</div>
+                                            <div class="n_chddmx lvse">
+                                                <input type="hidden" value="{{pro.ID}}" class="hidden_orderid" />
+                                                <input type="hidden" value="{{pro.GroupCode}}" class="hidden_ordergroupcode" />
+                                                <!--<a href="javascript:void(0);" class="a_orderdisconnect">查看订单明细&gt;</a>-->
+                                            </div>
+                                            <span>收货人：某某某</span>
+                                            <span>订单金额：￥{{pro.AllPrice}}</span>
+                                            <span>
+                                                支付方式：
+                                                {{if pro.OrderList[0].PayType==0}}
+                                                未支付
+                                                {{else if pro.OrderList[0].PayType==1}}
+                                                在线支付
+                                                {{else if pro.OrderList[0].PayType==2 }}
+                                                余额支付
+                                                {{else if pro.OrderList[0].PayType==3 }}
+                                                优惠券支付
+                                                {{else if pro.OrderList[0].PayType==4 }}
+                                                混合支付
+                                                {{else if pro.OrderList[0].PayType==5 }}
+                                                货到付款
+                                                {{else}}
+                                                未知
+                                                {{/if}}
+                                            </span>
+                                            <span>订单状态：已拆分</span>
+
+                                        </td>
+                                    </tr>
+                                    {{/if}}
+                                    {{each pro.OrderList as orders j}}
+                                    <tr class="td-tablenr-title">
+                                        <td colspan="5">{{orders.AddOrderDate}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;订单号：{{orders.Code}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;订单金额：￥{{orders.Price | toFixed}}</td>
+                                    </tr>
+                                    {{each orders.OrderDetailList as orderdetails l}}
+                                    <tr style="border-bottom:1px solid #D9D9D9;">
+                                        <td class="td-tablenr-one">
+                                            <a href="javascript:void(0);" sku-val="{{orderdetails.SKU_ID}}" class="a_spuhref">
+                                                <img src="{{orderdetails.ProductImg}}" width="100%" height="100%" alt="" title="">
+                                                <p>{{orderdetails.ProductName}}</p>
+                                            </a>
+                                        </td>
+                                        <td width="90px" class="td-tablenr-jjzt">
+                                            <p>x{{orderdetails.ProductCount}}</p>
+                                        </td>
+                                        <td width="130px" class="td-tablenr-jjzt">
+                                            <p>￥{{orderdetails.ProductPrice | toFixed}}</p>
+                                            <p>
+                                                {{if orders.PayType==0}}
+                                                未支付
+                                                {{else if orders.PayType==1}}
+                                                在线支付
+                                                {{else if orders.PayType==2 }}
+                                                余额支付
+                                                {{else if orders.PayType==3 }}
+                                                优惠券支付
+                                                {{else if orders.PayType==4 }}
+                                                混合支付
+                                                {{else if orders.PayType==5 }}
+                                                货到付款
+                                                {{else}}
+                                                未知
+                                                {{/if}}
+                                            </p>
+                                        </td>
+                                        <td width="180px" class="td-tablenr-jjzt">
+                                            <input type="hidden" value="{{orderdetails.OrderID}}" class="hidden_orderid" />
+                                            <input type="hidden" value="{{orderdetails.ID}}" class="hidden_orderdetailid" />
+                                            <p class="huangs">
+                                                {{if orders.Status==0}}
+                                                <a href="javascript:void(0);">待付款</a>
+                                                {{else if orders.Status==1}}
+                                                <a href="javascript:void(0);">待发货</a>
+                                                {{else if orders.Status==2}}
+                                                <a href="javascript:void(0);">待收货</a>
+                                                {{else if orders.Status==3}}
+                                                <a href="javascript:void(0);">已确认收货</a>
+                                                {{else if orders.Status==4 }}
+                                                <a href="javascript:void(0);">取消申请中</a>
+                                                {{else if orders.Status==5 }}
+                                                <a href="javascript:void(0);">已取消</a>
+                                                {{else if orders.Status==6 }}
+                                                <a href="javascript:void(0);">退货申请中</a>
+                                                {{else if orders.Status==7 }}
+                                                <a href="javascript:void(0);">退货中</a>
+                                                {{else if orders.Status==8 }}
+                                                <a href="javascript:void(0);">已退货</a>
+                                                {{else if orders.Status==9 }}
+                                                <a href="javascript:void(0);">已退款</a>
+                                                {{else if orders.Status==10 }}
+                                                <a href="javascript:void(0);">换货申请中</a>
+                                                {{else if orders.Status==11 }}
+                                                <a href="javascript:void(0);">换货卖家待收货</a>
+                                                {{else if orders.Status==12 }}
+                                                <a href="javascript:void(0);">取消驳回</a>
+                                                {{else if orders.Status==13 }}
+                                                <a href="javascript:void(0);">换货待发货</a>
+                                                {{else if orders.Status==14 }}
+                                                <a href="javascript:void(0);">换货待收货</a>
+                                                {{else if orders.Status==15 }}
+                                                <a href="javascript:void(0);">已评价</a>
+                                                {{else if orders.Status==16 }}
+                                                <a href="javascript:void(0);">换货确认收货</a>
+                                                {{else if orders.Status==17 }}
+                                                <a href="javascript:void(0);">退货驳回</a>
+                                                {{else if orders.Status==18 }}
+                                                <a href="javascript:void(0);">换货驳回</a>
+                                                {{else}}
+                                                {{/if}}
+                                            </p>
+                                            <p><a href="javascript:void(0);" class="a_orderdetailinfo">订单详情</a></p>
+                                        </td>
+                                        <td class="td-tablenr-jjzt">
+                                            <input type="hidden" value="{{orderdetails.OrderID}}" class="hidden_orderid" />
+                                            <input type="hidden" value="{{orderdetails.ID}}" class="hidden_orderdetailid" />
+                                            <input type="hidden" value="{{orders.GroupCode}}" class="hidden_ordergroupcode" />
+
+                                            {{if orders.Status==0}}
+                                            <p><input name="" type="button" class="payment-but" value="去付款"></p>
+                                            {{else if orders.Status==2}}
+                                            <a href="javascript:void(0);" class="a_confirmgoods">确认收货</a>
+                                            {{else if orders.Status==3}}
+                                            <a href="javascript:void(0);" class="a_afterservice">申请售后</a>
+                                            {{else if orders.Status==14}}
+                                            <a href="javascript:void(0);" class="a_confirmreturngoods">换货待确认</a>
+                                            {{else if orders.Status==15}}
+                                            <a href="javascript:void(0);" class="a_afterservice">申请售后</a>
+                                            {{else}}
+                                            <a></a>
+                                            {{/if}}
+
+                                            {{if  orders.Status<3}}
+                                            <p class="huangs"><a href="javascript:void(0);" class="a_ordercancel">取消订单</a></p>
+                                            {{else if orders.Status==3||orders.Status==16}}
+                                            <p class="huangs"><a href="javascript:void(0);" class="a_comment">评价晒单</a></p>
+                                            {{else}}
+                                            {{/if}}
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                    {{/each}}
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </script>
+            </table>
+        </div>
+        <!--wddd-tab-bbnr  结束 -->
+        <div class="clear"></div>
+        <div class="pager" id="pager">
+        </div><!--page stop -->
+    </div>
+    <!--rightside 右边内容  结束 -->
+    <div class="clear"></div>
+</div>
+<!--main  主要内容  结束 -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        //数据列表数据绑定
+        BuyerOrderList.bind(1);
+        //订单状态点击
+        $("#a_all").bind("click", function () {
+            $("#span_all").removeClass('qbdd-title');
+            $("#span_waitpay").removeClass('qbdd-title');
+            $("#span_waitreceipt").removeClass('qbdd-title');
+            $("#span_waitcomment").removeClass('qbdd-title');
+
+            $("#span_all").addClass('qbdd-title');
+            BuyerOrderList.bind(1);
+        })
+        $("#a_waitpay").bind("click", function () {
+            $("#span_all").removeClass('qbdd-title');
+            $("#span_waitpay").removeClass('qbdd-title');
+            $("#span_waitreceipt").removeClass('qbdd-title');
+            $("#span_waitcomment").removeClass('qbdd-title');
+
+            $("#span_waitpay").addClass('qbdd-title');
+            BuyerOrderList.getlistByStatus(1, 0, "");
+        })
+        $("#a_waitreceipt").bind("click", function () {
+            $("#span_all").removeClass('qbdd-title');
+            $("#span_waitpay").removeClass('qbdd-title');
+            $("#span_waitreceipt").removeClass('qbdd-title');
+            $("#span_waitcomment").removeClass('qbdd-title');
+
+            $("#span_waitreceipt").addClass('qbdd-title');
+            BuyerOrderList.getlistByStatus(1, 2, "");
+        })
+        $("#a_waitcomment").bind("click", function () {
+            window.location.href = "/Member/KhFwmemb/GoodsComment";
+        })
+        //查询按钮点击
+        $("#btn_search").bind("click", function () {
+            var seachStr = $("#text_search").val();
+            BuyerOrderList.getlistByStatus(1, null, seachStr);
+            $("#span_all").removeClass('qbdd-title');
+            $("#span_waitpay").removeClass('qbdd-title');
+            $("#span_waitreceipt").removeClass('qbdd-title');
+            $("#span_waitcomment").removeClass('qbdd-title');
+
+            $("#span_all").addClass('qbdd-title');
+        });
+    })
+</script>

@@ -1,0 +1,32 @@
+﻿<!-- @{
+    ViewBag.Title = "M_SafeQuestion";
+}
+@{
+    List<Articles> arts = ArticlesService.GetArtsByTag(ArtTagEnum.安全问题);
+    if (arts == null)
+    {
+        arts = new List<Articles>();
+    }
+} -->
+<div class="aqfwts">
+    <h3>安全服务提示</h3>
+    <p>1.确认您登录的网址，注意防范进入钓鱼网站，不要轻信各种即时通讯工具发送的商品或支付链接，谨防网购诈骗。</p>
+    <p>2.建议您安装杀毒软件，并定期更新操作系统等软件补丁，确保账户及交易安全。</p>
+</div><!--aqfwts  stop -->
+<div class="aqfwts fix">
+   <%if (count > 0)
+    {
+        len = 0;%>
+        <h3>常见问题</h3>
+        <ul>
+          <%for ( fl in articledto)
+            {%>
+                <%for(art in fl.articles){
+                len++;%>
+                <li><a href="/web/article/contact.html?id=${art.id}">${len}.${art.title}</a></li>
+                <%}%>
+           <% }%>
+         
+        </ul>
+     <%}%>
+</div><!--aqfwts  stop -->

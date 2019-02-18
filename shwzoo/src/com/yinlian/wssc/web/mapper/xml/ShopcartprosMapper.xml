@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.ShopcartprosMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Shopcartpros">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="ShopCartID" property="shopcartid" jdbcType="INTEGER" />
+		<result column="Type" property="type" jdbcType="INTEGER" />
+		<result column="ProID" property="proid" jdbcType="INTEGER" />
+		<result column="ProName" property="proname" jdbcType="VARCHAR" />
+		<result column="ProCount" property="procount" jdbcType="INTEGER" />
+		<result column="SpecsInfo" property="specsinfo" jdbcType="VARCHAR" />
+		<result column="MarketID" property="marketid" jdbcType="INTEGER" />
+		<result column="PackPros" property="packpros" jdbcType="VARCHAR" />
+		<result column="SPUID" property="spuid" jdbcType="INTEGER" />
+		<result column="UserId" property="userid" jdbcType="INTEGER" />
+		<result column="IsSelected" property="isselected" jdbcType="INTEGER" />
+		<result column="SpikeID" property="spikeid" jdbcType="INTEGER" />
+		<result column="ShopId" property="shopid" jdbcType="INTEGER" />
+		<result column="UseTime" property="usetime" jdbcType="TIMESTAMP" />
+		<result column="price" property="price" jdbcType="DECIMAL" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, ShopCartID, Type, ProID, ProName, ProCount, SpecsInfo, MarketID,
+		PackPros, SPUID,
+		UserId, IsSelected, SpikeID, ShopId, UseTime,price
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.ShopcartprosExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from shopcartpros
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from shopcartpros
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from shopcartpros
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	
+	<delete id="deleteByUserTime" parameterType="com.yinlian.wssc.web.po.Shopcartpros">
+		delete from shopcartpros
+		where UserId =  #{shopcartpros.userid}
+		<![CDATA[ and UseTime < #{shopcartpros.usetime} ]]>
+	</delete>
+	
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.ShopcartprosExample">
+		delete from shopcartpros
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.Shopcartpros">
+		insert into shopcartpros (ID, ShopCartID, Type,
+		ProID, ProName, ProCount,
+		SpecsInfo, MarketID, PackPros,
+		SPUID, UserId, IsSelected,
+		SpikeID, ShopId, UseTime,price)
+		values (#{id,jdbcType=INTEGER}, #{shopcartid,jdbcType=INTEGER},
+		#{type,jdbcType=INTEGER},
+		#{proid,jdbcType=INTEGER}, #{proname,jdbcType=VARCHAR}, #{procount,jdbcType=INTEGER},
+		#{specsinfo,jdbcType=VARCHAR}, #{marketid,jdbcType=INTEGER},
+		#{packpros,jdbcType=VARCHAR},
+		#{spuid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{isselected,jdbcType=INTEGER},
+		#{spikeid,jdbcType=INTEGER}, #{shopid,jdbcType=INTEGER}, #{usetime,jdbcType=TIMESTAMP},
+		#{price,jdbcType=DECIMAL})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Shopcartpros">
+		insert into shopcartpros
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="shopcartid != null">
+				ShopCartID,
+			</if>
+			<if test="type != null">
+				Type,
+			</if>
+			<if test="proid != null">
+				ProID,
+			</if>
+			<if test="proname != null">
+				ProName,
+			</if>
+			<if test="procount != null">
+				ProCount,
+			</if>
+			<if test="specsinfo != null">
+				SpecsInfo,
+			</if>
+			<if test="marketid != null">
+				MarketID,
+			</if>
+			<if test="packpros != null">
+				PackPros,
+			</if>
+			<if test="spuid != null">
+				SPUID,
+			</if>
+			<if test="userid != null">
+				UserId,
+			</if>
+			<if test="isselected != null">
+				IsSelected,
+			</if>
+			<if test="spikeid != null">
+				SpikeID,
+			</if>
+			<if test="shopid != null">
+				ShopId,
+			</if>
+			<if test="usetime != null">
+				UseTime,
+			</if>
+			<if test="price != null">
+				price,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="shopcartid != null">
+				#{shopcartid,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="proid != null">
+				#{proid,jdbcType=INTEGER},
+			</if>
+			<if test="proname != null">
+				#{proname,jdbcType=VARCHAR},
+			</if>
+			<if test="procount != null">
+				#{procount,jdbcType=INTEGER},
+			</if>
+			<if test="specsinfo != null">
+				#{specsinfo,jdbcType=VARCHAR},
+			</if>
+			<if test="marketid != null">
+				#{marketid,jdbcType=INTEGER},
+			</if>
+			<if test="packpros != null">
+				#{packpros,jdbcType=VARCHAR},
+			</if>
+			<if test="spuid != null">
+				#{spuid,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=INTEGER},
+			</if>
+			<if test="isselected != null">
+				#{isselected,jdbcType=INTEGER},
+			</if>
+			<if test="spikeid != null">
+				#{spikeid,jdbcType=INTEGER},
+			</if>
+			<if test="shopid != null">
+				#{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="usetime != null">
+				#{usetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.ShopcartprosExample"
+		resultType="java.lang.Integer">
+		select count(*) from shopcartpros
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update shopcartpros
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.shopcartid != null">
+				ShopCartID = #{record.shopcartid,jdbcType=INTEGER},
+			</if>
+			<if test="record.type != null">
+				Type = #{record.type,jdbcType=INTEGER},
+			</if>
+			<if test="record.proid != null">
+				ProID = #{record.proid,jdbcType=INTEGER},
+			</if>
+			<if test="record.proname != null">
+				ProName = #{record.proname,jdbcType=VARCHAR},
+			</if>
+			<if test="record.procount != null">
+				ProCount = #{record.procount,jdbcType=INTEGER},
+			</if>
+			<if test="record.specsinfo != null">
+				SpecsInfo = #{record.specsinfo,jdbcType=VARCHAR},
+			</if>
+			<if test="record.marketid != null">
+				MarketID = #{record.marketid,jdbcType=INTEGER},
+			</if>
+			<if test="record.packpros != null">
+				PackPros = #{record.packpros,jdbcType=VARCHAR},
+			</if>
+			<if test="record.spuid != null">
+				SPUID = #{record.spuid,jdbcType=INTEGER},
+			</if>
+			<if test="record.userid != null">
+				UserId = #{record.userid,jdbcType=INTEGER},
+			</if>
+			<if test="record.isselected != null">
+				IsSelected = #{record.isselected,jdbcType=INTEGER},
+			</if>
+			<if test="record.spikeid != null">
+				SpikeID = #{record.spikeid,jdbcType=INTEGER},
+			</if>
+			<if test="record.shopid != null">
+				ShopId = #{record.shopid,jdbcType=INTEGER},
+			</if>
+			<if test="record.usetime != null">
+				UseTime = #{record.usetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.price != null">
+				price = #{record.price,jdbcType=DECIMAL},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update shopcartpros
+		set ID = #{record.id,jdbcType=INTEGER},
+		ShopCartID = #{record.shopcartid,jdbcType=INTEGER},
+		Type = #{record.type,jdbcType=INTEGER},
+		ProID = #{record.proid,jdbcType=INTEGER},
+		ProName = #{record.proname,jdbcType=VARCHAR},
+		ProCount = #{record.procount,jdbcType=INTEGER},
+		SpecsInfo = #{record.specsinfo,jdbcType=VARCHAR},
+		MarketID = #{record.marketid,jdbcType=INTEGER},
+		PackPros = #{record.packpros,jdbcType=VARCHAR},
+		SPUID = #{record.spuid,jdbcType=INTEGER},
+		UserId = #{record.userid,jdbcType=INTEGER},
+		IsSelected = #{record.isselected,jdbcType=INTEGER},
+		SpikeID = #{record.spikeid,jdbcType=INTEGER},
+		ShopId = #{record.shopid,jdbcType=INTEGER},
+		UseTime = #{record.usetime,jdbcType=TIMESTAMP}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Shopcartpros">
+		update shopcartpros
+		<set>
+			<if test="shopcartid != null">
+				ShopCartID = #{shopcartid,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				Type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="proid != null">
+				ProID = #{proid,jdbcType=INTEGER},
+			</if>
+			<if test="proname != null">
+				ProName = #{proname,jdbcType=VARCHAR},
+			</if>
+			<if test="procount != null">
+				ProCount = #{procount,jdbcType=INTEGER},
+			</if>
+			<if test="specsinfo != null">
+				SpecsInfo = #{specsinfo,jdbcType=VARCHAR},
+			</if>
+			<if test="marketid != null">
+				MarketID = #{marketid,jdbcType=INTEGER},
+			</if>
+			<if test="packpros != null">
+				PackPros = #{packpros,jdbcType=VARCHAR},
+			</if>
+			<if test="spuid != null">
+				SPUID = #{spuid,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				UserId = #{userid,jdbcType=INTEGER},
+			</if>
+			<if test="isselected != null">
+				IsSelected = #{isselected,jdbcType=INTEGER},
+			</if>
+			<if test="spikeid != null">
+				SpikeID = #{spikeid,jdbcType=INTEGER},
+			</if>
+			<if test="shopid != null">
+				ShopId = #{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="usetime != null">
+				UseTime = #{usetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="price != null">
+				price = #{price,jdbcType=DECIMAL},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Shopcartpros">
+		update shopcartpros
+		set ShopCartID = #{shopcartid,jdbcType=INTEGER},
+		Type = #{type,jdbcType=INTEGER},
+		ProID = #{proid,jdbcType=INTEGER},
+		ProName = #{proname,jdbcType=VARCHAR},
+		ProCount = #{procount,jdbcType=INTEGER},
+		SpecsInfo = #{specsinfo,jdbcType=VARCHAR},
+		MarketID = #{marketid,jdbcType=INTEGER},
+		PackPros = #{packpros,jdbcType=VARCHAR},
+		SPUID = #{spuid,jdbcType=INTEGER},
+		UserId = #{userid,jdbcType=INTEGER},
+		IsSelected = #{isselected,jdbcType=INTEGER},
+		SpikeID = #{spikeid,jdbcType=INTEGER},
+		ShopId = #{shopid,jdbcType=INTEGER},
+		UseTime = #{usetime,jdbcType=TIMESTAMP},
+		price = #{price,jdbcType=DECIMAL}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+
+
+
+	<!-- 根据用户获取购物车商品数量 -->
+	<select id="countByuser" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		SELECT SUM(a.procount) FROM shopcartpros a LEFT JOIN
+		sku_package b
+		ON a.proid=b.packageid
+		where UserId=#{0}
+	</select>
+	<!-- 修改购物车商品数量 -->
+	<update id="updateCount" parameterType="java.lang.Integer">
+		update shopcartpros
+		set ProCount = #{0}
+		where ID = #{1}
+	</update>
+	<!-- 清空购物车 -->
+	<delete id="deleteByUser" parameterType="java.lang.Integer">
+		delete from shopcartpros where UserId=#{0}
+	</delete>
+	<select id="getBycartID" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from shopcartpros where ShopCartID=#{0}
+	</select>
+	<select id="getByuserID" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from shopcartpros where UserId=#{0}
+	</select>
+
+	<select id="getByuserIDAndProID" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from shopcartpros where UserId=#{0} and ProID=#{1} and UseTime = #{3}
+		<if test="protype==1">
+			and Type=1
+		</if>
+		limit 1
+	</select>
+	<!-- 批量删除购物车商品 -->
+	<delete id="deleteByIds" parameterType="list">
+		<if test="list!=null">
+			delete from shopcartpros where ID in
+			<foreach item="item" index="index" collection="list" open="("
+				separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+	</delete>
+
+	<!-- 选中或取消选中购物车商品 -->
+	<update id="updateSelect" parameterType="com.yinlian.wssc.web.po.Shopcartpros">
+		update shopcartpros
+		set IsSelected = #{isselected}
+		where ID = #{id}
+	</update>
+	<!-- 批量选中或取消选中购物车商品 -->
+	<update id="updateSelectList" parameterType="list">
+		<if test="list!=null">
+			<foreach item="cartpros" index="index" collection="list"
+				open="" separator=";" close="">
+				update shopcartpros
+				set IsSelected = #{cartpros.isselected}
+				where ID = #{cartpros.id}
+			</foreach>
+		</if>
+	</update>
+	<update id="updateSelectShop" parameterType="int">
+		update shopcartpros
+		set IsSelected = #{2}
+		where UserId= #{1} and ShopId= #{0}
+	</update>
+	
+	
+	<!-- 猜你喜欢   参数 Integer shopcartid, Integer size  -->
+	<select id="selectByShopCartID" parameterType="int" resultType="com.yinlian.pc.dto.GuessLikeDto">
+	SELECT s.ID spuid,s.Name spuname,s.Price spuprice,s.ImgUrl spuimg FROM spu s where s.ClassID in (SELECT s.ClassID 
+	FROM shopcartpros scrt 
+	left join spu s on s.ID = scrt.SPUID 
+	WHERE scrt.UserId=#{0}
+	GROUP BY s.ClassID)
+	order by rand()
+	LIMIT ${1}
+	</select>
+</mapper>

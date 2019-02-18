@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Expires" content="-1">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<title>发现</title>
+<link rel="stylesheet" href="/resource/app/css/greenLife.css" />
+<script type="text/javascript" src="/resource/jquery-1.9.1.min.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/greenLife.js" ></script>
+
+<script type="text/javascript" src="/resource/GetQueryString.js"></script>
+<%if(ch==2){%>
+<style>
+.septop {padding-top: 18px;}
+<%if(mark==2||mark==7||mark==3){%>
+.septop.rowreturn.bjwhite{background: #fff url(/resource/app/images/rowreturn_heise.png) no-repeat 3% 0.6rem;background-size: 0.17rem auto;}
+<%}else{%>
+.septop.rowreturn{background: #006428 url(/resource/app/images/rowreturn.png) no-repeat 3% 0.6rem;background-size: 0.17rem auto;}
+<%}%>
+</style>
+<%}%>
+<style type="text/css">
+img{width: 100%}
+</style>
+</head>
+<body style="overflow-x:hidden;">
+<!--septop begin-->
+<div class="septop rowreturn ${(mark==1||mark==4||mark==5||mark==6)?'fixed':''}${(mark==2||mark==7||mark==3)?'bjwhite bjhs':''}">
+	<div class="bigsize">
+		${mark==1?'中绿资讯-详情':''}
+		${mark==2?'绿色故事-详情':''}
+		${mark==3?'中绿专区-详情':''}
+		${mark==4?'专家讲堂-详情':''}
+		${mark==5?'菜谱大全-详情':''}
+		${mark==6?'厨房百科-详情':''}
+		${mark==7?'地方馆-详情':''}
+		${mark==9?'消息详情':''}
+		</div>
+	<div id="rowreturn" onclick="javascirpt:location.href='url:///back'"></div>
+</div>
+<div class="sep-article fix" id="infonews">
+	<h3>${vo.title}</h3>
+	<div class="sep-articletime">${vo.createtime,dateFormat="yyyy-MM-dd mm:ss:hh"}</div>
+	${vo.content}
+	</div>
+<script>
+$(function(){
+	var mark=${mark};
+	if(mark==1||mark==4||mark==5||mark==6){
+		fixed('.septop');
+	}	
+})
+</script>
+<style>
+	#infonews iframe{width:100%;height:auto;}	
+</style>
+</body>
+</html>

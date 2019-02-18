@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<title>中绿味道</title>
+<script src="/resource/pc/web/js/login/login.js"></script>
+<script type="text/javascript" src="/resource/pc/web/js/jquery.SuperSlide.js" ></script>
+<script type="text/javascript">
+$(function (){
+	getscuser()
+})
+	function getscuser()
+	{
+		 if (WebLogin.isLogin()) {
+			$.ajax({
+				url : "/zlnews/getscUser",
+				type : "Post",
+				dataType : "json",
+				success : function(data) {
+					if (data.code < 0) {
+						alert(data.desc);
+					} else {
+						var div=$('.zlwdmk-bot-title');
+						var issc=0
+						for (var i = 0; i < data.data.length; i++) {
+							$(".zlwdmk-bot input[type='hidden']").each(function(){
+								 if(parseInt($(this).val())==parseInt(data.data[i].newsid)){
+									 $('#issc'+data.data[issc].newsid).html('<a style="cursor: pointer;"  id="sccp" >已收藏</a>');
+									 issc=issc+1;
+								 }
+							}); 
+						}
+					} 
+				},
+				error : function() {
+				}
+			});
+		}else{
+			
+		} 
+	}
+</script>
+</head>
+<body class="bodybjhs">
+<!--navigation  导航开始 -->
+<div id="navigation-1" class="fix">
+	<!--导航 Start-->
+	<div class="menu xzlsb">
+		<div class="nav">                                                                                  
+			<ul class="clearfix">
+				<li><a href="/index.html">首页</a></li>
+				<li><a href="/lszg/index.html">绿色食品中国</a></li>
+				<li><a href="http://www.nzgjpw.com/">农展精品馆</a></li>
+				<li class="current"><a href="/zlzx/zlwd.html">中绿味道</a></li>
+				<li><a href="/zlzx/zlzq_index.html">中绿展示</a></li>
+				<li><a href="/zlzx/zlzx_index.html">中绿资讯</a></li>
+			</ul>
+		</div>
+	</div>
+	<!--导航 End-->
+</div>
+<!--navigation  导航结束 -->
+<img src="/resource/pc/web/images/xzimg18.jpg" class="img-responsive1"/>
+<!--container 中间所有内容开始-->
+<div id="container" class="fix">
+	<div class="xzzlwd-tit fix">
+		<span class="fon22">专家讲堂</span>
+		<p><i></i></p>
+		<div class="floatr"><a href="/zlzx/zlwd_zjjt.html">更多视频<i>&gt;</i></a></div>
+	</div>
+	<!--专家讲堂picScroll-left 开始-->
+	<div class="picScroll-left" id="picScroll-left01">
+		<a class="next"></a>
+		<a class="prev"></a>
+		<div class="bd">
+			<ul class="picList" id="zjjt_ul">
+				<script type="text/html" id="zjjt_list">
+				{{each list as news i}}
+                	<li>
+                   		<a href="/zlzx/newsinfo.html?cid={{news.id}}&&title=中绿味道&&url=/zlzx/zlwd.html">
+							<img src="{{news.imgurl}}">
+							<div class="title">
+								<i></i>
+								<p>{{news.title}}</p>
+							</div>
+						</a>
+                	</li>
+            	{{/each}}
+        		</script>
+			</ul>
+		</div>
+	</div>
+	<!--专家讲堂picScroll-left 结束-->
+	<div class="xzzlwd-tit fix">
+		<span class="fon22">菜谱大全</span>
+		<p><i></i></p>
+		<div class="floatr"><a  href="/zlzx/zlwd_cpdq.html">更多菜谱<i>&gt;</i></a></div>
+	</div>
+	<!--picScroll-left02 开始-->
+	<div class="picScroll-left" id="picScroll-left02">
+		<a class="next"></a>
+		<a class="prev"></a>
+		<div class="bd">
+			<ul class="picList" id="cpdq_ul">
+				<%try{if(isNotEmpty(list)){var count=list.~size; for(var i=0;i<list.~size;i=i+2){ var n=i+1;%>
+					<li>
+						<%if(i+1<count){%>
+						<div class="zlwdmk-bot"  cpid="${list[i].id}">
+						<input type="hidden" value="${list[i].id}">
+                   			<a href="/zlzx/newsinfo.html?cid=${list[i].id}&&title=中绿味道&&url=/zlzx/zlwd.html"><img src="${list[i].imgurl}" /></a>
+							<div class="zlwdmk-bot-title">
+								<h3><a href="#">${list[i].title}</a></h3>
+								<p class="orange mt30" id="issc${list[i].id}"><a  style="cursor: pointer;" onclick="sc(${list[i].id},'${list[i].title}')"id="sccp" >收藏&gt;</a></p>
+							</div>
+						</div> 
+						<div class="zlwdmk-bot" cpid="${list[n].id}">
+						<input type="hidden" value="${list[n].id}">
+                   			<a href="/zlzx/newsinfo.html?cid=${list[n].id}&&title=中绿味道&&url=/zlzx/zlwd.html"><img src="${list[n].imgurl}" /></a>
+							<div class="zlwdmk-bot-title">
+								<h3><a href="#">${list[n].title}</a></h3>
+								<p class="orange mt30" id="issc${list[n].id}"><a style="cursor: pointer;"  onclick="sc(${list[n].id},'${list[n].title}')"id="sccp" >收藏&gt;</a></p>
+							</div>
+						</div>
+						<%}else{if(i<count){%>
+						<div class="zlwdmk-bot" cpid="${list[i].id}">
+						<input type="hidden" value="${list[i].id}">
+                   			<a href="/zlzx/newsinfo.html?cid=${list[i].id}&&title=中绿味道&&url=/zlzx/zlwd.html"><img src="${list[i].imgurl}" /></a>
+							<div class="zlwdmk-bot-title">
+								<h3><a href="#">${list[i].title}</a></h3>
+								<p class="orange mt30" id="issc${list[i].id}"><a  style="cursor: pointer;"  onclick="sc(${list[i].id},'${list[i].title}')"id="sccp" >收藏&gt;</a></p>
+							</div>
+						</div>
+						<%}}%>
+                	</li>
+				<%}}}catch(error){}%>
+			</ul>
+			<!-- <script type="text/html" id="cpdq_list">
+				{{each list as news i}}
+                	<li>
+						<div class="zlwdmk-bot">
+                   			<a href="/zlzx/newsinfo.html?cid={{news.id}}&&title=中绿味道&&url=/zlzx/zlwd.html"><img src="{{news.imgurl}}" /></a>
+							<div class="zlwdmk-bot-title">
+								<h3><a href="#">{{news.subtitle}}</a></h3>
+								<p class="orange mt30" id="issc{{news.id}}"><a onclick="sc({{news.id}},'{{news.title}}')"id="sccp" >收藏</a></p>
+							</div>
+						</div>
+                	</li>
+            	{{/each}}            	
+        	</script> -->
+		</div>
+	</div>
+	<!--picScroll-left02 结束-->
+	<div class="xzzlwd-tit fix">
+		<span class="fon22">厨房百科</span>
+		<p><i></i></p>
+		<div class="floatr"><a href="/zlzx/zlwd_cfbk.html">更多资讯<i>&gt;</i></a></div>
+	</div>
+	<!-- multipleLine begin -->
+	<div class="multipleLine">
+		<div class="bd">
+			<div class="ulWrap">
+				<ul class="zlwd-cfbkul" id="cfbk_ul">
+					<script type="text/html" id="cfbk_list">
+					{{each list as news i}}
+                		<li>
+							<img src="{{news.imgurl}}" />
+							<div class="zlwd-cfbkyb">
+								<h3>{{news.title}}</h3>
+								<p class="fon14">{{news.tabloid}}</p>
+								<p class="orange mt30"><a href="/zlzx/newsinfo.html?cid={{news.id}}&&title=中绿味道&&url=/zlzx/zlwd.html">了解详情&gt;</a></p>
+							</div>
+                		</li>
+            		{{/each}}
+        			</script>
+				</ul>
+			</div>
+			<!-- ulWrap End -->
+		</div>
+		<!-- bd End -->
+		<div class="hd"><ul></ul></div>
+	</div>
+	<!-- multipleLine End -->
+</div >
+</div>
+<!--container 中间所有内容结束-->
+<!--footer  底部开始 -->
+<!--footer  底部结束 -->
+<script type="text/javascript">
+$(function(){
+	getzjjtlist();
+	getcfbklist();
+	//getcpdqlist();
+	jQuery("#picScroll-left02").slide({mainCell:".bd ul",autoPage:true,effect:"left",autoPlay:false,vis:4,trigger:"click"});					
+})	
+	function getzjjtlist(){
+		$.ajax({
+			url : "/zlnews/zlwd/getwdpagelist",
+			type : "Post",
+			data : {
+				"pageindex" : 1,
+				"pagesize" : 6,
+				"ctype": 13
+			},
+			dataType : "json",
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.desc);
+				} else {
+					var listdata = {
+						list : data.data
+					}
+					var html = template('zjjt_list', listdata);
+					$("#zjjt_ul").html(html);
+					jQuery("#picScroll-left01").slide({mainCell:".bd ul",autoPage:true,effect:"left",autoPlay:false,vis:3,trigger:"click"});
+				}
+				
+			},
+			error : function() {
+			}
+		});
+	}
+	function sc(id,title){
+		if (WebLogin.isLogin()) {
+			$.ajax({
+				url : "/pc/concern/newssccp",
+				type : "Post",
+				data : {
+					"newsid" : id,
+					"newsname" : title
+				},
+				dataType : "json",
+				success : function(data) {
+					$('#issc'+id).html("<a  id='sccp' >已收藏</a>");
+					alert(data.desc);
+				},
+				error : function() {
+				}
+			});
+		} else {
+			showlogindiv();
+		}
+		
+		 
+	}
+	function getcfbklist(){
+		$.ajax({
+			url : "/zlnews/zlwd/getwdpagelist",
+			type : "Post",
+			data : {
+				"pageindex" : 1,
+				"pagesize" : 12,
+				"ctype": 15
+			},
+			dataType : "json",
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.desc);
+				} else {
+					var listdata = {
+						list : data.data
+					}
+					var html = template('cfbk_list', listdata);
+					$("#cfbk_ul").html(html);
+					jQuery(".multipleLine").slide({titCell:".hd ul",mainCell:".bd .ulWrap",autoPage:true,effect:"left",autoPlay:false});
+				}
+			},
+			error : function() {
+			}
+		});
+	}
+	function getcpdqlist(){
+		$.ajax({
+			url : "/zlnews/zlwd/getwdpagelist",
+			type : "Post",
+			data : {
+				"pageindex" : 1,
+				"pagesize" : 16,
+				"ctype": 14
+			},
+			dataType : "json",
+			success : function(data) {
+				if (data.code < 0) {
+					alert(data.desc);
+				} else {
+					var listdata = {
+						list : data.data
+					}
+					var html = template('cpdq_list', listdata);
+					$("#cpdq_ul").html(html);
+					jQuery("#picScroll-left02").slide({mainCell:".bd ul",autoPage:true,effect:"left",autoPlay:false,vis:4,trigger:"click"});
+				}
+			},
+			error : function() {
+			}
+		});
+	}
+</script>
+</body>
+</html>

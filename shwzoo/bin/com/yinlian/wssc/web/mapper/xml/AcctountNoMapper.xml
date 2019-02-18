@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.AccountNoMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.AccountNo">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="No" property="no" jdbcType="INTEGER" />
+
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ID, No
+	</sql>
+	<select id="getNo"  resultType="java.lang.Integer">
+		select No from AcctountNo order by id desc limit 1
+	</select>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.AccountNo">
+		insert into AcctountNo (id,
+		no)values(#{id,jdbcType=INTEGER},#{no,jdbcType=INTEGER})
+	</insert>
+</mapper>

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.NavclassfyMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Navclassfy" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="ClassName" property="classname" jdbcType="VARCHAR" />
+    <result column="ParentID" property="parentid" jdbcType="INTEGER" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="pageType" property="pageType" jdbcType="INTEGER" />
+    <result column="webSet" property="webSet" jdbcType="VARCHAR" />
+    <result column="relevance" property="relevance" jdbcType="VARCHAR"/>
+   	<result column="addtime" property="addtime" jdbcType="TIMESTAMP" /> 
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, ClassName, ParentID,sort, pageType,webSet,relevance,addtime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.NavclassfyExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from navclassfy
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from navclassfy
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from navclassfy
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.NavclassfyExample" >
+    delete from navclassfy
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Navclassfy" >
+    insert into navclassfy (ID, ClassName, ParentID,sort, 
+      pageType,webSet,relevance,addTime)
+    values (#{id,jdbcType=INTEGER}, #{classname,jdbcType=VARCHAR}, #{parentid,jdbcType=INTEGER}, 
+       #{sort,jdbcType=INTEGER}, #{pageType,jdbcType=INTEGER},#{webSet,jdbcType=VARCHAR},#{relevance,jdbcType=VARCHAR},#{addTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Navclassfy" >
+    insert into navclassfy
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="classname != null" >
+        ClassName,
+      </if>
+      <if test="parentid != null" >
+        ParentID,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="classname != null" >
+        #{classname,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.NavclassfyExample" resultType="java.lang.Integer" >
+    select count(*) from navclassfy
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update navclassfy
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.classname != null" >
+        ClassName = #{record.classname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentid != null" >
+        ParentID = #{record.parentid,jdbcType=INTEGER},
+      </if>
+      <if test="record.path != null" >
+        Path = #{record.path,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sort != null" >
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update navclassfy
+    set ID = #{record.id,jdbcType=INTEGER},
+      ClassName = #{record.classname,jdbcType=VARCHAR},
+      ParentID = #{record.parentid,jdbcType=INTEGER},
+      Path = #{record.path,jdbcType=VARCHAR},
+      sort = #{record.sort,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Navclassfy" >
+    update navclassfy
+    <set >
+      <if test="classname != null" >
+        ClassName = #{classname,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        ParentID = #{parentid,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="pageType != null" >
+        pageType = #{pageType,jdbcType=INTEGER},
+      </if>
+      <if test="webSet !=null and webSet != ''">
+      webSet = #{webSet,jdbcType=VARCHAR},
+      </if>
+      <if test="relevance !=null">
+      relevance = #{relevance,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Navclassfy" >
+    update navclassfy
+    set ClassName = #{classname,jdbcType=VARCHAR},
+      ParentID = #{parentid,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      pageType = #{pageType,jdbcType=INTEGER},
+       webSet = #{webSet,jdbcType=VARCHAR},
+       relevance = #{relevance,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByParentId" resultType="com.yinlian.wssc.web.dto.NavclassfyDto" parameterType="int">
+  	select 
+  	<include refid="Base_Column_List"   />
+  	from navclassfy
+  	where parentid = #{0}
+  </select> 
+  <select id="selectTotal" resultType="com.yinlian.wssc.web.dto.NavclassfyDto">
+  	select 
+  	<include refid="Base_Column_List"   />
+  	from navclassfy order by addtime desc
+  </select> 
+    <select id="selectByPIdType" resultType="com.yinlian.wssc.web.dto.NavclassfyDto">
+  	select 
+  	<include refid="Base_Column_List"   />
+  	from navclassfy
+  	where parentid = #{parentid,jdbcType=INTEGER} 
+  	
+  </select> 
+  
+  <select id="selectAll" resultType="com.yinlian.wssc.web.po.Navclassfy">
+  select id,classname from navclassfy order by addTime desc
+  </select>
+  
+  <select id="queryRelevance" resultType="com.yinlian.wssc.web.dto.NavclassfyDto">
+  select <include refid="Base_Column_List"   /> from navclassfy where pageType=#{0} and webSet like '%${1}%'
+  </select>
+  
+  <select id="queryById" resultType="com.yinlian.wssc.web.po.Navclassfy">
+  select <include refid="Base_Column_List"   /> from navclassfy 
+  <where>
+  <foreach collection="ids" open="(" separator="," close=")" item="vo" index="index">
+  id=#{vo}
+  </foreach>
+  </where>
+  </select>
+</mapper>

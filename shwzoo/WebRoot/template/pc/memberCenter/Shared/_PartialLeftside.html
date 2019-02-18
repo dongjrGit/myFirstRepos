@@ -1,0 +1,71 @@
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<!--main-left 左边内容  开始 -->
+<div class="main-left menuSelect">
+    <div class="dh-mk">
+        <ul>
+            <li class="dh-mk-title">订单中心</li>
+            <li><a href="/member/order/getorder.html">我的订单</a></li>
+            <li><a href="/member/order/commentorder?iscomment=1">评价晒单</a></li>
+            <li><a href="/member/order/cancelorder">取消订单记录</a></li>
+        </ul>
+    </div><!--dh-mk  stop -->
+    <div class="dh-mk">
+        <ul>
+            <li class="dh-mk-title">关注中心</li>
+            <li><a href="/member/pcconcern/selectSpucollect.html">关注的商品</a></li>
+            <li><a href="/member/pcconcern/selectShopcollect.html">关注的店铺</a></li>
+            <li><a href="/member/pcbrowsehistory/queryhistory">浏览历史</a></li>
+            <li><a href="/member/pcconcern/cpsc.html">菜谱收藏</a></li>
+        </ul>
+    </div><!--dh-mk  stop -->
+    <div class="dh-mk">
+        <ul>
+            <li class="dh-mk-title">资产中心</li>
+            <li><a href="/member/coupon/points">积分</a></li>
+            <li><a href="/member/coupon/Coupons">优惠券</a></li>
+            <li><a href="/member/coupon/balance?type=0">余额</a></li>
+            <li><a href="/member/userInfo/cardcharge.html">礼品卡充值</a></li>
+        </ul>
+    </div><!--dh-mk  stop -->
+
+    <!--dh-mk  stop -->
+    <div class="dh-mk">
+        <ul>
+            <li class="dh-mk-title">客户服务</li>
+            <li><a href="/member/khFwmemb/afterServiceOrderList.html">返修退换货</a></li>
+            <li><a href="/member/khFwmemb/GoodsConsult.html">购买咨询</a></li>
+            <li><a href="/member/khFwmemb/feedBack.html">会员反馈</a></li>
+        </ul>
+    </div><!--dh-mk  stop -->
+    <div class="dh-mk">
+        <ul>
+            <li class="dh-mk-title">设置</li>
+           <!--  <li><a href="javascript:void(0);" onclick="personalInfomation()">个人信息</a></li> -->
+           <li><a href="/member/userInfo/personalInformation.html">个人信息</a></li>
+            <li><a href="/member/userInfo/receiveAddress.html">收货地址</a></li>
+        </ul>
+    </div><!--dh-mk  stop -->
+    <div class="clear"></div>
+</div>
+<!--main-left 左边内容  结束 -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".menuSelect .dh-mk ul li").click(function () {
+            $(".menuSelect .dh-mk ul li").each(function () {
+                if ($(this).class != "dh-mk-title") {
+                    $(this).removeClass("hover-banli");
+                }
+            });
+            if ($(this).class != "dh-mk-title") {
+                $(this).addClass("hover-banli");
+            }
+        })
+    });
+    
+
+   function personalInfomation(){
+    	window.location.href="/member/userInfo/personalInformation.html";
+    }
+
+</script>

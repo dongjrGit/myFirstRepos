@@ -1,0 +1,61 @@
+<%var path="/resource";%>
+<head>
+    <title>商品列表</title>
+    
+<script type="text/javascript" src="${path}/wap/js/index.js" ></script>
+    <script type="text/javascript" src="${path}/artTemplate.js"></script>
+    
+<script type="text/javascript" src="/resource/wap/js/Yeffect16_0118.min.js" ></script>
+</head>
+<body>
+<!--septop begin-->
+<div class="septop rowreturn">
+	<div class="bigsize">发现好店</div>
+	<div id="rowreturn" onclick="javascript:window.location.href='/wap/index.html'"></div>
+</div>
+	<ul class="zlindex-fzhd fix" id="dplist">
+	<!-- <li>
+		<a href="#">
+			<img src="images/img4.jpg"/>
+			<h3>维达超韧3层软抽纸巾(粉花)130抽维达超韧3层软抽纸巾(粉花)130抽维达超韧3层软抽纸巾(粉花)130抽*3/提</h3>
+			<p class="orange">￥78.00</p>
+		</a>
+	</li>	 -->
+</ul>
+	<!--productlistcon  stop-->
+	
+	<script type="text/html" id="pagehtml">
+			 {{each list as shop i}}
+<li>
+		<a href="url://shopdetail|||{{shop.shopid}}">
+			<img src="{{shop.img}}"/>
+			<div class="zlindex-fzhddiv">
+				<div>
+					<h3>{{shop.shopname}}</h3>
+				</div>
+			</div>
+		</a>
+	</li>
+			{{/each}}
+			</script>
+	
+  <!--themestreet  stop-->
+	<img src="${path}/wap/images/index_42.png" class="qianggou-scrollTop">
+	<%
+    include("/template/wap/index_foot.html"){}
+    %>
+    <script type="text/javascript" src="/resource/artTemplate.js"></script>
+<script type="text/javascript" src="/resource/wap/js/wap-common.js"></script>
+<script type="text/javascript">
+fixed('.top');//头部固定
+  	$(function(){
+		 pageData={page:1,size:10,ch:3};
+		 pageUrl="/api/wap/findfxhd";
+		 content="#dplist";
+		initPage();
+	});
+	function load(){
+		Yeffect.resizeHtWstr(".zlindex-fzhd li:visible",".zlindex-fzhd li img",314,314);
+	}
+</script>
+</body>

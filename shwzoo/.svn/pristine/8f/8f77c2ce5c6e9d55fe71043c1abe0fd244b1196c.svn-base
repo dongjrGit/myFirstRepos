@@ -1,0 +1,119 @@
+ <% if(isindex==false){%>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("div[name=div_all_menu]").mouseenter(function() {
+			$("div[name=div_menu]").attr("style", "display:block");
+		});
+		$("#navigation").mouseleave(function() {
+			$("div[name=div_menu]").attr("style", "display:none");
+		});
+	});
+	<%}%>
+</script>
+<% var path="/resource/pc/web";%>
+<!--navigation  导航开始 -->
+<div id="navigation" class="fix">
+	<!--导航 Start-->
+	<div class="menu">
+		<div class="all-sort" name="div_all_menu">
+			<h2 class="l_nvlist">
+				<a href="#">全部商品分类</a>
+			</h2>
+		</div>
+		<div class="nav">
+			<ul class="clearfix">
+				<!-- <li><a href="/web/activity/shangou.html">闪购</a></li>
+				<!-- <li><a href="/web/activity/tuangou.html">团购</a></li>			 -->
+ 
+				<li><a href="/lszg/index.html">绿色食品中国</a></li>
+				<li><a target="_black" href="http://www.nzgjpw.com/">农展精品馆</a></li>
+				<li><a href="/zlzx/zlwd.html">中绿味道</a></li>
+				<li><a href="/zlzx/zlzq_index.html">中绿展示</a></li><!-- 农产品大宗交易 -->
+				<li><a href="/zlzx/zlzx_index.html">中绿资讯</a></li><!-- 绿色生资 -->
+			</ul>
+		</div>
+		<div class="xzdhybimg"><img src="${path}/images/xzimg2.jpg" style="width: 155px;"></div>
+		<div class="xzdhzlbz">
+		<a href="http://www.ietrace.com"  target="_blank" ><img style="height: 49px;
+    width: 155px;" src="/resource/pc/web/images/zlbz.jpg" usemap="#Map"/></a>
+			
+		  
+		  
+			<!-- <img src="${path}/images/zlbz.png" usemap="#Map"/>
+			<map name="Map">
+	            <area target="_blank" shape="rect" coords="2,2,36,34" href="http://www.ietrace.com/">
+	            <area target="_blank" shape="rect" coords="50,2,85,34" href="http://baike.baidu.com/item/%E6%9C%89%E6%9C%BA%E9%A3%9F%E5%93%81%E6%A0%87%E5%BF%97">
+	            <area target="_blank" shape="rect" coords="101,0,137,39" href="http://baike.baidu.com/view/315297.htm">
+	            <area target="_blank" shape="rect" coords="147,1,184,35" href="http://baike.baidu.com/view/2330929.htm">
+          	</map> -->
+			
+			<!-- <img style="height: 42px;width: 46px; margin: 0px 1px;" src="${path}/images/zlbz01.png"/>
+			<img style="height: 42px;width: 46px; margin: 0px 1px;" src="${path}/images/zlbz02.png"/>
+			<img style="height: 42px;width: 46px; margin: 0px 1px;" src="${path}/images/zlbz03.png"/>
+			<img style="height: 42px;width: 46px; margin: 0px 1px;" src="${path}/images/zlbz04.png"/> -->
+		</div>
+	</div>
+	<!--导航 End-->
+	<!--所有分类 Start-->
+	<% if(isindex==false){ %>
+	<div class="wrap"
+		style="display: none"  name="div_menu"><%}else{%>
+		<div class="wrap"  name="div_menu"><%}%>
+		<!--all-sort-list  左边导航  开始 -->
+			<div class="all-sort-list">
+				<!--item 第一个一级导航 开始  （bo样式是上边框的线与上面的颜色保持一致，只有这一个有。下面的都没有） -->
+				<%for (item in classlist) {%>
+				<div class="item">
+					<h3>
+						<!-- href='/list?cat=item.ID' -->
+						<b style="background-image:url(${item.imageurl})"></b>
+						<a target="_blank"  href="/web/products/proList.html?classid=${item.id}" >${item.name}</a><span><img src="${path}/images/item.png" width="4" height="6" /></span>
+					</h3>
+					<!--item-list 一级导航具体内容  开始 -->
+					<div class="item-list clearfix">
+						<!--subitem左边的列表  begin -->
+						<div class="subitem">
+							<%for (item1 in item.children){%>
+							<dl class="fore1">
+								<dt>
+									<a target="_blank"  href='/web/products/proList.html?classid=${item1.id}' >${item1.name}</a>
+									
+								</dt>
+								<dd>
+									<%for (item2 in item1.children){%> 
+									<em>
+									<a target="_blank"  href="/web/products/proList.html?classid=${item2.id}">${item2.name}</a>
+									</em>
+									<% }%>
+								</dd>
+							</dl>
+							<%}%>
+						</div>
+						<!--subitem左边的列表  stop -->
+                        <div class="cat-right">
+						<dl class="categorys-promotions" clstag="homepage|keycount|home2013|0601c">
+							<dd>
+							<ul>
+								<li>
+									<%if(isNotEmpty(adclass)){%>
+									<a href="${adclass.url!'javascript:void(0)'}" target="_blank">
+									<img src="${adclass.imag}" title="">
+									</a>
+									<%}%>
+								</li>								
+							</ul>
+							</dd>
+						</dl>
+						
+					</div>
+					</div>
+					<!--item-list 一级导航具体内容  结束 -->
+				</div>
+				<%}%>
+				<!--item 第一个一级导航 结束  （bo样式是上边框的线与上面的颜色保持一致，只有这一个有。下面的都没有） -->
+			</div>
+			<!--all-sort-list  左边导航  结束 -->
+		</div>
+	<!--所有分类 End-->
+</div>
+<!--navigation  导航结束 -->

@@ -1,0 +1,812 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.SalesorderMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Salesorder" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="ShopID" property="shopid" jdbcType="INTEGER" />
+    <result column="ShopName" property="shopname" jdbcType="VARCHAR" />
+    <result column="SellerID" property="sellerid" jdbcType="INTEGER" />
+    <result column="SellerName" property="sellername" jdbcType="VARCHAR" />
+    <result column="sType" property="stype" jdbcType="INTEGER" />
+    <result column="AddOrderDate" property="addorderdate" jdbcType="TIMESTAMP" />
+    <result column="TotalCount" property="totalcount" jdbcType="INTEGER" />
+    <result column="TotalMoney" property="totalmoney" jdbcType="DECIMAL" />
+    <result column="Count_DFK" property="countDfk" jdbcType="INTEGER" />
+    <result column="Money_DFK" property="moneyDfk" jdbcType="DECIMAL" />
+    <result column="Count_FK" property="countFk" jdbcType="INTEGER" />
+    <result column="Money_FK" property="moneyFk" jdbcType="DECIMAL" />
+    <result column="Count_DFH" property="countDfh" jdbcType="INTEGER" />
+    <result column="Money_DFH" property="moneyDfh" jdbcType="DECIMAL" />
+    <result column="Count_YSH" property="countYsh" jdbcType="INTEGER" />
+    <result column="Money_YSH" property="moneyYsh" jdbcType="DECIMAL" />
+    <result column="Count_QXZ" property="countQxz" jdbcType="INTEGER" />
+    <result column="Money_QXZ" property="moneyQxz" jdbcType="DECIMAL" />
+    <result column="Count_QX" property="countQx" jdbcType="INTEGER" />
+    <result column="Money_QX" property="moneyQx" jdbcType="DECIMAL" />
+    <result column="Count_THSQ" property="countThsq" jdbcType="INTEGER" />
+    <result column="Money_THSQ" property="moneyThsq" jdbcType="DECIMAL" />
+    <result column="Count_THZ" property="countThz" jdbcType="INTEGER" />
+    <result column="Money_THZ" property="moneyThz" jdbcType="DECIMAL" />
+    <result column="Count_TH" property="countTh" jdbcType="INTEGER" />
+    <result column="Money_TH" property="moneyTh" jdbcType="DECIMAL" />
+    <result column="Count_TK" property="countTk" jdbcType="INTEGER" />
+    <result column="Money_TK" property="moneyTk" jdbcType="DECIMAL" />
+    <result column="Count_HHSQ" property="countHhsq" jdbcType="INTEGER" />
+    <result column="Money_HHSQ" property="moneyHhsq" jdbcType="DECIMAL" />
+    <result column="Count_MJSH" property="countMjsh" jdbcType="INTEGER" />
+    <result column="Money_MJSH" property="moneyMjsh" jdbcType="DECIMAL" />
+    <result column="Count_MJFH" property="countMjfh" jdbcType="INTEGER" />
+    <result column="Money_MJFH" property="moneyMjfh" jdbcType="DECIMAL" />
+    <result column="Count_BuySH" property="countBuysh" jdbcType="INTEGER" />
+    <result column="Money_BuySH" property="moneyBuysh" jdbcType="DECIMAL" />
+    <result column="Count_HH" property="countHh" jdbcType="INTEGER" />
+    <result column="Money_HH" property="moneyHh" jdbcType="DECIMAL" />
+    <result column="Count_MJBH" property="countMjbh" jdbcType="INTEGER" />
+    <result column="Money_MJBH" property="moneyMjbh" jdbcType="DECIMAL" />
+    <result column="Count_YPJ" property="countYpj" jdbcType="INTEGER" />
+    <result column="Money_YPJ" property="moneyYpj" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, ShopID, ShopName, SellerID, SellerName, sType, AddOrderDate, TotalCount, TotalMoney, 
+    Count_DFK, Money_DFK, Count_FK, Money_FK, Count_DFH, Money_DFH, Count_YSH, Money_YSH, 
+    Count_QXZ, Money_QXZ, Count_QX, Money_QX, Count_THSQ, Money_THSQ, Count_THZ, Money_THZ, 
+    Count_TH, Money_TH, Count_TK, Money_TK, Count_HHSQ, Money_HHSQ, Count_MJSH, Money_MJSH, 
+    Count_MJFH, Money_MJFH, Count_BuySH, Money_BuySH, Count_HH, Money_HH, Count_MJBH, 
+    Money_MJBH, Count_YPJ, Money_YPJ
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.SalesorderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from salesorder
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from salesorder
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from salesorder
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.SalesorderExample" >
+    delete from salesorder
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Salesorder" >
+    insert into salesorder (ID, ShopID, ShopName, 
+      SellerID, SellerName, sType, 
+      AddOrderDate, TotalCount, TotalMoney, 
+      Count_DFK, Money_DFK, Count_FK, 
+      Money_FK, Count_DFH, Money_DFH, 
+      Count_YSH, Money_YSH, Count_QXZ, 
+      Money_QXZ, Count_QX, Money_QX, 
+      Count_THSQ, Money_THSQ, Count_THZ, 
+      Money_THZ, Count_TH, Money_TH, 
+      Count_TK, Money_TK, Count_HHSQ, 
+      Money_HHSQ, Count_MJSH, Money_MJSH, 
+      Count_MJFH, Money_MJFH, Count_BuySH, 
+      Money_BuySH, Count_HH, Money_HH, 
+      Count_MJBH, Money_MJBH, Count_YPJ, 
+      Money_YPJ)
+    values (#{id,jdbcType=INTEGER}, #{shopid,jdbcType=INTEGER}, #{shopname,jdbcType=VARCHAR}, 
+      #{sellerid,jdbcType=INTEGER}, #{sellername,jdbcType=VARCHAR}, #{stype,jdbcType=INTEGER}, 
+      #{addorderdate,jdbcType=TIMESTAMP}, #{totalcount,jdbcType=INTEGER}, #{totalmoney,jdbcType=DECIMAL}, 
+      #{countDfk,jdbcType=INTEGER}, #{moneyDfk,jdbcType=DECIMAL}, #{countFk,jdbcType=INTEGER}, 
+      #{moneyFk,jdbcType=DECIMAL}, #{countDfh,jdbcType=INTEGER}, #{moneyDfh,jdbcType=DECIMAL}, 
+      #{countYsh,jdbcType=INTEGER}, #{moneyYsh,jdbcType=DECIMAL}, #{countQxz,jdbcType=INTEGER}, 
+      #{moneyQxz,jdbcType=DECIMAL}, #{countQx,jdbcType=INTEGER}, #{moneyQx,jdbcType=DECIMAL}, 
+      #{countThsq,jdbcType=INTEGER}, #{moneyThsq,jdbcType=DECIMAL}, #{countThz,jdbcType=INTEGER}, 
+      #{moneyThz,jdbcType=DECIMAL}, #{countTh,jdbcType=INTEGER}, #{moneyTh,jdbcType=DECIMAL}, 
+      #{countTk,jdbcType=INTEGER}, #{moneyTk,jdbcType=DECIMAL}, #{countHhsq,jdbcType=INTEGER}, 
+      #{moneyHhsq,jdbcType=DECIMAL}, #{countMjsh,jdbcType=INTEGER}, #{moneyMjsh,jdbcType=DECIMAL}, 
+      #{countMjfh,jdbcType=INTEGER}, #{moneyMjfh,jdbcType=DECIMAL}, #{countBuysh,jdbcType=INTEGER}, 
+      #{moneyBuysh,jdbcType=DECIMAL}, #{countHh,jdbcType=INTEGER}, #{moneyHh,jdbcType=DECIMAL}, 
+      #{countMjbh,jdbcType=INTEGER}, #{moneyMjbh,jdbcType=DECIMAL}, #{countYpj,jdbcType=INTEGER}, 
+      #{moneyYpj,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Salesorder" >
+    insert into salesorder
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="shopid != null" >
+        ShopID,
+      </if>
+      <if test="shopname != null" >
+        ShopName,
+      </if>
+      <if test="sellerid != null" >
+        SellerID,
+      </if>
+      <if test="sellername != null" >
+        SellerName,
+      </if>
+      <if test="stype != null" >
+        sType,
+      </if>
+      <if test="addorderdate != null" >
+        AddOrderDate,
+      </if>
+      <if test="totalcount != null" >
+        TotalCount,
+      </if>
+      <if test="totalmoney != null" >
+        TotalMoney,
+      </if>
+      <if test="countDfk != null" >
+        Count_DFK,
+      </if>
+      <if test="moneyDfk != null" >
+        Money_DFK,
+      </if>
+      <if test="countFk != null" >
+        Count_FK,
+      </if>
+      <if test="moneyFk != null" >
+        Money_FK,
+      </if>
+      <if test="countDfh != null" >
+        Count_DFH,
+      </if>
+      <if test="moneyDfh != null" >
+        Money_DFH,
+      </if>
+      <if test="countYsh != null" >
+        Count_YSH,
+      </if>
+      <if test="moneyYsh != null" >
+        Money_YSH,
+      </if>
+      <if test="countQxz != null" >
+        Count_QXZ,
+      </if>
+      <if test="moneyQxz != null" >
+        Money_QXZ,
+      </if>
+      <if test="countQx != null" >
+        Count_QX,
+      </if>
+      <if test="moneyQx != null" >
+        Money_QX,
+      </if>
+      <if test="countThsq != null" >
+        Count_THSQ,
+      </if>
+      <if test="moneyThsq != null" >
+        Money_THSQ,
+      </if>
+      <if test="countThz != null" >
+        Count_THZ,
+      </if>
+      <if test="moneyThz != null" >
+        Money_THZ,
+      </if>
+      <if test="countTh != null" >
+        Count_TH,
+      </if>
+      <if test="moneyTh != null" >
+        Money_TH,
+      </if>
+      <if test="countTk != null" >
+        Count_TK,
+      </if>
+      <if test="moneyTk != null" >
+        Money_TK,
+      </if>
+      <if test="countHhsq != null" >
+        Count_HHSQ,
+      </if>
+      <if test="moneyHhsq != null" >
+        Money_HHSQ,
+      </if>
+      <if test="countMjsh != null" >
+        Count_MJSH,
+      </if>
+      <if test="moneyMjsh != null" >
+        Money_MJSH,
+      </if>
+      <if test="countMjfh != null" >
+        Count_MJFH,
+      </if>
+      <if test="moneyMjfh != null" >
+        Money_MJFH,
+      </if>
+      <if test="countBuysh != null" >
+        Count_BuySH,
+      </if>
+      <if test="moneyBuysh != null" >
+        Money_BuySH,
+      </if>
+      <if test="countHh != null" >
+        Count_HH,
+      </if>
+      <if test="moneyHh != null" >
+        Money_HH,
+      </if>
+      <if test="countMjbh != null" >
+        Count_MJBH,
+      </if>
+      <if test="moneyMjbh != null" >
+        Money_MJBH,
+      </if>
+      <if test="countYpj != null" >
+        Count_YPJ,
+      </if>
+      <if test="moneyYpj != null" >
+        Money_YPJ,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="shopid != null" >
+        #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="shopname != null" >
+        #{shopname,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerid != null" >
+        #{sellerid,jdbcType=INTEGER},
+      </if>
+      <if test="sellername != null" >
+        #{sellername,jdbcType=VARCHAR},
+      </if>
+      <if test="stype != null" >
+        #{stype,jdbcType=INTEGER},
+      </if>
+      <if test="addorderdate != null" >
+        #{addorderdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalcount != null" >
+        #{totalcount,jdbcType=INTEGER},
+      </if>
+      <if test="totalmoney != null" >
+        #{totalmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="countDfk != null" >
+        #{countDfk,jdbcType=INTEGER},
+      </if>
+      <if test="moneyDfk != null" >
+        #{moneyDfk,jdbcType=DECIMAL},
+      </if>
+      <if test="countFk != null" >
+        #{countFk,jdbcType=INTEGER},
+      </if>
+      <if test="moneyFk != null" >
+        #{moneyFk,jdbcType=DECIMAL},
+      </if>
+      <if test="countDfh != null" >
+        #{countDfh,jdbcType=INTEGER},
+      </if>
+      <if test="moneyDfh != null" >
+        #{moneyDfh,jdbcType=DECIMAL},
+      </if>
+      <if test="countYsh != null" >
+        #{countYsh,jdbcType=INTEGER},
+      </if>
+      <if test="moneyYsh != null" >
+        #{moneyYsh,jdbcType=DECIMAL},
+      </if>
+      <if test="countQxz != null" >
+        #{countQxz,jdbcType=INTEGER},
+      </if>
+      <if test="moneyQxz != null" >
+        #{moneyQxz,jdbcType=DECIMAL},
+      </if>
+      <if test="countQx != null" >
+        #{countQx,jdbcType=INTEGER},
+      </if>
+      <if test="moneyQx != null" >
+        #{moneyQx,jdbcType=DECIMAL},
+      </if>
+      <if test="countThsq != null" >
+        #{countThsq,jdbcType=INTEGER},
+      </if>
+      <if test="moneyThsq != null" >
+        #{moneyThsq,jdbcType=DECIMAL},
+      </if>
+      <if test="countThz != null" >
+        #{countThz,jdbcType=INTEGER},
+      </if>
+      <if test="moneyThz != null" >
+        #{moneyThz,jdbcType=DECIMAL},
+      </if>
+      <if test="countTh != null" >
+        #{countTh,jdbcType=INTEGER},
+      </if>
+      <if test="moneyTh != null" >
+        #{moneyTh,jdbcType=DECIMAL},
+      </if>
+      <if test="countTk != null" >
+        #{countTk,jdbcType=INTEGER},
+      </if>
+      <if test="moneyTk != null" >
+        #{moneyTk,jdbcType=DECIMAL},
+      </if>
+      <if test="countHhsq != null" >
+        #{countHhsq,jdbcType=INTEGER},
+      </if>
+      <if test="moneyHhsq != null" >
+        #{moneyHhsq,jdbcType=DECIMAL},
+      </if>
+      <if test="countMjsh != null" >
+        #{countMjsh,jdbcType=INTEGER},
+      </if>
+      <if test="moneyMjsh != null" >
+        #{moneyMjsh,jdbcType=DECIMAL},
+      </if>
+      <if test="countMjfh != null" >
+        #{countMjfh,jdbcType=INTEGER},
+      </if>
+      <if test="moneyMjfh != null" >
+        #{moneyMjfh,jdbcType=DECIMAL},
+      </if>
+      <if test="countBuysh != null" >
+        #{countBuysh,jdbcType=INTEGER},
+      </if>
+      <if test="moneyBuysh != null" >
+        #{moneyBuysh,jdbcType=DECIMAL},
+      </if>
+      <if test="countHh != null" >
+        #{countHh,jdbcType=INTEGER},
+      </if>
+      <if test="moneyHh != null" >
+        #{moneyHh,jdbcType=DECIMAL},
+      </if>
+      <if test="countMjbh != null" >
+        #{countMjbh,jdbcType=INTEGER},
+      </if>
+      <if test="moneyMjbh != null" >
+        #{moneyMjbh,jdbcType=DECIMAL},
+      </if>
+      <if test="countYpj != null" >
+        #{countYpj,jdbcType=INTEGER},
+      </if>
+      <if test="moneyYpj != null" >
+        #{moneyYpj,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.SalesorderExample" resultType="java.lang.Integer" >
+    select count(*) from salesorder
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update salesorder
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopid != null" >
+        ShopID = #{record.shopid,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopname != null" >
+        ShopName = #{record.shopname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sellerid != null" >
+        SellerID = #{record.sellerid,jdbcType=INTEGER},
+      </if>
+      <if test="record.sellername != null" >
+        SellerName = #{record.sellername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stype != null" >
+        sType = #{record.stype,jdbcType=INTEGER},
+      </if>
+      <if test="record.addorderdate != null" >
+        AddOrderDate = #{record.addorderdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.totalcount != null" >
+        TotalCount = #{record.totalcount,jdbcType=INTEGER},
+      </if>
+      <if test="record.totalmoney != null" >
+        TotalMoney = #{record.totalmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countDfk != null" >
+        Count_DFK = #{record.countDfk,jdbcType=INTEGER},
+      </if>
+      <if test="record.moneyDfk != null" >
+        Money_DFK = #{record.moneyDfk,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countFk != null" >
+        Count_FK = #{record.countFk,jdbcType=INTEGER},
+      </if>
+      <if test="record.moneyFk != null" >
+        Money_FK = #{record.moneyFk,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countDfh != null" >
+        Count_DFH = #{record.countDfh,jdbcType=INTEGER},
+      </if>
+      <if test="record.moneyDfh != null" >
+        Money_DFH = #{record.moneyDfh,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countYsh != null" >
+        Count_YSH = #{record.countYsh,jdbcType=INTEGER},
+      </if>
+      <if test="record.moneyYsh != null" >
+        Money_YSH = #{record.moneyYsh,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countQxz != null" >
+        Count_QXZ = #{record.countQxz,jdbcType=INTEGER},
+      </if>
+      <if test="record.moneyQxz != null" >
+        Money_QXZ = #{record.moneyQxz,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countQx != null" >
+        Count_QX = #{record.countQx,jdbcType=INTEGER},
+      </if>
+      <if test="record.moneyQx != null" >
+        Money_QX = #{record.moneyQx,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countThsq != null" >
+        Count_THSQ = #{record.countThsq,jdbcType=INTEGER},
+      </if>
+      <if test="record.moneyThsq != null" >
+        Money_THSQ = #{record.moneyThsq,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countThz != null" >
+        Count_THZ = #{record.countThz,jdbcType=INTEGER},
+      </if>
+      <if test="record.moneyThz != null" >
+        Money_THZ = #{record.moneyThz,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countTh != null" >
+        Count_TH = #{record.countTh,jdbcType=INTEGER},
+      </if>
+      <if test="record.moneyTh != null" >
+        Money_TH = #{record.moneyTh,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countTk != null" >
+        Count_TK = #{record.countTk,jdbcType=INTEGER},
+      </if>
+      <if test="record.moneyTk != null" >
+        Money_TK = #{record.moneyTk,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countHhsq != null" >
+        Count_HHSQ = #{record.countHhsq,jdbcType=INTEGER},
+      </if>
+      <if test="record.moneyHhsq != null" >
+        Money_HHSQ = #{record.moneyHhsq,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countMjsh != null" >
+        Count_MJSH = #{record.countMjsh,jdbcType=INTEGER},
+      </if>
+      <if test="record.moneyMjsh != null" >
+        Money_MJSH = #{record.moneyMjsh,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countMjfh != null" >
+        Count_MJFH = #{record.countMjfh,jdbcType=INTEGER},
+      </if>
+      <if test="record.moneyMjfh != null" >
+        Money_MJFH = #{record.moneyMjfh,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countBuysh != null" >
+        Count_BuySH = #{record.countBuysh,jdbcType=INTEGER},
+      </if>
+      <if test="record.moneyBuysh != null" >
+        Money_BuySH = #{record.moneyBuysh,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countHh != null" >
+        Count_HH = #{record.countHh,jdbcType=INTEGER},
+      </if>
+      <if test="record.moneyHh != null" >
+        Money_HH = #{record.moneyHh,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countMjbh != null" >
+        Count_MJBH = #{record.countMjbh,jdbcType=INTEGER},
+      </if>
+      <if test="record.moneyMjbh != null" >
+        Money_MJBH = #{record.moneyMjbh,jdbcType=DECIMAL},
+      </if>
+      <if test="record.countYpj != null" >
+        Count_YPJ = #{record.countYpj,jdbcType=INTEGER},
+      </if>
+      <if test="record.moneyYpj != null" >
+        Money_YPJ = #{record.moneyYpj,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update salesorder
+    set ID = #{record.id,jdbcType=INTEGER},
+      ShopID = #{record.shopid,jdbcType=INTEGER},
+      ShopName = #{record.shopname,jdbcType=VARCHAR},
+      SellerID = #{record.sellerid,jdbcType=INTEGER},
+      SellerName = #{record.sellername,jdbcType=VARCHAR},
+      sType = #{record.stype,jdbcType=INTEGER},
+      AddOrderDate = #{record.addorderdate,jdbcType=TIMESTAMP},
+      TotalCount = #{record.totalcount,jdbcType=INTEGER},
+      TotalMoney = #{record.totalmoney,jdbcType=DECIMAL},
+      Count_DFK = #{record.countDfk,jdbcType=INTEGER},
+      Money_DFK = #{record.moneyDfk,jdbcType=DECIMAL},
+      Count_FK = #{record.countFk,jdbcType=INTEGER},
+      Money_FK = #{record.moneyFk,jdbcType=DECIMAL},
+      Count_DFH = #{record.countDfh,jdbcType=INTEGER},
+      Money_DFH = #{record.moneyDfh,jdbcType=DECIMAL},
+      Count_YSH = #{record.countYsh,jdbcType=INTEGER},
+      Money_YSH = #{record.moneyYsh,jdbcType=DECIMAL},
+      Count_QXZ = #{record.countQxz,jdbcType=INTEGER},
+      Money_QXZ = #{record.moneyQxz,jdbcType=DECIMAL},
+      Count_QX = #{record.countQx,jdbcType=INTEGER},
+      Money_QX = #{record.moneyQx,jdbcType=DECIMAL},
+      Count_THSQ = #{record.countThsq,jdbcType=INTEGER},
+      Money_THSQ = #{record.moneyThsq,jdbcType=DECIMAL},
+      Count_THZ = #{record.countThz,jdbcType=INTEGER},
+      Money_THZ = #{record.moneyThz,jdbcType=DECIMAL},
+      Count_TH = #{record.countTh,jdbcType=INTEGER},
+      Money_TH = #{record.moneyTh,jdbcType=DECIMAL},
+      Count_TK = #{record.countTk,jdbcType=INTEGER},
+      Money_TK = #{record.moneyTk,jdbcType=DECIMAL},
+      Count_HHSQ = #{record.countHhsq,jdbcType=INTEGER},
+      Money_HHSQ = #{record.moneyHhsq,jdbcType=DECIMAL},
+      Count_MJSH = #{record.countMjsh,jdbcType=INTEGER},
+      Money_MJSH = #{record.moneyMjsh,jdbcType=DECIMAL},
+      Count_MJFH = #{record.countMjfh,jdbcType=INTEGER},
+      Money_MJFH = #{record.moneyMjfh,jdbcType=DECIMAL},
+      Count_BuySH = #{record.countBuysh,jdbcType=INTEGER},
+      Money_BuySH = #{record.moneyBuysh,jdbcType=DECIMAL},
+      Count_HH = #{record.countHh,jdbcType=INTEGER},
+      Money_HH = #{record.moneyHh,jdbcType=DECIMAL},
+      Count_MJBH = #{record.countMjbh,jdbcType=INTEGER},
+      Money_MJBH = #{record.moneyMjbh,jdbcType=DECIMAL},
+      Count_YPJ = #{record.countYpj,jdbcType=INTEGER},
+      Money_YPJ = #{record.moneyYpj,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Salesorder" >
+    update salesorder
+    <set >
+      <if test="shopid != null" >
+        ShopID = #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="shopname != null" >
+        ShopName = #{shopname,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerid != null" >
+        SellerID = #{sellerid,jdbcType=INTEGER},
+      </if>
+      <if test="sellername != null" >
+        SellerName = #{sellername,jdbcType=VARCHAR},
+      </if>
+      <if test="stype != null" >
+        sType = #{stype,jdbcType=INTEGER},
+      </if>
+      <if test="addorderdate != null" >
+        AddOrderDate = #{addorderdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="totalcount != null" >
+        TotalCount = #{totalcount,jdbcType=INTEGER},
+      </if>
+      <if test="totalmoney != null" >
+        TotalMoney = #{totalmoney,jdbcType=DECIMAL},
+      </if>
+      <if test="countDfk != null" >
+        Count_DFK = #{countDfk,jdbcType=INTEGER},
+      </if>
+      <if test="moneyDfk != null" >
+        Money_DFK = #{moneyDfk,jdbcType=DECIMAL},
+      </if>
+      <if test="countFk != null" >
+        Count_FK = #{countFk,jdbcType=INTEGER},
+      </if>
+      <if test="moneyFk != null" >
+        Money_FK = #{moneyFk,jdbcType=DECIMAL},
+      </if>
+      <if test="countDfh != null" >
+        Count_DFH = #{countDfh,jdbcType=INTEGER},
+      </if>
+      <if test="moneyDfh != null" >
+        Money_DFH = #{moneyDfh,jdbcType=DECIMAL},
+      </if>
+      <if test="countYsh != null" >
+        Count_YSH = #{countYsh,jdbcType=INTEGER},
+      </if>
+      <if test="moneyYsh != null" >
+        Money_YSH = #{moneyYsh,jdbcType=DECIMAL},
+      </if>
+      <if test="countQxz != null" >
+        Count_QXZ = #{countQxz,jdbcType=INTEGER},
+      </if>
+      <if test="moneyQxz != null" >
+        Money_QXZ = #{moneyQxz,jdbcType=DECIMAL},
+      </if>
+      <if test="countQx != null" >
+        Count_QX = #{countQx,jdbcType=INTEGER},
+      </if>
+      <if test="moneyQx != null" >
+        Money_QX = #{moneyQx,jdbcType=DECIMAL},
+      </if>
+      <if test="countThsq != null" >
+        Count_THSQ = #{countThsq,jdbcType=INTEGER},
+      </if>
+      <if test="moneyThsq != null" >
+        Money_THSQ = #{moneyThsq,jdbcType=DECIMAL},
+      </if>
+      <if test="countThz != null" >
+        Count_THZ = #{countThz,jdbcType=INTEGER},
+      </if>
+      <if test="moneyThz != null" >
+        Money_THZ = #{moneyThz,jdbcType=DECIMAL},
+      </if>
+      <if test="countTh != null" >
+        Count_TH = #{countTh,jdbcType=INTEGER},
+      </if>
+      <if test="moneyTh != null" >
+        Money_TH = #{moneyTh,jdbcType=DECIMAL},
+      </if>
+      <if test="countTk != null" >
+        Count_TK = #{countTk,jdbcType=INTEGER},
+      </if>
+      <if test="moneyTk != null" >
+        Money_TK = #{moneyTk,jdbcType=DECIMAL},
+      </if>
+      <if test="countHhsq != null" >
+        Count_HHSQ = #{countHhsq,jdbcType=INTEGER},
+      </if>
+      <if test="moneyHhsq != null" >
+        Money_HHSQ = #{moneyHhsq,jdbcType=DECIMAL},
+      </if>
+      <if test="countMjsh != null" >
+        Count_MJSH = #{countMjsh,jdbcType=INTEGER},
+      </if>
+      <if test="moneyMjsh != null" >
+        Money_MJSH = #{moneyMjsh,jdbcType=DECIMAL},
+      </if>
+      <if test="countMjfh != null" >
+        Count_MJFH = #{countMjfh,jdbcType=INTEGER},
+      </if>
+      <if test="moneyMjfh != null" >
+        Money_MJFH = #{moneyMjfh,jdbcType=DECIMAL},
+      </if>
+      <if test="countBuysh != null" >
+        Count_BuySH = #{countBuysh,jdbcType=INTEGER},
+      </if>
+      <if test="moneyBuysh != null" >
+        Money_BuySH = #{moneyBuysh,jdbcType=DECIMAL},
+      </if>
+      <if test="countHh != null" >
+        Count_HH = #{countHh,jdbcType=INTEGER},
+      </if>
+      <if test="moneyHh != null" >
+        Money_HH = #{moneyHh,jdbcType=DECIMAL},
+      </if>
+      <if test="countMjbh != null" >
+        Count_MJBH = #{countMjbh,jdbcType=INTEGER},
+      </if>
+      <if test="moneyMjbh != null" >
+        Money_MJBH = #{moneyMjbh,jdbcType=DECIMAL},
+      </if>
+      <if test="countYpj != null" >
+        Count_YPJ = #{countYpj,jdbcType=INTEGER},
+      </if>
+      <if test="moneyYpj != null" >
+        Money_YPJ = #{moneyYpj,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Salesorder" >
+    update salesorder
+    set ShopID = #{shopid,jdbcType=INTEGER},
+      ShopName = #{shopname,jdbcType=VARCHAR},
+      SellerID = #{sellerid,jdbcType=INTEGER},
+      SellerName = #{sellername,jdbcType=VARCHAR},
+      sType = #{stype,jdbcType=INTEGER},
+      AddOrderDate = #{addorderdate,jdbcType=TIMESTAMP},
+      TotalCount = #{totalcount,jdbcType=INTEGER},
+      TotalMoney = #{totalmoney,jdbcType=DECIMAL},
+      Count_DFK = #{countDfk,jdbcType=INTEGER},
+      Money_DFK = #{moneyDfk,jdbcType=DECIMAL},
+      Count_FK = #{countFk,jdbcType=INTEGER},
+      Money_FK = #{moneyFk,jdbcType=DECIMAL},
+      Count_DFH = #{countDfh,jdbcType=INTEGER},
+      Money_DFH = #{moneyDfh,jdbcType=DECIMAL},
+      Count_YSH = #{countYsh,jdbcType=INTEGER},
+      Money_YSH = #{moneyYsh,jdbcType=DECIMAL},
+      Count_QXZ = #{countQxz,jdbcType=INTEGER},
+      Money_QXZ = #{moneyQxz,jdbcType=DECIMAL},
+      Count_QX = #{countQx,jdbcType=INTEGER},
+      Money_QX = #{moneyQx,jdbcType=DECIMAL},
+      Count_THSQ = #{countThsq,jdbcType=INTEGER},
+      Money_THSQ = #{moneyThsq,jdbcType=DECIMAL},
+      Count_THZ = #{countThz,jdbcType=INTEGER},
+      Money_THZ = #{moneyThz,jdbcType=DECIMAL},
+      Count_TH = #{countTh,jdbcType=INTEGER},
+      Money_TH = #{moneyTh,jdbcType=DECIMAL},
+      Count_TK = #{countTk,jdbcType=INTEGER},
+      Money_TK = #{moneyTk,jdbcType=DECIMAL},
+      Count_HHSQ = #{countHhsq,jdbcType=INTEGER},
+      Money_HHSQ = #{moneyHhsq,jdbcType=DECIMAL},
+      Count_MJSH = #{countMjsh,jdbcType=INTEGER},
+      Money_MJSH = #{moneyMjsh,jdbcType=DECIMAL},
+      Count_MJFH = #{countMjfh,jdbcType=INTEGER},
+      Money_MJFH = #{moneyMjfh,jdbcType=DECIMAL},
+      Count_BuySH = #{countBuysh,jdbcType=INTEGER},
+      Money_BuySH = #{moneyBuysh,jdbcType=DECIMAL},
+      Count_HH = #{countHh,jdbcType=INTEGER},
+      Money_HH = #{moneyHh,jdbcType=DECIMAL},
+      Count_MJBH = #{countMjbh,jdbcType=INTEGER},
+      Money_MJBH = #{moneyMjbh,jdbcType=DECIMAL},
+      Count_YPJ = #{countYpj,jdbcType=INTEGER},
+      Money_YPJ = #{moneyYpj,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

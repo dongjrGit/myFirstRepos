@@ -1,0 +1,499 @@
+<%var path="/resource";%>
+<head>
+    <title>首页</title>
+    <link rel="stylesheet" href="${path}/ui-dialog.css" />
+    <script type="text/javascript" src="/resource/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="${path}/wap/js/index.js" ></script>
+    <script type="text/javascript" src="${path}/wap/js/js.js" ></script>
+    <script src="${path}/wap/js/Yeffect16_0118.min.js"></script>
+    <script src="${path}/dialog-min.js"></script>
+    <script src="${path}/dialogShow.js"></script>
+    <script src="${path}/cookie.js"></script>
+    <script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=38c609a5937524bb6bbe8dcd3d6edcad"></script> 
+	<script type="text/javascript" src="/resource/wap/js/wkh/varCommon.js"></script>
+	<script type="text/javascript" src="/resource/wap/js/wkh/ajaxCommon.js"></script>
+	<script type="text/javascript" src="/resource/wap/js/wkh/appCommon.js"></script>
+<script type="text/javascript">
+var isEndword=false;
+$(function(){
+	$(window).scroll(function(){
+		var scrollTop=$(this).scrollTop();
+		var scrollHeight=$(document).height();
+		var windowHeight=$(this).height();
+		if(scrollTop+windowHeight==scrollHeight){
+			initPage(0);
+			goodslist('.goods_list_img img');
+		}
+	});
+});
+
+
+$(function(){
+	var tokens=GetCookie("_u_token");
+	pageUrl="/api/wap/findspu";
+	params={page:1,size:2,mark:4,ch:3};
+	content="fix";
+	initPage(0);
+});
+
+	function beforeSend() {
+		$("#loading").show();
+	}
+
+	function complete() {
+		$("#loading").hide();
+	}
+	
+	function qiandao(){
+		window.location.href="/wap/qianview/qian";
+	}
+
+	function getLocation(callback){
+		    if(navigator.geolocation){
+		        navigator.geolocation.getCurrentPosition(
+		                function(p){
+		                    callback(p.coords.latitude, p.coords.longitude);
+		                },
+		                function(e){
+		                    var msg = e.code + "\n" + e.message;
+		                }
+		        );
+		    }
+		}
+	
+	 var map, geolocation;
+	    //加载地图，调用浏览器定位服务
+	    map = new AMap.Map('container', {
+	        resizeEnable: true
+	    });
+	    map.plugin('AMap.Geolocation', function() {
+	        geolocation = new AMap.Geolocation({
+	            enableHighAccuracy: true,//是否使用高精度定位，默认:true
+	            timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+	            buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+	            zoomToAccuracy: false,      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+	            buttonPosition:'RB'
+	        });
+	        map.addControl(geolocation);
+	        geolocation.getCurrentPosition();
+	        AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+	        AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+	    });
+	    
+	    var lng,lat;
+	//解析定位结果
+	    function onComplete(data) {
+	        lng=data.position.getLng();
+	        lat=data.position.getLat();
+	        $.ajax({
+	    		type:'POST', //请求类型
+	    		dataType: "JSON",
+	    		url:"/api/wap/queryscopshop",//请求位置 
+	    		cache: false,//true，dataType 为 script 和 jsonp 时默认为 false。设置为 false 将不缓存此页面。
+	    		async: false,//同步请求将锁住浏览器，用户其它操作必须等待请求完成才可以执行。
+	    		data:{"ch":3,"longitude":lng,"latitude":lat,"page":1,"size":6},
+	    		timeout:30000,//设置请求超时时间（毫秒）。此设置将覆盖全局设置。
+	    		beforeSend:beforeSend(),
+	    		complete: complete(),
+	    		success: function(data){ //成功
+	    			$("#fjsm").html('<ul id="fjsmlist"></ul>');
+	    			$.each(data.data,function(i,item){
+		    			var htmls="";
+		    			htmls+='<li>';
+		    			htmls+='<a href="/wap/shop/index.html?id='+item.id+'"><img src="'+item.imgurl+'" class="img-responsive" /></a>';
+		    			htmls+='</li>';
+		    			$("#fjsmlist").append(htmls);
+	    			});
+	    					}
+	    				});
+	    }
+	function fjscCli(){
+		location.href="/wap/zhuye/fjsm.html";
+	}
+	
+	    //解析定位错误信息
+	    function onError(data) {
+	    	/* alert("定位失败"); */
+	    }
+	 
+</script>
+</head>
+<body>
+	<!--top begin-->
+	<!-- <div class="top fix">
+		<div class="top_scan">
+			<a href="javascript:void(0)">
+				<span><img src="/wap/images/top_scan.png"/></span>
+				<div class="top_color">扫一扫</div>
+			</a>
+		</div>
+		<div class="top_search">
+			<input type="text" name="" id="" value="春运启程 把爱带回家" class="top_searchinput" />
+			<div class="top_searchico"><img src="/wap/images/top_search.png"/></div>
+		</div>
+		<div class="top_news">
+			<a href="javascript:void(0)">
+				<span><img src="/wap/images/top_news.png"/></span>
+				<div class="top_color">消息</div>
+				<div class="top_news_num">
+					50
+				</div>
+			</a>
+		</div>
+	</div> -->
+	<!--top stop-->
+	<!--banner-->
+	<div class="fx-banner">
+		<ul>
+			<% for (vo in ban){%>	
+	    	<li ><a href="${vo.url}" target="_blank"><img src="${vo.img}"></a></li>
+	    	<%}%>
+	    </ul>
+		<p>
+		
+		<% for (vo in gg1){%>	
+	    	<i></i>
+	    	<%}%></p>
+	</div>
+	<script>
+	$(function(){
+		/////banner	
+		Yeffect.mobileBanner(".fx-banner ul",".fx-banner ul li",".fx-banner p i","","","current",5000);
+		var fx_banner=$(".fx-banner");
+		Yeffect.resizeHtW(fx_banner,fx_banner,640,220);
+	})
+	</script>
+	<!--banner***-->
+	
+	<!--navigation  begin-->
+	<div class="navigation fix">
+		<ul>
+			<li>
+				<a href="/wap/coupon/getShopCoupon?ch=3">
+					<div class="navigation_ico">
+						<img src="${path}/wap/images/index_ico01.png" class="img-responsive" />
+					</div>
+					<div class="navigation_title">
+						优惠劵
+					</div>
+				</a>
+			</li>
+			<li>
+				<a href="javascript:void(0)" onclick="qiandao()">
+					<div class="navigation_ico">
+						<img src="${path}/wap/images/index_ico02.png" class="img-responsive" />
+					</div>
+					<div class="navigation_title">
+						签到
+					</div>
+				</a>
+			</li>
+			<!-- <li>
+				<a href="javascript:void(0)">
+					<div class="navigation_ico">
+						<img src="${path}/wap/images/index_ico03.png" class="img-responsive" />
+					</div>
+					<div class="navigation_title">
+						鑫经彩卡
+					</div>
+				</a>
+			</li> -->
+			<li>
+				<a href="javascript:void(0)">
+					<div class="navigation_ico">
+						<img src="${path}/wap/images/index_ico04.png" class="img-responsive" />
+					</div>
+					<div class="navigation_title">
+						全部
+					</div>
+				</a>
+			</li>
+			<li> 
+				<a href="/wap/wap/mrx.html">
+					<div class="navigation_ico">
+						<img src="${path}/wap/images/zlindexico7.png" class="img-responsive" />
+					</div>
+					<div class="navigation_title">
+						食品生鲜
+					</div>
+				</a>
+			</li> 
+<!-- 			<li> -->
+<!-- 				<a href="javascript:void(0)"> -->
+<!-- 					<div class="navigation_ico"> -->
+<!-- 						<img src="/wap/images/index_ico06.png" class="img-responsive" /> -->
+<!-- 					</div> -->
+<!-- 					<div class="navigation_title"> -->
+<!-- 						酒水饮料 -->
+<!-- 					</div> -->
+<!-- 				</a> -->
+<!-- 			</li> -->
+<!-- 			<li> -->
+<!-- 				<a href="javascript:void(0)"> -->
+<!-- 					<div class="navigation_ico"> -->
+<!-- 						<img src="/wap/images/index_ico07.png" class="img-responsive" /> -->
+<!-- 					</div> -->
+<!-- 					<div class="navigation_title"> -->
+<!-- 						生活服务 -->
+<!-- 					</div> -->
+<!-- 				</a> -->
+<!-- 			</li> -->
+<!-- 			<li> -->
+<!-- 				<a href="javascript:void(0)"> -->
+<!-- 					<div class="navigation_ico"> -->
+<!-- 						<img src="/wap/images/index_ico08.png" class="img-responsive" /> -->
+<!-- 					</div> -->
+<!-- 					<div class="navigation_title"> -->
+<!-- 						居家生活 -->
+<!-- 					</div> -->
+<!-- 				</a> -->
+<!-- 			</li> -->
+		</ul>
+	</div>
+	<!--navigation  stop-->
+	<!--hotnews  begin-->
+	<div class="hotnews fix">
+		<div class="hotnews_l">
+			<span>最新</span><span>消息</span>
+		</div>
+		<div class="hotnews_r">
+			<ul>
+				<li>
+					<a href="javascript:void(0)">
+						<span><img src="${path}/wap/images/hotnews_ico.png" /></span>
+						年货抢购攻略！！
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0)">
+						<span><img src="${path}/wap/images/hotnews_ico.png" /></span>
+						年货抢购攻略！！
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!--hotnews  stop-->
+	<!--Actidraw  begin-->
+	<div class="Actidraw fix">
+		<div class="Actidrawtop fix">
+			<div class="Actidrawtop_l">
+				<a href="/wap/chou/choujiang.html"><img src="${path}/wap/images/actidraw01.jpg" class="img-responsive" /></a>
+			</div>
+			<div class="Actidrawtop_r">
+				<a href="/wap/find/findbyzs.html"><img src="${path}/wap/images/actidraw02.jpg" class="img-responsive"  /></a>
+				<a href="/wap/activityView/qiang.html"><img src="${path}/wap/images/actidraw03.jpg" class="img-responsive" /></a>
+			</div>
+		</div>
+		<div class="Actidrawbot">
+		<%for(vo in gg2){%>
+			<a href="${vo.url}"><img src="${vo.imag}" class="img-responsive" /></a>
+			<%}%>
+		</div>
+	</div>
+	<!--Actidraw  stop-->
+	<!--coalition  begin-->
+	<!-- <div class="coalition fix">
+		<div class="coalition_top fix">
+			<div class="coalition_toptitle fix">
+				<a href="javascript:void(0);" onclick="fjscCli()"  ><div class="floatl"><img src="${path}/wap/images/index_title01.png"/>附近商<span class="purple">盟</span></div></a>
+				<div class="floatr"  >
+					<span onclick="javascript:location.href='/wap/dt.html'">地图</span><img src="${path}/wap/images/mapico.png"/>
+				</div>
+				<div class="coalition_line"></div>
+			</div>
+		</div>
+		<div class="coalition_con fix" id="fjsm">
+			<div align="center" style="height: 40px;">
+				正在定位获取附近商盟...
+			</div>
+		</div>
+	</div> -->
+	<!--coalition  stop-->
+	<!--themestreet  begin-->
+	<div class="themestreet fix">
+		<div class="themestreet_top fix">
+			<a href="javascript:void(0)">
+			<div class="floatl">
+				<img src="${path}/wap/images/index_title02.png" class="index_titleico"/>
+				精彩主题<span class="blue">街</span>
+				<img src="${path}/wap/images/index_titlemore.png" class="index_titlemore"/>
+			</div>
+			<div class="coalition_line"></div>
+			</a>
+		</div>
+		<div class="themestreet_con fix">
+		     
+		<% if(isNotEmpty(a)){ %>
+			<div class="themestreet_contop fix">
+		        
+				<% for(var i=0;i < a.~size;i++){ if(i==0){ %>
+				<div class="themestreet_contop_l">
+					<a href="/wap/centerPage/ztj?name=${a[i].title}&ids=${a[i].ids}"  ><img src="${a[i].imgurl}" class="img-responsive"/></a>
+				</div>
+				  <div class="themestreet_contop_r">
+				<% } else {%>
+			  
+					<a href="/wap/centerPage/ztj?name=${a[i].title}&ids=${a[i].ids}"><img src="${a[i].imgurl}" class="img-responsive"/></a>
+				<%}%>	
+				
+				<%}%>	
+				</div>
+			</div>
+		<%}%>
+			
+	   <% if(isNotEmpty(b)){ %>
+			<div class="themestreet_contop fix">
+			  <div class="themestreet_contop_r">
+				<% for(var i=0;i < b.~size;i++){ 
+					if(i!=2){  %>
+					 	<a href="/wap/centerPage/ztj?name=${b[i].title}&ids=${b[i].ids}"><img src="${b[i].imgurl}" class="img-responsive"/></a> 
+					<%}else {%>
+					 </div>
+					 <div class="themestreet_contop_l">
+					 	<a href="/wap/centerPage/ztj?name=${b[i].title}&ids=${b[i].ids}"><img src="${b[i].imgurl}" class="img-responsive"/></a>
+			        <%}%>	
+				<%}%>	
+				</div>
+			</div>
+		<%}%>
+
+		</div>
+	</div>
+	<!--themestreet  stop-->
+	<!--advertising  begin-->
+	<div class="advertising fix">
+	<%for(vo in gg2){%>
+		<a href="${vo.url}"  target="_blank"><img src="${vo.imag}" class="img-responsive"/></a>
+		<%}%>
+	</div>
+	<!--advertising  stop-->
+	<!--themestreet  begin-->
+	<div class="themestreet fix">
+		<div class="themestreet_top fix">
+			<a href="javascript:void(0)">
+			<div class="floatl">
+				<img src="${path}/wap/images/index_title03.png" class="index_titleico"/>
+				发现<span class="yellow">好</span>店
+				<img src="${path}/wap/images/index_titlemore.png" class="index_titlemore"/>
+			</div>
+			<div class="coalition_line"></div>
+			</a>
+		</div>
+		<div class="goodShop fix">
+			<ul>
+			<%for(vo in fxhd){%>
+				<li><a href="/wap/shop/index.html?id=${vo.shopid}&href=/wap/index.html"><img src="${vo.img}" class="img-responsive" /></a></li>
+			
+			<%}%>
+			</ul>
+		</div>
+	</div>
+	<!--themestreet  stop-->
+	<!--advertising  begin-->
+	<div class="advertising fix">
+		<%for(vo in gg3){%>
+			<a href="${vo.url}"><img src="${vo.imag}" class="img-responsive" /></a>
+		<%}%>
+	</div>
+	<!--advertising  stop-->
+	<!--themestreet  begin-->
+	<div class="themestreet fix">
+		<div class="themestreet_top fix">
+			<a href="javascript:void(0)">
+			<div class="floatl">
+				<img src="${path}/wap/images/index_title04.png" class="index_titleico"/>
+				<span class="green">新</span>品上市
+				<img src="${path}/wap/images/index_titlemore.png" class="index_titlemore"/>
+			</div>
+			<div class="coalition_line"></div>
+			</a>
+		</div>
+		<div class="newArrival fix">
+			<ul>
+				<%for(vo in xpss){%>
+				<li onclick="javascript:location.href='/wap/products/ProDetail.html?spuid=${vo.spuid}'">
+					<a href="/wap/products/ProDetail.html?spuid=${vo.spuid}">
+						<img src="${vo.img}" class="img-responsive" />
+						<div class="newArrival_price">
+							¥${vo.price}
+						</div>
+						<div class="newico">
+							<img src="${path}/wap/images/new.png"/>
+						</div>
+					</a>
+				</li>
+				<%}%>
+			</ul>
+		</div>
+	</div>
+	<!--themestreet  stop-->
+	<!--advertising  begin-->
+	<div class="advertising fix">
+		<%for(vo in gg4){%>
+			<a href="${vo.url}"><img src="${vo.imag}" class="img-responsive" /></a>
+			<%}%>
+	</div>
+	<!--advertising  stop-->
+	<!--themestreet  begin-->
+	<div class="themestreet fix">
+		<div class="themestreet_top fix">
+			<a href="javascript:void(0)">
+			<div class="floatl">
+			<img src="${path}/wap/images/index_title05.png" class="index_titleico"/>
+				发现<span class="red">好</span>货
+				<img src="${path}/wap/images/index_titlemore.png" class="index_titlemore"/>
+			</div>
+			<div class="coalition_line"></div>
+			</a>
+		</div>
+		<div class="goods_list fix" >
+			<ul class="fix" id="fix">
+				
+			</ul>
+			<!--loading  begin-->
+			<div id="loading">
+				<div id="loading-center">
+					<div id="loading-center-absolute" >
+						<div class="object" id="object_one"></div>
+						<div class="object" id="object_two"></div>
+						<div class="object" id="object_three"></div>
+						<div class="object" id="object_four"></div>
+						<div class="object" id="object_five"></div>
+						<div class="object" id="object_six"></div>
+						<div class="object" id="object_seven"></div>
+						<div class="object" id="object_eight"></div>
+					</div>
+				</div>
+			</div>
+			<!--loading  stop-->
+		</div>
+	</div>
+	<div class="toolbar-tab tbar-tab-top">
+		<i class="tab-ico"></i><em class="tab-text"></em><span class="tab-sub J-count hide"></span>
+	</div>  
+	<!--themestreet  stop-->
+	<img src="${path}/wap/images/index_42.png" class="qianggou-scrollTop">
+	<%
+    include("/template/wap/index_foot.html",{display:0}){}
+    %>
+<script>
+	window.onload=function(){
+		borderRadius('.top_news_num');
+		actidrawtopL('.Actidrawtop_l img');
+		Actidraw('.Actidrawtop_l','.Actidrawtop_r img');
+		maxArry('.coalition_bot img');
+		themestreetL('.themestreet_contop_l img');
+		themeStreet('.themestreet_contop_l','.themestreet_contop_r img');
+		newArrival('.newArrival ul li');
+		newArrival('.newArrival ul li > a > img');
+//		maxArry('.goods_list ul li');
+		goodslist('.goods_list_img img');
+		fixed('.fx-footer');
+		fixed('.top');
+		goodslist('.coalition_con ul li img')
+	}	
+</script>
+</body>
+
+

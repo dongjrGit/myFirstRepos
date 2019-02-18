@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.DepartmentMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Department" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="Num" property="num" jdbcType="VARCHAR" />
+    <result column="FatherID" property="fatherid" jdbcType="INTEGER" />
+    <result column="Level" property="level" jdbcType="INTEGER" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="CreateUser" property="createuser" jdbcType="INTEGER" />
+    <result column="FullPath" property="fullpath" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, Name, Num, FatherID, Level, Status, CreateTime, CreateUser, FullPath
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.DepartmentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from department
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from department
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from department
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.DepartmentExample" >
+    delete from department
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Department" >
+    insert into department (ID, Name, Num, 
+      FatherID, Level, Status, 
+      CreateTime, CreateUser, FullPath
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{num,jdbcType=VARCHAR}, 
+      #{fatherid,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{createuser,jdbcType=INTEGER}, #{fullpath,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Department" >
+    insert into department
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="num != null" >
+        Num,
+      </if>
+      <if test="fatherid != null" >
+        FatherID,
+      </if>
+      <if test="level != null" >
+        Level,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+      <if test="createtime != null" >
+        CreateTime,
+      </if>
+      <if test="createuser != null" >
+        CreateUser,
+      </if>
+      <if test="fullpath != null" >
+        FullPath,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="fatherid != null" >
+        #{fatherid,jdbcType=INTEGER},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null" >
+        #{createuser,jdbcType=INTEGER},
+      </if>
+      <if test="fullpath != null" >
+        #{fullpath,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.DepartmentExample" resultType="java.lang.Integer" >
+    select count(*) from department
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update department
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        Name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.num != null" >
+        Num = #{record.num,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fatherid != null" >
+        FatherID = #{record.fatherid,jdbcType=INTEGER},
+      </if>
+      <if test="record.level != null" >
+        Level = #{record.level,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        Status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createuser != null" >
+        CreateUser = #{record.createuser,jdbcType=INTEGER},
+      </if>
+      <if test="record.fullpath != null" >
+        FullPath = #{record.fullpath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update department
+    set ID = #{record.id,jdbcType=INTEGER},
+      Name = #{record.name,jdbcType=VARCHAR},
+      Num = #{record.num,jdbcType=VARCHAR},
+      FatherID = #{record.fatherid,jdbcType=INTEGER},
+      Level = #{record.level,jdbcType=INTEGER},
+      Status = #{record.status,jdbcType=INTEGER},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      CreateUser = #{record.createuser,jdbcType=INTEGER},
+      FullPath = #{record.fullpath,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Department" >
+    update department
+    <set >
+      <if test="name != null" >
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        Num = #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="fatherid != null" >
+        FatherID = #{fatherid,jdbcType=INTEGER},
+      </if>
+      <if test="level != null" >
+        Level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuser != null" >
+        CreateUser = #{createuser,jdbcType=INTEGER},
+      </if>
+      <if test="fullpath != null" >
+        FullPath = #{fullpath,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Department" >
+    update department
+    set Name = #{name,jdbcType=VARCHAR},
+      Num = #{num,jdbcType=VARCHAR},
+      FatherID = #{fatherid,jdbcType=INTEGER},
+      Level = #{level,jdbcType=INTEGER},
+      Status = #{status,jdbcType=INTEGER},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      CreateUser = #{createuser,jdbcType=INTEGER},
+      FullPath = #{fullpath,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="queryAll" resultType="com.yinlian.wssc.web.dto.DepartmentDto" parameterType="java.lang.Integer">
+  	select * from department where fatherid=#{fatherid}
+  </select>
+  
+  <select id="selectDepartByName" resultMap="BaseResultMap" parameterType="map">
+  	select * from department where name like '%${keyword}%'
+  
+  </select>
+    <select id="selectDepartById" resultType="com.yinlian.wssc.web.dto.DepartmentDto" parameterType="java.lang.Integer">
+  	select * from department where id=#{id}
+  
+  </select>
+  
+  <!-- 插入并返回主键 -->
+  <insert id="insertGetId" parameterType="com.yinlian.wssc.web.po.Department">
+  <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+			select LAST_INSERT_ID()
+		</selectKey>
+		insert into department (ID, Name, Num,
+		FatherID, Level, Status,
+		CreateTime, CreateUser, FullPath
+		)
+		values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+		#{num,jdbcType=VARCHAR},
+		#{fatherid,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+		#{createtime,jdbcType=TIMESTAMP}, #{createuser,jdbcType=INTEGER},
+		#{fullpath,jdbcType=VARCHAR}
+		)
+	</insert>
+
+   <!-- 根据父ID获取子部门信息 -->
+	<select id="getByFatherID" resultType="com.yinlian.wssc.web.po.Department"
+		parameterType="java.lang.Integer">
+		select 
+		  <include refid="Base_Column_List" />
+        from department 
+		where fatherid=#{fatherid}
+		and status=1
+	</select>
+	
+	<!-- 修改部门状态 -->
+	<update id="updateStatus" parameterType="com.yinlian.wssc.web.po.Department">
+	update department 
+	set Status=#{status,jdbcType=INTEGER}
+	where ID = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

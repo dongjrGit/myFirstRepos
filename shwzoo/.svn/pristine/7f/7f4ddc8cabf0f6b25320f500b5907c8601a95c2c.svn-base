@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>帮助中心</title>
+<meta name="title" content="帮助文档" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link rel="shortcut icon" type="image/x-icon" href="/resource/pc/member/images/favicon_shortcut.ico" />
+<link type="text/css" rel="stylesheet" href="/resource/pc/member/css/common.css">
+<link type="text/css" rel="stylesheet" href="/resource/pc/member/css/top-footer.css">
+<link type="text/css" rel="stylesheet" href="/resource/pc/web/css/helpCenter.css">
+</head>
+
+<body>
+<!--hp_seacon  stop -->
+<!--hp_rdwt  begin -->
+<div class="hp_rdwt fix mt20">
+	<div class="w1200 fix">
+    	<!--hp_cjwtleft  begin -->
+    	<div class="hp_cjwtleft">
+        	<h3>帮助中心</h3>
+            <ul>
+            
+            <%for(nclift in newscleft){%>
+            		<li><a href="/web/help/list.html?classid=${nclift.id}">${nclift.name}</a></li>
+            <%}%>
+            </ul> 
+        </div>
+        <!--hp_cjwtleft  stop -->
+        <!--hp_cjwtright   begin -->
+        <div class="hp_cjwtright">
+        	<div class="hp_lbxqytop">
+           <a href="javascript:void(0)">帮助中心</a><span>&gt;</span><a href="javascript:void(0)">${newsc.name ! ""}</a>
+            </div><!--hp_lbxqytop  stop -->
+            <!--hP_lbxqyall   begin -->
+            <div class="hP_lbxqyall">
+                <div class="hp_cngxqht">
+                	<h3 style="color: #D92323"></h3>
+                   <ul>
+                    <%for(navs in newsclass){%>
+                    	<li><a href="/web/help/details.html?classid=${navs.id}&articId=${navs.id}"><span>.</span>${navs.name}</a></li>
+                    	<%}%>
+                   
+                    </ul> 
+                </div>
+            </div>
+            <!--hP_lbxqyall  stop -->
+        </div>
+        <!--hp_cjwtright   stop -->
+    </div>
+</div>
+</body>
+</html>
+    

@@ -1,0 +1,29 @@
+<!-- @{
+    ViewBag.Title = "猜你喜欢";
+}
+@{
+    //猜你喜欢
+    var selectSpecs = ViewBag.selectSpecs as List<SpecialProductDto>;
+    if (selectSpecs == null)
+    {
+        selectSpecs = new List<SpecialProductDto>();
+    }
+} -->
+<div class="clear l_like fix">
+    <div class="l_liketop">
+        <span class="l_posleft"><em class="l_like01">猜你喜欢</em><i>|</i><em class="l_like02">中绿发现</em></span>
+        <span class="l_posright">根据你最近关注推荐</span>
+    </div>
+    <div class="l_likecon">
+        <ul>
+            <%for ( pro in topspuTM)
+            {%>
+                <li>
+                    <a href="/web/products/proinfo.html?spuid=${pro.spuid}"><img src="${pro.img}" width="230" height="214"></a>
+                    <p class="l_cnxhp"><span class="fon14 red">￥</span><span class="fon16  bolder red">${pro.price}</span></p>
+                    <p><a href="/web/products/proinfo.html?spuid=${pro.spuid}">${pro.name}</a></p>
+                </li>
+            <% }%>
+        </ul>
+    </div>
+</div>

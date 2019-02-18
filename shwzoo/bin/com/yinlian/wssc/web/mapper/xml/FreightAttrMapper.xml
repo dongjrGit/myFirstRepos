@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.FreightAttrMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.FreightAttr" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="FreightID" property="freightid" jdbcType="INTEGER" />
+    <result column="Areas" property="areas" jdbcType="VARCHAR" />
+    <result column="FirstCount" property="firstcount" jdbcType="INTEGER" />
+    <result column="FirstPrice" property="firstprice" jdbcType="REAL" />
+    <result column="ElseCount" property="elsecount" jdbcType="INTEGER" />
+    <result column="ElsePrice" property="elseprice" jdbcType="REAL" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, FreightID, Areas, FirstCount, FirstPrice, ElseCount, ElsePrice, Status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.FreightAttrExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from freight_attr
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from freight_attr
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from freight_attr
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.FreightAttrExample" >
+    delete from freight_attr
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.FreightAttr" >
+    insert into freight_attr (ID, FreightID, Areas, 
+      FirstCount, FirstPrice, ElseCount, 
+      ElsePrice, Status)
+    values (#{id,jdbcType=INTEGER}, #{freightid,jdbcType=INTEGER}, #{areas,jdbcType=VARCHAR}, 
+      #{firstcount,jdbcType=INTEGER}, #{firstprice,jdbcType=REAL}, #{elsecount,jdbcType=INTEGER}, 
+      #{elseprice,jdbcType=REAL}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.FreightAttr" >
+    insert into freight_attr
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="freightid != null" >
+        FreightID,
+      </if>
+      <if test="areas != null" >
+        Areas,
+      </if>
+      <if test="firstcount != null" >
+        FirstCount,
+      </if>
+      <if test="firstprice != null" >
+        FirstPrice,
+      </if>
+      <if test="elsecount != null" >
+        ElseCount,
+      </if>
+      <if test="elseprice != null" >
+        ElsePrice,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="freightid != null" >
+        #{freightid,jdbcType=INTEGER},
+      </if>
+      <if test="areas != null" >
+        #{areas,jdbcType=VARCHAR},
+      </if>
+      <if test="firstcount != null" >
+        #{firstcount,jdbcType=INTEGER},
+      </if>
+      <if test="firstprice != null" >
+        #{firstprice,jdbcType=REAL},
+      </if>
+      <if test="elsecount != null" >
+        #{elsecount,jdbcType=INTEGER},
+      </if>
+      <if test="elseprice != null" >
+        #{elseprice,jdbcType=REAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.FreightAttrExample" resultType="java.lang.Integer" >
+    select count(*) from freight_attr
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update freight_attr
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.freightid != null" >
+        FreightID = #{record.freightid,jdbcType=INTEGER},
+      </if>
+      <if test="record.areas != null" >
+        Areas = #{record.areas,jdbcType=VARCHAR},
+      </if>
+      <if test="record.firstcount != null" >
+        FirstCount = #{record.firstcount,jdbcType=INTEGER},
+      </if>
+      <if test="record.firstprice != null" >
+        FirstPrice = #{record.firstprice,jdbcType=REAL},
+      </if>
+      <if test="record.elsecount != null" >
+        ElseCount = #{record.elsecount,jdbcType=INTEGER},
+      </if>
+      <if test="record.elseprice != null" >
+        ElsePrice = #{record.elseprice,jdbcType=REAL},
+      </if>
+      <if test="record.status != null" >
+        Status = #{record.status,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update freight_attr
+    set ID = #{record.id,jdbcType=INTEGER},
+      FreightID = #{record.freightid,jdbcType=INTEGER},
+      Areas = #{record.areas,jdbcType=VARCHAR},
+      FirstCount = #{record.firstcount,jdbcType=INTEGER},
+      FirstPrice = #{record.firstprice,jdbcType=REAL},
+      ElseCount = #{record.elsecount,jdbcType=INTEGER},
+      ElsePrice = #{record.elseprice,jdbcType=REAL},
+      Status = #{record.status,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.FreightAttr" >
+    update freight_attr
+    <set >
+      <if test="freightid != null" >
+        FreightID = #{freightid,jdbcType=INTEGER},
+      </if>
+      <if test="areas != null" >
+        Areas = #{areas,jdbcType=VARCHAR},
+      </if>
+      <if test="firstcount != null" >
+        FirstCount = #{firstcount,jdbcType=INTEGER},
+      </if>
+      <if test="firstprice != null" >
+        FirstPrice = #{firstprice,jdbcType=REAL},
+      </if>
+      <if test="elsecount != null" >
+        ElseCount = #{elsecount,jdbcType=INTEGER},
+      </if>
+      <if test="elseprice != null" >
+        ElsePrice = #{elseprice,jdbcType=REAL},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.FreightAttr" >
+    update freight_attr
+    set FreightID = #{freightid,jdbcType=INTEGER},
+      Areas = #{areas,jdbcType=VARCHAR},
+      FirstCount = #{firstcount,jdbcType=INTEGER},
+      FirstPrice = #{firstprice,jdbcType=REAL},
+      ElseCount = #{elsecount,jdbcType=INTEGER},
+      ElsePrice = #{elseprice,jdbcType=REAL},
+      Status = #{status,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+   <delete id="deleteByFreightID" parameterType="java.lang.Integer" >
+    delete from freight_attr
+    where FreightID = #{0}
+  </delete>
+  
+  <!-- 以下是自定义的 接口 分页查询 -->
+   <sql id="criteria_query">
+   <where>
+    <if test="criteria.freightid != null and criteria.freightid != '' ">
+     and FreightID = #{criteria.freightid}
+     </if>
+     </where> 
+  </sql>
+	<!-- 根据子模板分页 -->	
+	<select id="selectByFreightIdByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+			from freight_attr
+		 <if test="criteria != null ">
+	     <include refid="criteria_query"/> 
+	     </if>
+	     <if test="criteria.orderByClause != null and criteria.orderByClause != '' " >
+	      order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序     此处只能使用${} 而不能使用#{} 会设置参数失败 -->
+	    </if>
+	</select>
+</mapper>

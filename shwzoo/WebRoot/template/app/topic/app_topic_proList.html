@@ -1,0 +1,98 @@
+<%var path="/resource";%>
+<head>
+    <title>商品列表</title>
+<link rel="stylesheet" href="/resource/app/css/greenLife.css" />
+    <script type="text/javascript" src="${path}/wap/js/index.js" ></script>
+    <script type="text/javascript" src="${path}/artTemplate.js"></script>
+    <script type="text/javascript" src="/resource/wap/js/Yeffect16_0118.min.js" ></script>
+    
+<script src="${path}/wap/js/Yeffect16_0118.min.js"></script>
+<script type="text/javascript" src="/resource/GetQueryString.js"></script>
+<%if(ch==2){%>
+<style>
+.septop {padding-top: 18px;}
+.septop.rowreturn{background: #006428 url(/resource/app/images/rowreturn.png) no-repeat 3% 0.6rem;background-size: 0.17rem auto;}
+.sep-byzslist li img {
+  height: 150px;
+  display: block;
+  width: 100%;
+}
+</style>
+<%}%>
+
+<style type="text/css">
+.sep-byzslist{padding-top:0;}
+.sep-byzslist li{width: 50%;margin: 0;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;border:none;position:relative;border-right:1px solid #ccc; /* border-bottom:1px solid #ccc;*/}
+.sep-byzslist li::after{width: 100%;height: 1px;content: '';position: absolute;top: 99%; left: 0px;background: #ccc;}
+</style>
+</head>
+<body>
+<!--septop begin-->
+<div class="septop rowreturn">
+	<div class="bigsize">${markname!'专题列表'}</div>
+	<div id="rowreturn" onclick="javascirpt:location.href='url:///back'"></div>
+</div>
+	<div class="fx-banner">
+		<ul>
+			<% for (vo in gg){%>	
+			
+	    	<li ><a href="${vo.url}" ><img src="${vo.imag}"></a></li>
+	    	<%}%>
+	    </ul>
+		<p>
+		
+		<% for (vo in gg){%>	
+	    	<i></i>
+	    	<%}%></p>
+	</div>
+	<ul class="sep-byzslist fix" id="productlist">
+	<!-- <li>
+		<a href="#">
+			<img src="images/img4.jpg"/>
+			<h3>维达超韧3层软抽纸巾(粉花)130抽维达超韧3层软抽纸巾(粉花)130抽维达超韧3层软抽纸巾(粉花)130抽*3/提</h3>
+			<p class="orange">￥78.00</p>
+		</a>
+	</li>	 -->
+</ul>
+	<!--productlistcon  stop-->
+	
+	<script type="text/html" id="pagehtml">
+			 {{each list as pro i}}
+
+<li>
+	<a href="url://prodetailed|||{{pro.spuid}}">
+					<img src="{{pro.img}}"/>			
+		<h3>{{pro.name}}</h3>
+		<p class="orange">￥ {{toFixed(pro.price,2)}}</p>			
+	</a>
+</li>
+			{{/each}}
+			</script>
+	
+  <!--themestreet  stop-->
+    <script type="text/javascript" src="/resource/artTemplate.js"></script>
+<script type="text/javascript" src="/resource/wap/js/wap-common.js"></script>
+<script type="text/javascript">
+fixed('.top');//头部固定
+  	$(function(){
+		 pageData={page:1,size:10,ch:3,mark:"${mark!''}",topicid:"${topicid!''}"};
+		 pageUrl="/api/wap/app/findtopic";
+		 content="#productlist";
+		 initPage();
+		 Yeffect.resizeHtWstr(".sep-byzslist li:visible",".sep-byzslist li img",314,314);
+			
+		///banner	
+			Yeffect.mobileBanner(".fx-banner ul",".fx-banner ul li",".fx-banner p i","","","current",5000);
+			var fx_banner=$(".fx-banner");
+			Yeffect.resizeHtW(fx_banner,fx_banner,640,247);
+	});
+	function load(){
+		Yeffect.resizeHtWstr(".sep-byzslist li:visible",".sep-byzslist li img",314,314);
+		
+		///banner	
+			Yeffect.mobileBanner(".fx-banner ul",".fx-banner ul li",".fx-banner p i","","","current",5000);
+			var fx_banner=$(".fx-banner");
+			Yeffect.resizeHtW(fx_banner,fx_banner,640,247);
+	}
+</script>
+</body>

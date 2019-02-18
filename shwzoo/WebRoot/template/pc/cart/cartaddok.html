@@ -1,0 +1,167 @@
+﻿<head>
+<script src="/resource/GetQueryString.js"></script>
+</head>
+<!--container 中间所有内容开始 -->
+<div id="container" class="fix">
+    <!--j_jrgwcleft  begin -->
+    <div class="j_jrgwcleft">
+        <div class="j_top">
+            <img src="/resource/pc/web/images/img01.png">
+            <p class="j_top01">商品已成功加入购物车！</p>
+            <p class="j_top02"><a href="/web/cart.html"><span>去购物车结算<i></i></span></a></p>
+            <p class="j_top03">您还可以 <span class="red"><a href="javascript:void(0);" class="a_back">继续购物</a></span></p>
+        </div><!--j_top  stop -->
+        <!--j_jrcon  begin -->
+        <div class="j_jrcon">
+            <div class="j_jrcon01">
+                <span>购买此商品的人还购买了</span>
+            </div>
+            <ul class="fix">
+              <% if(isNotEmpty(choosespecs)){ %>
+             <% for(choose in choosespecs){ %>
+                <li>
+                    <a href="/web/products/proinfo.html?spuid=${choose.proid}&protype=0"><img src="${choose.proimg}"></a>
+                    <p class="j_jrp_01"><a href="/web/products/proinfo.html?spuid=${choose.proid}&protype=0">${choose.proname}</a></p>
+                    <p class="red bolder">￥${choose.proprice,numberFormat="0.00"}</p>
+                    <p>已有<span class="red"><a href="#">1969</a></span>人评论</p>
+                </li>
+               <% }%>
+               <% }%>
+            </ul>
+        </div>
+        <!--j_jrcon  stop -->
+    </div>
+    <!--j_jrgwcleft  stop -->
+    <!--j_jrgwcright  begin -->
+    <div class="j_jrgwcright" id="div_cart">
+            <div class="j_jrig01">我的购物车</div>
+              <% if(isNotEmpty(cart)&&isNotEmpty(cart.shops)){ %>
+            <div>
+                <div class="j_jrig02">
+                    <p class="j_jrig03">刚加入购物车的商品</p>
+                    <% for(shop in cart.shops){ %>
+                     <% if(parseInt(ispack)==1){ %>
+                         <% if(isNotEmpty(shop.packscd)){ %>
+                       <% for(pack in shop.packscd){ %>
+                        <% if(pack.id==parseInt(goodsid)){ %>
+                        <% for(packsku in pack.skuscd){ %>
+                        <ul class="fix">
+                        <li>
+                            <a href="javascript:void(0);" skuid-val="${packsku.id}" class="a_spuhref"><img src="${packsku.img}"></></a>
+                            <div class="j_jrig04">
+                                <p><a href="javascript:void(0);" skuid-val="${packsku.id}" class="a_spuhref">${packsku.name}</a></p>
+                                <p class="j_jrig05"><span class="red fon14 bolder">￥${packsku.price,numberFormat="0.00"}</span> × ${pack.count}</p>
+                            </div>
+                        </li>
+                    </ul>
+                       <% }%>
+                     <% }%>
+
+                     <% }%>
+                    <% }%>
+                     <%}else{%>
+                     <% if(isNotEmpty(shop.spuscd)){ %>
+                       <% for(spu in shop.spuscd){ %>
+                        <% for(sku in spu.skuscd){ %>
+                         <% if(sku.id==parseInt(goodsid)){ %>
+                     <ul class="fix">
+                        <li>
+                            <a href="/web/products/proinfo.html?spuid=${spu.id}&protype=0"><img src="${sku.img}"></></a>
+                            <div class="j_jrig04">
+                                <p><a href="/web/products/proinfo.html?spuid=${spu.id}&protype=0">${sku.name}</a></p>
+                                <p class="j_jrig05"><span class="red fon14 bolder">￥${sku.price,numberFormat="0.00"}</span> × ${sku.count}</p>
+                            </div>
+                        </li>
+                    </ul>
+                     <% }%>
+                     <% }%>
+
+                     <% }%>
+                    <% }%>
+                    
+                    
+                     <%}%>
+                    <% }%>
+                </div><!-- j_jrig02  stop-->
+                <div class="j_jrig02">
+                    <p class="j_jrig03">您购物车中的其它商品</p>
+                   <% for(shop in cart.shops){ %>
+                       <% if(isNotEmpty(shop.packscd)){ %>
+                       <% for(pack in shop.packscd){ %>
+                        <% if(pack.id!=parseInt(goodsid)){ %>
+                        <% for(packsku in pack.skuscd){ %>
+                        <ul class="fix">
+                        <li>
+                            <a href="javascript:void(0);" skuid-val="${packsku.id}" class="a_spuhref"><img src="${packsku.img}"></></a>
+                            <div class="j_jrig04">
+                                <p><a href="javascript:void(0);" skuid-val="${packsku.id}" class="a_spuhref">${packsku.name}}</a></p>
+                                <p class="j_jrig05"><span class="red fon14 bolder">￥${packsku.price,numberFormat="0.00"}</span> × ${pack.count}</p>
+                            </div>
+                        </li>
+                    </ul>
+                       <% }%>
+                     <% }%>
+
+                     <% }%>
+                    <% }%>
+                     <% if(isNotEmpty(shop.spuscd)){ %>
+                       <% for(spu in shop.spuscd){ %>
+                        <% for(sku in spu.skuscd){ %>
+                         <% if(sku.id!=parseInt(goodsid)){ %>
+                     <ul class="fix">
+                        <li>
+                            <a href="/web/products/proinfo.html?spuid=${spu.id}&protype=0"><img src="${sku.img}"></></a>
+                            <div class="j_jrig04">
+                                <p><a href="/web/products/proinfo.html?spuid=${spu.id}&protype=0">${sku.name}</a></p>
+                                <p class="j_jrig05"><span class="red fon14 bolder">￥${sku.price,numberFormat="0.00"}</span> × ${sku.count}</p>
+                            </div>
+                        </li>
+                    </ul>
+                     <% }%>
+                     <% }%>
+
+                     <% }%>
+                    <% }%>
+                                         
+                    <% }%>
+                </div><!-- j_jrig02  stop-->
+
+            </div>
+            <div class="j_jrigbot">
+                <p>共 <span class="red bolder fon14 span_allcount">${cart.count}</span> 件商品</p>
+                <p class="mt5">总计：<span class="red bolder fon16 span_allprice">￥${cart.money,numberFormat="0.00"}</span></p>
+                <p class="j_top02"><a href="/web/cart.html"><span>去购物车结算<i></i></span></a></p>
+            </div><!--j_jrigbot stop -->
+            <%}%>
+    </div>
+    <!--j_jrgwcright  stop -->
+</div>
+<!--container 中间所有内容结束 -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        //返回跳转
+        $(".a_back").bind("click", function () {
+            var backurl = GetQueryStringByName("backurl");
+            window.location.href = decodeURIComponent(backurl);
+        });
+     /*    var cartid = GetQueryStringByName("cartid");
+        Cart.getlistsucceed(Cart.getlistsucceedcallback, cartid);
+ */
+        /* setTimeout(function () {
+        var kn = "load/buy";
+        var isacc = infoc.getCookie("_isAcced");
+        if (isacc == undefined || isacc == null || isacc == "") {
+            kn += "/uv";
+                infoc.setCookie("_isAcced", 1, 24 - new Date().getHours());
+
+        }
+        infoc.add(kn, "/Web/Cart/Cart_AddSucceed", 41, 0);
+        }, 1);
+        //页面离开事件
+        window.onbeforeunload = function (event) {
+            setTimeout(function () {
+                infoc.add("load", "/Web/Cart/Cart_AddSucceed", 42, 0);
+            }, 1);
+        } */
+    })
+</script>

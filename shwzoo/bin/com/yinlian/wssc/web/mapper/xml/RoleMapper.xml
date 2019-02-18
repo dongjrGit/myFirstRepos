@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.RoleMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Role">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="ShopID" property="shopid" jdbcType="INTEGER" />
+		<result column="Name" property="name" jdbcType="VARCHAR" />
+		<result column="Description" property="description" jdbcType="VARCHAR" />
+		<result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="IsDel" property="isdel" jdbcType="BIT" />
+		<result column="IsBuiltIn" property="isbuiltin" jdbcType="BIT" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, ShopID, Name, Description, CreateTime, Status, IsDel,
+		IsBuiltIn
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.RoleExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from role
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		and  Status = 0
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from role
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from role
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.RoleExample">
+		delete from role
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.Role">
+		insert into role (ID, ShopID,
+		Name,
+		Description, CreateTime, Status,
+		IsDel, IsBuiltIn)
+		values
+		(#{id,jdbcType=INTEGER}, #{shopid,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR},
+		#{createtime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER},
+		#{isdel,jdbcType=BIT}, #{isbuiltin,jdbcType=BIT})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Role">
+		insert into role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="shopid != null">
+				ShopID,
+			</if>
+			<if test="name != null">
+				Name,
+			</if>
+			<if test="description != null">
+				Description,
+			</if>
+			<if test="createtime != null">
+				CreateTime,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+			<if test="isdel != null">
+				IsDel,
+			</if>
+			<if test="isbuiltin != null">
+				IsBuiltIn,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="shopid != null">
+				#{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=BIT},
+			</if>
+			<if test="isbuiltin != null">
+				#{isbuiltin,jdbcType=BIT},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.RoleExample"
+		resultType="java.lang.Integer">
+		select count(*) from role
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update role
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.shopid != null">
+				ShopID = #{record.shopid,jdbcType=INTEGER},
+			</if>
+			<if test="record.name != null">
+				Name = #{record.name,jdbcType=VARCHAR},
+			</if>
+			<if test="record.description != null">
+				Description = #{record.description,jdbcType=VARCHAR},
+			</if>
+			<if test="record.createtime != null">
+				CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.isdel != null">
+				IsDel = #{record.isdel,jdbcType=BIT},
+			</if>
+			<if test="record.isbuiltin != null">
+				IsBuiltIn = #{record.isbuiltin,jdbcType=BIT},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update role
+		set ID = #{record.id,jdbcType=INTEGER},
+		ShopID =
+		#{record.shopid,jdbcType=INTEGER},
+		Name =
+		#{record.name,jdbcType=VARCHAR},
+		Description =
+		#{record.description,jdbcType=VARCHAR},
+		CreateTime =
+		#{record.createtime,jdbcType=TIMESTAMP},
+		Status =
+		#{record.status,jdbcType=INTEGER},
+		IsDel =
+		#{record.isdel,jdbcType=BIT},
+		IsBuiltIn =
+		#{record.isbuiltin,jdbcType=BIT}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Role">
+		update role
+		<set>
+			<if test="shopid != null">
+				ShopID = #{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				Name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				Description = #{description,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				CreateTime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="isdel != null">
+				IsDel = #{isdel,jdbcType=BIT},
+			</if>
+			<if test="isbuiltin != null">
+				IsBuiltIn = #{isbuiltin,jdbcType=BIT},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Role">
+		update role
+		set
+		ShopID = #{shopid,jdbcType=INTEGER},
+		Name = #{name,jdbcType=VARCHAR},
+		Description = #{description,jdbcType=VARCHAR},
+		CreateTime =
+		#{createtime,jdbcType=TIMESTAMP},
+		Status = #{status,jdbcType=INTEGER},
+		IsDel = #{isdel,jdbcType=BIT},
+		IsBuiltIn = #{isbuiltin,jdbcType=BIT}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="getRoleByPage" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		select * from role
+		<if test="criteria != null ">
+			<where>
+				<if test="criteria.rolename != null and criteria.rolename != '' ">
+					and Name like '%${criteria.rolename}%'
+				</if>
+				<choose>
+					<when test="criteria.shopid!=null and criteria.shopid >0 ">
+						and ShopID=#{criteria.shopid}
+					</when>
+					<when test="criteria.shopid!=null and criteria.shopid == 0">
+						and ShopID=0
+					</when>
+					<otherwise>
+						and ShopID>0
+					</otherwise>
+				</choose>
+			</where>
+			
+		</if>
+		and IsDel=0
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+	<select id="getRoleStartWithName" resultMap="BaseResultMap">
+		select * from role where status=0 and IsDel=0 and ShopID=#{0}
+		<choose>
+			<when test="param2 != null and param2 != ''">
+				and Name like '%${1}%' limit 0,10
+			</when>
+			<otherwise>
+				limit 0,10
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- 禁用/启用 角色状态 -->
+	<update id="updateStatus" parameterType="com.yinlian.wssc.web.po.Role">
+	    update role 
+	    set status= #{status,jdbcType=INTEGER}
+	    where id=#{id,jdbcType=INTEGER}
+	</update>
+</mapper>

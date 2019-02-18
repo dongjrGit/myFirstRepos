@@ -1,0 +1,13 @@
+#st
+#jdbc.driver=com.mysql.jdbc.Driver
+#jdbc.url=jdbc:mysql://172.28.22.26:3307/shwzoo?characterEncoding=utf-8&allowMultiQueries=true
+#jdbc.username=shwzoo
+#jdbc.password=Techown1
+#jdbc.filters=stat
+
+#uat
+jdbc.driver=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://172.28.22.41:3306/shwzoo?characterEncoding=utf-8&allowMultiQueries=true
+jdbc.username=root
+jdbc.password=Techown1
+jdbc.filters=stat

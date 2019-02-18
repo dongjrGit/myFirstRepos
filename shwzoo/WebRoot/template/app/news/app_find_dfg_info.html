@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="/resource/app/css/greenLife.css" />
+<script type="text/javascript" src="/resource/jquery-1.9.1.min.js" ></script>
+<script type="text/javascript" src="/resource/GetQueryString.js"></script>
+<script type="text/javascript" src="/resource/wap/js/Yeffect16_0118.min.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/greenLife.js" ></script>
+<script type="text/javascript" src="/resource/artTemplate.js"></script>
+<script type="text/javascript" src="/resource/wap/js/js.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/jquery.paging.js"></script>
+<script type="text/javascript" src="/resource/GetQueryString.js"></script>
+<script type="text/javascript">
+
+	$(function(){
+		
+		$("#body").paging({
+			page:2,
+			size:10,//默认十条数据
+			ajaxData:{ch:'${ch}',topicid:"${dfgid}",mark:12},//请求接口参数
+			url:'/wap/zlzx/findtopic',//请求数据地址
+			templateID:"pagehtml",//artTemplate模版ID
+			//beforeSend:function(){$("#loading").css("display", "");},//请求数据前操作
+			//complete:function(){$("#loading").css("display", "none");},//请求数据成功后操作
+			styleinit:function(){
+			},
+			isfristload:false,
+		});
+		//下拉分页
+		PageAPI.SelfLoad();
+	});
+
+</script>
+<%if(ch==2){%>
+<style>
+.septop {padding-top: 18px;}
+.septop.rowreturn.bjwhite{background: #fff url(/resource/app/images/rowreturn_heise.png) no-repeat 3% 0.6rem;background-size: 0.17rem auto;}
+</style>
+<%}%>
+</head>
+<body>
+<div class="septop rowreturn bjwhite">
+	<div class="bigsize">${name}</div>
+	<div id="rowreturn"  onclick="javascirpt:location.href='url:///back'" ></div>
+</div>
+<ul class="sep-byzslist fix" id="body">
+<%for(vo in dfglist){%>
+	<li>
+		<a href="url://prodetailed|||${vo.spuid}">
+			<img src="${vo.img}"/>
+			<h3>${vo.name}</h3>
+		</a>
+	</li>
+<%}%>
+</ul>
+<img src="/resource/wap/images/index_42.png" class="qianggou-scrollTop">	
+<script type="text/html" id="pagehtml">
+{{each list as vo i}}
+<li>
+		<a href="url://prodetailed|||{{vo.spuid}}">
+			<img src="{{vo.img}}"/>
+			<h3>{{vo.name}}</h3>
+		</a>
+	</li>
+{{/each}}
+</script>
+</body>
+</html>

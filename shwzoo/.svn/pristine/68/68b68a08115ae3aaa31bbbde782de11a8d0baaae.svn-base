@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>品牌推荐</title>
+</head>
+
+<body style="background:#fff;">
+<!--container  begin-->
+<div class="container fix">
+	<!--l_alltop  begin -->
+	<div class="l_alltop fix">
+    	<span><img src="images/tp10.png" class="img-responsive l_maxwid"></span>
+    	消息
+    </div>
+    <!--l_alltop  stop -->
+    <div class="l_sfwxx">
+    	<span class="l_zwxxico"><img src="images/zwxxico.png" class="img-responsive"></span>
+        <p class="huise">暂无消息，请返回</p>
+    </div>
+</div>
+<!--container  stop -->
+</body>
+</html>

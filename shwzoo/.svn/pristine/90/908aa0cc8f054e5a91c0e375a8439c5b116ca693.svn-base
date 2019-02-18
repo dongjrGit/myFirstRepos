@@ -1,0 +1,489 @@
+<%var path="/resource/wap/";%>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <title>确认支付页</title>
+
+    <script type="text/javascript" src="${path}js/index.js" ></script>
+
+</head>
+<body>
+	<!--top_title  begin-->
+	<div class="top_title fix">
+		<div class="top_return" onclick="javascript:location.href='/wap/shopcart/cartlist.html'">
+			<img src="${path}images/top_return.png"/>
+		</div>
+		确认订单
+	</div>
+	<!--top_title  stop-->
+	<!--profilenr  begin-->
+	<div class="profilenr fix">
+		<div class="profilenr_ico">
+			<img src="${path}images/profilenr.png"/>
+		</div>
+		<a href="/wap/receiveraddress/selectAddrByUserId?ch=3&href=/wap/order/newOrder.html">		
+		<div class="profilenr_con">
+			<div class="profilenr_con_top">
+				${address.name}
+				<span id="receive_mobile">${address.mobile}</span>
+				<input type="hidden" id="input_addressid" value="${address.id}">
+			</div>
+			<div class="profilenr_con_bot">
+			  <%if(isEmpty(address.id)){%>		
+		                     请添加收货地址
+		       <%}else{%>	
+				收货地址：${address.provincename} ${address.cityname} ${address.areaname} ${address.address}
+				<%}%>
+			</div>
+		</div>		
+		</a>
+	</div>
+	<!--profilenr  stop-->
+	<!---->
+	<% for(shop in cart.shops) { %>
+	<div class="flagship fix" name="div_shop">
+		<div class="flagship_top fix">
+			<span><img src="${path}images/flagship_top.png" class="img-responsive" /></span>
+			${shop.shopname}
+			<%
+			if(shop.asd.~size>0){
+			if(shop.asd[0].isselect){
+			  if(shop.asd[0].type==0){
+			%>
+			【${shop.asd[0].name}】  优惠  ${shop.asd[0].delmoney}
+			<%}}}%>			
+			<input type="hidden" name="input_shopid" value="${shop.shopid}">
+			<input type="hidden" name="input_total" value="${shop.totalmoney}">
+			<input type="hidden" name="input_delMoney" value="${shop.delmoney}">
+			<input type="hidden" name="input_freight" value="${shop.freightMoney}">	
+			<%if(shop.asd.~size>0){ 
+			   if(shop.asd[0].isselect){%>
+				<input type="hidden" name="input_activityid" value="${shop.asd[0].id}">	
+				<%}else{%>
+				<input type="hidden" name="input_activityid" value="0">	
+				<%}%>
+			<%}else{%>
+			<input type="hidden" name="input_activityid" value="0">			
+			<%}%>
+		</div>
+		<!--组合商品-->
+		<% if(isNotEmpty(shop.packscd)){ for(spu in shop.packscd){ %>
+		<div name="div_spu">
+			<input type="hidden" name="input_spuid" value="${spu.id}">			
+			<input type="hidden" name="input_totalmoney" value=${shop.totalmoney}>
+			<% for(pro in spu.skuscd){%>
+				<div name="div_sku">
+				<input type="hidden" name="input_protype" value="${pro.protype}">
+				 <input type="hidden" name="input_spikeid" value="${pro.spikeid}">
+				   <input type="hidden" name="input_pkid" value="${spu.id}">
+					<input type="hidden" name="input_skuid" value="${pro.id}">
+					<input type="hidden" name="input_proCount" value="${pro.count}">
+					<input type="hidden" name="input_cartdetail" value="${spu.shopcartproid}">					
+					<div class="shop_chartmknr fix">
+						<div class="shop_chartmknr_con fix">
+							<div class="shop_chartmknr_con_l">
+								<img src="${pro.img}" class="img-responsive" />
+							</div>
+							<div class="shop_chartmknr_con_r">
+								<h3>【组合商品】${pro.name}</h3>
+								<div class="shop_chartmknr_con_rprice">
+									￥${pro.price}
+								</div>
+								<div class="shop_chartmknr_con_rnum">
+									×${pro.count}
+								</div>                                     
+							</div>
+						</div>
+					</div>
+				</div>
+			<% } %>	
+			</div>
+		<% } }%>				
+		
+		<!--普通商品-->
+		<%if(isNotEmpty(shop.spuscd)){ for(spu in shop.spuscd){ %>
+		<div name="div_spu">
+			<input type="hidden" name="input_spuid" value="${spu.id}">
+			<input type="hidden" name="input_totalmoney" value=${spu.totalmoney}>
+			<% for(pro in spu.skuscd){%>
+				<div name="div_sku">
+				<input type="hidden" name="input_protype" value="${pro.protype}">
+				<input type="hidden" name="input_spikeid" value="${pro.spikeid}">
+				<input type="hidden" name="input_pkid" value="0">
+					<input type="hidden" name="input_skuid" value="${pro.id}">
+					<input type="hidden" name="input_proCount" value="${pro.count}">
+					<input type="hidden" name="input_cartdetail" value="${pro.shopcartproid}">
+					<div class="shop_chartmknr fix">
+						<div class="shop_chartmknr_con fix">
+							<div class="shop_chartmknr_con_l">
+								<img src="${pro.img}" class="img-responsive" />
+							</div>
+							<div class="shop_chartmknr_con_r">
+								<h3>${pro.name}</h3>
+								<div class="shop_chartmknr_con_rprice">
+									￥${pro.price}
+								</div>
+								<div class="shop_chartmknr_con_rnum">
+									×${pro.count}
+								</div>                                     
+							</div>
+						</div>
+					</div>
+				</div>
+			<% } %>	
+			<!--商品增品-->
+			<% if(spu.asd.~size>0&& spu.asd[0].skuscd.~size > 0){			  
+			 for(pro in spu.asd[0].skuscd){%>
+				<div name="div_skugif">
+				<input type="hidden" name="h_skugif"  skuid="${pro.id}" skucount="${pro.count}" >
+				【赠品】${pro.name} ×${pro.count}
+				</div>				
+			<% }} %>
+			<% if(spu.asd.~size>0&& spu.asd[0].type== 0){%>
+				<div >				
+				【${spu.asd[0].name}】  优惠  ${spu.asd[0].delmoney}
+				</div>				
+			<% } %>
+			</div>
+		<% } }%>
+		
+		<!--店铺增品-->
+		<% if (shop.asd.~size > 0 && shop.asd[0].skuscd.~size > 0){ %>
+		   <% for(sku in shop.asd[0].skuscd){ %>
+		   <div name="div_shopgif">
+		   <input type="hidden" name="h_skugif" skuid="${sku.id}" skucount="${sku.count}" >
+		      【赠品】${sku.name} ×${sku.count} 
+		   </div>	
+			<% } %>				
+		<% } %>
+		
+		
+	</div>
+	<% } %>
+	<!--flagship  stop-->
+	<!--deliverycon  begin-->
+	<div class="deliverycon fix">
+		<div class="deliverycon_top">
+			运费信息
+		</div>
+		<div class="deliverycon_nr">
+			<p>总运费${freight}元</p>
+		</div>
+	</div>
+	<!--deliverycon  stop-->
+	<!--invoicecon  begin-->
+	<style>
+	.invoicecon_ddx input{margin: 0px 2% 0px 3%;}
+	</style>
+	
+	<div class="deliverycon fix">
+		<div class="deliverycon_top">
+			发票
+		</div>
+		<div class="deliverycon_nr">
+			<input type="radio" name="isinvoice" value="0" checked="checked" />不需要 
+			<input type="radio" name="isinvoice" value="1" />需要
+		</div>
+	</div>
+	
+	<div class="invoicecon fix" style="display:none">
+	    <input type="hidden" id="iContent_type" value="1" />
+		<h3>开具发票</h3>
+		<div class="invoicecon_ddx">
+			<input type="radio" name="invoice" value="0" checked="checked" />个人 
+			<input type="radio" name="invoice" value="1" />单位 			
+		</div>
+		<input type="text" id="invoice_title" placeholder="请输入发票抬头" class="invoicecon_inp" style="display:none" />
+		<input type="hidden" id="iContent_hide" value="0" />
+		<h3 style="padding-top:3%;">发票内容</h3>
+		<div class="invoicecon_ddx">
+			<input type="radio" name="invoice_Content" value="0" checked="checked" />明细 
+			<input type="radio" name="invoice_Content" value="1" />办公用品 
+			<input type="radio" name="invoice_Content" value="2" />电脑配件 
+			<input type="radio" name="invoice_Content" value="3" />耗材 
+		</div>
+	</div>
+	<!--invoicecon  stop-->
+	<!--buyersmessage  begin-->
+	<div class="buyersmessage fix">
+		买家留言：
+		<input type="text" id="buyer_desc" class="buyersmessage_input" />
+		<div class="buyersmessage_bot">
+			<span>共${cart.count}件商品</span><span>合计：<i class="red">￥${cart.money,numberFormat="0.00"}</i></span>      
+		</div>
+	</div>
+	<!--buyersmessage  stop-->
+	<!--jcdsycon  begin-->
+	<div class="jcdsycon fix">
+		<ul>
+ 			<li> 
+ 				<span>当前积分：${points}</span><span>当前可用积分：${usepoints}</span> 
+ 				<span class='tg-list-item'> 
+				    <input class='tgl tgl-light' id='cb1' type='checkbox'>
+ 				    <label class='tgl-btn' for='cb1'></label>
+ 				</span> 
+ 			</li>
+			<li id=select_coupon>
+				<a href="javascript:void(0);"><span>优惠劵</span><span>已减${cpiprice}元</span></a>
+				<input type="hidden" value="${cpid!0}" id="inp_cpid">
+			</li>
+		</ul>
+	</div>
+	<input type="hidden" id="h_cpshop" value="${cpshop}">
+	<input type="hidden" id="h_cpisowned" value="${cpisowned}">
+	<input type="hidden" id="h_points" value="${points}">
+	<input type="hidden" id="h_usepointpay" value="${paymoney}">
+	<input type="hidden" id="h_usepoints" value="${usepoints}">
+	<input type="hidden" id="h_pay" value="${cart.amountpayable}">
+	<input type="hidden" id="h_pointMoney" value="${pointMoney}">
+	<!--jcdsycon  stop-->
+	<!--qrzfyjs  begin-->
+	<div class="qrzfyjs fix">
+		<div class="qrzfyjs_l">
+			共 <span class="red">${cart.count}</span> 件，总金额 <span class="red" id="orderallpay">￥${cart.amountpayable,numberFormat="0.00"}</span>
+		</div>
+		<div class="qrzfyjs_r" id="commitorder"><a href="javascript:void(0)">下单</a></div>
+	</div>
+	<!--qrzfyjs  stop-->
+	<script type="text/javascript">	
+	var beans=0;
+	 $(function(){
+		 window.onload=function(){		
+				newArrival('.shop_chartmknr_con_l img');
+				fixed('.qrzfyjs');
+				var up=$("#h_points").val();
+				var useup=$("#h_usepoints").val();
+				if(up<100||useup<100){
+					$("#cb1").attr("disabled","disabled");
+				}
+			}
+		    $("input[name=invoice]").click(function(){ 
+				if($(this).val()==1){
+					$("#invoice_title").show();
+				}else{
+					$("#invoice_title").hide();
+				}
+			});
+		    //是否需要发票选择
+		    $("input[name=isinvoice]").click(function(){ 
+				if($(this).val()==1){
+					$(".invoicecon").show();
+				}else{
+					$(".invoicecon").hide();
+				}
+			});
+			$("#commitorder").click(function(){ 
+				var hasAdr=$("#input_addressid").val();
+				if(hasAdr){
+					commitOrder();
+				}else{
+					alert("请添加收货地址");
+				}				
+			});
+			$(".top_return").click(function(){ 
+				if(confirm("确认要离开吗")){					
+					window.location.href="/wap/shopcart/cartlist.html";
+				}
+			});	
+			$("#cb1").click(function(){ 
+				if($(this).is(":checked")){
+					var up=$("#h_usepoints").val();
+					if(up>0){
+						var paymoney=$("#h_usepointpay").val();
+						$("#orderallpay").html("￥"+paymoney);
+						beans=$("#h_usepoints").val();						
+					}
+				}else{
+					var paymoney=$("#h_pay").val();
+					$("#orderallpay").html("￥"+paymoney);
+					beans=0;
+				}
+			});	
+			$("#select_coupon").click(function(){
+				var url = "/wap/coupon/orderCoupon.html";
+				var paramstr = [];
+				$("div[name='div_shop']").each(function(){
+					var $shopdiv = $(this);
+					var pros = [];
+					$shopdiv.find("div[name='div_spu']").each(function(){
+						var $prodiv = $(this);
+						pros.push({
+							proid:$prodiv.find("input[name='input_spuid']").val(),
+							promoney:$prodiv.find("input[name='input_totalmoney']").val()
+						})
+					})
+					paramstr.push({
+						shopid:$shopdiv.find("input[name='input_shopid']").val(),
+						money:$shopdiv.find("input[name='input_total']").val(),
+						prolist:pros
+					})
+				})
+				SetCookie("search_orderCoupon", JSON.stringify(paramstr));
+				location.href = url;
+			})
+	 })
+
+	function commitOrder(){
+		var paramStr = "";
+		var scids ="";
+		var conpid=$("#inp_cpid").val();
+		var zycid="0";
+		var shopcid="0";
+		var conpshop=$("#h_cpshop").val();
+		if(parseInt(conpid)>0){
+			var cpisowned=$("#h_cpisowned").val();
+			if(cpisowned=="true"){
+				zycid=conpid;
+			}else{
+				shopcid=conpid;
+			}
+		}
+		var isownshop=$("#h_cpisowned").val();
+		var isInvoice=$("input[name='isinvoice']:checked").val();
+		var invoicetype=0;
+		if(parseInt(isInvoice)==1){
+			invoicetype=1;
+		}		
+		$("div[name='div_shop']").each(function(){
+			var $div_shop = $(this);
+			var shopid=$div_shop.find("input[name='input_shopid']").val();
+			var sconid="0";
+			if(shopid==conpshop&&parseInt(shopcid)>0){
+				sconid=shopcid;
+			}
+			paramStr += "shopID:" + shopid+ ",";
+			paramStr += "totalMoney:" + $div_shop.find("input[name='input_total']").val() + ",";
+			paramStr += "delMoney:" + $div_shop.find("input[name='input_delMoney']").val() + ",";
+			paramStr += "freightMoney:" + $div_shop.find("input[name='input_freight']").val() + ",";
+			paramStr += "couponID:"+sconid+","
+			paramStr += "activityid:" + $div_shop.find("input[name='input_activityid']").val() + ",";
+			paramStr += "isInvoice:"+isInvoice+",remark:0,"
+			var proinfo = "";
+			$div_shop.find("div[name='div_sku']").each(function(){
+				var $div_sku = $(this);
+				proinfo += "skuID:" + $div_sku.find("input[name='input_skuid']").val() + "-";
+				proinfo += "proCount:" + $div_sku.find("input[name='input_proCount']").val() + "-";
+				proinfo += "packageid:" + $div_sku.find("input[name='input_pkid']").val() + "-marketid:0-";
+				proinfo += "spuid:" + $div_sku.parent().find("input[name='input_spuid']").val() + "-";
+				proinfo += "spikeid:" + $div_sku.find("input[name='input_spikeid']").val() + "-";
+				proinfo += "type:" + $div_sku.find("input[name='input_protype']").val() + "|";
+				scids += $div_sku.find("input[name='input_cartdetail']").val() + ",";
+			})
+			//店铺赠品信息
+             $div_shop.find("div[name='div_shopgif']").each(function () {
+                var $skugif = $(this);
+                var gifinfo = $skugif.find("input[name=h_skugif]");
+                proinfo += "skuID:" + NulltoStr(gifinfo.attr('skuid')) + "-";
+                proinfo += "proCount:" + NulltoStr(gifinfo.attr('skucount')) + "-";
+                proinfo += "packageid:0-";
+                proinfo += "marketid:0-";
+                proinfo += "spuid:0-";
+                proinfo += "spikeid:0-";
+                proinfo += "type:4|";
+              })
+            //商品赠品信息
+            $div_shop.find("div[name='div_skugif']").each(function () {
+                var $skugif = $(this);
+                var gifinfo = $skugif.find("input[name=h_skugif]");
+                proinfo += "skuID:" + NulltoStr(gifinfo.attr('skuid')) + "-";
+                proinfo += "proCount:" + NulltoStr(gifinfo.attr('skucount')) + "-";
+                proinfo += "packageid:0-";
+                proinfo += "marketid:0-";
+                proinfo += "spuid:0-";
+                proinfo += "spikeid:0-";
+                proinfo += "type:4|";
+             })
+			if(proinfo != null && proinfo.length > 0){
+				paramStr += proinfo.substring(0, proinfo.length-1);
+			}
+			paramStr += ";"
+		})
+		if(paramStr != null && paramStr.length > 0){
+			paramStr = paramStr.substring(0, paramStr.length - 1);
+		}
+		if(scids != null && scids.length > 0){
+			scids = scids.substring(0, scids.length - 1);
+		}
+		var type=null;
+		var radio1=document.getElementsByName("invoice");
+		$.each(radio1,function(index,item){
+			if(item.checked){
+				type=item.value;
+			}
+		});
+		
+		var content=null;
+		
+		var radio=document.getElementsByName("invoice_Content");
+		
+		$.each(radio,function(index,item){
+			if(item.checked){
+				content=item.value;
+			}
+		});
+		
+		if (content == 0) {
+        	
+            $("#iContent_hide").val("明细");
+        } else {
+            if (content == 1) {
+            	
+                $("#iContent_hide").val("办公用品");
+            }
+            if (content == 2) {
+            	
+                $("#iContent_hide").val("电脑配件");
+            }
+            if (content == 3) {
+            	
+                $("#iContent_hide").val("耗材");
+                
+            }
+        }
+		
+		$.ajax({
+			type : "post",
+			url : "/api/wap/order/add",
+			datatype : "json",
+			data : {
+				orderparams : paramStr,
+				receiveaddrid : $("#input_addressid").val(),
+				disptype : 0,
+				datetype : 0,
+				timetype : 0,
+				invoicetype : invoicetype,
+				invoicetitletype : type,
+				invoicetitle : $("#invoice_title").val(),
+				invoicecontent :$("#iContent_hide").val(),
+				mobile : $("#receive_mobile").text(),
+				email : "",
+				zyactivityid : "",
+				zyconponid : zycid,
+				beans : beans,
+				scids : scids,
+				ch : 3
+			},
+			success : function(res) {
+				var data = JSON.parse(res);
+				if (data.code == 0) {					
+					window.location.href="/wap/order/pay.html?ogc="+data.data;//跳转到订单支付页 
+				}else{
+					if(data.code==201){
+						window.loaction.href="/wap/user/showlogin";
+					}
+					alert(data.desc);
+				}
+			}
+		})
+	}
+	//字符处理
+	 function NulltoStr(str) {
+	     if (str == null || str=="" ||str==undefined)
+	         return "0";
+	     return str;
+
+	 }
+</script>
+</body>

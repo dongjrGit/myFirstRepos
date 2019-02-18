@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.CategoryMapperCustom">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.dto.CategoryDTO">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="Name" property="name" jdbcType="VARCHAR" />
+		<result column="FatherID" property="fatherid" jdbcType="INTEGER" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="Sort" property="sort" jdbcType="INTEGER" />
+		<result column="CreatTime" property="creattime" jdbcType="TIMESTAMP" />
+		<result column="ShopID" property="shopid" jdbcType="INTEGER" />
+		<result column="ClassType" property="classtype" jdbcType="INTEGER" />
+		<result column="WarnNum" property="warnnum" jdbcType="INTEGER" />
+		<result column="IsVirtual" property="isvirtual" jdbcType="BIT" />
+		<result column="IsEditable" property="iseditable" jdbcType="BIT" />
+		<result column="IsDel" property="isdel" jdbcType="BIT" />
+		<result column="DelTime" property="deltime" jdbcType="TIMESTAMP" />
+		<result column="DelUserID" property="deluserid" jdbcType="INTEGER" />
+		<result column="ClassLever" property="classlever" jdbcType="INTEGER" />
+		<result column="FullPath" property="fullpath" jdbcType="VARCHAR" />
+		<result column="searchpath" property="searchpath" jdbcType="VARCHAR" />
+		<result column="imageUrl" property="imageurl" jdbcType="VARCHAR" />
+		<result column="fullname" property="fullname" jdbcType="VARCHAR" />
+		<result column="shopname" property="shopname" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ID, Name, FatherID, Status, Sort, CreatTime, ShopID,
+		ClassType, WarnNum,
+		IsVirtual,
+		IsEditable, IsDel, DelTime, DelUserID,
+		ClassLever, FullPath, searchpath, imageUrl
+	</sql>
+	<!-- 查询所以得一级分类 -->
+	<select id="selectAllCategorys" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from category where FatherID = #{fatherid}
+		and IsDel=0 ORDER BY sort
+	</select>
+	
+	<select id="selectAll" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from category 
+		<where>
+		IsDel=0
+		<if test="fatherid != 0 and fatherid != null">
+			and FatherID = #{fatherid}
+		</if>
+		</where>
+		   ORDER BY sort
+	</select>
+
+	<insert id="addCategory" parameterType="com.yinlian.wssc.web.po.Category">
+
+		insert into category (ID, Name, FatherID,
+		Status, Sort, CreatTime,
+		ShopID, ClassType, WarnNum,
+		IsVirtual, IsEditable, IsDel, DelTime,
+		DelUserID, ClassLever, FullPath,searchpath,imageUrl
+		)
+		values
+		(#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+		#{fatherid,jdbcType=INTEGER},
+		#{status,jdbcType=INTEGER},
+		#{sort,jdbcType=INTEGER}, #{creattime,jdbcType=TIMESTAMP},
+		#{shopid,jdbcType=INTEGER}, #{classtype,jdbcType=INTEGER},
+		#{warnnum,jdbcType=INTEGER},
+		#{isvirtual,jdbcType=BIT},
+		#{iseditable,jdbcType=BIT}, #{isdel,jdbcType=BIT},
+		#{deltime,jdbcType=TIMESTAMP},
+		#{deluserid,jdbcType=INTEGER},
+		#{classlever,jdbcType=INTEGER}, #{fullpath,jdbcType=VARCHAR},
+		#{searchpath,jdbcType=VARCHAR},#{imageurl,jdbcType=VARCHAR}
+		)
+
+		<!-- selectKey将主键返回，需要再返回 -->
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+			select
+			LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<update id="updateFullpath" parameterType="com.yinlian.wssc.web.po.Category">
+		update category
+		set
+		FullPath=#{fullpath,jdbcType=VARCHAR},
+		searchpath=#{searchpath,jdbcType=VARCHAR}
+		where
+		ID=#{id,jdbcType=INTEGER}
+	</update>
+	<update id="delCategory" parameterType="com.yinlian.wssc.web.po.Category">
+		update category
+		set
+		IsDel=#{isdel,jdbcType=BIT},
+		DelTime=#{deltime,jdbcType=TIMESTAMP},
+		DelUserID=#{deluserid,jdbcType=INTEGER}
+		where ID=#{id,jdbcType=INTEGER}
+	</update>
+
+
+	<!-- 查询店铺对应分类 -->
+	<select id="selectCategoryByShop" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		category.*
+		FROM category,shop_class WHERE
+		category.ID=shop_class.ClassID AND
+		shop_class.ShopID= #{0}
+		and
+		category.IsDel=0
+	</select>
+
+	<!-- 查询店铺下某个分类的自定义分类 -->
+	<select id="getByClassShop" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select *
+		FROM category WHERE
+		category.ClassType = 1 and
+		category.IsDel=0 and Status=2
+		and FatherID= #{0} and ShopID= #{1}
+	</select>
+
+	<!-- 以下是自定义的 接口 分页查询 -->
+	<sql id="criteria_query">
+		<if test="criteria.shopid != null and criteria.shopid != '' ">
+			and ShopID = #{criteria.shopid}
+		</if>
+		<if test="criteria.fatherid != null and criteria.fatherid != '' ">
+			and FatherID = #{criteria.fatherid}
+		</if>
+		<if test="criteria.classStatus >=0 ">
+			and Status = #{criteria.classStatus}
+		</if>
+		<if test="criteria.name != null and criteria.name != '' ">
+			and Name like '%${criteria.name}%'
+		</if>
+	</sql>
+	<!-- 查询店铺下所有自定义分类 -->
+	<select id="getClassByShopPage" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		select *,'' as fullname
+		FROM category WHERE ClassType = 1 and IsDel=0
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+	<update id="updateStatus" parameterType="com.yinlian.wssc.web.po.Category">
+		update category
+		set
+		status=#{status,jdbcType=INTEGER}
+		where
+		ID=#{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="getByIDs" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.util.CriteriaCommodity">
+		select *
+		FROM category where IsDel=0
+		<if test="ids != null and ids != '' ">
+			and ID in(${ids})
+		</if>
+		<if test="fatherid >=0 ">
+			and FatherID = #{fatherid}
+		</if>
+	</select>
+
+    <!-- 获取自定义分类审核列表 -->
+	<select id="getCustomCheckPage" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+
+		SELECT c.*,s.name AS shopname,'' as fullname FROM category c,shop s 
+		WHERE  c.ShopID=s.ID AND c.status=1
+		AND c.ClassType = 1 AND c.IsDel=0 
+		<if test="criteria.shopid != null and criteria.shopid != '' ">
+			and c.ShopID = #{criteria.shopid}
+		</if>
+		<if test="criteria.fatherid != null and criteria.fatherid != '' ">
+			and c.FatherID = #{criteria.fatherid}
+		</if>
+        <if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	
+	<!-- 批量审核自定义分类列表 -->
+	<update id="updateStatusList" parameterType="java.util.List">
+
+		<if test="list != null">
+			<foreach collection="list" item="category" index="index"
+				open="" close="" separator=";">
+				update category
+				set Status = #{category.status}
+				where ID = #{category.id}
+			</foreach>
+		</if>
+
+	</update>
+	
+	<select id="getByDtoIds1" resultType="com.yinlian.wssc.web.dto.CategoryDTO">
+		SELECT * from category 
+		<where>
+		IsDel=0 
+		and (
+		<foreach collection="ids" item="item" open="(" close=")" separator="or">
+		searchpath LIKE '%${item}%'
+		</foreach>
+		) and FatherID=#{fatherid}
+		</where>
+	</select>
+	
+	<select id="getByDtoIds2" resultType="com.yinlian.wssc.web.dto.CategoryDTO">
+		select * from category 
+		<where>
+		IsDel=0 
+		and (  
+		
+		<foreach collection="ids" item="item" open="(" close=")" separator="or">
+		searchpath LIKE '%${item}%' 
+		</foreach>
+		 OR ID in (SELECT distinct FatherID from category WHERE IsDel=0 and  
+		
+		<foreach collection="ids" item="item" open="(" close=")" separator="or">
+		searchpath LIKE '%${item}%' 
+		</foreach>
+		) )
+		
+		and FatherID=#{fatherid}
+		</where>
+ 	</select>
+	
+	<select id="getByDtoIds3" resultType="com.yinlian.wssc.web.dto.CategoryDTO">
+		SELECT * from category 
+		<where>
+		IsDel=0 
+		<if test="ids.size >0">
+		and ID in
+		<foreach collection="ids" item="item" open="(" close=")" separator=",">
+		${item}
+		</foreach>
+		</if>
+		and FatherID=#{fatherid}
+		</where>
+	</select>
+</mapper>

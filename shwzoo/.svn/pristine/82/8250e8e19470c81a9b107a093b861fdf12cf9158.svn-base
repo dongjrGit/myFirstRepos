@@ -1,0 +1,58 @@
+<%var path="/resource";%>
+<head>
+<title>个人中心-未登录</title>
+
+<script src="${path}/wap/js/index.js"></script>
+</head>
+<body>
+<!--container  begin-->
+<div class="container fix">
+	<!--l_alltop  begin -->
+	<div class="l_alltop fix">
+    	<a href="/wap/discover/selectSpu.html"><span><img src="${path}/wap/images/tp10.png" class="img-responsive l_maxwid"></span></a>
+    	描述
+    </div>
+    <!--l_alltop  stop -->
+    <div class="l_sfms">
+    	<textarea name="" cols="" rows="">
+        写下详细的购物心得，帮助大家更好的
+        选购
+        我的使用体验...
+        物品描述...
+        </textarea>
+        <div class="l_sfmsbot">500</div>
+    </div>
+    <!--l_xzspt  begin -->
+    <div class="l_xzspt fix">
+    	<ul>
+        	<li><span><a href="#"><img src="${path}/wap/images/scfimg06.png" class="img-responsive"></a></span></li>
+            <li><span><img src="${path}/wap/images/scfimg07.png" class="img-responsive"></span></li>
+            <li><span><img src="${path}/wap/images/scfimg07.png" class="img-responsive"></span></li>
+            <li><span><img src="${path}/wap/images/scfimg07.png" class="img-responsive"></span></li>
+            <li><span><img src="${path}/wap/images/scfimg07.png" class="img-responsive"></span></li>
+        </ul>
+    </div>
+    <!--l_xzspt  stop -->
+</div>
+<!--container  stop -->
+<!--merchantJS-mask  begin -->
+<div class="merchantJS-mask" onClick="$(this).hide()">
+	<!--l_xgtznr  begin -->
+	<div class="l_xgtznr fix">
+    	<ul>
+        	<li>我的相册</li>
+            <li>拍照</li>
+            <li class="l_nobor">取消</li>
+        </ul>
+    </div>
+    <!--l_xgtznr  stop -->
+</div>
+<!--merchantJS-mask  stop -->
+<script>
+	window.onload=function(){
+		newArrival('.l_xzspt ul li img');
+		$(".merchantJS-mask").show();
+	}	
+</script>
+</body>
+

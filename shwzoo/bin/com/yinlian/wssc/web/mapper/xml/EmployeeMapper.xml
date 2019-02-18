@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.EmployeeMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Employee" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="UserName" property="username" jdbcType="VARCHAR" />
+    <result column="Password" property="password" jdbcType="VARCHAR" />
+    <result column="ShopID" property="shopid" jdbcType="INTEGER" />
+    <result column="EmpNum" property="empnum" jdbcType="VARCHAR" />
+    <result column="RealName" property="realname" jdbcType="VARCHAR" />
+    <result column="Mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="RoleID" property="roleid" jdbcType="INTEGER" />
+    <result column="IsDel" property="isdel" jdbcType="BIT" />
+    <result column="IsLock" property="islock" jdbcType="BIT" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+    <result column="Email" property="email" jdbcType="VARCHAR" />
+    <result column="Mark" property="mark" jdbcType="VARCHAR" />
+    <result column="Tel" property="tel" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, UserName, Password, ShopID, EmpNum, RealName, Mobile, RoleID, IsDel, IsLock, 
+    Status, Email, Mark, Tel
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.EmployeeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from employee
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from employee
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByPrimaryStatus" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from employee
+    where ID = #{id,jdbcType=INTEGER} and IsLock= false
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from employee
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.EmployeeExample" >
+    delete from employee
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Employee" >
+    insert into employee (ID, UserName, Password, 
+      ShopID, EmpNum, RealName, 
+      Mobile, RoleID, IsDel, 
+      IsLock, Status, Email, 
+      Mark, Tel)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{shopid,jdbcType=INTEGER}, #{empnum,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{roleid,jdbcType=INTEGER}, #{isdel,jdbcType=BIT}, 
+      #{islock,jdbcType=BIT}, #{status,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, 
+      #{mark,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Employee" >
+    insert into employee
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="username != null" >
+        UserName,
+      </if>
+      <if test="password != null" >
+        Password,
+      </if>
+      <if test="shopid != null" >
+        ShopID,
+      </if>
+      <if test="empnum != null" >
+        EmpNum,
+      </if>
+      <if test="realname != null" >
+        RealName,
+      </if>
+      <if test="mobile != null" >
+        Mobile,
+      </if>
+      <if test="roleid != null" >
+        RoleID,
+      </if>
+      <if test="isdel != null" >
+        IsDel,
+      </if>
+      <if test="islock != null" >
+        IsLock,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+      <if test="email != null" >
+        Email,
+      </if>
+      <if test="mark != null" >
+        Mark,
+      </if>
+      <if test="tel != null" >
+        Tel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="shopid != null" >
+        #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="empnum != null" >
+        #{empnum,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="roleid != null" >
+        #{roleid,jdbcType=INTEGER},
+      </if>
+      <if test="isdel != null" >
+        #{isdel,jdbcType=BIT},
+      </if>
+      <if test="islock != null" >
+        #{islock,jdbcType=BIT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mark != null" >
+        #{mark,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.EmployeeExample" resultType="java.lang.Integer" >
+    select count(*) from employee
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update employee
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.username != null" >
+        UserName = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null" >
+        Password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shopid != null" >
+        ShopID = #{record.shopid,jdbcType=INTEGER},
+      </if>
+      <if test="record.empnum != null" >
+        EmpNum = #{record.empnum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realname != null" >
+        RealName = #{record.realname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobile != null" >
+        Mobile = #{record.mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roleid != null" >
+        RoleID = #{record.roleid,jdbcType=INTEGER},
+      </if>
+      <if test="record.isdel != null" >
+        IsDel = #{record.isdel,jdbcType=BIT},
+      </if>
+      <if test="record.islock != null" >
+        IsLock = #{record.islock,jdbcType=BIT},
+      </if>
+      <if test="record.status != null" >
+        Status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.email != null" >
+        Email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mark != null" >
+        Mark = #{record.mark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tel != null" >
+        Tel = #{record.tel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update employee
+    set ID = #{record.id,jdbcType=INTEGER},
+      UserName = #{record.username,jdbcType=VARCHAR},
+      Password = #{record.password,jdbcType=VARCHAR},
+      ShopID = #{record.shopid,jdbcType=INTEGER},
+      EmpNum = #{record.empnum,jdbcType=VARCHAR},
+      RealName = #{record.realname,jdbcType=VARCHAR},
+      Mobile = #{record.mobile,jdbcType=VARCHAR},
+      RoleID = #{record.roleid,jdbcType=INTEGER},
+      IsDel = #{record.isdel,jdbcType=BIT},
+      IsLock = #{record.islock,jdbcType=BIT},
+      Status = #{record.status,jdbcType=INTEGER},
+      Email = #{record.email,jdbcType=VARCHAR},
+      Mark = #{record.mark,jdbcType=VARCHAR},
+      Tel = #{record.tel,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Employee" >
+    update employee
+    <set >
+      <if test="username != null" >
+        UserName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        Password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="shopid != null" >
+        ShopID = #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="empnum != null" >
+        EmpNum = #{empnum,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        RealName = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null" >
+        Mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="roleid != null" >
+        RoleID = #{roleid,jdbcType=INTEGER},
+      </if>
+      <if test="isdel != null" >
+        IsDel = #{isdel,jdbcType=BIT},
+      </if>
+      <if test="islock != null" >
+        IsLock = #{islock,jdbcType=BIT},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="email != null" >
+        Email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mark != null" >
+        Mark = #{mark,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        Tel = #{tel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Employee" >
+    update employee
+    set UserName = #{username,jdbcType=VARCHAR},
+      Password = #{password,jdbcType=VARCHAR},
+      ShopID = #{shopid,jdbcType=INTEGER},
+      EmpNum = #{empnum,jdbcType=VARCHAR},
+      RealName = #{realname,jdbcType=VARCHAR},
+      Mobile = #{mobile,jdbcType=VARCHAR},
+      RoleID = #{roleid,jdbcType=INTEGER},
+      IsDel = #{isdel,jdbcType=BIT},
+      IsLock = #{islock,jdbcType=BIT},
+      Status = #{status,jdbcType=INTEGER},
+      Email = #{email,jdbcType=VARCHAR},
+      Mark = #{mark,jdbcType=VARCHAR},
+      Tel = #{tel,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 以下是自定义的 接口 分页查询 -->
+   <sql id="criteria_query">
+   <where>
+     <if test="criteria.shopid != null and criteria.shopid != '' ">
+     and e.ShopID = #{criteria.shopid}
+      </if>
+       <if test="criteria.roleid != null and criteria.roleid != '' ">
+       and r.ID = #{criteria.roleid}
+      </if>
+       <if test="criteria.username != null and criteria.username != '' ">
+       and e.UserName = #{criteria.username}
+      </if>
+       <if test="criteria.status != null and criteria.status != -1 ">
+      and e.Status = #{criteria.status}
+     </if>
+       <if test="criteria.employeename != null and criteria.employeename != '' ">
+       and e.RealName LIKE '%${criteria.employeename}%'
+      </if>
+       and e.IsDel = 0
+     </where> 
+  </sql>
+  
+  
+   <select id="selectEmployeeByShopidPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" resultMap="BaseResultMap">
+      SELECT e.*,s.name shopname,s.userid userid,r.name rolename FROM employee e LEFT JOIN shop s ON e.shopid = s.id LEFT JOIN role r ON e.roleid = r.id
+     <if test="criteria != null ">
+     <include refid="criteria_query"/> 
+     </if>
+     <if test="criteria.orderByClause != null and criteria.orderByClause != '' " >
+      order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序     此处只能使用${} 而不能使用#{} 会设置参数失败 -->
+    </if>
+  </select>
+  
+  <insert id="insertForId" parameterType="com.yinlian.wssc.web.po.Employee">
+  <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+			select LAST_INSERT_ID()
+		</selectKey>
+    insert into employee (ID, UserName, Password, 
+      ShopID, EmpNum, RealName, 
+      Mobile, RoleID, IsDel, 
+      IsLock, Status, Email, 
+      Mark, Tel)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{shopid,jdbcType=INTEGER}, #{empnum,jdbcType=VARCHAR}, #{realname,jdbcType=VARCHAR}, 
+      #{mobile,jdbcType=VARCHAR}, #{roleid,jdbcType=INTEGER}, #{isdel,jdbcType=BIT}, 
+      #{islock,jdbcType=BIT}, #{status,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, 
+      #{mark,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR})
+  </insert>
+  
+</mapper>

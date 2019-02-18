@@ -1,0 +1,62 @@
+@charset "utf-8";
+/* CSS Document */
+.pos{ width:100%; height:45px; background:#ffffff;  color:#585858; line-height:45px; font-size:18px; }
+.merchan-dpgl{ background:url(../images/icion_hs.png) no-repeat -180px 0px; width:23px; height:21px; display:inline-block; margin:10px 8px auto 30px; float:left;}
+.data_list_detailed tr td{ text-align:left; padding-left:15px;}
+.mainright .ddgl-table-con .data_list_detailed{ text-align:center;}
+.preserve-inp{ width:80px; height:40px; border:1px solid #ccc; border-radius:5px; background:#efefef; font-size:18px; font-weight:bolder;}
+.account-form{ margin-top:35px; width:100%; height:30px; position:relative; color:#333;}
+.sctp{padding:3px 10px; border-radius:3px; border-left:1px solid #E2E2E2; border-bottom:1px solid #ACACAC; border-right:1px solid #ACACAC; border-top:none; background:#E6E6E6; display:inline-block;cursor:pointer;}
+.sctp:hover{ padding:3px 10px; border-radius:3px; border-left:1px solid #E2E2E2; border-bottom:1px solid #ACACAC; border-right:1px solid #ACACAC; border-top:none; background:#ccc; display:inline-block;}
+.sctp-con{ width:340px; height:270px; padding:20px 0; background:#ffffff; border:1px solid #efefef; border-radius:10px; position:absolute; top:60px; right:20%; display:none;
+-moz-box-shadow: 0px 0px 5px #ccc;
+    -webkit-box-shadow: 0px 0px 5px #ccc;
+    box-shadow: 0px 0px 5px #ccc
+	/* For IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#f2f2f2')";
+    /* For IE 5.5 - 7 */
+    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#f2f2f2');
+}
+.sctp-con table{ width:70%; margin:0 auto; border:none;}
+.sctp-con table, .sctp-con table tr, .sctp-con table tr td{border:none; font-size:16px;}
+.dpgl-dpdj{ width:130px; height:18px; border:1px solid #D8D8D8; }
+.mar-djmc{ width:130px; height:28px; background:#efefef; border:1px solid #ccc;}
+.dpgl-dpdj-tjsq{ width:80px; height:28px; border:1px solid #ccc; border-radius:5px; background:#efefef; font-size:16px;  margin-top:20px;}
+.preserve-inp-tjsq{ width:110px; height:40px; border:1px solid #ccc; border-radius:5px; background:#efefef; font-size:18px; font-weight:bolder; margin-top:20px;}
+.dpgl-dpdj-tjsq-dpsh{ width:100px; height:40px; border:1px solid #ccc; border-radius:5px; background:#efefef; font-size:16px;  margin-top:20px; font-weight:bolder; color:#666; letter-spacing:2px;}
+
+/*店铺管理  begin*/
+.audit{ padding:3px 10px; border-radius:3px; border-left:1px solid #E2E2E2; border-bottom:1px solid #ACACAC; border-right:1px solid #ACACAC; border-top:none; background:#E6E6E6; display:inline-block; cursor:pointer;}
+.audit:hover{ padding:3px 10px; border-radius:3px; border-left:1px solid #E2E2E2; border-bottom:1px solid #ACACAC; border-right:1px solid #ACACAC; border-top:none; background:#ccc; display:inline-block;}
+/*店铺管理  stop*/
+.tjcpxx-con-mk1{ width:100%; display:table-row; height:50px; }
+.tjcpxx-con-form-title1{ display:table-cell; width:150px; text-align:right; vertical-align:top; padding-right:10px;}
+.tjcpxx-con-form1{ display:table-cell; width:690px; text-align: left;}
+.dpwg-form1-text{ width:400px; height:200px;}
+/*添加产品信息  begin */
+.tjcpxx{ width:100%; margin-top:30px; color:#000;}
+.tjcpxx-title{ padding:10px 30px; background:#FFF; font-size:16px; width:100px; border-top:3px solid #00B6FF;}
+.tjcpxx-con{width:100%; background:#FFF;}
+.tjcpxx-con-con{width:850px; background:#FFF; display: inline-table; font-size:16px; margin:80px auto 50px 100px; }
+.tjcpxx-con-mk{ width:100%; display:table-row; height:50px; }
+.tjcpxx-con-form-title{ display:table-cell; width:150px; text-align:right; vertical-align:top; padding-right:10px;}
+.tjcpxx-con-form{ display:table-cell; width:330px; text-align: left;}
+.select-spfl{ width:150px; height:30px; background:#F6F6F6; border:1px solid #efefef;}
+.tjcpxx-fprm-inp{ width:310px; height:25px; background:#FFFFFF; border:1px solid #D9D9D9;}
+.remark{display:table-cell; width:290px; text-align: left; font-size:14px; color:#999;vertical-align:top;}
+.tjcpxx-con-form-upimg{display:table-cell; width:120px; height:115px; background:#f4f4f4; border:1px solid #D9D9D9; padding:1px; text-align:center; line-height:115px; float:left;}
+.tjcpxx-con-form-upthis{ width:105px; height:35px; float:left; background:#FFE5E6; border:1px solid #D9D9D9; margin:30px auto auto 5px; text-align:center; line-height:35px;}
+/*添加产品信息  stop*/
+.table-con-detail{ width:90%;}
+.table-con-detail table{ width:100%; color:#000;border-collapse:collapse; background:#FFF;-moz-box-shadow: 0px 0px 5px #ccc;
+    -webkit-box-shadow: 0px 0px 5px #ccc;
+    box-shadow: 0px 0px 5px #ccc
+	/* For IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#f2f2f2')";
+    /* For IE 5.5 - 7 */
+    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#f2f2f2');
+}
+.table-con-detail table, .table-con-detail table tr, .table-con-detail table tr td{ border:1px solid #ccc;}
+.table-con-detail table tr td{ font-size:15px; height:45px; padding-left:50px;}
+.table-con-detail-form{ margin:40px auto 100px 0px; padding-left:35%;}
+.mainright .table-con .data_list tr td a{ margin:0px 10px;}

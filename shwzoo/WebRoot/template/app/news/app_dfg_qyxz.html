@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Expires" content="-1">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<title>区域列表</title>
+<link rel="stylesheet" href="/resource/app/css/greenLife.css" />
+<script src="/resource/jquery-1.9.1.min.js"></script>
+<script src="/resource/wap/js/Yform.js"></script>
+<script type="text/javascript" src="/resource/GetQueryString.js"></script>
+<%if(ch==2){%>
+<style>
+.qyxz-top {padding-top: 20px;}
+.qyxz-top.rowreturn.bjwhite{background: #fff url(/resource/app/images/rowreturn_heise.png) no-repeat 3% 0.6rem;background-size: 0.17rem auto;}
+</style>
+<%}else{%>
+<style>
+.qyxz-top {padding-top: 0px;}
+.qyxz-top i{    top: 2px;}
+</style>
+<%}%>
+</head>
+<script>
+$(function(){
+	/////////点击字母控制位置///////////
+	var htmlBody=$("html,body");
+	var boxFootScroll=$(".boxFoot-scroll h2");
+	var diquselectBoxFootnava=$(".diquselect-boxFoot nav a");
+	var diquselectBoxFoot=$(".boxFoot-scroll");
+	var windowObjs=$(window);
+	diquselectBoxFootnava.click(function(){
+		htmlBody.scrollTop(99999);
+		var suotyin=diquselectBoxFootnava.index(this);
+		var sctopzhi=boxFootScroll.eq(suotyin).offset().top-boxFootScroll.eq(0).offset().top;
+		diquselectBoxFoot.scrollTop(sctopzhi);
+	})
+	tilieState();
+	diquselectBoxFoot.scroll(tilieState);
+	windowObjs.scroll(tilieState);
+	windowObjs.resize(tilieState);
+	function tilieState(){
+		var scrollTops=diquselectBoxFoot.scrollTop();
+		var sctopQE0=boxFootScroll.eq(0).offset().top;
+		var diquselectBoxFootoff=diquselectBoxFoot.offset().top;
+		
+		var windowObjssctop=windowObjs.scrollTop();
+		boxFootScroll.each(function(index, element) {
+			var sctopxx=$(this).offset().top-sctopQE0;
+           if(scrollTops>=sctopxx-1){
+				$(this).addClass("fixd").find("b").css("top",diquselectBoxFootoff-windowObjssctop);   
+		   }else{
+			  $(this).removeClass("fixd");
+		   }
+        });
+	}
+	
+	
+ 
+})
+</script>
+<div class="qyxz-top fix">
+	区域选择
+	<i onclick="javascirpt:location.href='url:///back'"></i>
+</div>
+<section class="diquselect-boxUp">
+<div class="diquselect-dingwei" onclick="javascript:location.href='/wap/app/dfg.html?ch=${ch}'">
+	<b >全国</b>（默认）
+</div>
+<!--<div class="diquselect-tile">
+	当前所在城市
+</div>
+<ul class="diquselect-ul">
+	<li><a href="会员主页-2-我的信息.html">北京</a></li>
+</ul>-->
+<!-- <div class="diquselect-tile">
+	热门城市
+</div>
+<ul class="diquselect-ul">
+	<li><a href="会员主页-2-我的信息.html">济南</a></li>
+	<li><a href="会员主页-2-我的信息.html">天津</a></li>
+	<li><a href="会员主页-2-我的信息.html">保定</a></li>
+	<li><a href="会员主页-2-我的信息.html">廊坊</a></li>
+	<li><a href="会员主页-2-我的信息.html">忻州</a></li>
+	<li><a href="会员主页-2-我的信息.html">张家口</a></li>
+</ul> -->
+</section>
+<section class="diquselect-boxFoot">
+<div class="boxFoot-scroll">
+	<%for(vo in citylist){%>
+	<h2><b>${vo.key}</b></h2>
+		<p>
+		<%for(city in vo.value){%>
+			<a href="/wap/app/dfg.html?proid=${city.id}&procode=${city.code}&cityname=${city.name}&ch=${ch}">${city.name}</a>
+		<%}%>
+		</p>
+	<%}%>
+	
+</div>
+</section>
+</body>
+</html>

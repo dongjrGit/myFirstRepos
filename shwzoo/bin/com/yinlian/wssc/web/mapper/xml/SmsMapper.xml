@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.SmsMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Smsrecord" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="Phone" property="phone" jdbcType="VARCHAR" />
+    <result column="Content" property="content" jdbcType="VARCHAR" />
+    <result column="CreateDate" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="Type" property="type" jdbcType="INTEGER" />
+  </resultMap>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Smsrecord" >
+    insert into smsrecord(Id,Phone,Content,CreateDate,Type)
+    values (#{id,jdbcType=INTEGER}, #{phone,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{type,jdbcType=INTEGER})
+  </insert>
+  
+   <sql id="Base_Column_List" >
+    Id,Phone,Content,CreateDate,Type
+   </sql>
+  
+  <select id="selectByPhone" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from smsrecord
+    where Phone = #{phone,jdbcType=VARCHAR} order by createdate desc limit 1
+  </select>
+</mapper>

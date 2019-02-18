@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>品牌推荐</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+</head>
+
+<body>
+<!--container  begin-->
+<div class="container fix">
+	<!--l_alltop  begin -->
+	<div class="l_alltop fix">
+    	<span onclick="javascript:location.href='/wap/discover/mypublish.html'"><img src="${path}/wap/images/tp10.png" class="img-responsive l_maxwid"></span>
+
+    	<span><img src="/resource/wap/images/tp10.png" class="img-responsive l_maxwid"></span>
+
+    </div>
+    <!--l_alltop  stop -->
+    <!--l_newsscf  begin -->
+    <div class="l_newsscf fix">
+    	<div class="l_newsscfmk fix">
+        	<div class="l_newsscfmk01"><img src="/resource/wap/images/newsico01.png" class="img-responsive"></div>
+            <div class="l_newsscfmk02">
+            	<h3>您有<span class="red">1个</span>新评论</h3>
+                <p class="huise">1分钟前</p>
+            </div>
+            
+        </div><!--l_newsscfmk  stop -->
+        <div class="l_newsscfmk fix">
+        	<div class="l_newsscfmk01"><img src="/resource/wap/images/newsico02.png" class="img-responsive"></div>
+            <div class="l_newsscfmk02">
+            	<h3>您有<span class="red">1个</span>新喜欢</h3>
+                <p class="huise">3小时前</p>
+            </div>
+            
+        </div><!--l_newsscfmk  stop -->
+    </div>
+    <!--l_newsscf  stop -->
+</div>
+<!--container  stop -->
+</body>
+</html>

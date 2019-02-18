@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.techown.wssc.web.mapper.ZooBannerMapper">
+	<resultMap id="BaseResultMap" type="com.techown.wssc.web.po.ZooBanner">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="pageMark" jdbcType="INTEGER" property="pageMark" />
+		<result column="title" jdbcType="VARCHAR" property="title" />
+		<result column="img" jdbcType="VARCHAR" property="img" />
+		<result column="sort" jdbcType="INTEGER" property="sort" />
+		<result column="type" jdbcType="INTEGER" property="type" />
+		<result column="typeId" jdbcType="INTEGER" property="typeId" />
+		<result column="url" jdbcType="VARCHAR" property="url" />
+		<result column="status" jdbcType="INTEGER" property="status" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="operator" jdbcType="VARCHAR" property="operator" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, pageMark, title, img, sort, type, typeId, url, status,
+		createTime,
+		updateTime,
+		creator, operator
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from zoo_banner
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<select id="listByTypeId" resultMap="BaseResultMap">
+		select id,title from zoo_banner where typeId =#{typeId}
+	</select>
+
+	<select id="getAppBanner"  resultMap="BaseResultMap">
+		select
+		title,img,type,typeId,url
+		from zoo_banner
+		<where>
+			<if test="status!=null">
+			  status = #{status}
+			</if>
+		</where>
+		order by sort asc
+	</select>
+
+	<sql id="criteria_query_title">
+		<if test="criteria.status!=null">
+			a.status=#{criteria.status}
+		</if>
+		<if test="criteria.title!=null and criteria.title!='' ">
+			and a.title like '%${criteria.title}%'
+		</if>
+	</sql>
+
+
+	<select id="querylistPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="BaseResultMap">
+		select
+		a.* from zoo_banner as a
+		<where>
+			<if test="criteria != null ">
+				<include refid="criteria_query_title" />
+			</if>
+		</where>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	
+	<select id="selectScenic"  resultMap="BaseResultMap">
+		select
+		a.* from zoo_banner as a
+		<where>
+			<if test="type !=null">
+				a.type = #{type}
+			</if>
+			<if test="typeId !=null">
+				and a.typeId = #{typeId}
+			</if>
+			<if test="status!=null">
+				and a.status = #{status}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="com.techown.wssc.web.po.ZooBanner">
+		insert into zoo_banner (id,
+		pageMark, title,
+		img, sort, type, typeId,
+		url, status, createTime,
+		updateTime, creator, operator
+		)
+		values (#{id,jdbcType=INTEGER},
+		#{pageMark,jdbcType=INTEGER},
+		#{title,jdbcType=VARCHAR},
+		#{img,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER},
+		#{type,jdbcType=INTEGER},
+		#{typeId,jdbcType=INTEGER},
+		#{url,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
+		#{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP},
+		#{creator,jdbcType=VARCHAR},
+		#{operator,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="updateStatus">
+		update zoo_banner
+		set
+		<if test="status==1">
+			status = 0,
+		</if>
+		<if test="status==0">
+			status = 1,
+		</if>
+		updateTime = #{updateTime,jdbcType=TIMESTAMP},
+		operator =
+		#{operator,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+		and
+		status = #{status,jdbcType=INTEGER}
+	</update>
+
+
+	<update id="updateByPrimaryKey" parameterType="com.techown.wssc.web.po.ZooBanner">
+		update zoo_banner
+		set pageMark = #{pageMark,jdbcType=INTEGER},
+		title =
+		#{title,jdbcType=VARCHAR},
+		img = #{img,jdbcType=VARCHAR},
+		sort =
+		#{sort,jdbcType=INTEGER},
+		type = #{type,jdbcType=INTEGER},
+		typeId =
+		#{typeId,jdbcType=INTEGER},
+		url = #{url,jdbcType=VARCHAR},
+		status =
+		#{status,jdbcType=INTEGER},
+		updateTime =
+		#{updateTime,jdbcType=TIMESTAMP},
+		operator = #{operator,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from zoo_banner
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+</mapper>

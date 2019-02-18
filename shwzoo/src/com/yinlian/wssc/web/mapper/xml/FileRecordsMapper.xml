@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.FileRecordsMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.FileRecords" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="GroupName" property="groupname" jdbcType="VARCHAR" />
+    <result column="ServerName" property="servername" jdbcType="VARCHAR" />
+    <result column="LocalName" property="localname" jdbcType="VARCHAR" />
+    <result column="FileType" property="filetype" jdbcType="INTEGER" />
+    <result column="RelationId" property="relationid" jdbcType="INTEGER" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+    <result column="RelationType" property="relationtype" jdbcType="INTEGER" />
+    <result column="Url" property="url" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    Id, GroupName, ServerName, LocalName, FileType, RelationId, CreateTime, Status, RelationType, 
+    Url
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.ImgrecordsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from FileRecords
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from FileRecords
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from FileRecords
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.ImgrecordsExample" >
+    delete from FileRecords
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.FileRecords" >
+    insert into FileRecords (Id, GroupName, ServerName, 
+      LocalName, FileType, RelationId, 
+      CreateTime, Status, RelationType, 
+      Url)
+    values (#{id,jdbcType=INTEGER}, #{groupname,jdbcType=VARCHAR}, #{servername,jdbcType=VARCHAR}, 
+      #{localname,jdbcType=VARCHAR}, #{filetype,jdbcType=INTEGER}, #{relationid,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, #{relationtype,jdbcType=INTEGER}, 
+      #{url,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.FileRecords" >
+    insert into FileRecords
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="groupname != null" >
+        GroupName,
+      </if>
+      <if test="servername != null" >
+        ServerName,
+      </if>
+      <if test="localname != null" >
+        LocalName,
+      </if>
+      <if test="filetype != null" >
+        FileType,
+      </if>
+      <if test="relationid != null" >
+        RelationId,
+      </if>
+      <if test="createtime != null" >
+        CreateTime,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+      <if test="relationtype != null" >
+        RelationType,
+      </if>
+      <if test="url != null" >
+        Url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="groupname != null" >
+        #{groupname,jdbcType=VARCHAR},
+      </if>
+      <if test="servername != null" >
+        #{servername,jdbcType=VARCHAR},
+      </if>
+      <if test="localname != null" >
+        #{localname,jdbcType=VARCHAR},
+      </if>
+      <if test="filetype != null" >
+        #{filetype,jdbcType=INTEGER},
+      </if>
+      <if test="relationid != null" >
+        #{relationid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="relationtype != null" >
+        #{relationtype,jdbcType=INTEGER},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.ImgrecordsExample" resultType="java.lang.Integer" >
+    select count(*) from FileRecords
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update FileRecords
+    <set >
+      <if test="record.id != null" >
+        Id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupname != null" >
+        GroupName = #{record.groupname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.servername != null" >
+        ServerName = #{record.servername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.localname != null" >
+        LocalName = #{record.localname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.filetype != null" >
+        FileType = #{record.filetype,jdbcType=INTEGER},
+      </if>
+      <if test="record.relationid != null" >
+        RelationId = #{record.relationid,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        Status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.relationtype != null" >
+        RelationType = #{record.relationtype,jdbcType=INTEGER},
+      </if>
+      <if test="record.url != null" >
+        Url = #{record.url,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update FileRecords
+    set Id = #{record.id,jdbcType=INTEGER},
+      GroupName = #{record.groupname,jdbcType=VARCHAR},
+      ServerName = #{record.servername,jdbcType=VARCHAR},
+      LocalName = #{record.localname,jdbcType=VARCHAR},
+      FileType = #{record.filetype,jdbcType=INTEGER},
+      RelationId = #{record.relationid,jdbcType=INTEGER},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      Status = #{record.status,jdbcType=INTEGER},
+      RelationType = #{record.relationtype,jdbcType=INTEGER},
+      Url = #{record.url,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.FileRecords" >
+    update FileRecords
+    <set >
+      <if test="groupname != null" >
+        GroupName = #{groupname,jdbcType=VARCHAR},
+      </if>
+      <if test="servername != null" >
+        ServerName = #{servername,jdbcType=VARCHAR},
+      </if>
+      <if test="localname != null" >
+        LocalName = #{localname,jdbcType=VARCHAR},
+      </if>
+      <if test="filetype != null" >
+        FileType = #{filetype,jdbcType=INTEGER},
+      </if>
+      <if test="relationid != null" >
+        RelationId = #{relationid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="relationtype != null" >
+        RelationType = #{relationtype,jdbcType=INTEGER},
+      </if>
+      <if test="url != null" >
+        Url = #{url,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.FileRecords" >
+    update FileRecords
+    set GroupName = #{groupname,jdbcType=VARCHAR},
+      ServerName = #{servername,jdbcType=VARCHAR},
+      LocalName = #{localname,jdbcType=VARCHAR},
+      FileType = #{filetype,jdbcType=INTEGER},
+      RelationId = #{relationid,jdbcType=INTEGER},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      Status = #{status,jdbcType=INTEGER},
+      RelationType = #{relationtype,jdbcType=INTEGER},
+      Url = #{url,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,170 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>买家中心</title>
+    <meta name="title" content="买家中心" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link rel="shortcut icon" type="image/x-icon" href="~/web_new/images/favicon_shortcut.ico" />
+    <script src="~/js/jquery-1.8.2.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="~/web_new/css/common.css" />
+    <link type="text/css" rel="stylesheet" href="~/web_new/css/top-footer.css" />
+    <link type="text/css" rel="stylesheet" href="~/web_new/css/style01.css" />
+    <script type="text/javascript" src="~/web_new/js/index.js"></script>
+    <script src="~/js/artTemplate.js" type="text/javascript"></script>
+    <script src="~/js/GetQueryString.js"></script>
+    <script src="~/js/Guid.js"></script>
+    <script src="~/js/cookie.js"></script>
+    <script src="~/js/dialog-plus.js" type="text/javascript"></script>
+    <script src="~/js/dialogShow.js"></script> <!--设置统一dialog弹出框-->
+    <script src="~/js/My97DatePicker/WdatePicker.js"></script>
+    <!--文件上传-->
+    <script src="~/js/AjaxFileUploaderV2.1/ajaxfileupload.js"></script>
+    <!--分页-->
+    <link href="~/mv10/css/pager2.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/mv10/js/pager2.js"></script>
+    <!--用户公共-->
+    <script src="~/js/public-user.js"></script>
+    <!--表单验证css&&js-->
+    <link href="~/Content/jQuery.Validate.css" rel="stylesheet" />
+    <script src="~/js/jquery.validate.js"></script>
+    <script src="~/js/messages_cn.js"></script>
+    <script src="~/js/jquery.validate-methods.js"></script>
+    <script src="~/js/jquery.form.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //获取购物车商品总数
+            $(".div_shoppingcartgoodscountsum").text(ShoppingCart.getGoodsCount());
+            //获取消息数量
+            GetCount();
+            //跳转购物车
+            $(".div_goshoppingcart").bind("click", function () {
+                window.location.href = "/Web/GwC/ShoppingCartnew";
+            });
+            //退出
+            $(".ulogin_click").bind("click", function () {
+                DelCookie("_u_token");
+                DelCookie("_uid");
+                DelCookie("_un");
+                window.location.href = '/Member/dlzc/Login';
+            });
+            //样式
+            $(".account-set").mouseenter(function () {
+                $(".zhsz-con").css("display", "block")
+            });
+            $(".account-set").mouseleave(function () {
+                $(".zhsz-con").css("display", "none")
+            });
+        })
+        function GetCount() {
+            $.ajax({
+                type: "get",
+                url: "/KhFwmemb/GetMessageCount",
+                dataType: "json",
+                data: { status: 1 },//1未读
+                success: function (rsl) {
+                    if (rsl.Code == 0) {
+                        var count = rsl.Data;
+                        $("#mcount").text("(" + count + ")");
+                        $("#messagecount").text(count);
+                    }
+                    else {
+                    }
+                },
+                error: function (e) {
+                }
+            });
+        }
+    </script>
+</head>
+<body style="background:#fff;">
+    <!--top  头部开始 -->
+    <div id="top" class="fix">
+        <!--topcon  begin -->
+        <div class="topcon">
+            <span>欢迎回来，<i class="red">@SessionState.GetCurrentUser().UserName</i></span>
+            <span class="l_xxer"><a class="message" href="/Member/KhFwmemb/MessageList">消息<i class="red" id="mcount">(0)</i></a></span>
+            <span><a class="ulogin_click" href="javascript:void(0);">退出</a></span>
+            <div class="top_rig">
+                <ul>
+                    <li><a href="/Member/DdZx/OrderList">我的订单</a></li>
+                    <li class="l_hx">|</li>
+                    <li class="iphone"><img src="~/web_new/images/iphone.jpg" width="7" height="12" /><a href="#">手机版</a></li>
+                    <li class="l_hx">|</li>
+                    <li class="l_khfw" id="l_khfw">
+                        <a href="#">客户服务</a><span class="l_toprow"></span>
+                        <!--l_khfwcon客户服务 弹出框内容 开始 -->
+                        <div class="l_khfwcon">
+
+                        </div>
+                        <!--l_khfwcon客户服务 弹出框内容 结束 -->
+                    </li>
+                    <li class="l_hx">|</li>
+                    <li class="l_wzdh" id="l_wzdh">
+                        <a href="#">网站导航</a><span class="l_toprow"></span>
+                        <!--l_wzcon网站导航 弹出框内容 开始 -->
+                        <div class="l_wzdhcon">
+
+                        </div>
+                        <!--l_wzcon网站导航 弹出框内容 结束 -->
+                    </li>
+                    <li class="l_hx">|</li>
+                    <li>
+                        <span class="l_gzwm">关注我们：</span>
+                        <div class="l_wbx">
+                            <span class="weibo"></span>
+                            <span class="weixin"></span>
+                        </div>
+                    </li>
+                </ul>
+            </div><!--top_rig  stop -->
+        </div>
+        <!--topcon  stop -->
+    </div>
+    <!--top  头部结束 -->
+    <!--main  主要内容  开始 -->
+    @RenderBody()
+    <!--main  主要内容  结束 -->
+    <!--footer  底部开始 -->
+    <div id="footer" class="fix">
+        <!--footcon  begin -->
+        <div class="footcon">
+            <!--l_gywm 关于我们开始 -->
+            <div class="l_gywm">
+                <p class="links">
+                    <a href="#">关于我们</a>|
+                    <a href="#">帮助中心</a>|
+                    <a href="#">友情链接</a>|
+                    <a href="#">诚征英才</a>|
+                    <a href="#">商家登录</a>|
+                    <a href="#">供应商登录</a>|
+                    <a href="#">联系我们</a>|
+                    <a href="#">网站合作</a>|
+                    <a href="#">开放平台</a>|
+                    <a href="#">法律声明</a>
+                </p>
+                <p class="l_xkz">
+                    京ICP备00000000号<span>|</span>
+                    <a href="#">营业执照</a><span>|</span>
+                    <a href="#">网络文化经营许可证</a><span>|</span>
+                    <a href="#">互联网药品交易服务资格证</a>
+                </p>
+                <p>Copyright&copy;&amp; 中绿生活网上超市 2014-2018，All Rights Reserved</p>
+            </div>
+            <!--l_gywm 关于我们结束 -->
+            <!--l_kxwz  begin -->
+            <div class="l_kxwz">
+                <a href="#"><img src="~/web_new/images/54b8871eNa9a7067e.png" width="103" height="32" alt="经营性网站备案中心" title="经营性网站备案中心" /></a>
+                <a href="#"><img src="~/web_new/images/54b8871eNa9a7067e4444.png" width="103" height="32" alt="可信网站信用评价" title="可信网站信用评价" /></a>
+                <a href="#"><img src="~/web_new/images/54b8874bN694454a5.png" width="103" height="32" /></a>
+                <a href="#"><img src="~/web_new/images/54b8875fNad1e0c4c.png" width="103" height="32" /></a>
+                <a href="#"><img src="~/web_new/images/54b8863dN8d2c61ec.png" width="185" height="32" /></a>
+            </div>
+            <!--l_kxwz  stop -->
+        </div>
+        <!--footcon  stop -->
+    </div>
+    <!--footer  底部结束 -->
+</body>
+</html>

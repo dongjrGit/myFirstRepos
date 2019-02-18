@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.techown.wssc.web.mapper.RcmdScenicMapper">
+  <resultMap id="BaseResultMap" type="com.techown.wssc.web.po.RcmdScenic">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="scenicId" jdbcType="INTEGER" property="scenicid" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="operator" jdbcType="VARCHAR" property="operator" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="ext1" jdbcType="VARCHAR" property="ext1" />
+    <result column="ext2" jdbcType="VARCHAR" property="ext2" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, scenicId, img, remark, type, operator, createTime, updateTime, state, ext1, ext2
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zoo_rcmd_scenic
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  
+  
+  <select id="selectByScenicId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from zoo_rcmd_scenic
+    where scenicId = #{scenicid,jdbcType=INTEGER}
+  </select>
+  
+  
+  
+  <select id="querylist"  resultMap="BaseResultMap">
+    select a.*,b.scenicname
+    from zoo_rcmd_scenic a 
+    left join zoo_scenic b on a.scenicId = b.id
+	<where>
+		<if test="list != null and list.size() > 0">
+			b.type in
+			<foreach collection="list" item="type" index="index" open="("
+				close=")" separator=",">
+				#{type}
+			</foreach>
+		</if>
+		<if test="null!=name">
+			and b.scenicName like #{name} 
+		</if>
+	</where>
+  </select>
+  
+  
+  <select id="selectById"  resultMap="BaseResultMap">
+    select a.*,b.scenicname
+    from zoo_rcmd_scenic a 
+    left join zoo_scenic b on a.scenicId = b.id
+	where a.id = #{id}
+  </select>
+  
+  
+  <select id="getAppRcmdScenic" parameterType="java.lang.Integer" resultType="hashmap" >
+    select a.scenicId,a.img,a.type,b.scenicname
+    from zoo_rcmd_scenic a   
+    inner join zoo_scenic b on a.scenicId = b.id
+    <where>
+    	<if test="null!=type">
+			a.type = #{type,jdbcType=INTEGER}    		
+    	</if>
+    </where>
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from zoo_rcmd_scenic
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.techown.wssc.web.po.RcmdScenic">
+    insert into zoo_rcmd_scenic (id, scenicId, img, 
+      remark, type, operator, 
+      createTime, updateTime, state, 
+      ext1, ext2)
+    values (#{id,jdbcType=INTEGER}, #{scenicid,jdbcType=INTEGER}, #{img,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{operator,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER}, 
+      #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.techown.wssc.web.po.RcmdScenic">
+    insert into zoo_rcmd_scenic
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="scenicid != null">
+        scenicId,
+      </if>
+      <if test="img != null">
+        img,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="operator != null">
+        operator,
+      </if>
+      <if test="createtime != null">
+        createTime,
+      </if>
+      <if test="updaetime != null">
+        updateTime,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="ext1 != null">
+        ext1,
+      </if>
+      <if test="ext2 != null">
+        ext2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="scenicId != null">
+        #{scenicid,jdbcType=INTEGER},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updaetime != null">
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="ext1 != null">
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null">
+        #{ext2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.techown.wssc.web.po.RcmdScenic">
+    update zoo_rcmd_scenic
+    <set>
+      <if test="scenicid != null">
+        scenicId = #{scenicid,jdbcType=INTEGER},
+      </if>
+      <if test="img != null">
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="operator != null">
+        operator = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updaetime != null">
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="ext1 != null">
+        ext1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null">
+        ext2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.techown.wssc.web.po.RcmdScenic">
+    update zoo_rcmd_scenic
+    set scenicId = #{scenicid,jdbcType=INTEGER},
+      img = #{img,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      operator = #{operator,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      state = #{state,jdbcType=INTEGER},
+      ext1 = #{ext1,jdbcType=VARCHAR},
+      ext2 = #{ext2,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  <update id="updateRcmdScenic" parameterType="com.techown.wssc.web.po.RcmdScenic">
+    update zoo_rcmd_scenic
+    set scenicId = #{scenicid,jdbcType=INTEGER},
+      img = #{img,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      operator = #{operator,jdbcType=VARCHAR},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+</mapper>

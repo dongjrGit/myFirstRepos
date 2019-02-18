@@ -1,0 +1,290 @@
+<title>优惠券</title>
+<script src="/resource/artTemplate.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/wkh/common-util.js"></script>
+<script type="text/javascript" src="/resource/pc/web/js/pager1.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/wkh/page-pc.js"></script>
+<script type="text/javascript" src="/resource/pc/web/js/login/login.js"></script>
+<script type="text/javascript" src="/resource/pc/web/js/jquery.SuperSlide.js"></script>
+<script type="text/javascript" src="/resource/pc/web/js/unslider.js"></script>
+<script type="text/javascript" >
+compatibility=1;
+$(function(){
+    $("#div_successed").hide();
+	pageUtil.initialize("/pc/coupon/getCouponList", {ch:1,pagesize:10})
+	
+	$("a[id='sptt']").each(function(){
+		var str=$(this).html();
+		if(str.length>20){
+			$(this).html(str.substr(0,20)+"...");
+		}
+		
+	});
+});
+
+</script>
+<style type="text/css">
+    .main {
+        width: 858px;
+        height: 414px;
+        background: #fff;
+        border: 7px solid #D6D6D6;
+        position: absolute;
+    }
+.l_jglhgd{padding:5px 10px; line-height:18px;}
+.y_rmtj ul li{ position:relative; width:288px; height:260px; float:left; font-size:14px; margin:0px 6px 0px 6px;}
+.y_rmtj ul li img{ width:288px; height:260px;}
+ .l_jglhgd a { color: #fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+ .banner { width: 100%; height: 360px;}
+ .banner img { width: 100%; height: 360px;}
+  .y_rmcon{ background:rgba(0,0,0,.5);  opacity: 1;}
+  .y_rmcon p {color: #F94600; padding: 0px 10px;}
+  .y_rmtj ul li {
+  position: relative;
+  width: 288px;
+  height: 260px;
+  float: left;
+  font-size: 14px;
+  margin: 0px 6px 0px 6px;
+}
+
+.y_yhqcon ul li {
+  width: 384px;
+  margin: 0px 10px 0px 6px;
+  float: left;
+}
+.y_yhqall {
+  width: 100%;
+  border: 1px solid #E6E5E5;
+  text-align: center;
+  font-size: 16px;
+  padding-bottom: 3px;
+  margin-top: 15px;
+}
+.y_yhqcon ul li img {
+  width: 100%;
+  height: 110px;
+  margin-top: 1px;
+  margin-bottom: 2px;
+}
+ 
+</style>
+
+		<div class="banner fix">
+			<!--banList 幻灯图图片 begin -->
+			<ul class="banList">
+				<%var adcon=1; if(isNotEmpty(ad1list)){%> <% for(ad in ad1list){
+				if(adcon==1){ %>
+				<li class="active">
+					<a href="${ad.url!'javascript:void(0)'}"
+					target="_blank"><img src="${ad.img}" /></a>
+				</li>
+				<%}else{%>
+				<li>
+					<a href="${ad.url!'javascript:void(0)'}" target="_blank"><img
+					src="${ad.img}" /></a>
+				</li> <%
+				}adcon++;}}%>
+			</ul>
+			<!--banList 幻灯图图片 stop -->
+				
+			<!-- fomW 点击的小圆点  stop-->
+		</div>
+		<div align="center" style="margin-top: 20px" >
+			<% for(ad2 in ad2list){%>
+			 	<a href="${ad2.url!'javascript:void(0)'}" target="_blank"><img style="height: 225px;width: 1200px" src="${ad2.imag}" /></a>
+			<%}%>
+		</div>
+<!--热门推荐 开始 -->
+<div class="l_bzxp fix">
+    <!--l_bzxpbor  开始 -->
+    <div class="l_bzxpbor">
+        <div class="l_jxtop">
+            <div class="l_jxtopleft">
+                <span class="bt0">热门推荐</span>
+                <span class="l_xh">/</span>
+            </div><!-- l_jxtopleft  stop-->
+            <div class="l_jxtopright">
+                <p>RECOMMEN-</p>
+                <p>DATIONS</p>
+            </div><!--l_jxtopright  stop -->
+        </div><!--l_jxtop  stop -->
+     <!--    @*<div class="l_bzright">
+                <a href="#">查看更多</a>
+            </div>*@ -->
+    </div>
+    <!--l_bzxpbor  结束 -->
+    <!--y_rmtj  begin -->
+    <div class="y_rmtj fix">
+        <ul>
+        <%for(vo in rmtj){%>
+                <li>
+                    <a href="/web/products/proinfo.html?spuid=${vo.spuid}"><img  title="${vo.name}" src="${vo.img}"></a>
+                    <div style="width:288px" class="y_rmcon">
+                        <div class="l_jglhgd"><a  title="${vo.name}"id="sptt" href="/web/products/proinfo.html?spuid=${vo.spuid}">${vo.name}</a></div>
+                        <p>￥${vo.price}</p>
+                    </div>
+                </li>
+            <%}%>
+            </ul>
+        </div>
+        <!--y_rmtj  stop -->
+    </div>
+    <!--热门推荐 结束 -->
+    <!--y_yhqzq优惠券专区  begin -->
+    <div class="y_yhqzq">
+        <!--l_bzxpbor  开始 -->
+        <div class="l_bzxpbor">
+            <div class="l_jxtop">
+                <div class="l_jxtopleft">
+                    <span class="bt0">优惠券专区</span>
+                    <span class="l_xh">/</span>
+                </div><!-- l_jxtopleft  stop-->
+                <div class="l_jxtopright">
+                    <p>BRAND</p>
+                    <p>COUPONS</p>
+                </div><!--l_jxtopright  stop -->
+            </div><!--l_jxtop  stop -->
+        </div>
+        
+        <div class="y_yhqcon fix" id="contentRows">
+        <script type="text/javascript" id="rowslist">
+        {{each list as pro i}}
+        {{each pro.list as yhj}}    
+        <div id="div_shopcoupon">
+               <ul>
+                    <li>
+                        <div class="y_yhqall fix">
+                            <a href="javascript:void(0);"><img src="{{yhj.imgurl}}"></a>
+                                <a href="javascript:void(0);" couponid-val="{{yhj.id}}" class="a_getnow">
+                                    <div class="y_bjhs_mk" title="{{yhj.couponname}}">
+                                        <span class="y_bjhs01"><span class="fon30">{{yhj.facevalue | toFixed}}</span></span>
+                                        <span class="y_bjhs02">立即领取&gt;</span>
+                                    </div>
+                                </a>
+                                <p>{{yhj.couponname}}</p>
+                        </div>
+                    </li>
+               </ul>
+            </div>
+            {{/each}}
+            {{/each}}
+            </script>
+            
+        
+        </div>
+        <!--y_yhqcon  stop -->
+        <!--loginfil  begin -->
+        <!--loginfil  stop -->
+            <!--y_lqts  begin -->
+            <div id="div_successed" class="main" hidden>
+                <div class="y_lqtstop"><i></i>提示<span class="close" onclick="hiddendiv();"></span></div><!--y_lqtstop  stop -->
+                <div class="y_lqcg">
+                    <p class="red fon30">恭喜您，优惠券领取成功！</p>
+                    <p class="mt30 fon14">优惠券 已经发放到您的账户中，请到  <span class="lanse"><a href="/Member/coupon/Coupons">中绿生活</a></span><span class="lanse">&gt;</span><span class="lanse"><a href="/Member/coupon/Coupons">优惠券</a></span>  中查看。</p>
+                    <!--<p class="mt20"><a href="/member/coupon/Coupons" class="yhqyes">去看看活动</a></p>-->
+                </div>
+            </div>
+            <!--y_lqts  stop -->
+    </div>
+
+    <!--y_yhqzq优惠券专区  stop -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".a_getnow").bind("click", function () {
+            	if (!WebLogin.isLogin()) {
+            		showlogindiv();
+        			return false;
+        		}
+                var id = $(this).attr("couponid-val");
+                $.ajax(({
+                    type: "post",
+                    url: "/pc/coupon/takeCoupon",
+                    dataType: "json",
+                    data: { couponid: id,ch:1},
+                    success: function (rsl) {
+                        if (rsl.code == 0) {
+                            $("#div_successed").show();
+                        }
+                        else {
+                            alert(rsl.desc);
+                        }
+                    },
+                    error: function (e) {
+                    }
+                }));
+            });
+        })
+
+        function hiddendiv() {
+            $("#div_successed").hide();
+        }
+    </script>
+<script>
+			$(function() {
+				$('.banner').unslider({
+					speed : 500, //  The speed to animate each slide (in milliseconds)
+					delay : 5000, //  The delay between slide animations (in milliseconds)
+					complete : function() {
+					}, //  A function that gets called after every slide animation
+					keys : true, //  Enable keyboard (left, right) arrow shortcuts
+					dots : true, //  Display dot navigation
+					fluid : false, //  Support responsive design. May break non-responsive designs
+					autoplay : true
+				});
+				 
+
+				$(window).scroll(function() {
+					if ($(window).scrollTop() > 1534) {
+						$('#box').onePageNav({
+							scrollThreshold : 0.3
+							//阈值 楼层高度系数
+						});
+						$('#box').show();
+					} else {
+						$('#box').hide();
+					}
+				});
+				//楼层浮动导航初始化
+				window.prettyPrint && prettyPrint();
+
+				//$('#box ul li').hover(function () {
+				//    $(this).find('.num').hide().siblings('.word').css({ 'display': 'block', 'background': '#CB1C39', 'color': 'white' });
+				//}, function () {
+				//    $(this).find('.num').css({ 'display': 'block', 'background': '#EFEFEF', 'color': '#666' }).siblings('.word').hide().css({ 'display': 'none', 'background': '', 'color': '' });
+				//})
+				var select = false;
+				//楼层浮动导航鼠标点击效果
+				$('#box ul li').click(function() {
+					if($(this).attr("id")!="totop"){
+					select = true;
+					$(this).find('.num').hide().siblings('.word').css('display', 'block');
+					$(this).siblings('li').find('.num').show().siblings('.word').hide();
+					}else{
+						select = true;
+					$(this).find('.num').show();
+					$(this).find('.word').hide();
+					$(this).siblings('li').find('.num').show().siblings('.word').hide();
+					window.location.href="#";
+					}
+				})
+				//楼层浮动导航鼠标浮动效果
+				$('#box ul li').hover(function() {
+					if ($(this).find('.num').attr("style") == "display: block;") {
+						select = false;
+						$(this).find('.num').hide().siblings('.word').css({
+							'display' : 'block'
+						});
+						$(this).find('.word').show();
+					} else {
+						select = true;
+					}
+				}, function() {
+					if (select == false) {
+						$(this).find('.num').css({
+							'display' : 'block'
+						}).siblings('.word').hide();
+					}
+				})
+			})
+		</script>
+		 

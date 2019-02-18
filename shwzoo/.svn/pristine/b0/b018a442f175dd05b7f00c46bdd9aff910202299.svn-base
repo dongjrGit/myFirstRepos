@@ -1,0 +1,109 @@
+﻿@{
+    Layout = "~/Areas/Member/Views/Shared/_Layout_Member_Center.cshtml";
+    ViewBag.Title ="站内信详情";
+}
+
+<script src="~/mv10/js/khfw/MessagesInfo.js"></script>
+<div id="main">
+    <!--main-left 左边内容  开始 -->
+    @Html.Partial("~/Areas/Member/Views/Shared/_PartialLeftside.cshtml")
+    <!--main-left 左边内容  结束 -->
+    <!--rightside 右边内容  结束 -->
+    <div class="rightside">
+        <!--Tab2 申请返修退换货开始 -->
+        <style type="text/css">
+            #Tab2 {
+                width: 100%;
+                margin: 20px auto 0px auto;
+            }
+
+            .Menubox {
+                width: 100%;
+                height: 40px;
+                line-height: 39px;
+                background: none;
+                border-bottom: 1px solid #FFAB61;
+            }
+
+                .Menubox ul {
+                    margin: 0px;
+                    padding: 0px;
+                }
+
+                .Menubox li {
+                    float: left;
+                    width: auto;
+                    display: block;
+                    cursor: pointer;
+                    text-align: center;
+                    padding: 0px 30px;
+                    height: 39px;
+                    line-height: 39px;
+                    font-size: 16px;
+                    border: 1px solid #FFAB61;
+                    border-top-left-radius: 5px;
+                    border-top-right-radius: 5px;
+                    margin-right: 8px;
+                    background: #FFAE53;
+                    color: #ffffff;
+                    font-weight: normal;
+                }
+
+                    .Menubox li.hover {
+                        padding: 0px;
+                        color: #c31;
+                        height: 40px;
+                        line-height: 39px;
+                        font-weight: normal;
+                        width: auto;
+                        padding: 0px 30px;
+                        background: #FFF;
+                        color: #FFAB55;
+                        border-bottom: none;
+                    }
+
+            .Contentbox {
+                clear: both;
+                padding: 20px 0px;
+            }
+        </style>
+        <div id="Tab2">
+            <div class="Menubox">
+                <ul>
+                    <li id="two1" onclick="setTab('two',1,4)" class="hover">站内信详情</li>
+                </ul>
+            </div>
+            <div class="Contentbox">
+                <!--con_two_1 选项卡1对应内容开始 -->
+                <div id="con_two_1">
+                    <div class="perinfor">
+                        <table>
+                            <tr>
+                                <td class="perinfor-left"> 发件人：</td>
+                                <td><input name="" id="sendUser" type="text" style="border:none" readonly class="inp-most"></td>
+                            </tr>
+                            <tr>
+                                <td class="perinfor-left"> 详细内容：</td>
+                                <td>
+                                    <textarea name="" id="msContent" readonly="readonly" style="width:400px;height:300px;border:none" class="form-area"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="perinfor-left">&nbsp;</td>
+                                <td>
+                                    <a href="javascript:void(0);"><input type="button" value="返回"id="backBtn" /></a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div><!--perinfor  stop -->
+                </div>
+                <!--con_two_1 选项卡1对应内容结束 -->
+            </div>
+        </div>
+        <!--Tab2 申请返修退换货结束 -->
+
+        <div class="clear"></div>
+    </div>
+    <!--rightside 右边内容  结束 -->
+    <div class="clear"></div>
+</div>

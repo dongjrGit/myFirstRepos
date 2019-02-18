@@ -1,0 +1,99 @@
+<%var path="/resource";%>
+<head>
+<title>个人中心-未登录</title>
+
+<script type="text/javascript" src="${path}/wap/js/wkh/ajaxCommon.js"></script>
+<script type="text/javascript" src="${path}/wap/js/wkh/varCommon.js"></script>
+
+<script type="text/javascript" src="${path}/wap/js/wkh/appCommon.js"></script>
+<script type="text/javascript">
+var ids='${id}';
+$(function(){
+	pagesf();
+});
+function pagesf(){
+	if($("#"+ids)){
+		$("#"+ids).addClass('red');
+	}else{
+		alert("无id")
+		$("#001").addClass('red');
+	}
+	pageUrl="/api/wap/discover/jingxuan";
+	params={"page":1,"size":10,"id":ids};
+	content="list";
+	initPage();
+}
+$(function(){
+	$(window).scroll(function(){
+		var scrollTop=$(this).scrollTop();
+		var scrollHeight=$(document).height();
+		var windowHeight=$(this).height();
+		if(scrollTop+windowHeight==scrollHeight){
+			pagesf();
+		}
+	});
+});
+
+</script>
+</head>
+<body>
+<!--container  begin-->
+<div class="container fix">
+	<!--l_alltop  begin -->
+	<div class="l_alltop fix"onclick="javascript:location.href='/wap/discover/index.html'">
+    	<span><img src="${path}/wap/images/tp10.png" class="img-responsive l_maxwid"></span>
+    	精选推荐
+    </div>
+    <!--l_alltop  stop -->
+    <!--l_jxtjfx  begin -->
+    <div class="l_jxtjfx fix">
+    	<div class="l_jxtjfx01">
+            <ul>
+            	<li id="-1"><a href="/wap/discover/recommend.html?id=-1">精选</a></li>
+            	<%for (vo in fl){%>
+                <li id="${vo.id}"  onclick="javascript:location.href='/wap/discover/recommend.html?id=${vo.id}'"><a href="javascript:void(0);" >${vo.name}</a></li>
+            	<%}%>
+            </ul>
+        </div>
+        <div class="l_jxtjfx02">
+        	<i><img src="${path}/wap/images/jxtjico01.png" class="img-responsive"></i>
+        </div>
+        <!--l_jxdwlb  begin -->
+        <div class="l_jxdwlb fix">
+        	<ul>
+            	<a href="/wap/discover/recommend.html?id=-1">
+            	<li>
+                	<span><img src="${path}/wap/images/jxtjfl01.jpg" class="img-responsive"></span>
+                    <div>精选</div>
+                </li>
+                </a>
+                <%for (vo in fl){%>
+                <a href="/wap/discover/recommend.html?id=${vo.id}">
+            	<li>
+                	<span><img src="${vo.imageurl}" class="img-responsive"></span>
+                    <div>${vo.name}</div>
+                </li>
+                </a>
+                <%}%>
+                
+            </ul>
+        </div>
+        <!--l_jxdwlb  stop -->
+    </div>
+    <!--l_jxtjfx  stop -->
+    <!--l_jxlbnr  begin -->
+    <div class="l_jxlbnr fix">
+    	<ul id="list">
+        </ul>
+    </div>
+    <!--l_jxlbnr  stop -->
+</div>
+<!--container  stop -->
+<script>
+	window.onload=function(){
+		newArrival('.l_jxlbnr01 img');
+		
+	}	
+</script>
+</body>
+

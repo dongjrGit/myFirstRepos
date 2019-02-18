@@ -1,0 +1,171 @@
+<!-- @{
+    Layout = "~/Areas/Member/Views/Shared/_Layout_Member_Center.cshtml";
+    ViewBag.Title = "我的积分";
+    var data = ViewBag.Data as List<PointRecordsDto>;
+    var page = ViewBag.Page as YL.Extended.Page;
+    var nickName = ViewBag.NickName;
+    var points = ViewBag.Points;
+} -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        getPoint_List();
+        $(".g_jylx").change(function () {
+            var p1 = $(this).children('option:selected').val();
+            var t = $("#tradeType").val();
+            getList(t, p1);
+        });
+
+        $("#p1").css('display', 'block');
+        $("#p4").css('display', 'none');
+        $(".g_jfqhtou a").click(function () {
+            if (!$(this).hasClass("g_jfdqys")) {
+                $(".g_jfqhtou a").removeClass("g_jfdqys")
+                $(this).addClass("g_jfdqys");
+            }
+            if ($(this).text() == "我的积分") {
+                $("#p1").show();
+                $("#p4").hide();
+                var p1 = $(".g_jylx").children('option:selected').val();
+                $("#tradeType").attr("value", "2");
+                getList(2, p1);
+            }
+            if ($(this).text() == "收入积分") {
+                $("#p1").show();
+                $("#p4").hide();
+                var p1 = $(".g_jylx").children('option:selected').val();
+                $("#tradeType").attr("value", "0");
+                getList(0, p1);
+
+            }
+            if ($(this).text() == "支出积分") {
+                $("#p1").show();
+                $("#p4").hide();
+                var p1 = $(".g_jylx").children('option:selected').val();
+                $("#tradeType").attr("value", "1");
+                getList(1, p1);
+            }
+            if ($(this).text() == "积分规则") {
+                $("#p4").show();
+                $("#p1").hide();
+            }
+
+        })
+
+        function getPoint_List() {
+            $(".g_jfqhtou").first(".g_jfqhtou a").addClass("g_jfdqys");
+        }
+    })
+    function getList(t, p) {
+        $.ajax({
+            type: "post",
+            url: "/PointRecords/GetPointByType",
+            dataType: "json",
+            data: { type: t, timeTag: p },
+            success: function (rsl) {
+                if (rsl.Code == 0) {
+                    var listring = "<ul>";
+                    for (var i in rsl.Data) {
+                        var jsonObj = rsl.Data[i]
+                        listring += "<li>"; 
+                        if (jsonObj.TradeType == 0) {
+                            listring += "<span class='g_jfmxno1'>" +"+"+ jsonObj.Points + "</span>";
+                        }
+                        else {                        
+                            listring += "<span class='g_jfmxno1'>" + "-" + jsonObj.Points + "</span>";
+                        }
+                        listring += "<span class='g_jfmxno2'>" + jsonObj.AfterPoints + "</span>";
+                        listring += "<span class='g_jfmxno3'>" + jsonObj.TradeTime + "</span>";
+                        if (jsonObj.TradeType == 0) {
+                            listring += "<span class='g_jfmxno4'>转入</span>";
+                        }
+                        else {
+                            listring += "<span class='g_jfmxno4'>转出</span>";
+                        }
+                        listring += "<span class='g_jfmxno5'>" + jsonObj.Description + "</span>";
+                        listring += "</li>";
+                    }
+                    listring += "<ul>";
+                    $("#tp1").html(listring);
+                }
+                else {
+                    alert("没数据啦");
+                }
+            },
+            error: function (e) {
+                alert(e.statusText);
+            }
+        });
+
+    }
+
+</script>
+<div class="g_jfgzyc">
+    <div class="g_jfgztou">
+        <p>当前积分</p>
+    </div>
+    <div class="g_dqjfq">
+        <div class="g_dqjfts">
+            您好，<b><font>@nickName</font></b>，您目前的积分为：<font>@points</font>
+        </div>
+    </div>
+    <div class="g_jfcxq">
+        <span>
+            交易时间：
+            <select class="g_jylx">
+                <option value="0">近一个月交易</option>
+                <option value="1">近三个月交易</option>
+                <option value="2">所有交易</option>
+            </select>
+        </span>
+    </div>
+    <div class="g_jfqhq">
+        <div class="g_jfqhtou">
+            <input type="hidden" id="tradeType" value="2" />
+            <a href="javascript:void(0)" class="g_jfdqys">我的积分</a>@*class="g_jfdqys"*@
+            <a href="javascript:void(0)">收入积分</a>
+            <a href="javascript:void(0)">支出积分</a>
+            <a href="javascript:void(0)">积分规则</a>
+        </div>
+
+        <div class="g_jfqhshen" id="p1">
+            <div class="g_wdjfbt">
+                <span class="g_jyjfno1">交易积分</span>
+                <span class="g_jyjfno2">交易后积分</span>
+                <span class="g_jyjfno3">时间</span>
+                <span class="g_jyjfno4">交易类型</span>
+                <span class="g_jyjfno5">详情</span>
+            </div>
+            <div class="g_wdjflist" id="tp1">
+                <ul>
+                    @foreach (var p in data)
+                    {
+                        <li>
+                            <span class="g_jfmxno1">@p.Points</span>
+                            <span class="g_jfmxno2">@p.AfterPoints</span>
+                            <span class="g_jfmxno3">@p.TradeTime</span>
+                            <span class="g_jfmxno4">@p.TradeType</span>
+                            <span class="g_jfmxno5">@p.Description</span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="g_jfqhshen" id="p4">
+            <p>
+                海益宝积分规则：<br />
+                1.不同帐户积分不可合并使用；<br />
+                2.积分不可用于兑换现金，仅限参加海益宝指定兑换物品、电子购物券。<br />
+                3.会员可以用积分参与海益宝指定的各种活动，参与后会扣减相应的积分。<br />
+                4 .积分商城商品兑换规则请见商品页面；<br />
+                5 .积分商城的商品一但兑换，不可更换。<br />
+                6 .本积分计划只适用于个人用途而进行的购物，不适用于团体购物、 以盈利或销售为目的的购买行为、其它非个人用途购买行为；<br />
+                7 .会员积分计划的最终解释权归海益宝所有。
+            </p>
+        </div>
+
+    </div>
+    <div class="g_fanye">
+        @Html.PageBar_JD(page.Index, page.MaxRow, page.PageRow)
+        <div class="clear"></div>
+    </div>
+</div>

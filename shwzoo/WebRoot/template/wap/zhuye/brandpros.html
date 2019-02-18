@@ -1,0 +1,87 @@
+<%var path="/resource";%>
+<head>
+	<title>商品列表</title>
+	<script type="text/javascript" src="${path}/wap/js/index.js" ></script>
+	<script type="text/javascript" src="${path}/GetQueryString.js"></script>
+	<script type="text/javascript" src="${path}/artTemplate.js"></script>
+	<script type="text/javascript" src="/resource/wap/js/wap-common.js"></script>
+	<script type="text/javascript" src="/resource/wap/js/js.js" ></script>
+	<script type="text/javascript">
+		$(function() {
+			var bid=GetQueryStringByName("bid");
+			pageData = {
+				page : 1,
+				size : 10,
+				bid:bid
+			};
+			pageUrl = "/api/wap/getprobybid";
+			content = "#productlist";
+			initPage();
+		});
+	</script>
+</head>
+<body>
+	<!--top_title  begin-->
+	<div class="top fix splbtop">
+		<a href="/wap/index.html">
+		<div class="top_return" >
+			<img src="${path}/wap/images/top_return.png"/>
+		</div> </a>
+       <div class="top_search">
+              <%if(isNotEmpty(bname)){%>${bname}详情<%}else{%> 品牌街详情<%}%>
+		</div>
+		
+	</div>
+	<!--top_title  stop-->
+	<!--ranksort  begin-->
+
+	<!--ranksort  stop-->
+	<!--productlistcon  begin-->
+	<div class="productlistcon fix">
+		<ul id="productlist">
+
+		</ul>
+		<script type="text/html" id="pagehtml">
+			{{each list as pro i}}
+			<li class="fix">
+			<a href="/wap/products/ProDetail.html?spuid={{pro.id}}&href=/wap/brand/brandpros.html?bid=${bid}">
+			<div class="productlistcon_l">
+			<img src="{{pro.imgurl}}" class="img-responsive"/>
+			</div>
+			<div class="productlistcon_r">
+			<p>{{pro.name}}</p>
+			<div class="productlistcon_r_bot fix">
+			<div class="floatl huise">
+			销量：{{pro.salescount}}
+			</div>
+			<div class="floatr red">
+			￥ {{toFixed(pro.price,2)}}
+			</div>
+			</div>
+			</div>
+			</a>
+			</li>
+			{{/each}}
+		</script>
+	</div>
+	<!--productlistcon  stop-->
+
+	<!--themestreet  stop-->
+	<img src="${path}/wap/images/index_42.png" class="qianggou-scrollTop">
+
+	<script>
+		$(".qianggou-scrollTop").click(function() {
+			$("html, body").animate({
+				scrollTop : 0
+			}, "slow");
+			return false;
+		});
+		fixed('.top');
+		//头部固定
+
+		function message() {
+			window.location.href = "/wap/messages/queryMessages?ch=3";
+		}
+
+	</script>
+</body>

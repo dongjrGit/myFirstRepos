@@ -1,0 +1,232 @@
+﻿<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>评价晒单</title>
+<link type="text/css" rel="stylesheet" href="${path}/pc/member/css/common.css" />
+<link type="text/css" rel="stylesheet" href="${path}/pc/member/css/style01.css" />
+<link type="text/css" rel="stylesheet" href="${path}/ui-dialog.css" />
+<link type="text/css" rel="stylesheet" href="${path}/pc/member/css/top-footer.css" />
+<link type="text/css" rel="stylesheet" href="${path}/pc/member/css/pager2.css" />
+<link type="text/css" rel="stylesheet" href="${path}/pc/member/css/jQuery.Validate.css" />
+<link href="${path}/pc/member/css/default.css" rel="stylesheet" />
+<script src="${path}/pc/member/js/OrderCenter/OrderList.js"></script>
+<script src="${path}/pc/member/js/browsehistory/browsehistory.js"></script>
+<script src="${path}/pc/member/js/jquery-1.8.2.min.js"></script>
+<script src="${path}/pc/member/js/index.js"></script>
+<script src="${path}/pc/member/js/jquery.validate.js"></script>
+<script src="${path}/pc/member/js/pager2.js"></script>
+<script src="${path}/pc/member/js/showdate.js"></script>
+<script src="${path}/artTemplate.js"></script>
+<script src="${path}/dialog-plus.js"></script>
+<script src="${path}/dialogShow.js"></script>
+<script src="${path}/jQueryRotate.2.2.js"></script>
+<script src="${path}/ajaxfileupload.js"></script>
+<script src="/resource/pc/member/js/OrderCenter/comment.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+    	// Comment.getList(1, 0);
+      /*   var orderID = GetQueryStringByName("orderID");
+        if (orderID != null && orderID != "" && parseInt(orderID) > 0) {
+            $(".div_commentstatus").remove();
+            //订单跳转 列表绑定
+           
+        }
+        else {
+            Comment.getList(1, 1);
+        } */
+
+    })
+    //改变评论类型
+    function changetype(obj, type) {
+       // Comment.getList(1, type, "");
+        $(".active").attr('class', 'normal');
+        $(obj).attr('class', 'active');
+    }
+    //评论星数样式加载
+    function rate(obj, oEvent) {
+        if (obj.rateFlag) return;
+        var e = oEvent || window.event;
+        var target = e.target || e.srcElement;
+        var imgArray = obj.getElementsByTagName("span");
+        for (var i = 0; i < imgArray.length; i++) {
+            imgArray[i]._num = i;
+            imgArray[i].onclick = function () {
+                if (obj.rateFlag) return;
+
+                var inputid = this.parentNode.previousSibling
+                inputid.value = this._num + 1;
+            }
+        }
+        if (target.tagName == "SPAN") {
+            for (var j = 0; j < imgArray.length; j++) {
+
+                if (j <= target._num) {
+                    $(imgArray[j]).attr("class", "xing-yellow");
+                    $(imgArray[j]).attr("checkedval", "1");
+                } else {
+                    $(imgArray[j]).attr("class", "xing-huise");
+                    $(imgArray[j]).attr("checkedval", "0");
+                }
+                target.parentNode.onmouseout = function () {
+                    var imgnum = parseInt(target.parentNode.previousSibling.value);
+                    for (n = 0; n < imgArray.length; n++) {
+                        $(imgArray[n]).attr("class", "xing-huise");
+                        $(imgArray[n]).attr("checkedval", "0");
+                    }
+                    for (n = 0; n < imgnum; n++) {
+                        $(imgArray[n]).attr("class", "xing-yellow");
+                        $(imgArray[n]).attr("checkedval", "1");
+                    }
+                }
+            }
+        } else {
+            return false;
+        }
+    }
+</script>
+<style>
+
+	.wdys table tr{
+		border:none;
+	}
+	
+</style>
+</head>
+<body>
+<!--main  主要内容  开始 -->
+<div id="main" class="fix">
+    <!--main-left 左边内容  开始 -->
+    <% include("/template/pc/memberCenter/Shared/_PartialLeftside.html",{}){}%> 
+    <!--main-left 左边内容  结束 -->
+    <!--rightside 右边内容  结束 -->
+    <div class="rightside">
+    <style>
+    .pjsd-fbpl{border:none;}
+    </style>
+    <div class="wdys mt0">
+    <input type="hidden" value="${orderid}" id="orderid">
+     <input type="hidden" value="${shopid}" id="shopid">
+      <table>
+          	<%for (orderdetail in products.children){%>
+          	   <input type="hidden" value="${orderdetail.id}" id="detail${orderdetail.productid}">
+          		 <tr>
+                    <td class="wdys-yysptr">
+                    	<a href="#"><img src="${orderdetail.productimg}" alt="帽子" title="帽子" style=" margin-left:20px;"></a>
+                        <p><a href="#" id="pron${orderdetail.productid}">${orderdetail.productname}</a></p>
+                    </td>
+                    <td colspan="2">&nbsp;</td>
+                </tr>
+                <tr style="border:none;" >
+                	<td colspan="3" >
+                    	<div class="pjsd-fbpl">
+                            
+                            <div class="pjsd-fbpl-con">
+                                <table>
+                                    <tr>
+						                  <td class="pjsd-fbplcon-left"><span class="red">*</span>商品评分：</td>
+						                  <td class="pjsd-fbplcon-right" id="td_stras" >
+						                      <p onmouseover="rate(this,event)" class="star_p" data-val="${orderdetail.productid}" id="p_stars" name="td_stras">
+						                          <span class="xing-huise" checkedval="0" title="差评"></span>
+						                          <span class="xing-huise" checkedval="0" title="中评"></span>
+						                          <span class="xing-huise" checkedval="0" title="中评"></span>
+						                          <span class="xing-huise" checkedval="0" title="好评"></span>
+						                          <span class="xing-huise" checkedval="0" title="好评"></span>
+						                      </p>
+						                  </td>
+              						</tr>
+                                   
+                                    <tr>
+                                        <td class="pjsd-fbplcon-left"><span class="red">*</span>心得：</td>
+                                        <td class="pjsd-fbplcon-right">
+                                            <textarea  id="cid${orderdetail.productid}" name="content"  cols="" rows="" class="area-most" placeholder="商品是否给力?快分享你的购买心得吧~" ></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                            <td class="pjsd-fbplcon-left">商品晒单：<input type="file" name="file_img" id="file_img" hidden=""></td>
+                                            <td class="pjsd-fbplcon-right" id="td_imglist"><a href="javascript:void(0)" class="a_addimg" onclick="uploadimg(this,event,${orderdetail.productid})">
+                                            <div class="tjzp">添加照片</div></a><a href="javascript:void(0)" class="a_addimg"  onclick="uploadimg(this,event,${orderdetail.productid})">
+                                            <div class="tjzp">添加照片</div></a><a href="javascript:void(0)" class="a_addimg" onclick="uploadimg(this,event,${orderdetail.productid})">
+                                            <div class="tjzp">添加照片</div></a><a href="javascript:void(0)" class="a_addimg" onclick="uploadimg(this,event,${orderdetail.productid})">
+                                            <div class="tjzp">添加照片</div></a><a href="javascript:void(0)" class="a_addimg" onclick="uploadimg(this,event,${orderdetail.productid})">
+                                            <div class="tjzp">添加照片</div></a></td>
+                                    </tr>
+                                    
+                                </table>
+                            </div><!--pjsd-fbpl-con  stop -->
+                        </div><!--pjsd-fbpl  stop -->
+                    </td>
+                </tr>
+           
+     <%}%>  
+     
+     <tr style="border:none;">
+                	<td colspan="3">
+                    	<div class="pjsd-fbpl">
+                            <div class="triangle"></div><!--triangle  stop -->
+                            <div class="pjsd-fbpl-con">
+                                <table class="table_submit">
+                                    <tbody>
+                                     <tr>
+                                            <td class="pjsd-fbplcon-left"><span class="red">*</span>描述相符：</td>
+                                            <td class="pjsd-fbplcon-right" id="td_strasdepict">
+                                                <p onmouseover="rate(this,event)" class="star_p" id="p_starsdepict">
+                                                    <span class="xing-huise" checkedval="0" title="差评"></span>
+                                                    <span class="xing-huise" checkedval="0" title="中评"></span>
+                                                    <span class="xing-huise" checkedval="0" title="中评"></span>
+                                                    <span class="xing-huise" checkedval="0" title="好评"></span>
+                                                    <span class="xing-huise" checkedval="0" title="好评"></span>
+                                                </p>
+                                            </td>
+                                        </tr>
+
+                                   
+                                    <tr>
+						                  <td class="pjsd-fbplcon-left"><span class="red">*</span>服务态度：</td>
+						                  <td class="pjsd-fbplcon-right" id="td_strasservice" colspan="3">
+						                      <p onmouseover="rate(this,event)" class="star_p" id="p_starsservice">
+						                          <span class="xing-huise" checkedval="0" title="差评"></span>
+						                          <span class="xing-huise" checkedval="0" title="中评"></span>
+						                          <span class="xing-huise" checkedval="0" title="中评"></span>
+						                          <span class="xing-huise" checkedval="0" title="好评"></span>
+						                          <span class="xing-huise" checkedval="0" title="好评"></span>
+						                      </p>
+						                  </td>
+             						 </tr>
+					              <tr>
+					                  <td class="pjsd-fbplcon-left"><span class="red">*</span>发货速度：</td>
+					                  <td class="pjsd-fbplcon-right" id="td_strasspeed" colspan="3">
+					                      <p onmouseover="rate(this,event)" class="star_p" id="p_starsspeed" >
+					                          <span class="xing-huise" checkedval="0" title="差评"></span>
+					                          <span class="xing-huise" checkedval="0" title="中评"></span>
+					                          <span class="xing-huise" checkedval="0" title="中评"></span>
+					                          <span class="xing-huise" checkedval="0" title="好评"></span>
+					                          <span class="xing-huise" checkedval="0" title="好评"></span>
+					                      </p>
+					                  </td>
+					              </tr> 
+              <tr>
+             <td class="pjsd-fbplcon-left">&nbsp;</td>
+             <td class="pjsd-fbplcon-right">
+                 <input type="hidden" value="602" id="hidden_orderdetailid">
+                 <input type="hidden" value="65" id="hidden_skuid">
+                 <a href="javascript:void(0)" class="r_fbpj a_commentsubmit" id="comment">发表评价</a>
+                 
+                 <p><input name="checked_showname" id="checked_showname" type="checkbox" value="">匿名评价</p>
+                
+             </td>
+       </tr> 
+                                    
+                                </tbody></table>
+                            </div><!--pjsd-fbpl-con  stop -->
+                        </div><!--pjsd-fbpl  stop -->
+                    </td>
+                </tr>
+     
+      </table>
+            <div class="clear"></div>
+        </div>
+    </div>    
+</div>
+<!--main  主要内容  结束 -->
+</body>
+

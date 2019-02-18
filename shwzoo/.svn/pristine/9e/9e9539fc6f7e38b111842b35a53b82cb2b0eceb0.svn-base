@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.OrderMapperAnalysisReport">
+
+	<select id="getSalesAnalysis" resultType="com.yinlian.wssc.web.po.Orderdetail"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		select a.ID, a.OrderID, a.OrderCode, a.BuyerID, a.SKU_ID as skuid,
+		a.ProductNum, a.ProductName,
+		a.ProductPrice, a.ProductCount,
+		a.ProductWeight,a.status
+		from orderdetail a 
+		where a.VaildFlag=0
+		<if test="criteria.addbegin !=null and criteria.addbegin !=''">			
+			 <![CDATA[ and DATEDIFF(a.OrderDate,#{criteria.addbegin})>=0]]>
+		</if>
+		<if test="criteria.addend !=null and criteria.addend!=''">
+			  <![CDATA[ and DATEDIFF(a.OrderDate,#{criteria.addend})<=0]]>
+		</if>
+		<if test="criteria.shopid !=null and criteria.shopid >0">
+			and a.ShopId=#{criteria.shopid}
+		</if>
+
+	</select>
+
+	<select id="getSalesDeatils" resultType="com.yinlian.wssc.web.po.Orderdetail"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		select a.ID, a.OrderID, a.OrderCode, a.BuyerID, a.SKU_ID as skuid,
+		a.ProductNum, a.ProductName,
+		a.ProductPrice, a.ProductCount,
+		a.ProductWeight,a.status
+		from orderdetail a 
+		where  a.VaildFlag=0
+		<if test="criteria.addbegin !=null and criteria.addbegin !=''">			
+			 <![CDATA[ and DATEDIFF(a.OrderDate,#{criteria.addbegin})>=0]]>
+		</if>
+		<if test="criteria.addend !=null and criteria.addend!=''">
+			<![CDATA[ and DATEDIFF(a.OrderDate,#{criteria.addend})<=0]]>
+		</if>
+		<if test="criteria.shopid !=null and criteria.shopid >0">
+			and a.ShopId=#{criteria.shopid}
+		</if>
+		<if test="criteria.shuid !=null and criteria.shuid >0">
+			and a.skuid=#{criteria.shuid}
+		</if>
+
+	</select>
+
+
+	<select id="getbuyerArea" resultType="com.yinlian.wssc.web.dto.ProOrderdetailDto"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		select a.ID, a.OrderID, a.OrderCode, a.BuyerID, a.SKU_ID as skuid,
+		a.ProductNum, a.ProductName, u.ProvinceName,
+		a.ProductPrice,
+		a.ProductCount, a.ProductWeight,a.status
+		from orderdetail a right join user_attr u
+		on u.userid=a.buyerid
+		where  a.VaildFlag=0
+		<if test="criteria.addbegin !=null and criteria.addbegin !=''">			
+			 <![CDATA[ and DATEDIFF(a.OrderDate,#{criteria.addbegin})>=0]]>
+		</if>
+		<if test="criteria.addend !=null and criteria.addend!=''">
+			 <![CDATA[ and DATEDIFF(a.OrderDate,#{criteria.addend})<=0]]>
+		</if>
+		<if test="criteria.shopid !=null and criteria.shopid >0">
+			and a.ShopId=#{criteria.shopid}
+		</if>
+
+	</select>
+
+
+	<select id="getbuyerDetail" resultType="com.yinlian.wssc.web.dto.BuyerdetailDto"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		select a.ID, a.OrderID, a.OrderCode, a.BuyerID, a.SKU_ID as skuid,
+		a.ProductNum, a.ProductName, u.username,u.id as userid,
+		a.ProductPrice, a.ProductCount, a.ProductWeight,a.status
+		from orderdetail a  right join users u on
+		u.id=a.buyerid
+		where  a.VaildFlag=0
+		<if test="criteria.addbegin !=null and criteria.addbegin !=''">			
+			 <![CDATA[ and DATEDIFF(a.OrderDate,#{criteria.addbegin})>=0]]>
+		</if>
+		<if test="criteria.addend !=null and criteria.addend!=''">
+			<![CDATA[ and DATEDIFF(a.OrderDate,#{criteria.addend})<=0]]>
+		</if>
+		<if test="criteria.shopid !=null and criteria.shopid >0">
+			and a.ShopId=#{criteria.shopid}
+		</if>
+
+	</select>
+
+
+	<select id="getCouponDetail" resultType="com.yinlian.wssc.web.dto.CouponDetailDto"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		select c.couponNum as couponnum,c.couponname as
+		couponname,c.conponCount as couponCount,c.faceValue,c.provideTime,c.id
+		as couponid,
+		c.endTime,u.outtime as outTime ,u.gettime ,u.id as
+		usercouponid,u.usetime,ac.orderid,ac.ordercode,u.isuser as isUse,
+		ac.orderprice,ac.activity_price,c.shopid,ac.id as activity_id
+		from
+		coupon c left join user_coupon u on c.id=u.couponid left join
+		(select *
+		from orderactivity_history where Activity_Type=0) as ac on
+		u.couponid=ac.activity_id
+		where c.isDel=0
+
+		<if test="criteria.addbegin !=null and criteria.addbegin !=''">			
+			 <![CDATA[ and c.CreateTime >= #{criteria.addbegin}]]>
+		</if>
+		<if test="criteria.addend !=null and criteria.addend!=''">
+			 <![CDATA[ and c.CreateTime <= #{criteria.addend} ]]>
+		</if>
+		<if test="criteria.shopid !=null and criteria.shopid >0">
+			and c.ShopId=#{criteria.shopid}
+		</if>
+		<if test="criteria.num !=null and criteria.num >0">
+			and c.couponNum=#{criteria.num}
+		</if>
+	</select>
+
+	<select id="getPackage" resultType="com.yinlian.wssc.web.po.Package"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		select
+		ID,
+		PackType,
+		PackTypeID,
+		Num,
+		NAME,
+		COUNT,
+		Price,
+		StartTime,
+		EndTime,
+		UserLevel,
+		Integral,
+		STATUS,
+		OrderBy,
+		CreateTime,
+		CreateUserID,
+		ShopID,
+		CheckStatus,
+		IsCheck
+		from package p
+		<where>
+			<if test="criteria.addbegin !=null and criteria.addbegin !=''">			
+			 <![CDATA[ and p.StartTime >= #{criteria.addbegin}]]>
+			</if>
+			<if test="criteria.addend !=null and criteria.addend!=''">
+			 <![CDATA[ and p.StartTime <= #{criteria.addend} ]]>
+			</if>
+			<if test="criteria.shopid !=null and criteria.shopid >0">
+				and p.ShopID=#{criteria.shopid}
+			</if>
+			<if test="criteria.num !=null and criteria.num >0">
+				and p.Num=#{criteria.num}
+			</if>
+		</where>
+
+	</select>
+	<select id="selectSkuPackage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.po.SkuPackage">
+		select
+		sku_package.ID,
+		sku_package.PackageID,
+		sku_package.SKUID,
+		sku_package.SKUPrice
+		from sku_package join package p
+		on
+		sku_package.packageid =p.id
+		<where>
+			<if test="criteria.addbegin !=null and criteria.addbegin !=''">			
+			 <![CDATA[ and p.StartTime >= #{criteria.addbegin}]]>
+			</if>
+			<if test="criteria.addend !=null and criteria.addend!=''">
+			 <![CDATA[ and p.StartTime <= #{criteria.addend} ]]>
+			</if>
+			<if test="criteria.shopid !=null and criteria.shopid >0">
+				and p.ShopID=#{criteria.shopid}
+			</if>
+			<if test="criteria.num !=null and criteria.num >0">
+				and p.Num=#{criteria.num}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectActivityPackage" resultType="com.yinlian.wssc.web.po.OrderactivityHistory"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		select
+		h.ID,
+		h.OrderID,
+		h.OrderCode,
+		h.OrderPrice,
+		h.OrderActualPrice,
+		h.ShopId,
+		h.OrderDate,
+		h.OrderSellerID,
+		h.Activity_ID,
+		h.Activity_Type,
+		h.Activity_Num,
+		h.Activity_Name,
+		h.Activity_Price,
+		h.Activity_UserID,
+		h.Activity_UserTime,
+		h.Activity_FullPrice,
+		h.STATUS,
+		h.FullGiftsType
+		from
+		orderactivity_history h join package p
+		on h.Activity_ID =p.id
+		<where>
+			<if test="criteria.addbegin !=null and criteria.addbegin !=''">			
+			 <![CDATA[ and p.StartTime >= #{criteria.addbegin}]]>
+			</if>
+			<if test="criteria.addend !=null and criteria.addend!=''">
+			 <![CDATA[ and p.StartTime <= #{criteria.addend} ]]>
+			</if>
+			<if test="criteria.shopid !=null and criteria.shopid >0">
+				and p.ShopID=#{criteria.shopid}
+			</if>
+			<if test="criteria.num !=null and criteria.num >0">
+				and p.Num=#{criteria.num}
+			</if>
+			<if test="criteria.activityType !=null and criteria.activityType >=0">
+				and h.Activity_Type=#{criteria.activityType}
+			</if>
+		</where>
+	</select>
+
+	<select id="getSpike" resultType="com.yinlian.wssc.web.po.Spikeactivity"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		select
+		ID,
+		SpikeNum,
+		SpikeName,
+		SpikeType,
+		StartTime,
+		EndTime,
+		STATUS,
+		OrderBy,
+		IsDel,
+		DelTime,
+		DelUserID,
+		CreateTime,
+		CreateUserID,
+		ShopID
+		from
+		Spikeactivity p
+		where p.isdel=0
+		<if test="criteria.addbegin !=null and criteria.addbegin !=''">			
+			 <![CDATA[ and p.StartTime >= #{criteria.addbegin}]]>
+		</if>
+		<if test="criteria.addend !=null and criteria.addend!=''">
+			 <![CDATA[ and p.StartTime <= #{criteria.addend} ]]>
+		</if>
+		<if test="criteria.shopid !=null and criteria.shopid >0">
+			and p.ShopID=#{criteria.shopid}
+		</if>
+		<if test="criteria.num !=null and criteria.num >0">
+			and p.SpikeNum=#{criteria.num}
+		</if>
+		<if test="criteria.spikeType !=null and criteria.spikeType >=0">
+			and p.SpikeType=#{criteria.spikeType}
+		</if>
+
+	</select>
+	<select id="selectSpikeSpu" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.po.SpikeSpu">
+		select
+		Spike_Spu.ID,
+		Spike_Spu.SpikeID,
+		Spike_Spu.SpuID,
+		Spike_Spu.SpuCount,
+		Spike_Spu.Price,
+		Spike_Spu.OrderBy,
+		Spike_Spu.STATUS,
+		Spike_Spu.IsPhone,
+		Spike_Spu.SkuID,
+		Spike_Spu.ShopID
+		from Spike_Spu join Spikeactivity p
+		on Spike_Spu.Spikeid =p.id
+		where
+		p.isdel=0
+		<if test="criteria.addbegin !=null and criteria.addbegin !=''">			
+			 <![CDATA[ and p.StartTime >= #{criteria.addbegin}]]>
+		</if>
+		<if test="criteria.addend !=null and criteria.addend!=''">
+			 <![CDATA[ and p.StartTime <= #{criteria.addend} ]]>
+		</if>
+		<if test="criteria.shopid !=null and criteria.shopid >0">
+			and p.ShopID=#{criteria.shopid}
+		</if>
+		<if test="criteria.num !=null and criteria.num >0">
+			and p.spikeNum=#{criteria.num}
+		</if>
+		<if test="criteria.spikeType !=null and criteria.spikeType >=0">
+			and p.SpikeType=#{criteria.spikeType}
+		</if>
+	</select>
+
+	<select id="selectActivitySpike" resultType="com.yinlian.wssc.web.po.OrderactivityHistory"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		select
+		h.ID,
+		h.OrderID,
+		h.OrderCode,
+		h.OrderPrice,
+		h.OrderActualPrice,
+		h.ShopId,
+		h.OrderDate,
+		h.OrderSellerID,
+		h.Activity_ID,
+		h.Activity_Type,
+		h.Activity_Num,
+		h.Activity_Name,
+		h.Activity_Price,
+		h.Activity_UserID,
+		h.Activity_UserTime,
+		h.Activity_FullPrice,
+		h.STATUS,
+		h.FullGiftsType
+		from
+		orderactivity_history h join Spikeactivity p
+		on h.Activity_ID =p.id
+		where p.isdel=0
+	
+		<if test="criteria.addbegin !=null and criteria.addbegin !=''">			
+		 <![CDATA[ and p.StartTime >= #{criteria.addbegin}]]>
+		</if>
+		<if test="criteria.addend !=null and criteria.addend!=''">
+		 <![CDATA[ and p.StartTime <= #{criteria.addend} ]]>
+		</if>
+		<if test="criteria.shopid !=null and criteria.shopid >0">
+			and p.ShopID=#{criteria.shopid}
+		</if>
+		<if test="criteria.num !=null and criteria.num >0">
+			and p.spikeNum=#{criteria.num}
+		</if>
+		<if test="criteria.activityType !=null and criteria.activityType >=0">
+			and h.Activity_Type=#{criteria.activityType}
+		</if>
+		<if test="criteria.spikeType !=null and criteria.spikeType >=0">
+			and p.SpikeType=#{criteria.spikeType}
+		</if>
+		
+	</select>
+</mapper>

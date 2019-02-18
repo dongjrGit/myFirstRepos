@@ -1,0 +1,45 @@
+﻿<head>
+  <link href="/resource/public/commoncss/jQuery.Validate.css" rel="stylesheet" />
+    <script src="/resource/public/commonjs/jquery.validate.js"></script>
+    <script src="/resource/public/commonjs/messages_cn.js"></script>
+    <script src="/resource/public/commonjs/jquery.validate-methods.js"></script>
+<script src="/resource/pc/web/js/login/login.js"></script>
+</head>
+
+
+<div class="div_cover" style="position: absolute; left: 0px; top: 0px; opacity: 0.15; z-index: 9999998; background-color: rgb(0, 0, 0); width: 1903px; height: 6908px;"></div>
+<div class="loginfil div_login" style="width: 410px; position: fixed; z-index: 9999999;  overflow: hidden; top: 30%; left: 742.5px; ">
+    <div class="shopjslogin-top">
+        您尚未登录
+        <div class="shop_close div_colselogin" onclick="hidelogindiv();">X</div>
+    </div><!--shopjslogin-top   stop -->
+    <div class="shopcon">
+        <form id="loginForm">
+            <p>
+                <label>用户名：</label>
+                <input name="text_username" id="text_username" type="text">
+            </p>
+            <p id="p_pwd">
+                <label>密码：</label>
+                <input name="password_loginpwd" id="password_loginpwd" type="password" onkeydown="WebLogin.enterpress();">
+            </p>
+            <div class="l_zddlmm">
+                <input name="asdas" id="asdas" type="checkbox" value="" checked>自动登录
+                <a href="javascript:void(0);">忘记密码?</a>
+            </div>
+            <input name="submit_ok" id="submit_ok" type="button" value="登录" class="shop-inp">
+            <p class="l_myzhzc">没有账号?<a href="/Member/DlZc/Register_Mobile">立即注册</a></p>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#submit_ok").bind("click", function () {
+            if (!WebLogin.check().form()) {
+                return;
+            }
+            //登录
+            WebLogin.login();
+        });
+    });
+</script>

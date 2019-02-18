@@ -1,0 +1,494 @@
+﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>返修退换货</title>
+<link href="/resource/artDialog/skins/default.css" rel="stylesheet" />
+ <link type="text/css" rel="stylesheet" href="/resource/pc/web/css/common.css" />
+<link type="text/css" rel="stylesheet" href="/resource/pc/web/css/top-footer.css" />
+<link type="text/css" rel="stylesheet" href="/resource/pc/web/css/style01.css" />
+<link type="text/css" rel="stylesheet" href="/resource/ui-dialog.css" />
+
+    
+<link href="/resource/public/commoncss/jQuery.Validate.css" rel="stylesheet" />
+<!--  <script src="/resource/pc/member/js/Concern/syconcernlist.js"></script> -->
+<script src="/resource/pc/web/js/browsehistory/browsehistory.js"></script>
+<script src="/resource/jquery-1.8.2.min.js"></script>
+<script src="/resource/pc/web/js/index.js"></script>
+<script src="/resource/pc/member/js/pager2.js"></script>
+<script src="/resource/pc/member/js/showdate.js"></script>
+ <script src="/resource/artTemplate.js"></script>
+ <script src="/resource/dialog-plus.js"></script>
+ <script src="/resource/dialogShow.js"></script>
+<script src="/resource/jQueryRotate.2.2.js"></script>
+ <script src="/resource/Guid.js"></script>
+ 
+  <link href="/resource/pc/member/css/pager2.css" rel="stylesheet" />
+    <script type="text/javascript" src="/resource/pc/member/js/pager2.js"></script>
+
+<script type="text/javascript" src="/resource/public/commonjs/Birthday-picker.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/style.js"></script>
+<script type="text/javascript" src="/resource/pc/member/js/zhsz/PersonalInformation.js"></script>
+<script type="text/javascript" src="/resource/public/commonjs/Birthday-picker.js"></script>
+
+<script src="/resource/public/commonjs/AjaxFileUploaderV2.1/ajaxfileupload.js"></script>
+<script src="/resource/public/commonjs/jquery.validate.js"></script>
+<script src="/resource/public/commonjs/messages_cn.js"></script>
+<script src="/resource/public/commonjs/jquery.validate-methods.js"></script>
+    <!--弹出框样式-->
+    <script src="/resource/GetQueryString.js"></script>
+    <script src="/resource/dialog-plus.js" type="text/javascript"></script>
+    <script src="/resource/dialogShow.js"></script> <!--设置统一dialog弹出框-->
+    <script src="/resource/My97DatePicker/WdatePicker.js"></script>
+    <!--文件上传-->
+    <!--用户公共-->
+    <script src="/resource/public/commonjs/public-user.js"></script>
+    <!--表单验证css&&js-->
+    <link href="/resource/public/commoncss/jQuery.Validate.css" rel="stylesheet" />
+    <script src="/resource/public/commonjs/jquery.validate.js"></script>
+    <script src="/resource/public/commonjs/messages_cn.js"></script>
+    <script src="/resource/public/commonjs/jquery.validate-methods.js"></script>
+    <script src="/resource/public/commonjs/jquery.form.js"></script>
+
+<script type="text/javascript">
+
+	$(function(){
+		 var status=${after.status};
+		 var type=${after.type};
+	     $("#pass").hide();
+	    $("#nopass").hide();
+	    $("#div_sendproduct").hide();
+	    if(status==-1) {
+			$("#pass").hide();
+			$("#nopass").show();
+		} else {
+			$("#nopass").hide();
+			$("#pass").show();
+		}
+	    
+	    if(status==1 && type!=4){
+	    	 $("#div_sendproduct").show();
+	    }
+	    
+	    /* if(status==0){
+	    	 $("#jindu").css("width",'0%');
+	    }
+	    else  */
+    	if(status==0){
+	    	 $("#s1").removeClass("huise");
+	    	 $("#a1").addClass("l_fwdqx l_dz");
+	    	 $("#jindu").css("width",'50%');
+	    }else if(status==5){
+	    	
+	    	  $("#s1").removeClass("huise");
+			  //$("#s2").removeClass("huise");	
+			  $("#s4").removeClass("huise"); 
+			  
+			   $("#a1").removeClass("huise");
+			   $("#a4").removeClass("huise");
+			   //$("#a2").removeClass("huise");	
+			   
+			   $("#a1").removeClass("l_fwdqx l_dz");
+			   $("#a1").removeClass("huise");
+			   //$("#a4").addClass("l_fwdqx l_dz");
+			   $("#jindu").css("width",'100%');
+	    }else{
+	    	$("#jindu").css("width",'0%');
+	    }
+	    /* else if(status==4){
+	    	 
+	    	  $("#s1").removeClass("huise");	
+			   $("#s2").removeClass("huise");	
+			   $("#s3").removeClass("huise");	
+			   
+			   $("#a1").removeClass("huise");
+			   $("#a2").removeClass("huise");	
+			   $("#a3").removeClass("huise");
+			   
+			   $("#a1").removeClass("l_fwdqx l_dz");
+			   $("#a2").removeClass("l_fwdqx l_dz");	
+			   $("#a3").addClass("l_fwdqx l_dz");
+			   $("#jindu").css("width",'80%');
+	    }else if(status==5){
+	    	 $("#s1").removeClass("huise");	
+			   $("#s2").removeClass("huise");	
+			   $("#s3").removeClass("huise");	
+			   $("#s4").removeClass("huise");	
+			   
+			   $("#a1").removeClass("huise");
+			   $("#a2").removeClass("huise");	
+			   $("#a3").removeClass("huise");
+			   $("#a4").removeClass("huise");
+			   
+			   $("#a1").removeClass("l_fwdqx l_dz");
+			   $("#a2").removeClass("l_fwdqx l_dz");
+			   $("#a3").removeClass("l_fwdqx l_dz");	
+			   $("#a4").addClass("l_fwdqx l_dz");
+			   $("#jindu").css("width",'105%');
+	    } */
+	    
+	})
+
+    //买家发货提交
+    function sendproduct_submit() {
+        if (!sendproduct_check().form()) {
+            return;
+        }
+        $.ajax(({
+            type: "post",
+            url: "/pc/khFwmemb/sendpro",
+            dataType: "json",
+            async: false,
+            data: { orderdetailid: $("#orderdatailID").val(),
+            	lcode: $("#logisticsCode").val(),
+            	lname: $("#logisticsName").val(),
+            	status: $("#status").val(),
+            	ch: 1 },
+            success: function (rsl) {
+            	
+                if (rsl.code == 0) {
+                  //  window.location.href = "/member/khFwmemb/AfterServiceCompleteList.html";
+                	  $("#div_sendproduct").hide();
+                	  location.reload(); 
+                }
+                else {
+                    Dalert(rsl.desc);
+                }
+            },
+            error: function (e) {
+
+            }
+        }));
+    }
+    //校验
+    function sendproduct_check() {
+        return $("#formSendProduct").validate({
+            rules: {
+                logisticsName: {
+                    required: true
+                },
+                logisticsCode: {
+                    required: true
+                }
+            },
+            messages: {
+                logisticsName: {
+                    required: "请输入快递公司"
+                },
+                logisticsCode: {
+                    required: "请输入快递单号"
+                }
+            },
+            errorPlacement: function (error, element) {
+                error.appendTo(element.parent());
+            },
+            debug: true
+        })
+    }
+
+    //买家发货取消
+    function sendproduct_cancel() {
+
+        $("#div_sendproduct").hide();
+        
+    }
+
+    //买家确认收货
+    function MackSure() {
+        $.ajax(({
+            type: "post",
+            url: "/pc/khFwmemb/receive",
+            dataType: "json",
+            async: false,
+            data: { orderdetailid: $("#datailID").val(),
+            	status: $("#status").val(),
+            	ch:1},
+            success: function (rsl) {
+                if (rsl.code == 0) {
+                   // window.location.href = "/member/khFwmemb/AfterServiceCompleteList.html";
+                    location.reload(); 
+                }
+                else {
+                    Dalert(rsl.desc);
+                }
+            },
+            error: function (e) {
+
+            }
+        }));
+    }
+</script>
+    </head>
+    <body>
+<!--main  主要内容  开始 -->
+<div id="main" class="fix">
+    <!--main-left 左边内容  开始 -->
+    <% include("/template/pc/memberCenter/Shared/_PartialLeftside.html",{}){}%>
+    <!--main-left 左边内容  结束 -->
+    <!--rightside 右边内容  结束 -->
+    <div class="rightside">
+        <!--article-detail   开始 -->
+        <div class="article-detail">
+        <input type="hidden" id="status" name="status" value="${orderdetail.status}">
+            <div class="thhjl-readtop">
+                <div class="thhjl-readtop-title">
+                    申请服务详情                    
+                </div>
+                <div class="thhjl-readtop-con fix">
+                    <div class="l_sqfwxqleft bolder">
+                        本次售后服务由 <span class="red">${shopname}</span> 为您提供为您提供
+                    </div>
+                    <div class="l_sqfwxqright">
+                    
+                        <%if(after.status==0){%>
+                               	当前订单状态：申请售后
+                             <%  }else if(after.status==1){%>
+                             
+                                                                                            当前订单状态：商家已确认
+                             <% }else if(after.status==-1){%>
+                             
+                            	   当前订单状态：商家不同意
+                           
+                            <% }else if(after.status==3){%>
+                            
+                                                                                            当前订单状态：售后完成
+                            <% }%>
+                    </div><!--l_sqfwxqright  stop -->
+                    
+                </div>
+            </div>
+            <!--thhjl-readtop  stop -->
+            <div class="thhjl-shxx">
+                <div class="thhjl-readtop-title">
+                    售后信息
+                </div>
+                <div class="l_shxxdtt fix" id="pass">
+                    <div class="l_shbzthh fix">
+                        <div class="l_jdtthh huise" id="jindu">
+                           <!--  <div class="l_ywcthh l_xmd">客户发货中</div> -->
+                        </div>
+                        <ul>
+                            <li id="a0"><i></i></li>
+                            <li class="huise" id="a1"><i></i></li>
+                            <!-- <li class="huise" id="a2"><i></i></li>
+                            <li class="huise" id="a3"><i></i></li> -->
+                            <li class="l_zhyg huise" id="a4"><i></i></li>
+                        </ul>
+                    </div>
+                    <div class="l_xmwzthh fix">
+                        <span id="s0">提交申请</span>
+                        <span class="huise" id="s1">第三方卖家审核</span>
+                        <!-- <span class="huise" id="s2">第三方卖家收货</span>
+                        <span class="huise" id="s3">第三方卖家处理</span> -->
+                        <span class="huise" id="s4">售后完成</span>
+                    </div>
+                </div><!-- l_shxxdtt  stop -->
+                
+                <div class="l_shxxdtt fix" id="nopass">
+                	<div class="l_shxxdttall">
+                    	<ul>
+                        	<li><i></i>提交申请</li>
+                            <li class="l_sx"></li>
+                            <li class="l_fwdqx l_dz"><i></i>第三方卖家审核不通过</li>
+                        </ul>
+                        <div class="l_ywcthh">已完成</div>
+                    </div>
+                </div><!-- l_shxxdtt  stop -->
+                
+        </div>
+                <div class="mt30 l_jdsm">
+                    <p>进度说明：</p>
+                    <p class="fon14">尊敬的客户，很抱歉出现这样的情况，如情况属实且非人为因素造成损坏，我们可以为您办理。请将商品全套及发票原件自行返回，如属商品质量问题，运费会以余额方式返还到您的账户；如非质量问题（误购），运费将由您承担(邮政EMS、顺丰快递不予报销，拒收到付及邮政包裹），寄回商品时请附上您的订单号及收货人姓名电话、发货单详情（运单号、快递公司、快递费用），以便我们在收到返回商品时及时为您处理，感谢您的支持，谢谢！</p>
+                </div>
+        
+                <div class="mt30">
+                    重要提醒：平台及销售商不会以 <span class="red">订单异常、系统升级</span> 为由，要求您点击任何网址链接进行退款操作。烦请关注中绿生活 <span class="shenlan"><a href="#">“谨防诈骗公告声明”</a></span>
+                </div>
+            </div>
+            <!--thhjl-shxx  stop -->
+            <div class="servicexx">
+                <div class="thhjl-readtop-title">
+                    服务单信息
+                    <div class="l_shfwan">
+                   
+                       <%  if (isNotEmpty(orderdetail)){%>
+                        
+                            <% if (orderdetail.status == 51
+                             || orderdetail.status == 31
+                             || orderdetail.status == 21
+                             || orderdetail.status ==41)
+                            {%>
+                                <a href="javascript:;" style=" background:#FFAE53" class="l_ggfhxx">申请售后卖家驳回</a>
+                           <% }
+
+                            if (orderdetail.status == 59
+                             || orderdetail.status == 29|| orderdetail.status == 49
+                             || orderdetail.status == 39)
+                            {%>
+                                <a href="#">售后完成</a>
+                           <% }
+                        }%>
+                    </div>
+                </div>
+                <div class="thhjl-readtop-title" id="div_sendproduct" style="display: none;">
+                    <p class="fon14 red">
+                        温馨提示
+                    </p>
+                    <p>
+                        <span class="red">购买15日内商品质量问题、包装破损、缺少附件等原因办理退换货产生的运费，以余额方式补偿</span> 　　 <span class="fon14"><a href="#">补偿标准>></a></span>
+                    </p>
+                    <form id="formSendProduct" name="formSendProduct">
+                        <table class="servicexx-tab">
+                            <tr>
+                                <td class="serviceleft">
+                                    <span class="red">*</span>快递公司：
+                                </td>
+                                <td>
+                                    <input name="logisticsName" id="logisticsName" type="text" class="inp-big inp-most">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="serviceleft">
+                                    <span class="red">*</span>快递单号：
+                                </td>
+                                <td>
+                                    <input name="logisticsCode" id="logisticsCode" type="text" class="inp-big inp-most">
+                                    <p class="yscmh"></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="serviceleft">
+                                    <span class="red"></span>备注说明：
+                                </td>
+                                <td>
+                                    <input name="mark" type="text" class="inp-big inp-most" id="mark" value="">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="serviceleft">
+                                    &nbsp;
+
+                                </td>
+                                <td>
+                                    <input type="hidden" id="orderdatailID" name="orderdatailID" value="${orderdetail.id}">
+                                  <%  switch (orderdetail.status)
+                                    {
+                                        case 51:%>
+                                            <input type="hidden" id="aftertype" name="aftertype" value="1">
+                                         <%   break;
+                                        case 31:%>
+                                        <input type="hidden" id="aftertype" name="aftertype" value="2">
+                                          <%  break;
+                                        case 41:%>
+                                        <input type="hidden" id="aftertype" name="aftertype" value="3">
+                                           <% break;
+                                    }%>
+                                    <a href="javascript:void(0);" id="a_submit" onclick="sendproduct_submit()" class="l_tjfxthh">提交</a>
+                                    <a href="javascript:void(0);" id="a_cancel" onclick="sendproduct_cancel();" class="l_tjfxthh" style="background:#F3F2F2; border:1px solid #E6E5E5;">取消</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <!--servicexx-top  stop -->
+                <div class="mt10">
+                    <table class="servicexx-tabbottom">
+            <!--             <tr>
+                            <td class="left-sertabbottom">
+                                商品返回方式
+                            </td>
+                            <td>
+                               <%if(after.gobacktype==0){%>
+                               			快递
+                             <%  }%>
+                               
+                            </td>
+                        </tr> -->
+                        <tr>
+                            <td class="left-sertabbottom">
+                                商品处理方式
+                            </td>
+                            <td>
+                                 <%if(after.type==1){%>
+                               		客户期望处理方式为 "退货退款"	 
+                             <%  }else if(after.type==2){%>
+                                                                                                    客户期望处理方式为"换货" 	
+                             <% }else if(after.type==3){%>
+                            	客户期望处理方式为 "维修"	
+                            <% }else if(after.type==4){%>
+                          		客户期望处理方式为   "退款"
+                            <% }%>
+                            </td>
+                        </tr>
+               			 
+                        
+                         <tr>
+                            <td class="left-sertabbottom">
+                              	问题描述
+                            </td>
+                            <td>
+                                <p>${apply.content}</p>
+                                <div class="l_fxwtimg">
+                                    <img src="${img1!''}">
+                                    <img src="${img2!''}">
+                                    <img src="${img3!''}">
+                                </div>
+                            </td>
+                        </tr>
+                      
+                        <%  if (isNotEmpty(sellerapply)){
+                        	for(var i = 0;i < sellerapply.~size; i++){%>
+                        <tr>
+                            <td class="left-sertabbottom">
+                            	<%if(sellerapply[i].datatype == 1){%>
+                               	   商家审核结果
+                            	   <%}else if(sellerapply[i].datatype == 2){%>
+                            	   平台处理结果
+                            	   <%}else{%>
+                            	   买家问题描述
+                            	   <%}%>
+                            </td>                            
+                            <td>
+                                <p>${sellerapply[i].content}</p>
+                                <div class="l_fxwtimg">
+                                    <img src="${sellerapply[i].imgurl}">
+                                    
+                                </div>                                
+                            </td>
+                        </tr>
+                          <% }}%>
+                 <!--        <tr>
+                            <td class="left-sertabbottom">
+                                收货地址
+                            </td>
+                            <td>
+                              ${after.getaddr}
+                            </td>
+                        </tr> -->
+                       <!--  <tr>
+                            <td class="left-sertabbottom">
+                                买家寄回快递信息
+                            </td>
+                             <td>
+                               <span class="mr25"></span>快递公司： ${after.bExpressname}<span class="mr25"></span>运单号： ${after.bExpressnum}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="left-sertabbottom">
+                                卖家寄出快递信息
+                            </td>
+                            <td>
+                               <span class="mr25"></span>快递公司： ${after.sExpressname}<span class="mr25"></span>运单号： ${after.sExpressnum}
+                            </td>
+                        </tr> -->
+                    </table>
+                </div>
+            </div>
+            <!--servicexx  stop -->
+        </div>
+         <% include("/template/pc/memberCenter/Common_M/M_GuessYouLike.html",{}){}%>
+      
+    </div>
+    <!--rightside 右边内容  结束 -->
+    <div class="clear"></div>
+</div>
+</body>
+<!--main  主要内容  结束 -->

@@ -1,0 +1,1115 @@
+﻿<head>
+<title>购物车</title>
+<script src="/resource/GetQueryString.js"></script>
+<script src="/resource/artTemplate.js"></script>
+<script type="text/javascript" src="/resource/pc/web/js/linq.min.js"></script> 
+</head>
+<!--container 中间所有内容开始 -->
+<div id="container" class="fix">
+	<div id="div_cart">
+		<% if(isNotEmpty(cart)&&isNotEmpty(cart.shops)){ %>
+		<div class="l_gwcsp fix">
+			<span>所有商品</span><span class="span_allcount">${cart.count}</span>
+		</div>
+		<!--购物车内容  开始 -->
+		<div class="l_gwcall fix">
+			<div class="l_gwcalltop">
+				<% if(!cart.isselected!false){ %>
+				<div class="l_gwctop01 floatl">
+					<input name="" type="checkbox" value=""
+						class="checkbox_shoppingcartall">全选
+				</div>
+				<%}else{%>
+				<div class="l_gwctop01 floatl">
+					<input name="" type="checkbox" value=""
+						class="checkbox_shoppingcartall" checked>全选
+				</div>
+				<%}%>
+				<div class="l_gwctop02 floatl">商品</div>
+				<div class="l_gwctop03 floatl">单价(元)</div>
+				<div class="l_gwctop04 floatl">数量</div>
+				<div class="l_gwctop05 floatl">小计(元)</div>
+				<div class="l_gwctop06 floatl">操作</div>
+			</div>
+			<ul id="ul_cart">
+				<% for(shop in cart.shops){ %>
+				<li class="li_shop">
+					<div class="l_tcdpmc fix" style="height: auto !important;">
+						<% if(!shop.isselected!false){ %> <span class="mr20 floatl"><input
+							name="" type="checkbox" class="checkbox_shopall"
+							value="${shop.shopid}"></span> <%}else{%> <span
+							class="mr20 floatl"><input name="" type="checkbox"
+							class="checkbox_shopall" value="${shop.shopid}" checked></span>
+						<%}%> <span class="floatl mr20">${shop.shopname}</span> <input
+							type="hidden" class="hidden_shop" shopname="${shop.shopname}"
+							shopid="${shop.shopid}" shoptotalmoney="${shop.totalmoney}"
+							shopdelmoney="${shop.delmoney}" />
+						<div class="div_shopact">
+						<% if(isNotEmpty(shop.asd)){%>
+                               <% for(shopact in shop.asd){ %>
+                               <% if(shopact.isselect==true){ %>
+                                <div class="floatl l_mltop">
+                                    <span class="aco01">${shopact.typename}</span>
+                                    <span class="aco02 huise">${shopact.name}</span>
+                                    <% if(shopact.type==0){ %>
+                                    <span class="red">
+                                         <% if(shop.delmoney>0){ %>
+                                        (已减${shopact.delmoney,numberFormat="0.00"})
+                                        <input type="hidden" class="hidden_shopact"
+                                               actid="${shopact.id}"
+                                               actname="${shopact.name}"
+                                               acttype="${shopact.type}"
+                                               acttypename="${shopact.typename}"
+                                               actdesc="${shopact.desc}"
+                                               actdelmoney="${shopact.delmoney}" />
+                                        <%}else{%>
+                                        (去凑单)
+                                        <%}%>
+                                    </span>
+                                     <% }else if(shopact.type==1){ %>
+                                    <input type="hidden" class="hidden_shopact"
+                                            actid="${shopact.id}"
+                                               actname="${shopact.name}"
+                                               acttype="${shopact.type}"
+                                               acttypename="${shopact.typename}"
+                                               actdesc="${shopact.desc}"
+                                               actdelmoney="${shopact.delmoney}" />
+                                    <div class="clear zp_gwc fix div_shopactgif">
+                                        <ul>
+                                        <% if(isNotEmpty(shopact.skuscd) && shopact.skuscd.~size>0){%>
+                                           <% for(shopgif in shopact.skuscd){ %>
+                                           <% if(shopgif.isselected==true && shopgif.count>0){ %>
+                                            <li class="li_skugif">
+                                                <input type="hidden" class="hidden_skugifinfo"
+                                                       skuid="${shopgif.id}"
+                                                       skuname="${shopgif.name}"
+                                                       skutype="${shopgif.protype}"
+                                                       skuspikeid="${shopgif.spikeid}"
+                                                       skuprice="${shopgif.price}"
+                                                       skuimg="${shopgif.img}"
+                                                       skucount="1"
+                                                       skustock="${shopgif.stock}"
+                                                       skuspecs="${shopgif.specsinfo}"
+                                                        />
+                                                <a>
+                                                  <span class="red">【赠品】 </span>${shopgif.name} x1
+                                                </a>
+                                            </li>
+
+                                            <%}else{%>
+                                                 <a><span class="red">【已赠完】 </span>${shopgif.name} x1 </a>
+                                            <%}%>
+                                           <%}%>
+                                            <%}%>
+
+                                           <% if(isNotEmpty(shopact.gifscd) && shopact.gifscd.~size>0){%>
+                                           <% for(shopgif in shopact.gifscd){ %>
+                                           <% if(shopgif.isselected==true && shopgif.count>0){ %>
+                                            <% if(shopgif.type==0){ %>
+                                            <li class="li_othergif">
+                                                <input type="hidden" class="hidden_othergifinfo"
+                                                       otherid="${shopgif.id}"
+                                                       otherfacevalue="${shopgif.facevalue}"
+                                                       othertype="0"
+                                                       othercount="1" />
+                                                <a>
+                                                   <span class="red">【赠品】 </span>￥${shopgif.facevalue,numberFormat="0.00"}优惠券 x1
+                                                </a>
+                                            </li>
+                                           <%}%>
+                                            <% if(shopgif.type==2){ %>
+                                            <li class="li_othergif">
+                                                <input type="hidden" class="hidden_othergifinfo"
+                                                       otherid="${shopgif.id}"
+                                                       otherfacevalue="${shopgif.facevalue}"
+                                                       othertype="2"
+                                                       othercount="1" />
+                                                <a>
+                                                   <span class="red">【赠品】 </span>${shopgif.facevalue}积分
+                                                </a>
+                                            </li>
+                                          <%}%>
+
+                                         <%}else{%>
+                                               <span class="red">【已赠完】 </span>
+                                            <%}%>
+                                         <%}%>
+                                           <%}%>
+                                        </ul>
+                                    </div>
+
+                                 <%}%>
+                                </div>
+                              <%}%>
+                              <%}%>
+                                <%}%>
+						</div>
+						<!--          优惠卷信息  开始 -->
+						<% if (isNotEmpty(shop.csd)){ %>
+						<div class="div_couponall agwccon top0" style="z-index: 9997">
+							<span class="ayhqimg span_couponlist"></span>
+							<div class="div_couponcontent ayhqnrgwc fix mt0" hidden>
+								<div class="asmzj"></div>
+								<% for(shopcoupon in shop.csd){ %>
+								<div class="a_item fix">
+									<% if (!shopcoupon.isget!false) { %>
+									<div class="a_item01">
+										<i class="l_it1"></i>￥${shopcoupon.facevalue,numberFormat="0.00"}<i
+											class="l_it2"></i>
+									</div>
+									<%}else{%>
+									<div class="a_item01 ahs">
+										<i class="l_it1"></i>￥${shopcoupon.facevalue,numberFormat="0.00"}<i
+											class="l_it2"></i>
+									</div>
+									<%}%>
+									<div class="a_item02">
+										<p>${shopcoupon.name}</p>
+										<p class="yscmh"></p>
+									</div>
+									<% if (!shopcoupon.isget!false) { %>
+									<div class="a_item03">
+										<a href="javascript:void(0);" class="a_getcoupon"
+											couponid-val="${shopcoupon.id}">领取</a>
+									</div>
+									<%}else{%>
+									<div class="a_item03 ahs">已领取</div>
+									<%}%>
+								</div>
+								<%}%>
+							</div>
+						</div>
+						<%}%>
+						<!--          优惠卷信息  结束-->
+					</div> <!--         商品信息 开始-->
+					<div class="acoall">
+						<!--         组合商品信息 开始-->
+						<% if (isNotEmpty(shop.packscd)){ %> <% for(pack in shop.packscd){
+						%>
+						<div class="div_packages">
+							<div class="atop">
+								<span> <% if (!pack.isselected!false) { %> <input name=""
+									type="checkbox" class="checkbox_package" value="${pack.id}"
+									data-id="${pack.shopcartproid}"> <%}else{%> <input
+									name="" type="checkbox" class="checkbox_package"
+									value="${pack.id}" checked data-id="${pack.shopcartproid}">
+									<%}%>
+								</span>【套餐】${pack.name}
+								<div class="atophwjj">
+									<div class="acon_04" packid-val="${pack.id}"
+										shopcartproid="${pack.shopcartproid}">
+										<span class="acon04_01 span_packdown">-</span> <input name=""
+											type="text" class="acon04_02 text_packagecount"
+											stock-val="${pack.stock}" value="${pack.count}"> <span
+											class="acon04_03 span_packup">+</span> 
+											<%if (pack.stock>10){%>
+										<p class="clear">有货</p>
+										<%}else if (pack.stock>0){ %>
+										<p class="clear">仅剩 ${pack.stock} 件</p>
+										<%}else{%>
+										<p class="clear">无货</p>
+										<input type="hidden" name="nohaspk" value="1">
+										<%}%>
+									</div>
+								</div>
+								<div class="atopdwjg">
+									<div class="acon_05 td_packageprice">${pack.price*pack.count,numberFormat="0.00"}</div>
+								</div>
+								<div class="gwcsc_dbt">
+									<a href="javascript:void(0);" class="a_delpackagegoods"
+										goodsid-val="${pack.id}" shopcartproid="${pack.shopcartproid}">删除商品</a>
+									<input type="hidden" class="hidden_packinfo"
+										packid="${pack.id}" packname="${pack.name}"
+										packcount="${pack.count}" packprice="${pack.price}"
+										packtype="1"
+										packscpid="${pack.shopcartproid}" />
+								</div>
+							</div>
+							<% for(packsku in pack.skuscd){ %>
+							<div class="acoall_con fix hover">
+								<div class="acon_01">&nbsp;</div>
+								<div class="acon_02">
+									<div class="acon_02_01">
+										<a href="/web/products/proinfo.html?skuid=${packsku.id}&protype=0" skuid-val="${packsku.id}"
+											class="a_spuhref"><img src="${packsku.img}" width="76"
+											height="76"></a>
+									</div>
+									<div class="acon_02_02">
+										<a href="/web/products/proinfo.html?skuid=${packsku.id}&protype=0" skuid-val="${packsku.id}"
+											class="a_spuhref">${packsku.name}</a>
+									</div>
+									<div class="acon_02_03 div_specs"
+										specs-value="${packsku.specsinfo}"></div>
+								</div>
+								<div class="acon_03 td_packagedetailprice">
+									${packsku.price,numberFormat="0.00"}</div>
+								<div class="acon_04">
+									<p>1件/套 X ${pack.count}</p>
+								</div>
+								<div class="acon_05 td_goodsprice">${packsku.count*packsku.price,numberFormat="0.00"}</div>
+								<div class="acon_06">
+									<!-- <p><a href="javascript:void(0);" class="a_delpackagesingle" packid-val="${pack.id}" skuid-val="${packsku.id}">删除商品</a></p> -->
+									<p style="display:none;">
+										<a href="javascript:void(0);"
+											class="a_concernshoppingcartgoods"
+											goodsid-val="${packsku.id}">加入我的关注</a>
+									</p>
+									<input type="hidden" class="hidden_packskuinfo"
+										skuid="${packsku.id}" skuname="${packsku.name}"
+										skuprice="${packsku.price}" skuimg="${packsku.img}"
+										skucount="${packsku.count}" skustock="${packsku.stock}"
+										skuspecs="${packsku.specsinfo}" spuid="${packsku.spuid}" />
+								</div>
+							</div>
+							<%}%>
+						</div>
+						<%}%> <%}%>
+						<!--         组合商品信息 结束-->
+						<!--         普通商品信息 开始-->
+						<% if (isNotEmpty(shop.spuscd)){ %> 
+						 <% for(spu in shop.spuscd){ %>
+						<div class="div_spus">
+							<input type="hidden" class="hidden_spuinfo" spuid="${spu.id}"
+								spucount="${spu.count}" sputotalmoney="${spu.totalmoney}"
+								spudelmoney="${spu.delmoney}" /> 
+							<% var k=0;
+							for(sku in spu.skuscd){ %>
+							<div class="div_sku">
+							    <% if(k==0){%>
+                                    <div class="div_spuact">
+                                    <% if (isNotEmpty(spu.asd) && spu.asd.~size>0){ %>
+                                    <% for(spuact in spu.asd){ %>
+                                        <div class="acoall_top">
+                                            <span class="aco01">${spuact.typename}</span>
+                                            <span class="aco02 huise">${spuact.name}</span>
+                                            <span class="red">
+                                            <% if(spuact.isselect==true){%>
+                                            <% if(spuact.type==0){%>
+                                                <% if(spu.delmoney>0){%>
+                                                (已减${spuact.delmoney,numberFormat="0.00"})
+                                                <input type="hidden" class="hidden_spuact"
+                                                       actid="${spuact.id}"
+                                                       actname="${spuact.name}"
+                                                       acttype="${spuact.type}"
+                                                       acttypename="${spuact.typename}"
+                                                       actdesc="${spuact.desc}"
+                                                       actdelmoney="${spuact.delmoney}" />
+                                                <%}else{%>
+                                                (去凑单)
+                                                <%}%>
+
+                                                <%}else if (spuact.type==1){%>
+                                                <input type="hidden" class="hidden_spuact"
+                                                       actid="${spuact.id}"
+                                                       actname="${spuact.name}"
+                                                       acttype="${spuact.type}"
+                                                       acttypename="${spuact.typename}"
+                                                       actdesc="${spuact.desc}"
+                                                       actdelmoney="${spuact.delmoney}" />
+                                               <%}%>
+                                               <%}%>
+                                            </span>
+                                        </div>
+                                       <%}%>
+                                       <%}%>
+                                    </div>
+                                   <%}%>
+								<div class="acoall_con fix">
+									<div class="acon_01">
+										<% if (!sku.isselected!false) { %> <input name=""
+											type="checkbox" value="${sku.id}"
+											data-id="${sku.shopcartproid}" class="checkbox_goods">
+										<%}else{%> <input name="" type="checkbox" value="${sku.id}"
+											data-id="${sku.shopcartproid}" class="checkbox_goods" checked>
+										<%}%>
+									</div>
+									<div class="acon_02">
+										<div class="acon_02_01">
+											<a href="/web/products/proinfo.html?skuid=${sku.id}&protype=0"><img
+												src="${sku.img}" width="76" height="76"></a>
+										</div>
+										<div class="acon_02_02">
+											<a href="/web/products/proinfo.html?skuid=${sku.id}&protype=0">${sku.name}</a>
+										</div>
+										<div class="acon_02_03 div_specs"
+											specs-value="${sku.specsinfo}"></div>
+									</div>
+									<div class="acon_03" style="position: relative;">
+										${sku.price,numberFormat="0.00"}
+										<% if(spu.asd.~size>0){%>
+                                            <p><span class="l_cxyh span_activity">促销优惠</span></p>
+                                            <div class="agwccon top0 div_detailactivity" style="left:65px; top:50px;z-index:9999;" skuid-val="${sku.id}" hidden>
+                                                <div class="ayhqnrgwc fix mt0">
+                                                    <div class="asmzj" style="top:3px;"></div>
+                                                    <div class="text-left" style="line-height:25px;">
+                                                     <% for(spuact in spu.asd){ %>
+                                                        <% if(spuact.isselect==true){%>
+                                                        <p class="heise"><input name="radio_${spu.id}_${sku.id}" type="radio" class="radio_spuact" value="${spuact.id}" checked>${spuact.name}</p>
+                                                        <%}else{%>
+                                                        <p class="heise"><input name="radio_${spu.id}_${sku.id}" type="radio" class="radio_spuact" value="${spuact.id}">${spuact.name}</p>
+                                                        <%}%>
+
+                                                        <%}%>
+                                                        <p class="heise p_isjoin"><input name="radio_${spu.id}_${sku.id}" type="radio" class="radio_spuact" value="0">不使用活动优惠</p>
+                                                    </div>
+                                                    <div class="a_item fix">
+                                                        <div class="a_item03" style="text-align:center;">
+                                                            <a href="javascript:void(0);" class="a_ok_actdiv">确定</a>
+                                                            <a href="javascript:void(0);" class="ml15 a_close_actdiv" style="background:#A4A4A4">取消</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                           <%}%>
+									</div>
+									<div class="acon_04" skuid-val="${sku.id}"
+										shopcartproid="${sku.shopcartproid}">
+										<span class="acon04_01 span_down">-</span>
+										<input name="" skutype="${sku.protype}"	type="text" class="acon04_02 text_goodscount" stock-val="${sku.stock}" value="${sku.count}"> 
+										<span class="acon04_03 span_up">+</span>
+										<%if (sku.stock>10){ %>
+										<p class="clear">有货</p>
+										<%}else if (sku.stock>0){ %>
+										<p class="clear">仅剩 ${sku.stock} 件</p>
+										<%}else{%>
+										<p class="clear">无货</p>
+										<%}%>
+									</div>
+									<div class="acon_05 td_goodsprice">${sku.count*sku.price,numberFormat="0.00"}</div>
+									<div class="acon_06">
+										<p>
+											<a href="javascript:void(0);" class="a_delshoppingcartgoods"
+												goodsid-val="${sku.id}" shopcartproid="${sku.shopcartproid}">删除商品</a>
+										</p>
+										<p style="display:none;">
+											<a href="javascript:void(0);"
+												class="a_concernshoppingcartgoods" goodsid-val="${sku.id}">加入我的关注</a>
+										</p>
+										<input type="hidden" class="hidden_spuskuinfo"
+											skuid="${sku.id}" skuname="${sku.name}"
+											skutype="${sku.protype}" skuspikeid="${sku.spikeid}"
+											skuprice="${sku.price}" skuimg="${sku.img}"
+											skucount="${sku.count}" skustock="${sku.stock}"
+											skuspecs="${sku.specsinfo}"
+											skuscpid="${sku.shopcartproid}" />
+									</div>
+									<% if(k==0){%>
+									<% if(spu.asd.~size>0){%>
+                                        <div class="clear zp_gwc fix div_spuactgif">
+                                        <% for(spuact in spu.asd){ %>
+                                            <% if(spuact.isselect==true){%>
+                                            <% if(spuact.type==1){%>
+                                            <ul>                                         
+                                            <% if(isNotEmpty(spuact.skuscd) && spuact.skuscd.~size>0){%>
+                                            <% for(spugif in spuact.skuscd){ %>
+                                            <% if(spugif.isselected==true && spugif.count>0){ %>
+                                                <li class="li_skugif">
+                                                    <input type="hidden" class="hidden_skugifinfo"
+                                                           skuid="${spugif.id}"
+                                                           skuname="${spugif.name}"
+                                                           skutype="${spugif.protype}"
+                                                           skuspikeid="${spugif.spikeid}"
+                                                           skuprice="${spugif.price}"
+                                                           skuimg="${spugif.img}"
+                                                           skucount="1"
+                                                           skustock="${spugif.stock}"
+                                                           skuspecs="${spugif.specsinfo}" />
+                                                    <a>
+                                                        <span class="red">【赠品】 </span>${spugif.name} x1
+                                                    </a>
+                                                </li>
+                                                 <%}else{%>                   
+                                                 <a><span class="red">【已赠完】 </span>${spugif.name} x1 </a>
+                                            <%}%>
+
+                                               <%}%>
+                                               <%}%>
+                                               <% if(isNotEmpty(spuact.gifscd) && spuact.gifscd.~size>0){%>
+                                               <% for(spugif in spuact.gifscd){ %>
+                                               <% if(spugif.isselected==true && spugif.count>0){ %>
+                                                <% if(spugif.type==0){ %>
+                                                <li class="li_othergif">
+                                                    <input type="hidden" class="hidden_othergifinfo"
+                                                           otherid="${spugif.id}}"
+                                                           otherfacevalue="${spugif.facevalue}"
+                                                           othertype="0"
+                                                           othercount="1" />
+                                                    <a>
+                                                       <span class="red">【赠品】 </span>￥${spugif.facevalue,numberFormat="0.00"}优惠券 x1
+                                                    </a>
+                                                </li>
+                                                <%}%>
+                                                <% if(spugif.type==2){ %>
+                                                <li class="li_othergif">
+                                                    <input type="hidden" class="hidden_othergifinfo"
+                                                           otherid="${spugif.id}"
+                                                           otherfacevalue="${spugif.facevalue}"
+                                                           othertype="2"
+                                                           othercount="1" />
+                                                    <a>
+                                                        <span class="red">【赠品】 </span>${spugif.facevalue}积分
+                                                    </a>
+                                                </li>
+                                                 <%}%>
+                                                 <%}else{%>
+                                                    <a><span class="red">【已赠完】 </span></a>
+                                            <%}%>
+                                                <%}%>
+                                                 <%}%>
+                                            </ul>
+                                            <%}%>
+                                             <%}%>
+                                            <%}%>
+                                        </div>
+                                         <%}%>
+                                        <%}%>
+								</div>
+							</div>
+							<%  k=k+1; }%>
+						</div>
+						<%}%> <%}%>
+						<!--         普通商品信息 结束-->
+					</div> <!--         商品信息 结束-->
+				</li> <%}%>
+			</ul>
+			<div class="l_qjscon">
+				<div class="l_qjsconleft">
+					<% if(!cart.isselected!false){ %>
+					<div class="l_gwctop01 floatl">
+						<input name="" type="checkbox" value=""
+							class="checkbox_shoppingcartall">全选
+					</div>
+					<%}else{%>
+					<div class="l_gwctop01 floatl">
+						<input name="" type="checkbox" value=""
+							class="checkbox_shoppingcartall" checked>全选
+					</div>
+					<%}%> <span><a href="javascript:void(0);"
+						class="a_delselectedgoods">删除选中的产品</a></span> <span style="display:none;"><a
+						href="javascript:void(0);" class="a_concernselectedgoods">加入我的关注</a></span>
+				</div>
+				<!--l_qjsleft  stop -->
+				<a href="javascript:void(0);"><div
+						class="l_qjsan div_goclearing">去结算</div></a>
+				<!--l_qjsan  stop -->
+				<div class="l_qjsright">
+					<p>
+						已选择 <span class="span_selectedgoodscounttotal">${cart.selectedcount}</span>
+						件商品 总价（不含运费）： <b class="red fon16 span_totalshoppintcartprice">
+							￥${cart.amountpayable,numberFormat="0.00"} </b>
+					</p>
+					<p>
+						<span class="l_yjszd">已节省：</span> <b
+							class="b_totalshoppingcartdelprice"> - ¥
+							${cart.delmoney,numberFormat="0.00"} <input type="hidden"
+							id="hidden_cartinfo" delmoney="${cart.delmoney}"
+							totalmoney="${cart.money}" paymoney="${cart.amountpayable}"
+							selectedcount="${cart.selectedcount}" />
+						</b>
+					</p>
+				</div>
+				<!--l_qjsright  stop -->
+			</div>
+		</div>
+		<%}else if(isNotEmpty(user)){ %>
+		<div class="l_nogwc">
+			<div class="l_nogwc_l">
+				<img src="/resource/pc/web/images/no-login-icon.png">
+			</div>
+			<div class="l_nogwc_r">
+				<p class="fon14">购物车内暂时没有商品，去添加商品吧</p>
+			</div>
+		</div>
+		<%}else{%>
+		<div class="l_nogwc">
+			<div class="l_nogwc_l">
+				<img src="/resource/pc/web/images/no-login-icon.png">
+			</div>
+			<div class="l_nogwc_r">
+				<p class="fon14">购物车内暂时没有商品，登录后将显示您之前加入的商品</p>
+				<p class="mt5">
+					<span class="l_nogwcdl" id="span_login" hidden><a
+						href="javascript:void(0);"
+						onclick=" if (!WebLogin.isLogin()) {showlogindiv();return;}">登录</a></span>
+					<span class="shenlan ml10"><a href="/index.html">去购物&gt;</a></span>
+				</p>
+			</div>
+		</div>
+		<%}%>
+	</div>
+	<script type="text/html" id="cartlist">
+            {{if cart.count>0 }}
+            <!--l_gwcsp  begin -->
+            <div class="l_gwcsp fix">
+                所有商品<span class="span_allcount">{{cart.count}}</span>
+            </div>
+            <!--l_gwcsp  stop -->
+            <!--购物车内容  开始 -->
+            <div class="l_gwcall fix">
+                <div class="l_gwcalltop">
+                    {{if cart.isselected==false}}
+                    <div class="l_gwctop01 floatl"><input name="" type="checkbox" value="" class="checkbox_shoppingcartall">全选</div>
+                    {{else}}
+                    <div class="l_gwctop01 floatl"><input name="" type="checkbox" value="" class="checkbox_shoppingcartall" checked>全选</div>
+                    {{/if}}
+
+                    <div class="l_gwctop02 floatl">商品</div>
+                    <div class="l_gwctop03 floatl">单价(元)</div>
+                    <div class="l_gwctop04 floatl">数量</div>
+                    <div class="l_gwctop05 floatl">小计(元)</div>
+                    <div class="l_gwctop06 floatl">操作</div>
+                </div>
+                <ul id="ul_cart">
+                    {{each cart.shops as shop i}}
+                    <li class="li_shop">
+                        <div class="l_tcdpmc fix" style="height: auto !important; ">
+                            {{if shop.isselected==false}}
+                            <span class="mr20 floatl"><input name="" type="checkbox" class="checkbox_shopall" value="{{shop.shopid}}"></span>
+                            {{else}}
+                            <span class="mr20 floatl"><input name="" type="checkbox" class="checkbox_shopall" value="{{shop.shopid}}" checked></span>
+                            {{/if}}
+                            <span class="floatl mr20">{{shop.shopname}}</span>
+                            <input type="hidden" class="hidden_shop"
+                                   shopname="{{shop.shopname}}"
+                                   shopid="{{shop.shopid}}"
+                                   shoptotalmoney="{{shop.totalmoney}}"
+                                   shopdelmoney="{{shop.delmoney}}" />
+                            <div class="div_shopact">
+                                {{if shop.asd.length>0}}
+                                {{each shop.asd as shopact p }}
+                                {{if shopact.isselect==true}}
+                                <div class="floatl l_mltop">
+                                    <span class="aco01">{{shopact.typename}}</span>
+                                    <span class="aco02 huise">{{shopact.name}}</span>
+                                    {{if shopact.type==0}}
+                                    <span class="red">
+                                        {{if shop.delmoney>0}}
+                                        (已减{{shopact.delmoney | toFixed}})
+                                        <input type="hidden" class="hidden_shopact"
+                                               actid="{{shopact.id}}"
+                                               actname="{{shopact.mame}}"
+                                               acttype="{{shopact.type}}"
+                                               acttypename="{{shopact.typename}}"
+                                               actdesc="{{shopact.desc}}"
+                                               actdelmoney="{{shopact.delmoney}}" />
+                                        {{else}}
+                                        (去凑单)
+                                        {{/if}}
+                                    </span>
+                                    {{else if shopact.type==1}}
+                                    <input type="hidden" class="hidden_shopact"
+                                           actid="{{shopact.id}}"
+                                           actname="{{shopact.name}}"
+                                           acttype="{{shopact.type}}"
+                                           acttypename="{{shopact.typename}}"
+                                           actdesc="{{shopact.desc}}"
+                                           actdelmoney="{{shopact.delmoney}}" />
+                                    <div class="clear zp_gwc fix div_shopactgif">
+                                        <ul>
+                                            {{if shopact.skuscd!=null&&shopact.skuscd.length>0}}
+                                            {{each shopact.skuscd as shopgif u }}
+                                            {{if shopgif.isselected==true&&shopgif.count>0}}
+
+                                            <li class="li_skugif">
+                                                <input type="hidden" class="hidden_skugifinfo"
+                                                       skuid="{{shopgif.id}}"
+                                                       skuname="{{shopgif.name}}"
+                                                       skutype="{{shopgif.protype}}"
+                                                       skuspikeid="{{shopgif.spikeid}}"
+                                                       skuprice="{{shopgif.price}}"
+                                                       skuimg="{{shopgif.img}}"
+                                                       skucount="1"
+                                                       skustock="{{shopgif.stock}}"
+                                                       skuspecs="{{shopgif.specsinfo}}" />
+                                                <a>
+                                                                                              【赠品】{{shopgif.name}} x1
+                                                </a>
+                                            </li>
+
+                                            {{/if}}
+                                            {{/each}}
+                                            {{/if}}
+
+                                            {{if shopact.gifscd!=null&&shopact.gifscd.length>0 }}
+                                            {{each shopact.gifscd as shopgif b }}
+                                            {{if shopgif.isselected==true&&shopgif.count>0}}
+
+                                            {{if shopgif.type==0}}
+                                            <li class="li_othergif">
+                                                <input type="hidden" class="hidden_othergifinfo"
+                                                       otherid="{{shopgif.id}}"
+                                                       otherfacevalue="{{shopgif.facevalue}}"
+                                                       othertype="0"
+                                                       othercount="1" />
+                                                <a>
+                                                                                             【赠品】￥{{shopgif.facevalue | toFixed}}优惠券 x1
+                                                </a>
+                                            </li>
+                                            {{/if}}
+                                            {{if shopgif.type==2}}
+                                            <li class="li_othergif">
+                                                <input type="hidden" class="hidden_othergifinfo"
+                                                       otherid="{{shopgif.id}}"
+                                                       otherfacevalue="{{shopgif.facevalue}}"
+                                                       othertype="2"
+                                                       othercount="1" />
+                                                <a>
+                                                                                           【赠品】{{shopgif.facevalue}}积分
+                                                </a>
+                                            </li>
+                                            {{/if}}
+
+                                            {{/if}}
+                                            {{/each}}
+                                            {{/if}}
+                                        </ul>
+                                    </div>
+
+                                    {{/if}}
+                                </div>
+                                {{/if}}
+                                {{/each}}
+                                {{/if}}
+                            </div>
+                            {{if shop.csd.length>0}}
+                            <div class="div_couponall agwccon top0" style="z-index:9997">
+                                <span class="ayhqimg span_couponlist"></span>
+                                <div class="div_couponcontent ayhqnrgwc fix mt0" hidden>
+                                    <div class="asmzj"></div>
+                                    {{each shop.csd as shopcoupon w}}
+                                    <div class="a_item fix">
+                                        {{if shopcoupon.isget==false}}
+                                        <div class="a_item01">
+                                            <i class="l_it1"></i>￥{{shopcoupon.facevalue | toFixed}}<i class="l_it2"></i>
+                                        </div>
+                                        {{else}}
+                                        <div class="a_item01 ahs">
+                                            <i class="l_it1"></i>￥{{shopcoupon.facevalue | toFixed}}<i class="l_it2"></i>
+                                        </div>
+                                        {{/if}}
+                                        <div class="a_item02">
+                                            <p>{{shopcoupon.name}}</p><p class="yscmh"></p>
+                                        </div>
+                                        {{if shopcoupon.isget==false}}
+                                        <div class="a_item03">
+                                            <a href="javascript:void(0);" class="a_getcoupon" couponid-val="{{shopcoupon.id}}">领取</a>
+                                        </div>
+                                        {{else}}
+                                        <div class="a_item03 ahs">已领取</div>
+                                        {{/if}}
+                                    </div>
+                                    {{/each}}
+                                </div>
+                            </div>
+                            {{/if}}
+                        </div>
+                        <div class="acoall">
+                            {{if shop.packscd.length>0}}
+                            {{each shop.packscd as pack j}}
+                            <div class="div_packages">
+                                <div class="atop">
+                                    <span>
+                                        {{if pack.isselected==false}}
+                                        <input name="" type="checkbox" class="checkbox_package" value="{{pack.id}}" data-id="{{pack.shopcartproid}}">
+                                        {{else}}
+                                        <input name="" type="checkbox" class="checkbox_package" value="{{pack.id}}" checked data-id="{{pack.shopcartproid}}">
+                                        {{/if}}
+                                    </span>【套餐】{{pack.name}}
+                                    <div class="atophwjj">
+                                        <div class="acon_04" packid-val="{{pack.id}}" shopcartproid="{{pack.shopcartproid}}">
+                                            <span class="acon04_01 span_packdown">-</span>
+                                            <input name="" type="text" class="acon04_02 text_packagecount" stock-val="{{pack.stock}}" value="{{pack.count}}">
+                                            <span class="acon04_03 span_packup">+</span>
+                                        </div>
+                                    </div><!-- atophwjj  stop-->
+                                    <div class="atopdwjg"><div class="acon_05 td_packageprice">{{pack.price*pack.count | toFixed}}</div></div>
+                                    <div class="gwcsc_dbt">
+                                        <a href="javascript:void(0);" class="a_delpackagegoods" goodsid-val="{{pack.id}}" shopcartproid="{{pack.shopcartproid}}">删除商品</a>
+                                        <input type="hidden" class="hidden_packinfo"
+                                               packid="{{pack.id}}"
+                                               packname="{{pack.name}}"
+                                               packcount="{{pack.count}}"
+                                               packprice="{{pack.price}}"
+                                               packtype="1"
+                                               packscpid="{{pack.shopcartproid}}"
+                                               />
+                                    </div>
+                                </div>
+                                {{each pack.skuscd as packsku k}}
+                                <div class="acoall_con fix hover">
+                                    <div class="acon_01">&nbsp;</div>
+                                    <div class="acon_02">
+                                        <div class="acon_02_01"><a href="/web/products/proinfo.html?skuid={{packsku.id}}&protype=0" skuid-val="{{packsku.id}}" class="a_spuhref"><img src="{{packsku.img}}" width="76" height="76"></a></div>
+                                        <div class="acon_02_02"><a href="/web/products/proinfo.html?skuid={{packsku.id}}&protype=0" skuid-val="{{packsku.id}}" class="a_spuhref">{{packsku.name}}</a></div>
+                                        <div class="acon_02_03 div_specs" specs-value="{{packsku.specsinfo}}">
+
+                                        </div>
+                                    </div>
+                                    <div class="acon_03 td_packagedetailprice">
+                                        {{packsku.price | toFixed}}
+                                    </div>
+                                    <div class="acon_04">
+                                        <p>1件/套 X{{pack.count}}</p>
+                                        {{if pack.stock>10}}
+                                        <p class="clear">有货</p>
+                                        {{else if pack.stock>0}}
+                                        <p class="clear">仅剩 {{pack.stock}} 件</p>
+                                        {{else}}
+                                        <p class="clear">无货</p>
+                                        <input type="hidden" name="nohaspk" value="1">
+                                        {{/if}}
+                                    </div>
+                                    <div class="acon_05 td_goodsprice">{{packsku.count*packsku.price | toFixed}}</div>
+                                    <div class="acon_06">
+                                        <p style="display:none;"><a href="javascript:void(0);" class="a_concernshoppingcartgoods" goodsid-val="{{packsku.id}}">加入我的关注</a></p>
+                                        <input type="hidden" class="hidden_packskuinfo"
+                                               skuid="{{packsku.id}}"
+                                               skuname="{{packsku.name}}"
+                                               skuprice="{{packsku.price}}"
+                                               skuimg="{{packsku.img}}"
+                                               skucount="{{packsku.count}}"
+                                               skustock="{{packsku.stock}}"
+                                               skuspecs="{{packsku.specsinfo}}" />
+                                    </div>
+                                </div>
+                                {{/each}}
+                            </div>
+                            {{/each}}
+                            {{/if}}
+                            {{if shop.spuscd.length>0}}
+                            {{each shop.spuscd as spu j}}
+                            <div class="div_spus">
+                                <input type="hidden" class="hidden_spuinfo"
+                                       spuid="{{spu.id}}"
+                                       spucount="{{spu.count}}"
+                                       sputotalmoney="{{spu.totalmoney}}"
+                                       spudelmoney="{{spu.delmoney}}" />
+                                {{each spu.skuscd as sku k }}
+                                <div class="div_sku">
+                                    {{if k==0}}
+                                    <div class="div_spuact">
+                                        {{if spu.asd.length>0}}
+                                        {{each spu.asd as spuact n }}
+                                        <div class="acoall_top">
+                                            <span class="aco01">{{spuact.typename}}</span>
+                                            <span class="aco02 huise">{{spuact.name}}</span>
+                                            <span class="red">
+                                                {{if spuact.isselect==true}}
+                                                {{if spuact.type==0}}
+                                                {{if spu.delmoney>0}}
+                                                (已减{{spuact.delmoney | toFixed}})
+                                                <input type="hidden" class="hidden_spuact"
+                                                       actid="{{spuact.id}}"
+                                                       actname="{{spuact.name}}"
+                                                       acttype="{{spuact.type}}"
+                                                       acttypename="{{spuact.typename}}"
+                                                       actdesc="{{spuact.desc}}"
+                                                       actdelmoney="{{spuact.delmoney}}" />
+                                                {{else}}
+                                                (去凑单)
+                                                {{/if}}
+                                                {{else if spuact.type==1}}
+                                                <input type="hidden" class="hidden_spuact"
+                                                       actid="{{spuact.id}}"
+                                                       actname="{{spuact.name}}"
+                                                       acttype="{{spuact.type}}"
+                                                       acttypename="{{spuact.typename}}"
+                                                       actdesc="{{spuact.desc}}"
+                                                       actdelmoney="{{spuact.delmoney}}" />
+                                                {{/if}}
+                                                {{/if}}
+                                            </span>
+                                        </div>
+                                        {{/each}}
+                                        {{/if}}
+                                    </div>
+                                    {{/if}}
+                                    <div class="acoall_con fix">
+                                        <div class="acon_01">
+                                            {{if sku.isselected==false}}
+                                            <input name="" type="checkbox" value="{{sku.id}}" class="checkbox_goods" data-id="{{sku.shopcartproid}}">
+                                            {{else}}
+                                            <input name="" type="checkbox" value="{{sku.id}}" class="checkbox_goods" checked data-id="{{sku.shopcartproid}}">
+                                            {{/if}}
+                                        </div>
+                                        <div class="acon_02">
+                                            <div class="acon_02_01"><a href="/web/products/proinfo.html?skuid={{sku.id}}&protype=0"><img src="{{sku.img}}" width="76" height="76"></a></div>
+                                            <div class="acon_02_02"><a href="/web/products/proinfo.html?skuid={{sku.id}}&protype=0">{{sku.name}}</a></div>
+                                            <div class="acon_02_03 div_specs" specs-value="{{sku.specsinfo}}">
+                                            </div>
+                                        </div>
+                                        <div class="acon_03" style="position:relative;">
+                                            {{sku.price | toFixed}}
+                                            {{if spu.asd.length>0}}
+                                            <p><span class="l_cxyh span_activity">促销优惠</span></p>
+                                            <div class="agwccon top0 div_detailactivity" style="left:65px; top:50px;z-index:9999;" skuid-val="{{sku.id}}" hidden>
+                                                <div class="ayhqnrgwc fix mt0">
+                                                    <div class="asmzj" style="top:3px;"></div>
+                                                    <div class="text-left" style="line-height:25px;">
+                                                        {{each spu.asd as spuact l}}
+                                                        {{if spuact.isselect==true}}
+                                                        <p class="heise"><input name="radio_{{spu.id}}_{{sku.id}}" type="radio" class="radio_spuact" value="{{spuact.id}}" checked>{{spuact.name}}</p>
+                                                        {{else}}
+                                                        <p class="heise"><input name="radio_{{spu.id}}_{{sku.id}}" type="radio" class="radio_spuact" value="{{spuact.id}}">{{spuact.name}}</p>
+                                                        {{/if}}
+
+                                                        {{/each}}
+                                                        <p class="heise p_isjoin"><input name="radio_{{spu.id}}_{{sku.id}}" type="radio" class="radio_spuact" value="0">不使用活动优惠</p>
+                                                    </div>
+                                                    <div class="a_item fix">
+                                                        <div class="a_item03" style="text-align:center;">
+                                                            <a href="javascript:void(0);" class="a_ok_actdiv">确定</a>
+                                                            <a href="javascript:void(0);" class="ml15 a_close_actdiv" style="background:#A4A4A4">取消</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {{/if}}
+                                        </div>
+                                        <div class="acon_04" skuid-val="{{sku.id}}" shopcartproid="{{sku.shopcartproid}}">
+                                            <span class="acon04_01 span_down">-</span>
+                                            <input name="" type="text" class="acon04_02 text_goodscount" skutype="{{sku.protype}}" stock-val="{{sku.stock}}" value="{{sku.count}}">
+                                            <span class="acon04_03 span_up">+</span>
+                                            {{if sku.stock>10}}
+                                            <p class="clear">有货</p>
+                                            {{else if sku.stock>0 }}
+                                            <p class="clear">仅剩 {{sku.stock}} 件</p>
+                                            {{else}}
+                                            <p class="clear">无货</p>
+                                            {{/if}}
+                                        </div>
+                                        <div class="acon_05 td_goodsprice">{{sku.count*sku.price | toFixed}}</div>
+                                        <div class="acon_06">
+                                            <p><a href="javascript:void(0);" class="a_delshoppingcartgoods" goodsid-val="{{sku.id}}" shopcartproid="{{sku.shopcartproid}}">删除商品</a></p>
+                                            <p style="display:none;"><a href="javascript:void(0);" class="a_concernshoppingcartgoods" goodsid-val="{{sku.id}}">加入我的关注</a></p>
+                                            <input type="hidden" class="hidden_spuskuinfo"
+                                                   skuid="{{sku.id}}"
+                                                   skuname="{{sku.name}}"
+                                                   skutype="{{sku.protype}}"
+                                                   skuspikeid="{{sku.spikeid}}"
+                                                   skuprice="{{sku.price}}"
+                                                   skuimg="{{sku.img}}"
+                                                   skucount="{{sku.count}}"
+                                                   skustock="{{sku.stock}}"
+                                                   skuspecs="{{sku.specsinfo}}"
+                                                   skuscpid="{{sku.shopcartproid}}" />
+                                        </div>
+                                        {{if k==0}}
+                                        {{if spu.asd.length>0}}
+                                        <div class="clear zp_gwc fix div_spuactgif">
+                                            {{each spu.asd as spuact n }}
+                                            {{if spuact.isselect==true}}
+                                            {{if spuact.type==1}}
+                                            <ul>
+                                                {{if spuact.skuscd!=null&&spuact.skuscd.length>0}}
+                                                {{each spuact.skuscd as spugif u }}
+
+                                                {{if spugif.isselected==true&&spugif.count>0}}
+                                                <li class="li_skugif">
+                                                    <input type="hidden" class="hidden_skugifinfo"
+                                                           skuid="{{spugif.id}}"
+                                                           skuname="{{spugif.name}}"
+                                                           skutype="{{spugif.protype}}"
+                                                           skuspikeid="{{spugif.spikeid}}"
+                                                           skuprice="{{spugif.price}}"
+                                                           skuimg="{{spugif.img}}"
+                                                           skucount="1"
+                                                           skustock="{{spugif.stock}}"
+                                                           skuspecs="{{spugif.specsinfo}}" />
+                                                    <a>
+                                                                                                      【赠品】{{spugif.name}} x1
+                                                    </a>
+                                                </li>
+                                                {{/if}}
+
+                                                {{/each}}
+                                                {{/if}}
+
+                                                {{if spuact.gifscd!=null&&spuact.gifscd.length>0 }}
+                                                {{each spuact.gifscd as spugif b }}
+                                                {{if spugif.isselected==true&&spugif.count>0}}
+
+                                                {{if spugif.type==0}}
+                                                <li class="li_othergif">
+                                                    <input type="hidden" class="hidden_othergifinfo"
+                                                           otherid="{{spugif.id}}"
+                                                           otherfacevalue="{{spugif.facevalue}}"
+                                                           othertype="0"
+                                                           othercount="1" />
+                                                    <a>
+                                                                                                        【赠品】￥{{spugif.facevalue | toFixed}}优惠券 x1
+                                                    </a>
+                                                </li>
+                                                {{/if}}
+                                                {{if spugif.type==2}}
+                                                <li class="li_othergif">
+                                                    <input type="hidden" class="hidden_othergifinfo"
+                                                           otherid="{{spugif.id}}"
+                                                           otherfacevalue="{{spugif.facevalue}}"
+                                                           othertype="2"
+                                                           othercount="1" />
+                                                    <a>
+                                                                                                       【赠品】{{spugif.facevalue}}积分
+                                                    </a>
+                                                </li>
+                                                {{/if}}
+
+                                                {{/if}}
+                                                {{/each}}
+                                                {{/if}}
+                                            </ul>
+                                            {{/if}}
+                                            {{/if}}
+                                            {{/each}}
+                                        </div>
+                                        {{/if}}
+                                        {{/if}}
+                                    </div>
+                                </div>
+                                {{/each}}
+                            </div>
+                            {{/each}}
+                            {{/if}}
+                        </div>
+                    </li>
+                    {{/each}}
+                </ul>
+                <div class="l_qjscon">
+                    <div class="l_qjsconleft">
+                        {{if cart.isselected==false}}
+                        <span><input name="" type="checkbox" value="" class="checkbox_shoppingcartall">全选</span>
+                        {{else}}
+                        <span><input name="" type="checkbox" value="" class="checkbox_shoppingcartall" checked>全选</span>
+                        {{/if}}
+                        <span><a href="javascript:void(0);" class="a_delselectedgoods">删除选中的产品</a></span>
+                        <span style="display:none;"><a href="javascript:void(0);" class="a_concernselectedgoods">加入我的关注</a></span>
+                    </div><!--l_qjsleft  stop -->
+                    <a href="javascript:void(0);"><div class="l_qjsan div_goclearing">去结算</div></a><!--l_qjsan  stop -->
+                    <div class="l_qjsright">
+                        <p>
+                            已选择 <span class="span_selectedgoodscounttotal">{{cart.selectedcount}}</span> 件商品　　总价（不含运费）：
+                            <b class="red fon16 span_totalshoppintcartprice">
+                                ￥
+                                {{if cart.amountpayable>0}}
+                                {{cart.amountpayable | toFixed}}
+                                {{else}}
+                                0.00
+                                {{/if}}
+                            </b>
+                        </p>
+                        <p>
+                            <span class="l_yjszd">已节省：</span>
+                            <b class="b_totalshoppingcartdelprice">
+                                - ¥
+                                {{if cart.delmoney>0}}
+                                {{cart.delmoney | toFixed}}
+                                {{else}}
+                                0.00
+                                {{/if}}
+                                <input type="hidden" id="hidden_cartinfo"
+                                       delmoney="{{cart.delmoney}}"
+                                       totalmoney="{{cart.money}}"
+                                       paymoney="{{cart.amountpayable}}"
+                                       selectedcount="{{cart.selectedcount}}" />
+                            </b>
+                        </p>
+                    </div><!--l_qjsright  stop -->
+                </div>
+            </div>
+            <!--购物车内容  结束 -->
+            {{/if}}
+        </script>
+	<!--l_nogwc  begin -->
+	<div class="l_nogwc" hidden>
+		<div class="l_nogwc_l">
+			<img src="/resource/pc/web/images/no-login-icon.png">
+		</div>
+		<div class="l_nogwc_r">
+			<p class="fon14">购物车内暂时没有商品，登录后将显示您之前加入的商品</p>
+			<p class="mt5">
+				<span class="l_nogwcdl" id="span_login" hidden><a
+					href="javascript:void(0);"
+					onclick=" if (!WebLogin.isLogin()) {showlogindiv();return;}">登录</a></span>
+				<span class="shenlan ml10"><a href="/index.html">去购物&gt;</a></span>
+			</p>
+		</div>
+	</div>
+	<!--l_nogwc  stop -->
+	<!--猜你喜欢 我的关注 浏览历史 开始 -->
+	<div class="yScrollList">
+		<div class="yScrollListTitle">
+			<h1 class="yth1click">猜你喜欢</h1>
+			<h1 class="ytitleh12">我的关注</h1>
+			<h1 class="ytitleh13">浏览历史</h1>
+		</div>
+		<div class="yScrollListIn">
+			<!--yScrollListInList 猜你喜欢  begin -->
+			<div class="yScrollListInList yScrollListInList1"
+				style="display: block;">
+				<ul>
+					<% if(isNotEmpty(likespecs)){ %> <% for(spu in likespecs){ %>
+					<li><a href="/web/products/proinfo.html?spuid=${spu.spuid}&protype=0"><img
+							src="${spu.spuimg}" width="230" height="214" /></a>
+						<p class="yScrollList_p1">
+							<a href="/web/products/proinfo.html?id=${spu.spuid}&protype=0">${spu.spuname}</a>
+						</p>
+						<p class="red bolder">￥${spu.spuprice,numberFormat="0.00"}</p></li> <% }%> <% }%>
+				</ul>
+			</div>
+			<!--yScrollListInList 猜你喜欢   stop -->
+			<!--yScrollListInList 我的关注   begin -->
+			<div class="yScrollListInList yScrollListInList2">
+				<ul>
+					<% if(isNotEmpty(conlist)){ %> <% for(con in conlist){ %>
+					<li><a href="/web/products/proinfo.html?spuid=${con.spuid}&protype=0"><img
+							src="${con.img}"></a>
+						<p class="yScrollList_p1">
+							<a href="/web/products/proinfo.html?spuid=${con.spuid}&protype=0">${con.name}</a>
+						</p>
+						<p class="red bolder">￥${con.price,numberFormat="0.00"}</p></li> <% }%> <% }%>
+				</ul>
+			</div>
+			<!--yScrollListInList 我的关注   stop -->
+			<!--yScrollListInList 浏览历史   begin -->
+			<div class="yScrollListInList yScrollListInList3">
+				<ul>
+					<% if(isNotEmpty(browsehistory)){ %> <% for(his in browsehistory){
+					%>
+					<li><a href="/web/products/proinfo.html?spuid=${his.spuid}&protype=0"><img
+							src="${his.imgurl}" /></a>
+						<p class="yScrollList_p1">
+							<a href="/web/products/proinfo.html?spuid=${his.spuid}&protype=0">${his.spuname}</a>
+						</p>
+						<p class="red bolder">￥${his.price!0,numberFormat="0.00"}</p></li> <% }%> <% }%>
+				</ul>
+			</div>
+			<!--yScrollListInList 浏览历史   stop -->
+		</div>
+	</div>
+	<!--猜你喜欢 我的关注 浏览历史 结束 -->
+</div>
+<div style="display: none">
+	<form id="suborder" action="/web/orderpay.html" method="post">
+		<input id="cart_paramstr" name="cart_paramstr" />
+	</form>
+</div>
+<!--container 中间所有内容结束 -->
+<script type="text/javascript">
+	$(document).ready(function() {
+		cartinit();
+		/* setTimeout(function () {
+		 var kn = "load/buy";
+		 var isacc = infoc.getCookie("_isAcced");
+		 if (isacc == undefined || isacc == null || isacc == "") {
+		 kn += "/uv";
+		 infoc.setCookie("_isAcced", 1, 24 - new Date().getHours());
+		 }
+
+		 infoc.add(kn, "/web/cart.html", 51, 0)
+		 //页面离开事件
+		 window.onbeforeunload = function (event) {
+		 infoc.add("load", "/web/cart.html", 52, 0)
+		 }
+		 }, 1); */
+	})
+</script>

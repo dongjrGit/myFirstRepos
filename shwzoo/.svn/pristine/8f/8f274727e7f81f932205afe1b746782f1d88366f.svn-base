@@ -1,0 +1,57 @@
+<%var path="/resource";%>
+<head>
+    <title>${title}</title>
+    <script type="text/javascript" src="${path}/wap/js/index.js" ></script>
+    <script type="text/javascript" src="${path}/wap/js/js.js" ></script>
+    <style type="text/css">
+    .productlistcon ul li{
+    	margin-top: 10px;
+    }
+    .fjsp_r div:last-child{
+    	color:red;
+    }
+    </style>
+    
+</head>
+<body>
+	<!--top_title  begin-->
+	<div class="top_title fix">
+		<div class="top_return" onclick="javascript:location.href='/wap/index.html'"> 
+			<img src="${path}/wap/images/top_return.png"/>
+		</div>
+		${title}
+	</div>
+	<!--productlistcon  begin-->
+	<style>
+	.fjsp_r .productlistcon_r h3{ margin-top:3%;}
+	.fjsp_r div:last-child{ color:#000;}
+	.productlistcon_r h3{ height:0.59rem;}
+	</style>
+	<div class="productlistcon fix">
+		<ul>
+		<% for (vo in list.data){%>
+			<li class="fix">
+				<a href="/wap/products/ProDetail.html?spuid=${vo.id}&href=${href}">
+					<div class="productlistcon_l">
+						<img src="${vo.img}" class="img-responsive"/>
+					</div>
+					<div class="fjsp_r">
+						<div class="productlistcon_r">
+							<h3>${vo.title}</h3>
+							<p>销量：${vo.count} <span class="floatr red">¥${vo.Price}</span></p>	
+						</div>
+					</div>
+				</a>
+			</li>
+			<%}%>
+		</ul>
+	</div>
+	<!--productlistcon  stop-->
+	<img src="${path}/wap/images/index_42.png" class="qianggou-scrollTop">
+<script>
+window.onload=function(){
+	goodslist('.productlistcon_l img');
+}	
+</script>
+</body>
+

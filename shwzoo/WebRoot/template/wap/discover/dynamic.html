@@ -1,0 +1,147 @@
+<%var path="/resource";%>
+<head>
+
+<title>店铺动态</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="stylesheet" href="/resource/wap/css/css.css" type="text/css" media="screen">
+<link href="${path}/wap/css/iscroll.css" rel="stylesheet" />
+<script src="${path}/wap/js/iscroll.js"></script>
+<script src="${path}/wap/js/iscroll_list.js"></script>
+<script src="${path}/wap/js/index.js"></script>
+<script src="${path}/wap/js/Yeffect16_0118.min.js"></script>
+
+<script src="${path}/artTemplate.js"></script>
+<script src="${path}/GetQueryString.js"></script>
+<script src="${path}/wap/js/discover/shopdynamic.js"></script>
+</head>
+<body>
+<!--container  begin-->
+<div class="container fix">
+	<!--l_dpdttopxg  begin -->
+	<div class="top_title fix" >
+	    <div class="top_return">
+	    <a href="/wap/discover/index.html">
+			<img src="${path}/wap/images/top_return.png"/>
+	    </a>
+		</div>
+		店铺动态
+		<div class="l_l_dpdttopxgrig"  onclick="javascript:location.href='/wap/discover/message.html'"></div>
+	</div>
+    <div class="l_sppjnr fix">
+			<div id="wrapper" style="top: 50px;">
+				<div id="scroller-content">
+					<div id="scroller-pullDown">
+						<span id="down-icon" class="icon-double-angle-down pull-down-icon"></span>
+						<span id="pullDown-msg" class="pull-down-msg"> </span>
+					</div>
+					<ul id="list" class="fix sepdpdt">
+						<%if(isNotEmpty(dynamic)&&dynamic.~size>0){
+						    for(dy in dynamic){
+						%>
+						
+						<li class="fix">
+							<div class="sepdpdt-top"> <i></i></div>
+							<div class="sepdpdt-name fix">
+								<img src="${dy.shopimg}"/>
+								<div class="sepdpdt-name-r">
+									<p>${dy.shopname}</p>
+									<p class="huise"></p>
+								</div>
+							</div>
+							<div class="sepdpdt-introduce fix">
+								
+							</div>
+							<div class="sepdpdt-list fix">
+								<%if(isNotEmpty(dy.spulist)&&dy.spulist.~size>1){%>
+								<ul class="sepdpdt-listul fix">
+								    <%for(spu in dy.spulist){%>
+									<li>
+										<a href="/wap/products/ProDetail.html?spuid=${spu.spuid}&href=/wap/discover/dynamic.html?findid=${dy.findid}">
+											<img src="${spu.imgurl}" class="sepdpdt-imgone"/>
+											<p></p>
+										</a>
+									</li>
+									<%}%>					
+								</ul>
+								<%}else{
+								if(isNotEmpty(dy.spulist)&&dy.spulist.~size==1){
+								    for(spu in dy.spulist){
+								%>
+								<div class="sipic">
+								   <a href="/wap/products/ProDetail.html?spuid=${spu.spuid}&href=/wap/discover/dynamic.html?findid=${dy.findid}">
+									   <img src="${spu.imgurl}" class="sepdpdt-imgone"/>
+									   <p></p>
+								  </a>
+								</div>
+								<%}}}%>
+							</div>
+							<div class="l_scfmk04 fix sepdpdt-bot">	
+				    	</div>
+						</li>
+						<%}}%>
+					</ul>
+					<div id="scroller-pullUp">
+                        <span id="up-icon" class="icon-double-angle-up pull-up-icon"></span>
+                        <span id="pullUp-msg" class="pull-up-msg"> </span>
+                    </div>
+				</div>
+			</div>
+    <!--loading  begin-->
+	<script type="text/html" id="spulist">
+           {{each list as dy i}}
+           <li class="fix">
+			<div class="sepdpdt-top"> <i></i></div>
+			<div class="sepdpdt-name fix">
+				<img src="{{dy.shopimg}}"/>
+				<div class="sepdpdt-name-r">
+				 <p>{{dy.shopname}}</p>
+				 <p class="huise"></p>
+				</div>
+			</div>
+			<div class="sepdpdt-introduce fix"></div>
+			<div class="sepdpdt-list fix">
+				{{if dy.spulist.length>1 }}
+				  <ul class="sepdpdt-listul fix">
+				  {{each dy.spulist as spu k}}
+					<li>
+					<a href="/wap/products/ProDetail.html?spuid={{spu.spuid}}&href=/wap/discover/dynamic.html?findid={{dy.findid}}">
+						<img src="{{spu.imgurl}}" class="sepdpdt-imgone"/>
+						<p></p>
+					</a>
+					</li>
+				  {{/each}}					
+				 </ul>
+				{{else}}
+				  {{each dy.spulist as spu j }}					 
+					<div class="sipic">
+					  <a href="/wap/products/ProDetail.html?spuid={{spu.spuid}}&href=/wap/discover/dynamic.html?findid={{dy.findid}}">
+					   <img src="{{spu.imgurl}}" class="sepdpdt-imgone"/>
+					   <p></p>
+					  </a>
+					</div>
+                  {{/each}}
+			   {{/if}}
+			</div>
+				<div class="l_scfmk04 fix sepdpdt-bot">	</div>
+		  </li>
+         {{/each}}
+         </script>
+	<%
+    include("/template/wap/index_foot.html",{display:3}){}
+    %>
+</div>
+<!--container  stop -->
+<a href="#">
+<img src="/resource/wap/images/index_42.png" class="qianggou-scrollTop"></a>
+<script>
+window.onload=function(){		
+	fixed("#footer");	
+	Yeffect.resizeHtWstr(".sepdpdt-name:visible",".sepdpdt-name img",280,28);
+	Yeffect.resizeHtWstr(".sepdpdt-imgone:visible",".sepdpdt-imgone",280,220);
+	Yeffect.resizeHtWstr(".sepdpdt-listul li:visible",".sepdpdt-listul li img",280,280);
+	Yeffect.resizeHtWstr(".sipic:visible",".sipic img",234,84);
+}	
+</script>
+</body>
+

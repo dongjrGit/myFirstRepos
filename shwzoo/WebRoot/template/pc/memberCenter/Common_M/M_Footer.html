@@ -1,0 +1,188 @@
+﻿<div id="footer" class="fix">
+    <!--footcon  begin -->
+    <div class="footcon">
+        <!--l_foottop  begin -->
+        <div class="l_foottop">
+            <div class="l_sex">
+                <div class="l_sexcircle">正</div>
+                <div class="l_sexwzjs">
+                    <h3>正品保障</h3>
+                    <p>正品行货 放心选购</p>
+                </div>
+            </div><!--l_sex  stop -->
+            <div class="l_sex">
+                <div class="l_sexcircle">邮</div>
+                <div class="l_sexwzjs">
+                    <h3>包邮方式</h3>
+                    <p>由商家自定义运费 </p>
+                </div>
+            </div><!--l_sex  stop -->
+            <div class="l_sex">
+                <div class="l_sexcircle">七</div>
+                <div class="l_sexwzjs">
+                    <h3>售后无忧</h3>
+                    <p>7天无理由退货</p>
+                </div>
+            </div><!--l_sex  stop -->
+            <div class="l_sex">
+                <div class="l_sexcircle">准</div>
+                <div class="l_sexwzjs">
+                    <h3>准时送达</h3>
+                    <p>收获时间由你做主</p>
+                </div>
+            </div><!--l_sex  stop -->
+            <div class="clear"></div>
+        </div>
+        <!--l_foottop  stop -->
+        <!--l_process  begin -->
+        <div class="l_process">
+            <!--l_procon  begin -->
+              <div class="l_process">
+        	<!--l_procon  begin -->
+        	  <div class="l_procon">
+                <div class="l_proleft">
+               		<% if(isNotEmpty(newscone)) {%>
+	                    <div class="l_promk">
+		                        <p>购物流程</p>
+		                        <%for(one in newscone){%>
+		                         <ul>
+		                            <li><a target="_blank"  href="/web/help/list.html?pid=${one.id}">${one.name}</a></li>
+		                        </ul>
+		                         <% }%>
+	                    </div>
+                    <% }%>
+                    <% if(isNotEmpty(newsctwo)) {%>
+	                    <div class="l_promk">
+		                        <p>配送方式</p>
+		                        <%for(two in newsctwo){%>
+		                         <ul>
+		                            <li><a target="_blank"  href="/web/help/list.html?pid=${two.id}">${two.name}</a></li>
+		                        </ul>
+		                         <% }%>
+	                    </div>
+                    <% }%>
+                    <% if(isNotEmpty(newscwthree)) {%>
+	                    <div class="l_promk">
+		                        <p>支付方式</p>
+		                        <%for(three in newscwthree){%>
+		                         <ul>
+		                            <li><a target="_blank"  href="/web/help/list.html?pid=${three.id}">${three.name}</a></li>
+		                        </ul>
+		                         <% }%>
+	                    </div>
+                    <% }%>
+                    <% if(isNotEmpty(newscfour)) {%>
+	                    <div class="l_promk">
+		                        <p>售后服务</p>
+		                        <%for(four in newscfour){%>
+		                         <ul>
+		                            <li><a target="_blank"  href="/web/help/list.html?pid=${four.id}">${four.name}</a></li>
+		                        </ul>
+		                         <% }%>
+	                    </div>
+                    <% }%>
+                    <% if(isNotEmpty(newscfive)) {%>
+	                    <div class="l_promk">
+		                        <p>品牌合作</p>
+		                        <%for(five in newscfive){%>
+		                         <ul>
+		                            <li><a target="_blank"  href="/web/help/list.html?pid=${five.id}">${five.name}</a></li>
+		                        </ul>
+		                         <% }%>
+	                    </div>
+                    <% }%>
+                    </div>
+                <div class="l_proright">
+					<div class="l_weibo">
+						<p>
+							中绿app
+						</p>
+						<div class="l_wbbs">
+							<img src="/resource/pc/web/images/weibo.png" width="102" height="102">
+						</div>
+					</div>
+					<!--l_weibo  stop -->
+					<div class="l_weixin">
+						<p>
+							中绿微信
+						</p>
+						<div class="l_wbbs">
+							<img src="/resource/pc/web/images/weixin.png" width="102" height="102">
+						</div>
+					</div>
+					<!--l_weibo  stop -->
+				</div>
+                <div class="clear"></div>
+        	
+            <!--l_procon  stop -->
+        </div>
+        <!--l_process  stop -->
+        <!--l_gywm 关于我们开始 -->
+      <div class="l_gywm">
+        	<p class="links">
+                <a href="#">关于我们</a>|
+                <a href="#">帮助中心</a>|
+                <a href="#">友情链接</a>|
+                <a href="#">诚征英才</a>|
+                <a href="#">商家登录</a>|
+                <a href="#">供应商登录</a>|
+                <a href="#">联系我们</a>|
+                <a href="#">网站合作</a>|
+                <a href="#">开放平台</a>|
+                <a href="#">法律声明</a>
+            </p>
+        <p class="l_xkz">
+            	京ICP备00000000号<span>|</span>
+                <a href="#">营业执照</a><span>|</span>
+                <a href="#">网络文化经营许可证</a><span>|</span>
+                <a href="#">互联网药品交易服务资格证</a>
+            </p>
+        <p>Copyright&copy;&amp; 中绿生活网上超市 2014-2018，All Rights Reserved</p>
+        </div>
+        <!--l_gywm 关于我们结束 -->
+        <!--l_kxwz  begin -->
+        <div class="l_kxwz">
+   	    	<a href="#"><img src="/resource/pc/web/images/54b8871eNa9a7067e.png" width="103" height="32" alt="经营性网站备案中心" title="经营性网站备案中心"></a>
+   	    	<a href="#"><img src="/resource/pc/web/images/54b8871eNa9a7067e4444.png" width="103" height="32" alt="可信网站信用评价" title="可信网站信用评价"></a>
+            <a href="#"><img src="/resource/pc/web/images/54b8874bN694454a5.png" width="103" height="32"></a>
+            <a href="#"><img src="/resource/pc/web/images/54b8875fNad1e0c4c.png" width="103" height="32"></a>
+            <a href="#"><img src="/resource/pc/web/images/54b8863dN8d2c61ec.png" width="185" height="32"></a>
+        </div>
+        <!--l_kxwz  stop -->
+    </div>
+    <!--footcon  stop -->
+</div>
+            <!--l_procon  stop -->
+        </div>
+        <!--l_process  stop -->
+        <!--l_gywm 关于我们开始 -->
+       <div class="l_gywm">
+            <p class="links" id="navzx">
+             <% if(isNotEmpty(navszx)) {%>
+                <% var indexz=0;if(navszx.~size>0){%>
+               <%for(art in navszx){%>                    
+                              
+                        <%for(arts in art.list){%>
+                        
+                       <% if(indexz==0){indexz=1;%><!--/web/article/contact.html?id=${arts.id}  -->
+                            <a  target="_blank"  href="/web/help/list.html?classid=${arts.id}">${arts.classname}</a>
+                        <%}else{%>
+                            <span>|</span>
+                             <a  target="_blank"  href="/web/help/list.html?classid=${arts.id}">${arts.classname}</a>
+                        <%}%>
+                        
+                        <%}%>     
+                              
+                <%}%>
+                
+                <%}%>
+        <%}%>   
+        </p>
+        <p class="l_xkz" >
+            <span>Copyright © 2016 - 2017  中绿生活 版权所有  |  客服热线：010-65733221</span> 
+        </p>
+    </div>
+        <!--l_gywm 关于我们结束 -->
+    </div>
+    <!--footcon  stop -->
+</div>

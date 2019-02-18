@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.CommodityrecordsMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Commodityrecords" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="RelationId" property="relationid" jdbcType="VARCHAR" />
+    <result column="SpuId" property="spuid" jdbcType="INTEGER" />
+    <result column="ShopId" property="shopid" jdbcType="INTEGER" />
+    <result column="ShopName" property="shopname" jdbcType="VARCHAR" />
+    <result column="SkuName" property="skuname" jdbcType="VARCHAR" />
+    <result column="SkuId" property="skuid" jdbcType="INTEGER" />
+    <result column="SpuName" property="spuname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    Id, RelationId, SpuId, ShopId, ShopName, SkuName, SkuId, SpuName
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.CommodityrecordsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from commodityrecords
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from commodityrecords
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from commodityrecords
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.CommodityrecordsExample" >
+    delete from commodityrecords
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Commodityrecords" >
+    insert into commodityrecords (Id, RelationId, SpuId, 
+      ShopId, ShopName, SkuName, 
+      SkuId, SpuName)
+    values (#{id,jdbcType=INTEGER}, #{relationid,jdbcType=VARCHAR}, #{spuid,jdbcType=INTEGER}, 
+      #{shopid,jdbcType=INTEGER}, #{shopname,jdbcType=VARCHAR}, #{skuname,jdbcType=VARCHAR}, 
+      #{skuid,jdbcType=INTEGER}, #{spuname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Commodityrecords" >
+    insert into commodityrecords
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="relationid != null" >
+        RelationId,
+      </if>
+      <if test="spuid != null" >
+        SpuId,
+      </if>
+      <if test="shopid != null" >
+        ShopId,
+      </if>
+      <if test="shopname != null" >
+        ShopName,
+      </if>
+      <if test="skuname != null" >
+        SkuName,
+      </if>
+      <if test="skuid != null" >
+        SkuId,
+      </if>
+      <if test="spuname != null" >
+        SpuName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="relationid != null" >
+        #{relationid,jdbcType=VARCHAR},
+      </if>
+      <if test="spuid != null" >
+        #{spuid,jdbcType=INTEGER},
+      </if>
+      <if test="shopid != null" >
+        #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="shopname != null" >
+        #{shopname,jdbcType=VARCHAR},
+      </if>
+      <if test="skuname != null" >
+        #{skuname,jdbcType=VARCHAR},
+      </if>
+      <if test="skuid != null" >
+        #{skuid,jdbcType=INTEGER},
+      </if>
+      <if test="spuname != null" >
+        #{spuname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.CommodityrecordsExample" resultType="java.lang.Integer" >
+    select count(*) from commodityrecords
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update commodityrecords
+    <set >
+      <if test="record.id != null" >
+        Id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.relationid != null" >
+        RelationId = #{record.relationid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.spuid != null" >
+        SpuId = #{record.spuid,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopid != null" >
+        ShopId = #{record.shopid,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopname != null" >
+        ShopName = #{record.shopname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.skuname != null" >
+        SkuName = #{record.skuname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.skuid != null" >
+        SkuId = #{record.skuid,jdbcType=INTEGER},
+      </if>
+      <if test="record.spuname != null" >
+        SpuName = #{record.spuname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update commodityrecords
+    set Id = #{record.id,jdbcType=INTEGER},
+      RelationId = #{record.relationid,jdbcType=VARCHAR},
+      SpuId = #{record.spuid,jdbcType=INTEGER},
+      ShopId = #{record.shopid,jdbcType=INTEGER},
+      ShopName = #{record.shopname,jdbcType=VARCHAR},
+      SkuName = #{record.skuname,jdbcType=VARCHAR},
+      SkuId = #{record.skuid,jdbcType=INTEGER},
+      SpuName = #{record.spuname,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Commodityrecords" >
+    update commodityrecords
+    <set >
+      <if test="relationid != null" >
+        RelationId = #{relationid,jdbcType=VARCHAR},
+      </if>
+      <if test="spuid != null" >
+        SpuId = #{spuid,jdbcType=INTEGER},
+      </if>
+      <if test="shopid != null" >
+        ShopId = #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="shopname != null" >
+        ShopName = #{shopname,jdbcType=VARCHAR},
+      </if>
+      <if test="skuname != null" >
+        SkuName = #{skuname,jdbcType=VARCHAR},
+      </if>
+      <if test="skuid != null" >
+        SkuId = #{skuid,jdbcType=INTEGER},
+      </if>
+      <if test="spuname != null" >
+        SpuName = #{spuname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Commodityrecords" >
+    update commodityrecords
+    set RelationId = #{relationid,jdbcType=VARCHAR},
+      SpuId = #{spuid,jdbcType=INTEGER},
+      ShopId = #{shopid,jdbcType=INTEGER},
+      ShopName = #{shopname,jdbcType=VARCHAR},
+      SkuName = #{skuname,jdbcType=VARCHAR},
+      SkuId = #{skuid,jdbcType=INTEGER},
+      SpuName = #{spuname,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

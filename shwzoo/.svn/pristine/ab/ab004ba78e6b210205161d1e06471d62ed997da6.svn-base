@@ -1,0 +1,97 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* 导航部分 begin*/
+#menu{background:#7b8996; width:300px;margin:0 auto; color:#fff; overflow:hidden; font-size:18px; position:relative;}
+ #menu1, #menu2, #menu3 ,#menu4, #menu5, #menu6, #menu7, #menu8, #menu9, #menu10, #menu11{ height:50px; line-height:50px;color:#fff; width:300px; border-left:5px solid #7b8996;font-size:18px;}
+ #menu1:hover, #menu2:hover, #menu3:hover, #menu4:hover, #menu5:hover, #menu6:hover, #menu7:hover, #menu8:hover, #menu9:hover, #menu10:hover, #menu11:hover{ background:#4F6070;width:300px; border-left:5px solid #01B7FF;}
+ .cursor{cursor:pointer;}
+ .submenu{display: none;background:#7b8996; }
+ .menutbg_1{ width:182px; height:25px; line-height:25px; color:#4B6486;}
+ .menutbg_2{width:182px; height:25px; line-height:25px; color:#4B6486;}
+.mbox{background:#73C2FF;height:auto;}
+.mt1{font-size:16px;height:38px;line-height:38px;text-indent:10px;font-weight:normal;cursor:pointer; padding-left:65px; color:#ACB5BA; background:#99A4B0; border-bottom:1px solid #7b8996;}
+.mt1:hover{ background:#4F6070;}
+ .TxtList{background:#7b8996; }
+ .mt3{height:28px; line-height:28px; text-indent:33px; color:#333; font-size:16px; padding-left:65px;background:#AAB3BD; border-bottom:1px solid #99A4B0;}
+ .mt3:hover{ background:#01B7FF;}
+ 
+.up-arrows{ background:url(../images/more2.png) no-repeat; width:15px; height:15px; position:absolute; top:17px; right:100px;}
+
+
+.list1, .list2, .list3, .list4, .list5, .list6, .list7, .list8, .list9, .list10, .list11, .list12{ background:url(../images/icion.png) no-repeat; width:25px; height:25px; display:inline-block; margin:10px 8px auto 35px; float:left;}
+.list1{ background-position:0px 0px;}
+.list2{ background-position:-40px 0px;}
+.list3{ background-position:-80px 0px;}
+.list4{ background-position:-125px 0px;}
+.list5{ background-position:-165px 0px;}
+.list6{ background-position:-205px 0px;}
+.list7{ background-position:-250px 0px;}
+.list8{ background-position:-290px 0px;}
+.list9{ background-position:-334px 0px;}
+.list10{ background-position:-380px 0px;}
+.list11{ background-position:-420px 0px;}
+.list12{ background-position:0px -32px;}
+/* 导航部分 stop */
+
+
+
+#nav{ width:300px; overflow:hidden; overflow-y:auto; font-size:18px; position:absolute; top:105px; left:0px; z-index:4;
+
+}
+#nav ul li{ width:300px; background:#7B8996; color:#fff; line-height:50px; font-size:18px; position:relative;}
+#nav ul li:hover{ background:#4F6070;}
+ul,li{
+list-style:none;
+font-size:12px;
+line-height:20px;
+width:300px;
+margin:0;
+
+}
+.child {
+display:none;
+}
+#nav ul li .child li{
+	line-height:40px;
+ 	background:#99A4B0;
+	
+	 
+}
+#nav ul li .child li:hover{
+	 background:#5E7284;
+	 font-weight:400;
+}
+#nav ul li .child li a{
+	margin-left:65px;
+}
+#nav ul li .child li .child li{
+	line-height:40px;
+ 
+}
+#nav ul li .child li .child li:hover{
+	
+ background:#6B8296;
+}
+#nav ul li .child li .child li a{
+	margin-left:80px;
+}
+#nav ul li .child li .child li .child li{
+	line-height:40px;
+   
+}
+#nav ul li .child li .child li .child li:hover{
+    background:#01B7FF;
+}
+#nav ul li .child li .child li .child li a{
+	margin-left:95px;
+}
+#nav a{
+display:block;
+color:#fff;
+}
+
+
+.test{ padding-left:95px; cursor:pointer;}
+.index{height:50px; line-height:50px;color:#fff; width:300px; cursor:pointer;}
+.three-level{ padding-left:80px;cursor:pointer;}

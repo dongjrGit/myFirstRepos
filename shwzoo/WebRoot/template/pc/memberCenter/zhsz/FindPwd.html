@@ -1,0 +1,292 @@
+﻿<html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>找回密码</title>
+<link href="/resource/artDialog/skins/default.css" rel="stylesheet" />
+<link type="text/css" rel="stylesheet" href="/resource/pc/web/css/style01.css" />
+<link type="text/css" rel="stylesheet" href="/resource/ui-dialog.css" />
+ <link href="/resource/pc/member/css/pager2.css" rel="stylesheet" />
+    
+<link href="/resource/public/commoncss/jQuery.Validate.css" rel="stylesheet" />
+ <script src="/resource/pc/member/js/Concern/syconcernlist.js"></script>
+<script src="/resource/pc/web/js/browsehistory/browsehistory.js"></script>
+<script src="/resource/pc/web/js/index.js"></script>
+<script src="/resource/pc/member/js/pager2.js"></script>
+<script src="/resource/pc/member/js/showdate.js"></script>
+ <script src="/resource/artTemplate.js"></script>
+ <script src="/resource/dialog-plus.js"></script>
+ <script src="/resource/dialogShow.js"></script>
+<script src="/resource/jQueryRotate.2.2.js"></script>
+ <script src="/resource/Guid.js"></script>
+<script src="/resource/GetQueryString.js"></script>
+<script src="/resource/My97DatePicker/WdatePicker.js"></script>
+
+<script type="text/javascript" src="/resource/public/commonjs/Birthday-picker.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/style.js"></script>
+
+<script src="/resource/public/commonjs/jquery.validate.js"></script>
+<script src="/resource/public/commonjs/messages_cn.js"></script>
+<script src="/resource/public/commonjs/jquery.validate-methods.js"></script>
+<script src="/resource/pc/commonjs/style.js"></script>
+
+<script src="/resource/public/commonjs/public-user.js"></script>
+<script src="/resource/pc/member/js/zhsz/findpwd.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //初始化
+        Init.bind();
+    });
+</script>
+</head>
+<body>
+<div id="main" class="fix">
+   
+    <style>
+        .l_xgmmtop {
+            width: 697px;
+        }
+
+            .l_xgmmtop ul li {
+                width: 25%;
+            }
+    </style>
+    <div class="rightside">
+        <div class="zhaq fix">
+            <div class="wddd-title">找回登录密码</div>
+            <div class="xgmm-con">
+
+                <%switch (setup)
+                {
+                    case 1:%>
+                        <div class="l_xgmmtop fix">
+                            <ul>
+                                <li class="active">填写账号名<span>1</span></li>
+                                <li>验证身份<span>2</span></li>
+                                <li>设置新密码<span>3</span></li>
+                                <li>完成<span>4</span></li>
+                            </ul>
+                        </div>
+                        <div class="xgmm-maincon">
+                            <form id="checkAccount">
+                                <table>
+                                    <tr>
+                                        <td class="xgmm-tableft">账户名：</td>
+                                        <td>
+                                            <input name="text_account" id="text_account" type="text" class="inp-big" placeholder="请输入您的用户名/已验证邮箱或手机">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="xgmm-tableft">验证码：</td>
+                                        <td>
+                                            <input name="text_imgcode" id="text_imgcode" type="text" class="inp-big">
+                                            <img src="/VerifyCodeServlet" class="refleshverification_img" width="126" height="34" alt="验证码" />
+                                            看不清？ <span class="lvse"><a href="javascript:void(0)" class="refleshverification">换一张</a></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td id="td_error"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="xgmm-tableft">&nbsp;</td>
+                                        <td>
+                                            <a href="javascript:void(0);" id="accsubmit" class="l_tjfxthh">提交</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+
+                        </div>
+                      <%  break;
+                    case 2:%>
+                    <div class="l_xgmmtop fix">
+                        <ul>
+                            <li class="active">填写账号名<span>1</span></li>
+                            <li class="active">验证身份<span>2</span></li>
+                            <li>设置新密码<span>3</span></li>
+                            <li>完成<span>4</span></li>
+                        </ul>
+                    </div>
+                    <div class="xgmm-maincon">
+                        <input type="hidden" value="${emails}" id="cType" />
+                        <input type="hidden" value="${phone}" id="strAccount">
+                        <form id="checkForm">
+                            <table>
+                                <tr>
+                                    <td class="xgmm-tableft">请选择验证方式：</td>
+                                    <td>
+                                        <select id="select_check">
+                                            <%if (type == 1)
+                                            {%>
+                                                <option value="1" selected>手机验证</option>
+                                          <%  }
+                                            else
+                                            {
+                                                if (type == 2)
+                                                {%>
+                                                    <option value="2" selected>邮箱验证</option>
+                                              <%  }
+                                                else
+                                                {%>
+                                                    <option value="1" selected>手机验证</option>
+                                                    <option value="2">邮箱验证</option>
+                                               <% }
+                                            }%>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <%if (type == 1)
+                                {%>
+                                    <tr>
+                                        <td class="xgmm-tableft">已验证手机：</td>
+                                        <td>${phone}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="xgmm-tableft">请填写手机效验码：</td>
+                                        <td>
+                                            <input name="text_mobilecode" id="text_mobilecode" type="text" class="inp-big" disabled>
+                                            <input type="hidden" value="" id="hidden_mobilecodetoken" name="hidden_mobilecodetoken" />
+                                            <a href="javascript:void(0)" class="mobilecode g_hqyzm fl" style="color: rgb(0, 0, 0);">
+                                                <span class="zc_hqdzyzm"><b style="display: none;">60</b><font>获取验证码</font></span>
+                                                <input type="hidden" value="" id="hidden_mobile" name="hidden_mobile" />
+                                            </a>
+                                        </td>
+                                    </tr>
+                              <%  }
+                                else
+                                {
+                                    if (type == 2)
+                                    {%>
+                                        <tr>
+                                            <td class="xgmm-tableft">已验证邮箱：</td>
+                                            <td>${emails}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="xgmm-tableft">请填写邮箱效验码：</td>
+                                            <td>
+                                                <input name="text_emailcode" id="text_emailcode" type="text" class="inp-big">
+                                                <a href="javascript:void(0)" class="emailcode g_hqyzm fl" style="color: rgb(0, 0, 0);">
+                                                    <span class="zc_hqdzyzm"><b style="display: none;">60</b><font>获取验证码</font></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                   <% }
+                                    else
+                                    {%>
+                                        <tr id="mtitle">
+                                            <td class="xgmm-tableft">已验证手机：</td>
+                                            <td>${phone}</td>
+                                        </tr>
+
+                                        <tr id="mcheck">
+                                            <td class="xgmm-tableft">请填写手机效验码：</td>
+                                            <td>
+                                                <input name="text_mobilecode" id="text_mobilecode" type="text" class="inp-big" disabled>
+                                                <input type="hidden" value="" id="hidden_mobilecodetoken" name="hidden_mobilecodetoken" />
+                                                <a href="javascript:void(0)" class="mobilecode g_hqyzm fl" style="color: rgb(0, 0, 0);">
+                                                    <span class="zc_hqdzyzm"><b style="display: none;">60</b><font>获取验证码</font></span>
+                                                    <input type="hidden" value="" id="hidden_mobile" name="hidden_mobile" />
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr id="etitle" style="display:none">
+                                            <td class="xgmm-tableft">已验证邮箱：</td>
+                                            <td>${emails}</td>
+                                        </tr>
+                                        <tr id="echeck" style="display:none">
+                                            <td class="xgmm-tableft">请填写邮箱效验码：</td>
+                                            <td>
+                                                <input name="text_emailcode" id="text_emailcode" type="text" class="inp-big">
+                                                <input type="hidden" value="" id="hidden_emailcodetoken" name="hidden_emailcodetoken" />
+                                                <a href="javascript:void(0)" class="emailcode g_hqyzm fl" style="color: rgb(0, 0, 0);">
+                                                    <span class="zc_hqdzyzm"><b style="display: none;">60</b><font>获取验证码</font></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                   <%  }
+
+                                }%>
+                                <tr>
+                                    <td></td>
+                                    <td id="td_error"></td>
+                                </tr>
+                                <tr>
+                                    <td class="xgmm-tableft">&nbsp;</td>
+                                    <td style="height:80px;">
+                                        <a href="javascript:void(0);" id="checksubmit" class="l_tjfxthh">提交</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+
+                    </div>
+                                <% break;
+                    case 3:%>
+                    <div class="l_xgmmtop fix">
+                        <ul>
+                            <li class="active">填写账号名<span>1</span></li>
+                            <li class="active">验证身份<span>2</span></li>
+                            <li class="active">设置新密码<span>3</span></li>
+                            <li>完成<span>4</span></li>
+                        </ul>
+                    </div>
+                    <div class="xgmm-maincon">
+                        <form id="setnewpwdForm">
+                            <table>
+                                <tr>
+                                    <td class="xgmm-tableft">新密码：</td>
+                                    <td><input id="password_newpwd" name="password_newpwd" type="password" class="inp-big"></td>
+                                </tr>
+                                <tr>
+                                    <td class="xgmm-tableft">确认新密码：</td>
+                                    <td><input id="password_pwdagain" name="password_pwdagain" type="password" class="inp-big"></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td id="td_error"></td>
+                                </tr>
+                                <tr>
+                                    <td class="xgmm-tableft">&nbsp;</td>
+                                    <td>
+                                        <a href="javascript:void(0);" id="a_setnewpwdsubmit" class="l_tjfxthh">提交</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                             <%   break;
+                    case 4:%>
+                    <div class="l_xgmmtop fix">
+                        <ul>
+                            <li class="active">填写账号名<span>1</span></li>
+                            <li class="active">验证身份<span>2</span></li>
+                            <li class="active">设置新密码<span>3</span></li>
+                            <li class="active">完成<span>4</span></li>
+                        </ul>
+                    </div>
+                    <div class="xgmm-maincon-complete">
+                        <img src="/resource/pc/member/images/duigou.png" width="43" height="30">
+                        密码找回成功。请记住新密码！
+                        <span class="fon14">
+                            <b id="backsecond" style="display: none;">10</b>
+                            <font>返回<a class="lvse" href="/member/user/showlogin">登录</a>页</font>
+                        </span>
+
+                    </div>
+                              <%  break;
+                    default:
+                                break;
+                }%>
+
+                <!--xgmm-maincon -->
+            </div><!--xgmm-con  stop -->
+        </div><!--xgmm   stop -->
+    <% include("/template/pc/memberCenter/Common_M/M_SafeQuestion.html",{}){}%>
+    </div>
+    <!--rightside 右边内容  结束 -->
+    <div class="clear"></div>
+</div>
+</body>
+<!--main  主要内容  结束 -->
+</html>

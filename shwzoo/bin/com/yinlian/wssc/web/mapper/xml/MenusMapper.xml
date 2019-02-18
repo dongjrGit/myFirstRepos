@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.MenusMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Menus">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="Name" property="name" jdbcType="VARCHAR" />
+		<result column="MenuType" property="menutype" jdbcType="INTEGER" />
+		<result column="MenuUrl" property="menuurl" jdbcType="VARCHAR" />
+		<result column="Level" property="level" jdbcType="INTEGER" />
+		<result column="FatherID" property="fatherid" jdbcType="INTEGER" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="IsDel" property="isdel" jdbcType="BIT" />
+		<result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="DelTime" property="deltime" jdbcType="TIMESTAMP" />
+		<result column="DelUser" property="deluser" jdbcType="INTEGER" />
+		<result column="FullPath" property="fullpath" jdbcType="VARCHAR" />
+		<result column="Type" property="type" jdbcType="INTEGER" />
+		<result column="HasChild" property="haschild" jdbcType="BIT" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, Name, MenuType, MenuUrl, Level, FatherID, Status,
+		IsDel, CreateTime,
+		DelTime,
+		DelUser, FullPath, Type, HasChild
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.MenusExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from menus
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from menus
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from menus
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.MenusExample">
+		delete from menus
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.Menus">
+		insert into menus (ID, Name,
+		MenuType,
+		MenuUrl, Level, FatherID,
+		Status, IsDel, CreateTime,
+		DelTime,
+		DelUser, FullPath,
+		Type, HasChild)
+		values (#{id,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR},
+		#{menutype,jdbcType=INTEGER},
+		#{menuurl,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER},
+		#{fatherid,jdbcType=INTEGER},
+		#{status,jdbcType=INTEGER},
+		#{isdel,jdbcType=BIT},
+		#{createtime,jdbcType=TIMESTAMP},
+		#{deltime,jdbcType=TIMESTAMP}, #{deluser,jdbcType=INTEGER},
+		#{fullpath,jdbcType=VARCHAR},
+		#{type,jdbcType=INTEGER},
+		#{haschild,jdbcType=BIT})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Menus">
+		insert into menus
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="name != null">
+				Name,
+			</if>
+			<if test="menutype != null">
+				MenuType,
+			</if>
+			<if test="menuurl != null">
+				MenuUrl,
+			</if>
+			<if test="level != null">
+				Level,
+			</if>
+			<if test="fatherid != null">
+				FatherID,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+			<if test="isdel != null">
+				IsDel,
+			</if>
+			<if test="createtime != null">
+				CreateTime,
+			</if>
+			<if test="deltime != null">
+				DelTime,
+			</if>
+			<if test="deluser != null">
+				DelUser,
+			</if>
+			<if test="fullpath != null">
+				FullPath,
+			</if>
+			<if test="type != null">
+				Type,
+			</if>
+			<if test="haschild != null">
+				HasChild,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="menutype != null">
+				#{menutype,jdbcType=INTEGER},
+			</if>
+			<if test="menuurl != null">
+				#{menuurl,jdbcType=VARCHAR},
+			</if>
+			<if test="level != null">
+				#{level,jdbcType=INTEGER},
+			</if>
+			<if test="fatherid != null">
+				#{fatherid,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=BIT},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deltime != null">
+				#{deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deluser != null">
+				#{deluser,jdbcType=INTEGER},
+			</if>
+			<if test="fullpath != null">
+				#{fullpath,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="haschild != null">
+				#{haschild,jdbcType=BIT},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.MenusExample"
+		resultType="java.lang.Integer">
+		select count(*) from menus
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update menus
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.name != null">
+				Name = #{record.name,jdbcType=VARCHAR},
+			</if>
+			<if test="record.menutype != null">
+				MenuType = #{record.menutype,jdbcType=INTEGER},
+			</if>
+			<if test="record.menuurl != null">
+				MenuUrl = #{record.menuurl,jdbcType=VARCHAR},
+			</if>
+			<if test="record.level != null">
+				Level = #{record.level,jdbcType=INTEGER},
+			</if>
+			<if test="record.fatherid != null">
+				FatherID = #{record.fatherid,jdbcType=INTEGER},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.isdel != null">
+				IsDel = #{record.isdel,jdbcType=BIT},
+			</if>
+			<if test="record.createtime != null">
+				CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.deltime != null">
+				DelTime = #{record.deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.deluser != null">
+				DelUser = #{record.deluser,jdbcType=INTEGER},
+			</if>
+			<if test="record.fullpath != null">
+				FullPath = #{record.fullpath,jdbcType=VARCHAR},
+			</if>
+			<if test="record.type != null">
+				Type = #{record.type,jdbcType=INTEGER},
+			</if>
+			<if test="record.haschild != null">
+				HasChild = #{record.haschild,jdbcType=BIT},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update menus
+		set ID = #{record.id,jdbcType=INTEGER},
+		Name =
+		#{record.name,jdbcType=VARCHAR},
+		MenuType =
+		#{record.menutype,jdbcType=INTEGER},
+		MenuUrl =
+		#{record.menuurl,jdbcType=VARCHAR},
+		Level =
+		#{record.level,jdbcType=INTEGER},
+		FatherID =
+		#{record.fatherid,jdbcType=INTEGER},
+		Status =
+		#{record.status,jdbcType=INTEGER},
+		IsDel =
+		#{record.isdel,jdbcType=BIT},
+		CreateTime =
+		#{record.createtime,jdbcType=TIMESTAMP},
+		DelTime =
+		#{record.deltime,jdbcType=TIMESTAMP},
+		DelUser =
+		#{record.deluser,jdbcType=INTEGER},
+		FullPath =
+		#{record.fullpath,jdbcType=VARCHAR},
+		Type =
+		#{record.type,jdbcType=INTEGER},
+		HasChild =
+		#{record.haschild,jdbcType=BIT}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Menus">
+		update menus
+		<set>
+			<if test="name != null">
+				Name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="menutype != null">
+				MenuType = #{menutype,jdbcType=INTEGER},
+			</if>
+			<if test="menuurl != null">
+				MenuUrl = #{menuurl,jdbcType=VARCHAR},
+			</if>
+			<if test="level != null">
+				Level = #{level,jdbcType=INTEGER},
+			</if>
+			<if test="fatherid != null">
+				FatherID = #{fatherid,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="isdel != null">
+				IsDel = #{isdel,jdbcType=BIT},
+			</if>
+			<if test="createtime != null">
+				CreateTime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deltime != null">
+				DelTime = #{deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deluser != null">
+				DelUser = #{deluser,jdbcType=INTEGER},
+			</if>
+			<if test="fullpath != null">
+				FullPath = #{fullpath,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				Type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="haschild != null">
+				HasChild = #{haschild,jdbcType=BIT},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Menus">
+		update menus
+		set
+		Name = #{name,jdbcType=VARCHAR},
+		MenuType =
+		#{menutype,jdbcType=INTEGER},
+		MenuUrl = #{menuurl,jdbcType=VARCHAR},
+		Level = #{level,jdbcType=INTEGER},
+		FatherID =
+		#{fatherid,jdbcType=INTEGER},
+		Status = #{status,jdbcType=INTEGER},
+		IsDel = #{isdel,jdbcType=BIT},
+		CreateTime =
+		#{createtime,jdbcType=TIMESTAMP},
+		DelTime =
+		#{deltime,jdbcType=TIMESTAMP},
+		DelUser = #{deluser,jdbcType=INTEGER},
+		FullPath = #{fullpath,jdbcType=VARCHAR},
+		Type =
+		#{type,jdbcType=INTEGER},
+		HasChild = #{haschild,jdbcType=BIT}
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 查询所有平台的一级菜单 -->
+	<select id="selectAllPlatformMenus" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from menus where FatherID = #{fatherid} and MenuType =0 and Type = 0
+		and IsDel=0
+	</select>
+	
+	<!-- 查询所有卖家的一级菜单 -->
+	<select id="selectAllSellerMenus" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from menus where FatherID = #{fatherid} and MenuType =1 and Type = 0
+		and IsDel=0
+	</select>
+	
+	
+	<!-- 修改全路径 -->
+	<update id="updateFullPath" parameterType="com.yinlian.wssc.web.po.Menus">
+		update menus
+		set
+		FullPath = #{fullpath,jdbcType=VARCHAR}
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</update>
+	<!-- 修改状态 -->
+	<update id="updateStatus" parameterType="com.yinlian.wssc.web.po.Menus">
+		update menus
+		Status =
+		#{status,jdbcType=INTEGER}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<insert id="insertMenu" parameterType="com.yinlian.wssc.web.po.Menus">
+		<selectKey resultType="int" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into menus (ID, Name, MenuType,
+		MenuUrl, Level, FatherID,
+		Status, IsDel, CreateTime,
+		DelTime, DelUser, FullPath,
+		Type, HasChild)
+		values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+		#{menutype,jdbcType=INTEGER},
+		#{menuurl,jdbcType=VARCHAR},
+		#{level,jdbcType=INTEGER}, #{fatherid,jdbcType=INTEGER},
+		#{status,jdbcType=INTEGER}, #{isdel,jdbcType=BIT},
+		#{createtime,jdbcType=TIMESTAMP},
+		#{deltime,jdbcType=TIMESTAMP},
+		#{deluser,jdbcType=INTEGER}, #{fullpath,jdbcType=VARCHAR},
+		#{type,jdbcType=INTEGER}, #{haschild,jdbcType=BIT})
+	</insert>
+
+	<select id="selectMenuByPage" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		select 
+		<include refid="Base_Column_List" />
+		 from menus where isdel=0 
+		<if test="criteria != null ">
+				<if test="criteria.name != null and criteria.name != '' ">
+					and Name like '%${criteria.name}%'
+				</if>
+				<if test="criteria.menutype != null and criteria.menutype != '' ">
+					and MenuType=#{criteria.menutype}
+				</if>
+				<if test="criteria.type != null and criteria.type != '' ">
+					and Type=#{criteria.type}
+				</if>
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+	<!-- 根据全路径查询菜单列表 -->
+	<select id="selectByFullpath" resultMap="BaseResultMap"
+		parameterType="String">
+		select
+		<include refid="Base_Column_List" />
+		from menus
+		<if test='_parameter!=""'>
+			where FullPath like '${_parameter}%'
+		</if>
+	</select>
+
+	<update id="updateMenuList" parameterType="java.util.List">
+		<if test="list != null">
+			<foreach collection="list" item="menus" index="index" open=""
+				close="" separator=";">
+				update menus
+				set
+				Level =
+				#{menus.level,jdbcType=INTEGER},
+				FullPath =
+				#{menus.fullpath,jdbcType=VARCHAR}
+				where ID = #{menus.id}
+			</foreach>
+		</if>
+	</update>
+
+	<select id="getListByFatherid" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select 
+		<include refid="Base_Column_List" />
+        from menus
+		where FatherID=#{0} and Status=0 and IsDel=0
+
+	</select>
+	
+	
+	<select id="selectByRigth" parameterType="java.util.List" resultMap="BaseResultMap">
+	   select
+		<include refid="Base_Column_List" />
+		from menus where id in
+	  <if test="list != null">
+			<foreach collection="list" item="id" index="index" open="("
+				close=")" separator=",">
+				#{id}
+			</foreach>
+		</if>
+	</select>
+	
+	<update id="deletemenu" parameterType="com.yinlian.wssc.web.po.Menus">
+		update menus
+		set IsDel=#{isdel},
+		DelTime=SYSDATE(),
+		DelUser=#{deluser}
+		where ID = #{id}
+	</update>
+</mapper>

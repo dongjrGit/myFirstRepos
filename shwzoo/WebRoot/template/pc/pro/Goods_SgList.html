@@ -1,0 +1,221 @@
+<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<script src="/resource/artTemplate.js"></script>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link type="text/css" href="/resource/pc/member/css/pager2.css" rel="stylesheet" />
+<script type="text/javascript" src="/resource/pc/member/js/pager2.js"></script>
+<script src="/resource/pc/web/js/spgl/productSg.js"></script>
+<script src="/resource/artTemplate.js"></script>
+<script src="/resource/pc/web/js/login/login.js"></script>
+<script type="text/javascript" src="/resource/pc/web/js/unslider.js"></script>
+<style type="text/css">
+.picScroll-left{ overflow:auto; position:relative;overflow:auto;  height:auto;padding:0;margin-top: 25px;}
+.picScroll-left .bd ul{ overflow:auto; zoom:1; }
+.picScroll-left .bd ul li{ margin:0 10px 0 0; float:left; _display:inline; overflow:hidden; text-align:center;position: relative;width:310px; height:340px;}
+.picScroll-left .bd ul li img{ width:310px; height:250px; display:block; }
+.picScroll-left .bd{width: 100%;margin-left: 0;}
+ .banner { width: 100%; height: 360px;}
+ .banner img { width: 100%; height: 360px;}
+/*  #container {  z-index: 4;background-color: white;} */
+/*  .bgimges{
+  background-image: url("/resource/pc/member/images/tp_17.png");
+  background-color: fffaf5;
+  } */
+  .p-name{
+      padding-top: 10px;
+  }
+</style>
+<script>
+    $(document).ready(function () {
+        list.bind();
+      
+    })
+ 	function add(){
+    	 // jQuery(".picScroll-left").slide({mainCell:".bd ul",autoPage:true,effect:"left",autoPlay:false,vis:30,trigger:"click"});
+    };
+</script>
+</head>
+
+<title>闪购</title>
+<div class="banner fix">
+			<!--banList 幻灯图图片 begin -->
+			<ul class="banList">
+				<%var adcon=1; if(isNotEmpty(ad1list)){%> <% for(ad in ad1list){
+				if(adcon==1){ %>
+				<li class="active">
+					<a href="${ad.url!'javascript:void(0)'}"
+					target="_blank"><img src="${ad.img}" /></a>
+				</li>
+				<%}else{%>
+				<li>
+					<a href="${ad.url!'javascript:void(0)'}" target="_blank"><img
+					src="${ad.img}" /></a>
+				</li> <%
+				}adcon++;}}%>
+			</ul>
+			<!--banList 幻灯图图片 stop -->
+			<!-- fomW 点击的小圆点  begin-->
+			<div class="fomW">
+				<div class="jsNav">
+					<%var adpcon=1; if(isNotEmpty(ad1list)){%> 
+						<% for(ad in ad1list){
+							if(adpcon==1){ %> <a href="javascript:void(0);" class="trigger current"></a> 
+							<%}else{%> <a href="javascript:void(0);" class="trigger"></a>
+						 	<%}adpcon++;}}%>
+				</div>
+			</div>
+			<!-- fomW 点击的小圆点  stop-->
+		</div>
+<div class="bgimges fix"   style="width: 100%;background-color:#fffaf5; z-index: 0;"><!-- -->
+<div id="container" class="fix">
+<div class="fix">
+<div class="fix" id="productlist" style="width:80%;float:left ">
+<!--
+<a class="next"></a>
+		<a class="prev"></a>
+
+  -->
+ <script type="text/html" id="pro_list">
+{{each list as pro i}}
+
+<div class="xzzlwd-tit fix">	
+		<input type="hidden"   id="time{{i}}" onclick="gettime()" value="{{pro.time}}"/>
+
+		<span class="fon22 floatl">{{pro.name}}</span><span class="fon22 floatr" id="times{{i}}"></span>
+</div>
+ 
+<div class="picScroll-left" id="picScroll-left01" >
+		
+		<div class="bd">
+			<ul class="picList" id="zjjt_ul">
+						{{each pro.list as li  s}}
+						<li>
+                   		<div >
+						{{if li.count > 0}}<a href="/web/products/proinfo.html?spuid={{li.proid}}&protype=1&sgid={{li.proid}}">{{/if}}
+						<div style="position: relative;">
+							<img src="{{li.imgurl}}" width="215" height="205">
+						<div dataid="{{li.proid}}" style="position: absolute;width: 100%;background: rgba(0,0,0,.5);text-align: center;left: 0px;bottom: 0px;color: #fff;padding: 5px 0;" class="timespu" ></div>
+						{{if li.count <= 0}}
+						<div  style="position: absolute;width: 100%; top: 0px;left: 0px;bottom: 0px;background: rgba(0,0,0,.3);pointer-events: none;">
+							<span style="display: inline-block;height: 40px;line-height: 40px;border: 1px solid #fff;color: #fff;-webkit-border-radius: 40px;-moz-border-radius: 40px;border-radius: 40px;padding: 0 15px;min-width: 70px;font-size: 18px;margin-top: 104px;">抢光了</span>
+						
+						</div>
+						{{/if}}
+						</div>
+						{{if li.count > 0}}</a>{{/if}}
+                            <div class="l_xtbgz" id="addconcernt"><a href="javascript:void(0)" onclick="addConcernt('{{li.proid}}')"><span class="l_gzimg01"></span>关注</a></div><!--l_xtbgz  stop -->
+                         <div class="p-name"><a href="/web/products/proinfo.html?spuid={{li.proid}}&protype=1" style="    font-size: 15px;">
+<span style="float: left;" class="red">【闪购】</span>
+<span style="float: left;"  >{{li.name  | toHideLoongString}}</span></a></div><!--p-name  stop -->
+                        <div class="clear p-price">
+                           		 ￥<span class="fon20">{{li.price | toFixed}}</span>
+                           		 <span class="text-decthrough huise">￥{{li.oldprice | toFixed}}</span>
+                        </div>
+						</div>
+                       </li>
+						{{/each}}
+                	
+			</ul>
+		</div>
+</div>
+  {{/each}}
+ </script>
+ </div>
+ <div style="width:17%;float:right;padding-top:80px">
+ 
+<% for(ad in adleftlist){  %>
+ <a href="${ad.url!'javascript:void(0)'}"
+					target="_blank"><img src="${ad.img}"  height="730px" width="190px"  /></a>
+<%} %>
+
+</div>
+</div>
+</div>
+</div>
+<div id="pager" class="pager"></div>
+<style>
+.pager {
+    text-align: center;
+}
+</style>
+<script>
+			$(function() {
+
+				//楼层浮动导航初始化
+				window.prettyPrint && prettyPrint();
+
+				//$('#box ul li').hover(function () {
+				//    $(this).find('.num').hide().siblings('.word').css({ 'display': 'block', 'background': '#CB1C39', 'color': 'white' });
+				//}, function () {
+				//    $(this).find('.num').css({ 'display': 'block', 'background': '#EFEFEF', 'color': '#666' }).siblings('.word').hide().css({ 'display': 'none', 'background': '', 'color': '' });
+				//})
+				var select = false;
+				//楼层浮动导航鼠标点击效果
+				$('#box ul li').click(function() {
+					if($(this).attr("id")!="totop"){
+					select = true;
+					$(this).find('.num').hide().siblings('.word').css('display', 'block');
+					$(this).siblings('li').find('.num').show().siblings('.word').hide();
+					}else{
+						select = true;
+					$(this).find('.num').show();
+					$(this).find('.word').hide();
+					$(this).siblings('li').find('.num').show().siblings('.word').hide();
+					window.location.href="#";
+					}
+				})
+				//楼层浮动导航鼠标浮动效果
+				$('#box ul li').hover(function() {
+					if ($(this).find('.num').attr("style") == "display: block;") {
+						select = false;
+						$(this).find('.num').hide().siblings('.word').css({
+							'display' : 'block'
+						});
+						$(this).find('.word').show();
+					} else {
+						select = true;
+					}
+				}, function() {
+					if (select == false) {
+						$(this).find('.num').css({
+							'display' : 'block'
+						}).siblings('.word').hide();
+					}
+				})
+			})
+		</script>
+		<script type="text/javascript">
+			$('.all-sort-list > .item').hover(function() {
+				var eq = $('.all-sort-list > .item').index(this),
+				//获取当前滑过是第几个元素
+				h = $('.all-sort-list').offset().top,
+				//获取当前下拉菜单距离窗口多少像素
+				s = $(window).scrollTop(),
+				//获取游览器滚动了多少高度
+				i = $(this).offset().top,
+				//当前元素滑过距离窗口多少像素
+				item = $(this).children('.item-list').height(),
+				//下拉菜单子类内容容器的高度
+				sort = $('.all-sort-list').height();
+				//父类分类列表容器的高度
+				$(this).addClass('hover');
+				$(this).children('.item-list').css('display', 'block');
+			}, function() {
+				$(this).removeClass('hover');
+				$(this).children('.item-list').css('display', 'none');
+			});
+			$('.item > .item-list > .close').click(function() {
+				$(this).parent().parent().removeClass('hover');
+				$(this).parent().hide();
+			});
+			$('.banner').unslider({
+				speed : 500, //  The speed to animate each slide (in milliseconds)
+				delay : 5000, //  The delay between slide animations (in milliseconds)
+				complete : function() {
+				}, //  A function that gets called after every slide animation
+				keys : true, //  Enable keyboard (left, right) arrow shortcuts
+				dots : true, //  Display dot navigation
+				fluid : false, //  Support responsive design. May break non-responsive designs
+				autoplay : true
+			});
+		</script>

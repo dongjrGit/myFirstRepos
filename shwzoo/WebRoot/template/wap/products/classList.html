@@ -1,0 +1,110 @@
+<%var path="/resource";%>
+<head>
+    <title>商品分类</title>
+    <script type="text/javascript" src="${path}/wap/js/index.js" ></script>
+    <script type="text/javascript">
+    function yc(){
+    	$("#index_foot").css("display","none");
+    }
+    
+    function xs(){
+    	$("#index_foot").css("display","inline");
+    }
+    </script>
+</head>
+<body>
+	<!--top begin-->
+	<div class="top fix">
+		<div class="top_scan">
+			<a href="#" style="display:none">
+				<span><img src="${path}/wap/images/top_scan.png"/></span>
+				<div class="top_color">扫一扫</div>
+			</a>
+		</div>
+		<div class="top_search">
+			<input type="text" name="" id="search" onclick="search()" value=""  placeholder="请输入关键字搜索" class="top_searchinput" />
+			<div class="top_searchico" ><img src="${path}/wap/images/top_search.png"/></div>
+		</div>
+		<div class="top_news" onclick="message();">
+			<a href="#">
+				<span><img src="${path}/wap/images/top_news.png"/></span>
+				<div class="top_color">消息</div>
+				<div class="top_news_num">
+					${messagecount}
+				</div>
+			</a>
+		</div>
+	</div>
+    <!--top  stop -->
+  <style>
+  .scfl{width:93.5%;margin:0 auto;}
+  </style>  
+    <!--l_tjflnr  begin -->
+    <div class="l_flcon fix">
+    	<div class="l_flcon_l fix">
+        	<ul id="fc_ul">
+        		<% var licon=0; for(cla in classList){ %>
+        		<% if(licon > 0){ %>
+        			<li value="${cla.id}"><a href="javascript:void(0)">${cla.name}</a></li>
+        		<% }else{ %>
+        			<li value="${cla.id}" class="active"><a href="javascript:void(0)">${cla.name}</a></li>
+        		<% }%>
+        			
+        		<%licon++;} %>
+            </ul>
+        </div><!--l_tjflnr_l  stop -->
+        <div class="l_flcon_r" id="div_all">
+        	<% var ind = 0; %>
+        	<% for(fc in classList){ %>
+        		<% if(ind > 0){ %>
+        			<div data="${fc.id}" class="scfl" name="div_sum"  style="display: none;">
+        		<% }else{ %>
+        			<div data="${fc.id}" class="scfl" name="div_sum" >
+        		<% }%>
+        		<% for(sc in fc.children){ %>
+		        	<div class="l_flconmk fix active">${sc.name}</div>
+		            <ul class="l_flconmk_ul fix">
+		            	<% for(tc in sc.children){ %>
+		            	<li>
+		            		<a href="/wap/products/proList.html?classID=${tc.id}">
+			                	<div class="l_flconmk_img">
+			                	<img src="${tc.imageUrl!'/resource/wap/images/noclasspic.jpg'}" class="img-responsive" alt="">
+			                	</div>
+			                    <div class="l_flconmk_title">${tc.name}</div>
+		                    </a>
+		                </li>
+		                <% } %>
+		            </ul>
+	            <% } %>
+	            <% ind++;%>
+            </div>
+            <% } %>
+        </div><!--l_tjflnr_r  stop -->
+    </div>
+    <!--l_tjflnr  stop -->
+    <% include("/template/wap/index_foot.html",{display:1}){} %>
+    <script>
+    borderRadius('.top_news_num');//消息提示框椭圆
+    fixed('.top');//头部固定
+    newArrival('.l_flconmk_img img');//分类图片大小一致
+    </script>
+<script type="text/javascript">
+	$("#fc_ul").find("li").on("click", function(){
+		var fcid = $(this).val();
+		$("#div_all").find("div[name='div_sum']").each(function(){
+			var $div = $(this);
+			if(fcid == $div.attr("data")){
+				$div.show();
+			}else{
+				$div.hide();
+			}
+		})
+	})
+	function search(){	
+		location.href='/wap/search.html';
+	}
+	function message(){
+		window.location.href="/wap/messages/queryMessages?ch=3";
+	}
+</script>
+</body>

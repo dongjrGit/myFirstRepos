@@ -1,0 +1,188 @@
+<%var path="/resource";%>
+<head>
+<title>发现</title>
+<link href="${path}/wap/css/iscroll.css" rel="stylesheet" />
+<script src="${path}/wap/js/index.js"></script>
+<script src="${path}/wap/js/Yeffect16_0118.min.js"></script>
+<script src="${path}/wap/js/iscroll.js"></script>
+<script src="${path}/wap/js/iscroll_list.js"></script>
+<script src="${path}/artTemplate.js"></script>
+<script src="${path}/wap/js/discover/discover.js"></script>
+<style>
+
+@media (min-width: 320px){
+	#wrapper{top: 140px;}
+	.l_fxhomesm ul li img{width:40px;height:40px;}
+}
+@media (min-width: 640px){
+	#wrapper{top: 160px;}
+	.l_fxhomesm ul li img{width:40px;height:40px;}
+}
+</style>
+</head>
+<body>
+<!--container  begin-->
+<div class="container fix">
+	<!--l_gztop  begin-->
+	<div class="l_gztop fix">
+    	<span class="l_grzx1"><img src="${path}/wap/images/sys.png" class="img-responsive" style="display:none"></span>
+    	发现
+        <span class="l_grzx2" onclick="javascript:location.href='/wap/messages/queryMessages?ch=3'"><img src="${path}/wap/images/sysrig.png" class="img-responsive"></span>
+    </div>
+    <!--l_gztop  stop-->
+    <!--l_fxhomesm  begin -->
+    <div class="l_fxhomesm fix">
+    	<ul id="sftype">
+    	<%if(isNotEmpty(finds)){
+    	for(list in finds){
+    	%>
+    	    <%if(list.type==1){%>
+    	     <a href="/wap/discover/dynamic.html?findid=${list.id}" atype="${list.type}" fid="${list.id}">
+            <li>
+            	<div><img src="${list.imgurl}" class="img-responsive"></div>
+                <p>${list.title}</p>
+            </li>
+            </a>
+    	    <%}else{%>
+    	    <%if(isEmpty(list.url)){%>
+    	    <a href="javascript:void(0)" atype="${list.type}" fid="${list.id}">
+    	    <%}else{%>
+    	    <a href="${list.url}" atype="${list.type}" fid="${list.id}">
+    	    <%}%>
+            <li>
+            	<div><img src="${list.imgurl}" class="img-responsive"></div>
+                <p>${list.title}</p>
+            </li>
+            </a>
+    	    <%}%>
+    	<%}}%>        	
+        </ul>
+    </div>
+        <div class="l_sppjnr fix">
+			<div id="wrapper">
+				<div id="scroller-content">
+					<div id="scroller-pullDown">
+						<span id="down-icon" class="icon-double-angle-down pull-down-icon"></span>
+						<span id="pullDown-msg" class="pull-down-msg"> </span>
+					</div>
+					
+					<%if(has(fsps)&&isNotEmpty(fsps)){%>
+					    <%if(dtype==2){%>
+					    <div class="sepdpdt-list fix">
+					    <ul id="list" class="fix sepdpdt">
+					    <%for(fp in fsps){%>											
+						<li class="fix">							
+							<div class="sepdpdt-name fix">
+								<img src="${fp.topicImg}" style="height: 76.2px;"/>
+								<div class="sepdpdt-name-r">
+									<p>${fp.topicName}</p>					
+								</div>
+							</div>	
+							<div class="sepdpdt-introduce fix"></div>		
+							<div class="sepdpdt-list fix">
+							<%if(isNotEmpty(fp.relatList)&&fp.relatList.~size>1){%>								
+								<ul class="sepdpdt-listul fix">								
+									<%for(sp in fp.relatList){%>
+									<li>
+										<a href="/wap/products/ProDetail.html?spuid=${sp.relationId}&href=/wap/discover/index.html">
+											<img src="${sp.relationImg}" class="sepdpdt-imgone" />											
+										</a>
+									</li>
+									<%}%>									
+					             </ul>
+					         <%}else{
+					         if(isNotEmpty(fp.relatList)){
+					         %>
+					         <a href="/wap/products/ProDetail.html?spuid=${sp.relationId}&href=/wap/discover/index.html">
+								<img src="${fp.relatList[0].relationImg}" class="sepdpdt-imgone" />											
+							 </a>
+					         <%}}%>
+							</div>
+							
+						</li>
+	                   </ul>
+	                   </div>
+						<%}}else{
+						if(dtype==3){
+						%>
+						<ul id="list" class="fix sepullist">
+						<%for(fp in fsps){%>											
+						<li class="fix">
+							<a href="#">							
+								${fp.title}							
+			                </a>
+						</li> 
+						<%}%>
+						</ul>
+						<%}}%>
+				    <%}%>
+					
+					<div id="scroller-pullUp">
+                        <span id="up-icon" class="icon-double-angle-up pull-up-icon"></span>
+                        <span id="pullUp-msg" class="pull-up-msg"> </span>
+                    </div>
+				</div>
+			</div>
+		<script type="text/html" id="topspulist">
+           {{each list as tops i}}
+            <li class="fix">							
+			<div class="sepdpdt-name fix">
+			 <img src="{{tops.topicImg}}" style="height: 76.2px;"/>
+				<div class="sepdpdt-name-r">
+					<p>{{tops.topicName}}</p>					
+				</div>
+			</div>	
+			<div class="sepdpdt-introduce fix"></div>		
+			<div class="sepdpdt-list fix">
+				{{if tops.relatList.length>1}}								
+				<ul class="sepdpdt-listul fix">								
+					{{each tops.relatList as sp j}}
+					<li>
+					  <a href="/wap/products/ProDetail.html?spuid={{sp.relationId}}&href=/wap/discover/index.html">
+						<img src="{{sp.relationImg}}" class="sepdpdt-imgone" />											
+					  </a>
+					</li>
+					{{/each}}									
+				</ul>
+				{{else}}
+				  {{each tops.relatList as sp k}}
+			      <a href="/wap/products/ProDetail.html?spuid={{sp.relationId}}&href=/wap/discover/index.html">
+				   <img src="{{sp.relationImg}}" class="sepdpdt-imgone" />											
+			      </a>
+                  {{/each}}
+			    {{/if}}
+			</div>
+							
+			</li>
+           {{/each}}
+         </script>
+         <script type="text/html" id="newslist">
+           {{each list as anews m}}
+            <li class="fix">
+               <a href="#">							
+				{{anews.title}}							
+			   </a>
+            </li>
+            {{/each}}
+         </script>
+		</div>
+   
+	<%
+    include("/template/wap/index_foot.html",{display:3}){}
+    %>
+    
+    
+</div>
+<!--container  stop -->
+<script>
+$(function(){
+	window.onload=function(){		
+		fixed("#footer");
+		Yeffect.resizeHtWstr(".sepdpdt-name:visible",".sepdpdt-name img",280,28);
+		Yeffect.resizeHtWstr(".sepdpdt-imgone:visible",".sepdpdt-imgone",280,220);
+		Yeffect.resizeHtWstr(".sepdpdt-listul li:visible",".sepdpdt-listul li img",280,280);
+	}
+	
+})
+</script>
+</body>

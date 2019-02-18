@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.BrandMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Brand">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="Name" property="name" jdbcType="VARCHAR" />
+		<result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="Img" property="img" jdbcType="VARCHAR" />
+		<result column="OfficialUrl" property="officialurl" jdbcType="VARCHAR" />
+		<result column="FlagShipID" property="flagshipid" jdbcType="INTEGER" />
+		<result column="IsDel" property="isdel" jdbcType="BIT" />
+		<result column="DelUserID" property="deluserid" jdbcType="INTEGER" />
+		<result column="DelTime" property="deltime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.yinlian.wssc.web.po.Brand"
+		extends="BaseResultMap">
+		<result column="Description" property="description" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, Name, CreateTime, Status, Img, OfficialUrl, FlagShipID
+	</sql>
+	<sql id="Blob_Column_List">
+		Description
+	</sql>
+	<select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+		parameterType="com.yinlian.wssc.web.po.BrandExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from brand
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.BrandExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from brand
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from brand
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from brand
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.BrandExample">
+		delete from brand
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.Brand">
+		insert into brand (ID, Name,
+		CreateTime,
+		Status, Img, OfficialUrl,
+		FlagShipID, Description,IsDel)
+		values
+		(#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+		#{createtime,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER},
+		#{img,jdbcType=VARCHAR}, #{officialurl,jdbcType=VARCHAR},
+		#{flagshipid,jdbcType=INTEGER}, #{description,jdbcType=LONGVARCHAR}
+		, #{isdel,jdbcType=BIT})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Brand">
+		insert into brand
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="name != null">
+				Name,
+			</if>
+			<if test="createtime != null">
+				CreateTime,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+			<if test="img != null">
+				Img,
+			</if>
+			<if test="officialurl != null">
+				OfficialUrl,
+			</if>
+			<if test="flagshipid != null">
+				FlagShipID,
+			</if>
+			<if test="description != null">
+				Description,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="img != null">
+				#{img,jdbcType=VARCHAR},
+			</if>
+			<if test="officialurl != null">
+				#{officialurl,jdbcType=VARCHAR},
+			</if>
+			<if test="flagshipid != null">
+				#{flagshipid,jdbcType=INTEGER},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.BrandExample"
+		resultType="java.lang.Integer">
+		select count(*) from brand
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update brand
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.name != null">
+				Name = #{record.name,jdbcType=VARCHAR},
+			</if>
+			<if test="record.createtime != null">
+				CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.img != null">
+				Img = #{record.img,jdbcType=VARCHAR},
+			</if>
+			<if test="record.officialurl != null">
+				OfficialUrl = #{record.officialurl,jdbcType=VARCHAR},
+			</if>
+			<if test="record.flagshipid != null">
+				FlagShipID = #{record.flagshipid,jdbcType=INTEGER},
+			</if>
+			<if test="record.description != null">
+				Description = #{record.description,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExampleWithBLOBs" parameterType="map">
+		update brand
+		set ID = #{record.id,jdbcType=INTEGER},
+		Name =
+		#{record.name,jdbcType=VARCHAR},
+		CreateTime =
+		#{record.createtime,jdbcType=TIMESTAMP},
+		Status =
+		#{record.status,jdbcType=INTEGER},
+		Img =
+		#{record.img,jdbcType=VARCHAR},
+		OfficialUrl =
+		#{record.officialurl,jdbcType=VARCHAR},
+		FlagShipID =
+		#{record.flagshipid,jdbcType=INTEGER},
+		Description =
+		#{record.description,jdbcType=LONGVARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update brand
+		set ID = #{record.id,jdbcType=INTEGER},
+		Name =
+		#{record.name,jdbcType=VARCHAR},
+		CreateTime =
+		#{record.createtime,jdbcType=TIMESTAMP},
+		Status =
+		#{record.status,jdbcType=INTEGER},
+		Img =
+		#{record.img,jdbcType=VARCHAR},
+		OfficialUrl =
+		#{record.officialurl,jdbcType=VARCHAR},
+		FlagShipID =
+		#{record.flagshipid,jdbcType=INTEGER}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Brand">
+		update brand
+		<set>
+			<if test="name != null">
+				Name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				CreateTime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="img != null">
+				Img = #{img,jdbcType=VARCHAR},
+			</if>
+			<if test="officialurl != null">
+				OfficialUrl = #{officialurl,jdbcType=VARCHAR},
+			</if>
+			<if test="flagshipid != null">
+				FlagShipID = #{flagshipid,jdbcType=INTEGER},
+			</if>
+			<if test="description != null">
+				Description = #{description,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yinlian.wssc.web.po.Brand">
+		update
+		brand
+		set Name = #{name,jdbcType=VARCHAR},
+		CreateTime =
+		#{createtime,jdbcType=TIMESTAMP},
+		Status = #{status,jdbcType=INTEGER},
+		Img = #{img,jdbcType=VARCHAR},
+		OfficialUrl =
+		#{officialurl,jdbcType=VARCHAR},
+		FlagShipID =
+		#{flagshipid,jdbcType=INTEGER},
+		Description =
+		#{description,jdbcType=LONGVARCHAR},
+		IsDel =
+		#{isdel,jdbcType=BIT},
+		DelUserID =
+		#{deluserid,jdbcType=INTEGER},
+		DelTime =
+		#{deltime,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Brand">
+		update brand
+		set
+		Name = #{name,jdbcType=VARCHAR},
+		CreateTime =
+		#{createtime,jdbcType=TIMESTAMP},
+		Status = #{status,jdbcType=INTEGER},
+		Img = #{img,jdbcType=VARCHAR},
+		OfficialUrl =
+		#{officialurl,jdbcType=VARCHAR},
+		FlagShipID =
+		#{flagshipid,jdbcType=INTEGER},
+		IsDel =
+		#{isdel,jdbcType=BIT},
+		DelUserID =
+		#{deluserid,jdbcType=INTEGER},
+		DelTime =
+		#{deltime,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 以下是自定义的 接口 分页查询 -->
+	<sql id="criteria_query">
+			<if test="criteria.brandname != null and criteria.brandname != '' ">
+				and Name LIKE '%${criteria.brandname}%'
+			</if>
+	</sql>
+
+	<select id="selectBrandPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="ResultMapWithBLOBs">
+		select * from brand where (isdel=0 or isdel is null)
+		<if test="criteria != null ">
+			<if test="criteria.brandname != null and criteria.brandname != '' ">
+				and Name LIKE '%${criteria.brandname}%'
+			</if>
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+	<!-- 根据店铺获取品牌（不分页） -->
+	<select id="selectBrandByShop" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		SELECT brand.* FROM brand,shop_brand
+		WHERE
+		brand.ID=shop_brand.BrandID 
+		AND (brand.isdel=0 OR brand.isdel IS NULL)
+		AND shop_brand.IsDel=0
+		AND
+		shop_brand.ShopID=#{0}
+	</select>
+
+	<select id="getBrandWithNameShop" resultMap="BaseResultMap">
+		SELECT brand.* FROM brand,shop_brand
+		WHERE
+		brand.ID=shop_brand.BrandID
+		AND (brand.isdel=0 OR brand.isdel IS NULL)
+		AND shop_brand.IsDel=0
+		and ShopID=#{0}
+		<if test="name != null and name != ''">
+			and brand.Name like '%${name}%' limit 0,10
+		</if>
+		limit 0,10
+	</select>
+
+	<!-- 根据店铺获取品牌（分页） -->
+	<select id="getBrandByShopPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="BaseResultMap">
+		SELECT brand.* FROM brand,shop_brand
+		WHERE brand.ID=shop_brand.BrandID
+		AND (brand.isdel=0 OR brand.isdel IS NULL)
+		AND shop_brand.IsDel=0
+		<if test="criteria != null ">
+			<if test="criteria.sid != null and criteria.sid != '' ">
+				where shop_brand.ShopID = #{criteria.sid}
+			</if>
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+	<!-- 新增返回主键id -->
+	<insert id="insertBrandGetId" parameterType="com.yinlian.wssc.web.po.Brand">
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+			select
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into brand (ID, Name,
+		CreateTime,
+		Status, Img, OfficialUrl,
+		FlagShipID, Description,IsDel)
+		values
+		(#{id,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR},
+		#{createtime,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER},
+		#{img,jdbcType=VARCHAR},
+		#{officialurl,jdbcType=VARCHAR},
+		#{flagshipid,jdbcType=INTEGER},
+		#{description,jdbcType=LONGVARCHAR}, #{isdel,jdbcType=BIT})
+	</insert>
+
+	<select id="getBrandWithName" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		FROM brand
+		where (isdel=0 OR isdel IS NULL)
+		<if test="name != null and name != ''">
+			and Name like '%${name}%'
+		</if>
+		limit 0,10
+	</select>
+	
+	<select id="queryAll" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from brand where (isdel=0 OR isdel IS NULL)
+	</select>
+	<update id="deleteBrand" parameterType="com.yinlian.wssc.web.po.Brand">
+	 update brand
+		set
+		IsDel = #{isdel,jdbcType=BIT},
+		DelTime =SYSDATE(),
+		DelUserID = #{deluserid,jdbcType=INTEGER}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<select id="getbyName" resultMap="BaseResultMap">
+	select ID from brand where Name=#{0} and (isdel=0 OR isdel IS NULL)  limit 1
+	</select>
+	
+	 <!-- 分页查询商品主題 -->
+   <sql id="criteria_query_topic">
+     <if test="criteria.topicid != null and criteria.topicid >=0">
+   	  and r.topicid = #{criteria.topicid}
+     </if>
+  </sql>  
+   <select id="selectTopicByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" resultType="com.yinlian.wssc.web.dto.TopicRelateInfo">
+		SELECT r.id,r.topicid topicid, t.title title,r.imgurl imgurl,p.name brandname,t.mark mark,r.sort sort,t.type type
+		FROM topic t left join topic_relate r on t.id=r.topicid left join brand p on p.id=r.relatedid
+		where (p.isdel=0 OR p.isdel IS NULL)
+     <if test="criteria != null ">
+     <include refid="criteria_query_topic"/> 
+     </if>
+     <if test="criteria.orderByClause != null and criteria.orderByClause != '' " >
+      order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序     此处只能使用${} 而不能使用#{} 会设置参数失败 -->
+    </if>
+  </select>
+  
+</mapper>

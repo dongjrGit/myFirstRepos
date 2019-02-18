@@ -1,0 +1,1032 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.SkuMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Sku">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="Name" property="name" jdbcType="VARCHAR" />
+		<result column="Num" property="num" jdbcType="VARCHAR" />
+		<result column="SPU_ID" property="spuId" jdbcType="INTEGER" />
+		<result column="ImgUrl" property="imgurl" jdbcType="VARCHAR" />
+		<result column="ImgUrl_App" property="imgurlApp" jdbcType="VARCHAR" />
+		<result column="ImgSmall" property="imgsmall" jdbcType="VARCHAR" />
+		<result column="ImgSmall_App" property="imgsmallApp" jdbcType="VARCHAR" />
+		<result column="Price" property="price" jdbcType="DECIMAL" />
+		<result column="OldPrice" property="oldprice" jdbcType="DECIMAL" />
+		<result column="AppPrice" property="appprice" jdbcType="DECIMAL" />
+		<result column="Stock" property="stock" jdbcType="INTEGER" />
+		<result column="WarnNum" property="warnnum" jdbcType="INTEGER" />
+		<result column="SalesCount" property="salescount" jdbcType="INTEGER" />
+		<result column="GroupID" property="groupid" jdbcType="INTEGER" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="IsUseVipPrice" property="isusevipprice"
+			jdbcType="BIT" />
+		<result column="VipLevel" property="viplevel" jdbcType="INTEGER" />
+		<result column="VipPrice" property="vipprice" jdbcType="DECIMAL" />
+		<result column="AppVipPrice" property="appvipprice" jdbcType="DECIMAL" />
+		<result column="SubTitle" property="subtitle" jdbcType="VARCHAR" />
+		<result column="WapPrice" property="wapprice" jdbcType="DECIMAL" />
+		<result column="WapVipPrice" property="wapvipprice" jdbcType="DECIMAL" />
+		<result column="WeChatPrice" property="wechatprice" jdbcType="DECIMAL" />
+		<result column="WeChatVipPrice" property="wechatvipprice"
+			jdbcType="DECIMAL" />
+		<result column="ImgUrl_Cart" property="imgurlCart" jdbcType="VARCHAR" />
+		<result column="ImgUrl_Orderlist" property="imgurlOrderlist"
+			jdbcType="VARCHAR" />
+		<result column="ImgUrl_Orderdetail" property="imgurlOrderdetail"
+			jdbcType="VARCHAR" />
+		<result column="ImgUrl_Wap" property="imgurlWap" jdbcType="VARCHAR" />
+		<result column="ImgUrl_Wechat" property="imgurlWechat"
+			jdbcType="VARCHAR" />
+        <result column="shopid" property="shopid" jdbcType="INTEGER" />
+        <result column="istoday" property="istoday" jdbcType="INTEGER" />
+        <result column="ticketnum" property="ticketnum" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.yinlian.wssc.web.po.Sku"
+		extends="BaseResultMap">
+		<result column="Remark" property="remark" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, Name, Num, SPU_ID, ImgUrl, ImgUrl_App, ImgSmall,
+		ImgSmall_App, Price,
+		OldPrice,
+		AppPrice, Stock, WarnNum, SalesCount,
+		GroupID, Status, IsUseVipPrice, VipLevel,
+		VipPrice,AppVipPrice,
+		SubTitle,WapPrice, WapVipPrice,
+		WeChatPrice, WeChatVipPrice,
+		ImgUrl_Cart,
+		ImgUrl_Orderlist,
+		ImgUrl_Orderdetail,
+		ImgUrl_Wap,
+		ImgUrl_Wechat,shopid,ticketnum,istoday
+	</sql>
+	<sql id="Blob_Column_List">
+		Remark
+	</sql>
+	<select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+		parameterType="com.yinlian.wssc.web.po.SkuExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from sku
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.SkuExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from sku
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from sku
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from sku
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.SkuExample">
+		delete from sku
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.Sku">
+		insert into sku (ID, Name,
+		Num,
+		SPU_ID, ImgUrl, ImgUrl_App,
+		ImgSmall, ImgSmall_App, Price,
+		OldPrice, AppPrice, Stock,
+		WarnNum, SalesCount, GroupID,
+		Status,
+		IsUseVipPrice, VipLevel,
+		VipPrice, AppVipPrice, SubTitle,
+		Remark,WapPrice, WapVipPrice,
+		WeChatPrice, WeChatVipPrice,ImgUrl_Cart,
+		ImgUrl_Orderlist,
+		ImgUrl_Orderdetail,
+		ImgUrl_Wap,
+		ImgUrl_Wechat,shopid,ticketnum,istoday)
+		values
+		(#{id,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR},
+		#{num,jdbcType=VARCHAR},
+		#{spuId,jdbcType=INTEGER},
+		#{imgurl,jdbcType=VARCHAR},
+		#{imgurlApp,jdbcType=VARCHAR},
+		#{imgsmall,jdbcType=VARCHAR},
+		#{imgsmallApp,jdbcType=VARCHAR},
+		#{price,jdbcType=DECIMAL},
+		#{oldprice,jdbcType=DECIMAL},
+		#{appprice,jdbcType=DECIMAL},
+		#{stock,jdbcType=INTEGER},
+		#{warnnum,jdbcType=INTEGER},
+		#{salescount,jdbcType=INTEGER},
+		#{groupid,jdbcType=INTEGER},
+		#{status,jdbcType=INTEGER},
+		#{isusevipprice,jdbcType=BIT},
+		#{viplevel,jdbcType=INTEGER},
+		#{vipprice,jdbcType=DECIMAL},
+		#{appvipprice,jdbcType=DECIMAL},
+		#{subtitle,jdbcType=VARCHAR},
+		#{remark,jdbcType=LONGVARCHAR},
+		#{wapprice,jdbcType=DECIMAL},
+		#{wapvipprice,jdbcType=DECIMAL},
+		#{wechatprice,jdbcType=DECIMAL},
+		#{wechatvipprice,jdbcType=DECIMAL},
+		#{imgurlCart,jdbcType=VARCHAR},
+		#{imgurlOrderlist,jdbcType=VARCHAR},
+		#{imgurlOrderdetail,jdbcType=VARCHAR},
+		#{imgurlWap,jdbcType=VARCHAR},
+		#{imgurlWechat,jdbcType=VARCHAR},
+		#{shopid,jdbcType=INTEGER},
+		#{ticketnum,jdbcType=VARCHAR},
+		#{istoday,jdbcType=INTEGER}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Sku">
+		insert into sku
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="name != null">
+				Name,
+			</if>
+			<if test="num != null">
+				Num,
+			</if>
+			<if test="spuId != null">
+				SPU_ID,
+			</if>
+			<if test="imgurl != null">
+				ImgUrl,
+			</if>
+			<if test="imgurlApp != null">
+				ImgUrl_App,
+			</if>
+			<if test="imgsmall != null">
+				ImgSmall,
+			</if>
+			<if test="imgsmallApp != null">
+				ImgSmall_App,
+			</if>
+			<if test="price != null">
+				Price,
+			</if>
+			<if test="oldprice != null">
+				OldPrice,
+			</if>
+			<if test="appprice != null">
+				AppPrice,
+			</if>
+			<if test="stock != null">
+				Stock,
+			</if>
+			<if test="warnnum != null">
+				WarnNum,
+			</if>
+			<if test="salescount != null">
+				SalesCount,
+			</if>
+			<if test="groupid != null">
+				GroupID,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+			<if test="isusevipprice != null">
+				IsUseVipPrice,
+			</if>
+			<if test="viplevel != null">
+				VipLevel,
+			</if>
+			<if test="vipprice != null">
+				VipPrice,
+			</if>
+			<if test="appvipprice != null">
+				AppVipPrice,
+			</if>
+			<if test="subtitle != null">
+				SubTitle,
+			</if>
+			<if test="remark != null">
+				Remark,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="num != null">
+				#{num,jdbcType=VARCHAR},
+			</if>
+			<if test="spuId != null">
+				#{spuId,jdbcType=INTEGER},
+			</if>
+			<if test="imgurl != null">
+				#{imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="imgurlApp != null">
+				#{imgurlApp,jdbcType=VARCHAR},
+			</if>
+			<if test="imgsmall != null">
+				#{imgsmall,jdbcType=VARCHAR},
+			</if>
+			<if test="imgsmallApp != null">
+				#{imgsmallApp,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=DECIMAL},
+			</if>
+			<if test="oldprice != null">
+				#{oldprice,jdbcType=DECIMAL},
+			</if>
+			<if test="appprice != null">
+				#{appprice,jdbcType=DECIMAL},
+			</if>
+			<if test="stock != null">
+				#{stock,jdbcType=INTEGER},
+			</if>
+			<if test="warnnum != null">
+				#{warnnum,jdbcType=INTEGER},
+			</if>
+			<if test="salescount != null">
+				#{salescount,jdbcType=INTEGER},
+			</if>
+			<if test="groupid != null">
+				#{groupid,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="isusevipprice != null">
+				#{isusevipprice,jdbcType=BIT},
+			</if>
+			<if test="viplevel != null">
+				#{viplevel,jdbcType=INTEGER},
+			</if>
+			<if test="vipprice != null">
+				#{vipprice,jdbcType=DECIMAL},
+			</if>
+			<if test="appvipprice != null">
+				#{appvipprice,jdbcType=DECIMAL},
+			</if>
+			<if test="subtitle != null">
+				#{subtitle,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.SkuExample"
+		resultType="java.lang.Integer">
+		select count(*) from sku
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update sku
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.name != null">
+				Name = #{record.name,jdbcType=VARCHAR},
+			</if>
+			<if test="record.num != null">
+				Num = #{record.num,jdbcType=VARCHAR},
+			</if>
+			<if test="record.spuId != null">
+				SPU_ID = #{record.spuId,jdbcType=INTEGER},
+			</if>
+			<if test="record.imgurl != null">
+				ImgUrl = #{record.imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="record.imgurlApp != null">
+				ImgUrl_App = #{record.imgurlApp,jdbcType=VARCHAR},
+			</if>
+			<if test="record.imgsmall != null">
+				ImgSmall = #{record.imgsmall,jdbcType=VARCHAR},
+			</if>
+			<if test="record.imgsmallApp != null">
+				ImgSmall_App = #{record.imgsmallApp,jdbcType=VARCHAR},
+			</if>
+			<if test="record.price != null">
+				Price = #{record.price,jdbcType=DECIMAL},
+			</if>
+			<if test="record.oldprice != null">
+				OldPrice = #{record.oldprice,jdbcType=DECIMAL},
+			</if>
+			<if test="record.appprice != null">
+				AppPrice = #{record.appprice,jdbcType=DECIMAL},
+			</if>
+			<if test="record.stock != null">
+				Stock = #{record.stock,jdbcType=INTEGER},
+			</if>
+			<if test="record.warnnum != null">
+				WarnNum = #{record.warnnum,jdbcType=INTEGER},
+			</if>
+			<if test="record.salescount != null">
+				SalesCount = #{record.salescount,jdbcType=INTEGER},
+			</if>
+			<if test="record.groupid != null">
+				GroupID = #{record.groupid,jdbcType=INTEGER},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.isusevipprice != null">
+				IsUseVipPrice = #{record.isusevipprice,jdbcType=BIT},
+			</if>
+			<if test="record.viplevel != null">
+				VipLevel = #{record.viplevel,jdbcType=INTEGER},
+			</if>
+			<if test="record.vipprice != null">
+				VipPrice = #{record.vipprice,jdbcType=DECIMAL},
+			</if>
+			<if test="record.appvipprice != null">
+				AppVipPrice = #{record.appvipprice,jdbcType=DECIMAL},
+			</if>
+			<if test="record.subtitle != null">
+				SubTitle = #{record.subtitle,jdbcType=VARCHAR},
+			</if>
+			<if test="record.remark != null">
+				Remark = #{record.remark,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExampleWithBLOBs" parameterType="map">
+		update sku
+		set ID = #{record.id,jdbcType=INTEGER},
+		Name =
+		#{record.name,jdbcType=VARCHAR},
+		Num = #{record.num,jdbcType=VARCHAR},
+		SPU_ID = #{record.spuId,jdbcType=INTEGER},
+		ImgUrl =
+		#{record.imgurl,jdbcType=VARCHAR},
+		ImgUrl_App =
+		#{record.imgurlApp,jdbcType=VARCHAR},
+		ImgSmall =
+		#{record.imgsmall,jdbcType=VARCHAR},
+		ImgSmall_App =
+		#{record.imgsmallApp,jdbcType=VARCHAR},
+		Price =
+		#{record.price,jdbcType=DECIMAL},
+		OldPrice =
+		#{record.oldprice,jdbcType=DECIMAL},
+		AppPrice =
+		#{record.appprice,jdbcType=DECIMAL},
+		Stock =
+		#{record.stock,jdbcType=INTEGER},
+		WarnNum =
+		#{record.warnnum,jdbcType=INTEGER},
+		SalesCount =
+		#{record.salescount,jdbcType=INTEGER},
+		GroupID =
+		#{record.groupid,jdbcType=INTEGER},
+		Status =
+		#{record.status,jdbcType=INTEGER},
+		IsUseVipPrice =
+		#{record.isusevipprice,jdbcType=BIT},
+		VipLevel =
+		#{record.viplevel,jdbcType=INTEGER},
+		VipPrice =
+		#{record.vipprice,jdbcType=DECIMAL},
+		AppVipPrice =
+		#{record.appvipprice,jdbcType=DECIMAL},
+		SubTitle =
+		#{record.subtitle,jdbcType=VARCHAR},
+		Remark =
+		#{record.remark,jdbcType=LONGVARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update sku
+		set ID = #{record.id,jdbcType=INTEGER},
+		Name =
+		#{record.name,jdbcType=VARCHAR},
+		Num = #{record.num,jdbcType=VARCHAR},
+		SPU_ID = #{record.spuId,jdbcType=INTEGER},
+		ImgUrl =
+		#{record.imgurl,jdbcType=VARCHAR},
+		ImgUrl_App =
+		#{record.imgurlApp,jdbcType=VARCHAR},
+		ImgSmall =
+		#{record.imgsmall,jdbcType=VARCHAR},
+		ImgSmall_App =
+		#{record.imgsmallApp,jdbcType=VARCHAR},
+		Price =
+		#{record.price,jdbcType=DECIMAL},
+		OldPrice =
+		#{record.oldprice,jdbcType=DECIMAL},
+		AppPrice =
+		#{record.appprice,jdbcType=DECIMAL},
+		Stock =
+		#{record.stock,jdbcType=INTEGER},
+		WarnNum =
+		#{record.warnnum,jdbcType=INTEGER},
+		SalesCount =
+		#{record.salescount,jdbcType=INTEGER},
+		GroupID =
+		#{record.groupid,jdbcType=INTEGER},
+		Status =
+		#{record.status,jdbcType=INTEGER},
+		IsUseVipPrice =
+		#{record.isusevipprice,jdbcType=BIT},
+		VipLevel =
+		#{record.viplevel,jdbcType=INTEGER},
+		VipPrice =
+		#{record.vipprice,jdbcType=DECIMAL},
+		AppVipPrice =
+		#{record.appvipprice,jdbcType=DECIMAL},
+		SubTitle =
+		#{record.subtitle,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Sku">
+		update sku
+		<set>
+			<if test="name != null">
+				Name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="num != null">
+				Num = #{num,jdbcType=VARCHAR},
+			</if>
+			<if test="spuId != null">
+				SPU_ID = #{spuId,jdbcType=INTEGER},
+			</if>
+			<if test="imgurl != null">
+				ImgUrl = #{imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="imgurlApp != null">
+				ImgUrl_App = #{imgurlApp,jdbcType=VARCHAR},
+			</if>
+			<if test="imgsmall != null">
+				ImgSmall = #{imgsmall,jdbcType=VARCHAR},
+			</if>
+			<if test="imgsmallApp != null">
+				ImgSmall_App = #{imgsmallApp,jdbcType=VARCHAR},
+			</if>
+			<if test="price != null">
+				Price = #{price,jdbcType=DECIMAL},
+			</if>
+			<if test="oldprice != null">
+				OldPrice = #{oldprice,jdbcType=DECIMAL},
+			</if>
+			<if test="appprice != null">
+				AppPrice = #{appprice,jdbcType=DECIMAL},
+			</if>
+			<if test="stock != null">
+				Stock = #{stock,jdbcType=INTEGER},
+			</if>
+			<if test="warnnum != null">
+				WarnNum = #{warnnum,jdbcType=INTEGER},
+			</if>
+			<if test="salescount != null">
+				SalesCount = #{salescount,jdbcType=INTEGER},
+			</if>
+			<if test="groupid != null">
+				GroupID = #{groupid,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="isusevipprice != null">
+				IsUseVipPrice = #{isusevipprice,jdbcType=BIT},
+			</if>
+			<if test="viplevel != null">
+				VipLevel = #{viplevel,jdbcType=INTEGER},
+			</if>
+			<if test="vipprice != null">
+				VipPrice = #{vipprice,jdbcType=DECIMAL},
+			</if>
+			<if test="appvipprice != null">
+				AppVipPrice = #{appvipprice,jdbcType=DECIMAL},
+			</if>
+			<if test="subtitle != null">
+				SubTitle = #{subtitle,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				Remark = #{remark,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yinlian.wssc.web.po.Sku">
+		update
+		sku
+		set Name = #{name,jdbcType=VARCHAR},
+		Num = #{num,jdbcType=VARCHAR},
+		SPU_ID = #{spuId,jdbcType=INTEGER},
+		ImgUrl =
+		#{imgurl,jdbcType=VARCHAR},
+		ImgUrl_App = #{imgurlApp,jdbcType=VARCHAR},
+		ImgSmall = #{imgsmall,jdbcType=VARCHAR},
+		ImgSmall_App =
+		#{imgsmallApp,jdbcType=VARCHAR},
+		Price = #{price,jdbcType=DECIMAL},
+		OldPrice = #{oldprice,jdbcType=DECIMAL},
+		AppPrice =
+		#{appprice,jdbcType=DECIMAL},
+		Stock = #{stock,jdbcType=INTEGER},
+		WarnNum =
+		#{warnnum,jdbcType=INTEGER},
+		SalesCount =
+		#{salescount,jdbcType=INTEGER},
+		GroupID = #{groupid,jdbcType=INTEGER},
+		Status = #{status,jdbcType=INTEGER},
+		IsUseVipPrice =
+		#{isusevipprice,jdbcType=BIT},
+		VipLevel = #{viplevel,jdbcType=INTEGER},
+		VipPrice = #{vipprice,jdbcType=DECIMAL},
+		AppVipPrice =
+		#{appvipprice,jdbcType=DECIMAL},
+		SubTitle = #{subtitle,jdbcType=VARCHAR},
+		Remark = #{remark,jdbcType=LONGVARCHAR},
+		WapPrice=#{wapprice,jdbcType=DECIMAL},
+		WapVipPrice=#{wapvipprice,jdbcType=DECIMAL},
+		WeChatPrice=#{wechatprice,jdbcType=DECIMAL},
+		WeChatVipPrice=#{wechatvipprice,jdbcType=DECIMAL},
+		ImgUrl_Cart=#{imgurlCart,jdbcType=VARCHAR},
+		ImgUrl_Orderlist=#{imgurlOrderlist,jdbcType=VARCHAR},
+		ImgUrl_Orderdetail=#{imgurlOrderdetail,jdbcType=VARCHAR},
+		ImgUrl_Wap=#{imgurlWap,jdbcType=VARCHAR},
+		ImgUrl_Wechat=#{imgurlWechat,jdbcType=VARCHAR},
+		shopid=#{shopid,jdbcType=INTEGER},
+		ticketnum=#{ticketnum,jdbcType=VARCHAR},
+		istoday=#{istoday,jdbcType=INTEGER}
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Sku">
+		update sku
+		set Name
+		= #{name,jdbcType=VARCHAR},
+		Num = #{num,jdbcType=VARCHAR},
+		SPU_ID =
+		#{spuId,jdbcType=INTEGER},
+		ImgUrl = #{imgurl,jdbcType=VARCHAR},
+		ImgUrl_App = #{imgurlApp,jdbcType=VARCHAR},
+		ImgSmall =
+		#{imgsmall,jdbcType=VARCHAR},
+		ImgSmall_App =
+		#{imgsmallApp,jdbcType=VARCHAR},
+		Price = #{price,jdbcType=DECIMAL},
+		OldPrice = #{oldprice,jdbcType=DECIMAL},
+		AppPrice =
+		#{appprice,jdbcType=DECIMAL},
+		Stock = #{stock,jdbcType=INTEGER},
+		WarnNum =
+		#{warnnum,jdbcType=INTEGER},
+		SalesCount =
+		#{salescount,jdbcType=INTEGER},
+		GroupID = #{groupid,jdbcType=INTEGER},
+		Status = #{status,jdbcType=INTEGER},
+		IsUseVipPrice =
+		#{isusevipprice,jdbcType=BIT},
+		VipLevel = #{viplevel,jdbcType=INTEGER},
+		VipPrice = #{vipprice,jdbcType=DECIMAL},
+		AppVipPrice =
+		#{appvipprice,jdbcType=DECIMAL},
+		SubTitle = #{subtitle,jdbcType=VARCHAR},
+		WapPrice=#{wapprice,jdbcType=DECIMAL},
+		WapVipPrice=#{wapvipprice,jdbcType=DECIMAL},
+		WeChatPrice=#{wechatprice,jdbcType=DECIMAL},
+		WeChatVipPrice=#{wechatvipprice,jdbcType=DECIMAL},
+		ImgUrl_Cart=#{imgurlCart,jdbcType=VARCHAR},
+		ImgUrl_Orderlist=#{imgurlOrderlist,jdbcType=VARCHAR},
+		ImgUrl_Orderdetail=#{imgurlOrderdetail,jdbcType=VARCHAR},
+		ImgUrl_Wap=#{imgurlWap,jdbcType=VARCHAR},
+		ImgUrl_Wechat=#{imgurlWechat,jdbcType=VARCHAR},
+		shopid=#{shopid,jdbcType=INTEGER},
+		ticketnum=#{ticketnum,jdbcType=VARCHAR},
+		istoday=#{istoday,jdbcType=INTEGER}
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</update>
+
+
+	<update id="updatePrice" parameterType="com.yinlian.wssc.web.po.Sku">
+		update sku
+		set Price =
+		#{price,jdbcType=DECIMAL}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateOldPrice" parameterType="com.yinlian.wssc.web.po.Sku">
+		update sku
+		set OldPrice
+		= #{oldprice,jdbcType=DECIMAL}
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateAppPrice" parameterType="com.yinlian.wssc.web.po.Sku">
+		update sku
+		set AppPrice
+		= #{appprice,jdbcType=DECIMAL}
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</update>
+	<update id="updatewapPrice" parameterType="com.yinlian.wssc.web.po.Sku">
+		update sku
+		set WapPrice
+		= #{wapprice,jdbcType=DECIMAL}
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateCharPrice" parameterType="com.yinlian.wssc.web.po.Sku">
+		update sku
+		set
+		WeChatPrice
+		= #{wechatprice,jdbcType=DECIMAL}
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</update>
+	<!-- 以下是为分页查询 写的 sql片段 -->
+
+	<sql id="criteria_query">
+		<where>
+			<if test="criteria.classid != null and criteria.classid != '' ">
+				and SPU_ID=#{criteria.spuid}
+			</if>
+		</where>
+	</sql>
+	<select id="getPageList" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="BaseResultMap">
+		select ID, Name, Num, SPU_ID, Price,OldPrice,
+		AppPrice, Stock, WarnNum,
+		SalesCount,
+		GroupID, Status, IsUseVipPrice, VipLevel,
+		VipPrice,AppVipPrice,SubTitle
+		from sku
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	<select id="getList" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select 	<include refid="Base_Column_List" />
+		from sku
+		where
+		SPU_ID=#{0}
+	</select>
+
+	<insert id="addSku" parameterType="com.yinlian.wssc.web.po.Sku">
+		insert into sku (ID, Name,
+		Num,
+		SPU_ID, ImgUrl, ImgUrl_App,
+		ImgSmall,
+		ImgSmall_App, Price,
+		OldPrice, AppPrice, Stock,
+		WarnNum, SalesCount,
+		GroupID,
+		Status,
+		IsUseVipPrice, VipLevel,
+		VipPrice, AppVipPrice,
+		Remark,SubTitle,WapPrice, WapVipPrice,
+		WeChatPrice, WeChatVipPrice,
+		ImgUrl_Cart,
+		ImgUrl_Orderlist,
+		ImgUrl_Orderdetail,
+		ImgUrl_Wap,
+		ImgUrl_Wechat,shopid,ticketnum,istoday
+		)
+		values
+		(#{id,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR},
+		#{num,jdbcType=VARCHAR},
+		#{spuId,jdbcType=INTEGER},
+		#{imgurl,jdbcType=VARCHAR},
+		#{imgurlApp,jdbcType=VARCHAR},
+		#{imgsmall,jdbcType=VARCHAR},
+		#{imgsmallApp,jdbcType=VARCHAR},
+		#{price,jdbcType=DECIMAL},
+		#{oldprice,jdbcType=DECIMAL},
+		#{appprice,jdbcType=DECIMAL},
+		#{stock,jdbcType=INTEGER},
+		#{warnnum,jdbcType=INTEGER},
+		#{salescount,jdbcType=INTEGER},
+		#{groupid,jdbcType=INTEGER},
+		#{status,jdbcType=INTEGER},
+		#{isusevipprice,jdbcType=BIT},
+		#{viplevel,jdbcType=INTEGER},
+		#{vipprice,jdbcType=DECIMAL},
+		#{appvipprice,jdbcType=DECIMAL},
+		#{remark,jdbcType=LONGVARCHAR},
+		#{subtitle,jdbcType=VARCHAR},
+		#{wapprice,jdbcType=DECIMAL},
+		#{wapvipprice,jdbcType=DECIMAL},
+		#{wechatprice,jdbcType=DECIMAL},
+		#{wechatvipprice,jdbcType=DECIMAL},
+		#{imgurlCart,jdbcType=VARCHAR},
+		#{imgurlOrderlist,jdbcType=VARCHAR},
+		#{imgurlOrderdetail,jdbcType=VARCHAR},
+		#{imgurlWap,jdbcType=VARCHAR},
+		#{imgurlWechat,jdbcType=VARCHAR},
+		#{shopid,jdbcType=INTEGER},
+		#{ticketnum,jdbcType=VARCHAR},
+		#{istoday,jdbcType=INTEGER}
+		)
+		<!-- selectKey将主键返回，需要再返回 -->
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+			select
+			LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+	<!-- 根据spuid获取库存售价最小值 -->
+	<select id="getMinPriceBySpu" parameterType="java.lang.Integer"
+		resultType="java.lang.Double">
+		SELECT MIN(AppPrice) FROM sku WHERE spu_id=#{0}
+	</select>
+
+	<select id="getMinPrice" parameterType="java.lang.Integer"
+		resultType="java.lang.Double">
+		SELECT MIN(Price) FROM sku WHERE spu_id=#{0}
+	</select>
+
+	<select id="getMinWapPrice" parameterType="java.lang.Integer"
+		resultType="java.lang.Double">
+		SELECT MIN(WapPrice) FROM sku WHERE spu_id=#{0}
+	</select>
+
+	<select id="getMinWeChatPrice" parameterType="java.lang.Integer"
+		resultType="java.lang.Double">
+		SELECT MIN(WeChatPrice) FROM sku WHERE spu_id=#{0}
+	</select>
+
+	<select id="getListByIds" parameterType="java.util.List"
+		resultMap="BaseResultMap">
+		select ID, Name, Num, Price,ImgUrl,ImgUrl_App,AppPrice,WapPrice,WeChatPrice,
+		SalesCount,Stock,SPU_ID,ticketnum,istoday from sku
+		where id in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+
+	</select>
+	<!-- 根据id修改库存 -->
+	<update id="updateStockById">
+		update SKU set Stock= (Stock -#{1}) where id= #{0}
+	</update>
+	<update id="deleteSkuByShop" parameterType="int">
+    	UPDATE sku JOIN spu ON sku.SPU_ID=spu.ID SET sku.isdel=1 WHERE spu.ShopID= #{0}
+	</update>
+	
+   <!-- 根据id设置库存 -->
+	<update id="updateSetStockById" parameterType="Map">
+		update SKU set Stock= #{stock} where id= #{skuId}
+	</update>
+	<!-- 根据店铺ID和名称获取sku列表 -->
+	<select id="getSkuStartWithName" resultMap="BaseResultMap">
+		select sku.ID, sku.Name, sku.Num
+		from sku,spu where sku.SPU_ID=spu.ID
+		and spu.IsDel=0 and spu.ShopID=#{0}
+		<if test="name != null and name != ''">
+			and sku.Name like '%${name}%'
+		</if>
+		limit 0,10
+	</select>
+
+	<update id="updateStockList" parameterType="List">
+		<if test="list!=null">
+			<foreach item="sku" index="index" collection="list" open=""
+				separator=";" close="">
+				update sku set
+				Stock=#{sku.stock,jdbcType=INTEGER}
+				where
+				ID=#{sku.id,jdbcType=INTEGER}
+			</foreach>
+		</if>
+	</update>
+
+	<!-- 根据店铺ID和名称获取sku列表 -->
+	<select id="getActSkuStartWithName" resultMap="BaseResultMap">
+		select sku.ID, sku.Name, sku.Num
+		from sku,spu where sku.SPU_ID=spu.ID
+		and spu.IsDel=0 and spu.status=3 and spu.ShopID=#{0}
+		<if test="name != null and name != ''">
+			and sku.Name like '%${name}%'
+		</if>
+		limit 0,10
+	</select>
+
+	<select id="getUserListOrderSpuPage" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		select
+		s.ID,s.Name, s.Num, s.SPU_ID, s.ImgUrl, s.ImgUrl_App,
+		s.ImgSmall, s.ImgSmall_App,
+		s.Price,
+		s.OldPrice,
+		s.AppPrice, s.Stock,
+		s.WarnNum, s.SalesCount,
+		s.GroupID, s.Status,
+		s.SubTitle,s.WapPrice,s.WeChatPrice
+		from orderdetail od left join sku s
+		on s.id=od.sku_id
+		<where>
+			<if test="criteria.userid !=null and criteria.userid >=0">
+				od.BuyerID=#{criteria.userid}
+			</if>
+		</where>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+		group by s.ID
+	</select>
+	
+	
+		<select id="getWarnSKUPage" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		select
+		s.ID,s.Name, s.Num, s.SPU_ID, s.ImgUrl, s.ImgUrl_App,
+		s.ImgSmall, s.ImgSmall_App,
+		s.Price,
+		s.OldPrice,
+		s.AppPrice, s.Stock,
+		s.WarnNum, s.SalesCount,
+		s.GroupID, s.Status,
+		s.SubTitle,s.WapPrice,s.WeChatPrice
+		from sku s left join spu p on s.SPU_ID=p.id
+		left join shop h on p.shopid=h.id 
+		where 
+		<![CDATA[ s.Stock<s.WarnNum ]]>
+		
+		<if test="criteria.name !=null and criteria.name !=''">
+			and s.Name like '%${criteria.name}%'
+		</if>
+		
+		<if test="criteria.sid !=null and criteria.sid >=0">
+			and p.shopid=#{criteria.sid}
+		</if>
+		
+		<if test="criteria.warnmin !=null and criteria.warnmin >=0">
+			and s.WarnNum <![CDATA[>=]]>#{criteria.warnmin}
+		</if>
+		<if test="criteria.warnmax !=null and criteria.warnmax >=0">
+			and s.WarnNum<![CDATA[<=]]>#{criteria.warnmax}
+		</if>
+		<if test="criteria.stockmin !=null and criteria.stockmin >=0">
+			and s.Stock <![CDATA[>=]]>#{criteria.stockmin}
+		</if>
+		<if test="criteria.stockmax !=null and criteria.stockmax >=0">
+			and s.Stock <![CDATA[<=]]>#{criteria.stockmax}
+		</if>
+		
+		<if test="criteria.isowend != null and criteria.isowend != '' ">
+			and p.IsOwned = #{criteria.isowend}
+		</if>
+	
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+		
+	</select>
+    <select id="getByTicketnum" resultMap="BaseResultMap">
+		select id,name,price
+		from sku where (isdel IS NULL OR isdel=0) 
+		<if test="tnum != null and tnum != ''">
+			and ticketnum = #{tnum}
+		</if>
+		<if test="id != null and id >0">
+			and ID != #{id}
+		</if>
+		limit 1
+	</select>
+	
+    
+    <select id="getByShopTicketnum" resultMap="BaseResultMap">
+		select id,name,price
+		from sku where (isdel IS NULL OR isdel=0) 
+		<if test="tnum != null and tnum != ''">
+			and ticketnum = #{tnum}
+		</if>
+		<if test="shopid != null and shopid >0">
+			and shopid != #{shopid}
+		</if>
+		<if test="id != null and id >0">
+			and ID != #{id}
+		</if>
+		limit 1
+	</select>
+	<!-- 根据id修改库存 -->
+	<update id="deleteSkuBySpuID" parameterType="java.lang.Integer">
+		update SKU set isdel= 1 where SPU_ID=#{0}
+	</update>
+	
+	
+	<select id="getBySpuId" parameterType="java.util.List"
+		resultMap="BaseResultMap">
+		select ID, Name, Num, Price,ImgUrl,ImgUrl_App,AppPrice,WapPrice,WeChatPrice,
+		SalesCount,Stock,SPU_ID,ticketnum,istoday from sku
+		where SPU_ID =#{0} 
+		limit 1
+	</select>
+</mapper>

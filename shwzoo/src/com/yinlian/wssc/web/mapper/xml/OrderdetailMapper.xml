@@ -1,0 +1,869 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.OrderdetailMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Orderdetail" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="OrderID" property="orderid" jdbcType="INTEGER" />
+    <result column="OrderCode" property="ordercode" jdbcType="VARCHAR" />
+    <result column="BuyerID" property="buyerid" jdbcType="INTEGER" />
+    <result column="SellerID" property="sellerid" jdbcType="INTEGER" />
+    <result column="SKU_ID" property="skuId" jdbcType="INTEGER" />
+    <result column="ProductNum" property="productnum" jdbcType="VARCHAR" />
+    <result column="ProductImg" property="productimg" jdbcType="VARCHAR" />
+    <result column="ProductName" property="productname" jdbcType="VARCHAR" />
+    <result column="ProductPrice" property="productprice" jdbcType="DECIMAL" />
+    <result column="ProductCount" property="productcount" jdbcType="INTEGER" />
+    <result column="ProductWeight" property="productweight" jdbcType="DECIMAL" />
+    <result column="VaildFlag" property="vaildflag" jdbcType="INTEGER" />
+    <result column="DelDate" property="deldate" jdbcType="TIMESTAMP" />
+    <result column="DelUserID" property="deluserid" jdbcType="INTEGER" />
+    <result column="IsComment" property="iscomment" jdbcType="INTEGER" />
+    <result column="IsBackComment" property="isbackcomment" jdbcType="INTEGER" />
+    <result column="IsShowImg" property="isshowimg" jdbcType="INTEGER" />
+    <result column="ActivityID" property="activityid" jdbcType="INTEGER" />
+    <result column="PackageID" property="packageid" jdbcType="INTEGER" />
+    <result column="MarketID" property="marketid" jdbcType="INTEGER" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+    <result column="ApplyTime" property="applytime" jdbcType="TIMESTAMP" />
+    <result column="DisposeTime" property="disposetime" jdbcType="TIMESTAMP" />
+    <result column="FinishTime" property="finishtime" jdbcType="TIMESTAMP" />
+    <result column="usetime" property="usetime" jdbcType="TIMESTAMP" />
+    <result column="procode" property="procode" jdbcType="VARCHAR" />
+    <result column="idcard" property="idcard" jdbcType="VARCHAR" />
+    <result column="SPU_ID" property="spuid" jdbcType="INTEGER" />
+    <result column="orderdate" property="orderdate" jdbcType="TIMESTAMP" />
+    <result column="ShopId" property="shopid" jdbcType="INTEGER" />   
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, OrderID, OrderCode, BuyerID, SellerID, SKU_ID, ProductNum, ProductImg, ProductName, 
+    ProductPrice, ProductCount, ProductWeight, VaildFlag, DelDate, DelUserID, IsComment, 
+    IsBackComment, IsShowImg, ActivityID, PackageID, MarketID, Status, ApplyTime, DisposeTime, 
+    FinishTime,usetime,procode,idcard,isaddbill,orderdate,ShopId
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.OrderdetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from orderdetail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from orderdetail
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from orderdetail
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.OrderdetailExample" >
+    delete from orderdetail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Orderdetail" >
+    insert into orderdetail (ID, OrderID, OrderCode, 
+      BuyerID, SellerID, SKU_ID, 
+      ProductNum, ProductImg, ProductName, 
+      ProductPrice, ProductCount, ProductWeight, 
+      VaildFlag, DelDate, DelUserID, 
+      IsComment, IsBackComment, IsShowImg, 
+      ActivityID, PackageID, MarketID, 
+      Status, ApplyTime, DisposeTime, 
+      FinishTime,usetime,procode,idcard,orderdate,ShopId)
+    values (#{id,jdbcType=INTEGER}, #{orderid,jdbcType=INTEGER}, #{ordercode,jdbcType=VARCHAR}, 
+      #{buyerid,jdbcType=INTEGER}, #{sellerid,jdbcType=INTEGER}, #{skuId,jdbcType=INTEGER}, 
+      #{productnum,jdbcType=VARCHAR}, #{productimg,jdbcType=VARCHAR}, #{productname,jdbcType=VARCHAR}, 
+      #{productprice,jdbcType=DECIMAL}, #{productcount,jdbcType=INTEGER}, #{productweight,jdbcType=DECIMAL}, 
+      #{vaildflag,jdbcType=INTEGER}, #{deldate,jdbcType=TIMESTAMP}, #{deluserid,jdbcType=INTEGER}, 
+      #{iscomment,jdbcType=INTEGER}, #{isbackcomment,jdbcType=INTEGER}, #{isshowimg,jdbcType=INTEGER}, 
+      #{activityid,jdbcType=INTEGER}, #{packageid,jdbcType=INTEGER}, #{marketid,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{applytime,jdbcType=TIMESTAMP}, #{disposetime,jdbcType=TIMESTAMP}, 
+      #{finishtime,jdbcType=TIMESTAMP},#{usetime,jdbcType=TIMESTAMP},#{procode,jdbcType=VARCHAR},
+      #{idcard,jdbcType=VARCHAR},#{orderdate,jdbcType=TIMESTAMP}, #{shopid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Orderdetail" >
+    insert into orderdetail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="orderid != null" >
+        OrderID,
+      </if>
+      <if test="ordercode != null" >
+        OrderCode,
+      </if>
+      <if test="buyerid != null" >
+        BuyerID,
+      </if>
+      <if test="sellerid != null" >
+        SellerID,
+      </if>
+      <if test="skuId != null" >
+        SKU_ID,
+      </if>
+      <if test="productnum != null" >
+        ProductNum,
+      </if>
+      <if test="productimg != null" >
+        ProductImg,
+      </if>
+      <if test="productname != null" >
+        ProductName,
+      </if>
+      <if test="productprice != null" >
+        ProductPrice,
+      </if>
+      <if test="productcount != null" >
+        ProductCount,
+      </if>
+      <if test="productweight != null" >
+        ProductWeight,
+      </if>
+      <if test="vaildflag != null" >
+        VaildFlag,
+      </if>
+      <if test="deldate != null" >
+        DelDate,
+      </if>
+      <if test="deluserid != null" >
+        DelUserID,
+      </if>
+      <if test="iscomment != null" >
+        IsComment,
+      </if>
+      <if test="isbackcomment != null" >
+        IsBackComment,
+      </if>
+      <if test="isshowimg != null" >
+        IsShowImg,
+      </if>
+      <if test="activityid != null" >
+        ActivityID,
+      </if>
+      <if test="packageid != null" >
+        PackageID,
+      </if>
+      <if test="marketid != null" >
+        MarketID,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+      <if test="applytime != null" >
+        ApplyTime,
+      </if>
+      <if test="disposetime != null" >
+        DisposeTime,
+      </if>
+      <if test="finishtime != null" >
+        FinishTime,
+      </if>
+      <if test="usetime != null" >
+        usetime,
+      </if>
+      <if test="procode != null" >
+        procode,
+      </if>
+      <if test="idcard != null" >
+        idcard,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderid != null" >
+        #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="ordercode != null" >
+        #{ordercode,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerid != null" >
+        #{buyerid,jdbcType=INTEGER},
+      </if>
+      <if test="sellerid != null" >
+        #{sellerid,jdbcType=INTEGER},
+      </if>
+      <if test="skuId != null" >
+        #{skuId,jdbcType=INTEGER},
+      </if>
+      <if test="productnum != null" >
+        #{productnum,jdbcType=VARCHAR},
+      </if>
+      <if test="productimg != null" >
+        #{productimg,jdbcType=VARCHAR},
+      </if>
+      <if test="productname != null" >
+        #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="productprice != null" >
+        #{productprice,jdbcType=DECIMAL},
+      </if>
+      <if test="productcount != null" >
+        #{productcount,jdbcType=INTEGER},
+      </if>
+      <if test="productweight != null" >
+        #{productweight,jdbcType=DECIMAL},
+      </if>
+      <if test="vaildflag != null" >
+        #{vaildflag,jdbcType=INTEGER},
+      </if>
+      <if test="deldate != null" >
+        #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deluserid != null" >
+        #{deluserid,jdbcType=INTEGER},
+      </if>
+      <if test="iscomment != null" >
+        #{iscomment,jdbcType=INTEGER},
+      </if>
+      <if test="isbackcomment != null" >
+        #{isbackcomment,jdbcType=INTEGER},
+      </if>
+      <if test="isshowimg != null" >
+        #{isshowimg,jdbcType=INTEGER},
+      </if>
+      <if test="activityid != null" >
+        #{activityid,jdbcType=INTEGER},
+      </if>
+      <if test="packageid != null" >
+        #{packageid,jdbcType=INTEGER},
+      </if>
+      <if test="marketid != null" >
+        #{marketid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="applytime != null" >
+        #{applytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="disposetime != null" >
+        #{disposetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishtime != null" >
+        #{finishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="usetime != null" >
+        #{usetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="procode != null" >
+        #{procode,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.OrderdetailExample" resultType="java.lang.Integer" >
+    select count(*) from orderdetail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update orderdetail
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderid != null" >
+        OrderID = #{record.orderid,jdbcType=INTEGER},
+      </if>
+      <if test="record.ordercode != null" >
+        OrderCode = #{record.ordercode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.buyerid != null" >
+        BuyerID = #{record.buyerid,jdbcType=INTEGER},
+      </if>
+      <if test="record.sellerid != null" >
+        SellerID = #{record.sellerid,jdbcType=INTEGER},
+      </if>
+      <if test="record.skuId != null" >
+        SKU_ID = #{record.skuId,jdbcType=INTEGER},
+      </if>
+      <if test="record.productnum != null" >
+        ProductNum = #{record.productnum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productimg != null" >
+        ProductImg = #{record.productimg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productname != null" >
+        ProductName = #{record.productname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productprice != null" >
+        ProductPrice = #{record.productprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.productcount != null" >
+        ProductCount = #{record.productcount,jdbcType=INTEGER},
+      </if>
+      <if test="record.productweight != null" >
+        ProductWeight = #{record.productweight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.vaildflag != null" >
+        VaildFlag = #{record.vaildflag,jdbcType=INTEGER},
+      </if>
+      <if test="record.deldate != null" >
+        DelDate = #{record.deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deluserid != null" >
+        DelUserID = #{record.deluserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.iscomment != null" >
+        IsComment = #{record.iscomment,jdbcType=INTEGER},
+      </if>
+      <if test="record.isbackcomment != null" >
+        IsBackComment = #{record.isbackcomment,jdbcType=INTEGER},
+      </if>
+      <if test="record.isshowimg != null" >
+        IsShowImg = #{record.isshowimg,jdbcType=INTEGER},
+      </if>
+      <if test="record.activityid != null" >
+        ActivityID = #{record.activityid,jdbcType=INTEGER},
+      </if>
+      <if test="record.packageid != null" >
+        PackageID = #{record.packageid,jdbcType=INTEGER},
+      </if>
+      <if test="record.marketid != null" >
+        MarketID = #{record.marketid,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        Status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.applytime != null" >
+        ApplyTime = #{record.applytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.disposetime != null" >
+        DisposeTime = #{record.disposetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.finishtime != null" >
+        FinishTime = #{record.finishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.usetime != null" >
+        usetime = #{record.usetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.procode != null" >
+        procode = #{record.procode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idcard != null" >
+        idcard = #{record.idcard,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update orderdetail
+    set ID = #{record.id,jdbcType=INTEGER},
+      OrderID = #{record.orderid,jdbcType=INTEGER},
+      OrderCode = #{record.ordercode,jdbcType=VARCHAR},
+      BuyerID = #{record.buyerid,jdbcType=INTEGER},
+      SellerID = #{record.sellerid,jdbcType=INTEGER},
+      SKU_ID = #{record.skuId,jdbcType=INTEGER},
+      ProductNum = #{record.productnum,jdbcType=VARCHAR},
+      ProductImg = #{record.productimg,jdbcType=VARCHAR},
+      ProductName = #{record.productname,jdbcType=VARCHAR},
+      ProductPrice = #{record.productprice,jdbcType=DECIMAL},
+      ProductCount = #{record.productcount,jdbcType=INTEGER},
+      ProductWeight = #{record.productweight,jdbcType=DECIMAL},
+      VaildFlag = #{record.vaildflag,jdbcType=INTEGER},
+      DelDate = #{record.deldate,jdbcType=TIMESTAMP},
+      DelUserID = #{record.deluserid,jdbcType=INTEGER},
+      IsComment = #{record.iscomment,jdbcType=INTEGER},
+      IsBackComment = #{record.isbackcomment,jdbcType=INTEGER},
+      IsShowImg = #{record.isshowimg,jdbcType=INTEGER},
+      ActivityID = #{record.activityid,jdbcType=INTEGER},
+      PackageID = #{record.packageid,jdbcType=INTEGER},
+      MarketID = #{record.marketid,jdbcType=INTEGER},
+      Status = #{record.status,jdbcType=INTEGER},
+      ApplyTime = #{record.applytime,jdbcType=TIMESTAMP},
+      DisposeTime = #{record.disposetime,jdbcType=TIMESTAMP},
+      FinishTime = #{record.finishtime,jdbcType=TIMESTAMP},
+      procode = #{record.procode,jdbcType=VARCHAR},
+      idcard = #{record.idcard,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Orderdetail" >
+    update orderdetail
+    <set >
+      <if test="orderid != null" >
+        OrderID = #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="ordercode != null" >
+        OrderCode = #{ordercode,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerid != null" >
+        BuyerID = #{buyerid,jdbcType=INTEGER},
+      </if>
+      <if test="sellerid != null" >
+        SellerID = #{sellerid,jdbcType=INTEGER},
+      </if>
+      <if test="skuId != null" >
+        SKU_ID = #{skuId,jdbcType=INTEGER},
+      </if>
+      <if test="productnum != null" >
+        ProductNum = #{productnum,jdbcType=VARCHAR},
+      </if>
+      <if test="productimg != null" >
+        ProductImg = #{productimg,jdbcType=VARCHAR},
+      </if>
+      <if test="productname != null" >
+        ProductName = #{productname,jdbcType=VARCHAR},
+      </if>
+      <if test="productprice != null" >
+        ProductPrice = #{productprice,jdbcType=DECIMAL},
+      </if>
+      <if test="productcount != null" >
+        ProductCount = #{productcount,jdbcType=INTEGER},
+      </if>
+      <if test="productweight != null" >
+        ProductWeight = #{productweight,jdbcType=DECIMAL},
+      </if>
+      <if test="vaildflag != null" >
+        VaildFlag = #{vaildflag,jdbcType=INTEGER},
+      </if>
+      <if test="deldate != null" >
+        DelDate = #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deluserid != null" >
+        DelUserID = #{deluserid,jdbcType=INTEGER},
+      </if>
+      <if test="iscomment != null" >
+        IsComment = #{iscomment,jdbcType=INTEGER},
+      </if>
+      <if test="isbackcomment != null" >
+        IsBackComment = #{isbackcomment,jdbcType=INTEGER},
+      </if>
+      <if test="isshowimg != null" >
+        IsShowImg = #{isshowimg,jdbcType=INTEGER},
+      </if>
+      <if test="activityid != null" >
+        ActivityID = #{activityid,jdbcType=INTEGER},
+      </if>
+      <if test="packageid != null" >
+        PackageID = #{packageid,jdbcType=INTEGER},
+      </if>
+      <if test="marketid != null" >
+        MarketID = #{marketid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="applytime != null" >
+        ApplyTime = #{applytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="disposetime != null" >
+        DisposeTime = #{disposetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finishtime != null" >
+        FinishTime = #{finishtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="procode != null" >
+        procode = #{procode,jdbcType=VARCHAR},
+      </if>
+      <if test="idcard != null" >
+        idcard = #{idcard,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Orderdetail" >
+    update orderdetail
+    set OrderID = #{orderid,jdbcType=INTEGER},
+      OrderCode = #{ordercode,jdbcType=VARCHAR},
+      BuyerID = #{buyerid,jdbcType=INTEGER},
+      SellerID = #{sellerid,jdbcType=INTEGER},
+      SKU_ID = #{skuId,jdbcType=INTEGER},
+      ProductNum = #{productnum,jdbcType=VARCHAR},
+      ProductImg = #{productimg,jdbcType=VARCHAR},
+      ProductName = #{productname,jdbcType=VARCHAR},
+      ProductPrice = #{productprice,jdbcType=DECIMAL},
+      ProductCount = #{productcount,jdbcType=INTEGER},
+      ProductWeight = #{productweight,jdbcType=DECIMAL},
+      VaildFlag = #{vaildflag,jdbcType=INTEGER},
+      DelDate = #{deldate,jdbcType=TIMESTAMP},
+      DelUserID = #{deluserid,jdbcType=INTEGER},
+      IsComment = #{iscomment,jdbcType=INTEGER},
+      IsBackComment = #{isbackcomment,jdbcType=INTEGER},
+      IsShowImg = #{isshowimg,jdbcType=INTEGER},
+      ActivityID = #{activityid,jdbcType=INTEGER},
+      PackageID = #{packageid,jdbcType=INTEGER},
+      MarketID = #{marketid,jdbcType=INTEGER},
+      Status = #{status,jdbcType=INTEGER},
+      ApplyTime = #{applytime,jdbcType=TIMESTAMP},
+      DisposeTime = #{disposetime,jdbcType=TIMESTAMP},
+      FinishTime = #{finishtime,jdbcType=TIMESTAMP},
+      procode = #{procode,jdbcType=VARCHAR},
+      idcard = #{idcard,jdbcType=VARCHAR},
+      isaddbill = #{isaddbill,jdbcType=BIT}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getDetailsByOrderID" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include>
+	from orderdetail
+	where OrderID=#{0}
+	and VaildFlag=0
+  </select>
+    <!-- 订单子表状态修改 -->
+	<update id="updateStatus" parameterType="java.lang.Integer">
+		update orderdetail set status=#{0}
+		where id=#{1}
+	</update>
+	
+	<select id="queryByOrderid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    a.ID, a.OrderID, a.OrderCode, a.BuyerID, a.SellerID, a.SKU_ID, a.ProductNum, a.ProductImg, a.ProductName, 
+    a.ProductPrice, a.ProductCount, a.ProductWeight, a.VaildFlag, a.DelDate, a.DelUserID, a.IsComment, 
+    a.IsBackComment, a.IsShowImg, a.ActivityID, a.PackageID, a.MarketID, a.Status, a.ApplyTime, a.DisposeTime, 
+    a.FinishTime, b.SPU_ID ,a.usetime
+    from orderdetail as a left join sku as b on a.SKU_ID=b.id
+    where OrderID = #{orderid,jdbcType=INTEGER}
+    and VaildFlag=0
+   </select>
+   
+   <select id="queryByDtoOrderid" resultType="com.yinlian.api.app.dto.OrderdetailDto" parameterType="java.lang.Integer" >
+    select o.productcount,o.productimg,o.productname,o.productprice,o.productnum,s.SPU_ID productid,o.id
+    from orderdetail o
+    left join sku s on s.ID=o.SKU_ID
+    where o.OrderID = #{orderid,jdbcType=INTEGER}
+    and o.VaildFlag=0
+   </select>
+   
+   
+   <select id="querySales" resultType="com.yinlian.wssc.web.dto.SySpuDto"  parameterType="com.yinlian.wssc.search.Platfrom_SYCriteria">
+    SELECT skus.`Name` as spuname, SUM(ord.ProductCount) as salecount 
+    FROM orderdetail ORD 
+    LEFT JOIN sku skus ON skus.ID=ord.SKU_ID 
+    WHERE ord.Status='19' 
+ 	 <if test="begintime != null and begintime != '' ">
+			<![CDATA[ and ORD.OrderDate >= #{begintime } ]]>
+			
+		</if>
+		<if test="endtime != null and endtime != '' ">
+			<![CDATA[ and ORD.OrderDate <= #{endtime } ]]>
+		</if>
+		
+	GROUP BY skus.SPU_ID
+	order by SUM(ord.ProductCount) desc
+	LIMIT 0,10
+
+   </select>
+   
+   
+   
+     
+   <select id="queryShopSales" resultType="com.yinlian.wssc.web.dto.SyShopDto"  parameterType="com.yinlian.wssc.search.Platfrom_SYCriteria">
+  SELECT SUM(od.ProductPrice*od.ProductCount) AS orderacount,COUNT(od.OrderID) AS ordercount,s.name AS shopname 
+   FROM orderdetail od 
+   LEFT JOIN shop s ON od.shopid=s.id 
+   WHERE od.Status='19' 
+ 	 <if test="begintime != null and begintime != '' ">
+			<![CDATA[ and od.OrderDate >= #{begintime } ]]>
+		</if>
+		<if test="endtime != null and endtime != '' ">
+			<![CDATA[ and od.OrderDate <= #{endtime } ]]>
+		</if>
+		
+	 group by s.id
+	 ORDER BY SUM(od.ProductPrice*od.ProductCount) DESC
+	LIMIT 0,10
+
+   </select>
+   
+   
+   
+   
+   <select id="querySellerSales" resultType="com.yinlian.wssc.web.dto.SySpuDto"  parameterType="com.yinlian.wssc.search.Platfrom_SYCriteria">
+    SELECT skus.`Name` as spuname, SUM(ord.ProductCount) as salecount 
+    FROM orderdetail ORD 
+    LEFT JOIN sku skus ON skus.ID=ord.SKU_ID 
+    WHERE ord.Status='19' 
+ 	 <if test="sellerid != null and sellerid != '' ">
+			and ORD.sellerid = #{sellerid}
+		</if>
+ 	 <if test="begintime != null and begintime != '' ">
+			<![CDATA[ and ORD.OrderDate >= #{begintime } ]]>
+		</if>
+		<if test="endtime != null and endtime != '' ">
+			<![CDATA[ and ORD.OrderDate <= #{endtime } ]]>
+		</if>
+		
+	GROUP BY skus.SPU_ID
+	order by SUM(ord.ProductCount) desc
+	LIMIT 0,10
+
+   </select>
+
+
+
+   <select id="querySellerCount" resultType="com.yinlian.wssc.web.dto.SyShopDto"  parameterType="com.yinlian.wssc.search.Platfrom_SYCriteria">
+   SELECT SUM(od.ProductPrice*od.ProductCount) AS orderacount,COUNT(od.OrderID) AS ordercount,s.name AS shopname 
+   FROM orderdetail od 
+   LEFT JOIN shop s ON od.shopid=s.id 
+   WHERE od.Status='19' 
+    <if test="shopid != null and shopid != '' ">
+			and od.shopid = #{shopid}
+		</if>
+ 	 <if test="begintime != null and begintime != '' ">
+			<![CDATA[ and od.OrderDate >= #{begintime } ]]>
+		</if>
+		<if test="endtime != null and endtime != '' ">
+			<![CDATA[ and od.OrderDate <= #{endtime } ]]>
+		</if>
+	  ORDER BY SUM(od.ProductPrice*od.ProductCount) DESC
+   </select>
+
+
+
+   <select id="querySellerCountDay" resultType="com.yinlian.wssc.web.dto.SyShopDto"  parameterType="com.yinlian.wssc.search.Platfrom_SYCriteria">
+   SELECT SUM(od.ProductPrice*od.ProductCount) AS orderacount,COUNT(od.OrderID) AS ordercount,s.name AS shopname 
+   FROM orderdetail od 
+   LEFT JOIN shop s ON od.shopid=s.id 
+   WHERE od.Status='19' 
+   <if test="shopid != null and shopid != '' ">
+			and od.shopid = #{shopid}
+		</if>
+ 	 <if test="begintime != null and begintime != '' ">
+			and od.OrderDate like '${begintime}%' 
+		</if>
+	 order by SUM(od.ProductPrice*od.ProductCount) DESC
+   </select>
+   
+ <select id="getDetailsAnalysis" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+  resultMap="BaseResultMap">
+    select a.ID, a.OrderID, a.OrderCode, a.BuyerID, a.SellerID, 
+    a.SKU_ID, a.ProductNum, a.ProductImg, a.ProductName, 
+    a.ProductPrice, a.ProductCount, a.Status, DATE_FORMAT(b.AddOrderDate,'%Y-%m-%d') as ApplyTime
+	from orderdetail a join orders b on a.orderid=b.id 
+	where a.VaildFlag=0 and a.Status > 0 and a.Status <![CDATA[<99]]>
+	<if test="criteria !=null">
+	    <choose>
+			<when test="criteria.zy ==1">
+				and b.IsOwned = true
+			</when>
+			<otherwise>
+				and b.IsOwned=false
+			</otherwise>
+		</choose>
+		<choose>
+		<when test="criteria.tjtype ==1">
+		<if test="criteria.datef !=null and criteria.datef !=''">			
+			 <![CDATA[ and DATEDIFF(b.AddOrderDate,#{criteria.datef})>=0]]>
+		</if>
+		<if test="criteria.datet !=null and criteria.datet!=''">
+			 <![CDATA[ and DATEDIFF(b.AddOrderDate,#{criteria.datet})<=0]]>
+		</if>
+		</when>
+		<when test="criteria.tjtype==2">
+		<![CDATA[ and TO_DAYS(NOW()) - TO_DAYS(b.AddOrderDate) <= 7]]>
+		</when>
+		<when test="criteria.tjtype==3">
+		<if test="criteria.datey !=null and criteria.datey !=''">
+		 and Year(b.AddOrderDate) = #{criteria.datey} 
+		</if>			
+		<if test="criteria.datem !=null and criteria.datem !=''">
+		 and Month(b.AddOrderDate) = #{criteria.datem}
+		</if>
+		</when>
+		<when test="criteria.tjtype==4">
+		<if test="criteria.datey !=null and criteria.datey !=''">
+		 and Year(b.AddOrderDate) = #{criteria.datey} 
+		</if>
+		<if test="criteria.datem !=null and criteria.datem !=''">
+		 and quarter(b.AddOrderDate) = #{criteria.datem}
+		</if>
+		</when>
+		<when test="criteria.tjtype==5">
+		<if test="criteria.datey !=null and criteria.datey !=''">
+		 and Year(b.AddOrderDate) = #{criteria.datey} 
+		</if>	
+		</when>
+		<otherwise>
+			
+		</otherwise>
+		</choose>
+		<if test="criteria.id !=null and criteria.id >0">
+			and a.SellerID =#{criteria.id}
+		</if>
+		
+	</if>
+	   
+  </select>
+  
+  <select id="getSalePros" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+  resultType="com.yinlian.wssc.web.dto.V_saleproducts">
+  select productnum,productname,productprice,totalmoney,totalcount,
+         websites,orderdate,shopid,shopname
+         from v_saleproducts
+  <if test="criteria !=null">
+  <where>
+  <choose>
+		<when test="criteria.tjtype ==1">
+		<if test="criteria.datef !=null and criteria.datef !=''">			
+			 <![CDATA[ and DATEDIFF(orderdate,#{criteria.datef})>=0]]>
+		</if>
+		<if test="criteria.datet !=null and criteria.datet!=''">
+			 <![CDATA[ and DATEDIFF(orderdate,#{criteria.datet})<=0]]>
+		</if>
+		</when>
+		<when test="criteria.tjtype==2">
+		<![CDATA[ and TO_DAYS(NOW()) - TO_DAYS(orderdate) <= 7]]>
+		</when>
+		<when test="criteria.tjtype==3">
+		<if test="criteria.datey !=null and criteria.datey !=''">
+		 and Year(orderdate) = #{criteria.datey} 
+		</if>			
+		<if test="criteria.datem !=null and criteria.datem !=''">
+		 and Month(orderdate) = #{criteria.datem}
+		</if>
+		</when>
+		<when test="criteria.tjtype==4">
+		<if test="criteria.datey !=null and criteria.datey !=''">
+		 and Year(orderdate) = #{criteria.datey} 
+		</if>
+		<if test="criteria.datem !=null and criteria.datem !=''">
+		 and quarter(orderdate) = #{criteria.datem}
+		</if>
+		</when>
+		<when test="criteria.tjtype==5">
+		<if test="criteria.datey !=null and criteria.datey !=''">
+		 and Year(orderdate) = #{criteria.datey} 
+		</if>	
+		</when>
+		<otherwise>
+		</otherwise>
+		</choose>
+		<if test="criteria.shopid !=null and criteria.shopid >0">
+			and shopid =#{criteria.shopid}
+		</if>
+		<if test="criteria.pronum !=null and criteria.pronum !=''">
+			and productnum =#{criteria.pronum}
+		</if>
+		<if test="criteria.proname !=null and criteria.proname !=''">
+			and productname like '%${criteria.proname}%'
+		</if>
+		<if test="criteria.sites !=null and criteria.sites >0">
+			and websites =#{criteria.sites}
+		</if>
+		<if test="criteria.countfrom !=null and criteria.countfrom >=0">
+			<![CDATA[and totalcount>=#{criteria.countfrom}]]>
+		</if>
+		<if test="criteria.countto !=null and criteria.countto >0">
+			<![CDATA[and totalcount<=#{criteria.countto}]]>
+		</if>
+  </where>
+  </if>
+  </select>
+  <select id="getDetailsByProcode" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include>
+	from orderdetail
+	where procode=#{0} and VaildFlag=0 limit 1
+  </select>
+  
+  <select id="selectNoBills" parameterType="com.yinlian.wssc.search.BillsOrderCriteria"
+  		resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List"></include>
+	from orderdetail
+	<if test="criteria != null ">
+		<where>
+			<if test="criteria.orderstatu != null and criteria.orderstatu != '-1' ">
+				and status = #{criteria.orderstatu}
+			</if>
+			and (isaddbill =0 or isaddbill is null) 
+			and (VaildFlag =0 or VaildFlag is null)
+		</where>
+	</if>
+  </select>
+  <select id="getDetailsByDate" resultMap="BaseResultMap">
+  SELECT od.id,od.OrderID,od.ShopId, od.Status,od.ProductPrice,od.ProductCount,od.orderdate FROM orderdetail od
+   WHERE (`od`.`VaildFlag` = 0) 
+	<if test="criteria != null ">
+			<if test="criteria.id != null and criteria.id != '-1' ">
+				and od.ShopId = #{criteria.id}
+			</if>
+			<if test="criteria.datef !=null and criteria.datef !=''">			
+			    <![CDATA[ and DATEDIFF(od.orderdate,#{criteria.datef})>=0]]>
+		    </if>
+		    <if test="criteria.datet !=null and criteria.datet !=''">
+			    <![CDATA[ and DATEDIFF(od.orderdate,#{criteria.datet})<=0]]>
+	    	</if>
+	</if>
+  </select>
+  <update id="cancelOrder" parameterType="java.lang.Integer">
+		update orderdetail set Status=#{1}
+		where OrderID=#{0}
+	</update>
+</mapper>

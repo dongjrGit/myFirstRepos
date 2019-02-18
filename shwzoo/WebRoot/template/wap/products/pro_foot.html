@@ -1,0 +1,88 @@
+<%var path="/resource";%>
+<script src="${path}/cookie.js"></script>
+<script src="${path}/wap/js/json2.js"></script>
+<script src="${path}/wap/js/linq.min.js"></script>
+<script src="${path}/wap/js/login.js"></script>
+<script src="${path}/wap/js/shopingCart/shopcart.js"></script>
+<script src="${path}/wap/js/products/pro_foot.js"></script>
+	
+<div class="footshopcart fix">
+	<ul class="footshopcart_l fix">
+		<!-- <li>
+		<a href="javascript:void(0)"> <img
+				src="/wap/images/footshopcart_ico01.png" />
+				<div>客服</div>
+		</a>
+		</li> -->
+		<li>
+		<a href="/wap/shop/index.html?id=${shopid}&href=/wap/products/ProDetail.html?spuid=${spuid}"> <img
+				src="${path}/wap/images/footshopcart_ico02.png" />
+				<div>商家</div>
+		</a>
+		</li>
+		 <% if(isconcern){%>
+		<li id="spucon" class="foot_focus active"><a
+			href="javascript:void(0)"> <img
+				src="${path}/wap/images/footshopcart_ico03.png" /> <img
+				src="${path}/wap/images/footshopcart_ico03_active.png" />
+				<div id="spuconfont">已关注</div>
+		</a>
+		</li>
+		 <% }else{%>
+		<li id="spucon" class="foot_focus"><a href="javascript:void(0)">
+				<img src="${path}/wap/images/footshopcart_ico03.png" /> <img
+				src="${path}/wap/images/footshopcart_ico03_active.png" />
+				<div id="spuconfont">关注</div>
+		</a>
+		</li> 
+		<%}%>
+		<li>
+		<a href="/wap/shopcart/cartlist.html"> <img
+				src="${path}/wap/images/footshopcart_ico04.png" />
+				<div>购物车</div>
+				<span id="g_count"></span> <!-- class="fx-footer_num" -->
+		</a>
+		
+		</li>
+	</ul>
+	<div class="footshopcart_r"  id="addtocart">
+		<a href="javascript:void(0)">加入购物车</a>
+	</div>
+</div>
+<script>
+	//购物车圆角
+    function fxFooter(obj){
+    var objWidth=$(obj).outerWidth();
+    $(obj).css('height',objWidth+'px').css('line-height',objWidth+'px');    
+    }  
+	window.onload=function(){
+		fixed('.footshopcart');
+		fxFooter('.fx-footer_num');			
+	}	
+	var stock=$("#h_stock").val();
+	// var spikcon=$("#h_spikcon").val();
+	var protype=$("#protype").val();
+	
+	// if(parseInt(protype)>0){
+		// if(parseInt(spikcon)>=0){
+			// SetCookie("prostock", spikcon);
+		// }
+		// stock=spikcon;
+	// }else{
+		if(parseInt(stock)>=0){
+			SetCookie("prostock", stock);
+		}
+	// }
+	
+	dealstock(stock);
+	function dealstock(stock){		
+		if(!stock){
+			stock=GetCookie("prostock");
+        }        
+		if(parseInt(stock)>0){
+            $("#addtocart").removeClass('disabled');
+        }else{
+            $("#addtocart").addClass('disabled');
+        }
+	}
+	</script>

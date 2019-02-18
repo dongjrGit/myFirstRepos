@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.orderremindMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.OrderRemind" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="OrderNum" property="ordernum" jdbcType="VARCHAR" />
+    <result column="OrderID" property="orderid" jdbcType="INTEGER" />
+    <result column="OrderTime" property="ordertime" jdbcType="TIMESTAMP" />
+    <result column="SupplierID" property="supplierid" jdbcType="INTEGER" />
+    <result column="BuyerID" property="buyerid" jdbcType="INTEGER" />
+    <result column="BuyerName" property="buyername" jdbcType="VARCHAR" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="IsRead" property="isread" jdbcType="BIT" />
+    <result column="Remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, OrderNum, OrderID, OrderTime, SupplierID, BuyerID, BuyerName, CreateTime, IsRead 
+  </sql>
+  <select id="seleOrderRemindPage" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+  		select o.ID,  o.OrderNum,  o.OrderID, o.OrderTime, o.SupplierID, o.BuyerID,o.BuyerName,o.CreateTime,o.IsRead,s.`Name`  as name 
+		  from orderremind  o INNER JOIN shop s on(s.id=o.SupplierID)
+		  <where>
+			  <if test="criteria.supplierid != null ">
+					and SupplierID = '${criteria.supplierid}'
+			  </if>
+			   <if test="criteria.isread != null ">
+					and IsRead = ${criteria.isread}
+			  </if>
+		  </where>
+		    ORDER BY CreateTime desc
+  </select>
+    <select id="OrderRemindListbyclerkid" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+  		select  r.* from orderremind r inner join orders o on (o.id=r.OrderID) where o.ClerkID=${criteria.id} and IsRead =1 
+  </select>
+  <select id="getDescOrderRemindByid" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select  * from orderremind where OrderId=#{0} order by CreateTime DESC LIMIT 0,1 
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from orderremind
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from orderremind
+    where ID = #{OrderNum,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.OrderRemind" >
+    insert into orderremind (ID, OrderNum, OrderID, 
+      OrderTime, SupplierID, BuyerID, 
+      BuyerName, CreateTime, IsRead
+      )
+    values (#{id,jdbcType=INTEGER}, #{ordernum,jdbcType=VARCHAR}, #{orderid,jdbcType=INTEGER}, 
+      #{ordertime,jdbcType=TIMESTAMP}, #{supplierid,jdbcType=INTEGER}, #{buyerid,jdbcType=INTEGER}, 
+      #{buyername,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{isread,jdbcType=BIT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.OrderRemind" >
+    insert into orderremind
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="ordernum != null" >
+        OrderNum,
+      </if>
+      <if test="orderid != null" >
+        OrderID,
+      </if>
+      <if test="ordertime != null" >
+        OrderTime,
+      </if>
+      <if test="supplierid != null" >
+        SupplierID,
+      </if>
+      <if test="buyerid != null" >
+        BuyerID,
+      </if>
+      <if test="buyername != null" >
+        BuyerName,
+      </if>
+      <if test="createtime != null" >
+        CreateTime,
+      </if>
+      <if test="isread != null" >
+        IsRead,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="ordernum != null" >
+        #{ordernum,jdbcType=VARCHAR},
+      </if>
+      <if test="orderid != null" >
+        #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="ordertime != null" >
+        #{ordertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="supplierid != null" >
+        #{supplierid,jdbcType=INTEGER},
+      </if>
+      <if test="buyerid != null" >
+        #{buyerid,jdbcType=INTEGER},
+      </if>
+      <if test="buyername != null" >
+        #{buyername,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isread != null" >
+        #{isread,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.OrderRemind" >
+    update orderremind
+    <set >
+      <if test="ordernum != null" >
+        OrderNum = #{ordernum,jdbcType=VARCHAR},
+      </if>
+      <if test="orderid != null" >
+        OrderID = #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="ordertime != null" >
+        OrderTime = #{ordertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="supplierid != null" >
+        SupplierID = #{supplierid,jdbcType=INTEGER},
+      </if>
+      <if test="buyerid != null" >
+        BuyerID = #{buyerid,jdbcType=INTEGER},
+      </if>
+      <if test="buyername != null" >
+        BuyerName = #{buyername,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isread != null" >
+        IsRead = #{isread,jdbcType=BIT},
+      </if>
+      <if test="remark != null" >
+        Remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.OrderRemind" >
+    update orderremind
+    set OrderNum = #{ordernum,jdbcType=VARCHAR},
+      OrderID = #{orderid,jdbcType=INTEGER},
+      OrderTime = #{ordertime,jdbcType=TIMESTAMP},
+      SupplierID = #{supplierid,jdbcType=INTEGER},
+      BuyerID = #{buyerid,jdbcType=INTEGER},
+      BuyerName = #{buyername,jdbcType=VARCHAR},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      IsRead = #{isread,jdbcType=BIT},
+      Remark = #{remark,jdbcType=VARCHAR} 
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

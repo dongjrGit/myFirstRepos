@@ -1,0 +1,36 @@
+@charset "utf-8";
+/* CSS Document */
+.pos{ width:100%; height:45px; background:#ffffff;  color:#585858; line-height:45px; font-size:18px; }
+.merchan-market{ background:url(../images/icion_hs.png) no-repeat -270px 0px; width:28px; height:25px; display:inline-block; margin:10px 8px auto 30px; float:left;}
+.sales-promotion{ width:64px; height:58px; background: url(../images/img_cx.png) no-repeat ; display:inline-block; margin-top:18px;}
+.weather-left-ddgl{ width:325px; float:left; color:#000; }
+.weather-left-ddgl table tr td{ height:50px; background:#E4E4E4; color:#666;font-size:18px; font-weight:bolder; text-align:center;}
+.data_list_detailed tr td{ text-align:left; padding-left:15px;}
+.mainright .ddgl-table-con .data_list_detailed{ text-align:center;}
+.preserve-inp{ width:80px; height:40px; border:1px solid #ccc; border-radius:5px; background:#efefef; font-size:18px; font-weight:bolder;}
+
+/*营销管理  开始*/
+.account-form{ margin-top:35px; width:100%; height:30px; position:relative; color:#333;}
+.account-form-search{ width:300px; height:30px; position:absolute; left:0px; top:0px; }
+.account-form-inp{ width:200px; height:25px; background:#FFFFFF; border:1px solid #D4D4D4; padding-left:5px; color:#CCC;}
+.account-form-but{ width:100px;background:#F5F5F5; border:1px solid #D4D4D4; height:29px; }
+.sea-dw{ width:100px; height:25px; position:absolute; left:200px; top:0px;}
+.account-form-select{ width:800px; height:30px; position:absolute; top:0px; left:330px;}
+.inp-seller{ width:150px; height:21px;}
+.sctp{ padding:3px 10px; border-radius:3px; border-left:1px solid #E2E2E2; border-bottom:1px solid #ACACAC; border-right:1px solid #ACACAC; border-top:none; background:#E6E6E6; display:inline-block; cursor:pointer;}
+.sctp:hover{  padding:3px 10px; border-radius:3px; border-left:1px solid #E2E2E2; border-bottom:1px solid #ACACAC; border-right:1px solid #ACACAC; border-top:none; background:#ccc; display:inline-block;}
+.sctp-con{ width:340px; height:270px; padding:20px 0; background:#ffffff; border:1px solid #efefef; border-radius:10px; position:absolute; top:60px; right:20%; display:none;
+-moz-box-shadow: 0px 0px 5px #ccc;
+-webkit-box-shadow: 0px 0px 5px #ccc;
+box-shadow: 0px 0px 5px #ccc
+/* For IE 8 */
+-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#f2f2f2')";
+/* For IE 5.5 - 7 */
+filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#f2f2f2');
+}
+.sctp-con table{ width:70%; margin:0 auto; border:none;}
+.sctp-con table, .sctp-con table tr, .sctp-con table tr td{border:none; font-size:16px;}
+.dpgl-dpdj-tjsq{ width:80px; height:28px; border:1px solid #ccc; border-radius:5px; background:#efefef; font-size:16px;  margin-top:20px;}
+.dpgl-dpdj{ width:130px; height:18px; border:1px solid #D8D8D8; }
+.mar-djmc{ width:130px; height:28px; background:#efefef; border:1px solid #ccc;}
+/*营销管理  结束*/

@@ -1,0 +1,27 @@
+<%var path="/resource";%>
+<div class="l_fzcxtop fix">
+    	<span class="bjred">上新</span> 
+    </div>
+   <div class="goods_list fix">
+		<ul class="fix">
+		   <%for (vo in pageData.data){%>
+			<li>
+				<a href="/wap/products/ProDetail.html?spuid=${vo.spuid}&href=/wap/discover/dynamicMore.html?shopid=${shopid}">
+					<div class="goods_list_img">
+						<img src="${vo.spuImg}" class="img-responsive"/>
+					</div>
+					<div class="goods_list_title">
+						${vo.spuname}
+					<div class="goods_list_price">
+						
+						￥<%if(vo.wapPrice!=null){%> ${vo.wapPrice} <%}else{%>
+				        0.00
+				        <%}%>
+					</div>
+				</a>
+			</li>
+			<%}%>
+		</ul>
+         <input name="pages" type="hidden" value="${pageData.page}"/>
+    </div>
+

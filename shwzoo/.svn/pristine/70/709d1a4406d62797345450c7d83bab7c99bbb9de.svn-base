@@ -1,0 +1,612 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.ArticlesMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Articles">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="Title" property="title" jdbcType="VARCHAR" />
+		<result column="Digest" property="digest" jdbcType="VARCHAR" />
+		<result column="ByTitle" property="bytitle" jdbcType="VARCHAR" />
+		<result column="SendTime" property="sendtime" jdbcType="TIMESTAMP" />
+		<result column="ClickNum" property="clicknum" jdbcType="INTEGER" />
+		<result column="SendPeople" property="sendpeople" jdbcType="VARCHAR" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="Type" property="type" jdbcType="INTEGER" />
+		<result column="ImgUrl" property="imgurl" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.yinlian.wssc.web.po.Articles"
+		extends="BaseResultMap">
+		<result column="ArtContent" property="artcontent" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, Title, Digest, ByTitle,  SendTime,
+		ClickNum, SendPeople,Status, ImgUrl
+	</sql>
+	<sql id="Blob_Column_List">
+		ArtContent
+	</sql>
+	<select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+		parameterType="com.yinlian.wssc.web.po.ArticlesExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from articles
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.ArticlesExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from articles
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from articles
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+
+	<!-- 通过导航分类ID查询文章信息 -->
+	<select id="selectByclassfyid" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from articles
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		articles
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.ArticlesExample">
+		delete from articles
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.Articles">
+		insert into articles (ID,
+		Title, Digest,
+		ByTitle,
+		SendTime, ClickNum, 
+		SendPeople, Status, ImgUrl, ArtContent
+		)
+		values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+		#{digest,jdbcType=VARCHAR},
+		#{bytitle,jdbcType=VARCHAR},
+		#{sendtime,jdbcType=TIMESTAMP}, #{clicknum,jdbcType=INTEGER},
+		#{sendpeople,jdbcType=VARCHAR},
+		#{status,jdbcType=INTEGER},
+		#{imgurl,jdbcType=VARCHAR}, #{artcontent,jdbcType=LONGVARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Articles">
+		insert into articles
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="title != null">
+				Title,
+			</if>
+			<if test="digest != null">
+				Digest,
+			</if>
+			<if test="bytitle != null">
+				ByTitle,
+			</if>
+			<if test="classfy != null">
+				Classfy,
+			</if>
+			<if test="sendtime != null">
+				SendTime,
+			</if>
+			<if test="clicknum != null">
+				ClickNum,
+			</if>
+			<if test="sendpeople != null">
+				SendPeople,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+			<if test="istop != null">
+				IsTop,
+			</if>
+			<if test="type != null">
+				Type,
+			</if>
+			<if test="imgurl != null">
+				ImgUrl,
+			</if>
+			<if test="artcontent != null">
+				ArtContent,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="digest != null">
+				#{digest,jdbcType=VARCHAR},
+			</if>
+			<if test="bytitle != null">
+				#{bytitle,jdbcType=VARCHAR},
+			</if>
+			<if test="classfy != null">
+				#{classfy,jdbcType=VARCHAR},
+			</if>
+			<if test="sendtime != null">
+				#{sendtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="clicknum != null">
+				#{clicknum,jdbcType=INTEGER},
+			</if>
+			<if test="sendpeople != null">
+				#{sendpeople,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="istop != null">
+				#{istop,jdbcType=BIT},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="imgurl != null">
+				#{imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="artcontent != null">
+				#{artcontent,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.ArticlesExample"
+		resultType="java.lang.Integer">
+		select count(*) from articles
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update articles
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.title != null">
+				Title = #{record.title,jdbcType=VARCHAR},
+			</if>
+			<if test="record.digest != null">
+				Digest = #{record.digest,jdbcType=VARCHAR},
+			</if>
+			<if test="record.bytitle != null">
+				ByTitle = #{record.bytitle,jdbcType=VARCHAR},
+			</if>
+			<if test="record.sendtime != null">
+				SendTime = #{record.sendtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.clicknum != null">
+				ClickNum = #{record.clicknum,jdbcType=INTEGER},
+			</if>
+			<if test="record.sendpeople != null">
+				SendPeople = #{record.sendpeople,jdbcType=VARCHAR},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.istop != null">
+				IsTop = #{record.istop,jdbcType=BIT},
+			</if>
+			<if test="record.type != null">
+				Type = #{record.type,jdbcType=INTEGER},
+			</if>
+			<if test="record.imgurl != null">
+				ImgUrl = #{record.imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="record.artcontent != null">
+				ArtContent = #{record.artcontent,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExampleWithBLOBs" parameterType="map">
+		update articles
+		set ID = #{record.id,jdbcType=INTEGER},
+		Title =
+		#{record.title,jdbcType=VARCHAR},
+		Digest =
+		#{record.digest,jdbcType=VARCHAR},
+		ByTitle =
+		#{record.bytitle,jdbcType=VARCHAR},
+		Classfy =
+		#{record.classfy,jdbcType=VARCHAR},
+		SendTime =
+		#{record.sendtime,jdbcType=TIMESTAMP},
+		ClickNum =
+		#{record.clicknum,jdbcType=INTEGER},
+		SendPeople =
+		#{record.sendpeople,jdbcType=VARCHAR},
+		Status =
+		#{record.status,jdbcType=INTEGER},
+		IsTop =
+		#{record.istop,jdbcType=BIT},
+		ImgUrl =
+		#{record.imgurl,jdbcType=VARCHAR},
+		ArtContent =
+		#{record.artcontent,jdbcType=LONGVARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update articles
+		set ID = #{record.id,jdbcType=INTEGER},
+		Title =
+		#{record.title,jdbcType=VARCHAR},
+		Digest =
+		#{record.digest,jdbcType=VARCHAR},
+		ByTitle =
+		#{record.bytitle,jdbcType=VARCHAR},
+		SendTime =
+		#{record.sendtime,jdbcType=TIMESTAMP},
+		ClickNum =
+		#{record.clicknum,jdbcType=INTEGER},
+		SendPeople =
+		#{record.sendpeople,jdbcType=VARCHAR},
+		Status =
+		#{record.status,jdbcType=INTEGER},
+		ImgUrl =
+		#{record.imgurl,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Articles">
+		update articles
+		<set>
+			<if test="title != null">
+				Title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="digest != null">
+				Digest = #{digest,jdbcType=VARCHAR},
+			</if>
+			<if test="bytitle != null">
+				ByTitle = #{bytitle,jdbcType=VARCHAR},
+			</if>
+			<if test="sendtime != null">
+				SendTime = #{sendtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="clicknum != null">
+				ClickNum = #{clicknum,jdbcType=INTEGER},
+			</if>
+			<if test="sendpeople != null">
+				SendPeople = #{sendpeople,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="istop != null">
+				IsTop = #{istop,jdbcType=BIT},
+			</if>
+			<if test="imgurl != null">
+				ImgUrl = #{imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="artcontent != null">
+				ArtContent = #{artcontent,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yinlian.wssc.web.po.Articles">
+		update
+		articles
+		set Title = #{title,jdbcType=VARCHAR},
+		Digest =
+		#{digest,jdbcType=VARCHAR},
+		ByTitle = #{bytitle,jdbcType=VARCHAR},
+		SendTime = #{sendtime,jdbcType=TIMESTAMP},
+		ClickNum = #{clicknum,jdbcType=INTEGER},
+		SendPeople =
+		#{sendpeople,jdbcType=VARCHAR},
+		Status = #{status,jdbcType=INTEGER},
+		IsTop = #{istop,jdbcType=BIT},
+		Type =
+		#{type,jdbcType=INTEGER},
+		ImgUrl = #{imgurl,jdbcType=VARCHAR},
+		ArtContent = #{artcontent,jdbcType=LONGVARCHAR},
+		partid=#{partid,jdbcType=INTEGER},
+		supId=#{supId,jdbcType=INTEGER},
+		webSet=#{webSet,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Articles">
+		update articles
+		set Title = #{title,jdbcType=VARCHAR},
+		Digest =#{digest,jdbcType=VARCHAR},
+		ByTitle = #{bytitle,jdbcType=VARCHAR},
+		SendTime = #{sendtime,jdbcType=TIMESTAMP},
+		ArtContent=#{artcontent,jdbcType=LONGVARCHAR},
+		ClickNum = #{clicknum,jdbcType=INTEGER},
+		Status = #{status,jdbcType=INTEGER},
+		ImgUrl = #{imgurl,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 查询网站新闻列表 -->
+	<select id="selectNews" resultType="com.yinlian.api.app.dto.Api_ArticlesDto"
+		parameterType="java.lang.Integer">
+		select ID as id,Title as title
+		from articles
+		where Type =
+		#{type,jdbcType=INTEGER}
+	</select>
+
+
+	<!-- 查询网站新闻详细信息 -->
+	<select id="selectNewsInfo" resultType="com.yinlian.api.app.dto.Api_NewsDto"
+		parameterType="java.lang.Integer">
+		select ID as id,Title as title,Digest as diget,ByTitle
+		as bytitle,ArtContent
+		as content,ImgUrl as imgurl
+		from articles
+		where ID
+		= #{id,jdbcType=INTEGER}
+	</select>
+
+	<!-- 以下是自定义的 接口 分页查询 -->
+	<sql id="criteria_query">
+		<where>
+			<if test="criteria.title != null and criteria.title != '' ">
+				and title like '%${criteria.title}%'
+			</if>
+			and Type!=3
+		</where>
+	</sql>
+	<select id="selectArticlesManageByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.po.Articles">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from articles
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+	<!-- 以下是自定义的 接口 分页查询 -->
+	<sql id="criteria_query1">
+		<where>
+			<if test="criteria.title != null and criteria.title != '' ">
+				and title like '%${criteria.title}%'
+			</if>
+			and Type=3
+		</where>
+	</sql>
+
+	<select id="selectNewsByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.po.Articles">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from articles
+		<if test="criteria != null ">
+			<include refid="criteria_query1" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	<select id="selectByclassfy" resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from articles
+		where Classfy = #{classfy}
+	</select>
+	<select id="getArticlesByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.ArticlesDto">
+		SELECT art.ID,
+		art.Title,
+		art.Digest,
+		art.ByTitle,
+		art.ArtContent,
+		art.SendTime,
+		art.ClickNum,
+		art.SendPeople,
+		art.STATUS,
+		art.ImgUrl,
+	case (select count(1) from classfy_article where articleId=art.ID) when 0 then '无' when 1 then (select classfyName from classfy_article where articleId=art.ID) else '多分类' end navclassfyName
+		FROM articles art
+		<if test="criteria != null ">
+			<where>
+				<if test="criteria.title != null and criteria.title != '' ">
+					and title like '%${criteria.title}%'
+				</if>
+			</where>
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	<update id="updateClickNum" parameterType="int">
+		update articles
+		set
+		ClickNum = ClickNum+1
+		where ID = #{0}
+	</update>
+
+	<resultMap id="BaseResultMapPC" type="com.yinlian.pc.dto.NavfyDto">
+		<result column="id" property="id" jdbcType="INTEGER" />
+		<result column="classname" property="name" jdbcType="VARCHAR" />
+		<result column="partid" property="partid" jdbcType="INTEGER" />
+		<collection property="artlist"
+			ofType="com.yinlian.pc.dto.ArticleDto">
+			<result column="artid" property="artid" jdbcType="INTEGER" />
+			<result column="title" property="title" jdbcType="VARCHAR" />
+		</collection>
+	</resultMap>
+	<select id="getNavfyDto" parameterType="int" resultMap="BaseResultMapPC">
+
+		SELECT classname,id AS artid FROM navclassfy
+	</select>
+	<select id="getArticleDtoByPart" parameterType="int" resultType="com.yinlian.pc.dto.ArticleDto">
+		SELECT b.id AS artid,b.title FROM articles b
+	</select>
+	
+	
+	<select id="selectByTitle" parameterType="java.lang.String"
+		resultType="com.yinlian.wssc.web.po.Articles">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from articles
+		where Title=#{title}
+	</select>
+	
+	<select id="selectByPartid" parameterType="int" resultType="com.yinlian.wssc.web.po.Articles">
+	select
+		<include refid="Base_Column_List" />
+		from articles
+		where partid=#{0}
+	</select>
+	
+	<select id="selectAll" resultType="com.yinlian.wssc.web.po.Articles">
+	select id,title from articles order by sendTime desc
+	</select>
+	
+	<select id="seleteFindRelationByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" resultType="com.yinlian.wssc.web.dto.FindRelationDto">
+		select r.id as id,f.id as findid,f.type as type,a.id as relationid,f.title as findName,a.title as relateionName,r.sort as sort
+		from findrecord f left join find_relation r on f.id=r.findid left join articles a on a.id=r.relationid
+       <if test="criteria != null ">
+       		<where>
+			<if test="criteria.findid != null and criteria.findid != '' ">
+				and r.findid = #{criteria.findid}
+			</if>
+			</where>
+		</if>
+     <if test="criteria.orderByClause != null and criteria.orderByClause != '' " >
+      order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序     此处只能使用${} 而不能使用#{} 会设置参数失败 -->
+    </if>
+  </select>	
+  
+  
+   <select id="getSpuStartWithNames" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		select
+		<include refid="Base_Column_List" />
+		from articles where 1=1
+		<choose>
+			<when test="#{_parameter} != null and #{_parameter} != ''">
+				and title like '%${_parameter}%' limit 0,10
+			</when>
+			<otherwise>
+				limit 0,10
+			</otherwise>
+		</choose>
+	</select>
+</mapper>

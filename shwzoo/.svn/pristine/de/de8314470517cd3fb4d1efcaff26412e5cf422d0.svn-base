@@ -1,0 +1,98 @@
+
+<head>
+<meta charset="utf-8">
+
+<title>发现</title>
+<link rel="stylesheet" href="/resource/app/css/greenLife.css" />
+
+<script type="text/javascript" src="/resource/wap/js/Yeffect16_0118.min.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/greenLife.js" ></script>
+<script type="text/javascript" src="/resource/artTemplate.js"></script>
+<script type="text/javascript" src="/resource/wap/js/wap-common.js"></script>
+
+<script type="text/javascript" src="/resource/GetQueryString.js"></script>
+<script type="text/javascript">
+  	$(function(){
+		 pageData={index:1,size:10,orderby:2,mark:1};
+		 pageUrl="/wap/zlzx/getWapTopicList";
+		 content="#ullist";
+		 initPage();
+	});
+</script>
+<%if(ch==2){%>
+<style>
+.septop {padding-top: 18px;}
+.septop.rowreturn{background: #006428 url(/resource/app/images/rowreturn.png) no-repeat 3% 0.6rem;background-size: 0.17rem auto;}
+</style>
+<%}%>
+</head>
+<body>
+<!--septop begin-->
+<div class="septop rowreturn fixed">
+	<span class="bigsize">每日鲜</span>
+	<div id="rowreturn" onclick="javascirpt:location.href='url:///back'" ></div>
+</div>
+<!--septop stop-->
+<!--banner-->
+<div class="fx-banner">
+	<ul>
+		<% var imgcon=0;
+		if(isNotEmpty(ads)){
+			for(ad in ads){
+				imgcon++;
+	    %>
+  	    <li><a href="${ad.url}"><img src="${ad.imgurl}"></a></li>   
+        <%}}%>
+
+  </ul>
+	<p>
+		<%if(imgcon>0){for(var i=0;i<imgcon;i++){%>
+		<i></i>
+	    <%}}%>
+	</p>
+</div>
+<script>
+$(function(){
+	/////banner	
+	Yeffect.mobileBanner(".fx-banner ul",".fx-banner ul li",".fx-banner p i","","","current",5000);
+	var fx_banner=$(".fx-banner");
+	Yeffect.resizeHtW(fx_banner,fx_banner,640,248);
+})
+</script>
+<!--banner***-->
+<ul class="sep-byzsq fix">
+	<!-- <li class="active"><a href="#">包邮直送区</a></li>
+	<li><a href="#">特价区</a></li>
+	<li><a href="#">新品区</a></li> -->
+</ul>
+<ul class="sep-byzslist fix" id="ullist">
+	<!-- <li>
+		<a href="#">
+			<img src="images/img4.jpg"/>
+			<h3>维达超韧3层软抽纸巾(粉花)130抽维达超韧3层软抽纸巾(粉花)130抽维达超韧3层软抽纸巾(粉花)130抽*3/提</h3>
+			<p class="orange">￥78.00</p>
+		</a>
+	</li>	 -->
+</ul>
+<script type="text/html" id="pagehtml">
+{{each list as byz i}}
+<li>
+	<a href="url://prodetailed|||{{byz.spuid}}">
+		<img src="{{byz.img}}"/>			
+		<h3>{{byz.name}}</h3>
+		<p class="orange">￥ {{toFixed(byz.price,2)}}</p>			
+	</a>
+</li>
+{{/each}}
+</script>
+<script>
+$(function(){
+	fixed('.septop');
+	Yeffect.resizeHtWstr(".sep-byzslist li:visible",".sep-byzslist li img",296,296);
+	Yeffect.mobileBanner(".fx-banner ul",".fx-banner ul li",".fx-banner p i","","","current",5000);
+	var fx_banner=$(".fx-banner");
+	Yeffect.resizeHtW(fx_banner,fx_banner,640,248);
+})
+ 
+</script>
+</body>

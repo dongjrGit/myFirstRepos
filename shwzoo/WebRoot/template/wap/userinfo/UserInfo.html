@@ -1,0 +1,128 @@
+<%var path="/resource";%>
+<head>
+<title>我的信息</title>
+
+<script type="text/javascript" src="${path}/wap/js/login.js"></script>
+<script src="${path}/wap/js/userInfo/UserInfo.js"></script>
+<script src="${path}/ajaxfileupload.js"></script>
+<script type="text/javascript">
+$(function(){
+});
+</script>
+</head>
+<body>
+<div class="top_title fix">
+		<a href="/wap/userinfo/homepage?ch=3"><div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div></a>
+		我的信息
+	</div>
+<div id="users">
+<hr class="back"/>
+<input type="file" name="file1"  accept="image/*" id="file1" style="display:none"  multiple/>
+<a class="Imxixi-touxiang" id="imagess" href="javascript:void(0);"><span>头像</span> <%if(!isEmpty(userInfos.imgUrl)){%><img src="${userInfos.imgUrl}" id="img1" name="img1"><%}else{%><img src="/wap/images/index11.jpg" id="img" name="img"><%}%></a>
+<input type="hidden" name="imasrc3" value="" id="imasrc3" />
+
+<!--信息-->
+<ul class="Imxixi-ztxx">
+	<li id="xm"><span>姓名</span><font id="name" type="text"><%if(!isEmpty(userInfos.realName)){%>${userInfos.realName}<%}%></font></li>
+    <li class="nianl"><span>年龄</span><font id="age"><%if(!isEmpty(userInfos.age)){%> ${userInfos.age} <%}%></font></li>
+    <li class="riqi"><span>出生日期</span><font id="birthday"><%if(!isEmpty(userInfos.birthday)){%>${userInfos.birthday,dateFormat="yyyy-MM-dd"}<%}%></font><input type="date" style="margin-left: 64%;" value="1998-12-10"></li>
+</ul>
+
+<hr class="back"/>
+<!--设置-->
+<div class="ImMain_gotoGp">
+	<a href="/wap/showsetting/changcity?type=1" class="ImMain_goto"><span>故乡</span><font id="hometown"><%if(!isEmpty(userInfos.hometown)){%>${userInfos.hometown}<%}%></font></a>
+    <a href="/wap/showsetting/changcity?type=2" class="ImMain_goto"><span>所在地</span><font id="location"><%if(!isEmpty(userInfos.location)){%>${userInfos.location}<%}%></font></a>
+</div>
+<hr class="back"/>
+<a href="/wap/user/showupdpwd" class="ImMain_goto lan"><span>修改密码</span><font>修改</font></a>
+<style type="text/css">  
+input.text{text-align:center;}  
+.but-tjl{width: 94%;
+    margin: 8% auto 0px;display: block;
+    background: #E56565;
+    color: #FFFFFF;
+    padding: 3% 0px;
+    text-align: center;
+    border-radius: 5px; border:none;} 
+</style>  
+<input type="button" id="button" class="text but-tjl" value="提交" align="center"></input>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+</div>
+<script>
+$(function(){
+	$(".Imxixi-ztxx .nianl select")	.change(function(){
+		$(this).parents("li").find("font").text($(this).val());
+	});
+	
+	$(".Imxixi-ztxx .riqi input")	.change(function(){
+		$(this).parents("li").find("font").text($(this).val());
+	});
+	
+})
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+	 
+	  if(login.isLogin()){ 
+	  $("#imagess").bind("click", function() {
+			$("#file1").click();
+		});
+	  $("#file1").change(function(){
+		  UserInfo.fimage(1);
+	  });
+	  $("#xm").click(function(){
+		 var c =  prompt('请输入姓名 ');
+			if(c!=null){
+				$("#name").text(c);
+			}
+	  })
+	// if("#label").chang(function(){
+		// var label = $("#label").text();
+		// if(label!=null){
+			// $("#name").text(label);
+		// }
+	// })
+	  $("#button").click(function(){
+		 var image="";
+		 var name="";
+		 var age ="";
+		 var birthday="";
+		 var hometown="";
+		 var location="";
+		 if(image!=null){
+			 image=$('#imasrc3').val();
+		 }
+		 if(age!=null){
+			 age= $("#age").text();
+		 }
+		 if(name!=null){
+			 name= $("#name").text();
+		 }
+		 if(birthday!=null){
+			 birthday= $("#birthday").text();
+		 }
+		 if(hometown!=null){
+			 hometown= $("#hometown").text();
+		 }
+		 if(location!=null){
+			 location=  $("#location").text();
+		 }
+		 UserInfo.upuserssmessage(image,name,age,birthday,hometown,location);
+	  })
+		
+	  }  
+	
+  })
+</script>
+</body>

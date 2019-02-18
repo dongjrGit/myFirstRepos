@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.BankCardMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.BankCard">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="OpenBank" property="openbank" jdbcType="VARCHAR" />
+		<result column="SubBank" property="subbank" jdbcType="VARCHAR" />
+		<result column="Name" property="name" jdbcType="VARCHAR" />
+		<result column="Number" property="number" jdbcType="VARCHAR" />
+		<result column="Phone" property="phone" jdbcType="VARCHAR" />
+		<result column="UserId" property="userid" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		ID, OpenBank, SubBank, Name, Number, Phone, UserId
+	</sql>
+	
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.Brand">
+		insert into bankcard (ID, OpenBank,
+		SubBank,
+		Name, Number, Phone,
+		UserId)
+		values
+		(#{id,jdbcType=INTEGER}, #{openbank,jdbcType=VARCHAR},
+		#{subbank,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{number,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+		#{userid,jdbcType=INTEGER})
+	</insert>
+	
+	<select id="query" resultMap="BaseResultMap">
+		 select
+		<include refid="Base_Column_List" />
+		from bankCard where UserId=#{0} and Number=#{1}
+	</select>
+	<!-- 根据userid查询银行卡 -->
+	<select id="selectByUserId" resultMap="BaseResultMap" parameterType="INTEGER">
+		select 
+		<include refid="Base_Column_List" />
+		from bankcard 
+		where userid = #{userid}
+	</select>
+	<select id="selectCount" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		select count(id)
+		from bankcard
+		where userid=#{userid,jdbcType=INTEGER}
+	</select>
+	 <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from bankcard
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+</mapper>

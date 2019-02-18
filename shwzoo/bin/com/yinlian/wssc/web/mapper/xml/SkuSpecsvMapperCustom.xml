@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.SkuSpecsvMapperCustom">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.dto.SkuValuesDto">
+		<result column="skuid" property="skuid" jdbcType="INTEGER" />
+		<result column="skuvalueid" property="skuvalueid" jdbcType="INTEGER" />
+		<result column="valueid" property="valueid" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="value" property="value" jdbcType="VARCHAR" />
+		<result column="specsname" property="specsname" jdbcType="VARCHAR" />
+		<result column="specsid" property="specsid" jdbcType="INTEGER" />
+	</resultMap>
+
+	<select id="getSpecsVBySkuID" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		SELECT a.ID AS valueid, a.VALUE,a.STATUS,b.SKU_ID AS skuid,
+		b.ID AS skuvalueid,a.SpecsID AS specsid,
+		c.Name AS specsname
+		FROM specsvalues a,sku_specsv b,product_specs c
+		WHERE a.ID=b.SpecsV_ID 
+		AND a.SpecsID=c.ID 
+		AND b.SKU_ID=#{0}
+
+	</select>
+	<select id="getbyValueID" parameterType="int" resultType="com.yinlian.wssc.web.po.SkuSpecsv">
+        SELECT ID,SKU_ID FROM sku_specsv where SpecsV_ID=#{0} limit 1
+</select>
+</mapper>

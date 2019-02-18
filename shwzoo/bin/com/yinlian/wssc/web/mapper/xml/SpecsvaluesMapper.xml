@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.SpecsvaluesMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Specsvalues">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="Value" property="value" jdbcType="VARCHAR" />
+		<result column="SpecsID" property="specsid" jdbcType="INTEGER" />
+		<result column="GUID" property="guid" jdbcType="VARCHAR" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, Value, SpecsID, GUID, Status
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.SpecsvaluesExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from specsvalues
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from specsvalues
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		specsvalues
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.SpecsvaluesExample">
+		delete from specsvalues
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.Specsvalues">
+		insert into specsvalues (ID,
+		Value, SpecsID,
+		GUID, Status)
+		values (#{id,jdbcType=INTEGER},
+		#{value,jdbcType=VARCHAR},
+		#{specsid,jdbcType=INTEGER},
+		#{guid,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Specsvalues">
+		insert into specsvalues
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="value != null">
+				Value,
+			</if>
+			<if test="specsid != null">
+				SpecsID,
+			</if>
+			<if test="guid != null">
+				GUID,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="value != null">
+				#{value,jdbcType=VARCHAR},
+			</if>
+			<if test="specsid != null">
+				#{specsid,jdbcType=INTEGER},
+			</if>
+			<if test="guid != null">
+				#{guid,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.SpecsvaluesExample"
+		resultType="java.lang.Integer">
+		select count(*) from specsvalues
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update specsvalues
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.value != null">
+				Value = #{record.value,jdbcType=VARCHAR},
+			</if>
+			<if test="record.specsid != null">
+				SpecsID = #{record.specsid,jdbcType=INTEGER},
+			</if>
+			<if test="record.guid != null">
+				GUID = #{record.guid,jdbcType=VARCHAR},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update specsvalues
+		set ID = #{record.id,jdbcType=INTEGER},
+		Value =
+		#{record.value,jdbcType=VARCHAR},
+		SpecsID =
+		#{record.specsid,jdbcType=INTEGER},
+		GUID =
+		#{record.guid,jdbcType=VARCHAR},
+		Status =
+		#{record.status,jdbcType=INTEGER}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Specsvalues">
+		update specsvalues
+		<set>
+			<if test="value != null">
+				Value = #{value,jdbcType=VARCHAR},
+			</if>
+			<if test="specsid != null">
+				SpecsID = #{specsid,jdbcType=INTEGER},
+			</if>
+			<if test="guid != null">
+				GUID = #{guid,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Specsvalues">
+		update specsvalues
+		set Value = #{value,jdbcType=VARCHAR},
+		SpecsID =
+		#{specsid,jdbcType=INTEGER},
+		GUID = #{guid,jdbcType=VARCHAR},
+		Status =
+		#{status,jdbcType=INTEGER}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+
+
+	<!-- 以下是为分页查询 写的 sql片段 -->
+
+	<sql id="criteria_query">
+		<where>
+			<if test="criteria.specsid != null and criteria.specsid != '' ">
+				and specsid=#{criteria.specsid}
+			</if>
+		</where>
+	</sql>
+
+	<select id="selectSpecsValuesBySpecsIdPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="BaseResultMap">
+		select * from specsValues
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+
+	</select>
+
+	<update id="updateStatus" parameterType="int">
+		update specsvalues
+		set
+		Status = #{0}
+		where ID = #{1}
+	</update>
+
+	<select id="getBySpecsID" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from specsvalues where SpecsID = #{0} and Status=0
+	</select>
+
+	<!-- 批量添加规格属性值 -->
+	<insert id="insertList" parameterType="java.util.List">
+		<if test="list != null">
+			insert into specsvalues (ID, Value, SpecsID,
+				GUID, Status) values 
+		    <foreach collection="list" item="item" index="index"
+				separator=",">		
+				(#{item.id,jdbcType=INTEGER},
+				#{item.value,jdbcType=VARCHAR},
+				#{item.specsid,jdbcType=INTEGER},
+				#{item.guid,jdbcType=VARCHAR}, #{item.status,jdbcType=INTEGER})
+			</foreach>
+		</if>
+	</insert>
+
+	<!-- 单条插入并返回主键ID -->
+	<insert id="insertSpecsvalues" parameterType="com.yinlian.wssc.web.po.Specsvalues">
+		<selectKey resultType="int" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into specsvalues (ID, Value, SpecsID,
+		GUID, Status)
+		values (#{id,jdbcType=INTEGER},
+		#{value,jdbcType=VARCHAR},
+		#{specsid,jdbcType=INTEGER},
+		#{guid,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+	</insert>
+
+	<!-- 批量删除规格属性值 -->
+	<delete id="deleteList" parameterType="java.util.List">
+		delete from specsvalues where ID in
+		<if test="list != null">
+			<foreach collection="list" item="ids" index="index" open="("
+				separator="," close=")">
+				#{ids}
+			</foreach>
+		</if>
+	</delete>
+</mapper>

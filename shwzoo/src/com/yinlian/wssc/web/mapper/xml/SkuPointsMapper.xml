@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.SkuPointsMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.SkuPoints" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="SkuID" property="skuid" jdbcType="INTEGER" />
+    <result column="Price" property="price" jdbcType="REAL" />
+    <result column="Points" property="points" jdbcType="INTEGER" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+    <result column="OrderBy" property="orderby" jdbcType="INTEGER" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="CreateUserID" property="createuserid" jdbcType="INTEGER" />
+    <result column="UserLevel" property="userlevel" jdbcType="INTEGER" />
+    <result column="Count" property="count" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, SkuID, Price, Points, Status, OrderBy, CreateTime, CreateUserID, UserLevel, Count
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.SkuPointsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sku_points
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sku_points
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sku_points
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.SkuPointsExample" >
+    delete from sku_points
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.SkuPoints" >
+    insert into sku_points (ID, SkuID, Price, 
+      Points, Status, OrderBy, 
+      CreateTime, CreateUserID, UserLevel, 
+      Count)
+    values (#{id,jdbcType=INTEGER}, #{skuid,jdbcType=INTEGER}, #{price,jdbcType=REAL}, 
+      #{points,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{orderby,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{createuserid,jdbcType=INTEGER}, #{userlevel,jdbcType=INTEGER}, 
+      #{count,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.SkuPoints" >
+    insert into sku_points
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="skuid != null" >
+        SkuID,
+      </if>
+      <if test="price != null" >
+        Price,
+      </if>
+      <if test="points != null" >
+        Points,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+      <if test="orderby != null" >
+        OrderBy,
+      </if>
+      <if test="createtime != null" >
+        CreateTime,
+      </if>
+      <if test="createuserid != null" >
+        CreateUserID,
+      </if>
+      <if test="userlevel != null" >
+        UserLevel,
+      </if>
+      <if test="count != null" >
+        Count,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="skuid != null" >
+        #{skuid,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=REAL},
+      </if>
+      <if test="points != null" >
+        #{points,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="orderby != null" >
+        #{orderby,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuserid != null" >
+        #{createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="userlevel != null" >
+        #{userlevel,jdbcType=INTEGER},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.SkuPointsExample" resultType="java.lang.Integer" >
+    select count(*) from sku_points
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sku_points
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.skuid != null" >
+        SkuID = #{record.skuid,jdbcType=INTEGER},
+      </if>
+      <if test="record.price != null" >
+        Price = #{record.price,jdbcType=REAL},
+      </if>
+      <if test="record.points != null" >
+        Points = #{record.points,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        Status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderby != null" >
+        OrderBy = #{record.orderby,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createuserid != null" >
+        CreateUserID = #{record.createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.userlevel != null" >
+        UserLevel = #{record.userlevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.count != null" >
+        Count = #{record.count,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sku_points
+    set ID = #{record.id,jdbcType=INTEGER},
+      SkuID = #{record.skuid,jdbcType=INTEGER},
+      Price = #{record.price,jdbcType=REAL},
+      Points = #{record.points,jdbcType=INTEGER},
+      Status = #{record.status,jdbcType=INTEGER},
+      OrderBy = #{record.orderby,jdbcType=INTEGER},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      CreateUserID = #{record.createuserid,jdbcType=INTEGER},
+      UserLevel = #{record.userlevel,jdbcType=INTEGER},
+      Count = #{record.count,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.SkuPoints" >
+    update sku_points
+    <set >
+      <if test="skuid != null" >
+        SkuID = #{skuid,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        Price = #{price,jdbcType=REAL},
+      </if>
+      <if test="points != null" >
+        Points = #{points,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="orderby != null" >
+        OrderBy = #{orderby,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuserid != null" >
+        CreateUserID = #{createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="userlevel != null" >
+        UserLevel = #{userlevel,jdbcType=INTEGER},
+      </if>
+      <if test="count != null" >
+        Count = #{count,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.SkuPoints" >
+    update sku_points
+    set SkuID = #{skuid,jdbcType=INTEGER},
+      Price = #{price,jdbcType=REAL},
+      Points = #{points,jdbcType=INTEGER},
+      Status = #{status,jdbcType=INTEGER},
+      OrderBy = #{orderby,jdbcType=INTEGER},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      CreateUserID = #{createuserid,jdbcType=INTEGER},
+      UserLevel = #{userlevel,jdbcType=INTEGER},
+      Count = #{count,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

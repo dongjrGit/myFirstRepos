@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.RecommclassMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Recommclass" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="ClassID" property="classid" jdbcType="INTEGER" />
+    <result column="RecommendID" property="recommendid" jdbcType="INTEGER" />
+    <result column="OrderBy" property="orderby" jdbcType="INTEGER" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="CreateUserID" property="createuserid" jdbcType="INTEGER" />
+    <result column="Img" property="img" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, ClassID, RecommendID, OrderBy, CreateTime, CreateUserID, Img
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.RecommclassExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from recommclass
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from recommclass
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from recommclass
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.RecommclassExample" >
+    delete from recommclass
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Recommclass" >
+    insert into recommclass (ID, ClassID, RecommendID, 
+      OrderBy, CreateTime, CreateUserID, 
+      Img)
+    values (#{id,jdbcType=INTEGER}, #{classid,jdbcType=INTEGER}, #{recommendid,jdbcType=INTEGER}, 
+      #{orderby,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{createuserid,jdbcType=INTEGER}, 
+      #{img,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Recommclass" >
+    insert into recommclass
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="classid != null" >
+        ClassID,
+      </if>
+      <if test="recommendid != null" >
+        RecommendID,
+      </if>
+      <if test="orderby != null" >
+        OrderBy,
+      </if>
+      <if test="createtime != null" >
+        CreateTime,
+      </if>
+      <if test="createuserid != null" >
+        CreateUserID,
+      </if>
+      <if test="img != null" >
+        Img,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="classid != null" >
+        #{classid,jdbcType=INTEGER},
+      </if>
+      <if test="recommendid != null" >
+        #{recommendid,jdbcType=INTEGER},
+      </if>
+      <if test="orderby != null" >
+        #{orderby,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuserid != null" >
+        #{createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.RecommclassExample" resultType="java.lang.Integer" >
+    select count(*) from recommclass
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update recommclass
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.classid != null" >
+        ClassID = #{record.classid,jdbcType=INTEGER},
+      </if>
+      <if test="record.recommendid != null" >
+        RecommendID = #{record.recommendid,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderby != null" >
+        OrderBy = #{record.orderby,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createuserid != null" >
+        CreateUserID = #{record.createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.img != null" >
+        Img = #{record.img,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update recommclass
+    set ID = #{record.id,jdbcType=INTEGER},
+      ClassID = #{record.classid,jdbcType=INTEGER},
+      RecommendID = #{record.recommendid,jdbcType=INTEGER},
+      OrderBy = #{record.orderby,jdbcType=INTEGER},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      CreateUserID = #{record.createuserid,jdbcType=INTEGER},
+      Img = #{record.img,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Recommclass" >
+    update recommclass
+    <set >
+      <if test="classid != null" >
+        ClassID = #{classid,jdbcType=INTEGER},
+      </if>
+      <if test="recommendid != null" >
+        RecommendID = #{recommendid,jdbcType=INTEGER},
+      </if>
+      <if test="orderby != null" >
+        OrderBy = #{orderby,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuserid != null" >
+        CreateUserID = #{createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="img != null" >
+        Img = #{img,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Recommclass" >
+    update recommclass
+    set ClassID = #{classid,jdbcType=INTEGER},
+      RecommendID = #{recommendid,jdbcType=INTEGER},
+      OrderBy = #{orderby,jdbcType=INTEGER},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      CreateUserID = #{createuserid,jdbcType=INTEGER},
+      Img = #{img,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getListByPage" resultType="com.yinlian.wssc.web.dto.RecommendClassDto"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+
+		select ID, ClassID, RecommendID, OrderBy, CreateTime, CreateUserID, Img
+		FROM recommclass
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	
+    <!-- 修改排序 -->
+	<update id="updateOrder" parameterType="int">
+		update recommclass
+		set OrderBy = #{0}
+		where ID = #{1}
+	</update>
+	<!-- 批量修改排序 -->
+	<update id="updateOrderList" parameterType="list">
+	<if test="list !=null">
+		<foreach collection="list" item="rc" index="index"
+				open="" close="" separator=";">
+				update recommclass
+				set OrderBy = #{rc.orderby}
+				where ID = #{rc.id}
+		</foreach>
+	</if>
+	</update>
+</mapper>

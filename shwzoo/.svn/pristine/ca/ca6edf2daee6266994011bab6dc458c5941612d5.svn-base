@@ -1,0 +1,118 @@
+﻿@{
+    ViewBag.Title = "买家中心-手机注册";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>买家中心</title>
+    <meta name="title" content="买家中心" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    @*<meta http-equiv="refresh" content="1200" />*@
+    <link href="~/Content/ui-dialog.css" rel="stylesheet" />
+    <link rel="shortcut icon" type="image/x-icon" href="~/mv10/images/favicon_shortcut.ico" />
+    <link type="text/css" rel="stylesheet" href="~/mv10/css/common.css">
+    <link type="text/css" rel="stylesheet" href="~/mv10/css/login.css">
+
+    <script type="text/javascript" src="~/Scripts/jquery-1.8.2.js"></script>
+    <script src="~/js/Guid.js"></script>
+    <script src="~/js/cookie.js"></script>
+
+    <script src="~/js/dialog-min.js"></script>
+    <script src="~/js/dialogShow.js"></script> <!--弹出框-->
+    <!--表单验证css&&js-->
+    <link href="~/Content/jQuery.Validate.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/messages_cn.js"></script>
+    <script src="~/Scripts/jquery.validate-methods.js"></script>
+
+    <script src="~/mv10/js/LoginRegister/RegisterMobile.js"></script>
+</head>
+
+<body>
+    <!--top  begin -->
+    <div id="top">
+        <div class="wrapper">
+            <div class="logo"></div>
+            <div class="top-right">您好，欢迎光临中绿！<span class="lvse"><a href="Login">登录</a></span></div>
+        </div><!--wrapper  stop -->
+    </div>
+    <!--top  stop -->
+    <!--main  begin -->
+    <div id="main">
+        <div class="wrapper">
+            <div style="height:60px;"></div>
+            <div class="yxzc">
+                <a href="Register_Email"><span class="yxzc-wz" style="height:36px; line-height:38px;border-top:1px solid #BFBFBF;border-bottom:1px solid #BFBFBF;">邮箱注册</span></a>
+                <a href="Register_Mobile"><span class="sjzc-wz" style="height:37px;border-top:3px solid #4AB9EE; border-bottom:none; background:#ffffff;">手机注册</span></a>      
+            </div><!--yxzc  stop -->
+            <div class="yxyzcon">
+                <form id="signupForm">
+                    <div class="yxyzcon-left">
+                        <div class="yxyzmk">
+                            <div class="yxyzmk-left">手机号：</div>
+                            <div class="yxyzmk-right"><input name="text_mobile" id="text_mobile" type="text" class="inp-yz"></div>
+                        </div><!--yxyzmk  stop -->
+                        <div class="yxyzmk">
+                            <div class="yxyzmk-left">短信验证码：</div>
+                            <div class="yxyzmk-right-yzm">
+                                <input name="text_mobilecode" id="text_mobilecode" type="text" class="inp-yz-yzm">
+
+                                <a href="javascript:void(0)" class="g_hqyzm fl" style="color: rgb(0, 0, 0);"><span class="hqyzm-sj"><b style="display: none;">60</b><font>获取验证码</font></span></a>
+                            </div>
+                        </div><!--yxyzmk  stop -->
+                        <div class="yxyzmk">
+                            <div class="yxyzmk-left">密码：</div>
+                            <div class="yxyzmk-right"><input name="password_pwd" id="password_pwd" type="password" class="inp-yz"></div>
+                        </div><!--yxyzmk  stop -->
+                        <div class="yxyzmk">
+                            <div class="yxyzmk-left">确认密码：</div>
+                            <div class="yxyzmk-right"><input name="password_pwdagain" id="password_pwdagain" type="password" class="inp-yz"></div>
+                        </div><!--yxyzmk  stop -->   
+                        <div class="yxyzmk">
+                            <div class="yxyzmk-left">验证码：</div>
+                            <div class="yxyzmk-right-yzm">
+                                <input name="text_verification" id="text_verification" type="text" class="inp-yz-yzm">
+                                <span class="verification-yzm">
+                                    <img src="/verification" class="refleshverification_img" width="83" height="45" alt="验证码" />
+                                </span>
+                                <span class="lvse">
+                                    <a href="javascript:void(0)" class="refleshverification">换一张</a>
+                                </span>
+                            </div>
+                        </div><!--yxyzmk  stop -->                  
+                        <div class="yxyzmk" style="margin:40px 0px 0px 0px;">
+                            <div class="yxyzmk-left"></div>
+                            <div class="yxyzmk-right">
+                                <a id="a_submit" class="uerregister">
+                                    <img src="~/mv10/images/zc.png" width="276" height="46" alt="注册">
+                                </a>
+                            </div>
+                        </div><!--yxyzmk  stop -->
+                        <div class="yxyzmk" style="height:30px; margin-bottom:0px;">
+                            <div class="yxyzmk-left" style="height:30px;"></div>
+                            <div class="yxyzmk-right-bottom">点击注册，表示同意中绿生活<span class="lvse"><a href="javascript:void(0);">《服务协议》</a></span></div>
+                        </div><!--yxyzmk  stop -->
+                        <div class="clear"></div>
+                    </div><!-- yxyzcon-left  stop-->
+                </form>
+                <div class="yxyzcon-right">
+                    <div class="yyzc-img"><a href="/Seller/DlZc/Register_Company"><img src="~/mv10/images/qyzc.png" width="190" height="65" alt="企业注册" title="企业注册"></a></div>
+                    <div class="qyzc-wzjs"><a href="/Seller/DlZc/Register_Company">立即点击企业注册！</a></div>
+                </div><!-- yxyzcon-right  stop-->
+                <div class="clear"></div>
+            </div><!--yxyzcon  stop -->
+        </div><!--wrapper  stop -->
+    </div>
+    <!--main  stop -->
+</body>
+</html>
+<script type="text/javascript">
+    $(document).ready(function (e) {
+        //初始化
+        Init.bind();
+    });
+</script>
+

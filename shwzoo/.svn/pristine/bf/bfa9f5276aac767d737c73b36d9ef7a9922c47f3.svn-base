@@ -1,0 +1,92 @@
+<%var path="/resource";%>
+<head>
+    <title>商品列表</title>
+    
+<link rel="stylesheet" href="/resource/app/css/greenLife.css" />
+    <link rel="stylesheet" href="/resource/wap/css/swiper.min.css" />
+    <script type="text/javascript" src="${path}/wap/js/index.js" ></script>
+    <script type="text/javascript" src="${path}/artTemplate.js"></script>
+<script type="text/javascript" src="/resource/wap/js/Yeffect16_0118.min.js" ></script>
+<script type="text/javascript" src="/resource/GetQueryString.js"></script>
+<%if(ch==2){%>
+<style>
+.septop {padding-top: 18px;}
+.septop.rowreturn{background: #006428 url(/resource/app/images/rowreturn.png) no-repeat 3% 0.6rem;background-size: 0.17rem auto;}
+.fx-banner{margin-top:43px}
+</style>
+<%}else{ %>
+<style>
+.fx-banner{margin-top:25px}
+</style>
+<%}%>
+
+<style type="text/css">
+.zlindex-fzhd li{width: 50%;margin: 0;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;border: 0px solid #ccc;border-width: 0px 1px 1px 0px;}
+.zlindex-fzhd li:nth-child(2n){margin-left: 0;}
+.zlindex-fzhd li .zlindex-fzhddiv{background: 0;}
+</style>
+</head>
+ 
+
+<body>
+<!--septop begin-->
+<div class="septop rowreturn fixed">
+	<span class="bigsize">发现好店</span>
+	<div id="rowreturn" onclick="javascirpt:location.href='url:///back'"></div>
+</div>
+ >
+ 
+<div class="fx-banner" >
+		<ul>
+			<% for (vo in gg){%>	
+			
+	    	<li ><a href="${vo.url}" ><img src="${vo.imag}"></a></li>
+	    	<%}%>
+	    </ul>
+</div>
+	<ul class="zlindex-fzhd fix" id="dplist" style="margin-top: 2px">
+	<!-- <li>
+		<a href="#">·
+			<img src="images/img4.jpg"/>
+			<h3>维达超韧3层软抽纸巾(粉花)130抽维达超韧3层软抽纸巾(粉花)130抽维达超韧3层软抽纸巾(粉花)130抽*3/提</h3>
+			<p class="orange">￥78.00</p>
+		</a>
+	</li>	 -->
+</ul>
+
+	<!--productlistcon  stop-->
+	
+	<script type="text/html" id="pagehtml">
+			 {{each list as shop i}}
+<li>
+		<a href="url://shopdetail|||{{shop.shopid}}">
+			<img src="{{shop.img}}"/>
+			<div class="zlindex-fzhddiv">
+				<div>
+					<h3>{{shop.shopname}}</h3>
+				</div>
+			</div>
+		</a>
+	</li>
+			{{/each}}
+			</script>
+	
+  <!--themestreet  stop-->
+	<img src="${path}/wap/images/index_42.png" class="qianggou-scrollTop">
+    <script type="text/javascript" src="/resource/artTemplate.js"></script>
+<script type="text/javascript" src="/resource/wap/js/wap-common.js"></script>
+<script type="text/javascript">
+fixed('.top');//头部固定
+  	$(function(){
+		 pageData={page:1,size:10,ch:3};
+		 pageUrl="/api/wap/findfxhd";
+		 content="#dplist";
+		initPage();
+	});
+	function load(){
+		Yeffect.resizeHtWstr(".zlindex-fzhd li:visible",".zlindex-fzhd li img",314,314);
+		var fx_banner=$(".fx-banner");
+		Yeffect.resizeHtW(fx_banner,fx_banner,640,248);
+	}
+</script>
+</body>

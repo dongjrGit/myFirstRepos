@@ -1,0 +1,52 @@
+<%var path="/resource";%>
+<meta charset="utf-8">
+<%for (vo in pageData.data){%>
+
+
+<section class="dingdan-list">
+	<div class="Hd"><b>订单编号:${vo.ordercode}</b>
+
+	<span><%if(vo.ostatus==0){%>
+         <span>待付款</span>
+         <%}else if(vo.ostatus==1){%>
+         <span>待消费</span>
+        <%}else if(vo.ostatus==2){%>
+         <span>已取消</span>
+         <%}else if(vo.ostatus==3){%>
+         <span>申请退款</span>
+       <%}else if(vo.ostatus==4){%>
+         <span>已退款</span>
+         <%}else if(vo.ostatus==5){%>
+         <span>待评价</span>
+         <%}else if(vo.ostatus==6){%>
+         <span>已评价</span>
+       <%}%></span>
+	
+	<a href="javascript:void(0);" class="delet"><div value="${vo.id}" name="${vo.ostatus}"></div><img  onclick="deleteOrder('${vo.id}')"   src="${path}/wap/images/index_14.png"></a></div>
+    <ul>
+    	<li>
+        	<a href="/wap/order/showOrderDetail?orderid=${vo.id}&href=/wap/activityView/getOrderList.html?status=${vo.ostatus}">
+            	<img src="${vo.img}" class="L">
+                <div class="R">
+           			<p>${vo.title}</p>
+           				<b>${vo.shopname}</b>
+                </div>
+            </a>
+        </li>
+    </ul>
+     <div class="FT">共${vo.ordercount}件，实付款：<span>￥${vo.orderprice}</span>
+      <%if(vo.ostatus==0){%>
+       <a href="/wap/activityView/topay.html?ogc=${vo.ordercode}&price=${vo.orderprice}">付款</a><a href="javascript:void()" name="cancel" value="${vo.id}"   onclick="cancleOrder('${vo.id}')" >取消订单</a>
+       <%}else if(vo.ostatus==1){%>
+       <a href="javascript:void()" name="cancel" value="${vo.id}" onclick="cancleOrder('${vo.id}')">取消订单</a><a href="javascript:void()" name="cancel" value="${vo.id}"   onclick="returnOrder('${vo.id}')" >申请退款</a>
+       <%}else if(vo.ostatus==5){%>
+       <a href="javascript:void()" name="confirmationgood" value="${vo.id}">收货</a><a href="javascript:void(0)" name="cancel" value="${vo.id}" onclick="cancleOrder('${vo.id}')">取消订单</a>
+       <%}else if(vo.ostatus==3){%>
+       <a href="/wap/comment/comment?orderid=${vo.id}&&ch=3">评价</a><a href="/wap/order/changproduct?orderid=${vo.id}&&ch=3">申请售后</a>
+       <%}%></div> 
+</section>
+
+<hr class="back"/>
+
+<%}%>
+

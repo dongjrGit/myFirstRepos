@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>中绿味道</title>
+<link rel="stylesheet" href="/resource/wap/css/greenLife.css" />
+<script type="text/javascript" src="/resource/wap/js/Yeffect16_0118.min.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/greenLife.js" ></script>
+<script type="text/javascript" src="/resource/artTemplate.js"></script>
+<script type="text/javascript" src="/resource/wap/js/wap-common.js"></script>
+<script type="text/javascript">
+  	$(function(){
+		 pageData={page:1,size:10,ctype:15};
+		 pageUrl="/wap/zlzx/getwdpagelist";
+		 content="#ullist";
+		initPage();
+	});
+</script>
+</head>
+<body class='bodybjhs'>
+<!--septop begin-->
+<div class="septop rowreturn">
+	<div class="bigsize">厨房百科</div>
+	<div id="rowreturn" onclick="javascript:window.location.href='/wap/zlwd/index.html'"></div>
+</div>
+<!--septop stop-->
+<ul class="zlnew-zjjt fix zlnewcfbk" id="ullist">
+		
+</ul>
+<script type="text/html" id="pagehtml">
+{{each list as cf i}}
+<li>
+	<div>
+		<a href="/wap/find/newsdetail.html?id={{cf.id}}&mark=6">
+		<img src="{{cf.imgurl}}" style="height: 216.284px;">
+		</a>
+	</div>
+	<h3><a href="/wap/find/newsdetail.html?id={{cf.id}}&mark=6">{{cf.title}}</a></h3>
+	<p><a href="javascript:void(0)">{{cf.subtitle}}</a></p>
+</li>
+{{/each}}
+</script>
+<script>
+$(function(){
+	Yeffect.resizeHtWstr(".zlnew-zjjt li div:visible",".zlnew-zjjt li div img",296,220);
+})
+</script>
+</body>
+</html>

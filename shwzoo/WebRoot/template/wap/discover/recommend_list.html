@@ -1,0 +1,16 @@
+<%var path="/resource";%>
+<meta charset="UTF-8">
+<%for(vo in jx.data){%>
+	<li class="fix" >
+            	<div class="l_jxlbnr01"><a href="/wap/products/ProDetail.html?spuid=${vo.spuid}"><img src="${path}/wap/images/1.jpg" class="img-responsive"></a></div>
+                <div class="l_jxlbnr02">
+                	<p class="text-right huise">1小时前</p>
+                    <h3><a href="#">${vo.name}</a></h3>
+                    <p class="red">￥ ${vo.price}</p>
+                    <div class="l_jxyhtb"><span>优惠</span>优惠${vo.discount}折</div>
+                    <div class="l_jxgzxm"><span><img src="${path}/wap/images/jxgz01.png" class="img-responsive"></span>关注</div>
+                </div>
+                
+        <input name="pages" type="hidden" value="${jx.page}"/>
+            </li>
+<%}%>

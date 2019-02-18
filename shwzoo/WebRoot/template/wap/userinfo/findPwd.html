@@ -1,0 +1,154 @@
+<%var path="/resource";%>
+<head>
+<title>找回密码</title>
+
+<script type="text/javascript">
+	var issend,sendmes;
+	
+	$(function() {
+		issend=false;
+		sendmes=false;		
+		$("#mobile").focus();
+		//文本框失去焦点验证
+		$("input[type=text]").blur(function() {
+			var name = $(this).attr("id");
+			if (name == "mobile") {
+				var num = $("#mobile").val();
+				var reg = /^0?1[3|4|5|8][0-9]\d{8}$/;
+				if (!reg.test(num)) {
+					$(this).focus();
+					$("#div_errormessage").html("请正确输入手机号码");
+					issend=false;
+					sendmes=false;
+				} else {
+					$("#div_errormessage").html("");
+					issend = true;
+					sendmes=true;
+				}
+			}
+			if (name == "sms") {
+				var sms = $("#sms").val();
+				if (sms == "") {					
+					$("#div_errormessage").html("请正确输入验证码");issend=false;
+				} else {
+					$("#div_errormessage").html("");issend = true;
+				}
+			}
+			if (name == "password") {
+				var password = $("#password").val();
+				if (password == "") {					
+					$("#div_errormessage").html("请正确输入密码");issend=false;
+				} else {
+					$("#div_errormessage").html("");issend = true;
+				}
+			}
+		})
+	})
+	//发送短信
+	function send() {		
+		if (sendmes) {
+			var num = $("#mobile").val();
+			$.ajax({
+				type : "post",
+				url : "/api/wap/sms/sendMes",
+				dataType : "json",
+				data : {
+					ph : num,
+					smsType : 0,
+					ch : 3
+				},
+				success : function(rsl) {
+					if (rsl.code == 0) {
+						//code = rsl.data.content;
+						time = 60;
+						timej();
+					} else {
+						$("#div_errormessage").html(rsl.desc);
+					}
+
+				},
+				error : function(e) {
+
+				}
+			});
+		}
+	}
+	//找回密码提交
+	function upd() {		
+		var num = $("#mobile").val();
+		var code = $("#sms").val();
+		var psw = $("#password").val();		
+		if (issend) {
+			$.ajax({
+				type : "post",
+				url : "/api/wap/userinfo/findPwd",
+				dataType : "json",
+				data : {
+					"mobile" : num,
+					"sms" : code,
+					"password" : psw,
+					"ch" : 3
+				},
+				success : function(rsl) {
+					if (rsl.code == 0) {
+						alert("密码修改成功");
+						location.href = "/wap/user/showlogin";
+					} else {
+						alert(rsl.desc)
+					}
+				},
+				error : function(e) {
+
+				}
+			});
+		}
+	}
+	var time = 0;
+	function timej() {
+		if (time > 0) {
+			time--;
+			$("#btn").html(time + "秒");
+			$("#btn").attr("disabled", true);
+			setTimeout(timej, 1000);
+		} else {
+			$("#btn").html("获取验证码");
+			$("#btn").attr("disabled", false);
+		}
+	}
+</script>
+</head>
+<body>
+	<!--container  begin-->
+	<!--l_alltop  begin -->
+	<div class="l_alltop fix">
+		<a href="/wap/user/showlogin"><span><img
+				src="${path}/wap/images/tp10.png" class="img-responsive l_maxwid"></span></a>
+		找回密码
+	</div>
+	<!--l_alltop  stop -->
+	<!--l_logcon  begin -->
+	<div class="registered fix">
+		<div class="registeredmk fix">
+			<label>账户名</label> <input type="text" name="mobile" id="mobile"
+				value="" placeholder="请输入您的手机号" class="registeredmk_inp" />
+			<div class="registeredmk_code">
+				<button type="button" id="btn" class="btn btn-default btn-default"
+					onclick="send()">获取验证码</button>
+			</div>
+		</div>
+		<div class="registeredmk fix">
+			<label>验证码</label> <input type="text" name="sms" id="sms" value=""
+				placeholder="请输入验证码" class="registeredmk_inp" />
+		</div>
+		<div class="registeredmk fix">
+			<label>新密码</label> <input type="password" name="password"
+				id="password" value="" placeholder="6-32位字母数字组合"
+				class="registeredmk_inp" />
+		</div>
+		<div id="div_errormessage" class="cwtsxx"></div>
+	</div>
+	<div class="determine_an">
+		<a href="javascript:void(0);" onclick="upd()">确认修改</a>
+	</div>
+</body>
+

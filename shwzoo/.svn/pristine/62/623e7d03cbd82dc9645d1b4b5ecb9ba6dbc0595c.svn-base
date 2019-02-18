@@ -1,0 +1,33 @@
+﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<style>
+    .content {
+        padding-left: 30px;
+        padding-right: 30px;
+        min-height: 550px;
+        _height: 550px; 
+        border: solid #dddddd;
+        border-width: 1px;
+        overflow: hidden;
+    }
+</style>
+<script type="text/javascript">
+
+
+</script>
+</head>
+<body>
+<div id="container" class="fix">
+    <div class="l_yjtop">
+        <span class="fon22">首页</span>&gt;${aritcles.title}
+    </div><!--l_yjtop  stop-->
+    <!--l_yjwznr  begin-->
+    <div class="l_yjwznr fix">
+        <div class="l_yjwznrtitle">${aritcles.title}</div>
+        <div class="l_yjwznrcon fix">
+           ${aritcles.artcontent}
+        </div><!--l_yjwznrcon  stop-->
+    </div>
+    <!--l_yjwznr  stop-->
+</div>
+</body>

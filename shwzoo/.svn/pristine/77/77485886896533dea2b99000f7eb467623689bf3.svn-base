@@ -1,0 +1,157 @@
+﻿
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>买家中心</title>
+    <meta name="title" content="买家中心" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    @*<meta http-equiv="refresh" content="1200" />*@
+    <link rel="shortcut icon" type="image/x-icon" href="/mv10/images/favicon_shortcut.ico" />
+    <link type="text/css" rel="stylesheet" href="/mv10/css/common.css" />
+    <link href="~/mv10/css/style.css" rel="stylesheet" />
+    <link type="text/css" rel="stylesheet" href="/mv10/css/header-banner.css" />
+    <link type="text/css" rel="stylesheet" href="/mv10/css/left.css" />
+    <link type="text/css" rel="stylesheet" href="/mv10/css/index.css" />
+    <link href="~/Content/ui-dialog.css" rel="stylesheet" />
+    <link href="~/mv10/css/pager2.css" rel="stylesheet" />
+    <script src="~/js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="/js/artTemplate.js"></script>
+    <script src="~/js/GetQueryString.js"></script>
+    <script src="~/js/Guid.js"></script>
+    <script src="~/js/cookie.js"></script>
+    <script type="text/javascript" src="~/js/dialog-plus.js"></script>
+    <script src="~/js/dialogShow.js"></script> <!--设置统一dialog弹出框-->
+    <script src="~/js/My97DatePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="~/mv10/js/pager2.js"></script>
+    <!--表单验证css&&js-->
+    <link href="~/Content/jQuery.Validate.css" rel="stylesheet" />
+    <script src="~/js/jquery.validate.js"></script>
+    <script src="~/js/messages_cn.js"></script>
+    <script src="~/js/jquery.validate-methods.js"></script>
+    <script src="~/js/jquery.form.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //获取购物车商品总数
+            $(".div_shoppingcartgoodscountsum").text(ShoppingCart.getGoodsCount());
+
+            GetCount();
+            $(".account-set").mouseenter(function () {
+                $(".zhsz-con").css("display", "block")
+            });
+            $(".account-set").mouseleave(function () {
+                $(".zhsz-con").css("display", "none")
+            });
+            $(".div_goshoppingcart").bind("click", function () {
+                window.location.href = "/Web/GwC/ShoppingCart";
+            });
+
+            $(".ulogin_click").bind("click", function () {
+                DelCookie("_u_token");
+                DelCookie("_uid");
+                DelCookie("_un");
+                window.location.href = '/Member/dlzc/Login';
+            });
+        })
+        function GetCount() {
+            $.ajax({
+                type: "get",
+                url: "/KhFwmemb/GetMessageCount",
+                dataType: "json",
+                data: { status: 1 },//1未读
+                success: function (rsl) {
+                    if (rsl.Code == 0) {
+                        var count = rsl.Data;
+                        $("#mcount").text(count);
+                        $("#messagecount").text(count);
+                    }
+                    else {
+                        //  alert(rsl.Desc);
+                    }
+                },
+                error: function (e) {
+                    // alert(e.statusText);
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <!--top  开始 -->
+    <div id="top">
+        <div class="wrapper">
+            <div class="top-left">
+                欢迎 ,@SessionState.GetCurrentUser().UserName
+                <a class="ulogin_click" href="javascript:void(0);">退出</a>
+                <span class="huise">|</span>
+                <a href="/Member/KhFwmemb/MessageList">
+                    <span class="message"></span>消息
+                    <span class="huangs" id="mcount">0</span>
+                </a>
+                <img src="~/mv10/images/row.png" width="15" height="11" />
+            </div><!--top-left   stop -->
+            <div class="top-right">
+                <ul>
+                    <li><a href="javascript:void(0);">联系客服</a></li>
+                    <li><a href="/Member/Member/ConcernList">我的关注</a><img src="/mv10/images/row.png" width="15" height="11" /></li>
+                    @*<li><a href="shoppingcart.html"><span class="shopping-cart"></span>购物车<span class="huangs">83</span><img src="/mv10/images/row.png" width="15" height="11" /></a></li>*@
+                    <li><a href="javascript:void(0);">我的中绿</a><img src="/mv10/images/row.png" width="15" height="11" /></li>
+                    <li><span class="huangs"><a href="/web/sy/sypt">中绿首页</a></span></li>
+                </ul>
+            </div><!--top-right  stop-->
+        </div><!--wrapper  stop -->
+    </div>
+    <!--top  结束 -->
+    <div class="clear"></div>
+    <!--banner 开始 -->
+    <div id="banner">
+        <div class="wrapper">
+            <div class="logo"></div><!--logo  stop -->
+            <div class="navigation">
+                <ul>
+                    <li class="home">
+                        <a href="/web/sy/sypt">首页</a>
+                        <div class="home-bac"></div>
+                    </li>
+                    <li class="account-set">
+                        <a href="javascript:void(0);">账户设置</a><img src="/mv10/images/row1.png" width="15" height="11" />
+                        <div class="zhsz-con">
+                            <ul class="zhsz-con-ul">
+                                <li class="zhsz-con-ul-title"><a href="/Member/ZhSz/PersonalInformation">账户设置</a><img src="~/mv10/images/row_chu.png" width="10" height="6" /></li>
+                                <li><a href="/Member/ZhSz/PersonalInformation">个人信息</a></li>
+                                <li><a href="javascript:void(0);">账户安全</a></li>
+                                <li><a href="javascript:void(0);">账号绑定</a></li>
+                                <li><a href="/Member/ZhSz/ReceiveAddress">收货地址</a></li>
+                                <li><a href="javascript:void(0);">邮件订阅</a></li>
+                                <li><a href="javascript:void(0);">消费记录</a></li>
+                                <li><a href="javascript:void(0);">快捷支付</a></li>
+                            </ul>
+                        </div>
+                    </li><!--account-set账户设置  li结束 -->
+                    <li class="xiaoxi">
+                        <a href="/Member/KhFwmemb/MessageList">消息</a>
+                        <span class="news" id="messagecount">0</span>
+                        <span class="news-wb"></span>
+                    </li>
+                </ul>
+            </div><!--navigation  stop -->
+            <div class="banner-right">
+                <div class="searh">
+                    <input name="" type="text" class="searh-inp" /><input name="" type="button" class="searh-but" />
+                </div><!--searh  stop -->
+                <div class="wd-shop div_goshoppingcart">
+                    <div class="news div_shoppingcartgoodscountsum"></div><span class="news-wb"></span>
+                </div><!--wd-shop   stop -->
+            </div><!--banner-right    stop -->
+        </div><!--wrapper  stop -->
+    </div>
+    <!--banner 结束 -->
+    <div class="clear"></div>
+    <!--main  主要内容  开始 -->
+    @RenderBody()
+    <!--main  主要内容  结束 -->
+    <div style="height:100px;"></div>
+
+</body>
+</html>

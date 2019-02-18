@@ -1,0 +1,88 @@
+<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>浏览历史</title>
+<link type="text/css" rel="stylesheet" href="${path}/pc/member/css/common.css" />
+<link type="text/css" rel="stylesheet" href="${path}/pc/member/css/style01.css" />
+<link type="text/css" rel="stylesheet" href="${path}/ui-dialog.css" />
+<link type="text/css" rel="stylesheet" href="${path}/pc/member/css/top-footer.css" />
+<link type="text/css" rel="stylesheet" href="${path}/pc/member/css/pager2.css" />
+<link type="text/css" rel="stylesheet" href="${path}/pc/member/css/jQuery.Validate.css" />
+<link href="${path}/pc/member/css/default.css" rel="stylesheet" />
+<script src="${path}/pc/member/js/OrderCenter/OrderList.js"></script>
+<!-- <script src="${path}/pc/member/js/Concern/syconcernlist.js"></script> -->
+<script src="${path}/pc/member/js/browsehistory/browsehistory.js"></script>
+<script src="${path}/pc/member/js/jquery-1.8.2.min.js"></script>
+<script src="${path}/pc/member/js/index.js"></script>
+<script src="${path}/pc/member/js/jquery.validate-methods.js"></script>
+<script src="${path}/pc/member/js/jquery.validate.js"></script>
+<script src="${path}/pc/member/js/pager2.js"></script>
+<script src="${path}/pc/member/js/showdate.js"></script>
+<script src="${path}/artTemplate.js"></script>
+<script src="${path}/dialog-plus.js"></script>
+<script src="${path}/dialogShow.js"></script>
+<script src="${path}/jQueryRotate.2.2.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("a[name='delatehistory']").click(function(){
+		var id = $(this).attr("value");
+		
+		$.ajax(({
+            type: "post",
+            url: "/pc/pcbrowsehistory/deletehistory",
+            dataType: "json",
+            data: { id: id },
+            success: function (rsl) {
+                if (rsl.code == 0) {
+               
+                	location.reload();
+                }else{
+                	alert(rsl.desc);
+                }
+            },
+            error: function (e) {
+            	
+            }
+        }));
+	})
+})
+</script>
+</head>
+<body>
+<!--main  主要内容  开始 -->
+<div id="main" class="fix">
+    <div class="l_lllstop fix">
+       
+    </div><!--l_lllstop  stop -->
+    <!--l_lllscon  begin -->
+    <%if(!isEmpty(browsehistory)){%>
+    <div class="l_lllscon fix">
+       <%for(history in browsehistory){%>
+                <div class="l_lllscon_top">
+                    <span class="fon18 heise">${history.createtime,dateFormat="yyyy-MM-dd"}</span>
+                    <span class="yscmh">${history.createtime,dateFormat="yyyy-MM-dd"}</span>
+                    <span class="yscmh"><a href="javascript:void(0);" value="${history.id}" name="delatehistory">删除</a></span>
+                    <div class="l_cir"></div>
+                </div><!-- l_lllscon_top  stop-->
+                <div class="l_lllsconmk fix">
+                    <ul>
+                            <li hisid-val="@row.ID">
+                                <div class="l_lllsconmk01">
+                                    <a href="/web/products/proinfo.html?spuid=${history.spuid}"><img src="${history.imgurl}"></a>
+                                    <span><a href="/web/products/proinfo.html?spuid=${history.spuid}">${history.spuname}</a></span>
+                                </div>
+                                <div class="l_lllsconmk02">￥${history.price}</div>  
+                            </li>
+                    </ul>
+                </div><!--l_lllsconmk  stop -->
+         <%}%>
+        <div class="l_lllscon_bot"><span class="fon18 heise">已到最后，只保存最近 1 个月的浏览记录</span><div class="l_cir"></div></div><!-- l_lllscon_top  stop-->
+    </div>
+    <%}else{%>
+    <div class="l_lllscon_bot"><span class="fon18 heise">已到最后，只保存最近 1 个月的浏览记录</span><div class="l_cir"></div></div><!-- l_lllscon_top  stop-->
+    <%}%>
+    <!--l_lllscon  stop -->
+</div>
+</body>
+<!--main  主要内容  结束 -->
+

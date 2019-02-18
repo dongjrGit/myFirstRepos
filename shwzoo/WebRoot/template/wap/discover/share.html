@@ -1,0 +1,178 @@
+<%var path="/resource";%>
+<head>
+<title>涓汉涓績-鏈櫥褰�</title>
+<script src="${path}/wap/js/index.js"></script>
+<script type="text/javascript">
+
+$(function(){
+	
+
+	$('.merchantJS-mask').show()
+});
+</script>
+</head>
+<body>
+<!--container  begin-->
+<div class="container fix">
+	<!--l_dpdttopxg  begin -->
+	<div class="l_dpdttopxg fix">
+		鑼冨効璇︽儏
+		<div class="l_l_dpdttopxgrig fexqico" onclick="javascript:$('.merchantJS-mask').show()"></div>
+	</div>
+    <!--l_dpdttopxg  stop -->
+    <!--l_frxqtop  begin -->
+    <div class="l_frxqtop fix">
+
+    	<div class="l_scfmk03_01"><%if(!isEmpty(imgurl)){%><img src="${imgurl}"  class="img-responsive" ><%}else{%><img src="/wap/images/index11.jpg"  class="img-responsive"><%}%></div>
+
+        <div class="l_scfmk03_02">
+            <p>${showarticle.nickname}</p>
+            <p class="huise">${showarticle.createtimetr}</p>
+        </div>
+    </div>
+    <!--l_frxqtop  stop -->
+    <!--l_frxqcon  begin -->
+    <div class="l_frxqcon fix">
+
+    	<%if(showarticle.imgone!=null){%>
+        <div><img src="${showarticle.imgone}" class="img-responsive"></div>
+       <%}%>
+    	
+    	 <%if(showarticle.imgtwo!=null){%>
+        <div class="mt3"><img src="${showarticle.imgtwo}" class="img-responsive"></div>
+       <%}%>
+       
+       <%if(showarticle.imgthr!=null){%>
+         <div class="mt3"><img src="${showarticle.imgthr}" class="img-responsive"></div>
+       <%}%>
+
+    	<div><img src="${path}/wap/images/scfimg04.jpg" class="img-responsive"></div>
+        <div class="mt3"><img src="${path}/wap/images/scfimg05.jpg" class="img-responsive"></div>
+
+        <div class="l_fexqwzsm">
+        	<p>${showarticle.content}</p>
+        </div>
+    </div>
+    <!--l_frxqcon  stop -->
+    <!--l_frxqzjnr  begin -->
+    <div class="l_frxqzjnr fix">
+
+    	<div class="l_scfmk02_01"><a href="#"><img src="${showarticle.proimg}" class="img-responsive"></a></div>
+
+        <div class="l_scfmk02_02">
+            <h3><a href="#">${showarticle.proname}</a></h3>
+            <p class="red">锟� ${showarticle.proprice}</p>
+        </div>
+    </div>
+    <!--l_frxqzjnr  stop -->
+    <!--l_fxhwtj  begin -->
+    <div class="l_fxhwtj fix">
+    	<h3>璇勮 2</h3>
+        <div class="l_fzplxq">
+        	<ul>
+            	<li class="fix">
+                	<div class="l_fzplxql"><div class="l_scfmk03_01"><img src="${path}/wap/images/img14.jpg" class="img-responsive"></div></div>
+                    <div class="l_fzplxqr">
+                    	<p class="huise">鐐圭偣閰稿懗<span class="floatright">4鏈�6鏃�</span></p>
+                        <p>涓嶉敊鐨勫寲濡嗗搧</p>
+                    </div>
+                </li>
+                <li class="fix">
+                	<div class="l_fzplxql"><div class="l_scfmk03_01"><img src="${path}/wap/images/img14.jpg" class="img-responsive"></div></div>
+                    <div class="l_fzplxqr">
+                    	<p class="huise">鐐圭偣閰稿懗<span class="floatright">4鏈�6鏃�</span></p>
+                        <p>寰堟湁鐢ㄧ殑鎺ㄨ崘锛屾墦绠楁渶杩戝叆鎵嬩竴娆惧緢鏈夌敤鐨勬帹鑽愶紝鎵撶畻鏈�杩戝叆鎵嬩竴娆�</p>
+                    </div>
+                </li>
+                <li class="fix">
+                	<div class="l_fzplxql"><div class="l_scfmk03_01"><img src="${path}/wap/images/img14.jpg" class="img-responsive"></div></div>
+                    <div class="l_fzplxqr">
+                    	<p class="huise">鐐圭偣閰稿懗<span class="floatright">4鏈�6鏃�</span></p>
+                        <p>涓嶉敊鐨勫寲濡嗗搧</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+    </div>
+    <!--l_fxhwtj  stop -->
+    <!--l_fxplbot  begin -->
+    <div class="l_fxplbot fix">
+    	<ul>
+
+        	<a href="#"><li><span><img src="/wap/images/fxplico01.png" class="img-responsive"></span>${count}</li></a>
+            <a href="#"><li class="l_nobor"><span><img src="/wap/images/fxplico02.png" class="img-responsive"></span>璇勮</li></a>
+
+        </ul>
+    </div>
+    <!--l_fxplbot  stop -->
+</div>
+<!--container  stop -->
+<!--merchantJS-mask  begin -->
+<div class="merchantJS-mask" onClick="$(this).hide()">
+    <!--l_szgyfx  begin -->
+    <div class="l_szgyfx">
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+    	<div class="l_sbbjsj fix sns-share">
+        	<ul>
+                <li>
+                	<a  onclick="jiathis_sendto('weixin');return false;">
+                        <span><img src="${path}/wap/images/scffxico02.png" class="img-responsive"></span>
+                        <div>寰俊鏈嬪弸鍦�</div>
+                    </a>
+                </li>
+                <li>
+                	<a onclick="jiathis_sendto('tsina');return false;">
+                        <span><img src="${path}/wap/images/scffxico03.png" class="img-responsive"></span>
+                        <div>鏂版氮寰崥</div>
+                    </a>
+                </li>
+                <li>
+                	<a  onclick="jiathis_sendto('cqq');return false;">
+                        <span><img src="${path}/wap/images/scffxico04.png" class="img-responsive"></span>
+                        <div>QQ濂藉弸</div>
+                    </a>
+                </li>
+                <li>
+                	<a onclick="jiathis_sendto('qzone');return false;">
+                        <span><img src="${path}/wap/images/scffxico05.png" class="img-responsive"></span>
+                        <div>QQ绌洪棿</div>
+                    </a>
+                </li>
+                <li>
+                	<a href="javascript:void(0)">
+                        <span><img src="${path}/wap/images/scffxico06.png" class="img-responsive"></span>
+                        <div>澶嶅埗閾炬帴</div>
+                    </a>
+                </li>
+            </ul>
+        </div><!--l_szgyfxtop  stop -->
+
+        <div class="l_qxfsfx"><a href="/wap/discover/fandetail.html?showid=${showarticle.id}">鍙栨秷</a></div>
+
+    </div>
+    <!--l_szgyfx  stop -->
+</div>
+<!--merchantJS-mask  stop -->
+
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" charset="utf-8"></script>
+<script>
+	window.onload=function(){
+		newArrival('.l_scfmk03_01 img');
+		fixed('.l_fxplbot');
+		newArrival('.l_scfmk02_01 img');
+		
+		var $config = {
+			    url    : 'http://www.qianduandu.com', // 缃戝潃锛岄粯璁や娇鐢� window.location.href
+			    site   : '', // 鏉ユ簮锛圦Q绌洪棿浼氱敤鍒帮級, 榛樿璇诲彇head鏍囩锛�<meta name="site" content="http://overtrue" />
+			    title  : '杩欎釜鏄痶ittle', // 鏍囬锛岄粯璁よ鍙� document.title
+			    description : '杩欎釜浜嬫弿杩�', // 鎻忚堪, 榛樿璇诲彇head鏍囩锛�<meta name="description" content="PHP寮辩被鍨嬬殑瀹炵幇鍘熺悊鍒嗘瀽" />
+			    iamge    : 'http://bbs.xiaoniu.com/data/attachment/image/paipai/7a51976182_flow.jpg', // 鍥剧墖, 榛樿鍙栫綉椤典腑绗竴涓猧mg鏍囩
+			    target : '_blank' //鎵撳紑鏂瑰紡
+			   };
+
+			$('.sns-share').share($config);
+	}	
+	
+</script>
+</body>

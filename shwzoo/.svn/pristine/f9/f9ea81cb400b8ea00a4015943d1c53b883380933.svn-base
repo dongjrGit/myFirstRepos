@@ -1,0 +1,340 @@
+﻿<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>个人中心</title>
+<link type="text/css" rel="stylesheet" href="${path}/pc/member/css/common.css" />
+<link type="text/css" rel="stylesheet" href="${path}/pc/member/css/style01.css" />
+<link type="text/css" rel="stylesheet" href="${path}/ui-dialog.css" />
+<link type="text/css" rel="stylesheet" href="${path}/pc/member/css/top-footer.css" />
+<link type="text/css" rel="stylesheet" href="${path}/pc/member/css/pager2.css" />
+<link type="text/css" rel="stylesheet" href="${path}/pc/member/css/jQuery.Validate.css" />
+<link type="text/css" rel="stylesheet" href="${path}/pc/member/css/left.css" />
+<link href="${path}/pc/member/css/default.css" rel="stylesheet" />
+<script src="${path}/pc/member/js/OrderCenter/OrderList.js"></script>
+<script src="${path}/pc/member/js/Concern/syconcernlist.js"></script>
+<script src="${path}/pc/member/js/browsehistory/browsehistory.js"></script>
+<script src="${path}/pc/member/js/jquery-1.8.2.min.js"></script>
+<script src="${path}/pc/member/js/index.js"></script>
+<script src="${path}/pc/member/js/jquery.validate-methods.js"></script>
+<script src="${path}/pc/member/js/jquery.validate.js"></script>
+<script src="${path}/pc/member/js/pager2.js"></script>
+<script src="${path}/pc/member/js/showdate.js"></script>
+<script src="${path}/artTemplate.js"></script>
+<script src="${path}/dialog-plus.js"></script>
+<script src="${path}/dialogShow.js"></script>
+<script src="${path}/jQueryRotate.2.2.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //获取购物车商品总数
+            Cart.getgoodscount(Cart.getgoodscountcallback);
+            //获取消息数量
+            GetCount();
+            //跳转购物车
+            $(".div_goshoppingcart").bind("click", function () {
+                window.location.href = "/Web/Cart/Cart_List";
+            });
+            //退出
+            $(".ulogin_click").bind("click", function () {
+                DelCookie("_u_token");
+                DelCookie("_uid");
+                DelCookie("_un");
+                window.location.href = '/Member/dlzc/Login';
+            });
+            //样式
+            $(".account-set").mouseenter(function () {
+                $(".zhsz-con").css("display", "block")
+            });
+            $(".account-set").mouseleave(function () {
+                $(".zhsz-con").css("display", "none")
+            });
+        })
+        function GetCount() {
+            $.ajax({
+                type: "get",
+                url: "/Message_M/GetMessageCount",
+                dataType: "json",
+                data: { status: 1 },//1未读
+                success: function (rsl) {
+                    if (rsl.Code == 0) {
+                        var count = rsl.Data;
+                        $("#mcount").text("(" + count + ")");
+                        $("#messagecount").text(count);
+                    }
+                    else {
+                    }
+                },
+                error: function (e) {
+                }
+            });
+        }
+
+        function Search_EnterPress() {
+            if (event.keyCode == 13) {
+                $(".searh-but").click();
+            }
+        }
+
+        function Search_Click() {
+            window.open("/Web/Goods/SearchList?keys=" + $(".searh-inp").val());
+        }
+    </script>
+</head>
+
+<body>
+    <!--top  头部开始 -->
+    <div id="top" class="fix">
+        <!--topcon  begin -->
+        <div class="topcon">
+            @if (SessionState.GetCurrentUser().UserName != null && SessionState.GetCurrentUser().UserName != "")
+            {
+                <span>欢迎回来，<i class="red">@SessionState.GetCurrentUser().UserName</i></span>
+                <span class="l_xxer"><a class="message" href="/Member/KhFwmemb/MessageList">消息<i class="red" id="mcount">(0)</i></a></span>
+                <span><a class="ulogin_click" href="javascript:void(0);">退出</a></span>
+
+            }
+            else
+            {
+                <span>你好，请<a href="/Member/dlzc/Login">登录</a></span>
+                <span><a class="red" href="/Member/dlzc/Register">免费注册</a></span>
+            }
+            <div class="top_rig">
+                <ul>
+                    <li><a href="/Member/DdZx/OrderList">我的订单</a></li>
+                    <li class="l_hx">|</li>
+                    <li class="iphone"><img src="~/web_new/images/iphone.jpg" width="7" height="12" /><a href="#">手机版</a></li>
+                    <li class="l_hx">|</li>
+                    <li class="l_khfw" id="l_khfw">
+                        <a href="#">客户服务</a><span class="l_toprow"></span>
+                        <!--l_khfwcon客户服务 弹出框内容 开始 -->
+                        <div class="l_khfwcon">
+<% if(isNotEmpty(navskhfw)) {%>
+                    <%for(nav in navskhfw){%>
+                   <div class="f-item-top">
+                        <h3>${nav.name}</h3>
+                        <ol class="fix">
+                            <%for(child in nav.artlist){%>
+                            <li><a href="/web/article/contact.html?id=${child.artid}">${child.title}</a></li>
+                            <%}%>
+                       </ol>
+                    </div>
+                    <%}%>
+                    <%}%>
+                        </div>
+                        <!--l_khfwcon客户服务 弹出框内容 结束 -->
+                    </li>
+                    <li class="l_hx">|</li>
+                    <li class="l_wzdh" id="l_wzdh">
+                        <a href="#">网站导航</a><span class="l_toprow"></span>
+                        <!--l_wzcon网站导航 弹出框内容 开始 -->
+                        <div class="l_wzdhcon">
+					<% if(isNotEmpty(navswzdh)) {%>
+                    <%for(nav in navswzdh){%>
+                   <div class="f-item">
+                        <h3>${nav.name}</h3>
+                        <ol>
+                            <%for(child in nav.artlist){%>
+                            <li><a href="/web/article/contact.html?id=${child.artid}">${child.title}</a></li>
+                            <%}%>
+                       </ol>
+                    </div>
+                    <%}%>
+                    <%}%>      
+                        </div>
+                        <!--l_wzcon网站导航 弹出框内容 结束 -->
+                    </li>
+                    <li class="l_hx">|</li>
+                    <li>
+                        <span class="l_gzwm">关注我们：</span>
+                        <div class="l_wbx">
+                            <span class="weibo"></span>
+                            <span class="weixin"></span>
+                        </div>
+                    </li>
+                </ul>
+            </div><!--top_rig  stop -->
+        </div>
+        <!--topcon  stop -->
+    </div>
+    <!--top  头部结束 -->
+    <!--banner 开始 -->
+    <div id="banner" class="fix">
+        <div class="wrapper">
+            <div class="logo" style="margin-top:0px"><a href="/web/sy/Sypt"><img src="~/web_new/images/logo01.png" /></a><span class="l_sx"></span>我的中绿</div><!--logo  stop -->
+            <div class="navigation">
+                <ul>
+                    <li class="home">
+                        <a href="/Member/Member/MemberSY">首页</a>
+                        <div class="home-bac"></div>
+                    </li>
+                    <li class="account-set">
+                        <a href="#">账户设置</a><img src="~/web_new/images/row1.png" width="15" height="11" />
+                        <div class="zhsz-con">
+                            <ul class="zhsz-con-ul">
+                                <li class="zhsz-con-ul-title"><a href="/Member/ZhSz/PersonalInformation">账户设置</a><img src="~/web_new/images/row_chu.png" width="10" height="6" /></li>
+                                <li><a href="/Member/ZhSz/PersonalInformation">个人信息</a></li>
+                                <li><a href="/Member/ZhSz/AccountSecurity">账户安全</a></li>
+                                <li><a href="/Member/zhsz/AccountBinding">账号绑定</a></li>
+                                <li><a href="/Member/ZhSz/ReceiveAddress">收货地址</a></li>
+                                @*<li><a href="javascript:void(0);">邮件订阅</a></li>
+                                    <li><a href="javascript:void(0);">消费记录</a></li>
+                                    <li><a href="javascript:void(0);">快捷支付</a></li>*@
+                            </ul>
+                        </div>
+                    </li><!--account-set账户设置  li结束 -->
+                    <li class="xiaoxi"><a href="/Member/KhFwmemb/MessageList">消息</a><span class="news" id="messagecount">0</span></li>
+                </ul>
+            </div><!--navigation  stop -->
+            <div class="banner-right">
+                <div class="searh">
+                    <input name="" type="text" class="searh-inp" value="" placeholder="搜索..." onkeydown="Search_EnterPress();" />
+                    <input name="" type="button" class="searh-but" onclick="Search_Click();" />
+                </div><!--searh  stop -->
+                <div class="wd-shop div_goshoppingcart">
+                    <div class="news div_shoppingcartgoodscountsum">0</div>
+                    <i class="news-wb"></i>
+                </div><!--wd-shop   stop -->
+            </div><!--banner-right    stop -->
+        </div><!--wrapper  stop -->
+    </div>
+    <!--banner 结束 -->
+    <!--main  主要内容  开始 -->
+    @RenderBody()
+    <!--main  主要内容  结束 -->
+    <!--footer  底部开始 -->
+    @Html.Action("M_Footer", "Common_M");
+
+    @*<div id="footer" class="fix">
+            <!--footcon  begin -->
+            <div class="footcon">
+                <!--l_foottop  begin -->
+                <div class="l_foottop">
+                    <div class="l_sex">
+                        <div class="l_sexcircle">正</div>
+                        <div class="l_sexwzjs">
+                            <h3>正品保障</h3>
+                            <p>正品行货 放心选购</p>
+                        </div>
+                    </div><!--l_sex  stop -->
+                    <div class="l_sex">
+                        <div class="l_sexcircle">满</div>
+                        <div class="l_sexwzjs">
+                            <h3>满68包邮</h3>
+                            <p>满68元 免运费</p>
+                        </div>
+                    </div><!--l_sex  stop -->
+                    <div class="l_sex">
+                        <div class="l_sexcircle">七</div>
+                        <div class="l_sexwzjs">
+                            <h3>售后无忧</h3>
+                            <p>7天无理由退货</p>
+                        </div>
+                    </div><!--l_sex  stop -->
+                    <div class="l_sex">
+                        <div class="l_sexcircle">准</div>
+                        <div class="l_sexwzjs">
+                            <h3>准时送达</h3>
+                            <p>收获时间由你做主</p>
+                        </div>
+                    </div><!--l_sex  stop -->
+                    <div class="clear"></div>
+                </div>
+                <!--l_foottop  stop -->
+                <!--l_process  begin -->
+                <div class="l_process">
+                    <!--l_procon  begin -->
+                    <div class="l_procon">
+                        <div class="l_proleft">
+                            <div class="l_promk">
+                                <p>购物流程</p>
+                                <ul>
+                                    <li><a href="#">购物流程</a></li>
+                                    <li><a href="#">会员介绍</a></li>
+                                    <li><a href="#">团购</a></li>
+                                    <li><a href="#">常见问题</a></li>
+                                    <li><a href="#">家电</a></li>
+                                    <li><a href="#">联系客服</a></li>
+                                </ul>
+                            </div><!--l_promk  stop -->
+                            <div class="l_promk">
+                                <p>配送方式</p>
+                                <ul>
+                                    <li><a href="#">上门自提</a></li>
+                                    <li><a href="#">配送服务查询</a></li>
+                                    <li><a href="#">配送费收取标准</a></li>
+                                </ul>
+                            </div><!--l_promk  stop -->
+                            <div class="l_promk">
+                                <p>支付方式</p>
+                                <ul>
+                                    <li><a href="#">货到付款</a></li>
+                                    <li><a href="#">在线支付</a></li>
+                                    <li><a href="#">分期付款</a></li>
+                                    <li><a href="#">邮局汇款</a></li>
+                                    <li><a href="#">公司转账</a></li>
+                                </ul>
+                            </div><!--l_promk  stop -->
+                            <div class="l_promk">
+                                <p>售后服务</p>
+                                <ul>
+                                    <li><a href="#">售后政策</a></li>
+                                    <li><a href="#">价格保护</a></li>
+                                    <li><a href="#">退款说明</a></li>
+                                    <li><a href="#">返修/退换货</a></li>
+                                    <li><a href="#">取消订单</a></li>
+                                </ul>
+                            </div><!--l_promk  stop -->
+                            <div class="clear"></div>
+                        </div><!-- l_proleft  stop-->
+                        <div class="l_proright">
+                            <div class="l_weibo">
+                                <p>中绿微博</p>
+                                <div class="l_wbbs"><img src="~/web_new/images/weibo.png" width="102" height="102" /></div>
+                            </div><!--l_weibo  stop -->
+                            <div class="l_weixin">
+                                <p>中绿微信</p>
+                                <div class="l_wbbs"><img src="~/web_new/images/weixin.png" width="102" height="102" /></div>
+                            </div><!--l_weibo  stop -->
+                        </div><!--l_proright  stop -->
+                        <div class="clear"></div>
+                    </div>
+                    <!--l_procon  stop -->
+                </div>
+                <!--l_process  stop -->
+                <!--l_gywm 关于我们开始 -->
+                <div class="l_gywm">
+                    <p class="links">
+                        <a href="#">关于我们</a>|
+                        <a href="#">帮助中心</a>|
+                        <a href="#">友情链接</a>|
+                        <a href="#">诚征英才</a>|
+                        <a href="#">商家登录</a>|
+                        <a href="#">供应商登录</a>|
+                        <a href="#">联系我们</a>|
+                        <a href="#">网站合作</a>|
+                        <a href="#">开放平台</a>|
+                        <a href="#">法律声明</a>
+                    </p>
+                    <p class="l_xkz">
+                        京ICP备00000000号<span>|</span>
+                        <a href="#">营业执照</a><span>|</span>
+                        <a href="#">网络文化经营许可证</a><span>|</span>
+                        <a href="#">互联网药品交易服务资格证</a>
+                    </p>
+                    <p>Copyright&copy;&amp; 中绿网上超市 2014-2018，All Rights Reserved</p>
+                </div>
+                <!--l_gywm 关于我们结束 -->
+                <!--l_kxwz  begin -->
+                <div class="l_kxwz">
+                    <a href="#"><img src="~/web_new/images/54b8871eNa9a7067e.png" width="103" height="32" alt="经营性网站备案中心" title="经营性网站备案中心" /></a>
+                    <a href="#"><img src="~/web_new/images/54b8871eNa9a7067e4444.png" width="103" height="32" alt="可信网站信用评价" title="可信网站信用评价" /></a>
+                    <a href="#"><img src="~/web_new/images/54b8874bN694454a5.png" width="103" height="32" /></a>
+                    <a href="#"><img src="~/web_new/images/54b8875fNad1e0c4c.png" width="103" height="32" /></a>
+                    <a href="#"><img src="~/web_new/images/54b8863dN8d2c61ec.png" width="185" height="32" /></a>
+                </div>
+                <!--l_kxwz  stop -->
+            </div>
+            <!--footcon  stop -->
+        </div>*@
+    <!--footer  底部结束 -->
+</body>
+</html>

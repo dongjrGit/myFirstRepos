@@ -1,0 +1,101 @@
+<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>银行卡</title>
+<script src="/resource/wap/js/bankcard/AddBankcard.js"></script>
+<script type="text/javascript" src="${path}/wap/js/login.js"></script>
+</head>
+<body class="paswrd_gai">
+<div id="card">
+<div class="top_title fix">
+         <a  href="/wap/userinfo/homepage?ch=3">
+		<div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div>
+		</a>
+		银行卡
+	</div>
+<%if(!isEmpty(bankcard)){%>
+<ul class="yinhang-ka">
+<%for (card in bankcard){%>
+	<li>
+    	<a href="#">
+           <b>${card.openbank}</b>
+           <span><font>${card.numbers}</font></span>
+        </a>
+        <a class="jb"  name="delete" value="${card.id}">解除绑定</a>
+    </li>
+<%}%> 
+<a href="#" class="addyinhangka" name="addcard"><img src="${path}/wap/images/index_28.png">添加银行卡</a>
+</ul>
+<%}else{%>
+<div>您还没有添加银行卡</div>
+<a href="#" class="addyinhangka" name="addcard"><img src="${path}/wap/images/index_28.png">添加银行卡</a>
+<%}%>
+</div>
+<div id="add" hidden>
+<div class="top_title fix">
+         <a  href="/wap/userinfo/queryBankcard?ch=3">
+		<div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div>
+		</a>
+		添加银行卡
+	</div>
+	<div class="processtuxmnr fix mt3">
+		<div class="processtuxmnrmk fix">
+			<label for="">卡 号：</label>
+			<input type="text" name="" id="cardnumber" value="" placeholder="请输入银行卡号" class="processtuxmnrmk_inp" />
+		</div>
+		<div class="processtuxmnrmk fix">
+			<label for="">开户行：</label>
+			<input type="text" name="" id="kaihuhang" value="" placeholder="请输入开户行" class="processtuxmnrmk_inp" />
+		</div>
+		<div class="processtuxmnrmk fix">
+			<label for="">支  行：</label>
+			<input type="text" name="" id="zhihang" value="" placeholder="请输入支行" class="processtuxmnrmk_inp" />
+		</div>
+		<div class="processtuxmnrmk fix">
+			<label for="">姓  名：</label>
+			<input type="text" name="" id="name" value="" placeholder="请输入姓 名" class="processtuxmnrmk_inp" />
+		</div>
+		<div class="processtuxmnrmk fix">
+			<label for="">手机号：</label>
+			<input type="text" name="" id="phone" value="" placeholder="请输入银行预留手机号" class="processtuxmnrmk_inp" />
+		</div>
+	</div>
+<!-- 	<div class="ylxycon fix">
+		<input type="checkbox" name="" id="" value="" />
+		<a href="#">《中绿快捷支付相关协议》</a>
+	</div> -->
+	<div class="xybanico fix">
+		<a href="#" id="submit">立即绑定</a>
+	</div>
+<!-- <li>请输入开户行 :<input type="label" id="kaihuhang"></input></li>
+<li>请 输 入 支  行 :<input type="label" id="zhihang"></input></li>
+<li>持 卡 人 姓  名 :<input type="label" id="name"></input></li>
+<li>卡 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号 :<input type="text" onkeyup="this.value=this.value.replace(/\D/g,'').replace(/....(?!$)/g,'$& ')" id="cardnumber"></input></li>
+<li>手      &nbsp; &nbsp;    机     &nbsp;  &nbsp;  号 :<input type="label" id="phone"></input></li>
+<li><input type="button" value="确定" id="submit"></li> -->
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("a[name='addcard']").click(function(){
+		$("#add").show();
+		$("#card").hide();
+	})
+	$("#submit").click(function(){
+		var openbank=$("#kaihuhang").val();
+		var subBank = $("#zhihang").val();
+		var name = $("#name").val();
+		var number =$("#cardnumber").val();
+		var phone = $("#phone").val();
+		AddBankcard.add(openbank,subBank,name,number,phone);
+	})
+	$("a[name='delete']").click(function(){
+		var id = $("a[name='delete']").attr("value");
+		AddBankcard.deletecard(id);
+	})
+})
+</script>
+</body>

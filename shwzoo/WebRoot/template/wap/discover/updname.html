@@ -1,0 +1,77 @@
+<%var path="/resource";%>
+<head>
+<title>品牌推荐</title>
+<script src="${path}/wap/js/index.js"></script>
+ <script src="/wap/js/cookie.js"></script>
+ 	<script type="text/javascript" src="/wap/js/login.js"></script>
+<script type="text/javascript">
+
+
+function update(){
+	loginContent=".container";
+	if(	login.isLogin()){
+		var name=$("#name").val();
+		$.ajax(({
+			type:"post",
+			url:"/api/wap/showfan/updateName",
+		    dataType:"json",
+		    data:{
+		    	"name":name
+		    },
+		  success: function (rsl) {
+			  rsl= eval('(' + rsl + ')');
+	            if (rsl.code == 0) {
+	            	alert("修改成功");
+	            	//location.href = "/wap/userinfo/selectInfo?ch=3";
+	            	window.location.href = "/wap/discover/mypublish.html";
+	                }
+	            else{}
+
+	            },
+		    error:function(e){
+		    	
+		    }
+
+		}));
+	}else{
+		
+		login.open();
+	}
+	
+}
+
+$(function(){
+	$(window).scroll(function(){
+		var scrollTop=$(this).scrollTop();
+		var scrollHeight=$(document).height();
+		var windowHeight=$(this).height();
+		if(scrollTop+windowHeight==scrollHeight){
+			initPage();
+		}
+	});
+})
+
+</script>
+</head>
+
+<body>
+<!--container  begin-->
+<div class="container fix">
+	<!--l_dpdttopxg  begin -->
+	<div class="l_dpdttopxg fix">
+	<div style="width:50%;position:absolute;top:0px;bottom:0px;left:0px;"  onclick="javascript:location.href='/wap/discover/mypublish.html'"></div>
+		修改昵称
+		<div class="l_qdxgnc huise"><a href="#" onclick="update()">确定</a></div>
+	</div>
+	<%if(!isEmpty(userid)){%><input name="userid" type="hidden"  value="${userid}"/><%}else{%><input name="userid" type="hidden"  value="-1"/><%}%>
+    <!--l_dpdttopxg  stop -->
+    <!--l_xgnc  begin -->
+    <div class="l_xgnc">
+    	<input name="" id="name" type="text" value="" placeholder="0574小迪">
+    </div>
+    <!--l_xgnc  stop -->
+    <div class="huise l_xgncbz">4-20个字符，可由英文、中文、“_”、“-”组成</div>
+</div>
+<!--container  stop -->
+</body>
+

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>绿色故事-绿色食品中国</title>
+<script type="text/javascript" src="/resource/pc/member/js/pager2.js"></script>
+<script src="/resource/pc/web/js/spgl/producttg.js"></script>
+<script src="/resource/artTemplate.js"></script>
+
+<script type="text/javascript" src="/resource/pc/web/js/pager1.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/wkh/common-util.js"></script>
+
+<script type="text/javascript" src="/resource/pc/commonjs/wkh/page-pc.js"></script>
+<script type="text/javascript">
+
+$(function(){
+	pageUtil.initialize("/pc/lszg/querylist",{pagesize:9});
+});
+
+
+</script>
+</head>
+<body>
+<% include("/template/pc/nav/navclass_ls.html",{pagetype:4}){}%>
+<!--container 中间所有内容开始-->
+<div class="mt40"></div>
+<div id="container" class="fix">
+	<div class="xzdfg-top fix">
+		<a href="#" class="active">绿色故事</a>
+		<i>|</i>
+		诉说你不知道的风情
+	</div>
+	<ul class="xzlsgs-ulnr fix" id="contentRows">
+	</ul>
+	<script type="text/html" id="rowslist">
+	{{each list as vo i}}
+		<li class="fix">
+			<a href="/lszg/lsgsinfo.html?id={{vo.id}}">
+				<img src="{{vo.imgurl}}">
+				<div class="xzlsgs-ulnr-js">{{vo.title}}</div>
+			</a>
+		</li>
+	{{/each}}
+	</script>
+    <div id="pager" class="page"></div>
+</div>
+</body>
+</html>

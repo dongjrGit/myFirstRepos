@@ -1,0 +1,48 @@
+<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>物流信息</title>
+<script type="text/javascript" src="${path}/wap/js/login.js"></script>
+</head>
+<body>
+<div class="top_title fix">
+         <a  href=${href!'/wap/order/getorder'} >
+		<div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div>
+		</a>
+		物流详情
+</div>
+<div class="wuliu-ddh">
+	<a href="#">
+    	<img src="${path}/wap/images/index16.jpg">
+        <div class="R">
+        	<b>物流状态<font>
+        	<%if(logistic.state==2){%>在途中<%}else{if(logistic.state==3){%>已签收<%}else{if(logistic.state==4){%>问题件 <%}}}%>
+        	</font></b>
+        	<p>运单号：${logistic.logisticcode}<br>信息来源：${logistic.name}</p>
+        </div>
+    </a>
+</div>
+<hr class="back"/>
+<%if(isNotEmpty(logistic.traces)&&logistic.traces.~size>0){%>
+<ul class="wuliu-listS">
+<%for(var i=logistic.traces.~size-1;i>=0;i--){%>
+<%if(i==logistic.traces.~size-1){%>
+	<li class="current"><i></i>${logistic.traces[i].acceptstation}<span>${logistic.traces[i].accepttime}</span></li> 
+<%}else{%>
+   <li><i></i>${logistic.traces[i].acceptstation}<span>${logistic.traces[i].accepttime}</span></li> 
+<%}}%>
+</ul>
+<%}else{%>
+<ul class="wuliu-listS">
+<div>还没有物流信息</div>
+</ul>
+<%}%>
+</body>
+
+
+
+
+
+    

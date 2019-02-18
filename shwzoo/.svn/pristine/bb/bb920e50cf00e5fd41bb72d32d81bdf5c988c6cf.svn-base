@@ -1,0 +1,8 @@
+sign.endpoint=oss-cn-shanghai.aliyuncs.com
+sign.accessId=LTAIwiIRVVhCCLNq
+sign.accessKey=4tH4Il7mJtlzKkRLKYENvmZSVJBqf5
+sign.bucket=zoo01
+#CDN配置的加速域名
+sign.domainName=st.ziyacloud.com
+#web端上传文件用到的路径 https://[bucketName].[endpoint]
+sign.uploadUrl=https://zoo01.oss-cn-shanghai.aliyuncs.com

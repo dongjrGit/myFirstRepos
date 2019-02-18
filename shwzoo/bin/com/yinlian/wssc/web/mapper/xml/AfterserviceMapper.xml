@@ -1,0 +1,638 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.AfterserviceMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Afterservice">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="OrderID" property="orderid" jdbcType="INTEGER" />
+		<result column="Type" property="type" jdbcType="INTEGER" />
+		<result column="Number" property="number" jdbcType="INTEGER" />
+		<result column="Credential" property="credential" jdbcType="INTEGER" />
+		<result column="ImgUrl" property="imgurl" jdbcType="VARCHAR" />
+		<result column="GoBackType" property="gobacktype" jdbcType="INTEGER" />
+		<result column="GetAddr" property="getaddr" jdbcType="VARCHAR" />
+		<result column="ContactsName" property="contactsname" jdbcType="VARCHAR" />
+		<result column="Mobile" property="mobile" jdbcType="VARCHAR" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="UserID" property="userid" jdbcType="INTEGER" />
+		<result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="ShopID" property="shopid" jdbcType="INTEGER" />
+		<result column="Reason" property="reason" jdbcType="VARCHAR" />
+		<result column="Result" property="result" jdbcType="VARCHAR" />
+		<result column="B_ExpressName" property="bExpressname"
+			jdbcType="VARCHAR" />
+		<result column="B_ExpressNum" property="bExpressnum" jdbcType="VARCHAR" />
+		<result column="S_ExpressName" property="sExpressname"
+			jdbcType="VARCHAR" />
+		<result column="S_ExpressNum" property="sExpressnum" jdbcType="VARCHAR" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.yinlian.wssc.web.po.Afterservice"
+		extends="BaseResultMap">
+		<result column="Description" property="description" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, OrderID, Type, Number, Credential, ImgUrl, GoBackType, GetAddr,
+		ContactsName,
+		Mobile, Status, UserID, CreateTime, ShopID, Reason, Result, B_ExpressName,
+		B_ExpressNum,
+		S_ExpressName, S_ExpressNum
+	</sql>
+	<sql id="Blob_Column_List">
+		Description
+	</sql>
+	<select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+		parameterType="com.yinlian.wssc.web.po.AfterserviceExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from afterservice
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.AfterserviceExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from afterservice
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from afterservice
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from afterservice
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.AfterserviceExample">
+		delete from afterservice
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.Afterservice">
+		insert into afterservice (ID, OrderID, Type,
+		Number, Credential, ImgUrl,
+		GoBackType, GetAddr, ContactsName,
+		Mobile, Status, UserID,
+		CreateTime, ShopID, Reason,
+		Result, B_ExpressName, B_ExpressNum,
+		S_ExpressName, S_ExpressNum, Description
+		)
+		values (#{id,jdbcType=INTEGER}, #{orderid,jdbcType=INTEGER},
+		#{type,jdbcType=INTEGER},
+		#{number,jdbcType=INTEGER}, #{credential,jdbcType=INTEGER}, #{imgurl,jdbcType=VARCHAR},
+		#{gobacktype,jdbcType=INTEGER}, #{getaddr,jdbcType=VARCHAR},
+		#{contactsname,jdbcType=VARCHAR},
+		#{mobile,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER},
+		#{createtime,jdbcType=TIMESTAMP}, #{shopid,jdbcType=INTEGER},
+		#{reason,jdbcType=VARCHAR},
+		#{result,jdbcType=VARCHAR}, #{bExpressname,jdbcType=VARCHAR}, #{bExpressnum,jdbcType=VARCHAR},
+		#{sExpressname,jdbcType=VARCHAR}, #{sExpressnum,jdbcType=VARCHAR},
+		#{description,jdbcType=LONGVARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Afterservice">
+		insert into afterservice
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="orderid != null">
+				OrderID,
+			</if>
+			<if test="type != null">
+				Type,
+			</if>
+			<if test="number != null">
+				Number,
+			</if>
+			<if test="credential != null">
+				Credential,
+			</if>
+			<if test="imgurl != null">
+				ImgUrl,
+			</if>
+			<if test="gobacktype != null">
+				GoBackType,
+			</if>
+			<if test="getaddr != null">
+				GetAddr,
+			</if>
+			<if test="contactsname != null">
+				ContactsName,
+			</if>
+			<if test="mobile != null">
+				Mobile,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+			<if test="userid != null">
+				UserID,
+			</if>
+			<if test="createtime != null">
+				CreateTime,
+			</if>
+			<if test="shopid != null">
+				ShopID,
+			</if>
+			<if test="reason != null">
+				Reason,
+			</if>
+			<if test="result != null">
+				Result,
+			</if>
+			<if test="bExpressname != null">
+				B_ExpressName,
+			</if>
+			<if test="bExpressnum != null">
+				B_ExpressNum,
+			</if>
+			<if test="sExpressname != null">
+				S_ExpressName,
+			</if>
+			<if test="sExpressnum != null">
+				S_ExpressNum,
+			</if>
+			<if test="description != null">
+				Description,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="orderid != null">
+				#{orderid,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="number != null">
+				#{number,jdbcType=INTEGER},
+			</if>
+			<if test="credential != null">
+				#{credential,jdbcType=INTEGER},
+			</if>
+			<if test="imgurl != null">
+				#{imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="gobacktype != null">
+				#{gobacktype,jdbcType=INTEGER},
+			</if>
+			<if test="getaddr != null">
+				#{getaddr,jdbcType=VARCHAR},
+			</if>
+			<if test="contactsname != null">
+				#{contactsname,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				#{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=INTEGER},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="shopid != null">
+				#{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="reason != null">
+				#{reason,jdbcType=VARCHAR},
+			</if>
+			<if test="result != null">
+				#{result,jdbcType=VARCHAR},
+			</if>
+			<if test="bExpressname != null">
+				#{bExpressname,jdbcType=VARCHAR},
+			</if>
+			<if test="bExpressnum != null">
+				#{bExpressnum,jdbcType=VARCHAR},
+			</if>
+			<if test="sExpressname != null">
+				#{sExpressname,jdbcType=VARCHAR},
+			</if>
+			<if test="sExpressnum != null">
+				#{sExpressnum,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.AfterserviceExample"
+		resultType="java.lang.Integer">
+		select count(*) from afterservice
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update afterservice
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.orderid != null">
+				OrderID = #{record.orderid,jdbcType=INTEGER},
+			</if>
+			<if test="record.type != null">
+				Type = #{record.type,jdbcType=INTEGER},
+			</if>
+			<if test="record.number != null">
+				Number = #{record.number,jdbcType=INTEGER},
+			</if>
+			<if test="record.credential != null">
+				Credential = #{record.credential,jdbcType=INTEGER},
+			</if>
+			<if test="record.imgurl != null">
+				ImgUrl = #{record.imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="record.gobacktype != null">
+				GoBackType = #{record.gobacktype,jdbcType=INTEGER},
+			</if>
+			<if test="record.getaddr != null">
+				GetAddr = #{record.getaddr,jdbcType=VARCHAR},
+			</if>
+			<if test="record.contactsname != null">
+				ContactsName = #{record.contactsname,jdbcType=VARCHAR},
+			</if>
+			<if test="record.mobile != null">
+				Mobile = #{record.mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.userid != null">
+				UserID = #{record.userid,jdbcType=INTEGER},
+			</if>
+			<if test="record.createtime != null">
+				CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.shopid != null">
+				ShopID = #{record.shopid,jdbcType=INTEGER},
+			</if>
+			<if test="record.reason != null">
+				Reason = #{record.reason,jdbcType=VARCHAR},
+			</if>
+			<if test="record.result != null">
+				Result = #{record.result,jdbcType=VARCHAR},
+			</if>
+			<if test="record.bExpressname != null">
+				B_ExpressName = #{record.bExpressname,jdbcType=VARCHAR},
+			</if>
+			<if test="record.bExpressnum != null">
+				B_ExpressNum = #{record.bExpressnum,jdbcType=VARCHAR},
+			</if>
+			<if test="record.sExpressname != null">
+				S_ExpressName = #{record.sExpressname,jdbcType=VARCHAR},
+			</if>
+			<if test="record.sExpressnum != null">
+				S_ExpressNum = #{record.sExpressnum,jdbcType=VARCHAR},
+			</if>
+			<if test="record.description != null">
+				Description = #{record.description,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExampleWithBLOBs" parameterType="map">
+		update afterservice
+		set ID = #{record.id,jdbcType=INTEGER},
+		OrderID = #{record.orderid,jdbcType=INTEGER},
+		Type = #{record.type,jdbcType=INTEGER},
+		Number = #{record.number,jdbcType=INTEGER},
+		Credential = #{record.credential,jdbcType=INTEGER},
+		ImgUrl = #{record.imgurl,jdbcType=VARCHAR},
+		GoBackType = #{record.gobacktype,jdbcType=INTEGER},
+		GetAddr = #{record.getaddr,jdbcType=VARCHAR},
+		ContactsName = #{record.contactsname,jdbcType=VARCHAR},
+		Mobile = #{record.mobile,jdbcType=VARCHAR},
+		Status = #{record.status,jdbcType=INTEGER},
+		UserID = #{record.userid,jdbcType=INTEGER},
+		CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+		ShopID = #{record.shopid,jdbcType=INTEGER},
+		Reason = #{record.reason,jdbcType=VARCHAR},
+		Result = #{record.result,jdbcType=VARCHAR},
+		B_ExpressName = #{record.bExpressname,jdbcType=VARCHAR},
+		B_ExpressNum = #{record.bExpressnum,jdbcType=VARCHAR},
+		S_ExpressName = #{record.sExpressname,jdbcType=VARCHAR},
+		S_ExpressNum = #{record.sExpressnum,jdbcType=VARCHAR},
+		Description = #{record.description,jdbcType=LONGVARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update afterservice
+		set ID = #{record.id,jdbcType=INTEGER},
+		OrderID = #{record.orderid,jdbcType=INTEGER},
+		Type = #{record.type,jdbcType=INTEGER},
+		Number = #{record.number,jdbcType=INTEGER},
+		Credential = #{record.credential,jdbcType=INTEGER},
+		ImgUrl = #{record.imgurl,jdbcType=VARCHAR},
+		GoBackType = #{record.gobacktype,jdbcType=INTEGER},
+		GetAddr = #{record.getaddr,jdbcType=VARCHAR},
+		ContactsName = #{record.contactsname,jdbcType=VARCHAR},
+		Mobile = #{record.mobile,jdbcType=VARCHAR},
+		Status = #{record.status,jdbcType=INTEGER},
+		UserID = #{record.userid,jdbcType=INTEGER},
+		CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+		ShopID = #{record.shopid,jdbcType=INTEGER},
+		Reason = #{record.reason,jdbcType=VARCHAR},
+		Result = #{record.result,jdbcType=VARCHAR},
+		B_ExpressName = #{record.bExpressname,jdbcType=VARCHAR},
+		B_ExpressNum = #{record.bExpressnum,jdbcType=VARCHAR},
+		S_ExpressName = #{record.sExpressname,jdbcType=VARCHAR},
+		S_ExpressNum = #{record.sExpressnum,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Afterservice">
+		update afterservice
+		<set>
+			<if test="orderid != null">
+				OrderID = #{orderid,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				Type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="number != null">
+				Number = #{number,jdbcType=INTEGER},
+			</if>
+			<if test="credential != null">
+				Credential = #{credential,jdbcType=INTEGER},
+			</if>
+			<if test="imgurl != null">
+				ImgUrl = #{imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="gobacktype != null">
+				GoBackType = #{gobacktype,jdbcType=INTEGER},
+			</if>
+			<if test="getaddr != null">
+				GetAddr = #{getaddr,jdbcType=VARCHAR},
+			</if>
+			<if test="contactsname != null">
+				ContactsName = #{contactsname,jdbcType=VARCHAR},
+			</if>
+			<if test="mobile != null">
+				Mobile = #{mobile,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				UserID = #{userid,jdbcType=INTEGER},
+			</if>
+			<if test="createtime != null">
+				CreateTime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="shopid != null">
+				ShopID = #{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="reason != null">
+				Reason = #{reason,jdbcType=VARCHAR},
+			</if>
+			<if test="result != null">
+				Result = #{result,jdbcType=VARCHAR},
+			</if>
+			<if test="bExpressname != null">
+				B_ExpressName = #{bExpressname,jdbcType=VARCHAR},
+			</if>
+			<if test="bExpressnum != null">
+				B_ExpressNum = #{bExpressnum,jdbcType=VARCHAR},
+			</if>
+			<if test="sExpressname != null">
+				S_ExpressName = #{sExpressname,jdbcType=VARCHAR},
+			</if>
+			<if test="sExpressnum != null">
+				S_ExpressNum = #{sExpressnum,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				Description = #{description,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yinlian.wssc.web.po.Afterservice">
+		update afterservice
+		set OrderID = #{orderid,jdbcType=INTEGER},
+		Type = #{type,jdbcType=INTEGER},
+		Number = #{number,jdbcType=INTEGER},
+		Credential = #{credential,jdbcType=INTEGER},
+		ImgUrl = #{imgurl,jdbcType=VARCHAR},
+		GoBackType = #{gobacktype,jdbcType=INTEGER},
+		GetAddr = #{getaddr,jdbcType=VARCHAR},
+		ContactsName = #{contactsname,jdbcType=VARCHAR},
+		Mobile = #{mobile,jdbcType=VARCHAR},
+		Status = #{status,jdbcType=INTEGER},
+		UserID = #{userid,jdbcType=INTEGER},
+		CreateTime = #{createtime,jdbcType=TIMESTAMP},
+		ShopID = #{shopid,jdbcType=INTEGER},
+		Reason = #{reason,jdbcType=VARCHAR},
+		Result = #{result,jdbcType=VARCHAR},
+		B_ExpressName = #{bExpressname,jdbcType=VARCHAR},
+		B_ExpressNum = #{bExpressnum,jdbcType=VARCHAR},
+		S_ExpressName = #{sExpressname,jdbcType=VARCHAR},
+		S_ExpressNum = #{sExpressnum,jdbcType=VARCHAR},
+		Description = #{description,jdbcType=LONGVARCHAR}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Afterservice">
+		update afterservice
+		set OrderID = #{orderid,jdbcType=INTEGER},
+		Type = #{type,jdbcType=INTEGER},
+		Number = #{number,jdbcType=INTEGER},
+		Credential = #{credential,jdbcType=INTEGER},
+		ImgUrl = #{imgurl,jdbcType=VARCHAR},
+		GoBackType = #{gobacktype,jdbcType=INTEGER},
+		GetAddr = #{getaddr,jdbcType=VARCHAR},
+		ContactsName = #{contactsname,jdbcType=VARCHAR},
+		Mobile = #{mobile,jdbcType=VARCHAR},
+		Status = #{status,jdbcType=INTEGER},
+		UserID = #{userid,jdbcType=INTEGER},
+		CreateTime = #{createtime,jdbcType=TIMESTAMP},
+		ShopID = #{shopid,jdbcType=INTEGER},
+		Reason = #{reason,jdbcType=VARCHAR},
+		Result = #{result,jdbcType=VARCHAR},
+		B_ExpressName = #{bExpressname,jdbcType=VARCHAR},
+		B_ExpressNum = #{bExpressnum,jdbcType=VARCHAR},
+		S_ExpressName = #{sExpressname,jdbcType=VARCHAR},
+		S_ExpressNum = #{sExpressnum,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updatenoneExpress" parameterType="com.yinlian.wssc.web.po.Afterservice">
+		update afterservice
+		set OrderID = #{orderid,jdbcType=INTEGER},
+		Type = #{type,jdbcType=INTEGER},
+		Number = #{number,jdbcType=INTEGER},
+		Credential = #{credential,jdbcType=INTEGER},
+		ImgUrl = #{imgurl,jdbcType=VARCHAR},
+		GoBackType = #{gobacktype,jdbcType=INTEGER},
+		GetAddr = #{getaddr,jdbcType=VARCHAR},
+		ContactsName = #{contactsname,jdbcType=VARCHAR},
+		Mobile = #{mobile,jdbcType=VARCHAR},
+		Status = #{status,jdbcType=INTEGER},
+		UserID = #{userid,jdbcType=INTEGER},
+		CreateTime = #{createtime,jdbcType=TIMESTAMP},
+		ShopID = #{shopid,jdbcType=INTEGER},
+		Reason = #{reason,jdbcType=VARCHAR},
+		Result = #{result,jdbcType=VARCHAR} 
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+		<update id="updatebExpress" parameterType="com.yinlian.wssc.web.po.Afterservice">
+		update afterservice
+		set OrderID = #{orderid,jdbcType=INTEGER},
+		Type = #{type,jdbcType=INTEGER},
+		Number = #{number,jdbcType=INTEGER},
+		Credential = #{credential,jdbcType=INTEGER},
+		ImgUrl = #{imgurl,jdbcType=VARCHAR},
+		GoBackType = #{gobacktype,jdbcType=INTEGER},
+		GetAddr = #{getaddr,jdbcType=VARCHAR},
+		ContactsName = #{contactsname,jdbcType=VARCHAR},
+		Mobile = #{mobile,jdbcType=VARCHAR},
+		Status = #{status,jdbcType=INTEGER},
+		UserID = #{userid,jdbcType=INTEGER},
+		CreateTime = #{createtime,jdbcType=TIMESTAMP},
+		ShopID = #{shopid,jdbcType=INTEGER},
+		Reason = #{reason,jdbcType=VARCHAR},
+		Result = #{result,jdbcType=VARCHAR},
+		S_ExpressName = #{sExpressname,jdbcType=VARCHAR},
+		S_ExpressNum = #{sExpressnum,jdbcType=VARCHAR} 
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="getByOrderAndType" resultType="com.yinlian.wssc.web.po.Afterservice">
+		select
+		<include refid="Base_Column_List" />
+		from afterservice where
+		OrderID=#{0} and Type=#{1} and Status=#{2}
+		order by CreateTime desc 
+		limit 1
+	</select>
+	
+	 <sql id="criteria_query">
+    <where>
+    <if test="criteria.userid != null and criteria.userid != '' ">
+     and a.UserID = #{criteria.userid}
+     </if>
+     <if test="criteria.status != null and criteria.status >= -1 ">
+     and a.Status = #{criteria.status}
+     </if>
+     </where> 
+  </sql>  
+  	
+   <select id="selectAfterByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" resultType="com.yinlian.pc.dto.AfterserviceDto">
+	select a.ID as id,a.OrderID as orderid,a.Status as status,a.CreateTime as createtime,o.productname as productname ,o.ordercode as ordercode
+	from  afterservice a left join orderdetail o on a.OrderID=o.id
+
+     <if test="criteria != null "> 
+     <include refid="criteria_query"/> 
+     </if>
+     <if test="criteria.orderByClause != null and criteria.orderByClause != '' " >
+      order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序     此处只能使用${} 而不能使用#{} 会设置参数失败 -->
+    </if>
+  </select> 
+  
+  
+  	<select id="getAfterserviceByid" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from afterservice
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+  
+</mapper>

@@ -1,0 +1,76 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* 页面管理  文章列表  开始*/
+.members-form{ width:90%; margin-top:35px; color:#000; position:relative;}
+.members-form span{ margin-right:30px;}
+.members-form-inp{ width:150px; height:24px; border:1px solid #D4D4D4;}
+.text_time{	 width:110px; height:24px; border:1px solid #D4D4D4; color:#666; text-align:center;}
+.member-inp{ padding:3px 10px; background:#ffffff; border:1px solid #D3D3D3; border-radius:5px; color:#666;}
+.member-xz{ width:100%; margin-bottom:3px;}
+.member-xz span{ margin-right:10px;}
+.member-operate span{ margin-right:10px;}
+.dc-bg{ width:109px; height:27px; position:absolute; top:0px; right:0px;}
+.account-form-inp{ width:260px; height:25px; background:#FFFFFF; border:1px solid #D4D4D4; padding-left:5px; color:#CCC;}
+.zdgl-wzlbbj span{ margin:0 8px;}
+/* 页面管理  文章列表  结束*/
+
+/* 文章列表  编辑文章  开始*/
+#wzlb-editor{ width:100%; margin:0 auto; background:#FFF; padding:80px 0px;}
+#wzlb-editor table{ width:96%; margin:0 auto;}
+#wzlb-editor table tr{ border:1px solid #efefef;}
+#wzlb-editor table tr td{ padding:3px 5px; vertical-align:middle;}
+.wzlb-title{ width:70%; height:25px; border:1px solid #dfdfdf; background:#fff; padding-left:8px;}
+.con-one-sel{ width:150px; height:25px; background:#efefef; border:1px solid #dfdfdf;}
+.wzlb-inp{ width:40%; height:25px; border:1px solid #dfdfdf; background:#fff; padding-left:8px;}
+.img-ylq{ width:150px; height:98px; background:#EFEBE7; display:inline-block; line-height:98px; text-align:center;}
+.wzlb-inp-one{ width:20%; height:25px; border:1px solid #dfdfdf; background:#fff; padding-left:8px;}
+.wbbjk-qd{ padding:5px 10px; margin-right:35px;}
+/* 文章列表  编辑文章  结束*/
+
+/*站点管理 SEO优化 开始*/
+#kzmb-sjbf{ width:98%; margin:0px auto; padding:30px 0;}
+#kzmb-sjbf table{ width:100%; border-collapse:collapse;}
+#kzmb-sjbf table tr{ height:28px;}
+#kzmb-sjbf table tr td{ height:35px; border:1px solid #D6D6D6; text-align:center;} 
+.sjbf-cz a{ color:#333;}
+.sjbf-cz a:hover{ color:#F00;}
+#kzmb-sjbf table tr td.sjbf-sql{ text-align:left; color:#6A6A1F; padding-left:20px; font-weight:bolder;}
+#kzmb-sjbf table tr td.sjbf-sql-xb{ text-align:left; color:#6A6A1F; padding-left:3px; font-weight:bolder;}
+.sjbf-inp{ padding:3px 10px; border-radius:0px; border-left:1px solid #E2E2E2; border-bottom:1px solid #ACACAC; border-right:1px solid #ACACAC; border-top:none; background:#E6E6E6;}
+#kzmb-sjbf table tr td#sjbfxx-con{ height:150px; text-align:left; padding-left:100px; line-height:30px;}
+.sjbfxx-con-inp{ width:45px; height:23px; border-top:1px solid #707070;border-left:1px solid #707070; border-bottom:1px solid #CECECE;border-right:1px solid #CECECE; padding-left:6px; margin-right:6px;}
+.sjhy-kzmb-sjbf{ width:200px; height:28px; position:absolute;top:0px; right:20px; display:inline-block; line-height:28px; text-align:center;}
+.sjhy-kzmb-sjbf a{ color:#000000; text-decoration:underline;}
+.sjhy-kzmb-sjbf a:hover{ color:#f00; text-decoration:underline;}
+#kzmb-sjbf table tr td.sjbf-sql-fjcs{ text-align:left; color:#000; padding-left:3px;}
+#kzmb-sjbf table tr td.sjbf-sql-kshysj{ height:45px; background:#E3F4BB; padding-left:30px; text-align:left;}
+#kzmb-sjbf table tr td.jhrw-trzx{ height:auto; text-align:left; padding-left:30px; background:#F9FCEF;}
+.jhrw-sm a{ color:#666600; font-weight:bolder; text-decoration:underline; padding:10px 0;}
+#kzmb-sjbf table tr td.jhrw-trzx h3{ line-height:30px;}
+#kzmb-sjbf table tr td.jhrw-trzx ul{ display:none;}
+#kzmb-sjbf table tr td.jhrw-trzx ul li{ line-height:25px;}
+.seo-inp{ width:90%; height:23px; border-top:1px solid #707070; border-left:1px solid #707070;border-right:1px solid #CECECE;border-bottom:1px solid #CECECE; padding-left:6px;}
+.seo-inp-pl{ width:70px; height:23px; border-top:1px solid #707070; border-left:1px solid #707070;border-right:1px solid #CECECE;border-bottom:1px solid #CECECE; padding-left:6px;}
+#kzmb-sjbf table tr .text-left{ text-align:left; padding-left:5px;}
+.xtmk-text{ width:98%; height:100px; border-top:1px solid #707070; border-left:1px solid #707070;border-right:1px solid #CECECE;border-bottom:1px solid #CECECE; padding-left:6px;}
+/*站点管理 SEO优化  结束*/
+
+/*站点管理 导航菜单  开始*/
+.dhcd-inp{ width:50px; height:23px; border-top:1px solid #707070; border-left:1px solid #707070;border-right:1px solid #CECECE;border-bottom:1px solid #CECECE; margin-right:8px; padding-left:5px;}
+.wzlmgl-dhcd{ text-align:left; color:#6A6A1F; padding-left:20px; font-weight:bolder; height:36px; background:#F8F8F8; line-height:36px; font-size:14px; border:1px solid #D6D6D6;}
+.zjlm-dhcd{ height:36px; line-height:36px; border:1px solid #D6D6D6; border-top:none; position:relative;}
+.dhcd-zk{ width:100px; height:36px; display:inline-block; position:absolute; top:0px; right:0px; line-height:36px; font-weight:bolder; text-align:center;}
+dhcd-zk a{  color:#000; }
+.dhcd-zk a:hover{ color:#f00; text-decoration:underline; }
+#dhcd-Column-con{ border:1px solid #D6D6D6; border-top:none; }
+#dhcd-Column-con img{ cursor:pointer;}
+#dhcd-Column-con .Column-tab{ border-bottom:1px dashed #D6D6D6;}
+#dhcd-Column-con .Column-tab tr td{ border:none; text-align:left;}
+#dhcd-Column-con .Column-tab .dhcd-trbac{background:#FBFCE2;}
+#dhcd-Column-con .Column-tab tr td.dhcd-czbj{ width:320px; text-align:center;}
+#dhcd-Column-con .Column-tab .dhcd-czbj a{ color:#333; margin:0 5px;}
+#dhcd-Column-con .Column-tab .dhcd-czbj a:hover{ color:#F00; text-decoration:underline;}
+#dhcd-Column-con .Column-tab  td.dhcd-jh{ text-align:center; width:30px;}
+#dhcd-Column-con .Column-tab .dhcd-sorting{ width:80px; text-align:center;}
+/*站点管理 导航菜单  结束*/

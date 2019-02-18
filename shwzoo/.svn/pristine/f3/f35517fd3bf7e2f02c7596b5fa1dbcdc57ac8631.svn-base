@@ -1,0 +1,8 @@
+siteID=11
+appName=\u56E0\u8054\u5546\u57CE
+#remote all local
+logToType=local
+LogPath=D:\\ylsclog
+stacktrace=true
+Level=all
+#isenble=true

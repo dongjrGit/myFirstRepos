@@ -1,0 +1,122 @@
+﻿<!-- @{
+    Layout = "~/Areas/Member/Views/Shared/_Layout_Member_Center.cshtml";
+    ViewBag.Title = "添加收货地址";
+} -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>添加收货地址</title>
+<link href="/resource/artDialog/skins/default.css" rel="stylesheet" />
+<link type="text/css" rel="stylesheet" href="/resource/pc/web/css/style01.css" />
+<link type="text/css" rel="stylesheet" href="/resource/ui-dialog.css" />
+ <link href="/resource/pc/member/css/pager2.css" rel="stylesheet" />
+    
+<link href="/resource/public/commoncss/jQuery.Validate.css" rel="stylesheet" />
+ <script src="/resource/pc/member/js/Concern/syconcernlist.js"></script>
+<script src="/resource/pc/web/js/browsehistory/browsehistory.js"></script>
+<script src="/resource/pc/web/js/index.js"></script>
+<script src="/resource/pc/member/js/pager2.js"></script>
+<script src="/resource/pc/member/js/showdate.js"></script>
+ <script src="/resource/artTemplate.js"></script>
+ <script src="/resource/dialog-plus.js"></script>
+ <script src="/resource/dialogShow.js"></script>
+<script src="/resource/jQueryRotate.2.2.js"></script>
+ <script src="/resource/Guid.js"></script>
+<script src="/resource/GetQueryString.js"></script>
+<script src="/resource/My97DatePicker/WdatePicker.js"></script>
+
+<script type="text/javascript" src="/resource/public/commonjs/Birthday-picker.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/style.js"></script>
+
+<script src="/resource/public/commonjs/AjaxFileUploaderV2.1/ajaxfileupload.js"></script>
+<script src="/resource/public/commonjs/jquery.validate.js"></script>
+<script src="/resource/public/commonjs/messages_cn.js"></script>
+<script src="/resource/public/commonjs/jquery.validate-methods.js"></script>
+
+<script src="/resource/public/commonjs/public-user.js"></script>
+
+<script src="/resource/public/commonjs/jquery.form.js"></script>
+<script src="/resource/pc/web/js/jquery.banner.js"></script>
+
+<script src="/resource/pc/member/js/zhsz/AddRecAdr.js"></script>
+</head>
+<body>
+<div id="main" class="fix">
+    <!--main-left 左边内容  开始 -->
+   <% include("/template/pc/memberCenter/zhsz/_PartialLeftside.html",{}){}%> 
+    <!--main-left 左边内容  结束 -->
+    <!--rightside 右边内容  结束 -->
+    <div class="rightside">
+        <!--l_jfmx  begin -->
+        <div class="l_jfmx mt0 fix">
+            <!--l_jfmxtop  begin -->
+            <div class="l_jfmxtop">
+                <h3><a href="javascript:;" class="active" id="title">添加地址</a></h3>
+            </div><!--l_jfmxtop  stop -->
+            <!-- -->
+            <div class="perinfor">
+                <form id="addrForm">
+                    <table>
+                        <tr>
+                            <td class="perinfor-left"><span class="red">*</span>收货人姓名：</td>
+                            <td><input name="recName" id="recName" type="text" class="inp-most"></td>
+                        </tr>
+                        <tr>
+                            <td class="perinfor-left">收货地址：</td>
+                            <td>
+                                <select class="smallbj-sel" name="adProv" id="adProv"></select>
+                                <span class="mr5"></span>
+                                <select class="smallbj-sel" name="adCity" id="adCity"></select>
+                                <span class="mr5"></span>
+                                <select class="smallbj-sel" name="adArea" id="adArea"></select>
+                                <label id="adProv-error" class="error" for="adProv" style="display: inline;"></label>
+                                <label id="adProv-error" class="error" for="adCity" style="display: inline;"></label>
+                                <label id="adProv-error" class="error" for="adArea" style="display: inline;"></label>
+                                <p class="mt10"><input name="adInfo" id="adInfo" type="text" class="inp-big" value=""></p>
+                                <p class="huise">请填写具体的街道地址</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="perinfor-left">手机号：</td>
+                            <td>
+                                <input name="phoneNum" id="phoneNum" type="text" class="inp-most">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="perinfor-left">固定电话：</td>
+                            <td>
+                                <input name="telArea" id="telArea" type="text" class="inp-most" style="width:70px;">
+                                -
+                                <input name="telNum" id="telNum" type="text" class="inp-most">
+                                -
+                                <input name="telExt" id="telExt" type="text" class="inp-most" style="width:70px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="perinfor-left"><span class="red">*</span>是否住家：</td>
+                            <td>
+                                <span class="mr10"><input name="isHome" type="radio" value="1">是</span>
+                                <span class="mr10"><input name="isHome" type="radio" value="0" checked>否</span>
+
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="perinfor-left">&nbsp;</td>
+                            <td>
+                                <a href="javascript:void(0)" class="l_tjfxthh" id="savebtn">保存</a>
+                                <a href="javascript:void(0)" class="l_tjfxthh huise_bj" id="backBtn">返回</a>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div><!--perinfor  stop -->
+            <!-- -->
+        </div>
+        <!--l_jfmx  stop -->
+    </div>
+    <!--rightside 右边内容  结束 -->
+    <div class="clear"></div>
+</div>
+</body>
+
+

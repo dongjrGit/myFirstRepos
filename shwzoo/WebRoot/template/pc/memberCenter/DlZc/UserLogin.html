@@ -1,0 +1,111 @@
+﻿<!-- @{
+    ViewBag.Title = "买家中心-登录页";
+} -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="/resource/pc/web/images/favicon_shortcut.ico" />
+    <title>中绿生活登录</title>
+    <meta name="title" content="" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+  <link type="text/css" rel="stylesheet" href="/resource/pc/web/css/common.css">
+    <link type="text/css" rel="stylesheet" href="/resource/pc/web/css/top-footer.css">
+    <link type="text/css" rel="stylesheet" href="/resource/pc/web/css/index.css">
+    <script src="/resource/jquery-1.9.1.min.js"></script>
+    <script language="javascript" type="text/javascript" src="/resource/pc/web/js/index.js"></script>
+  <script src="/resource/Guid.js"></script> 
+  <script src="/resource/cookie.js"></script>
+   
+    <!--表单验证css&&js-->
+    <link href="/resource/public/commoncss/jQuery.Validate.css" rel="stylesheet" />
+    <script src="/resource/public/commonjs/jquery.validate.js"></script>
+    <script src="/resource/public/commonjs/messages_cn.js"></script>
+    <script src="/resource/public/commonjs/jquery.validate-methods.js"></script>
+    <script src="/resource/pc/web/js/login/login.js"></script>
+    <script src="/resource/pc/web/js/shopcart/addcart.js"></script>
+    <script src="/resource/pc/member/js/LoginRegister/Login.js"></script>
+</head>
+
+<body bgcolor="#F5F5F5">
+    <!--dl_top  begin -->
+    <div class="dl_top">
+        <div class="w1100">
+            <div class="dl_top01"><a href="/index.html"><img src="/resource/pc/web/images/logo.png"></a></div>
+            <div class="dl_top02">欢迎登录</div>
+        </div>
+    </div>
+    <!--dl_top  stop -->
+    <div class="dl_nr fix">
+        <div class="w1100 dl_nrcon">
+            <div class="dl_login">
+                <div class="dl_login_top">会员登录</div>
+                <div class="dl_login_con">
+                    <form id="loginForm">
+                        <div style="width:274px; margin:0 auto;">
+                            <div class="dl_loginmk fix">
+                                <i class="l_yhm"></i>
+                                <input type="text" value="" id="userName" class="dl_inp" placeholder="邮箱/手机/用户名" onkeydown="MemberLogin.enterpress();">
+                            </div><!--dl_loginmk  stop -->
+                            <!--<p class="red">提示错误提示错误提示错误</p> -->
+                            <div class="mt15"></div>
+                            <div class="dl_loginmk fix">
+                                <i class="l_yhm l_mmdl"></i>
+                                <input type="password" value="" id="userPwd" class="dl_inp" placeholder="请输入密码" onkeydown="MemberLogin.enterpress();">
+                            </div><!--dl_loginmk  stop -->
+                            <p class="red" id="p_errmessage"></p>
+                            <div class="dl_wjmm fix">
+                                <a href="/member/userInfo/findPwd.html?setup=1&type=0">忘记密码？</a>
+                                <span class="red floatr"><a href="/member/user/register">立即注册</a></span>
+                            </div>
+                            <div class="dl_lja"><a href="javascript:void(0);" id="a_submit" onclick="MemberLogin.login();">登录</a></div>
+                            <div class="dl_dsfdl"><span></span></div>
+                            <!--<div class="dl_dsfdlcon fix">
+                                <ul>
+                                    <li class="dl_tb01"></li>
+                                    <li class="dl_tb02"></li>
+                                    <li class="dl_tb03"></li>
+                                    <li class="dl_tb04"></li>
+                                </ul>
+                            </div>-->
+                        </div>
+                    </form>
+                </div><!--dl_login_con  stop -->
+            </div><!--dl_login  stop -->
+        </div>
+    </div>
+    <!--footer  底部开始 -->
+    <div id="footer" class="fix">
+        <!--footcon  begin -->
+        <div class="footcon">
+           <!--l_gywm 关于我们开始 -->
+            <div class="l_gywm">
+                <p class="links">
+                    <a href="#">关于我们</a>|
+                    <a href="#">帮助中心</a>|
+                    <a href="#">友情链接</a>|
+                    <a href="#">诚征英才</a>|
+                    <a href="#">商家登录</a>|
+                    <a href="#">供应商登录</a>|
+                    <a href="#">联系我们</a>|
+                    <a href="#">网站合作</a>|
+                    <a href="#">开放平台</a>|
+                    <a href="#">法律声明</a>
+                </p>
+                <p>Copyright&copy;&amp; 中绿网上超市 2014-2018，All Rights Reserved</p>
+            </div>
+            <!--l_gywm 关于我们结束 -->
+        </div>
+        <!--footcon  stop -->
+    </div>
+    <!--footer  底部结束 -->
+</body>
+</html>
+
+
+
+
+
+

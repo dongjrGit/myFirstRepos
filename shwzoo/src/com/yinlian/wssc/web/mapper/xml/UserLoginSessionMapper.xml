@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.UserLoginSessionMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.UserLoginSession" >
+    <id column="Id" property="id" jdbcType="INTEGER" />
+    <result column="UserId" property="userid" jdbcType="INTEGER" />
+    <result column="Toekn" property="toekn" jdbcType="VARCHAR" />
+    <result column="Ip" property="ip" jdbcType="VARCHAR" />
+    <result column="LoginTime" property="logintime" jdbcType="TIMESTAMP" />
+    <result column="LoginValue" property="loginvalue" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    Id, UserId, Toekn, Ip, LoginTime, LoginValue
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.UserLoginSessionExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from user_login_session
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_login_session
+    where Id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_login_session
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.UserLoginSessionExample" >
+    delete from user_login_session
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.UserLoginSession" >
+    insert into user_login_session (Id, UserId, Toekn, 
+      Ip, LoginTime, LoginValue
+      )
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{toekn,jdbcType=VARCHAR}, 
+      #{ip,jdbcType=VARCHAR}, #{logintime,jdbcType=TIMESTAMP}, #{loginvalue,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.UserLoginSession" >
+    insert into user_login_session
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        Id,
+      </if>
+      <if test="userid != null" >
+        UserId,
+      </if>
+      <if test="toekn != null" >
+        Toekn,
+      </if>
+      <if test="ip != null" >
+        Ip,
+      </if>
+      <if test="logintime != null" >
+        LoginTime,
+      </if>
+      <if test="loginvalue != null" >
+        LoginValue,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="toekn != null" >
+        #{toekn,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="logintime != null" >
+        #{logintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginvalue != null" >
+        #{loginvalue,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.UserLoginSessionExample" resultType="java.lang.Integer" >
+    select count(*) from user_login_session
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update user_login_session
+    <set >
+      <if test="record.id != null" >
+        Id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userid != null" >
+        UserId = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.toekn != null" >
+        Toekn = #{record.toekn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ip != null" >
+        Ip = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logintime != null" >
+        LoginTime = #{record.logintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.loginvalue != null" >
+        LoginValue = #{record.loginvalue,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update user_login_session
+    set Id = #{record.id,jdbcType=INTEGER},
+      UserId = #{record.userid,jdbcType=INTEGER},
+      Toekn = #{record.toekn,jdbcType=VARCHAR},
+      Ip = #{record.ip,jdbcType=VARCHAR},
+      LoginTime = #{record.logintime,jdbcType=TIMESTAMP},
+      LoginValue = #{record.loginvalue,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.UserLoginSession" >
+    update user_login_session
+    <set >
+      <if test="userid != null" >
+        UserId = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="toekn != null" >
+        Toekn = #{toekn,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        Ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="logintime != null" >
+        LoginTime = #{logintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginvalue != null" >
+        LoginValue = #{loginvalue,jdbcType=CHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.UserLoginSession" >
+    update user_login_session
+    set UserId = #{userid,jdbcType=INTEGER},
+      Toekn = #{toekn,jdbcType=VARCHAR},
+      Ip = #{ip,jdbcType=VARCHAR},
+      LoginTime = #{logintime,jdbcType=TIMESTAMP},
+      LoginValue = #{loginvalue,jdbcType=CHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,120 @@
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<script src="/resource/artTemplate.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link type="text/css" href="/resource/pc/member/css/pager2.css"
+	rel="stylesheet" />
+<script type="text/javascript" src="/resource/pc/member/js/pager2.js"></script>
+<script src="/resource/pc/web/js/spgl/producttg.js"></script>
+<script src="/resource/artTemplate.js"></script>
+
+<script type="text/javascript" src="/resource/pc/web/js/pager1.js"></script>
+
+<script>
+	$(document).ready(function() {
+		list.bind();
+	})
+</script>
+</head>
+<title>团购</title>
+<div id="container" class="fix">
+
+	<!--navigation  导航结束 -->
+	<!--container 中间所有内容开始-->
+	<div id="container" class="fix">
+		<div class="l_pos">
+			<span class="fon18">中绿团购</span>
+		</div>
+		<!--l_pos  stop -->
+		<!--l_screen  商品筛选开始 -->
+		<div class="l_screen"></div>
+		<!-- l_scrtop  stop-->
+		<!--l_scrmk  begin -->
+		<div class="l_scrmk">
+			<div class="l_scrmkleft">分类</div>
+			<!--l_scrmkleft  stop -->
+			<div class="l_scrmkright">
+				<ul>
+					<li>哥弟（GIRDEAR）</li>
+					<li>哥弟（GIRDEAR）</li>
+					<li>哥弟（GIRDEAR）</li>
+					<li>哥弟（GIRDEAR）</li>
+					<li>哥弟（GIRDEAR）</li>
+					<li>哥弟（GIRDEAR）</li>
+					<li>哥弟（GIRDEAR）</li>
+					<li>哥弟（GIRDEAR）</li>
+					<li>哥弟（GIRDEAR）</li>
+					<li>哥弟（GIRDEAR）</li>
+					<li>哥弟（GIRDEAR）</li>
+					<li>哥弟（GIRDEAR）</li>
+					<li>哥弟（GIRDEAR）</li>
+					<li>哥弟（GIRDEAR）</li>
+					<li>哥弟（GIRDEAR）</li>
+					<div class="clear"></div>
+
+				</ul>
+
+			</div>
+			<!--l_scrmkright  stop -->
+			<div class="clear"></div>
+		</div>
+	</div>
+	<!--l_screen  商品筛选结束 -->
+	<div class="clear"></div>
+	<!--l_spsort  商品排序开始 -->
+	<div class="l_spsort fix">
+		<ul class="l_spsort01">
+			<li class="l_zhss"><a href="#">综合</a><i></i></li>
+			<li class=""><a href="#">时间</a><i></i></li>
+			<li class=""><a href="#">新上</a><i></i></li>
+			<li><a href="#">价格</a><i></i></li>
+			<div class="clear"></div>
+		</ul>
+	</div>
+	<!--l_spsort  商品排序结束 -->
+	<!--xz-tglb begin-->
+	<div class="xz-tglb fix">
+		<ul class="l_splist01" id="productlist">
+			<script type="text/html" id="pro_list">
+				 {{each list as pro i}}
+<div class="xz-tglbmk fix">
+				<a href="/web/products/proinfo.html?spuid={{pro.proid}}&protype=1&sgid={{pro.proid}}"><img src="{{pro.img}}" width="215" height="205"></a>
+				<div class="xz-tglbmk-r">
+					<div class="h_spzhyprig fix">
+						<h3>  <a href="/web/products/proinfo.html?spuid={{pro.proid}}&protype=4&sgid={{pro.proid}}">{{pro.name}}</a></h3>
+					<!-- 	<p class="fon16 orange">东北产地 有机农家小米 自产自销</p> -->
+						<div class="h_spzhyp_price">
+							<span class="orange"><i>￥</i>{{pro.price | toFixed}}</span> <span
+								class="text-decthrough huise">￥{{pro.yPrice | toFixed}}</span>
+						</div>
+						<div class="h_spzhyp_end">
+							<span class="huise">距结束：</span><i>{{pro.h}}</i>时<i>{{pro.m}}</i>分<i>{{pro.s}}</i>秒
+						</div>
+						<div class="h_spzhyp_yct">
+							<span class="huise">已参团：</span><!--  <span class="h_bar"><i></i></span>-->
+							<span class="orange">{{pro.salecount}}人</span>
+						</div> 
+						<!--h_spzhyp_ljct begin-->
+						<div class="h_spzhyp_ljct">
+							<a href="/web/products/proinfo.html?spuid={{pro.proid}}&protype=4&sgid={{pro.proid}}" class="ljctbut">立即参团</a>
+						</div>
+						<!--h_spzhyp_ljct stop-->
+					</div>
+				</div>
+			</div>			
+		</div>
+ {{/each}}
+		</script>
+
+			<!--xz-tglb stop-->
+	</div>
+	<!--container 中间所有内容结束-->
+		<div class="clear"></div>
+	</div>
+	<!--l_splist  商品列表结束 -->
+	<!--page  分页开始 -->
+	<div id="pager" class="page"></div>
+
+</div>
+

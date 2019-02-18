@@ -1,0 +1,124 @@
+<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>会员主页</title>
+<script src="${path}/wap/js/userInfo/MemberHomepage.js"
+	type="text/javascript"></script>
+<script type="text/javascript" src="${path}/wap/js/login.js"></script>
+<link rel="stylesheet" href="/resource/wap/js/layer/skin/layer.css" >
+<script type="text/javascript" src="/resource/wap/js/layer/layer.js"></script>
+<script src="${path}/cookie.js" type="text/javascript"></script>
+</head>
+<body>
+	<!--头部-->
+	<div class="ImMain-head">
+		<!-- <a href="#" class="go_prv"><img src="/wap/images/index_09.png"></a> -->
+		<a href="/wap/messages/queryMessages?ch=3" class="xinxi"><img
+			src="${path}/wap/images/index_10.png" alt="">
+			<%if(!isEmpty(userInfo.messagecount)&& userInfo.messagecount!=0){%><i>${userInfo.messagecount}</i><%}%></a>
+		<div>
+			<%if(!isEmpty(userInfo.imgUrl)){%> <img src="${userInfo.imgUrl}"
+				alt=""> <%}else{%> <img src="${path}/wap/images/index11.jpg"
+				alt=""> <%}%> <b><%if(!isEmpty(userInfo.realName)){%>${userInfo.realName}<%}%></b>
+		</div>
+		<a href="/wap/userinfo/selectInfo?ch=3" class="eid"><img
+			src="${path}/wap/images/index_11.png" alt=""></a>
+	</div>
+	<hr class="back" />
+	<!--头部***-->
+	<!--我的订单-->
+	<div class="ImMain-dind">
+		<h2 class="Dind-h">
+			<span><img src="${path}/wap/images/Impic_01.png" alt="">我的订单</span><a
+				href="/wap/order/getorder?ch=3&amp;&amp;iscomment=null">查看全部订单</a>
+		</h2>
+		<nav>
+			<a href="/wap/order/getorder?status=0&amp;&amp;ch=3"><img
+				src="${path}/wap/images/impicA_01.png" alt="">待付款
+				<%if(!isEmpty(userInfo.children.dfk)&&userInfo.children.dfk!=0){%><i>${userInfo.children.dfk}</i><%}%></a>
+			<a href="/wap/order/getorder?status=1&amp;&amp;ch=3"><img
+				src="${path}/wap/images/impicA_02.png" alt="">待发货
+				<%if(!isEmpty(userInfo.children.dfh)&&userInfo.children.dfh!=0){%><i>${userInfo.children.dfh}</i><%}%></a>
+			<a href="/wap/order/getorder?status=2&amp;&amp;ch=3"><img
+				src="${path}/wap/images/impicA_02.png" alt="">待收货
+				<%if(!isEmpty(userInfo.children.dsh)&&userInfo.children.dsh!=0){%><i>${userInfo.children.dsh}</i><%}%></a>
+			<a href="/wap/order/getorder?status=99&amp;&amp;ch=3"><img
+				src="${path}/wap/images/impicA_03.png" alt="">待评价
+				<%if(!isEmpty(userInfo.children.dpj)&&userInfo.children.dpj!=0){%><i>${userInfo.children.dpj}</i><%}%></a>
+			<a href="/wap/order/getorder?status=9&amp;&amp;ch=3"><img
+				src="${path}/wap/images/impicA_04.png" alt="">退款
+				<%if(!isEmpty(userInfo.children.tk)&&userInfo.children.tk!=0){%><i>${userInfo.children.tk}</i><%}%></a>
+		</nav>
+	</div>
+	<hr class="back" />
+	<div class="ImMain-dind">
+		<h2 class="Dind-h">
+			<span><img src="${path}/wap/images/Impic_01.png" alt="">团购订单</span><a
+				href="/wap/activityView/getOrderList.html?status=-1">查看全部团购订单</a>
+		</h2>
+		<nav>
+			<a href="/wap/activityView/getOrderList.html?status=0"><img
+				src="${path}/wap/images/impicA_01.png" alt="">待付款
+				<%if(!isEmpty(dfk)&& dfk!=0){%><i>${dfk}</i><%}%></a> <a
+				href="/wap/activityView/getOrderList.html?status=1"><img
+				src="${path}/wap/images/impicA_02.png" alt="">待消费
+				<%if(!isEmpty(dxf)&& dxf!=0){%><i>${dxf}</i><%}%></a> <a
+				href="/wap/activityView/getOrderList.html?status=5"><img
+				src="${path}/wap/images/impicA_03.png" alt="">待评价
+				<%if(!isEmpty(dpj)&& dpj!=0){%><i>${dpj}</i><%}%></a> <a
+				href="/wap/activityView/getOrderList.html?status=3"><img
+				src="${path}/wap/images/impicA_04.png" alt="">退款
+				<%if(!isEmpty(tk)&&tk!=0){%><i>${tk}</i><%}%></a>
+		</nav>
+	</div>
+	<hr class="back" />
+	<!--我的财产-->
+	<div class="ImMain-dind">
+		<h2 class="Dind-h">
+			<span><img src="${path}/wap/images/Impic_02.png" alt="">我的财产</span>
+		</h2>
+		<nav>
+			<a href="/wap/coupon/showCoupon?ch=3&amp;&amp;type=0"><img
+				src="${path}/wap/images/impicA_05.png" alt="">优惠券
+				<%if(!isEmpty(userInfo.couponcount)&&userInfo.couponcount!=0){%><i>${userInfo.couponcount}</i><%}%></a>
+			<a href="/wap/userinfo/totalPoints?ch=3"><img
+				src="${path}/wap/images/impicA_06.png" alt="">积分
+				<%if(!isEmpty(userInfo.points)&& userInfo.points!=0){%><i>${userInfo.points}</i><%}%></a>
+			<a href="/wap/userinfo/queryBankcard?ch=3"><img
+				src="${path}/wap/images/impicA_07.png" alt="">银行卡
+				<%if(!isEmpty(userInfo.bankcard)&&userInfo.bankcard!=0){%><i>${userInfo.bankcard}</i><%}%></a>
+				<a href="/wap/userinfo/infoBalance.html"><img
+				src="${path}/wap/images/impicA_07.png" alt="">我的余额</a>
+		</nav>
+	</div>
+	<hr class="back" />
+	<!--设置-->
+	<a href="/wap/userinfo/service" class="ImMain_goto"><img
+		src="${path}/wap/images/Impic_03.png" alt="">服务反馈</a>
+	<hr class="back" />
+	<a href="/wap/concern/selectCollect?type=0&amp;&amp;ch=3"
+		class="ImMain_goto"><img src="${path}/wap/images/Impic_04.png"
+		alt="">我的关注</a>
+	<hr class="back" />
+	<a href="/wap/receiveraddress/selectAddrByUserId?ch=3"
+		class="ImMain_goto"><img src="${path}/wap/images/Impic_05.png"
+		alt="">收货地址</a>
+	<hr class="back" />
+	<a href="/wap/showsetting/setting" class="ImMain_goto"><img
+		src="${path}/wap/images/Impic_06.png" alt="">设置</a>
+	<a id="login" class="ImMain-tcbtn"></a>
+
+	<%include("/template/wap/index_foot.html",{display:4}){}%>
+<script type="text/javascript">
+if(	login.isLogin()){
+	$("#login").append('<a href="javscript:void(0)" id="login" class="ImMain-tcbtn">退出登录</a>');
+	$("#login").click(function(){
+		MemberHomepage.exit();
+	})
+}else{
+	$("#login").append('<a href="/wap/user/showlogin" id="login" class="ImMain-tcbtn">登录</a>');
+}
+</script>
+</body>
+
+

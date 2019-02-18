@@ -1,0 +1,89 @@
+<%var path="/resource";%>
+<head>
+<title>个人中心-未登录</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="stylesheet" href="/resource/wap/css/css.css" type="text/css" media="screen">
+ <script src="${path}/cookie.js"></script>
+<script src="${path}/wap/js/index.js"></script>
+<script type="text/javascript" src="${path}/wap/js/wkh/varCommon.js"></script>
+<script type="text/javascript" src="${path}/wap/js/wkh/ajaxCommon.js"></script>
+<script type="text/javascript" src="${path}/wap/js/wkh/appCommon.js"></script>
+<script type="text/javascript" src="${path}/wap/js/login.js"></script>
+<!-- <script src="/js/AjaxFileUploaderV2.1/ajaxfileupload.js"></script> -->
+<script src="${path}/ajaxfileupload.js"></script>
+<script type="text/javascript">
+	function loginSuccess(){
+		location.reload();
+	}
+
+	$(function() {
+		pageUrl = "/api/wap/showfan/showMoreSpuList";
+		content = "showlist";//涓讳綋
+		params = {
+			"page" : 1,
+			"size" : 6,
+			"shopid":"${shopid}"
+		};//鍙傛暟
+		initPage();
+	});
+	
+	$(function(){
+		$(window).scroll(function(){
+			var scrollTop=$(this).scrollTop();
+			var scrollHeight=$(document).height();
+			var windowHeight=$(this).height();
+			if(scrollTop+windowHeight==scrollHeight){
+				initPage();
+			}
+		});
+	})
+	
+	function showDetail(){
+			var showid=$(".showid").val();
+			window.location.href="/wap/discover/fandetail.html?showid="+showid;
+	} 
+	
+	
+	
+</script>
+
+</head>
+<body>
+<!--container  begin-->
+<div class="container fix">
+	<!--l_alltop  begin -->
+	<div class="l_alltop fix" onclick="javascript:location.href='/wap/discover/dynamic.html'">
+    	<span><img src="${path}/wap/images/tp10.png" class="img-responsive l_maxwid"></span>
+    	更多商品
+    </div>
+     	<div class="l_sfxzsp fix" id="showlist">
+ 
+     </div>
+   
+		<!-- loading  begin -->
+	<!-- 	<div id="loading">
+			<div id="loading-center">
+				<div id="loading-center-absolute">
+					<div class="object" id="object_one"></div>
+					<div class="object" id="object_two"></div>
+					<div class="object" id="object_three"></div>
+					<div class="object" id="object_four"></div>
+					<div class="object" id="object_five"></div>
+					<div class="object" id="object_six"></div>
+					<div class="object" id="object_seven"></div>
+					<div class="object" id="object_eight"></div>
+				</div>
+			</div>
+		</div> -->
+		<!--loading  stop-->
+	</div>
+</div>
+<!--container  stop -->
+<img src="${path}/wap/images/index_42.png" class="qianggou-scrollTop">
+<script>
+	window.onload=function(){
+		goodslist('.goods_list_img img');
+	}	
+</script>
+</body>

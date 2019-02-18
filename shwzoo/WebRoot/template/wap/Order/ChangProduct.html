@@ -1,0 +1,127 @@
+<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>申请售后</title>
+<script src="/resource/wap/js/userInfo/ChangProduct.js"></script>
+<script src="${path}/ajaxfileupload.js"></script>
+<script type="text/javascript" src="${path}/wap/js/login.js"></script>
+</head>
+<body>
+<div class="top_title fix">
+         <a  href="/wap/order/getorder?status=99&&ch=3">
+		<div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div>
+		</a>
+		申请售后
+	</div>
+<ul class="Shipping-xqul border0">
+	<li>
+    	<a href="#" id="ceshi" value="${pro.id}">
+        	<img src="${pro.productimg}">
+            <div class="R"><b>${pro.productname}</b><span>￥ ${pro.productprice}　　数量：${pro.productcount}</span></div>
+        </a>
+    </li>
+</ul>
+<hr class="back"/>
+<div class="tuihuanh-cont" id="ceshi">
+	<h2>请问您是</h2>
+    <input class="yradio" id="tuihuo" data-html="退货退款" type="radio" value="1" name="yx" checked>退货退款
+    <input data-html="换货" id="huanhuo" class="yradio" type="radio" value="2" name="yx">换货
+    <input data-html="维修" id="weixiu" class="yradio" type="radio" value="3" name="yx">维修
+    <input data-html="退款" id="tuikuan" class="yradio" type="radio" value="4" name="yx">退款
+</div>
+<hr class="back"/>
+<div class="tuihuanh-cont">
+	<h2>请输入原因</h2>
+    <textarea id="seron" placeholder="请您在此描述详细问题"></textarea>
+</div>
+<hr class="back"/>
+<div class="tuihuanh-cont">
+	<h2>上传图片</h2>
+    <ul class="uploadFile" id="image">
+    	<li id="li1">
+    	  <input type="file" name="file1" id="file1" onchange="changproduct.fimage(1)" hidden />
+          <img src="${path}/wap/images/index_23.png" width="107" height="100" id="img1" name="img1">
+          <input type="hidden" name="imasrc1" value="" id="imasrc1" />
+    <!-- 	<input type="file" id="file1" name="file1" value="1">
+    	<img id="img1" src="/wap/images/index_23.png"> -->
+    	<i></i>
+    	</li>
+    	<li id="li2">
+          <input type="file" name="file2" id="file2" onchange="changproduct.fimage(2)" hidden />
+          <img src="${path}/wap/images/index_23.png" id="img2" name="img2">
+          <input type="hidden" name="imasrc2" value="" id="imasrc2" />
+         <i></i>
+    	</li>
+    	<li id="li3">
+    	 <input type="file" name="file3" id="file3" onchange="changproduct.fimage(3)" hidden />
+          <img src="${path}/wap/images/index_23.png" id="img3" name="img3">
+          <input type="hidden" name="imasrc3" value="" id="imasrc3" />
+    	<i></i>
+    	</li>
+    	<!-- <li><input type="file" name="file4" value="4"><img src="/wap/images/index_23.png"><i></i></li> -->
+    </ul>
+    <p class="hui">最多上传3张，每张不超过5M,支持JPG、BMP、PNG</p>
+    <script>
+    	//Yeffect.Html5FileReaders(".uploadFile li input","li","img");
+	    // $(".uploadFile li input").change(function(){
+		//	$(this).parents("li").addClass("youtu");	
+		//}) 
+		$(".uploadFile li i").click(function(){
+			var thisparent=$(this).parents("li");
+			thisparent.removeClass("youtu");
+			thisparent.find("img").attr("src","/wap/images/index_23.png");
+			thisparent.find("input").val("");
+		})
+    </script>
+</div>
+<div class="tuihuanh-butrnDiv">
+	<input type="button" id="fabu" value="提交">
+</div>
+<script type="text/javascript">
+$(document).ready(function(){
+	if(login.isLogin()){
+		$("#img1").bind("click", function() {
+		$("#file1").click();
+	});
+	$("#img2").bind("click", function() {
+		$("#file2").click();
+	});
+	$("#img3").bind("click", function() {
+		$("#file3").click();
+	});
+	$("#fabu").click(function (){
+		var orderdetailid = $("#ceshi").attr("value");
+		var image = "";
+		//var obj_payPlatform = $('#ceshi input[name="yx"]');
+		var type = $('#ceshi input[name="yx"]:checked ').val();
+		var seron=$("#seron").val();
+		/*if($('#image input[name="file1"]').val !=null){ if(image=="")  {image = $('#image input[name="file1"]').val();}else{image = image+","+$('#image input[name="file1"]').val();}};
+		if($('#image input[name="file2"]').val !=null){  if(image=="") {image = $('#image input[name="file2"]').val();}else{image = image+","+$('#image input[name="file2"]').val();}};
+		if($('#image input[name="file3"]').val !=null){  if(image=="") {image = $('#image input[name="file3"]').val();}else{image = image+","+$('#image input[name="file3"]').val();}};*/ 
+ 		if($('#imasrc1').val()!=null && $('#imasrc1').val()!=""){
+			if(image=="")
+				image=$('#imasrc1').val();
+			else
+				image +=","+$('#imasrc1').val();
+		}
+		if($('#imasrc2').val()!=null && $('#imasrc2').val()!=""){
+			if(image=="")
+				image=$('#imasrc2').val();
+			else
+				image +=","+$('#imasrc2').val();
+		}
+		if($('#imasrc3').val()!=null && $('#imasrc3').val()!=""){
+			if(image=="")
+				image=$('#imasrc3').val();
+			else
+				image +=","+$('#imasrc3').val();
+		} 
+		changproduct.chang(orderdetailid,1,seron,image);
+	})
+	}
+})
+
+</script>
+</body>

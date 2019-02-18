@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.ZL_BaseInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.ZL_BaseInfo" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="Address" property="address" jdbcType="VARCHAR" />
+    <result column="Tel" property="tel" jdbcType="VARCHAR" />
+    <result column="Longitude" property="longitude" jdbcType="VARCHAR" />
+    <result column="Latitude" property="latitude" jdbcType="VARCHAR" />
+    <result column="ProvinceName" property="provincename" jdbcType="VARCHAR" />
+    <result column="ProvinceCode" property="provincecode" jdbcType="VARCHAR" />
+    <result column="CityName" property="cityname" jdbcType="VARCHAR" />
+    <result column="CityCode" property="citycode" jdbcType="VARCHAR" />
+    <result column="AreaName" property="areaname" jdbcType="VARCHAR" />
+    <result column="AreaCode" property="areacode" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <select  id="selectGroupBy" resultMap="BaseResultMap"  parameterType="com.yinlian.wssc.web.po.ZL_BaseInfo" >
+  select ProvinceName,ProvinceCode  from zl_baseinfo l GROUP By ProvinceCode 
+  
+  </select>
+   <select id="selectListPage"  resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" >
+  select <include refid="Base_Column_List" />
+    from zl_baseinfo 
+  
+  </select>
+  
+  <sql id="Base_Column_List" >
+    ID, Name, Address, Tel, Longitude, Latitude, ProvinceName, ProvinceCode, CityName, 
+    CityCode, AreaName, AreaCode
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.ZL_BaseInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from zl_baseinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from zl_baseinfo
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from zl_baseinfo
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.ZL_BaseInfoExample" >
+    delete from zl_baseinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.ZL_BaseInfoExample" >
+    insert into zl_baseinfo (ID, Name, Address, 
+      Tel, Longitude, Latitude, 
+      ProvinceName, ProvinceCode, CityName, 
+      CityCode, AreaName, AreaCode
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{tel,jdbcType=VARCHAR}, #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, 
+      #{provincename,jdbcType=VARCHAR}, #{provincecode,jdbcType=VARCHAR}, #{cityname,jdbcType=VARCHAR}, 
+      #{citycode,jdbcType=VARCHAR}, #{areaname,jdbcType=VARCHAR}, #{areacode,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.ZL_BaseInfoExample" >
+    insert into zl_baseinfo
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="address != null" >
+        Address,
+      </if>
+      <if test="tel != null" >
+        Tel,
+      </if>
+      <if test="longitude != null" >
+        Longitude,
+      </if>
+      <if test="latitude != null" >
+        Latitude,
+      </if>
+      <if test="provincename != null" >
+        ProvinceName,
+      </if>
+      <if test="provincecode != null" >
+        ProvinceCode,
+      </if>
+      <if test="cityname != null" >
+        CityName,
+      </if>
+      <if test="citycode != null" >
+        CityCode,
+      </if>
+      <if test="areaname != null" >
+        AreaName,
+      </if>
+      <if test="areacode != null" >
+        AreaCode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="provincename != null" >
+        #{provincename,jdbcType=VARCHAR},
+      </if>
+      <if test="provincecode != null" >
+        #{provincecode,jdbcType=VARCHAR},
+      </if>
+      <if test="cityname != null" >
+        #{cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="citycode != null" >
+        #{citycode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaname != null" >
+        #{areaname,jdbcType=VARCHAR},
+      </if>
+      <if test="areacode != null" >
+        #{areacode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.ZL_BaseInfoExample" resultType="java.lang.Integer" >
+    select count(*) from zl_baseinfo
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update zl_baseinfo
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        Name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        Address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tel != null" >
+        Tel = #{record.tel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.longitude != null" >
+        Longitude = #{record.longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="record.latitude != null" >
+        Latitude = #{record.latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provincename != null" >
+        ProvinceName = #{record.provincename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provincecode != null" >
+        ProvinceCode = #{record.provincecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityname != null" >
+        CityName = #{record.cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.citycode != null" >
+        CityCode = #{record.citycode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaname != null" >
+        AreaName = #{record.areaname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areacode != null" >
+        AreaCode = #{record.areacode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update zl_baseinfo
+    set ID = #{record.id,jdbcType=INTEGER},
+      Name = #{record.name,jdbcType=VARCHAR},
+      Address = #{record.address,jdbcType=VARCHAR},
+      Tel = #{record.tel,jdbcType=VARCHAR},
+      Longitude = #{record.longitude,jdbcType=VARCHAR},
+      Latitude = #{record.latitude,jdbcType=VARCHAR},
+      ProvinceName = #{record.provincename,jdbcType=VARCHAR},
+      ProvinceCode = #{record.provincecode,jdbcType=VARCHAR},
+      CityName = #{record.cityname,jdbcType=VARCHAR},
+      CityCode = #{record.citycode,jdbcType=VARCHAR},
+      AreaName = #{record.areaname,jdbcType=VARCHAR},
+      AreaCode = #{record.areacode,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.ZL_BaseInfo" >
+    update zl_baseinfo
+    <set >
+      <if test="name != null" >
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        Address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null" >
+        Tel = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        Longitude = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        Latitude = #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="provincename != null" >
+        ProvinceName = #{provincename,jdbcType=VARCHAR},
+      </if>
+      <if test="provincecode != null" >
+        ProvinceCode = #{provincecode,jdbcType=VARCHAR},
+      </if>
+      <if test="cityname != null" >
+        CityName = #{cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="citycode != null" >
+        CityCode = #{citycode,jdbcType=VARCHAR},
+      </if>
+      <if test="areaname != null" >
+        AreaName = #{areaname,jdbcType=VARCHAR},
+      </if>
+      <if test="areacode != null" >
+        AreaCode = #{areacode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.ZL_BaseInfoExample" >
+    update zl_baseinfo
+    set Name = #{name,jdbcType=VARCHAR},
+      Address = #{address,jdbcType=VARCHAR},
+      Tel = #{tel,jdbcType=VARCHAR},
+      Longitude = #{longitude,jdbcType=VARCHAR},
+      Latitude = #{latitude,jdbcType=VARCHAR},
+      ProvinceName = #{provincename,jdbcType=VARCHAR},
+      ProvinceCode = #{provincecode,jdbcType=VARCHAR},
+      CityName = #{cityname,jdbcType=VARCHAR},
+      CityCode = #{citycode,jdbcType=VARCHAR},
+      AreaName = #{areaname,jdbcType=VARCHAR},
+      AreaCode = #{areacode,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

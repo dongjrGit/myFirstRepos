@@ -1,0 +1,191 @@
+<head >
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ 
+<title>中绿味道</title>
+<script type="text/javascript" src="/resource/GetQueryString.js"></script>
+<script type="text/javascript" src="/resource/wap/js/Yeffect16_0118.min.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/greenLife.js" ></script>
+<script type="text/javascript" src="/resource/artTemplate.js"></script>
+<script type="text/javascript" src="/resource/wap/js/wap-common.js"></script>
+<script type="text/javascript" src="/resource/dialogShow.js"></script>
+<script type="text/javascript" src="/resource/dialog-plus.js"></script>
+<script type="text/javascript" src="/resource/app/js/mui.js"></script>
+<link rel="stylesheet" href="/resource/app/css/greenLife.css" />
+<style type="text/css">
+.mui-toast-container{position:fixed;z-index:9999;bottom:42%;width:100%;-webkit-transition:opacity .8s;transition:opacity .8s;opacity:0}
+.mui-toast-container.mui-active{opacity:1.1}
+.mui-toast-message{font-size:14px;width:150px;margin:5px auto;padding:5px;text-align:center;color:#F4F4F4;border-radius:7px;background-color:#565656}
+</style>
+<script type="text/javascript">
+  	$(function(){
+		 pageData={page:1,size:10,ctype:14};
+		 pageUrl="/wap/zlzx/getwdpagelist";
+		 content="#ullist";
+		initPage();
+		//筛选条件点击
+		$(".sep-dqxz li").click(function() {
+		 var tag=$(this).attr("tag");
+		 var liclass=$(this).attr("class");
+		 
+		 pageData={page:1,size:10,ctype:14,order:tag,isdesc:liclass=="active"?0:1};
+		 pageUrl="/wap/zlzx/getwdpagelist";
+		 content="#ullist";
+		 $("#ullist").html("");
+		 pageIndex=1;
+		 initPage();
+		 getusercpList()
+		});
+		setInterval(function () {
+	         $.ajax({
+	             url: "/api/app/userinfo/delayheartbeat",
+	             type: "Post",
+	             dataType: "json",
+	             data:{"token":token},
+	             success: function (data) {
+	             },
+	             error: function () {
+	             }
+	         });
+	     }, 2 * 60 * 1000);
+		
+		 
+		getusercpList()
+	});
+  	function getusercpList(token){
+  		var token=$("#token").val()
+  		if(token!="false"){
+  			$.ajax({
+  	            type: "post",
+  	            url: "/wap/zlzx/getusercpList",
+  	            dataType: "json",
+  	            data:{"token":token},
+  	            success: function (rsl) {
+  	            	 
+  	            	var issc=0;
+  	            	for (var i = 0; i < rsl.data.length; i++) {
+  	            	 $(".cp input[type='hidden']").each(function(){
+							var dqval=parseInt($(this).val());
+							var hqval=parseInt(rsl.data[i].newsid);
+							if(hqval==dqval){
+								$('#news'+rsl.data[parseInt(issc)].newsid).html('<span style="float: right;"    onclick="qxsccp('+hqval+')">取消收藏</span>');
+								issc=issc+1;
+							}
+							 
+						});
+  	            	}  
+  	            },
+  	            error: function (e) { 
+  	                // Dalert(e.statusText);
+  	            }
+  	        });
+  		}
+  		 
+  	}
+  	function qxsccp(dqval){
+  		var token=$("#token").val();
+  		$.ajax({
+	            type: "post",
+	            url: "/api/app/concern/newsqxsccp",
+	            dataType: "json",
+	            data:{"newsid":dqval,"token":token,"ch":0},
+	            success: function (rsl) {
+	            	if(rsl.code==0){
+		            	$('#news'+dqval).html('<span style="float: right;"    onclick="sccp('+dqval+')">点击收藏</span>')
+		            	var html=$('#cpids'+dqval).html();
+		            	sp=html.split('收藏');
+		            	$('#cpids'+dqval).html(parseInt(sp)-1+"收藏");
+		            	mui.toast(rsl.desc);  
+	            	}else{
+  	            		location.href='url://notLogin';
+  	            	}
+	            },
+	            error: function (e) {
+	                // Dalert(e.statusText);
+	            }
+	        });
+  	}
+  	function sccp(newsid){
+  		var token=$("#token").val();
+  		if(token!="false"){
+  			$.ajax({
+  	            type: "post",
+  	            url: "/api/app/concern/newssccp",
+  	            dataType: "json",
+  	            data:{"newsid":newsid,"token":token},
+  	            success: function (rsl) {
+  	            	if(rsl.code==0){
+  	            		$('#news'+newsid).html('<span style="float: right;"    onclick="qxsccp('+newsid+')">取消收藏</span>')
+  	  	            	var html=$('#cpids'+newsid).html();
+  		            	sp=html.split('收藏');
+  		            	$('#cpids'+newsid).html(parseInt(sp)+1+"收藏");
+  		            	mui.toast(rsl.desc);
+  	            	}else{
+  	            		location.href='url://notLogin';
+  	            	}
+  	            },
+  	            error: function (e) {
+  	                // Dalert(e.statusText);
+  	            }
+  	        });
+  		}else{
+  			location.href='url://notLogin';  		
+  		}
+  	 
+  	}
+  	 
+</script>
+<%if(ch==2){%>
+<style>
+.septop {padding-top: 18px;}
+.septop.rowreturn.bjwhite{background: #fff url(/resource/app/images/rowreturn_heise.png) no-repeat 3% 0.6rem;background-size: 0.17rem auto;}
+</style>
+<%}%>
+</head>
+<body class='bodybjhs'>
+<!--septop begin-->
+<div class="septop rowreturn">
+	<div class="bigsize">菜谱大全</div>
+	<div id="rowreturn" onclick="javascirpt:location.href='url:///back'" ></div>
+</div>
+<input id="token"  style="display: none;" name="token" value="${token !}"/>
+<!--septop stop-->
+<ul class="sep-dqxz fix">
+	<li tag="0"><p><span>收藏</span><i></i></p></li>
+	<li tag="1"><p><span>人气</span><i></i></p></li>
+	<li tag="2"><p><span>时间</span><i></i></p></li>
+</ul>
+<ul class="zlnew-cdlb fix" id="ullist">
+	<!-- <li class="fix">
+		<a href="#"><img src="/resource/wap/images/img14.jpg"/></a>
+		<div style="text-align: ">
+			<h3><a href="#">红烧肉红烧肉红烧肉红烧肉红烧肉红烧肉红烧肉红烧肉红烧肉红烧肉红烧肉红烧肉</a></h3>
+			<h4>五花肉,姜,草果,冰糖,八角五花肉姜草果冰糖,八角五花肉,姜,草果,冰糖,八角五花肉,姜,草果,冰糖,八角五花肉,姜,草果,冰糖,八角</h4>
+			<p><span>5680浏览</span><span>1320收藏</span><span style="margin-left: 40px" >收藏</span></p>
+		</div>
+	</li>  -->
+<script type="text/html" id="pagehtml">
+{{each list as cp i}}
+<li class="fix" >
+		
+		<a href="/wap/app/newsdetail.html?id={{cp.id}}&mark=5&token=${token}&ch=${ch}">
+			<img src="{{cp.imgurl}}"/></a>
+		<div>
+			<h3><a href="#">{{cp.title}}</a></h3>
+			<h4>{{cp.subtitle}}</h4>
+			<p class="cp">
+				<input id="newsid" type="hidden" name="newsid" value="{{cp.id}}"/>
+				<span><span>{{if cp.ex1==null}}0{{else}}{{cp.ex1}}{{/if}}浏览</span></span>
+				<spna><span id="cpids{{cp.id}}">{{if cp.yconut==null||cp.yconut<0}}0{{else}}{{cp.yconut}}{{/if}}收藏</span></span>
+				<span id="news{{cp.id}}"><span style="float: right;"    onclick="sccp({{cp.id}})">点击收藏</span></span>
+			</p>
+			
+		</div>
+</li>
+{{/each}}
+</script>
+<script>
+$(function(){
+	Yeffect.resizeHtWstr(".zlnew-cdlb li:visible",".zlnew-cdlb li img",200,50);
+})
+</script>
+</body>

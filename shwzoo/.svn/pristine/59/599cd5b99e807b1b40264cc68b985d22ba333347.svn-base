@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<title>中绿味道-菜谱大全</title>
+<script type="text/javascript">
+//获取x详情
+function getinfo(){
+	var cid=GetQueryStringByName("cid");
+	$.ajax({
+        type: "post",
+        url: "/zlnews/newsinfo/getnewsbyid",
+        dataType: "json",
+        data: {id:cid},
+        success: function (rsl) {
+            if (rsl.code == 0) {
+                var infonews =  rsl.data.content;                   
+                $(".cpdq-arcnr-l").append(infonews);
+               /*  $(".l_jtyb").after(rsl.data.title);
+                $(".cfbk-tit").html(rsl.data.title);
+                $("#newstime").html(rsl.data.updatetime); */
+             }
+           }                  
+      })
+                
+}
+</script>
+</head>
+<body class="bodybjhs">
+<!--navigation  导航开始 -->
+<div id="navigation-1" class="fix">
+	<!--导航 Start-->
+	<div class="menu xzlsb">
+		<div class="nav">                                                                                  
+			<ul class="clearfix">
+				<%if(title=='首页'){ %><li  class="current"><%}else{ %><li><% }%><a href="/index.html">首页</a></li>
+				<%if(title=='绿色中国'){ %><li  class="current"><%}else{ %><li><% }%><a href="/lszg/index.html">绿色食品中国</a></li>
+				<%if(title=='农展精品馆'){ %><li  class="current"> <%}else{ %><li><% }%><a href="http://www.nzgjpw.com/">农展精品馆</a></li>
+				<%if(title=='中绿味道'){ %><li  class="current"><%}else{ %><li><% }%><a href="/zlzx/zlwd.html">中绿味道</a></li>
+				<%if(title=='中绿专区'){ %><li  class="current"><%}else{ %><li><% }%><a href="/zlzx/zlzq_index.html">中绿专区</a></li>
+				<%if(title=='中绿资讯'){ %><li  class="current"><%}else{ %><li><% }%><a href="/zlzx/zlzx_index.html">中绿资讯</a></li>
+			</ul>
+		</div>
+	</div>
+	<!--导航 End-->
+</div>
+<!--navigation  导航结束 -->
+<!--container 中间所有内容开始-->
+<div id="container" class="fix">
+	<div class="w945 fix">
+		<div class="l_pos fon14">
+	  	<span class="fon14"><a href="#">中绿味道 </a></span>
+	    <span class="l_jtyb">&gt;</span>
+	    <span class="fon14"><a href="#">菜谱大全 </a></span>
+	    <span class="l_jtyb">&gt;</span>
+	           ${title}
+		</div>
+		<div class="line mt15"></div>
+		<!--cpdq-arcnr begin-->
+		<div class="cpdq-arcnr fix">
+			<div class="cpdq-arcnr-l">
+				<h3 class="cpdq-arcnr-tit">${title}</h3>
+				
+			</div><!--cpdq-arcnr-l stop-->
+			<div class="cpdq-arcnr-r">
+				<h3><span>相关食材</span></h3>
+				<ul class="cpdq-xgscnr fix">
+				<%for(pro in prolist){%>
+					<li class="fix">
+						<a href="#"><img src="${pro.spuimg}"/></a>
+						<p class="fon14"><a href="#">${pro.spuname} </a></p>
+						<p class="fon14 red">￥${pro.spuprice} </p>
+					</li>
+					<%}%>
+				</ul>
+			</div>
+		</div>
+		<!--cpdq-arcnr stop-->
+	</div>
+</div>
+<!--container 中间所有内容结束-->
+</body>
+</html>

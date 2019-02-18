@@ -1,0 +1,152 @@
+<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>全部订单</title>
+ <script src="${path}/cookie.js"></script>
+<script type="text/javascript" src="${path}/wap/js/wkh/varCommon.js"></script>
+<script type="text/javascript" src="${path}/wap/js/wkh/ajaxCommon.js"></script>
+<script type="text/javascript" src="${path}/wap/js/wkh/appCommon.js"></script>
+  <script type="text/javascript" src="${path}/wap/js/login.js"></script>
+  <script type="text/javascript">
+function loginSuccess(){
+	pageUrl = "/api/wap/activity/getOrderList";//页面url
+	content = "orderlist";//主体
+	params = {
+		"page" : 1,
+		"size" : 4,
+		"status":$("#status").val()
+	};//参数
+	initPage(0);
+}
+
+	$(function() {
+		loginContent=".container";
+		if(	login.isLogin()){
+			loginSuccess();
+		}else{
+			
+			login.open();
+		}
+		
+	});
+	
+	
+	$(function(){
+		$(window).scroll(function(){
+			var scrollTop=$(this).scrollTop();
+			var scrollHeight=$(document).height();
+			var windowHeight=$(this).height();
+			if(scrollTop+windowHeight==scrollHeight){
+				initPage();
+			}
+		});
+	})
+	
+	
+function deleteOrder(id){
+		 $.ajax({
+            url: "/api/wap/activity/delOrder",
+            type: "Post",
+            data: { "id": id	
+            	},
+            dataType: "json",
+            success: function (data) {
+            	data= eval('(' + data + ')');
+                if (data.code == 0) {
+                	location.reload();
+                }
+               
+            },
+            error: function () {
+					
+            }
+        });
+		
+	}
+	
+	function cancleOrder(id){
+		 $.ajax({
+            url: "/api/wap/activity/cancelOrder",
+            type: "Post",
+            data: { "id": id	
+            	},
+            dataType: "json",
+            success: function (data) {
+            	data= eval('(' + data + ')');
+                if (data.code == 0) {
+                	location.reload();
+                }
+               
+            },
+            error: function () {
+					
+            }
+        });
+		
+	}
+	
+	function returnOrder(id){
+		 $.ajax({
+           url: "/api/wap/activity/returnOrder",
+           type: "Post",
+           data: { "id": id	
+           	},
+           dataType: "json",
+           success: function (data) {
+           	data= eval('(' + data + ')');
+               if (data.code == 0) {
+               	location.reload();
+               }
+              
+           },
+           error: function () {
+					
+           }
+       });
+		
+	}
+
+</script>
+</head>
+<body>
+<div class="top_title fix">
+         <a  href="/wap/userinfo/homepage?ch=3">
+		<div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div>
+		</a>
+		全部订单
+	</div>
+	 <input name="status" id="status"  type="hidden" value="${status}"/> 
+	<div class="l_sfxzsp fix" id="orderlist">
+    	
+    </div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	if(login.isLogin()){
+	$("a[name='delete']").click(function (){
+		//var id=$("a[name='delete']").attr("value");
+		var id =$(this).find("div").attr("value");
+		var status =$(this).find("div").attr("name");
+		Order.deleteorder(id,"");
+	})
+	$("a[name='confirmationgood']").click(function(){
+		var orderid=$(this).attr("value");
+		Order.confirmationgood(orderid);
+	})
+	$("a[name='cancel']").click(function(){
+		var c =  prompt('请输入取消原因');
+		if(c!=null){
+			var orderid=$(this).attr("value");
+			var statu =$("a[name='delete']").find("div").attr("name");
+			Order.cancel(statu,orderid,c);
+		}
+		
+	})
+	}
+	})
+
+</script>
+
+</body>

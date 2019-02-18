@@ -1,0 +1,1117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.ShopMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Shop">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="UserID" property="userid" jdbcType="INTEGER" />
+		<result column="Name" property="name" jdbcType="VARCHAR" />
+		<result column="ShopNum" property="shopnum" jdbcType="VARCHAR" />
+		<result column="ShopAddress" property="shopaddress" jdbcType="VARCHAR" />
+		<result column="CompanyName" property="companyname" jdbcType="VARCHAR" />
+		<result column="SupportTel" property="supporttel" jdbcType="VARCHAR" />
+		<result column="ImgUrl" property="imgurl" jdbcType="VARCHAR" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="IsOwned" property="isowned" jdbcType="BIT" />
+		<result column="IsFlagship" property="isflagship" jdbcType="BIT" />
+		<result column="IsDel" property="isdel" jdbcType="BIT" />
+		<result column="DelTime" property="deltime" jdbcType="TIMESTAMP" />
+		<result column="DelUserID" property="deluserid" jdbcType="INTEGER" />
+		<result column="Max_Employee" property="maxEmployee" jdbcType="INTEGER" />
+		<result column="Max_Role" property="maxRole" jdbcType="INTEGER" />
+		<result column="Margin" property="margin" jdbcType="REAL" />
+		<result column="ShopLevelID" property="shoplevelid" jdbcType="INTEGER" />
+		<result column="SettlementType" property="settlementtype"
+			jdbcType="INTEGER" />
+		<result column="WorkingCost" property="workingcost" jdbcType="REAL" />
+		<result column="RoyaltyRate" property="royaltyrate" jdbcType="REAL" />
+		<result column="Reason" property="reason" jdbcType="VARCHAR" />
+		<result column="Description" property="description" jdbcType="VARCHAR" />
+		<result column="Creattime" property="creattime" jdbcType="TIMESTAMP" />
+		<result column="isjck" property="isjck" jdbcType="BIT" />
+		<result column="isfree" property="isfree" jdbcType="BIT" />
+		<result column="issupport" property="issupport" jdbcType="BIT" />
+		<result column="shopCircle" property="shopcircle" jdbcType="VARCHAR" />
+		<result column="IsEp" property="isep" jdbcType="BIT" />
+		<result column="HoderName" property="hodername" jdbcType="VARCHAR" />
+		<result column="BankCardNo" property="bankcardno" jdbcType="VARCHAR" />
+		<result column="BankName" property="bankname" jdbcType="VARCHAR" />
+		<result column="LineNo" property="lineno" jdbcType="VARCHAR" />
+		<result column="BankType" property="banktype" jdbcType="VARCHAR" />
+		<result column="IsSyncUp" property="issyncup" jdbcType="BIT" />
+		<result column="ClassId" property="classid" jdbcType="INTEGER" />
+		<result column="AccountType" property="accounttype" jdbcType="INTEGER" />
+		<result column="discount" property="discount" jdbcType="VARCHAR" />
+		<result column="popularity" property="popularity" jdbcType="INTEGER" />
+		<result column="consumption" property="consumption" jdbcType="REAL" />
+		<result column="circleid" property="circleid" jdbcType="INTEGER" />
+		<result column="distances" property="distances" jdbcType="VARCHAR"/>
+		<result column="shoptype" property="shoptype" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, UserID, Name, ShopNum, ShopAddress, CompanyName, SupportTel, ImgUrl,
+		Status,
+		IsOwned, IsFlagship, IsDel, DelTime, DelUserID, Max_Employee, Max_Role,
+		Margin as margin, ShopLevelID,
+		SettlementType, WorkingCost, RoyaltyRate, Reason, Description, Creattime, isjck,
+		isfree, issupport, shopCircle, IsEp, HoderName, BankCardNo, BankName,
+		LineNo, BankType,
+		IsSyncUp, ClassId, AccountType, discount, popularity, consumption, circleid,shoptype
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.ShopExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from shop
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from shop
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from shop
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.ShopExample">
+		delete from shop
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.Shop">
+		insert into shop (ID, UserID, Name,
+		ShopNum, ShopAddress, CompanyName,
+		SupportTel, ImgUrl, Status,
+		IsOwned, IsFlagship, IsDel, DelTime,
+		DelUserID, Max_Employee, Max_Role,
+		Margin, ShopLevelID, SettlementType,
+		WorkingCost, RoyaltyRate, Reason,
+		Description, Creattime, isjck,
+		isfree, issupport, shopCircle,
+		IsEp, HoderName, BankCardNo,
+		BankName, LineNo, BankType,
+		IsSyncUp, ClassId, AccountType,
+		discount, popularity, consumption,
+		circleid,shoptype)
+		values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR},
+		#{shopnum,jdbcType=VARCHAR}, #{shopaddress,jdbcType=VARCHAR}, #{companyname,jdbcType=VARCHAR},
+		#{supporttel,jdbcType=VARCHAR}, #{imgurl,jdbcType=VARCHAR},
+		#{status,jdbcType=INTEGER},
+		#{isowned,jdbcType=BIT}, #{isflagship,jdbcType=BIT}, #{isdel,jdbcType=BIT},
+		#{deltime,jdbcType=TIMESTAMP},
+		#{deluserid,jdbcType=INTEGER}, #{maxEmployee,jdbcType=INTEGER}, #{maxRole,jdbcType=INTEGER},
+		#{margin,jdbcType=REAL}, #{shoplevelid,jdbcType=INTEGER},
+		#{settlementtype,jdbcType=INTEGER},
+		#{workingcost,jdbcType=REAL}, #{royaltyrate,jdbcType=REAL}, #{reason,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR}, #{creattime,jdbcType=TIMESTAMP},
+		#{isjck,jdbcType=BIT},
+		#{isfree,jdbcType=BIT}, #{issupport,jdbcType=BIT}, #{shopcircle,jdbcType=VARCHAR},
+		#{isep,jdbcType=BIT}, #{hodername,jdbcType=VARCHAR},
+		#{bankcardno,jdbcType=VARCHAR},
+		#{bankname,jdbcType=VARCHAR}, #{lineno,jdbcType=VARCHAR}, #{banktype,jdbcType=VARCHAR},
+		#{issyncup,jdbcType=BIT}, #{classid,jdbcType=INTEGER},
+		#{accounttype,jdbcType=INTEGER},
+		#{discount,jdbcType=VARCHAR}, #{popularity,jdbcType=INTEGER}, #{consumption,jdbcType=REAL},
+		#{circleid,jdbcType=INTEGER},#{shoptype,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Shop">
+		insert into shop
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="userid != null">
+				UserID,
+			</if>
+			<if test="name != null">
+				Name,
+			</if>
+			<if test="shopnum != null">
+				ShopNum,
+			</if>
+			<if test="shopaddress != null">
+				ShopAddress,
+			</if>
+			<if test="companyname != null">
+				CompanyName,
+			</if>
+			<if test="supporttel != null">
+				SupportTel,
+			</if>
+			<if test="imgurl != null">
+				ImgUrl,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+			<if test="isowned != null">
+				IsOwned,
+			</if>
+			<if test="isflagship != null">
+				IsFlagship,
+			</if>
+			<if test="isdel != null">
+				IsDel,
+			</if>
+			<if test="deltime != null">
+				DelTime,
+			</if>
+			<if test="deluserid != null">
+				DelUserID,
+			</if>
+			<if test="maxEmployee != null">
+				Max_Employee,
+			</if>
+			<if test="maxRole != null">
+				Max_Role,
+			</if>
+			<if test="margin != null">
+				Margin,
+			</if>
+			<if test="shoplevelid != null">
+				ShopLevelID,
+			</if>
+			<if test="settlementtype != null">
+				SettlementType,
+			</if>
+			<if test="workingcost != null">
+				WorkingCost,
+			</if>
+			<if test="royaltyrate != null">
+				RoyaltyRate,
+			</if>
+			<if test="reason != null">
+				Reason,
+			</if>
+			<if test="description != null">
+				Description,
+			</if>
+			<if test="creattime != null">
+				Creattime,
+			</if>
+			<if test="isjck != null">
+				isjck,
+			</if>
+			<if test="isfree != null">
+				isfree,
+			</if>
+			<if test="issupport != null">
+				issupport,
+			</if>
+			<if test="shopcircle != null">
+				shopCircle,
+			</if>
+			<if test="isep != null">
+				IsEp,
+			</if>
+			<if test="hodername != null">
+				HoderName,
+			</if>
+			<if test="bankcardno != null">
+				BankCardNo,
+			</if>
+			<if test="bankname != null">
+				BankName,
+			</if>
+			<if test="lineno != null">
+				LineNo,
+			</if>
+			<if test="banktype != null">
+				BankType,
+			</if>
+			<if test="issyncup != null">
+				IsSyncUp,
+			</if>
+			<if test="classid != null">
+				ClassId,
+			</if>
+			<if test="accounttype != null">
+				AccountType,
+			</if>
+			<if test="discount != null">
+				discount,
+			</if>
+			<if test="popularity != null">
+				popularity,
+			</if>
+			<if test="consumption != null">
+				consumption,
+			</if>
+			<if test="circleid != null">
+				circleid,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="shopnum != null">
+				#{shopnum,jdbcType=VARCHAR},
+			</if>
+			<if test="shopaddress != null">
+				#{shopaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="companyname != null">
+				#{companyname,jdbcType=VARCHAR},
+			</if>
+			<if test="supporttel != null">
+				#{supporttel,jdbcType=VARCHAR},
+			</if>
+			<if test="imgurl != null">
+				#{imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="isowned != null">
+				#{isowned,jdbcType=BIT},
+			</if>
+			<if test="isflagship != null">
+				#{isflagship,jdbcType=BIT},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=BIT},
+			</if>
+			<if test="deltime != null">
+				#{deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deluserid != null">
+				#{deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="maxEmployee != null">
+				#{maxEmployee,jdbcType=INTEGER},
+			</if>
+			<if test="maxRole != null">
+				#{maxRole,jdbcType=INTEGER},
+			</if>
+			<if test="margin != null">
+				#{margin,jdbcType=REAL},
+			</if>
+			<if test="shoplevelid != null">
+				#{shoplevelid,jdbcType=INTEGER},
+			</if>
+			<if test="settlementtype != null">
+				#{settlementtype,jdbcType=INTEGER},
+			</if>
+			<if test="workingcost != null">
+				#{workingcost,jdbcType=REAL},
+			</if>
+			<if test="royaltyrate != null">
+				#{royaltyrate,jdbcType=REAL},
+			</if>
+			<if test="reason != null">
+				#{reason,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="creattime != null">
+				#{creattime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isjck != null">
+				#{isjck,jdbcType=BIT},
+			</if>
+			<if test="isfree != null">
+				#{isfree,jdbcType=BIT},
+			</if>
+			<if test="issupport != null">
+				#{issupport,jdbcType=BIT},
+			</if>
+			<if test="shopcircle != null">
+				#{shopcircle,jdbcType=VARCHAR},
+			</if>
+			<if test="isep != null">
+				#{isep,jdbcType=BIT},
+			</if>
+			<if test="hodername != null">
+				#{hodername,jdbcType=VARCHAR},
+			</if>
+			<if test="bankcardno != null">
+				#{bankcardno,jdbcType=VARCHAR},
+			</if>
+			<if test="bankname != null">
+				#{bankname,jdbcType=VARCHAR},
+			</if>
+			<if test="lineno != null">
+				#{lineno,jdbcType=VARCHAR},
+			</if>
+			<if test="banktype != null">
+				#{banktype,jdbcType=VARCHAR},
+			</if>
+			<if test="issyncup != null">
+				#{issyncup,jdbcType=BIT},
+			</if>
+			<if test="classid != null">
+				#{classid,jdbcType=INTEGER},
+			</if>
+			<if test="accounttype != null">
+				#{accounttype,jdbcType=INTEGER},
+			</if>
+			<if test="discount != null">
+				#{discount,jdbcType=VARCHAR},
+			</if>
+			<if test="popularity != null">
+				#{popularity,jdbcType=INTEGER},
+			</if>
+			<if test="consumption != null">
+				#{consumption,jdbcType=REAL},
+			</if>
+			<if test="circleid != null">
+				#{circleid,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.ShopExample"
+		resultType="java.lang.Integer">
+		select count(*) from shop
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update shop
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.userid != null">
+				UserID = #{record.userid,jdbcType=INTEGER},
+			</if>
+			<if test="record.name != null">
+				Name = #{record.name,jdbcType=VARCHAR},
+			</if>
+			<if test="record.shopnum != null">
+				ShopNum = #{record.shopnum,jdbcType=VARCHAR},
+			</if>
+			<if test="record.shopaddress != null">
+				ShopAddress = #{record.shopaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="record.companyname != null">
+				CompanyName = #{record.companyname,jdbcType=VARCHAR},
+			</if>
+			<if test="record.supporttel != null">
+				SupportTel = #{record.supporttel,jdbcType=VARCHAR},
+			</if>
+			<if test="record.imgurl != null">
+				ImgUrl = #{record.imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.isowned != null">
+				IsOwned = #{record.isowned,jdbcType=BIT},
+			</if>
+			<if test="record.isflagship != null">
+				IsFlagship = #{record.isflagship,jdbcType=BIT},
+			</if>
+			<if test="record.isdel != null">
+				IsDel = #{record.isdel,jdbcType=BIT},
+			</if>
+			<if test="record.deltime != null">
+				DelTime = #{record.deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.deluserid != null">
+				DelUserID = #{record.deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="record.maxEmployee != null">
+				Max_Employee = #{record.maxEmployee,jdbcType=INTEGER},
+			</if>
+			<if test="record.maxRole != null">
+				Max_Role = #{record.maxRole,jdbcType=INTEGER},
+			</if>
+			<if test="record.margin != null">
+				Margin = #{record.margin,jdbcType=REAL},
+			</if>
+			<if test="record.shoplevelid != null">
+				ShopLevelID = #{record.shoplevelid,jdbcType=INTEGER},
+			</if>
+			<if test="record.settlementtype != null">
+				SettlementType = #{record.settlementtype,jdbcType=INTEGER},
+			</if>
+			<if test="record.workingcost != null">
+				WorkingCost = #{record.workingcost,jdbcType=REAL},
+			</if>
+			<if test="record.royaltyrate != null">
+				RoyaltyRate = #{record.royaltyrate,jdbcType=REAL},
+			</if>
+			<if test="record.reason != null">
+				Reason = #{record.reason,jdbcType=VARCHAR},
+			</if>
+			<if test="record.description != null">
+				Description = #{record.description,jdbcType=VARCHAR},
+			</if>
+			<if test="record.creattime != null">
+				Creattime = #{record.creattime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.isjck != null">
+				isjck = #{record.isjck,jdbcType=BIT},
+			</if>
+			<if test="record.isfree != null">
+				isfree = #{record.isfree,jdbcType=BIT},
+			</if>
+			<if test="record.issupport != null">
+				issupport = #{record.issupport,jdbcType=BIT},
+			</if>
+			<if test="record.shopcircle != null">
+				shopCircle = #{record.shopcircle,jdbcType=VARCHAR},
+			</if>
+			<if test="record.isep != null">
+				IsEp = #{record.isep,jdbcType=BIT},
+			</if>
+			<if test="record.hodername != null">
+				HoderName = #{record.hodername,jdbcType=VARCHAR},
+			</if>
+			<if test="record.bankcardno != null">
+				BankCardNo = #{record.bankcardno,jdbcType=VARCHAR},
+			</if>
+			<if test="record.bankname != null">
+				BankName = #{record.bankname,jdbcType=VARCHAR},
+			</if>
+			<if test="record.lineno != null">
+				LineNo = #{record.lineno,jdbcType=VARCHAR},
+			</if>
+			<if test="record.banktype != null">
+				BankType = #{record.banktype,jdbcType=VARCHAR},
+			</if>
+			<if test="record.issyncup != null">
+				IsSyncUp = #{record.issyncup,jdbcType=BIT},
+			</if>
+			<if test="record.classid != null">
+				ClassId = #{record.classid,jdbcType=INTEGER},
+			</if>
+			<if test="record.accounttype != null">
+				AccountType = #{record.accounttype,jdbcType=INTEGER},
+			</if>
+			<if test="record.discount != null">
+				discount = #{record.discount,jdbcType=VARCHAR},
+			</if>
+			<if test="record.popularity != null">
+				popularity = #{record.popularity,jdbcType=INTEGER},
+			</if>
+			<if test="record.consumption != null">
+				consumption = #{record.consumption,jdbcType=REAL},
+			</if>
+			<if test="record.circleid != null">
+				circleid = #{record.circleid,jdbcType=INTEGER},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update shop
+		set ID = #{record.id,jdbcType=INTEGER},
+		UserID = #{record.userid,jdbcType=INTEGER},
+		Name = #{record.name,jdbcType=VARCHAR},
+		ShopNum = #{record.shopnum,jdbcType=VARCHAR},
+		ShopAddress = #{record.shopaddress,jdbcType=VARCHAR},
+		CompanyName = #{record.companyname,jdbcType=VARCHAR},
+		SupportTel = #{record.supporttel,jdbcType=VARCHAR},
+		ImgUrl = #{record.imgurl,jdbcType=VARCHAR},
+		Status = #{record.status,jdbcType=INTEGER},
+		IsOwned = #{record.isowned,jdbcType=BIT},
+		IsFlagship = #{record.isflagship,jdbcType=BIT},
+		IsDel = #{record.isdel,jdbcType=BIT},
+		DelTime = #{record.deltime,jdbcType=TIMESTAMP},
+		DelUserID = #{record.deluserid,jdbcType=INTEGER},
+		Max_Employee = #{record.maxEmployee,jdbcType=INTEGER},
+		Max_Role = #{record.maxRole,jdbcType=INTEGER},
+		Margin = #{record.margin,jdbcType=REAL},
+		ShopLevelID = #{record.shoplevelid,jdbcType=INTEGER},
+		SettlementType = #{record.settlementtype,jdbcType=INTEGER},
+		WorkingCost = #{record.workingcost,jdbcType=REAL},
+		RoyaltyRate = #{record.royaltyrate,jdbcType=REAL},
+		Reason = #{record.reason,jdbcType=VARCHAR},
+		Description = #{record.description,jdbcType=VARCHAR},
+		Creattime = #{record.creattime,jdbcType=TIMESTAMP},
+		isjck = #{record.isjck,jdbcType=BIT},
+		isfree = #{record.isfree,jdbcType=BIT},
+		issupport = #{record.issupport,jdbcType=BIT},
+		shopCircle = #{record.shopcircle,jdbcType=VARCHAR},
+		IsEp = #{record.isep,jdbcType=BIT},
+		HoderName = #{record.hodername,jdbcType=VARCHAR},
+		BankCardNo = #{record.bankcardno,jdbcType=VARCHAR},
+		BankName = #{record.bankname,jdbcType=VARCHAR},
+		LineNo = #{record.lineno,jdbcType=VARCHAR},
+		BankType = #{record.banktype,jdbcType=VARCHAR},
+		IsSyncUp = #{record.issyncup,jdbcType=BIT},
+		ClassId = #{record.classid,jdbcType=INTEGER},
+		AccountType = #{record.accounttype,jdbcType=INTEGER},
+		discount = #{record.discount,jdbcType=VARCHAR},
+		popularity = #{record.popularity,jdbcType=INTEGER},
+		consumption = #{record.consumption,jdbcType=REAL},
+		circleid = #{record.circleid,jdbcType=INTEGER}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Shop">
+		update shop
+		<set>
+			<if test="userid != null">
+				UserID = #{userid,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				Name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="shopnum != null">
+				ShopNum = #{shopnum,jdbcType=VARCHAR},
+			</if>
+			<if test="shopaddress != null">
+				ShopAddress = #{shopaddress,jdbcType=VARCHAR},
+			</if>
+			<if test="companyname != null">
+				CompanyName = #{companyname,jdbcType=VARCHAR},
+			</if>
+			<if test="supporttel != null">
+				SupportTel = #{supporttel,jdbcType=VARCHAR},
+			</if>
+			<if test="imgurl != null">
+				ImgUrl = #{imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="isowned != null">
+				IsOwned = #{isowned,jdbcType=BIT},
+			</if>
+			<if test="isflagship != null">
+				IsFlagship = #{isflagship,jdbcType=BIT},
+			</if>
+			<if test="isdel != null">
+				IsDel = #{isdel,jdbcType=BIT},
+			</if>
+			<if test="deltime != null">
+				DelTime = #{deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deluserid != null">
+				DelUserID = #{deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="maxEmployee != null">
+				Max_Employee = #{maxEmployee,jdbcType=INTEGER},
+			</if>
+			<if test="maxRole != null">
+				Max_Role = #{maxRole,jdbcType=INTEGER},
+			</if>
+			<if test="margin != null">
+				Margin = #{margin,jdbcType=REAL},
+			</if>
+			<if test="shoplevelid != null">
+				ShopLevelID = #{shoplevelid,jdbcType=INTEGER},
+			</if>
+			<if test="settlementtype != null">
+				SettlementType = #{settlementtype,jdbcType=INTEGER},
+			</if>
+			<if test="workingcost != null">
+				WorkingCost = #{workingcost,jdbcType=REAL},
+			</if>
+			<if test="royaltyrate != null">
+				RoyaltyRate = #{royaltyrate,jdbcType=REAL},
+			</if>
+			<if test="reason != null">
+				Reason = #{reason,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				Description = #{description,jdbcType=VARCHAR},
+			</if>
+			<if test="creattime != null">
+				Creattime = #{creattime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isjck != null">
+				isjck = #{isjck,jdbcType=BIT},
+			</if>
+			<if test="isfree != null">
+				isfree = #{isfree,jdbcType=BIT},
+			</if>
+			<if test="issupport != null">
+				issupport = #{issupport,jdbcType=BIT},
+			</if>
+			<if test="shopcircle != null">
+				shopCircle = #{shopcircle,jdbcType=VARCHAR},
+			</if>
+			<if test="isep != null">
+				IsEp = #{isep,jdbcType=BIT},
+			</if>
+			<if test="hodername != null">
+				HoderName = #{hodername,jdbcType=VARCHAR},
+			</if>
+			<if test="bankcardno != null">
+				BankCardNo = #{bankcardno,jdbcType=VARCHAR},
+			</if>
+			<if test="bankname != null">
+				BankName = #{bankname,jdbcType=VARCHAR},
+			</if>
+			<if test="lineno != null">
+				LineNo = #{lineno,jdbcType=VARCHAR},
+			</if>
+			<if test="banktype != null">
+				BankType = #{banktype,jdbcType=VARCHAR},
+			</if>
+			<if test="issyncup != null">
+				IsSyncUp = #{issyncup,jdbcType=BIT},
+			</if>
+			<if test="classid != null">
+				ClassId = #{classid,jdbcType=INTEGER},
+			</if>
+			<if test="accounttype != null">
+				AccountType = #{accounttype,jdbcType=INTEGER},
+			</if>
+			<if test="discount != null">
+				discount = #{discount,jdbcType=VARCHAR},
+			</if>
+			<if test="popularity != null">
+				popularity = #{popularity,jdbcType=INTEGER},
+			</if>
+			<if test="consumption != null">
+				consumption = #{consumption,jdbcType=REAL},
+			</if>
+			<if test="circleid != null">
+				circleid = #{circleid,jdbcType=INTEGER},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Shop">
+		update shop
+		set UserID = #{userid,jdbcType=INTEGER},
+		Name = #{name,jdbcType=VARCHAR},
+		ShopNum = #{shopnum,jdbcType=VARCHAR},
+		ShopAddress = #{shopaddress,jdbcType=VARCHAR},
+		CompanyName = #{companyname,jdbcType=VARCHAR},
+		SupportTel = #{supporttel,jdbcType=VARCHAR},
+		ImgUrl = #{imgurl,jdbcType=VARCHAR},
+		Status = #{status,jdbcType=INTEGER},
+		IsOwned = #{isowned,jdbcType=BIT},
+		IsFlagship = #{isflagship,jdbcType=BIT},
+		IsDel = #{isdel,jdbcType=BIT},
+		DelTime = #{deltime,jdbcType=TIMESTAMP},
+		DelUserID = #{deluserid,jdbcType=INTEGER},
+		Max_Employee = #{maxEmployee,jdbcType=INTEGER},
+		Max_Role = #{maxRole,jdbcType=INTEGER},
+		Margin = #{margin,jdbcType=REAL},
+		ShopLevelID = #{shoplevelid,jdbcType=INTEGER},
+		SettlementType = #{settlementtype,jdbcType=INTEGER},
+		WorkingCost = #{workingcost,jdbcType=REAL},
+		RoyaltyRate = #{royaltyrate,jdbcType=REAL},
+		Reason = #{reason,jdbcType=VARCHAR},
+		Description = #{description,jdbcType=VARCHAR},
+		Creattime = #{creattime,jdbcType=TIMESTAMP},
+		isjck = #{isjck,jdbcType=BIT},
+		isfree = #{isfree,jdbcType=BIT},
+		issupport = #{issupport,jdbcType=BIT},
+		shopCircle = #{shopcircle,jdbcType=VARCHAR},
+		IsEp = #{isep,jdbcType=BIT},
+		HoderName = #{hodername,jdbcType=VARCHAR},
+		BankCardNo = #{bankcardno,jdbcType=VARCHAR},
+		BankName = #{bankname,jdbcType=VARCHAR},
+		LineNo = #{lineno,jdbcType=VARCHAR},
+		BankType = #{banktype,jdbcType=VARCHAR},
+		IsSyncUp = #{issyncup,jdbcType=BIT},
+		ClassId = #{classid,jdbcType=INTEGER},
+		AccountType = #{accounttype,jdbcType=INTEGER},
+		discount = #{discount,jdbcType=VARCHAR},
+		popularity = #{popularity,jdbcType=INTEGER},
+		consumption = #{consumption,jdbcType=REAL},
+		circleid = #{circleid,jdbcType=INTEGER},
+		shoptype=#{shoptype,jdbcType=INTEGER}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+
+
+	<!-- 以下是自定义的 接口 分页查询 -->
+	<sql id="criteria_query">
+		<where>
+			<if test="criteria.shopid != null and criteria.shopid != -1 ">
+				and s.ID = #{criteria.shopid}
+			</if>
+			<if test="criteria.userid != null and criteria.userid != -1 ">
+				and s.UserID = #{criteria.userid}
+			</if>
+			<if test="criteria.shopnum != null and criteria.shopnum != '' ">
+				and s.ShopNum = #{criteria.shopnum}
+			</if>
+			<if test="criteria.status != null and criteria.status != -1 ">
+				and s.Status = #{criteria.status}
+			</if>
+			<if test="criteria.name != null and criteria.name != '' ">
+				and s.Name LIKE '%${criteria.name}%'
+			</if>
+			<if test="criteria.companyname != null and criteria.companyname != '' ">
+				and s.CompanyName LIKE '%${criteria.companyname}%'
+			</if>
+			<if test="criteria.shoptype != null and criteria.shoptype >=0 ">
+				and s.shoptype= #{criteria.shoptype}
+			</if>
+			and s.IsOwned =0
+			and s.IsDel = 0
+		</where>
+	</sql>
+
+
+	<select id="selectShopPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.po.Shop">
+		select s.ID as id, s.UserID as userid, s.Name as name, 
+		s.ShopNum as shopnum, s.ShopAddress as shopaddress, 
+		s.CompanyName as companyname, s.SupportTel as supporttel, s.ImgUrl as imgurl,
+		s.Status as status, s.Description as description, s.Creattime as creattime, 
+		s.shoptype,u.username username,
+		au.PrincipalName AS contactname,au.PrincipalMobile AS contactmobile 
+		from shop s inner join users u on s.userid = u.id
+		join shop_authentication au on s.id=au.shopid
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+
+
+	<!-- 返回插入时的自增主键 -->
+	<insert id="insertShop" parameterType="com.yinlian.wssc.web.po.Shop">
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+			select
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into shop (ID, UserID, Name,
+		ShopNum, ShopAddress, CompanyName,
+		SupportTel, ImgUrl, Status,
+		IsOwned, IsFlagship, IsDel, DelTime,
+		DelUserID, Max_Employee, Max_Role,
+		Margin, ShopLevelID, SettlementType,
+		WorkingCost, RoyaltyRate, Reason,
+		Description, Creattime, isjck,
+		isfree, issupport, shopCircle,
+		IsEp, HoderName, BankCardNo,
+		BankName, LineNo, BankType,
+		IsSyncUp, ClassId, AccountType,
+		discount, popularity, consumption,
+		circleid,shoptype)
+		values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER},
+		#{name,jdbcType=VARCHAR},
+		#{shopnum,jdbcType=VARCHAR}, #{shopaddress,jdbcType=VARCHAR}, #{companyname,jdbcType=VARCHAR},
+		#{supporttel,jdbcType=VARCHAR}, #{imgurl,jdbcType=VARCHAR},
+		#{status,jdbcType=INTEGER},
+		#{isowned,jdbcType=BIT}, #{isflagship,jdbcType=BIT}, #{isdel,jdbcType=BIT},
+		#{deltime,jdbcType=TIMESTAMP},
+		#{deluserid,jdbcType=INTEGER}, #{maxEmployee,jdbcType=INTEGER}, #{maxRole,jdbcType=INTEGER},
+		#{margin,jdbcType=REAL}, #{shoplevelid,jdbcType=INTEGER},
+		#{settlementtype,jdbcType=INTEGER},
+		#{workingcost,jdbcType=REAL}, #{royaltyrate,jdbcType=REAL}, #{reason,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR}, #{creattime,jdbcType=TIMESTAMP},
+		#{isjck,jdbcType=BIT},
+		#{isfree,jdbcType=BIT}, #{issupport,jdbcType=BIT}, #{shopcircle,jdbcType=VARCHAR},
+		#{isep,jdbcType=BIT}, #{hodername,jdbcType=VARCHAR},
+		#{bankcardno,jdbcType=VARCHAR},
+		#{bankname,jdbcType=VARCHAR}, #{lineno,jdbcType=VARCHAR}, #{banktype,jdbcType=VARCHAR},
+		#{issyncup,jdbcType=BIT}, #{classid,jdbcType=INTEGER},
+		#{accounttype,jdbcType=INTEGER},
+		#{discount,jdbcType=VARCHAR}, #{popularity,jdbcType=INTEGER}, #{consumption,jdbcType=REAL},
+		#{circleid,jdbcType=INTEGER},#{shoptype,jdbcType=INTEGER})
+	</insert>
+
+	<!-- 根据店铺名称模糊查询 -->
+	<select id="getShopStartWithName" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select * from shop where IsDel=0
+		<choose>
+			<when test="#{_parameter} != null and #{_parameter} != ''">
+				and Name like '%${_parameter}%' limit 0,10
+			</when>
+			<otherwise>
+				limit 0,10
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="getByIds" parameterType="java.util.List" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from shop where id in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+	<select id="getSfGoodCoutByShopId" resultType="com.yinlian.api.app.dto.SatisfactionGoodCountDto">
+		SELECT COUNT(1) as
+		count, GoodDescription as good, SellerAttitude as attitude FROM Satisfaction where
+		ShopId =#{0}
+		GROUP BY SellerAttitude
+	</select>
+
+
+	<!-- 查询一点范围的店铺 -->
+	<select id="selectBylatAndlogitPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="BaseResultMap">
+		SELECT DISTINCT s.*,a.Longitude longitude,a.Latitude latitude,c.name
+		cname,(2 * 6378.137*
+		ASIN(SQRT(POW(SIN(PI()*(#{criteria.latitude}-latitude)/360),2)+COS(PI()*33.07078170776367/180)*
+		COS(latitude *
+		PI()/180)*POW(SIN(PI()*(#{criteria.longitude}-longitude)/360),2)))) AS
+		distances,r.name rname FROM shop s LEFT
+		JOIN shop_authentication a ON
+		s.id = a.shopid LEFT JOIN shopcategory c ON s.classid = c.id LEFT JOIN
+		circle r ON s.circleid = r.id LEFT JOIN Satisfaction m ON s.id =
+		m.shopid
+		<if test="criteria != null ">
+			<where>
+
+				<if
+					test="criteria.longmin != null and criteria.longmin != '' and criteria.longmax != null and criteria.longmax != '' ">
+					and a.Longitude between #{criteria.longmin} and
+					#{criteria.longmax}
+				</if>
+				<if
+					test="criteria.latmin != null and criteria.latmin != '' and criteria.latmax != null and criteria.latmax != '' ">
+					and a.Latitude between #{criteria.latmin} and
+					#{criteria.latmax}
+				</if>
+
+				<if test="criteria.isjck != null ">
+					and s.isjck= #{criteria.isjck}
+				</if>
+				<if test="criteria.isfree != null ">
+					and s.isfree= #{criteria.isfree}
+				</if>
+				<if test="criteria.issupport != null ">
+					and s.issupport= #{criteria.issupport}
+				</if>
+				<if test="criteria.classid != null ">
+					and s.classid= #{criteria.classid}
+				</if>
+				<if test="criteria.circleid != null">
+					and r.id = #{criteria.circleid}
+				</if>
+			</where>
+			<if
+				test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+				order by ${criteria.orderByClause} ${criteria.sort}
+			</if>
+		</if>
+	</select>
+
+
+	<select id="queryAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from shop
+		where IsDel = 0
+	</select>
+
+	<!-- 分页查询店鋪主題 -->
+	<sql id="criteria_query_topic">
+		<where>
+			r.topicid = #{criteria.topicid}
+		</where>
+	</sql>
+	<select id="selectTopicByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.TopicRelateInfo">
+		SELECT r.id,r.topicid topicid,t.title title,r.imgurl imgurl,s.name
+		shopname,t.mark mark,r.relatedid,r.sort,t.type type
+		FROM topic t left
+		join topic_relate r on t.id = r.topicid left join shop s on s.id =
+		r.relatedid
+		<if test="criteria != null ">
+			<include refid="criteria_query_topic" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+	<select id="getOwnedShop" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"></include>
+		from shop where IsOwned=TRUE limit 1
+	</select>
+
+	<select id="selectByUserid" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from shop
+		where UserID = #{userid,jdbcType=INTEGER}
+		and IsDel = 0
+	</select>
+	<select id="getShopBySpuID" parameterType="int" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM shop
+		WHERE id IN (SELECT shopid FROM spu WHERE id=#{0}) limit 1
+	</select>
+	<!-- 根据店铺名称模糊查询 -->
+	<select id="getShopListByName" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select * from shop where IsDel=0 and status=4
+		<choose>
+			<when test="name != null and name != ''">
+				and Name like '%${name}%' limit 0,10
+			</when>
+			<otherwise>
+				limit 0,10
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="getResShopListByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+			resultType="com.yinlian.api.app.dto.ShopAppDto">
+		select 
+		s.name,
+		s.imgurl,
+		s.Description as description,
+		sa.MarketingScope as marketingscope,
+		s.id
+		from shop s left join shop_authentication sa on s.id = sa.ShopID
+		<if test="criteria != null">
+			<where>
+				<if test="criteria.shoptype != null and criteria.shoptype >= 0 ">
+					and s.shoptype = #{criteria.shoptype}
+				</if>
+				<if test="criteria.name != null and criteria.name != '' ">
+					and s.name like '%${criteria.name}%'
+				</if>
+				and s.IsDel = 0 and s.Status = 4 
+			</where>
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	
+	<select id="getTicketCenter" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM shop
+		where shoptype in (0,1,2,3,4,5) and Status = 4 and IsDel = 0
+	</select>
+	<select id="getTopicshop" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM shop
+		where shoptype=#{0} and Status = 4 and IsDel = 0 limit 1
+	</select>
+	<select id="getShopByNameByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+			resultType="com.yinlian.api.app.dto.ShopAppDto">
+		select 
+		s.name,
+		s.imgurl,
+		s.Description as description,
+		sa.MarketingScope as marketingscope,
+		s.id
+		from shop s left join shop_authentication sa on s.id = sa.ShopID
+		<if test="criteria != null">
+			<where>
+				<if test="criteria.name != null and criteria.name != '' ">
+					and s.Name like '%${criteria.name}%'
+				</if>
+				and s.IsDel = 0 and s.Status = 4
+			</where>
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	
+	
+		<select id="getShopListByIds" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select  userid,name,shoptype from shop where  userid in (${ids})
+		
+	</select>
+		<select id="getZooScenicByIds" parameterType="java.util.List" resultType="com.yinlian.wssc.web.po.Shop">
+		SELECT shopId AS id,longitude AS name,latitude AS shopnum FROM zoo_scenic
+		where shopId in
+		<foreach item="item" index="index" collection="list" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+</mapper>

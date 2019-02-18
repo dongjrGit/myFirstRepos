@@ -1,0 +1,1134 @@
+package com.yinlian.wssc.platform.view.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.yinlian.Enums.ActivityUseTypeEnum;
+import com.yinlian.Enums.CouponUseTypeEnum;
+import com.yinlian.wssc.web.dto.SessionUser;
+import com.yinlian.wssc.web.dto.VoucherDto;
+import com.yinlian.wssc.web.po.ActivityMarket;
+import com.yinlian.wssc.web.po.AdvertImg;
+import com.yinlian.wssc.web.po.AdvertImgExample;
+import com.yinlian.wssc.web.po.Coupon;
+import com.yinlian.wssc.web.po.Fullgift;
+import com.yinlian.wssc.web.po.GroupbuyWithBLOBs;
+import com.yinlian.wssc.web.po.Package;
+import com.yinlian.wssc.web.po.SpikeSpu;
+import com.yinlian.wssc.web.po.Spikeactivity;
+import com.yinlian.wssc.web.po.SpuWithBLOBs;
+import com.yinlian.wssc.web.po.giftcard;
+import com.yinlian.wssc.web.service.ActivityService;
+import com.yinlian.wssc.web.service.AdvertImgService;
+import com.yinlian.wssc.web.service.CategoryService;
+import com.yinlian.wssc.web.service.CouponService;
+import com.yinlian.wssc.web.service.GroupBuyService;
+import com.yinlian.wssc.web.service.GroupByClassService;
+import com.yinlian.wssc.web.service.PackageService;
+import com.yinlian.wssc.web.service.ShopService;
+import com.yinlian.wssc.web.service.SpikeActivityService;
+import com.yinlian.wssc.web.service.SpuService;
+import com.yinlian.wssc.web.service.VoucherService;
+import com.yinlian.wssc.web.service.giftcardService;
+import com.yinlian.wssc.web.util.SessionState;
+import com.yinlian.wssc.web.util.StringUtilsEX;
+
+@Controller
+@RequestMapping("/platform/market")
+public class MarketController {
+
+	/**
+	 * 日志输出的类
+	 */
+	private static final Logger logger = LoggerFactory.getLogger(MarketController.class);
+	@Autowired
+	private GroupByClassService groupByClassService;
+	@Autowired
+	private CouponService couponService;
+	@Autowired
+	private SpuService spuService;
+	@Autowired
+	private CategoryService categoryService;
+	@Autowired
+	private PackageService packageService;
+
+	@Autowired
+	private ActivityService activityService;
+
+	@Autowired
+	private SpikeActivityService spikeActivityService;
+
+	@Autowired
+	private GroupBuyService groupBuyService;
+
+	@Autowired
+	private AdvertImgService advertImgService;
+
+	@Autowired
+	private giftcardService giftcardservice;
+	
+	@Autowired
+	private ShopService shopService;
+	@Autowired
+	private VoucherService voucherService;
+
+	/**
+	 * 营销-优惠卷列表
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/yxgl_CouponList")
+	public String yxgl_CouponList(HttpServletRequest request) {
+		Integer userid = 0;
+		try {
+			SessionUser user = SessionState.GetCurrentUser();
+			userid = user.getShopid();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("shopid", userid);
+		return "platform/yxgl/yxgl_CouponNewList";
+	}
+	 
+	/**
+	 * 转到会员卡列表页面
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/giftcard_list")
+	public String giftcard(HttpServletRequest request) {
+
+		return "platform/giftcard/giftcard_list";
+	}
+	
+	@RequestMapping("/giftcard_edit")
+	public String giftcardedit(String id,HttpServletRequest request) {
+		giftcard g=giftcardservice.selectByPrimaryKey(StringUtilsEX.ToInt(id));
+		request.setAttribute("giftcard", g);
+		return "platform/giftcard/giftcardEdit";
+	}
+	/**
+	 * 营销-优惠卷添加
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/yxgl_CouponAdd")
+	public String yxgl_CouponAdd() {
+		return "platform/yxgl/yxgl_CouponAdd";
+	}
+
+	/**
+	 * 营销-优惠卷编辑
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/yxgl_CouponEdit")
+	public String yxgl_CouponEdit(String id, HttpServletRequest request) {
+		Coupon coupon = new Coupon();
+		String spuname = "", spuid = "", fid = "", sid = "", tid = "";
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				coupon = couponService.getByID(StringUtilsEX.ToInt(id));
+				if (coupon.getCouponusetype() == CouponUseTypeEnum.商品.getValue()) {
+					spuname = spuService.queryById(coupon.getUsetypeid()).getName();
+					spuid = spuService.queryById(coupon.getUsetypeid()).getId().toString();
+					String fullpath = categoryService
+							.queryById(spuService.queryById(coupon.getUsetypeid()).getClassid()).getFullpath();
+					switch (fullpath.split(",").length) {
+					case 1:
+						fid = fullpath.split(",")[0];
+						break;
+					case 2:
+						fid = fullpath.split(",")[0];
+						sid = fullpath.split(",")[1];
+						break;
+					case 3:
+						fid = fullpath.split(",")[0];
+						sid = fullpath.split(",")[1];
+						tid = fullpath.split(",")[2];
+						break;
+					default:
+						break;
+					}
+				}
+				if (coupon.getCouponusetype() == CouponUseTypeEnum.分类.getValue()) {
+					String fullpath = categoryService.queryById(coupon.getUsetypeid()).getFullpath();
+					switch (fullpath.split(",").length) {
+					case 1:
+						fid = fullpath.split(",")[0];
+						break;
+					case 2:
+						fid = fullpath.split(",")[0];
+						sid = fullpath.split(",")[1];
+						break;
+					case 3:
+						fid = fullpath.split(",")[0];
+						sid = fullpath.split(",")[1];
+						tid = fullpath.split(",")[2];
+						break;
+					default:
+						break;
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("data", coupon);
+		request.setAttribute("spuname", spuname);
+		request.setAttribute("spuid", spuid);
+		request.setAttribute("fid", fid);
+		request.setAttribute("sid", sid);
+		request.setAttribute("tid", tid);
+		return "platform/yxgl/yxgl_CouponEdit";
+	}
+
+	/**
+	 * 营销-优惠卷详情
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/yxgl_CouponDetail")
+	public String yxgl_CouponDetail(String id, HttpServletRequest request) {
+		Coupon coupon = new Coupon();
+		String spuname = "", spuid = "", fid = "", sid = "", tid = "";
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				coupon = couponService.getByID(StringUtilsEX.ToInt(id));
+				if (coupon.getCouponusetype() == CouponUseTypeEnum.商品.getValue()) {
+					spuname = spuService.queryById(coupon.getUsetypeid()).getName();
+					spuid = spuService.queryById(coupon.getUsetypeid()).getId().toString();
+					String fullpath = categoryService
+							.queryById(spuService.queryById(coupon.getUsetypeid()).getClassid()).getFullpath();
+					switch (fullpath.split(",").length) {
+					case 1:
+						fid = fullpath.split(",")[0];
+						break;
+					case 2:
+						fid = fullpath.split(",")[0];
+						sid = fullpath.split(",")[1];
+						break;
+					case 3:
+						fid = fullpath.split(",")[0];
+						sid = fullpath.split(",")[1];
+						tid = fullpath.split(",")[2];
+						break;
+					default:
+						break;
+					}
+				}
+				if (coupon.getCouponusetype() == CouponUseTypeEnum.分类.getValue()) {
+					String fullpath = categoryService.queryById(coupon.getUsetypeid()).getFullpath();
+					switch (fullpath.split(",").length) {
+					case 1:
+						fid = fullpath.split(",")[0];
+						break;
+					case 2:
+						fid = fullpath.split(",")[0];
+						sid = fullpath.split(",")[1];
+						break;
+					case 3:
+						fid = fullpath.split(",")[0];
+						sid = fullpath.split(",")[1];
+						tid = fullpath.split(",")[2];
+						break;
+					default:
+						break;
+					}
+				}
+				if (coupon.getCouponusetype() == CouponUseTypeEnum.店铺.getValue()) {
+					coupon.setShopname(shopService.queryById(coupon.getUsetypeid()).getName());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("data", coupon);
+		request.setAttribute("spuname", spuname);
+		request.setAttribute("spuid", spuid);
+		request.setAttribute("fid", fid);
+		request.setAttribute("sid", sid);
+		request.setAttribute("tid", tid);
+		return "platform/yxgl/yxgl_CouponDetail";
+	}
+
+	/**
+	 * 添加领取用户
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/yxgl_CouponUserAdd")
+	public String yxgl_CouponUserAdd(String id, HttpServletRequest request) {
+		Coupon coupon = new Coupon();
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				coupon = couponService.getByID(StringUtilsEX.ToInt(id));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("data", coupon);
+		return "platform/yxgl/yxgl_CouponUserAdd";
+	}
+
+	/**
+	 * 优惠卷领取用户列表
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/yxgl_CouponUserList")
+	public String yxgl_CouponUserList(String id, HttpServletRequest request) {
+		Coupon coupon = new Coupon();
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				coupon = couponService.getByID(StringUtilsEX.ToInt(id));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("data", coupon);
+		return "platform/yxgl/yxgl_CouponUserList";
+	}
+
+	/**
+	 * 营销-组合商品列表
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/yxgl_PackageList")
+	public String yxgl_PackageList(HttpServletRequest request) {
+		Integer userid = 0;
+		try {
+			SessionUser user = SessionState.GetCurrentUser();
+			userid = user.getShopid();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("shopid", userid);
+		return "platform/yxgl/yxgl_PackageList";
+	}
+
+	/**
+	 * 营销-组合商品添加
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/yxgl_PackageAdd")
+	public String yxgl_PackageAdd() {
+		return "platform/yxgl/yxgl_PackageAdd";
+	}
+
+	/**
+	 * 营销-组合商品编辑
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/yxgl_PackageEdit")
+	public String yxgl_PackageEdit(String id, HttpServletRequest request) {
+		Package pack = new Package();
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				pack = packageService.getByID(StringUtilsEX.ToInt(id));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("data", pack);
+		return "platform/yxgl/yxgl_PackageEdit";
+	}
+
+	/**
+	 * 营销-组合商品查看
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/yxgl_PackageDetail")
+	public String yxgl_PackageDetail(String id, HttpServletRequest request) {
+		Package pack = new Package();
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				pack = packageService.getByID(StringUtilsEX.ToInt(id));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("data", pack);
+		return "platform/yxgl/yxgl_PackageDetail";
+	}
+
+	/**
+	 * 营销-组合商品关联商品
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/yxgl_PackageSku")
+	public String yxgl_PackageSku(String id, String type, HttpServletRequest request) {
+		Package pack = new Package();
+		Integer shopid = 0;
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				pack = packageService.getByID(StringUtilsEX.ToInt(id));
+			}
+			SessionUser user = SessionState.GetCurrentUser();
+			shopid = user.getShopid();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("data", pack);
+		request.setAttribute("shopid", shopid);
+		request.setAttribute("type", type);
+		return "platform/yxgl/yxgl_PackageSku";
+	}
+
+	/**
+	 * 组合商品审核列表
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/yxgl_PackageCheck")
+	public String yxgl_PackageCheck() {
+		return "platform/yxgl/yxgl_PackageCheck";
+	}
+
+	/**
+	 * 营销-满减活动列表
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/yxgl_FullCutList")
+	public String yxgl_FullCutList(HttpServletRequest request) {
+		Integer shopid = 0;
+		try {
+			SessionUser user = SessionState.GetCurrentUser();
+			shopid = user.getShopid();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		request.setAttribute("shopid", shopid);
+		return "platform/yxgl/yxgl_FullCutList";
+	}
+
+	/**
+	 * 营销-满减活动添加
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/yxgl_FullCutAdd")
+	public String yxgl_FullCutAdd() {
+		return "platform/yxgl/yxgl_FullCutAdd";
+	}
+
+	/**
+	 * 营销-满减活动编辑
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/yxgl_FullCutEdit")
+	public String yxgl_FullCutEdit(String id, HttpServletRequest request) {
+		ActivityMarket aMarket = new ActivityMarket();
+		String spuname = "", spuid = "", fid = "", sid = "", tid = "";
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				aMarket = activityService.getById(StringUtilsEX.ToInt(id));
+				if (aMarket.getUsetype() == ActivityUseTypeEnum.针对商品.getValue()) {
+					SpuWithBLOBs spu = new SpuWithBLOBs();
+					spu = spuService.queryById(aMarket.getSpuid());
+					spuname = spu.getName();
+					spuid = spu.getId().toString();
+					String fullpath = categoryService.queryById(spu.getClassid()).getFullpath();
+					switch (fullpath.split(",").length) {
+					case 1:
+						fid = fullpath.split(",")[0];
+						break;
+					case 2:
+						fid = fullpath.split(",")[0];
+						sid = fullpath.split(",")[1];
+						break;
+					case 3:
+						fid = fullpath.split(",")[0];
+						sid = fullpath.split(",")[1];
+						tid = fullpath.split(",")[2];
+						break;
+					default:
+						break;
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("data", aMarket);
+		request.setAttribute("spuname", spuname);
+		request.setAttribute("spuid", spuid);
+		request.setAttribute("fid", fid);
+		request.setAttribute("sid", sid);
+		request.setAttribute("tid", tid);
+		return "platform/yxgl/yxgl_FullCutEdit";
+	}
+
+	/**
+	 * 营销-满减活动查看
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/yxgl_FullcutDetail")
+	public String yxgl_FullcutDetail(String id, HttpServletRequest request) {
+		ActivityMarket aMarket = new ActivityMarket();
+		String spuname = "", spuid = "", fid = "", sid = "", tid = "";
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				aMarket = activityService.getById(StringUtilsEX.ToInt(id));
+				if (aMarket.getUsetype() == ActivityUseTypeEnum.针对商品.getValue()) {
+					SpuWithBLOBs spu = new SpuWithBLOBs();
+					spu = spuService.queryById(aMarket.getSpuid());
+					spuname = spu.getName();
+					spuid = spu.getId().toString();
+					String fullpath = categoryService.queryById(spu.getClassid()).getFullpath();
+					switch (fullpath.split(",").length) {
+					case 1:
+						fid = fullpath.split(",")[0];
+						break;
+					case 2:
+						fid = fullpath.split(",")[0];
+						sid = fullpath.split(",")[1];
+						break;
+					case 3:
+						fid = fullpath.split(",")[0];
+						sid = fullpath.split(",")[1];
+						tid = fullpath.split(",")[2];
+						break;
+					default:
+						break;
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("data", aMarket);
+		request.setAttribute("spuname", spuname);
+		request.setAttribute("spuid", spuid);
+		request.setAttribute("fid", fid);
+		request.setAttribute("sid", sid);
+		request.setAttribute("tid", tid);
+		return "platform/yxgl/yxgl_FullcutDetail";
+	}
+
+	/**
+	 * 满减活动审核列表
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/yxgl_FullcutCheck")
+	public String yxgl_FullcutCheck() {
+		return "platform/yxgl/yxgl_FullcutCheck";
+	}
+
+	/**
+	 * 营销-满赠活动列表
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/yxgl_FullgiftList")
+	public String yxgl_FullgiftList(HttpServletRequest request) {
+		Integer userid = 0;
+		try {
+			SessionUser user = SessionState.GetCurrentUser();
+			userid = user.getShopid();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("shopid", userid);
+		return "platform/yxgl/yxgl_FullgiftList";
+	}
+
+	/**
+	 * 营销-满赠活动添加
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/yxgl_FullgiftAdd")
+	public String yxgl_FullgiftAdd() {
+		return "platform/yxgl/yxgl_FullgiftAdd";
+	}
+
+	/**
+	 * 营销-满赠活动编辑
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/yxgl_FullgiftEdit")
+	public String yxgl_FullgiftEdit(String id, HttpServletRequest request) {
+		ActivityMarket aMarket = new ActivityMarket();
+		String spuname = "", spuid = "", fid = "", sid = "", tid = "";
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				aMarket = activityService.getById(StringUtilsEX.ToInt(id));
+				if (aMarket.getUsetype() == ActivityUseTypeEnum.针对商品.getValue()) {
+					SpuWithBLOBs spu = new SpuWithBLOBs();
+					spu = spuService.queryById(aMarket.getSpuid());
+					spuname = spu.getName();
+					spuid = spu.getId().toString();
+					String fullpath = categoryService.queryById(spu.getClassid()).getFullpath();
+					switch (fullpath.split(",").length) {
+					case 1:
+						fid = fullpath.split(",")[0];
+						break;
+					case 2:
+						fid = fullpath.split(",")[0];
+						sid = fullpath.split(",")[1];
+						break;
+					case 3:
+						fid = fullpath.split(",")[0];
+						sid = fullpath.split(",")[1];
+						tid = fullpath.split(",")[2];
+						break;
+					default:
+						break;
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("data", aMarket);
+		request.setAttribute("spuname", spuname);
+		request.setAttribute("spuid", spuid);
+		request.setAttribute("fid", fid);
+		request.setAttribute("sid", sid);
+		request.setAttribute("tid", tid);
+		return "platform/yxgl/yxgl_FullgiftEdit";
+	}
+
+	/**
+	 * 营销-满赠活动查看
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/yxgl_FullgiftDetail")
+	public String yxgl_FullgiftDetail(String id, HttpServletRequest request) {
+		ActivityMarket aMarket = new ActivityMarket();
+		String spuname = "", spuid = "", fid = "", sid = "", tid = "";
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				aMarket = activityService.getById(StringUtilsEX.ToInt(id));
+				if (aMarket.getUsetype() == ActivityUseTypeEnum.针对商品.getValue()) {
+					SpuWithBLOBs spu = new SpuWithBLOBs();
+					spu = spuService.queryById(aMarket.getSpuid());
+					spuname = spu.getName();
+					spuid = spu.getId().toString();
+					String fullpath = categoryService.queryById(spu.getClassid()).getFullpath();
+					switch (fullpath.split(",").length) {
+					case 1:
+						fid = fullpath.split(",")[0];
+						break;
+					case 2:
+						fid = fullpath.split(",")[0];
+						sid = fullpath.split(",")[1];
+						break;
+					case 3:
+						fid = fullpath.split(",")[0];
+						sid = fullpath.split(",")[1];
+						tid = fullpath.split(",")[2];
+						break;
+					default:
+						break;
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("data", aMarket);
+		request.setAttribute("spuname", spuname);
+		request.setAttribute("spuid", spuid);
+		request.setAttribute("fid", fid);
+		request.setAttribute("sid", sid);
+		request.setAttribute("tid", tid);
+		return "platform/yxgl/yxgl_FullgiftDetail";
+	}
+
+	/**
+	 * 满赠活动审核列表
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/yxgl_FullgiftCheck")
+	public String yxgl_FullgiftCheck() {
+		return "platform/yxgl/yxgl_FullgiftCheck";
+	}
+
+	@RequestMapping("/yxgl_GiftList")
+	public String yxgl_GiftList(String id, String type, HttpServletRequest request) {
+		ActivityMarket aMarket = new ActivityMarket();
+		String gifttype = "-1";
+		Integer userid = 0;
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				aMarket = activityService.getById(StringUtilsEX.ToInt(id));
+				List<Fullgift> list = new ArrayList<Fullgift>();
+				list = activityService.getGiftListByID(aMarket.getId());
+				if (list.size() > 0) {
+					gifttype = list.get(0).getGifttype().toString();
+				}
+
+			}
+			SessionUser user = SessionState.GetCurrentUser();
+			userid = user.getShopid();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		request.setAttribute("shopid", userid);
+		request.setAttribute("data", aMarket);
+		request.setAttribute("gifttype", gifttype);
+		request.setAttribute("urltype", type);
+		return "platform/yxgl/yxgl_GiftList";
+	}
+
+	/**
+	 * 秒杀活动列表
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/yxgl_SpikeList")
+	public String yxgl_SpikeList() {
+		return "platform/yxgl/yxgl_SpikeList";
+	}
+
+	/**
+	 * 添加秒杀活动
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/yxgl_SpikeAdd")
+	public String yxgl_SpikeAdd(Model model) {
+		try {
+			model.addAttribute("clslist", groupByClassService.getAllList());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "platform/yxgl/yxgl_SpikeAdd";
+	}
+
+	/**
+	 * 编辑秒杀活动
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/yxgl_SpikeEdit")
+	public String yxgl_SpikeEdit(String id, HttpServletRequest request, Model model) {
+		Spikeactivity spike = new Spikeactivity();
+		try {
+			model.addAttribute("clslist", groupByClassService.getAllList());
+			if (StringUtilsEX.ToInt(id) > 0) {
+				spike = spikeActivityService.selectByID(StringUtilsEX.ToInt(id));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("data", spike);
+		return "platform/yxgl/yxgl_SpikeEdit";
+	}
+
+	/**
+	 * 审核店铺申请秒杀活动
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/yxgl_SpikeShopCheck")
+	public String yxgl_SpikeShopCheck() {
+		return "platform/yxgl/yxgl_SpikeShopCheck";
+	}
+
+	/**
+	 * 秒杀活动-店铺申请列表
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/yxgl_SpikeShopList")
+	public String yxgl_SpikeShopList(String id, HttpServletRequest request) {
+		Spikeactivity spike = new Spikeactivity();
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				spike = spikeActivityService.selectByID(StringUtilsEX.ToInt(id));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("data", spike);
+		return "platform/yxgl/yxgl_SpikeShopList";
+	}
+
+	/**
+	 * 添加秒杀活动参与商品
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/yxgl_SpikeSpuAdd")
+	public String yxgl_SpikeSpuAdd(String id, HttpServletRequest request) {
+		String spikeid = "";
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				spikeid = id;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("spikeid", spikeid);
+		return "platform/yxgl/yxgl_SpikeSpuAdd";
+	}
+
+	/**
+	 * 编辑秒杀活动参与商品
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/yxgl_SpikeSpuEdit")
+	public String yxgl_SpikeSpuEdit(String id, HttpServletRequest request) {
+		SpikeSpu ssSpikeSpu = new SpikeSpu();
+		String spuname = "";
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				ssSpikeSpu = spikeActivityService.selectSpikeSpuByID(StringUtilsEX.ToInt(id));
+				spuname = spuService.queryById(ssSpikeSpu.getSpuid()).getName();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("data", ssSpikeSpu);
+		request.setAttribute("spuname", spuname);
+		return "platform/yxgl/yxgl_SpikeSpuEdit";
+	}
+
+	/**
+	 * 秒杀活动-参与商品列表
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/yxgl_SpikeSpuList")
+	public String yxgl_SpikeSpuList(String id, HttpServletRequest request) {
+		Spikeactivity spike = new Spikeactivity();
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				spike = spikeActivityService.selectByID(StringUtilsEX.ToInt(id));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("data", spike);
+		return "platform/yxgl/yxgl_SpikeSpuList";
+	}
+
+	/**
+	 * 推荐关联分类列表
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/yxgl_RecommClassList")
+	public String yxgl_RecommClassList() {
+		return "platform/yxgl/yxgl_RecommClassList";
+	}
+
+	/**
+	 * 添加推荐关联分类
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/yxgl_RecommClassAdd")
+	public String yxgl_RecommClassAdd() {
+		return "platform/yxgl/yxgl_RecommClassAdd";
+	}
+
+	/**
+	 * 团购管理
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/yxgl_GroupBuyList")
+	public String yxgl_GroupBuyList(HttpServletRequest request) {
+		Integer userid = 0;
+		try {
+			SessionUser user = SessionState.GetCurrentUser();
+			userid = user.getShopid();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("shopid", userid);
+		return "platform/yxgl/yxgl_GroupBuyList";
+	}
+
+	@RequestMapping("/yxgl_GroupBuyAdd")
+	public String yxgl_GroupBuyAdd() {
+		return "platform/yxgl/yxgl_GroupBuyAdd";
+	}
+
+	@RequestMapping("/yxgl_GroupBuyEdit")
+	public String yxgl_GroupBuyEdit(String id, HttpServletRequest request) {
+		GroupbuyWithBLOBs gBloBs = new GroupbuyWithBLOBs();
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				gBloBs = groupBuyService.selectByPrimaryKey(StringUtilsEX.ToInt(id));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("data", gBloBs);
+		return "platform/yxgl/yxgl_GroupBuyEdit";
+	}
+
+	/**
+	 * 查看团购
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/yxgl_GroupBuyDetail")
+	public String yxgl_GroupBuyDetail(String id, HttpServletRequest request) {
+		GroupbuyWithBLOBs gBloBs = new GroupbuyWithBLOBs();
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				gBloBs = groupBuyService.selectByPrimaryKey(StringUtilsEX.ToInt(id));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("data", gBloBs);
+		return "platform/yxgl/yxgl_GroupBuyDetail";
+	}
+
+	/**
+	 * 团购图片列表
+	 * 
+	 * @param id
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/yxgl_GroupBuyImgList")
+	public String yxgl_GroupBuyImgList(String id, HttpServletRequest request) {
+		GroupbuyWithBLOBs gBloBs = new GroupbuyWithBLOBs();
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				gBloBs = groupBuyService.selectByPrimaryKey(StringUtilsEX.ToInt(id));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("group", gBloBs);
+		return "platform/yxgl/yxgl_GroupBuyImgList";
+	}
+
+	@RequestMapping("/yxgl_GroupBuyImgEdit")
+	public String yxgl_GroupBuyImgEdit(String id, String groupid, HttpServletRequest request) {
+		String actionString = "addimg";
+		AdvertImg img = new AdvertImg();
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				img = advertImgService.selectByPrimaryKey(StringUtilsEX.ToInt(id));
+				actionString = "editImg";
+			} else {
+				if (StringUtilsEX.ToInt(groupid) > 0) {
+					img.setGroupbyid(StringUtilsEX.ToInt(groupid));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("action", actionString);
+		request.setAttribute("data", img);
+		return "platform/yxgl/yxgl_GroupBuyImgEdit";
+	}
+
+	/**
+	 * 新优惠劵
+	 * 
+	 * @return
+	 */
+	@RequestMapping("/yxgl_CouponNewAdd")
+	public String yxgl_CouponNewAdd() {
+		return "platform/yxgl/yxgl_CouponNewAdd";
+	}
+
+	@RequestMapping("/yxgl_CouponNewList")
+	public String yxgl_CouponNewList() {
+		return "platform/yxgl/yxgl_CouponNewList";
+	}
+
+	@RequestMapping("/yxgl_CouponNewEdit")
+	public String yxgl_CouponNewEdit(String id, HttpServletRequest request) {
+		Coupon coupon = new Coupon();
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				coupon = couponService.getByID(StringUtilsEX.ToInt(id));
+				if (coupon != null) {
+					if(coupon.getCouponusetype().equals(CouponUseTypeEnum.店铺.getValue())){
+						coupon.setShopname(shopService.queryById(coupon.getUsetypeid()).getName());
+					}
+					if(coupon.getCouponusetype().equals(CouponUseTypeEnum.商品.getValue())){
+						coupon.setShopname(shopService.queryById(coupon.getShopid()).getName());
+						coupon.setSpuname(spuService.queryById(coupon.getUsetypeid()).getName());
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("data", coupon);
+		return "platform/yxgl/yxgl_CouponNewEdit";
+	}
+
+	@RequestMapping("/yxgl_AssignCoupon")
+	public String yxgl_AssignCoupon() {
+		return "platform/yxgl/yxgl_AssignCoupon";
+	}
+
+	@RequestMapping("/yxgl_AssignCouponAdd")
+	public String yxgl_AssignCouponAdd(String gcode, HttpServletRequest request) {
+		VoucherDto dto = new VoucherDto();
+		try {
+			if (!StringUtilsEX.IsNullOrWhiteSpace(gcode)) {
+				dto = voucherService.getByGroupCode(gcode);
+				if (dto != null) {
+					dto.setName("满" + dto.getQuota() + "减" + dto.getValue());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("data", dto);
+		return "platform/yxgl/yxgl_AssignCouponAdd";
+	}
+	
+	
+	/**
+	 * 获取优惠卷分配详情
+	 * 
+	 * @param gcode
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/yxgl_AssignCouponDetail")
+	public String yxgl_AssignCouponDetail(String gcode, HttpServletRequest request) {
+		VoucherDto dto = new VoucherDto();
+		List<Coupon> list = new ArrayList<Coupon>();
+		try {
+			if (!StringUtilsEX.IsNullOrWhiteSpace(gcode)) {
+				dto = voucherService.getByGroupCode(gcode.trim());
+				list = couponService.getbyGroupcode(gcode.trim());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("data", dto);
+		request.setAttribute("couponlist", list);
+		return "platform/yxgl/yxgl_AssignCouponDetail";
+	}
+
+	@RequestMapping("/yxgl_SpikeImgList")
+	public String yxgl_SpikeImgList(String id, HttpServletRequest request) {
+		List<AdvertImg> list = new ArrayList<AdvertImg>();
+		Spikeactivity sactivity = new Spikeactivity();
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				sactivity = spikeActivityService.selectByID(StringUtilsEX.ToInt(id));
+				AdvertImgExample example = new AdvertImgExample();
+				AdvertImgExample.Criteria criteria = example.createCriteria();
+				criteria.andIsdelEqualTo(false);
+				criteria.andGroupbyidEqualTo(StringUtilsEX.ToInt(id));
+				list = advertImgService.selectByexample(example);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("spike", sactivity);
+		request.setAttribute("imglist", list);
+		return "platform/yxgl/yxgl_SpikeImgList";
+	}
+
+	@RequestMapping("/yxgl_SpikeImgEdit")
+	public String yxgl_SpikeImgEdit(String id, HttpServletRequest request) {
+		request.setAttribute("spikeid", id);
+		return "platform/yxgl/yxgl_SpikeImgEdit";
+	}
+
+	@RequestMapping("/yxgl_ExcitingList")
+	public String yxgl_ExcitingList() {
+		return "platform/yxgl/yxgl_ExcitingList";
+	}
+
+	@RequestMapping("/yxgl_ExcitingAdd")
+	public String yxgl_ExcitingAdd() {
+		return "platform/yxgl/yxgl_ExcitingAdd";
+	}
+
+	@RequestMapping("/yxgl_ExcitingEdit")
+	public String yxgl_ExcitingEdit(String id, HttpServletRequest request) {
+		Spikeactivity spike = new Spikeactivity();
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				spike = spikeActivityService.selectByID(StringUtilsEX.ToInt(id));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("data", spike);
+		return "platform/yxgl/yxgl_ExcitingEdit";
+	}
+
+	@RequestMapping("/yxgl_ExcitingUserList")
+	public String yxgl_ExcitingUserList(String id, HttpServletRequest request) {
+		Spikeactivity spike = new Spikeactivity();
+		try {
+			if (StringUtilsEX.ToInt(id) > 0) {
+				spike = spikeActivityService.selectByID(StringUtilsEX.ToInt(id));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		request.setAttribute("data", spike);
+		return "platform/yxgl/yxgl_ExcitingUserList";
+	}
+}

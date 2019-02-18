@@ -1,0 +1,7 @@
+#权限是AliyunOSSFullAccess
+endpoint=oss-cn-shanghai.aliyuncs.com
+accessKeyId=LTAIpyf0pxDSkJaE
+accessKeySecret=F4GYNWrIa3AdONMT2yEBIPrDJVVIYd
+#CDN配置的加速域名
+domainName=st.ziyacloud.com
+defaultBucketName=zoo01

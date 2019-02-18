@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.MessagesMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Messages">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="Title" property="title" jdbcType="VARCHAR" />
+		<result column="Content" property="content" jdbcType="VARCHAR" />
+		<result column="Type" property="type" jdbcType="INTEGER" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="UserID" property="userid" jdbcType="INTEGER" />
+		<result column="SendUserID" property="senduserid" jdbcType="INTEGER" />
+		<result column="SendUserName" property="sendusername" jdbcType="VARCHAR" />
+		<result column="SendTime" property="sendtime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<resultMap id="ResultMapWithBLOBs" type="com.yinlian.wssc.web.po.Messages"
+		extends="BaseResultMap">
+		<result column="Content" property="content" jdbcType="LONGVARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID,Content, Title,Type, Status, UserID, SendUserID, SendUserName, SendTime
+	</sql>
+	<sql id="Blob_Column_List">
+		Content
+	</sql>
+	<select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs"
+		parameterType="com.yinlian.wssc.web.po.MessagesExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from messages
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.MessagesExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from messages
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	
+	<select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from messages
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from messages
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.MessagesExample">
+		delete from messages
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.Messages">
+		insert into messages (ID, Title, Type,
+		Status, UserID, SendUserID,
+		SendUserName, SendTime, Content
+		)
+		values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+		#{type,jdbcType=INTEGER},
+		#{status,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{senduserid,jdbcType=INTEGER},
+		#{sendusername,jdbcType=VARCHAR}, #{sendtime,jdbcType=TIMESTAMP},
+		#{content,jdbcType=LONGVARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Messages">
+		insert into messages
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="title != null">
+				Title,
+			</if>
+			<if test="type != null">
+				Type,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+			<if test="userid != null">
+				UserID,
+			</if>
+			<if test="senduserid != null">
+				SendUserID,
+			</if>
+			<if test="sendusername != null">
+				SendUserName,
+			</if>
+			<if test="sendtime != null">
+				SendTime,
+			</if>
+			<if test="content != null">
+				Content,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=INTEGER},
+			</if>
+			<if test="senduserid != null">
+				#{senduserid,jdbcType=INTEGER},
+			</if>
+			<if test="sendusername != null">
+				#{sendusername,jdbcType=VARCHAR},
+			</if>
+			<if test="sendtime != null">
+				#{sendtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.MessagesExample"
+		resultType="java.lang.Integer">
+		select count(*) from messages
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update messages
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.title != null">
+				Title = #{record.title,jdbcType=VARCHAR},
+			</if>
+			<if test="record.type != null">
+				Type = #{record.type,jdbcType=INTEGER},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.userid != null">
+				UserID = #{record.userid,jdbcType=INTEGER},
+			</if>
+			<if test="record.senduserid != null">
+				SendUserID = #{record.senduserid,jdbcType=INTEGER},
+			</if>
+			<if test="record.sendusername != null">
+				SendUserName = #{record.sendusername,jdbcType=VARCHAR},
+			</if>
+			<if test="record.sendtime != null">
+				SendTime = #{record.sendtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.content != null">
+				Content = #{record.content,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExampleWithBLOBs" parameterType="map">
+		update messages
+		set ID = #{record.id,jdbcType=INTEGER},
+		Title = #{record.title,jdbcType=VARCHAR},
+		Type = #{record.type,jdbcType=INTEGER},
+		Status = #{record.status,jdbcType=INTEGER},
+		UserID = #{record.userid,jdbcType=INTEGER},
+		SendUserID = #{record.senduserid,jdbcType=INTEGER},
+		SendUserName = #{record.sendusername,jdbcType=VARCHAR},
+		SendTime = #{record.sendtime,jdbcType=TIMESTAMP},
+		Content = #{record.content,jdbcType=LONGVARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update messages
+		set ID = #{record.id,jdbcType=INTEGER},
+		Title = #{record.title,jdbcType=VARCHAR},
+		Type = #{record.type,jdbcType=INTEGER},
+		Status = #{record.status,jdbcType=INTEGER},
+		UserID = #{record.userid,jdbcType=INTEGER},
+		SendUserID = #{record.senduserid,jdbcType=INTEGER},
+		SendUserName = #{record.sendusername,jdbcType=VARCHAR},
+		SendTime = #{record.sendtime,jdbcType=TIMESTAMP}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Messages">
+		update messages
+		<set>
+			<if test="title != null">
+				Title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				Type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				UserID = #{userid,jdbcType=INTEGER},
+			</if>
+			<if test="senduserid != null">
+				SendUserID = #{senduserid,jdbcType=INTEGER},
+			</if>
+			<if test="sendusername != null">
+				SendUserName = #{sendusername,jdbcType=VARCHAR},
+			</if>
+			<if test="sendtime != null">
+				SendTime = #{sendtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="content != null">
+				Content = #{content,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yinlian.wssc.web.po.Messages">
+		update messages
+		set Title = #{title,jdbcType=VARCHAR},
+		Type = #{type,jdbcType=INTEGER},
+		Status = #{status,jdbcType=INTEGER},
+		UserID = #{userid,jdbcType=INTEGER},
+		SendUserID = #{senduserid,jdbcType=INTEGER},
+		SendUserName = #{sendusername,jdbcType=VARCHAR},
+		SendTime = #{sendtime,jdbcType=TIMESTAMP},
+		Content = #{content,jdbcType=LONGVARCHAR}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Messages">
+		update messages
+		set Title = #{title,jdbcType=VARCHAR},
+		Type = #{type,jdbcType=INTEGER},
+		Status = #{status,jdbcType=INTEGER},
+		UserID = #{userid,jdbcType=INTEGER},
+		SendUserID = #{senduserid,jdbcType=INTEGER},
+		SendUserName = #{sendusername,jdbcType=VARCHAR},
+		SendTime = #{sendtime,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+
+
+	<!-- 以下是自定义的 接口 分页查询 -->
+	<sql id="criteria_query">
+		<where>
+			<if test="criteria.userid != null and criteria.userid != '' ">
+				and m.UserID = #{criteria.userid}
+			</if>
+			<if test="criteria.sendid != null and criteria.sendid != '' ">
+				and m.SendUserId = #{criteria.sendid}
+			</if>
+			<if test="criteria.usertype != null and criteria.usertype != '' ">
+				and a.usertype = #{criteria.usertype}
+			</if>
+
+			<if test="criteria.status != null and criteria.status != -1 ">
+				<choose>
+					<when test="criteria.status ==1 ">
+						and (m.Status=1 or m.Status is null)
+					</when>
+					<otherwise>
+						and m.Status = #{criteria.status}
+					</otherwise>
+				</choose>
+			</if>
+			<if test="criteria.username != null and criteria.username != '' ">
+				and u.username like '%${criteria.username}%'
+			</if>
+
+			<if test="criteria.sendname != null and criteria.sendname != '' ">
+				and m.sendusername = #{criteria.sendname}
+			</if>
+
+			<if
+				test="criteria.begin != null and criteria.begin != '' ">
+				<![CDATA[ and DATEDIFF(m.sendtime,#{criteria.begin})>=0]]>
+			</if>
+			<if
+				test="criteria.end != null and criteria.end != '' ">
+				<![CDATA[ and DATEDIFF(m.sendtime,#{criteria.end})<=0]]>
+			</if>
+		</where>
+	</sql>
+	<!-- 根据userid查询分页数据 -->
+	<select id="selectMessageByUserIdPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="ResultMapWithBLOBs">
+		SELECT m.*,u.username username
+		FROM messages m LEFT JOIN users u ON m.userid = u.id LEFT JOIN accounts a
+		ON u.id = a.userid
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+	<!-- 批量删除 -->
+	<delete id="deleteByIds" parameterType="Object[]">
+		delete from messages
+		<where>
+			<!-- 传递数组 -->
+			<if test="array!=null">
+				<foreach collection="array" index="index" item="id" open="and id in("
+					separator="," close=")">
+					#{id}
+				</foreach>
+			</if>
+		</where>
+	</delete>
+
+	<!-- 批量更新 -->
+	<update id="updateByIds" parameterType="Object[]">
+		update messages set Status = 0
+		<where>
+			<!-- 传递数组 -->
+			<if test="array!=null">
+				<foreach collection="array" index="index" item="id" open="and id in("
+					separator="," close=")">
+					#{id}
+				</foreach>
+			</if>
+		</where>
+	</update>
+
+	<insert id="insertBacth" parameterType="java.util.List">
+		insert into messages (ID,Type, Title, Status,
+		UserID, SendUserID, SendUserName,
+		SendTime, Content)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.id},#{item.type},#{item.title},#{item.status},#{item.userid},#{item.senduserid},#{item.sendusername},#{item.sendtime},#{item.content})
+		</foreach>
+	</insert>
+
+	<select id="selectCount" parameterType="java.lang.Integer"
+		resultType="java.lang.Integer">
+		select count(id)
+		from messages
+		where
+		UserID=#{userid,jdbcType=INTEGER} and (Status=1 or Status is null)
+	</select>
+	<delete id="deleteByUserid" parameterType="java.lang.Integer">
+		delete from messages
+		where UserID=#{userid,jdbcType=INTEGER} 
+	</delete>
+	
+	
+	<select id="selectByUserId" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from messages
+		where UserID=#{userid,jdbcType=INTEGER}
+		order by `Status`,SendTime desc
+	</select>
+   <select id="getMessagesByUserPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+	resultType="com.yinlian.api.app.dto.Api_MessageDto" >
+	SELECT  
+		ID,
+		Title,
+		Content,
+		TYPE,
+		UserID,
+		SendTime,
+		CASE 
+		WHEN STATUS = 0
+		THEN 0 
+		ELSE 1 
+		END AS status
+		FROM messages
+		<where>
+		<if test="criteria != null ">
+				<if test="criteria.userid != null and criteria.userid >0 ">
+					and UserID =#{criteria.userid}
+				</if>
+		</if>
+		</where>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	<update id="updateSetMes" parameterType="java.lang.Integer">
+		update messages		
+		set Status = 0		
+		where UserID = #{uid,jdbcType=INTEGER}
+	</update>
+</mapper>

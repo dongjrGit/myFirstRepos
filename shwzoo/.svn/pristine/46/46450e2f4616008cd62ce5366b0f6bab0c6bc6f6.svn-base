@@ -1,0 +1,98 @@
+﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>余额</title>
+<link href="/resource/artDialog/skins/default.css" rel="stylesheet" />
+<link type="text/css" rel="stylesheet" href="/resource/pc/web/css/style01.css" />
+<link type="text/css" rel="stylesheet" href="/resource/ui-dialog.css" />
+ <link href="/resource/pc/member/css/pager2.css" rel="stylesheet" />
+    
+<link href="/resource/public/commoncss/jQuery.Validate.css" rel="stylesheet" />
+<script src="/resource/pc/web/js/browsehistory/browsehistory.js"></script>
+<script src="/resource/pc/web/js/index.js"></script>
+<script src="/resource/pc/member/js/pager2.js"></script>
+<script src="/resource/pc/member/js/showdate.js"></script>
+ <script src="/resource/artTemplate.js"></script>
+ <script src="/resource/dialog-plus.js"></script>
+ <script src="/resource/dialogShow.js"></script>
+<script src="/resource/jQueryRotate.2.2.js"></script>
+ <script src="/resource/Guid.js"></script>
+<script src="/resource/GetQueryString.js"></script>
+<script src="/resource/My97DatePicker/WdatePicker.js"></script>
+
+<script type="text/javascript" src="/resource/public/commonjs/Birthday-picker.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/style.js"></script>
+
+<script src="/resource/public/commonjs/AjaxFileUploaderV2.1/ajaxfileupload.js"></script>
+<script src="/resource/public/commonjs/jquery.validate.js"></script>
+<script src="/resource/public/commonjs/messages_cn.js"></script>
+<script src="/resource/public/commonjs/jquery.validate-methods.js"></script>
+
+<script src="/resource/public/commonjs/public-user.js"></script>
+
+<script src="/resource/public/commonjs/jquery.form.js"></script>
+<script src="/resource/pc/web/js/jquery.banner.js"></script>
+<script src="/resource/pc/member/js/ZcZx/Balance.js"></script>
+<script src="/resource/pc/member/js/ZcZx/jquery-1.8.2.intellisense.js"></script>
+<script src="/resource/pc/member/js/ZcZx/domWeb.js"></script>
+</head>
+<script src="~/mv10/js/ZcZx/Balance.js"></script>
+<!--w1200  中间内容开始 -->
+<div class="w1200 fix">
+    <!--l_yetoplogo   begin -->
+    <div class="l_yetoplogo">
+        <img src="/resource/pc/member/images/logo.png" width="184px" height="41px">
+        <div class="l_yetopright l_drb">
+            <ul>
+                <li>1.填写充值金额</li>
+                <li>2. 在线支付</li>
+                <li class="active">3.充值成功</li>
+            </ul>
+        </div><!--l_yetopright  stop -->
+    </div>
+    <!--l_yetoplogo   stop -->
+    <!--l_yesqzftop  begin -->
+    <div class="l_yesqzftop fix">
+        <img src="/resource/pc/member/images/duigou1.png" width="47px" height="33px">
+        <div class="l_yesqzftop_right">
+            <h3>您已申请账户余额充值，请立即在线支付！</h3>
+            <p class="mt20">
+                <!--<span class="mr25">充值单号：3398707</span>-->
+                应付金额：<span class="red">${money} 元</span>
+            </p>
+            <p class="mt30 yscmh">立即支付<span class="red">${money} 元</span>，即可完成订单。请您在<span class="juse">24小时</span>内完成支付，否则订单会被自动取消。</p>
+        </div>
+    </div>
+    <!--l_yesqzftop   stop -->
+    <div class="clear mt50"></div>
+    <!--l_yeqdzffs  begin -->
+    <div class="l_yeqdzffs fix">
+        <div class="l_yeqdzffscon">
+            <p class="yscmh">您已选择的支付方式：</p>
+            <div class="l_yexhfsl fix mt15"><img src="/resource/pc/member/images/alipay.jpg"><span class="ml15"></span><span class="ml15 shenlan"></span></div>
+            <div class="mt40 red">网页支付正在改版，敬请留意！<span class="shenlan"><a href="#">详情</a></div>
+            <div class="mt40">
+                <form id="formPay" name="formPay" method="post" action="/pc/balancepay/paybygroupnum">
+                    <input type="hidden" value="1" name="pay_type" />
+                    <input type="hidden" value="${money}" name="price" />
+                    <input type="hidden" value="0" name="recharge_type" />
+                    <a href="javascript:void(0);" id="a_paygo" class="l_yexyb" onclick="GoPay();">立即支付</a>
+                </form>
+            </div>
+        </div><!--l_yeqdzffscon  stop -->
+    </div>
+    <!--l_yeqdzffs  stop -->
+    <div class="l_wxtsljzf">
+        <h3>温馨提示：</h3>
+        <dl>
+            <dt>1.网银银行页面打不开，怎么办？</dt>
+            <dd>- 建议使用IE核心的浏览器，点击IE的菜单“工具”－“Internet选项”－“安全”，将安全中的各项设置恢复到默认级别。</dd>
+            <dt>2.我的银行卡未开通网上支付功能，怎么办？</dt>
+            <dd>- 登录该银行卡的网上银行主页，在线开通网上支付功能，有些银行开通需要到银行柜台，您最好致电该银行客服咨询。</dd>
+            <dt>3.我的订单金额超过该银行支付限额怎么办？</dt>
+            <dd>- 如您使用的是支持快捷支付的银行卡，建议您使用快捷支付，快捷支付信用卡的支付限额是信用卡额度本身。</dd>
+            <dd>- 如暂不支持您的银行卡开通快捷支付，您可以使用银联在线支付平台，银联在线的认证支付对支付限额限制较少，支持大额支付。</dd>
+        </dl>
+    </div><!--l_wxtsljzf  stop -->
+    <div class="fix mt30 fon16">完成支付后，您可以：<span class="ml15 shenlan"><a href="#">支付调查</a></span></div>
+</div>
+<!--w1200  中间内容结束 -->

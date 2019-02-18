@@ -1,0 +1,145 @@
+ <%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>取消订单</title>
+<link type="text/css" rel="stylesheet" href="/resource/pc/member/css/style01.css" />
+<link type="text/css" rel="stylesheet" href="/resource/pc/member/css/pager2.css" />
+<link type="text/css" rel="stylesheet" href="/resource/pc/member/css/jQuery.Validate.css" />
+<link href="/resource/pc/member/css/default.css" rel="stylesheet" />
+<script src="/resource/pc/member/js/OrderCenter/OrderList.js"></script>
+<script src="/resource/pc/member/js/browsehistory/browsehistory.js"></script>
+<script src="/resource/pc/member/js/jquery.validate.js"></script>
+<script src="/resource/pc/member/js/pager2.js"></script>
+<script src="/resource/pc/member/js/showdate.js"></script>
+<script src="/resource/artTemplate.js"></script>
+<script src="/resource/dialog-plus.js"></script>
+<script src="/resource/dialogShow.js"></script>
+<script src="/resource/jQueryRotate.2.2.js"></script>
+</head>
+
+<!--main  主要内容  开始 -->
+<div id="main" class="fix">
+	<!--main-left 左边内容  开始 -->
+	    <% include("/template/pc/memberCenter/Shared/_PartialLeftside.html",{}){}%> 
+	<!--main-left 左边内容  结束 -->
+	<!--rightside 右边内容  结束 -->
+	<div class="rightside">
+		<!--wdys 内容  开始 -->
+		<div class="wdys mt0">
+			<h3>取消订单记录</h3>
+			<table class="qxddjl-tab">
+				<tr class="tab-title" id="orderslist_table">
+					<td width="140px">订单编号</td>
+					<td width="210px">订单商品</td>
+					<td>提交时间</td>
+					<td>支付明细</td>
+					<td>退款状态</td>
+					<td>操作</td>
+				</tr>
+			<%if(isNotEmpty(orders)){%>
+			<%if(orders.~size==0){%>
+			<div class="l_wplsp" id="div_nolist">
+				<img src="/resource/pc/web/images/plno.png">
+				<p>当前暂无取消的订单~</p>
+			</div>
+			<%}else{%>
+				<%for(cencel in orders){%>
+				<tr>
+					<td class="heise">${cencel.groupcode}</td> 
+					<td class="ddsp-tdimg"><%for(product in cencel.children){%>
+					<a href="javascript:void(0);"
+						sku-val="" ${product.productid}" class="a_spuhref"> <img
+							src="${product.productimg}" width="100%" height="100%" alt=""
+							title="">
+					</a>
+                     <%}%></td>
+					<td class="huise">
+						<p>${cencel.orderDate,dateFormat="yyyy-MM-dd HH:mm:ss"}</p>
+					</td>
+					<td><span class="huise">订单金额：</span><span class="red">${cencel.actualPay}</span>
+						<p class="huise">
+						<%if(cencel.payType==0){%> 未支付
+						<%}else if(cencel.payType==1){%> 在线支付
+						<%}else if(cencel.payType==2){%>余额支付
+						<%}else if(cencel.payType==3){%> 优惠券支付 
+						<%}else if(cencel.payType==4){%> 混合支付
+						<%}else if(cencel.payType==5){%>货到付款
+						<%}else{%> 无支付信息 <%}%>
+						</p></td>
+					<td class="qingse">
+					<%if(cencel.status==4){%> 未付款取消申请
+						<%}else if(cencel.status==5){%> 未付款已取消
+						<%}else if(cencel.status==6){%> 已付款取消申请
+						<%}else if(cencel.status==7){%> 已付款已取消 
+						<%}else{%> 无状态信息 <%}%>
+					</td>
+					<td class="red">
+					<a href="/member/order/showOrderDetail?orderid=${cencel.Id}">查看</a>
+					<a href="javascript:void();" onclick="Order.deletecancel('${cencel.Id}')">删除</a>
+					</td>
+				</tr>
+				<%}%> 			
+            <%}}%>
+            <script type="text/html" id="orderslist">
+                    {{each list as order i}}
+                    <tr>
+					<td class="heise">{{order.groupcode}}</td>                     
+					<td class="ddsp-tdimg">
+                     {{each order.children as detail j}}
+                     <a href="javascript:void(0);"
+						sku-val="{{detail.productid}}" class="a_spuhref"> <img
+							src="{{detail.productimg}}" width="100%" height="100%" alt=""
+							title=""></a>
+                     {{/each}}
+                     </td>                 
+					<td class="huise">
+						<p>{{order.orderDateStr}}</p>
+					</td>
+					<td><span class="huise">订单金额：</span><span class="red">{{order.price | toFixed}}</span>
+						<p class="huise">
+                           {{if order.payType==0}}未支付
+                           {{else if order.payType==1}}在线支付
+                           {{else if order.payType==2}}余额支付
+                           {{else if order.payType==3}}优惠券支付 
+                           {{else if order.payType==4}}混合支付
+                           {{else if order.payType==5}}货到付款
+                           {{else}}无支付信息
+                           {{/if}}
+						</p>
+                    </td>
+					<td class="qingse">
+                        {{if order.status==4}}未付款取消申请
+                        {{else if order.status==5}}未付款已取消
+                        {{else if order.status==6}}已付款取消申请
+                        {{else if order.status==7}}已付款已取消 
+                        {{else}}无支付信息
+                        {{/if}}
+					</td>
+					<td class="red">
+<a href="/member/order/showOrderDetail?orderid={{order.id}}">查看</a>
+<a href="javascript:void();" onclick="Order.deletecancel({{order.id}})">删除</a>
+</td>
+				</tr>
+              {{/each}}
+            </script>
+            </table>
+			<div class="clear"></div>
+			<!--sppj_page  begin -->
+	        <input type="hidden" value="${totalcount}" id="pro_total">
+            <input type="hidden" value="${pageindex}" id="pro_index">
+			<div class="pager" id="pager"></div>
+			<!--sppj_page  stop -->
+		</div>
+		<!--wdys 内容  结束 -->
+		<div class="clear"></div>
+	</div>
+	<!--rightside 右边内容  结束 -->
+	<div class="clear"></div>
+</div>
+<<script type="text/javascript">
+$(document).ready(function(){
+var pcount = $("#pro_total").val();
+var pindex = $("#pro_index").val();
+$("#pager").html(pagination(pcount, pindex, 10, "Order.getcancelorder"));
+});
+</script>

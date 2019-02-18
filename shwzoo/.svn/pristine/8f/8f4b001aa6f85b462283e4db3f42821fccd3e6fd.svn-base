@@ -1,0 +1,764 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.SpikeactivityMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Spikeactivity">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="SpikeNum" property="spikenum" jdbcType="VARCHAR" />
+		<result column="SpikeName" property="spikename" jdbcType="VARCHAR" />
+		<result column="SpikeType" property="spiketype" jdbcType="INTEGER" />
+		<result column="StartTime" property="starttime" jdbcType="TIMESTAMP" />
+		<result column="EndTime" property="endtime" jdbcType="TIMESTAMP" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="OrderBy" property="orderby" jdbcType="INTEGER" />
+		<result column="IsDel" property="isdel" jdbcType="BIT" />
+		<result column="DelTime" property="deltime" jdbcType="TIMESTAMP" />
+		<result column="DelUserID" property="deluserid" jdbcType="INTEGER" />
+		<result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="CreateUserID" property="createuserid" jdbcType="INTEGER" />
+		<result column="ShopID" property="shopid" jdbcType="INTEGER" />
+		<result column="cid" property="cid" jdbcType="INTEGER" />
+		<result column="ImgUrl" property="imgurl" jdbcType="VARCHAR" />	
+		<result column="DetailDesc" property="detaildesc" jdbcType="LONGVARCHAR" />
+		<result column="ListDesc" property="listdesc" jdbcType="VARCHAR" />
+		<result column="usesite" property="usesite" jdbcType="VARCHAR" />	
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, SpikeNum, SpikeName, SpikeType, StartTime, EndTime,
+		Status, OrderBy,
+		IsDel, DelTime,
+		DelUserID, CreateTime,
+		CreateUserID,ShopID,ImgUrl,DetailDesc,ListDesc,usesite,cid
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.SpikeactivityExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from spikeactivity
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from spikeactivity
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		spikeactivity
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.SpikeactivityExample">
+		delete from spikeactivity
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.Spikeactivity">
+		insert into spikeactivity (ID,
+		SpikeNum, SpikeName,
+		SpikeType, StartTime, EndTime,
+		Status, OrderBy,
+		IsDel,
+		DelTime, DelUserID, CreateTime,
+		CreateUserID,ShopID,ImgUrl,DetailDesc,ListDesc,usesite,cid)
+		values
+		(#{id,jdbcType=INTEGER}, #{spikenum,jdbcType=VARCHAR},
+		#{spikename,jdbcType=VARCHAR},
+		#{spiketype,jdbcType=INTEGER},
+		#{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER}, #{orderby,jdbcType=INTEGER},
+		#{isdel,jdbcType=BIT},
+		#{deltime,jdbcType=TIMESTAMP},
+		#{deluserid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP},
+		#{createuserid,jdbcType=INTEGER},#{shopid,jdbcType=INTEGER},
+		#{imgurl,jdbcType=VARCHAR},#{detaildesc,jdbcType=LONGVARCHAR},
+		#{listdesc,jdbcType=VARCHAR},#{usesite,jdbcType=VARCHAR},#{cid,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Spikeactivity">
+		insert into spikeactivity
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="spikenum != null">
+				SpikeNum,
+			</if>
+			<if test="spikename != null">
+				SpikeName,
+			</if>
+			<if test="spiketype != null">
+				SpikeType,
+			</if>
+			<if test="starttime != null">
+				StartTime,
+			</if>
+			<if test="endtime != null">
+				EndTime,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+			<if test="orderby != null">
+				OrderBy,
+			</if>
+			<if test="isdel != null">
+				IsDel,
+			</if>
+			<if test="deltime != null">
+				DelTime,
+			</if>
+			<if test="deluserid != null">
+				DelUserID,
+			</if>
+			<if test="createtime != null">
+				CreateTime,
+			</if>
+			<if test="createuserid != null">
+				CreateUserID,
+			</if>
+			<if test="usesite != null">
+				usesite,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="spikenum != null">
+				#{spikenum,jdbcType=VARCHAR},
+			</if>
+			<if test="spikename != null">
+				#{spikename,jdbcType=VARCHAR},
+			</if>
+			<if test="spiketype != null">
+				#{spiketype,jdbcType=INTEGER},
+			</if>
+			<if test="starttime != null">
+				#{starttime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endtime != null">
+				#{endtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="orderby != null">
+				#{orderby,jdbcType=INTEGER},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=BIT},
+			</if>
+			<if test="deltime != null">
+				#{deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deluserid != null">
+				#{deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createuserid != null">
+				#{createuserid,jdbcType=INTEGER},
+			</if>
+			<if test="usesite != null">
+				#{usesite,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.SpikeactivityExample"
+		resultType="java.lang.Integer">
+		select count(*) from spikeactivity
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update spikeactivity
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.spikenum != null">
+				SpikeNum = #{record.spikenum,jdbcType=VARCHAR},
+			</if>
+			<if test="record.spikename != null">
+				SpikeName = #{record.spikename,jdbcType=VARCHAR},
+			</if>
+			<if test="record.spiketype != null">
+				SpikeType = #{record.spiketype,jdbcType=INTEGER},
+			</if>
+			<if test="record.starttime != null">
+				StartTime = #{record.starttime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.endtime != null">
+				EndTime = #{record.endtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.orderby != null">
+				OrderBy = #{record.orderby,jdbcType=INTEGER},
+			</if>
+			<if test="record.isdel != null">
+				IsDel = #{record.isdel,jdbcType=BIT},
+			</if>
+			<if test="record.deltime != null">
+				DelTime = #{record.deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.deluserid != null">
+				DelUserID = #{record.deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="record.createtime != null">
+				CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.createuserid != null">
+				CreateUserID = #{record.createuserid,jdbcType=INTEGER},
+			</if>
+			<if test="record.createuserid != null">
+				ShopID = #{record.shopid,jdbcType=INTEGER},
+			</if>
+			<if test="record.usesite != null">
+				usesite = #{record.usesite,jdbcType=BIT},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update spikeactivity
+		set ID = #{record.id,jdbcType=INTEGER},
+		SpikeNum =
+		#{record.spikenum,jdbcType=VARCHAR},
+		SpikeName =
+		#{record.spikename,jdbcType=VARCHAR},
+		SpikeType =
+		#{record.spiketype,jdbcType=INTEGER},
+		StartTime =
+		#{record.starttime,jdbcType=TIMESTAMP},
+		EndTime =
+		#{record.endtime,jdbcType=TIMESTAMP},
+		Status =
+		#{record.status,jdbcType=INTEGER},
+		OrderBy =
+		#{record.orderby,jdbcType=INTEGER},
+		IsDel =
+		#{record.isdel,jdbcType=BIT},
+		DelTime =
+		#{record.deltime,jdbcType=TIMESTAMP},
+		DelUserID =
+		#{record.deluserid,jdbcType=INTEGER},
+		CreateTime =
+		#{record.createtime,jdbcType=TIMESTAMP},
+		CreateUserID =
+		#{record.createuserid,jdbcType=INTEGER},
+		ShopID =
+		#{record.shopid,jdbcType=INTEGER},
+		usesite =
+		 #{record.usesite,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Spikeactivity">
+		update spikeactivity
+		<set>
+			<if test="spikenum != null">
+				SpikeNum = #{spikenum,jdbcType=VARCHAR},
+			</if>
+			<if test="spikename != null">
+				SpikeName = #{spikename,jdbcType=VARCHAR},
+			</if>
+			<if test="spiketype != null">
+				SpikeType = #{spiketype,jdbcType=INTEGER},
+			</if>
+			<if test="starttime != null">
+				StartTime = #{starttime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="endtime != null">
+				EndTime = #{endtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="orderby != null">
+				OrderBy = #{orderby,jdbcType=INTEGER},
+			</if>
+			<if test="isdel != null">
+				IsDel = #{isdel,jdbcType=BIT},
+			</if>
+			<if test="deltime != null">
+				DelTime = #{deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deluserid != null">
+				DelUserID = #{deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="createtime != null">
+				CreateTime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createuserid != null">
+				CreateUserID = #{createuserid,jdbcType=INTEGER},
+			</if>
+			<if test="shopid != null">
+				ShopID = #{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="usesite != null">
+				usesite = #{usesite,jdbcType=VARCHAR},
+			</if>
+			<if test="cid != null">
+				cid = #{cid,jdbcType=INTEGER},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Spikeactivity">
+		update
+		spikeactivity
+		set SpikeNum = #{spikenum,jdbcType=VARCHAR},
+		SpikeName =
+		#{spikename,jdbcType=VARCHAR},
+		SpikeType =
+		#{spiketype,jdbcType=INTEGER},
+		StartTime =
+		#{starttime,jdbcType=TIMESTAMP},
+		EndTime =
+		#{endtime,jdbcType=TIMESTAMP},
+		Status = #{status,jdbcType=INTEGER},
+		OrderBy = #{orderby,jdbcType=INTEGER},
+		IsDel = #{isdel,jdbcType=BIT},
+		DelTime = #{deltime,jdbcType=TIMESTAMP},
+		DelUserID =
+		#{deluserid,jdbcType=INTEGER},
+		CreateTime =
+		#{createtime,jdbcType=TIMESTAMP},
+		CreateUserID =
+		#{createuserid,jdbcType=INTEGER},
+		ShopID =
+		#{shopid,jdbcType=INTEGER},
+		cid =
+		#{cid,jdbcType=INTEGER},
+		ImgUrl =
+		#{imgurl,jdbcType=VARCHAR},
+		DetailDesc=#{detaildesc,jdbcType=LONGVARCHAR},
+		ListDesc=#{listdesc,jdbcType=VARCHAR},
+		usesite =
+		#{usesite,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<sql id="criteria_query">
+		<if test="criteria.num != null and criteria.num != '' ">
+			and SpikeNum like '%${criteria.num}%'
+		</if>
+		<if test="criteria.name != null and criteria.name != '' ">
+			and SpikeName like '%${criteria.name}%'
+		</if>
+		<choose>
+		<when test="criteria.actType != null and criteria.actType >=2">
+		and SpikeType=#{criteria.actType}
+		</when>
+		<when test="criteria.actType == null">
+        and SpikeType in( 0,1,4)
+		</when>
+		<otherwise>
+		and SpikeType=#{criteria.actType}
+		</otherwise>
+		</choose>
+		<if test="criteria.shopid != null and criteria.shopid >0 ">
+			and ShopID=#{criteria.shopid}
+		</if>
+		<if test="criteria.startFrom != null ">
+			and DATEDIFF(StartTime,#{criteria.startFrom} )<![CDATA[ >= ]]>0
+		</if>
+		<if test="criteria.startTo != null ">
+			and DATEDIFF(StartTime,#{criteria.startTo} )<![CDATA[ <= ]]>0
+		</if>
+		<if test="criteria.endFrom != null ">
+			and DATEDIFF(EndTime,#{criteria.endFrom} )<![CDATA[ >= ]]>0
+		</if>
+		<if test="criteria.endTo != null ">
+			and DATEDIFF(EndTime,#{criteria.endTo} )<![CDATA[ <= ]]>0
+		</if>
+	</sql>
+	<!--获取活动列表 -->
+	<select id="getListPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		FROM spikeactivity
+		where IsDel=0
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+    <select id="getExcitListPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		FROM spikeactivity
+		where IsDel=0 
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	<!--编辑秒杀活动状态 启用/禁用 -->
+	<update id="changeStatus" parameterType="int">
+		update spikeactivity
+		set
+		Status=#{0}
+		where ID=#{1}
+	</update>
+	<!-- 删除活动 -->
+	<update id="deleteSpike" parameterType="com.yinlian.wssc.web.po.Spikeactivity">
+		update spikeactivity
+		set
+		IsDel = #{isdel,jdbcType=BIT},
+		DelTime =#{deltime,jdbcType=TIMESTAMP},
+		DelUserID =#{deluserid,jdbcType=INTEGER}
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</update>
+	<!-- 根据活动ID获取参与活动店铺列表 -->
+	<select id="GetApplyBySpikeIDPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.V_SpikeActivity">
+		SELECT a.ID AS id,
+		a.SpikeNum AS spikenum,
+		a.SpikeName AS spikename,
+		a.SpikeType AS spiketype,
+		a.StartTime AS starttime,
+		a.EndTime AS
+		endtime,
+		a.Status AS status,
+		a.OrderBy AS orderby,
+		a.CreateTime AS
+		createtime,
+		a.CreateUserID AS createuserid,
+		c.UserID AS userid,
+		c.Name AS
+		shopname,
+		d.ID AS spikeshopid,
+		d.ShopID AS shopid,
+		d.Status AS
+		spikeshopstatus,
+		d.CreateTime AS sscreatetime,
+		d.CreateUserID AS
+		sscreateuserid,
+		CASE WHEN a.StartTime > SYSDATE() THEN 1 ELSE 0 END AS
+		isout
+		FROM SpikeActivity AS a JOIN
+		SpikeShop AS d ON a.ID =
+		d.SpikeID
+		JOIN
+		Shop AS c ON d.ShopID = c.ID
+		WHERE (a.IsDel =
+		0) AND (a.Status = 0)
+		<if test="criteria.num != null and criteria.num != '' ">
+			and a.SpikeNum like '%${criteria.num}%'
+		</if>
+		<if test="criteria.name != null and criteria.name != '' ">
+			and a.SpikeName like '%${criteria.name}%'
+		</if>
+		<if test="criteria.actType != null and criteria.actType >=0 ">
+			and a.SpikeType=#{criteria.actType}
+		</if>
+		<if test="criteria.spikeID != null and criteria.spikeID != '' ">
+			and a.ID =#{criteria.spikeID}
+		</if>
+		<if test="criteria.shopid != null and criteria.shopid >0 ">
+			and d.ShopID=#{criteria.shopid}
+		</if>
+		<if test="criteria.startFrom != null ">
+			and DATEDIFF(a.StartTime,#{criteria.startFrom} )<![CDATA[ >= ]]>0
+		</if>
+		<if test="criteria.startTo != null ">
+			and DATEDIFF(a.StartTime,#{criteria.startTo} )<![CDATA[ <= ]]>0
+		</if>
+		<if test="criteria.endFrom != null ">
+			and DATEDIFF(a.EndTime,#{criteria.endFrom} )<![CDATA[ >= ]]>0
+		</if>
+		<if test="criteria.endTo != null ">
+			and DATEDIFF(a.EndTime,#{criteria.endTo} )<![CDATA[ <= ]]>0
+		</if>
+		<if test="criteria.status != null and criteria.status >=0 ">
+			and d.Status=#{criteria.status}
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+	<!-- 根据活动ID获取参与活动 店铺列表 -->
+	<select id="GetShopApplyByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.V_SpikeActivity">
+		SELECT * FROM v_spikeactivity WHERE isout=1 OR spikeshopid >0
+		<if test="criteria.num != null and criteria.num != '' ">
+			and SpikeNum like '%${criteria.num}%'
+		</if>
+		<if test="criteria.name != null and criteria.name != '' ">
+			and SpikeName like '%${criteria.name}%'
+		</if>
+		<if test="criteria.actType != null and criteria.actType >=0 ">
+			and SpikeType=#{criteria.actType}
+		</if>
+		<if test="criteria.shopid != null and criteria.shopid >0 ">
+			and ShopID=#{criteria.shopid}
+		</if>
+		<if test="criteria.startFrom != null ">
+			and DATEDIFF(StartTime,#{criteria.startFrom} )<![CDATA[ >= ]]>0
+		</if>
+		<if test="criteria.startTo != null ">
+			and DATEDIFF(StartTime,#{criteria.startTo} )<![CDATA[ <= ]]>0
+		</if>
+		<if test="criteria.endFrom != null ">
+			and DATEDIFF(EndTime,#{criteria.endFrom} )<![CDATA[ >= ]]>0
+		</if>
+		<if test="criteria.endTo != null ">
+			and DATEDIFF(EndTime,#{criteria.endTo} )<![CDATA[ <= ]]>0
+		</if>
+
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	<!-- 根据活动ID获取参与活动商品列表 -->
+	<select id="getSpuBySpikeIDPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.SpSpuDto">
+		SELECT b.ID,
+		b.SpikeID,
+		b.ShopID,
+		b.Price AS DiscountPrice,
+		c.ID AS SpuID,
+		c.ProNum AS num,
+		c.Name AS NAME,
+		CASE WHEN c.Price = NULL THEN 0
+		ELSE  c.Price  END AS Price,
+		(SELECT ImgUrl FROM Product_Imgs WHERE SPU_ID=c.ID
+		LIMIT 1) AS ImgUrl,
+		b.SpuCount,
+		b.OrderBy,
+		b.IsPhone,
+		a.StartTime,
+		a.EndTime,
+		CASE WHEN a.EndTime > SYSDATE() THEN 1 ELSE 0 END AS
+		isout,
+		SYSDATE() AS ServiceDate
+		FROM SpikeActivity a JOIN
+		Spike_Spu AS b
+		ON a.ID=b.SpikeID
+		JOIN SPU AS c ON b.SpuID = c.ID
+		<where>
+		<if test="criteria.spikeID != null and criteria.spikeID >=0 ">
+			and b.SpikeID=#{criteria.spikeID}
+		</if>
+		<if test="criteria.shopid != null and criteria.shopid >0 ">
+			and b.ShopID=#{criteria.shopid}
+		</if>
+		</where>
+		
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+	<select id="getByDate" parameterType="com.yinlian.wssc.web.util.Criteria"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		FROM spikeactivity
+		where IsDel=0 and Status = 0
+       <if test="spikeID != null and spikeID >0 ">
+			and ID !=#{spikeID}
+		</if>
+		<if test="actType != null and actType >=0 ">
+			and SpikeType=#{actType}
+		</if>
+		<if test="startFrom != null ">
+			and DATE_FORMAT(starttime,
+			'%Y-%m-%d %H:%i')=DATE_FORMAT(#{startFrom},
+			'%Y-%m-%d %H:%i')
+		</if>
+		
+	</select>
+	<select id="getByEndDate" parameterType="com.yinlian.wssc.web.util.Criteria"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		FROM spikeactivity
+		where IsDel=0 and Status = 0
+       <if test="spikeID != null and spikeID >0 ">
+			and ID !=#{spikeID}
+		</if>
+		<if test="actType != null and actType >=0 ">
+			and SpikeType=#{actType}
+		</if>
+		<if test="startFrom != null ">
+			and DATE_FORMAT(EndTime,
+			'%Y-%m-%d %H:%i')>DATE_FORMAT(#{startFrom},
+			'%Y-%m-%d %H:%i')
+		</if>
+		LIMIT 1
+	</select>
+	<!-- 模糊检索商品 -->
+	<select id="getSpuStartwithName" resultType="com.yinlian.wssc.web.po.Spu">
+		SELECT id,name FROM spu
+		WHERE IsDel=0 AND STATUS = 3 AND
+		shopid=#{0} AND id NOT IN
+		(SELECT spuid FROM
+		Spike_Spu WHERE
+		spikeid=#{1} AND shopid=#{0})
+		<if test="name != null and name != ''">
+			AND name like '%${name}%'
+		</if>
+		limit 0,10
+	</select>
+	
+	<!-- 根据活动ID和商品ID获取活动 -->
+	<select id="getSpikeBySpikeIDAndSpuID" parameterType="int"
+		resultType="com.yinlian.wssc.web.dto.SpSpuDto">
+		SELECT b.ID,
+		b.SpikeID,
+		b.ShopID,
+		b.Price AS DiscountPrice,
+		c.ID AS SpuID,
+		c.ProNum AS num,
+		c.Name AS NAME,
+		CASE WHEN c.Price = NULL THEN 0
+		ELSE  c.Price  END AS Price,
+		c.ImgUrl_App AS ImgUrl,
+		b.SpuCount,
+		b.OrderBy,
+		b.IsPhone,
+		a.StartTime,
+		a.EndTime,
+		CASE WHEN a.StartTime > SYSDATE() THEN 1 ELSE 0 END AS
+		isout,
+		SYSDATE() AS ServiceDate
+		FROM SpikeActivity a 
+		JOIN Spike_Spu AS b ON a.ID=b.SpikeID
+		JOIN SPU AS c ON b.SpuID = c.ID
+		where a.IsDel=0 and a.Status = 0 and
+		b.SpikeID=#{0} and b.SpuID=#{1}
+		and TIME_TO_SEC(TIMEDIFF(a.StartTime,SYSDATE()))<![CDATA[ <= ]]>0
+        and TIME_TO_SEC(TIMEDIFF(a.EndTime,SYSDATE()))<![CDATA[ >= ]]>0
+        and b.SpuCount>0
+        limit 1
+	</select>
+	<select id="getActBySpuid" parameterType="map" resultType="com.yinlian.wssc.web.dto.sgSpuDto">
+	  SELECT a.id,a.endtime,b.Price,b.spucount FROM spikeactivity a JOIN spike_spu  b
+      ON a.ID=b.SpikeID
+     WHERE a.IsDel=0 and a.Status = 0 
+     <if test="acttype != null and acttype !=' ' ">
+			and a.SpikeType = #{acttype}
+	 </if>     
+	 and TIME_TO_SEC(TIMEDIFF(a.StartTime,SYSDATE()))<![CDATA[ <= ]]>0
+     and TIME_TO_SEC(TIMEDIFF(a.EndTime,SYSDATE()))<![CDATA[ >= ]]>0
+	 and b.spuid=#{0} 
+	 limit 1
+	</select>
+	<select id="getActListBySpu" resultType="com.yinlian.wssc.web.po.Spikeactivity">
+	  SELECT a.id,a.starttime,a.endtime FROM spikeactivity a 
+     WHERE a.IsDel=0 and a.Status = 0 
+     <if test="acttype != null and acttype !=' ' ">
+			and a.SpikeType = #{acttype}
+	 </if>	 
+	 and a.id in(select b.spikeid from spike_spu b where spuid=#{spuid})
+	</select>
+	
+	<select id="getSpuPriceStartwithName" resultType="java.lang.Integer">
+		SELECT price FROM spu
+		WHERE IsDel=0 AND STATUS = 3 AND
+		shopid=#{0} AND id NOT IN
+		(SELECT spuid FROM
+		Spike_Spu WHERE
+		spikeid=#{1} AND shopid=#{0})
+		<if test="param3 != null and param3 != ''">
+		AND name=#{2}
+		</if>
+	</select>
+	
+</mapper>

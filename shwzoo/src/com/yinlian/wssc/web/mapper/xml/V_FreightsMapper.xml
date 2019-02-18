@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.V_FreightsMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.V_Freights">
+		<id column="FreightID" property="freightID" jdbcType="INTEGER" />
+		<result column="AttrID" property="attrID" jdbcType="INTEGER" />
+		<result column="Areas" property="areas" jdbcType="VARCHAR" />
+		<result column="FirstCount" property="firstCount" jdbcType="INTEGER" />
+		<result column="ElseCount" property="elseCount" jdbcType="INTEGER" />
+		<result column="ElsePrice" property="elsePrice" jdbcType="REAL" />
+		<result column="FirstPrice" property="firstPrice" jdbcType="REAL" />
+		<result column="attrStatus" property="attrStatus" jdbcType="INTEGER" />
+		<result column="ShopID" property="shopID" jdbcType="INTEGER" />
+		<result column="FreightStatus" property="freightStatus"
+			jdbcType="INTEGER" />
+		<result column="pricingmode" property="pricingmode"
+			jdbcType="INTEGER" />
+		<result column="Num" property="num"
+			jdbcType="INTEGER" />
+				<result column="IsExemptionPostage" property="isexemptionpostage"
+			jdbcType="INTEGER" />
+				<result column="iscondition" property="iscondition"
+			jdbcType="INTEGER" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		FreightID ,AttrID ,Areas ,FirstCount ,FirstPrice ,ElseCount
+		,ElsePrice ,AttrStatus ,ShopID ,FreightStatus,pricingmode,num,
+		IsExemptionPostage,iscondition
+	</sql>
+
+	<select id="getByShopID" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from V_Freights
+		where ShopID=#{shopid} and Areas like '%${provincename}%' 
+		order by FreightStatus desc 
+		limit 1
+	</select>
+	<select id="getDefaultByShopID" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from V_Freights
+		where ShopID=#{shopid} and FreightStatus=1  limit 1
+	</select>
+</mapper>

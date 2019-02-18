@@ -1,0 +1,148 @@
+<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>订单详情</title>
+</head>
+<body>
+<div class="top_title fix">
+         <a  href="${href!'/wap/order/getorder?ch=3'}">
+		<div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div>
+		</a>
+		订单详情
+</div>
+<%if(has(detail)){%>
+<div id="orderdetails">
+<div class="pordct_links pordct_linksComt">
+    <%if (detail.status==3){%>
+	<img src="${path}/wap/images/index_17.png" class="wcz">
+   <%}%>
+	<a class="backnone" href="javascript:void(0)">订单号:${detail.code}</a>
+    <a href="javascript:void(0)">
+    <span class="rd">
+      <%if (detail.status==0){%>    
+                                   待付款                         
+      <%}else if (detail.status==1){%> 
+                                   待发货                           
+      <%}else if (detail.status==2){%>
+                                  待收货                           
+       <%}else if (detail.status==3){%>
+                                已确认收货                
+       <%}else if (detail.status==4){%> 
+                              未付款取消申请        
+       <%}else if (detail.status==5){%>
+                                未付款已取消             
+       <%}else if (detail.status==6){%>
+                              已付款已取申请        
+       <%}else if (detail.status==7){ %>
+                                已付款已取消             
+       <%}else if (detail.status==8){ %>
+                                 已完成                           
+       <%}else if (detail.status==9){ %>
+                                申请退款退货中        
+       <%}else if (detail.status==10){%>
+                               已退款                          
+       <%}%>
+                                     
+    </span></a>
+</div>	
+   <hr class="back"/>
+<div class="Shipping-dz">
+<h2><img src="${path}/wap/images/index_18.png">${detail.consignee}<img src="${path}/wap/images/index_19.png">${detail.telPhone}</h2>
+    <p><i>默认</i>${detail.provincename}${detail.cityname}${detail.areaname}${detail.address}</p>
+</div>
+<hr class="back"/>
+<div class="Shipping-xqH">
+${detail.shopname} <%if(isNotEmpty(act)){if(act.acttype==0){%>【满减】优惠${act.subvalue}<%}}%>
+
+</div>
+<ul class="Shipping-xqul">
+<%for(product in detail.children){%>
+	<li>
+    	<a href="/wap/products/ProDetail.html?spuid=${product.productid}&href=${href}">
+        	<img src="${product.productimg}">
+            <div class="R"><b>${product.productname}</b><span>x ${product.productcount}</span></div>
+            <i>￥ ${product.productprice}</i>
+        </a>
+    </li>
+<%}%>
+</ul>
+<a class="Shipping-callbtn" href="#"><img src="${path}/wap/images/index_22.png">联系客服</a>
+<hr class="back"/>
+<ul class="Shipping-xinxi">
+	<li class="fix">
+    	<div class="H"><span>支付方式</span>
+          <font>
+            <%if (detail.payType== 0){%>        
+                                                           在线支付                                
+            <%}else if (detail.payType== 1){ %>    
+                                                          微信支付                                    
+            <%}else if (detail.payType== 2){ %>    
+                                                          余额支付                                   
+            <%}else if (detail.payType== 3){ %>     
+                                                            优惠券支付支付                    
+            <%}else if (detail.payType== 4){ %>     
+                                                           混合支付支付                          
+           <%}%>
+          </font>
+          </div>
+    </li>
+    <li class="fix">
+    	<div class="H fix"><span>配送信息</span><font><%if(detail.transportMode==0){ %>    快递配送          <%}else{ %> 自取     <%}%> </font> </div>
+        <div class="fix"><span>运费</span><font>￥${detail.freight}</font></div>
+         <div class="fix"><span>发货日期</span><font>${detail.deliverDate,dateFormat="yyyy-MM-dd"}</font></div>
+    </li>
+    <%if(detail.invoiceTitle!=null ||detail.invoiceContent!=null){%>
+    <li class="fix">
+    	<div class="H fix"><span>发票信息</span></div>
+        <div class="fix"><span>发票抬头：${detail.invoiceTitle}</span></div>
+        <div class="fix"><span>发票内容：${detail.invoiceContent}</span></div>
+    </li>
+    <%}%>
+</ul>
+<ul class="Shipping-xinxi">
+<%if(has(detail.remark)){%> 
+    <li>
+    	<div class="H"><span>买家留言</span></div>
+        <div>${detail.remark} </div>
+    </li>
+    <%}%>
+</ul>
+<!--评论-->
+<hr class="back"/>
+<ul class="Shipping-xinxi fix">
+	<li class="fix">
+    	<div class="H"><font>共${detail.children.~size}件商品</font></div>
+    </li>
+     <li class="red fix">
+        
+        <div class="fix"><span>优惠券抵扣</span><font>￥<%if(has(detail.CouponPay)){%> ${detail.CouponPay}<%}else{%> 0.00<%}%></font></div>
+        <div class="fix"><span>积分抵扣</span><font>￥  ${detail.pointsPay!0,numberFormat="0.00"}</font></div>   
+        <div class="fix"><span>商品总价</span><font>￥  ${detail.actualPay,numberFormat="0.00"}</font></div>     
+    </li>
+</ul>
+<hr class="back"/>
+<!--店铺-->
+<!-- <div class="pordct_dp">
+	<div>
+    	<p>  <img src="${detail.shopimgurl}"> ${detail.shopname}  </p>
+        <a href="#">进店逛逛</a>
+    </div>
+    <ul>
+    	<li><b>132</b>全部商品</li>
+        <li><b>3122</b>收藏店铺</li>
+        <li><b>88.09%</b>好评率</li>
+    </ul>
+</div> -->
+</div>
+<%}else{%>
+<div>没有查询到该订单</div>
+<%}%>
+</body>
+
+
+
+
+
+

@@ -1,0 +1,83 @@
+<%var path="/resource";%>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<link href="${path}/wap/css/indexNew.css" rel="stylesheet" />
+<script src="${path}/artTemplate.js"></script>
+<script src="${path}/wap/js/products/proInfo.js"></script>
+<style>
+#spuInfo img{width:100%;height:auto}
+</style>
+<title>商品介绍</title>
+</head>
+<body>
+	<!--container  begin-->
+	<div class="container fix">
+		<!--l_alltop  begin -->
+		<% try{include("/template/wap/products/pro_header.html",{spuid:spuid,skuid:skuid,shopid:shopid,dis:1,phref:href}){}}catch(error){}%> 
+		<!--l_alltop  stop -->
+		<!--r_bjbs  begin -->
+		<div class="r_bjbs fix">
+			<!--r_bzshnr  begin-->
+			<div class="r_bzshnr fix" id="prodtap">
+				<ul>
+					<li class="red" tagdata="0"><a href="javascript:void(0)">商品介绍</a></li>
+					<li tagdata="1"><a href="javascript:void(0)">规格参数</a></li>
+					<li class="borno" tagdata="2"><a href="javascript:void(0)">售后服务</a></li>
+				</ul>
+			</div>
+			<!--r_bzshnr  stop-->
+			<!--r_bzqdcon  begin -->
+			<div class="r_spjsimg" id="spuInfo">${spudetail}</div>
+			<div class="r_ggcsnr fix" id="spuspecs" style="display: none">
+				<table>
+				<%if(isNotEmpty(specesinfo)){
+				    for(specs in specesinfo)
+				      {%>			           
+				            <tr>
+	                            <td colspan="2" class="bolder">${specs.name}</td>
+	                        </tr>
+	                        <%for(spe in specs.childs){%>
+				            <tr>
+	                            <td>${spe.name}</td>
+	                            <td>${spe.Value}</td>
+	                        </tr>  
+				      <%}}}%>
+			   </table>
+			
+				<table id="dataspecs">
+					<script type="text/html" id="skuspecs">
+                        {{each list as spe i}} 
+                        <tr>
+                            <td>{{spe.name}}</td>
+                            <td>{{spe.Value}}</td>
+                        </tr>                        
+                        {{/each}}
+                    </script>
+				</table>
+			</div>
+
+			<div class="r_bzqdcon fix" id="spupacking" style="display: none">
+				${spuafter}
+			</div>
+			<!--r_bzqdcon  stop -->
+		</div>
+		<!--r_bjbs  stop -->
+		<!--l_xmjr  begin -->
+		
+		<!--l_xmjr  stop -->
+	</div>
+<% try{
+include("/template/wap/products/pro_foot.html",{isconcern:hasconcern,shopid:shopid}){}}catch(error){}
+%>
+<input id="h_spuid" type="hidden" value="${spuid}">
+<input id="h_skuid" type="hidden" value="${skuid}">
+<script>
+	window.onload=function(){
+		fixed('.footshopcart');
+	}	
+</script>
+	<!--container  stop -->
+</body>
+

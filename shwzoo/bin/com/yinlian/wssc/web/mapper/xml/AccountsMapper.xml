@@ -1,0 +1,699 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.AccountsMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Accounts">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="LoginName" property="loginname" jdbcType="VARCHAR" />
+		<result column="Password" property="password" jdbcType="VARCHAR" />
+		<result column="Phone" property="phone" jdbcType="VARCHAR" />
+		<result column="Email" property="email" jdbcType="VARCHAR" />
+		<result column="UserType" property="usertype" jdbcType="INTEGER" />
+		<result column="UserID" property="userid" jdbcType="INTEGER" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="IsDel" property="isdel" jdbcType="BIT" />
+		<result column="DelTime" property="deltime" jdbcType="TIMESTAMP" />
+		<result column="DelUserID" property="deluserid" jdbcType="INTEGER" />
+		<result column="RoleID" property="roleid" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, LoginName, Password, Phone, Email, UserType, UserID,
+		Status,
+		CreateTime, IsDel,
+		DelTime, DelUserID, RoleID
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.AccountsExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from accounts
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from accounts
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		accounts
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.AccountsExample">
+		delete from accounts
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.Accounts">
+		insert into accounts (ID,
+		LoginName, Password,
+		Phone, Email, UserType,
+		UserID, Status, CreateTime,
+		IsDel, DelTime, DelUserID,
+		RoleID,ChannelType)
+		values
+		(#{id,jdbcType=INTEGER}, #{loginname,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},
+		#{phone,jdbcType=VARCHAR},
+		#{email,jdbcType=VARCHAR}, #{usertype,jdbcType=INTEGER},
+		#{userid,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+		#{createtime,jdbcType=TIMESTAMP},
+		#{isdel,jdbcType=BIT},
+		#{deltime,jdbcType=TIMESTAMP}, #{deluserid,jdbcType=INTEGER},
+		#{roleid,jdbcType=INTEGER},#{channelType,jdbcType=INTEGER})
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Accounts">
+		insert into accounts
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="loginname != null">
+				LoginName,
+			</if>
+			<if test="password != null">
+				Password,
+			</if>
+			<if test="phone != null">
+				Phone,
+			</if>
+			<if test="email != null">
+				Email,
+			</if>
+			<if test="usertype != null">
+				UserType,
+			</if>
+			<if test="userid != null">
+				UserID,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+			<if test="createtime != null">
+				CreateTime,
+			</if>
+			<if test="isdel != null">
+				IsDel,
+			</if>
+			<if test="deltime != null">
+				DelTime,
+			</if>
+			<if test="deluserid != null">
+				DelUserID,
+			</if>
+			<if test="roleid != null">
+				RoleID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="loginname != null">
+				#{loginname,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="usertype != null">
+				#{usertype,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=BIT},
+			</if>
+			<if test="deltime != null">
+				#{deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deluserid != null">
+				#{deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="roleid != null">
+				#{roleid,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.AccountsExample"
+		resultType="java.lang.Integer">
+		select count(*) from accounts
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update accounts
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.loginname != null">
+				LoginName = #{record.loginname,jdbcType=VARCHAR},
+			</if>
+			<if test="record.password != null">
+				Password = #{record.password,jdbcType=VARCHAR},
+			</if>
+			<if test="record.phone != null">
+				Phone = #{record.phone,jdbcType=VARCHAR},
+			</if>
+			<if test="record.email != null">
+				Email = #{record.email,jdbcType=VARCHAR},
+			</if>
+			<if test="record.usertype != null">
+				UserType = #{record.usertype,jdbcType=INTEGER},
+			</if>
+			<if test="record.userid != null">
+				UserID = #{record.userid,jdbcType=INTEGER},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.createtime != null">
+				CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.isdel != null">
+				IsDel = #{record.isdel,jdbcType=BIT},
+			</if>
+			<if test="record.deltime != null">
+				DelTime = #{record.deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.deluserid != null">
+				DelUserID = #{record.deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="record.roleid != null">
+				RoleID = #{record.roleid,jdbcType=INTEGER},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update accounts
+		set ID = #{record.id,jdbcType=INTEGER},
+		LoginName =
+		#{record.loginname,jdbcType=VARCHAR},
+		Password =
+		#{record.password,jdbcType=VARCHAR},
+		Phone =
+		#{record.phone,jdbcType=VARCHAR},
+		Email =
+		#{record.email,jdbcType=VARCHAR},
+		UserType =
+		#{record.usertype,jdbcType=INTEGER},
+		UserID =
+		#{record.userid,jdbcType=INTEGER},
+		Status =
+		#{record.status,jdbcType=INTEGER},
+		CreateTime =
+		#{record.createtime,jdbcType=TIMESTAMP},
+		IsDel =
+		#{record.isdel,jdbcType=BIT},
+		DelTime =
+		#{record.deltime,jdbcType=TIMESTAMP},
+		DelUserID =
+		#{record.deluserid,jdbcType=INTEGER},
+		RoleID =
+		#{record.roleid,jdbcType=INTEGER}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Accounts">
+		update accounts
+		<set>
+			<if test="loginname != null">
+				LoginName = #{loginname,jdbcType=VARCHAR},
+			</if>
+			<if test="password != null">
+				Password = #{password,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				Phone = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				Email = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="usertype != null">
+				UserType = #{usertype,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				UserID = #{userid,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="createtime != null">
+				CreateTime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isdel != null">
+				IsDel = #{isdel,jdbcType=BIT},
+			</if>
+			<if test="deltime != null">
+				DelTime = #{deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deluserid != null">
+				DelUserID = #{deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="roleid != null">
+				RoleID = #{roleid,jdbcType=INTEGER},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Accounts">
+		update accounts
+		set LoginName = #{loginname,jdbcType=VARCHAR},
+		Password =
+		#{password,jdbcType=VARCHAR},
+		Phone = #{phone,jdbcType=VARCHAR},
+		Email =
+		#{email,jdbcType=VARCHAR},
+		UserType = #{usertype,jdbcType=INTEGER},
+		UserID = #{userid,jdbcType=INTEGER},
+		Status =
+		#{status,jdbcType=INTEGER},
+		CreateTime =
+		#{createtime,jdbcType=TIMESTAMP},
+		IsDel = #{isdel,jdbcType=BIT},
+		DelTime = #{deltime,jdbcType=TIMESTAMP},
+		DelUserID =
+		#{deluserid,jdbcType=INTEGER},
+		RoleID = #{roleid,jdbcType=INTEGER}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<update id="updPwd">
+		update accounts set Password=#{1} where UserID=#{0}
+	</update>
+
+	<!-- 根据用户类型和用户ID获取账号信息 -->
+	<select id="selectByUser" parameterType="com.yinlian.wssc.web.util.CriteriaAccounts"
+		resultMap="BaseResultMap">
+		SELECT ID, LoginName, Password,
+		Phone, Email, UserType,
+		UserID, Status,
+		CreateTime,
+		IsDel, DelTime, DelUserID,
+		RoleID FROM accounts
+		<if test="usertype !=null and usertype != ''">
+			and UserType =#{usertype}
+		</if>
+		<if test="userid !=null and userid != ''">
+			and UserID =#{userid}
+		</if>
+		LIMIT 0,1
+	</select>
+
+	<!-- 判断用户名是否存在 -->
+	<select id="isExistAcc" parameterType="com.yinlian.wssc.web.util.CriteriaAccounts"
+		resultType="java.lang.Integer">
+		SELECT count(*) FROM accounts where 1=1
+		<if test="loginname !=null and loginname != ''">
+			and LoginName =#{loginname}
+		</if>
+		<if test="id !=null and id != ''">
+			and ID !=#{id}
+		</if>
+		<if test="usertype !=null and usertype >0">
+			and Usertype =#{usertype}
+		</if>
+		and IsDel=0
+	</select>
+	<!-- 判断用户名是否存在 -->
+	<select id="isExistAccByPhone" parameterType="com.yinlian.wssc.web.util.CriteriaAccounts"
+		resultType="java.lang.Integer">
+		SELECT count(*) FROM accounts where 1=1
+		<if test="mobile !=null and mobile != ''">
+			and Phone =#{mobile}
+		</if>
+		<if test="id !=null and id != ''">
+			and ID !=#{id}
+		</if>
+		and IsDel=0
+	</select>
+
+	<!-- 判断是否可删除角色 -->
+	<select id="getByRoleID" parameterType="int" resultMap="BaseResultMap">
+		SELECT
+		ID, LoginName, Password,
+		Phone, Email, UserType,
+		UserID, Status,
+		CreateTime,
+		RoleID FROM accounts
+		where RoleID = #{0} and IsDel=0
+		LIMIT
+		0,1
+	</select>
+
+	<!-- 修改密码 -->
+	<update id="updatePassword" parameterType="com.yinlian.wssc.web.po.Accounts">
+		update accounts set
+		Password = #{password,jdbcType=VARCHAR}
+		where ID=#{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 登录 -->
+	<select id="Login" resultMap="BaseResultMap">
+		select ID, LoginName, UserID,
+		Status
+		from accounts
+		where (LoginName=#{0} or Phone=#{0}
+		or Email=#{0} )
+		and Password=#{1} and UserType=2 and isDel=0 limit 1
+	</select>
+
+	<select id="queryLogin" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from accounts
+		where (LoginName=#{name} or Phone=#{name}
+		or Email=#{name}
+		) and Password=#{password} and isDel=0 and
+		UserType
+		in
+		<foreach collection="array" item="item" index="index"
+			separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</select>
+
+
+	<select id="updPwdByPhone" resultMap="BaseResultMap">
+		update accounts set
+		Password=#{1}
+		where Phone=#{0}
+	</select>
+
+
+	<!-- 以下是自定义的 接口 分页查询 -->
+	<sql id="criteria_query">
+		<where>
+			<if test="criteria.usertype != null and criteria.usertype != '' ">
+				and a.usertype = #{criteria.usertype}
+			</if>
+			<if test="criteria.username != null and criteria.username != '' ">
+				and u.username = #{criteria.username}
+			</if>
+			<if test="criteria.mobile != null and criteria.mobile != '' ">
+				and u.mobile = #{criteria.mobile}
+			</if>
+			<if test="criteria.email != null and criteria.email != '' ">
+				and u.email = #{criteria.email}
+			</if>
+			<if test="criteria.begin != null and criteria.begin != '' ">
+      <![CDATA[ and DATEDIFF(a.createTime,#{criteria.begin})>=0]]>
+			</if>
+			<if test="criteria.end != null and criteria.end != ''  ">
+      	<![CDATA[ and DATEDIFF(a.createTime,#{criteria.end})<=0]]>
+			</if>
+			<if test="criteria.sex != null and criteria.sex != -1 ">
+				and r.sex= #{criteria.sex}
+			</if>
+			and (a.IsDel = 0 or a.IsDel is null)
+		</where>
+	</sql>
+	<!--根据用户id绑定数据 -->
+	<select id="selectMemberById" parameterType="int"
+		resultType="com.yinlian.wssc.web.dto.UsersInfoDto">
+		SELECT a.userid userid,a.createTime createTime,
+		u.id
+		uid,u.username username,u.mobile mobile,u.email email,
+		u.nickname
+		nickname,u.realname realname,u.levelid levelid,u.idcardtype
+		idcardtype, u.IDCard as idcard,u.ImgUrl as imgurl,
+		r.sex
+		sex,r.provincename provincename,r.birthday birthday,
+		r.phone
+		phone,r.provincecode provincecode, r.citycode citycode, r.areacode
+		areacode, r.address address, r.postcode postcode, r.incomemonth
+		incomemonth,
+		p.balance balance, l.name NAME, a.Status
+		FROM accounts a
+		LEFT JOIN users u ON a.userid = u.id LEFT JOIN user_attr r
+		ON a.userid
+		= r.userid LEFT JOIN usercapital p ON a.userid = p.userid
+		LEFT JOIN
+		userslevel l ON u.levelid = l.id
+		WHERE a.usertype=2 AND
+		u.id=#{memberid}
+	</select>
+
+	<select id="selectMemberByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.UsersInfoDto">
+		SELECT a.id id,a.userid userid,a.createTime createTime,u.id
+		uid,u.username username,u.mobile mobile,u.email email,r.sex
+		,r.provincename provincename,r.provincecode provincecode,
+		p.balance,
+		a.Status,p.id pid
+		FROM accounts a LEFT JOIN
+		users u ON a.userid= u.id
+		LEFT JOIN user_attr r ON a.UserID=r.UserID LEFT JOIN usercapital p ON
+		a.UserID=p.userid
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+	<!-- 根据登录名和密码查询账号 -->
+	<select id="queryByUserNameAndPassword" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from accounts where LoginName=#{username} and Password=#{password}
+	</select>
+	<!-- 批量插入站内信 -->
+	<insert id="insertBacth" parameterType="java.util.List">
+		insert into messages (ID, Title, Status,
+		UserID, SendUserID,
+		SendUserName,
+		SendTime, Content,type)
+		values
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			(#{item.id},#{item.title},#{item.status},#{item.userid},#{item.senduserid},#{item.sendusername},#{item.sendtime},#{item.content},#{item.type})
+		</foreach>
+	</insert>
+
+	<select id="getSuperadmin" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from accounts where usertype=3 limit 1
+	</select>
+
+
+	<select id=" toLogin" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from accounts
+		where (LoginName=#{0} or Phone=#{0}
+		or Email=#{0} ) and
+		Password=#{1} and UserType=#{2}
+	</select>
+
+	<select id="selectByUsername" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from accounts
+		where LoginName=#{name} and IsDel=0 and
+		UserType in
+		<foreach collection="array" item="item" index="index"
+			separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="selectByLikeName" parameterType="java.util.Map"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from accounts
+		where LoginName like '%${name}%' and IsDel=0 and
+		UserType
+		in
+		<foreach collection="array" item="item" index="index"
+			separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<select id="selectname" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from accounts
+		where IsDel=0
+		<choose>
+			<when test="#{_parameter} != null and #{_parameter} != ''">
+				and LoginName like '%${_parameter}%' limit 0,10
+			</when>
+			<otherwise>
+				limit 0,10
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="findAccount" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from accounts
+		where Phone=#{0}
+		and UserType=#{1}
+		and IsDel=0
+		limit 1
+	</select>
+
+
+
+	<sql id="criteriaAccounts">
+		<where>
+			<if test="begintime != null and begintime != '' ">
+			<![CDATA[ and CreateTime >= #{begintime } ]]>
+			</if>
+			<if test="endtime != null and endtime != '' ">
+			<![CDATA[ and CreateTime <= #{endtime } ]]>
+			</if>
+			and IsDel=0 and UserType=2
+		</where>
+	</sql>
+	<select id="selectAccounts" parameterType="com.yinlian.wssc.search.Platfrom_SYCriteria"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from accounts
+
+		<include refid="criteriaAccounts" />
+
+	</select>
+	<select id="queryAccountsCount" parameterType="com.yinlian.wssc.search.Platfrom_SYCriteria"
+		resultType="java.lang.Integer">
+		select count(1) from accounts
+		<include refid="criteriaAccounts" />
+	</select>
+
+	<select id="queryAccounts" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from accounts
+		where (LoginName=#{0} or Phone=#{0}
+		or Email=#{0} ) and
+		UserType=#{1}
+		and IsDel=0 limit 1
+	</select>
+
+
+	<select id="querySeller" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from accounts
+		where (LoginName=#{0} or Phone=#{0}
+		or Email=#{0} ) and
+		UserType=5
+		and IsDel=0 limit 1
+	</select>
+
+	<select id="getPwdByUserid" parameterType="java.lang.Integer"
+		resultType="java.lang.String">
+		select Password from accounts where UserID=#{0} and
+		UserType=#{1} limit 1
+	</select>
+	<update id="deleteByUserid">
+		update accounts set IsDel=1,DelTime=sysdate() where userid=#{0}
+	</update>
+</mapper>

@@ -1,0 +1,35 @@
+<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>我的收藏</title>
+<script src="${path}/wap/js/concern/concernShop.js"></script>
+<script type="text/javascript" src="${path}/wap/js/login.js"></script>
+</head>
+<body>
+<div class="top_title fix">
+         <a  href="/wap/userinfo/homepage?ch=3">
+		<div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div>
+		</a>
+		我的收藏
+	</div>
+<nav class="guanzhu-nav"><a href="/wap/concern/selectCollect?type=0&&ch=3">商品</a><a class="current" href="#">商家</a></nav>
+<%if(has(shop)){%>
+<hr class="back">
+<ul class="guanzhu-kuai">
+<%for(shops in shop){%>
+<li>
+    	<a href="/wap/shop/index.html?id=${shops.id}">
+        	<img src="${shops.imgurl}" class="L">
+            <h2>${shops.name}</h2>
+            <p>${shops.description}</p>
+            
+        </a>
+</li>
+<%}%>
+</ul>
+<%}else{%>
+<div>您还没有收藏店铺哦</div>
+<%}%>
+</body>

@@ -1,0 +1,19 @@
+<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>信息详情</title>
+</head>
+<body class="paswrd_gai">
+<div class="top_title fix">
+         <a  href="/wap/messages/queryMessages?ch=3">
+		<div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div>
+		</a>
+		信息详情
+	</div>
+<div class="message-info">
+	<h2>${message.title}</h2>
+    <div>${message.content}</div>
+</div>
+</body>

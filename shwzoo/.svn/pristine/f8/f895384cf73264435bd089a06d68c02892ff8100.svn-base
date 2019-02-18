@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.ConcernMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Concern">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="Title" property="title" jdbcType="VARCHAR" />
+		<result column="ShopID" property="shopid" jdbcType="INTEGER" />
+		<result column="ShopName" property="shopname" jdbcType="VARCHAR" />
+		<result column="ShopImgUrl" property="shopimgurl" jdbcType="VARCHAR" />
+		<result column="UserID" property="userid" jdbcType="INTEGER" />
+		<result column="ImgUrl" property="imgurl" jdbcType="VARCHAR" />
+		<result column="ImgUrl_App" property="imgurlApp" jdbcType="VARCHAR" />
+		<result column="ImgSmall" property="imgsmall" jdbcType="VARCHAR" />
+		<result column="ImgSmall_App" property="imgsmallApp" jdbcType="VARCHAR" />
+		<result column="OldPrice" property="oldprice" jdbcType="REAL" />
+		<result column="Price" property="price" jdbcType="REAL" />
+		<result column="AppPrice" property="appprice" jdbcType="REAL" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="CommentCount" property="commentcount" jdbcType="INTEGER" />
+		<result column="AddTime" property="addtime" jdbcType="TIMESTAMP" />
+		<result column="SkuID" property="skuid" jdbcType="INTEGER" />
+		<result column="Tag" property="tag" jdbcType="VARCHAR" />
+		<result column="ConcernType" property="concerntype" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, Title, ShopID, ShopName, ShopImgUrl, UserID, ImgUrl, ImgUrl_App,
+		ImgSmall, ImgSmall_App,
+		OldPrice, Price, AppPrice, Status, CommentCount, AddTime, SkuID, Tag,
+		ConcernType
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.ConcernExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from concern
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from concern
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from concern
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.ConcernExample">
+		delete from concern
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.Concern">
+		insert into concern (ID, Title, ShopID,
+		ShopName, ShopImgUrl, UserID,
+		ImgUrl, ImgUrl_App, ImgSmall,
+		ImgSmall_App, OldPrice, Price,
+		AppPrice, Status, CommentCount,
+		AddTime, SkuID, Tag,
+		ConcernType)
+		values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+		#{shopid,jdbcType=INTEGER},
+		#{shopname,jdbcType=VARCHAR}, #{shopimgurl,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER},
+		#{imgurl,jdbcType=VARCHAR}, #{imgurlApp,jdbcType=VARCHAR},
+		#{imgsmall,jdbcType=VARCHAR},
+		#{imgsmallApp,jdbcType=VARCHAR}, #{oldprice,jdbcType=REAL}, #{price,jdbcType=REAL},
+		#{appprice,jdbcType=REAL}, #{status,jdbcType=INTEGER},
+		#{commentcount,jdbcType=INTEGER},
+		#{addtime,jdbcType=TIMESTAMP}, #{skuid,jdbcType=INTEGER}, #{tag,jdbcType=VARCHAR},
+		#{concerntype,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Concern">
+		insert into concern
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="title != null">
+				Title,
+			</if>
+			<if test="shopid != null">
+				ShopID,
+			</if>
+			<if test="shopname != null">
+				ShopName,
+			</if>
+			<if test="shopimgurl != null">
+				ShopImgUrl,
+			</if>
+			<if test="userid != null">
+				UserID,
+			</if>
+			<if test="imgurl != null">
+				ImgUrl,
+			</if>
+			<if test="imgurlApp != null">
+				ImgUrl_App,
+			</if>
+			<if test="imgsmall != null">
+				ImgSmall,
+			</if>
+			<if test="imgsmallApp != null">
+				ImgSmall_App,
+			</if>
+			<if test="oldprice != null">
+				OldPrice,
+			</if>
+			<if test="price != null">
+				Price,
+			</if>
+			<if test="appprice != null">
+				AppPrice,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+			<if test="commentcount != null">
+				CommentCount,
+			</if>
+			<if test="addtime != null">
+				AddTime,
+			</if>
+			<if test="skuid != null">
+				SkuID,
+			</if>
+			<if test="tag != null">
+				Tag,
+			</if>
+			<if test="concerntype != null">
+				ConcernType,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="shopid != null">
+				#{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="shopname != null">
+				#{shopname,jdbcType=VARCHAR},
+			</if>
+			<if test="shopimgurl != null">
+				#{shopimgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=INTEGER},
+			</if>
+			<if test="imgurl != null">
+				#{imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="imgurlApp != null">
+				#{imgurlApp,jdbcType=VARCHAR},
+			</if>
+			<if test="imgsmall != null">
+				#{imgsmall,jdbcType=VARCHAR},
+			</if>
+			<if test="imgsmallApp != null">
+				#{imgsmallApp,jdbcType=VARCHAR},
+			</if>
+			<if test="oldprice != null">
+				#{oldprice,jdbcType=REAL},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=REAL},
+			</if>
+			<if test="appprice != null">
+				#{appprice,jdbcType=REAL},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="commentcount != null">
+				#{commentcount,jdbcType=INTEGER},
+			</if>
+			<if test="addtime != null">
+				#{addtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="skuid != null">
+				#{skuid,jdbcType=INTEGER},
+			</if>
+			<if test="tag != null">
+				#{tag,jdbcType=VARCHAR},
+			</if>
+			<if test="concerntype != null">
+				#{concerntype,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.ConcernExample"
+		resultType="java.lang.Integer">
+		select count(*) from concern
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update concern
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.title != null">
+				Title = #{record.title,jdbcType=VARCHAR},
+			</if>
+			<if test="record.shopid != null">
+				ShopID = #{record.shopid,jdbcType=INTEGER},
+			</if>
+			<if test="record.shopname != null">
+				ShopName = #{record.shopname,jdbcType=VARCHAR},
+			</if>
+			<if test="record.shopimgurl != null">
+				ShopImgUrl = #{record.shopimgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userid != null">
+				UserID = #{record.userid,jdbcType=INTEGER},
+			</if>
+			<if test="record.imgurl != null">
+				ImgUrl = #{record.imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="record.imgurlApp != null">
+				ImgUrl_App = #{record.imgurlApp,jdbcType=VARCHAR},
+			</if>
+			<if test="record.imgsmall != null">
+				ImgSmall = #{record.imgsmall,jdbcType=VARCHAR},
+			</if>
+			<if test="record.imgsmallApp != null">
+				ImgSmall_App = #{record.imgsmallApp,jdbcType=VARCHAR},
+			</if>
+			<if test="record.oldprice != null">
+				OldPrice = #{record.oldprice,jdbcType=REAL},
+			</if>
+			<if test="record.price != null">
+				Price = #{record.price,jdbcType=REAL},
+			</if>
+			<if test="record.appprice != null">
+				AppPrice = #{record.appprice,jdbcType=REAL},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.commentcount != null">
+				CommentCount = #{record.commentcount,jdbcType=INTEGER},
+			</if>
+			<if test="record.addtime != null">
+				AddTime = #{record.addtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.skuid != null">
+				SkuID = #{record.skuid,jdbcType=INTEGER},
+			</if>
+			<if test="record.tag != null">
+				Tag = #{record.tag,jdbcType=VARCHAR},
+			</if>
+			<if test="record.concerntype != null">
+				ConcernType = #{record.concerntype,jdbcType=INTEGER},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update concern
+		set ID = #{record.id,jdbcType=INTEGER},
+		Title = #{record.title,jdbcType=VARCHAR},
+		ShopID = #{record.shopid,jdbcType=INTEGER},
+		ShopName = #{record.shopname,jdbcType=VARCHAR},
+		ShopImgUrl = #{record.shopimgurl,jdbcType=VARCHAR},
+		UserID = #{record.userid,jdbcType=INTEGER},
+		ImgUrl = #{record.imgurl,jdbcType=VARCHAR},
+		ImgUrl_App = #{record.imgurlApp,jdbcType=VARCHAR},
+		ImgSmall = #{record.imgsmall,jdbcType=VARCHAR},
+		ImgSmall_App = #{record.imgsmallApp,jdbcType=VARCHAR},
+		OldPrice = #{record.oldprice,jdbcType=REAL},
+		Price = #{record.price,jdbcType=REAL},
+		AppPrice = #{record.appprice,jdbcType=REAL},
+		Status = #{record.status,jdbcType=INTEGER},
+		CommentCount = #{record.commentcount,jdbcType=INTEGER},
+		AddTime = #{record.addtime,jdbcType=TIMESTAMP},
+		SkuID = #{record.skuid,jdbcType=INTEGER},
+		Tag = #{record.tag,jdbcType=VARCHAR},
+		ConcernType = #{record.concerntype,jdbcType=INTEGER}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Concern">
+		update concern
+		<set>
+			<if test="title != null">
+				Title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="shopid != null">
+				ShopID = #{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="shopname != null">
+				ShopName = #{shopname,jdbcType=VARCHAR},
+			</if>
+			<if test="shopimgurl != null">
+				ShopImgUrl = #{shopimgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="userid != null">
+				UserID = #{userid,jdbcType=INTEGER},
+			</if>
+			<if test="imgurl != null">
+				ImgUrl = #{imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="imgurlApp != null">
+				ImgUrl_App = #{imgurlApp,jdbcType=VARCHAR},
+			</if>
+			<if test="imgsmall != null">
+				ImgSmall = #{imgsmall,jdbcType=VARCHAR},
+			</if>
+			<if test="imgsmallApp != null">
+				ImgSmall_App = #{imgsmallApp,jdbcType=VARCHAR},
+			</if>
+			<if test="oldprice != null">
+				OldPrice = #{oldprice,jdbcType=REAL},
+			</if>
+			<if test="price != null">
+				Price = #{price,jdbcType=REAL},
+			</if>
+			<if test="appprice != null">
+				AppPrice = #{appprice,jdbcType=REAL},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="commentcount != null">
+				CommentCount = #{commentcount,jdbcType=INTEGER},
+			</if>
+			<if test="addtime != null">
+				AddTime = #{addtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="skuid != null">
+				SkuID = #{skuid,jdbcType=INTEGER},
+			</if>
+			<if test="tag != null">
+				Tag = #{tag,jdbcType=VARCHAR},
+			</if>
+			<if test="concerntype != null">
+				ConcernType = #{concerntype,jdbcType=INTEGER},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Concern">
+		update concern
+		set Title = #{title,jdbcType=VARCHAR},
+		ShopID = #{shopid,jdbcType=INTEGER},
+		ShopName = #{shopname,jdbcType=VARCHAR},
+		ShopImgUrl = #{shopimgurl,jdbcType=VARCHAR},
+		UserID = #{userid,jdbcType=INTEGER},
+		ImgUrl = #{imgurl,jdbcType=VARCHAR},
+		ImgUrl_App = #{imgurlApp,jdbcType=VARCHAR},
+		ImgSmall = #{imgsmall,jdbcType=VARCHAR},
+		ImgSmall_App = #{imgsmallApp,jdbcType=VARCHAR},
+		OldPrice = #{oldprice,jdbcType=REAL},
+		Price = #{price,jdbcType=REAL},
+		AppPrice = #{appprice,jdbcType=REAL},
+		Status = #{status,jdbcType=INTEGER},
+		CommentCount = #{commentcount,jdbcType=INTEGER},
+		AddTime = #{addtime,jdbcType=TIMESTAMP},
+		SkuID = #{skuid,jdbcType=INTEGER},
+		Tag = #{tag,jdbcType=VARCHAR},
+		ConcernType = #{concerntype,jdbcType=INTEGER}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

@@ -1,0 +1,137 @@
+<%var path="/resource";%>
+<head>
+    <title>商品列表</title>
+    <script type="text/javascript" src="${path}/wap/js/index.js" ></script>
+    <script type="text/javascript" src="${path}/artTemplate.js"></script>
+	<script type="text/javascript" src="/resource/wap/js/wap-common.js"></script>
+</head>
+<body>
+<!--septop begin-->
+<div class="septop rowreturn bjwhite">
+	<div class="bigsize">特产大全</div>
+	<div id="rowreturn" onclick="javascript:window.location.href='/wap/find/lszgindex.html'"></div>
+</div>
+    <!--ranksort  begin-->
+    <input type="hidden" value="salesvolume_desc" id="select_order" />
+	<div class="ranksort fix">
+		<ul class="ranksort_topul">
+			<li class="ranksort_sales" name="order_type" data="salesvolume">
+				<div class="ranksort_title">
+					<span>销量</span>
+					<div class="ranksort_titleico">
+						<i class="rankitop" data="asc"></i>
+						<i class="rankidown active" data="desc"></i>
+					</div>
+				</div>
+			</li>
+			<li class="ranksort_sales" name="order_type" data="p.price">
+				<div class="ranksort_title">
+					<span>价格</span>
+					<div class="ranksort_titleico">
+						<i class="rankitop" data="asc"></i>
+						<i class="rankidown" data="desc"></i>
+					</div>
+				</div>
+			</li>
+			<li class="ranksort_sales" name="order_type" data="commentsum">
+				<div class="ranksort_title">
+					<span>评论</span>
+					<div class="ranksort_titleico">
+						<i class="rankitop" data="asc"></i>
+						<i class="rankidown" data="desc"></i>
+					</div>
+				</div>
+			</li>
+	</div>
+	
+	<!--ranksort  stop-->
+	<!--productlistcon  begin-->
+	<div class="productlistcon fix">
+		<ul id="productlist">
+			<script type="text/html" id="pro_list">
+			 {{each list as pro i}}
+			<li class="fix">
+				<a href="/wap/products/ProDetail.html?spuid={{pro.spuid}}&href=/wap/find/lszgtcdq.html">
+					<div class="productlistcon_l">
+						<img src="{{pro.img}}" class="img-responsive"/>
+					</div>
+					<div class="productlistcon_r">
+						<p>{{pro.name}}</p>
+						<div class="productlistcon_r_bot fix">
+							<div class="floatl huise">
+								销量：{{pro.salesvolume}}
+							</div>
+							<div class="floatr red">
+								￥ {{pro.price}}
+							</div>
+						</div>
+					</div>
+				</a>
+			</li>
+			{{/each}}
+			</script>
+		</ul>
+	</div>
+	<!--productlistcon  stop-->
+	
+  <!--themestreet  stop-->
+	<img src="${path}/wap/images/index_42.png" class="qianggou-scrollTop">
+</div>
+	<%
+    include("/template/wap/index_foot.html"){}
+    %>
+<script>
+$(".qianggou-scrollTop").click(function() { 
+	$("html, body").animate({ scrollTop: 0 }, "slow"); 
+	return false;  
+});
+fixed('.top');//头部固定
+$("li[name='order_type']").on("click",function(){
+	var $li = $(this);
+	var select_order = $("#select_order").val();
+	var so = select_order.split("_")[0];
+	var sy = select_order.split("_")[1];
+	if($li.attr("data") == so){
+		if(sy=="asc"){
+			$("#select_order").val(so+"_desc");
+			$li.find("i[data='desc']").attr("class", "rankidown active");
+			$li.find("i[data='asc']").attr("class", "rankitop");
+		}else{
+			$("#select_order").val(so+"_asc");
+			$li.find("i[data='asc']").attr("class", "rankitop active");
+			$li.find("i[data='desc']").attr("class", "rankidown");
+		}
+	}else{
+		$li.parent().find("li").each(function(){
+			if(so == $(this).attr("data")){
+				if(sy == "asc"){
+					$(this).find("i[data='asc']").attr("class", "rankitop");
+				}else{
+					$(this).find("i[data='desc']").attr("class", "rankidown");
+				}
+			}else if($li.attr("data") == $(this).attr("data")){
+				$(this).find("i[data='asc']").attr("class", "rankitop active");
+				$("#select_order").val($li.attr("data")+"_asc");
+			}
+		})
+	}
+	clearPage();
+	load();
+})
+
+$(function(){
+		load();
+	});
+	
+	
+	function load(){
+		var orderby = $("#select_order").val().split("_")[0];
+		var orderType = $("#select_order").val().split("_")[1];
+		 pageData={page:1,size:10,orderByClause:orderby,sort:orderType};
+		 pageUrl="/wap/zlzx/tsdqpro";
+		 content="#productlist";
+		 scripthtml="pro_list";
+		initPage();
+	}
+</script>
+</body>

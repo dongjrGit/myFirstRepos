@@ -1,0 +1,114 @@
+﻿/*l_ddgltop  begin*/
+.l_gulitab {
+    margin-top: 8px;
+}
+
+.l_gulitab table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.l_gulitab table tr th {
+    border: 1px solid #CCC;
+    padding: 8px 0px;
+    background: #E4E4E4;
+    font-weight: bolder;
+    text-align: center;
+    color:#595957;
+    font-size:14px;
+}
+
+.l_ddgltop {
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+}
+
+.l_ddgl {
+    clear: both;
+    margin-bottom: 15px;
+}
+
+.l_ddgl table {
+    border-collapse: collapse;
+}
+
+.l_ddgl table tr td {
+    border: 1px solid #C7E8FB;
+    padding: 5px 0px;
+    text-align: center;
+}
+
+.l_ddgl table tr td.l_toptd {
+    background: #F2FAFD;
+    text-align: left;
+    padding-left: 20px;
+}
+
+.l_ddgl table tr td.l_toptd span {
+    margin-left: 15px;
+}
+
+.l_ddgltop_right {
+    width: 82px;
+    height: 18px;
+    position: absolute;
+    top: 15px;
+    right: 0px;
+    background: url(../images/img_xyy.png) no-repeat;
+}
+
+.l_syy {
+    width: 18px;
+    height: 18px;
+    float: left;
+    clear: both;
+    cursor: pointer;
+}
+
+.l_xyy {
+    width: 58px;
+    height: 18px;
+    float: right;
+    cursor: pointer;
+}
+/*l_ddgltop  stop*/
+
+/*l_ddhz  begin*/
+.l_ddhz {
+    clear: both;
+    margin-bottom: 30px;
+}
+
+.l_ddhz table {
+border-collapse: collapse;
+width: 100%;
+}
+
+.l_ddhz table tr td {
+border: 1px solid #D2D2D2;
+padding: 10px;
+}
+
+.l_ddhz table tr td.l_qbdd {
+    background: #F4F4F4;
+}
+
+.l_ddhz table tr td.l_qbddtop {
+    font-size: 15px;
+    color: #000;
+}
+
+.l_zsnr {
+    font-size: 12px;
+    color: #AAAAAA;
+}
+
+.l_ddhz table tr.l_center td {
+    text-align: center;
+}
+
+.l_ddhz table tr td.l_gdkd {
+    width: 90px;
+}
+/*l_ddhz  stop*/

@@ -1,0 +1,43 @@
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Expires" content="-1">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<title>中绿生活|中国绿色食品展销中心|365Greenlife.com</title>
+<link rel="stylesheet" type="text/css" href="/resource/wap/css/css.css">
+</head>
+<body class="paswrd_gai">
+<ul class="youhui-quan">
+	<% for(coupon in coupons){ %>
+		<%if(coupon.isuser!=null && coupon.isuser) {%>
+		    <li class="hui">
+		    	<h3><font>￥</font>${coupon.facevalue}<span>${coupon.couponname}</span></h3>
+		        <div><b>${coupon.shopname}</b>有效期：${coupon.providetime}--${coupon.outtime}</div>
+		        <img src="images/index_27a.png">
+		    </li>
+    	<%}else{%>
+    		<li>
+		    	<a href="/wap/order/newOrder.html?cpid=${coupon.couponid}">
+		            <h3><font>￥</font>${coupon.facevalue}<span>${coupon.couponname}</span></h3>
+		        	<div><b>${coupon.shopname}</b>有效期：${coupon.providetime}--${coupon.outtime}</div>
+		        </a>
+		    </li>
+    	<% }%>
+    <!-- <li class="hui">
+    	<h3><font>￥</font>20<span>全场满50元可用</span></h3>
+        <div><b>中国移动</b>有效期：2015.10.21--2015.12.30</div>
+        <img src="images/index_27.png">
+    </li> -->
+    <%}%>
+    <%if(isEmpty(coupons)){%>
+   		<h3>没有可使用的优惠券</h3>
+   		<a href="/wap/order/newOrder.html">返回</a>
+    <%}%>
+</ul>
+</body>

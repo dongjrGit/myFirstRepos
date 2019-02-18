@@ -1,0 +1,175 @@
+<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>评价</title>
+<script src="/resource/wap/js/comment/AddComment.js"></script>
+<script src="/resource/ajaxfileupload.js"></script>
+<script type="text/javascript" src="${path}/wap/js/login.js"></script>
+<style>
+	.tuihuanh-cont{
+		padding:0;
+	}
+	.Shipping-xqul li:last-child{
+		border:1px solid #ccc;
+	}
+	
+	.tuihuanh-cont.sar{
+	   padding:0 0.2rems;
+	}
+</style>
+
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+<input type="hidden" value="${orderid}" id="orderid">
+<input type="hidden" value="${shopid}" id="shopid">
+<%for (orderdetail in products.children){%>
+<ul class="Shipping-xqul border0">
+	<li>
+		<input type="hidden" value="${orderdetail.id}" id="orderdetailid" name="orderdetailid">
+		<input type="hidden" value="${orderdetail.productid}" id="productid" name="productid">
+    	<a href="#" id="ceshi" value="${orderdetail.id}">
+        	<img src="${orderdetail.productimg}">
+            <div class="R"  id="product" value="${orderdetail.productid}"><b>${orderdetail.productname}</b><span>￥ ${products.actualPay}　　数量：${orderdetail.productcount}</span></div>
+        </a>
+        <div class="tuihuanh-cont sar">
+	    <div class="pinl-sar">
+    	              商品评论　　<span><input id="pingjia" name="pingjia" type="hidden" value="5"><i></i><i></i><i></i><i></i><i></i></span><br>
+        </div>
+        <div>
+            <input id="title" type="label" placeholder="发表评价标题" name="title"></input></div><br/>
+            <textarea id="comment" placeholder="发表您对该商品的评价" name="content"></textarea>
+            
+               <div class="tuihuanh-cont">
+	<h2>上传图片</h2>
+    <ul class="uploadFile" id="image">
+    	<li id="li1">
+    	  <input  type="file" name="file1" id="file1" onchange="addcomment.fimage(1)" hidden />
+          <img src="${path}/wap/images/index_23.png" width="107" height="100" id="img1" name="img${orderdetail.productid}">
+          <input type="hidden" name="imasrc${orderdetail.productid}" value="" id="imasrc${orderdetail.productid}" />
+    <!-- 	<input type="file" id="file1" name="file1" value="1">
+    	<img id="img1" src="/wap/images/index_23.png"> -->
+    	<i></i>
+    	</li>
+    	<li id="li2">
+          <input type="file" name="file2" id="file2" onchange="addcomment.fimage(2)" hidden />
+          <img src="${path}/wap/images/index_23.png" id="img2" name="img${orderdetail.productid}">
+          <input type="hidden" name="imasrc${orderdetail.productid}" value="" id="imasrc${orderdetail.productid}" />
+         <i></i>
+    	</li>
+    	<li id="li3">
+    	 <input type="file" name="file3" id="file3" onchange="addcomment.fimage(3)" hidden />
+          <img src="${path}/wap/images/index_23.png" id="img3" name="img${orderdetail.productid}">
+          <input type="hidden" name="imasrc${orderdetail.productid}" value="" id="imasrc${orderdetail.productid}" />
+    	<i></i>
+    	</li>
+    	<!-- <li><input type="file" name="file4" value="4"><img src="/wap/images/index_23.png"><i></i></li> -->
+    </ul>
+    <p class="hui">最多上传3张，每张不超过5M,支持JPG、BMP、PNG</p>
+    <script>
+    	//Yeffect.Html5FileReaders(".uploadFile li input","li","img");
+	    // $(".uploadFile li input").change(function(){
+		//	$(this).parents("li").addClass("youtu");	
+		//}) 
+		
+		$(".uploadFile li i").click(function(){
+			$(this).parent("li").removeClass("youtu");
+			$(this).parent("li").find("img").attr("src","/resource/wap/images/index_23.png");
+			$(this).parent("li").find("input").val("");
+		})
+    </script>
+	</div>
+	    </div>
+	    
+	 
+    </li>
+    
+</ul>
+<hr class="back"/>
+<%}%>
+<hr class="back"/>
+<div class="tuihuanh-cont sar">
+	<div class="pinl-sar">
+    	描述相符　　<span><input id="miaoshu" type="hidden" value="5"><i></i><i></i><i></i><i></i><i></i></span><br>
+                       物流服务　　<span><input id="wuliu" type="hidden" value="2"><i></i><i></i><i></i><i></i><i></i></span><br>
+                      服务态度　　<span><input  id="fuwu" type="hidden" value="5"><i></i><i></i><i></i><i></i><i></i></span><br>
+    </div>
+    <script>
+    var pinlsarspan=$(".pinl-sar span");
+	pinlsarspan_hs();
+	pinlsarspan.find("i").click(function(){
+		var thisindex=$(this).parent().find("i").index(this);
+		$(this).parent().find("input").val(thisindex+1);	
+		pinlsarspan_hs();
+	});
+	function pinlsarspan_hs(){
+		pinlsarspan.each(function(index, element) {
+        	var thisval=parseInt($(this).find("input").val())+1;
+			$(this).find("i").removeClass("cur");
+			$(this).find("i:nth-child(-n+"+thisval+")").addClass("cur");
+		});		
+	}
+    </script>
+    
+    <input id="check" type="checkbox" check="">是否匿名</input>
+</div>
+<div class="tuihuanh-butrnDiv" style="background:#fff;">
+	<input type="button" id="fabu" value="发布点评">
+</div>
+<script type="text/javascript">
+
+//var orderid =${products.id};
+var shopid  =${products.shopid};
+$(document).ready(function(){
+	 if(login.isLogin()){
+		$("#img1").bind("click", function() {
+		$("#file1").click();
+		});
+		
+		$("#img2").bind("click", function() {
+			$("#file2").click();
+		});
+		
+		$("#img3").bind("click", function() {
+			$("#file3").click();
+		});
+	
+	 }
+	/* $("#fabu").click(function (){
+		var orderdetailid = $("#ceshi").attr("value");
+		var image = "";
+		//var obj_payPlatform = $('#ceshi input[name="yx"]');
+		var type = $('#ceshi input[name="yx"]:checked ').val();
+		var seron=$("#seron").val();
+		/*if($('#image input[name="file1"]').val !=null){ if(image=="")  {image = $('#image input[name="file1"]').val();}else{image = image+","+$('#image input[name="file1"]').val();}};
+		if($('#image input[name="file2"]').val !=null){  if(image=="") {image = $('#image input[name="file2"]').val();}else{image = image+","+$('#image input[name="file2"]').val();}};
+		if($('#image input[name="file3"]').val !=null){  if(image=="") {image = $('#image input[name="file3"]').val();}else{image = image+","+$('#image input[name="file3"]').val();}};
+ 		if($('#imasrc1').val()!=null && $('#imasrc1').val()!=""){
+			if(image=="")
+				image=$('#imasrc1').val();
+			else
+				image +=","+$('#imasrc1').val();
+		}
+		if($('#imasrc2').val()!=null && $('#imasrc2').val()!=""){
+			if(image=="")
+				image=$('#imasrc2').val();
+			else
+				image +=","+$('#imasrc2').val();
+		}
+		if($('#imasrc3').val()!=null && $('#imasrc3').val()!=""){
+			if(image=="")
+				image=$('#imasrc3').val();
+			else
+				image +=","+$('#imasrc3').val();
+		} 
+		changproduct.chang(orderdetailid,1,seron,image);
+	})
+	} */
+	
+	
+})
+
+</script>
+</body>

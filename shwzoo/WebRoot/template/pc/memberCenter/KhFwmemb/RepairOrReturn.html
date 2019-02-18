@@ -1,0 +1,435 @@
+﻿
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>返修退换货</title>
+<link href="/resource/artDialog/skins/default.css" rel="stylesheet" />
+ <link type="text/css" rel="stylesheet" href="/resource/pc/web/css/common.css" />
+<link type="text/css" rel="stylesheet" href="/resource/pc/web/css/top-footer.css" />
+<link type="text/css" rel="stylesheet" href="/resource/pc/web/css/style01.css" />
+<link type="text/css" rel="stylesheet" href="/resource/ui-dialog.css" />
+
+    
+<link href="/resource/public/commoncss/jQuery.Validate.css" rel="stylesheet" />
+ <script src="/resource/pc/member/js/Concern/syconcernlist.js"></script>
+<script src="/resource/pc/web/js/browsehistory/browsehistory.js"></script>
+<script src="/resource/jquery-1.8.2.min.js"></script>
+<script src="/resource/pc/web/js/index.js"></script>
+<script src="/resource/pc/member/js/pager2.js"></script>
+<script src="/resource/pc/member/js/showdate.js"></script>
+ <script src="/resource/artTemplate.js"></script>
+ <script src="/resource/dialog-plus.js"></script>
+ <script src="/resource/dialogShow.js"></script>
+<script src="/resource/jQueryRotate.2.2.js"></script>
+ <script src="/resource/Guid.js"></script>
+ 
+  <link href="/resource/pc/member/css/pager2.css" rel="stylesheet" />
+    <script type="text/javascript" src="/resource/pc/member/js/pager2.js"></script>
+
+<script type="text/javascript" src="/resource/public/commonjs/Birthday-picker.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/style.js"></script>
+<script type="text/javascript" src="/resource/pc/member/js/zhsz/PersonalInformation.js"></script>
+<script type="text/javascript" src="/resource/public/commonjs/Birthday-picker.js"></script>
+
+<script src="/resource/public/commonjs/AjaxFileUploaderV2.1/ajaxfileupload.js"></script>
+<script src="/resource/public/commonjs/jquery.validate.js"></script>
+<script src="/resource/public/commonjs/messages_cn.js"></script>
+<script src="/resource/public/commonjs/jquery.validate-methods.js"></script>
+
+
+    <!--弹出框样式-->
+    
+    <script src="/resource/GetQueryString.js"></script>
+    <script src="/resource/dialog-plus.js" type="text/javascript"></script>
+    <script src="/resource/dialogShow.js"></script> <!--设置统一dialog弹出框-->
+    <script src="/resource/My97DatePicker/WdatePicker.js"></script>
+    <!--文件上传-->
+    <!--用户公共-->
+    <script src="/resource/public/commonjs/public-user.js"></script>
+    <!--表单验证css&&js-->
+    
+    <link href="/resource/public/commoncss/jQuery.Validate.css" rel="stylesheet" />
+    <script src="/resource/public/commonjs/jquery.validate.js"></script>
+    <script src="/resource/public/commonjs/messages_cn.js"></script>
+    <script src="/resource/public/commonjs/jquery.validate-methods.js"></script>
+    <script src="/resource/public/commonjs/jquery.form.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+        //产品页面跳转
+        $(".a_spuhref").bind("click", Goods_Href);
+
+        //图片上传
+        $("#img_imgs1").bind("click", function () {
+            $(".error").remove();
+            $("#file_imgs1").click();
+        });
+        $("#file_imgs1").change(function () {
+            imgs1();
+        });
+
+        $("#img_imgs2").bind("click", function () {
+            $(".error").remove();
+            $("#file_imgs2").click();
+        });
+        $("#file_imgs2").change(function () {
+            imgs2();
+        });
+
+        $("#img_imgs3").bind("click", function () {
+            $(".error").remove();
+            $("#file_imgs3").click();
+        });
+        $("#file_imgs3").change(function () {
+            imgs3();
+        });
+
+        //校验
+        $(".a_submit").bind("click", function () {
+            if (!Check().form() || !CheckI()) {
+                return;
+            }
+            //提交申请
+            Submit();
+
+        });
+    })
+    //图片上传
+    function imgs1() {
+        $.ajaxFileUpload({
+            url: "/app/api/img/upload",
+            secureuri: false,
+            fileElementId: 'file_imgs1',
+            dataType: "json",
+            //ftype:上传文件类型（图片文件=1，其他文件=2）
+            //module: 模块（ 会员 = 0, 店铺 = 1, 平台 = 2, 产品 = 3, 其他 = 4,）
+            data: { relationtype : 5  },
+            type: 'POST',
+            success: function (result) {
+                if (result.code == 0) {
+                    $("#img_imgs1").attr("src", result.data[0]);
+                    $("#img_imgs1").attr("issys-val", "0");
+                }
+                else {
+                    var html1 = '<label id="img_imgs1-error" class="error" for="img_imgs1">' + result.desc + '</label>';
+                    $("#ul_imgs").after(html1);
+                }
+                //TODO 结束正在加载中
+            },
+            error: function (e) {
+                //alert(JSON.stringify(e));
+                //TODO 结束正在加载中
+            }
+        });
+
+        $("#file_imgs1").remove();
+        var input = '<input type="file" name="file_imgs1" id="file_imgs1" onchange="imgs1()" hidden />';
+        $("#li_imgs1").append(input);
+    }
+
+    function imgs2() {
+        $.ajaxFileUpload({
+            url: "/app/api/img/upload",
+            secureuri: false,
+            fileElementId: 'file_imgs2',
+            dataType: "json",
+            //ftype:上传文件类型（图片文件=1，其他文件=2）
+            //module: 模块（ 会员 = 0, 店铺 = 1, 平台 = 2, 产品 = 3, 其他 = 4,）
+            data: {relationtype : 5  },
+            type: 'POST',
+            success: function (result) {
+                if (result.code == 0) {
+                    $("#img_imgs2").attr("src", result.data[0]);
+                    $("#img_imgs2").attr("issys-val", "0");
+                }
+                else {
+                    var html1 = '<label id="img_imgs2-error" class="error" for="img_imgs2">' + result.desc + '</label>';
+                    $("#ul_imgs").after(html1);
+                }
+                //TODO 结束正在加载中
+            },
+            error: function (e) {
+                //alert(JSON.stringify(e));
+                //TODO 结束正在加载中
+            }
+        });
+
+        $("#file_imgs2").remove();
+        var input = '<input type="file" name="file_imgs2" id="file_imgs2" onchange="imgs2()" hidden />';
+        $("#li_imgs2").append(input);
+    }
+
+    function imgs3() {
+        $.ajaxFileUpload({
+            url: "/app/api/img/upload",
+            secureuri: false,
+            fileElementId: 'file_imgs3',
+            dataType: "json",
+            //ftype:上传文件类型（图片文件=1，其他文件=2）
+            //module: 模块（ 会员 = 0, 店铺 = 1, 平台 = 2, 产品 = 3, 其他 = 4,）
+            data: { relationtype : 5  },
+            type: 'POST',
+            success: function (result) {
+                if (result.code == 0) {
+                    $("#img_imgs3").attr("src", result.data[0]);
+                    $("#img_imgs3").attr("issys-val", "0");
+                }
+                else {
+                    var html1 = '<label id="img_imgs3-error" class="error" for="img_imgs3">' + result.desc + '</label>';
+                    $("#ul_imgs").after(html1);
+                }
+                //TODO 结束正在加载中
+            },
+            error: function (e) {
+                //alert(JSON.stringify(e));
+                //TODO 结束正在加载中
+            }
+        });
+
+        $("#file_imgs3").remove();
+        var input = '<input type="file" name="file_imgs3" id="file_imgs3" onchange="imgs3()" hidden />';
+        $("#li_imgs3").append(input);
+    }
+
+    //校验
+    function Check() {
+        return $("#signupForm").validate({
+            rules: {
+                select_applytype: {
+                    selectRequired: true
+                },
+                select_reason: {
+                    selectRequired: true
+                }
+            },
+            messages: {
+                select_applytype: {
+                    selectRequired: "请选择申请类型"
+                },
+                select_reason: {
+                    selectRequired: "请选择原因"
+                }
+            },
+            errorPlacement: function (error, element) {
+                error.appendTo(element.parent());
+            },
+            debug: true
+        })
+    }
+    function CheckI() {
+        $("#text_reason-error").remove();
+
+        var reasontype = $("#select_reason").val();
+        var reason = $("#text_reason").val();
+        if (reasontype == "5" && reason == "") {
+            var html1 = '<label id="text_reason-error" class="error" for="text_reason">请输入申请理由</label>';
+            $("#td_reason").append(html1);
+            return false;
+        }
+        return true;
+    }
+
+    //提交申请
+    function Submit() {
+        var data = { orderdetailid: $("#hidden_orderdetailid").val() };
+        var reasontype = $("#select_reason").val();
+
+        data.reason = $('#select_reason option:selected').text() + ":" + $('#text_reason').val();
+
+        data.applytype = $("#select_applytype option:selected").val();
+
+        data.img = "";
+        var imgstr = "";
+        $(".img_img").each(function (e) {
+            var val = parseInt($(this).attr("issys-val"));
+            var imgsrc = $(this).attr("src");
+            if (val == 0) {
+                imgstr += imgsrc + ",";
+            }
+        });
+        if (imgstr != "" && imgstr.length > 0) {
+            imgstr = imgstr.substring(0, imgstr.length - 1);
+        }
+        data.images = imgstr;
+
+        $.ajax(({
+            type: "post",
+            url: "/pc/order/applyafter",
+            dataType: "json",
+            data: data,
+            success: function (rsl) {
+                if (rsl.code == 0) {
+                    window.location.href = "/member/khFwmemb/repairOrReturnComplete.html";
+                }
+                else {
+                    Dalert(rsl.desc);
+                }
+            },
+            error: function (e) {
+                //Dalert(e.statusText);
+            }
+        }));
+    }
+    function backhref() {
+        var backUrl = GetQueryStringByName("backUrl");
+        window.location.href = decodeURIComponent(backUrl);
+    }
+
+    //产品页面跳转
+    function Goods_Href(skuid) {
+        //var skuid = parseInt($(this).attr("sku-val"));
+        $.ajax(({
+            type: "post",
+            url: "/pc/khFwmemb/getspuid",
+            dataType: "json",
+            data: { "skuid": skuid },
+            success: function (rsl) {
+                if (rsl.code == 0) {
+                    var spuid = parseInt(rsl.data);
+                    if (spuid > 0) {
+                    	 window.location.href = "/web/products/proinfo.html?spuid=" + spuid;
+                    }
+                }
+                else {
+                    Dalert(rsl.desc);
+                }
+            },
+            error: function (e) {
+
+            }
+        }));
+    }
+</script>
+    
+ </head>
+ <body>
+<!--main  主要内容  开始 -->
+<div id="main" class="fix">
+    <!--main-left 左边内容  开始 -->
+  <% include("/template/pc/memberCenter/Shared/_PartialLeftside.html",{}){}%>
+    <!--main-left 左边内容  结束 -->
+    <!--rightside 右边内容  结束 -->
+    <div class="rightside">
+        <!--l_jfmx积分明细  begin -->
+        <div class="l_jfmx mt0">
+            <!--l_jfmxtop  begin -->
+            <div class="l_jfmxtop">
+                <h3><a href="#">申请售后</a></h3>
+                <div class="l_shfwan"><a href="#">售后政策</a><a href="#"><i class="l_dhtb"></i>中绿客服</a></div>
+            </div><!--l_jfmxtop  stop -->
+            <!--jfmxcon  begin -->
+            <div class="jfmxcon">
+                <form id="signupForm">
+                    <table class="l_tablemost">
+                        <tr>
+                            <th width="350px;">商品名称</th>
+                            <th>包装清单</th>
+                            <th>赠送清单</th>
+                            <th>购买数量</th>
+                        </tr>
+                         <% if(isNotEmpty(orderdetail)) { %>
+                            <tr>
+                                <td>
+                                    <div class="l_sqshspmc">
+                                        <img src="${orderdetail.productimg}">
+                                        <a href="javascript:void(0);" onclick="Goods_Href(${orderdetail.productimg})" sku-val="" class="shenlan a_spuhref">${orderdetail.productname}</a>
+                                    </div>
+                                </td>
+                                <td>${orderdetail.productweight} kg</td>
+                                <td>—</td>
+                                <td>${orderdetail.productcount}</td>
+                            </tr>
+                       <% }%>
+                    </table>
+                    <div class="l_wztssqsh"><span class="red">*温馨提示：</span>本次售后服务将由 <span class="red">中绿生活</span> 为您提供</div>
+                    <div class="l_qdclfs fix">
+                        <h3 class="fon14">请确定处理方式</h3>
+                        <div class="l_clfsmk fix">
+                            <label><span class="red">*</span>申请类型：</label>
+                            <div class="l_clfsmkyb">
+                                <select class="sel-most big floatl" id="select_applytype" name="select_applytype">
+                                    <option value="-1">请选择</option>
+                                    <option value="1">退货退款</option>
+                                    <option value="2">换货</option>
+                                    <!-- <option value="4">退款</option> -->
+                                </select>
+                            </div>
+                        </div><!--l_clfsmk  stop -->
+                        <div class="l_clfsmk fix">
+                            <label><span class="red">*</span>申请理由：</label>
+                            <div class="l_clfsmkyb">
+                                <select class="sel-most big floatl" id="select_reason" name="select_reason">
+                                    <option value="-1">请选择原因</option>
+                                    <option value="0">假冒品牌</option>
+                                    <option value="1">配件故障</option>
+                                    <option value="2">效果不好/不喜欢</option>
+                                    <option value="3">卖家发错货</option>
+                                    <option value="4">质量问题</option>
+                                    <option value="5">其它</option>
+                                </select>
+                                <span class="red ml10 floatl">请正确选择原因，以方便我们快速审核</span>
+                            </div>
+                        </div><!--l_clfsmk  stop -->
+                        <div class="l_clfsmk fix">
+                            <label>申请理由：</label>
+                            <div class="l_clfsmkyb">
+                                <div>
+                                    <div id="td_reason"><textarea name="text_reason" id="text_reason" cols="" rows="" class="sqly_text floatl" placeholder="在此描述您遇到的具体问题，有助于客服人员更快的处理您的申请"></textarea></div>
+
+                                </div>
+                                <div class="l_sctpclfs fix floatl">
+                                    <p class="yscmh floatl">上传凭证：每张图片大小不超过5M，支持JPG、PGN格式，最多上传3张</p>
+                                    <ul id="ul_imgs">
+                                        <li id="li_imgs1">
+                                            <input type="file" name="file_imgs1" id="file_imgs1" hidden />
+                                            <img src="/resource/pc/member/images/tjtpimg.png" width="93" height="93" alt="点击添加图片" id="img_imgs1" class="img_img" issys-val="1">
+                                        </li>
+                                        <li id="li_imgs2">
+                                            <input type="file" name="file_imgs2" id="file_imgs2" hidden />
+                                            <img src="/resource/pc/member/images/tjtpimg.png" width="93" height="93" alt="点击添加图片" id="img_imgs2" class="img_img" issys-val="1">
+                                        </li>
+                                        <li id="li_imgs3">
+                                            <input type="file" name="file_imgs3" id="file_imgs3" hidden />
+                                            <img src="/resource/pc/member/images/tjtpimg.png" width="93" height="93" alt="点击添加图片" id="img_imgs3" class="img_img" issys-val="1">
+                                        </li>
+                                    </ul>
+                                </div><!--l_sctpclfs  stop -->
+                            </div>
+                        </div><!--l_clfsmk  stop -->
+                        <div class="l_clfsmk fix">
+                            <label>退回方式：</label>
+                            <div class="l_clfsmkyb">
+                                <div class="l_zxjhnr"><input name="" type="radio" value="" checked>自行寄回</div>
+                                <div class="mt20">
+                                    <input type="hidden" value="${orderdetailid}" id="hidden_orderdetailid" />
+                                    <a href="javascript:void(0);" class="l_tjfxthh a_submit">提交申请</a>
+                                    <a href="javascript:void(0);" onclick="backhref();" class="l_tjfxthh huise_bj">取消并返回</a>
+                                </div>
+                            </div>
+                        </div><!--l_clfsmk  stop -->
+                    </div><!--l_qdclfs  stop -->
+                </form>
+            </div>
+            <!--jfmxcon stop -->
+        </div>
+        <!--l_jfmx积分明细  stop -->
+        <!--l_cjwt  begin -->
+        <div class="l_cjwt">
+            <h3>返修/退换货申请常见问题</h3>
+            <ul>
+                <li>1. “申请”按钮若为灰色，可能是因为订单尚未完成或该商品正在返修/退换货中;</li>
+                <li>2. 查看 <span class="shenlan"><a href="/member/pcarticles/showarticles?classfy=1">售后政策</a></span>;</li>
+            </ul>
+        </div>
+         <% include("/template/pc/memberCenter/Common_M/M_GuessYouLike.html",{}){}%>
+        <!--l_cjwt  stop -->
+        <!--l_like 猜你喜欢 开始 -->
+        <!-- @{
+            Html.RenderAction("M_GuessYouLike", "Common_M");
+        } -->
+        <!--l_like 猜你喜欢 结束 -->
+    </div>
+    <!--rightside 右边内容  结束 -->
+    <div class="clear"></div>
+</div>
+</body>
+<!--main  主要内容  结束 -->
+

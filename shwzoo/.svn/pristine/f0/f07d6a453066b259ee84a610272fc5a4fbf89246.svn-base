@@ -1,0 +1,79 @@
+<%var path="/resource";%>
+<head>
+
+<title>登录</title>
+<!-- <link rel="stylesheet" href="/wap/css/public.css" type="text/css" media="screen"> -->
+<link rel="stylesheet" href="${path}/wap/css/indexNew.css" type="text/css" media="screen">
+
+<script src="${path}/cookie.js"></script>
+<script src="${path}/wap/js/login.js"></script>
+<script src="${path}/wap/js/shopingCart/shopcart.js"></script>
+<script src="${path}/wap/js/userInfo/login.js?v=1.00"></script>
+</head>
+<body>
+<!--container  begin-->
+<div class="container fix">
+	<!--l_logtop  begin -->
+	<div class="l_logtop">
+    	登录
+        <span class="huise floatleft"><a href="/wap/index.html">取消</a></span>
+    </div>
+    <!--l_logtop  stop -->
+    <!--l_logcon  begin -->
+    <div class="l_logcon">
+    	<div class="l_logconmk fix">
+        	<label>账号：</label>
+            <input name="userName" id="userName"  type="text" placeholder="用户名/邮箱/手机号">
+            
+        </div><!-- l_logconmk  stop-->
+        <div class="l_logconmk fix l_nobor">
+        	<label>密码：</label>
+            <input name="userPwd" id="userPwd"  type="password">
+            <!-- <div class="l_dlmmxswt">
+            	<div class="l_switch"><img src="/wap/images/on.png" class="img-responsive r_imgzh"></div>
+            </div> -->
+            <div id="div_errormessage" class="cwtsxx"></div>
+            <script>
+		$(".r_imgzh").click(function(){
+			if($(this).attr("src")=="${path}/wap/images/off.png"){
+				$(this).attr("src","${path}/wap/images/on.png");
+			}
+			else{
+				$(this).attr("src","${path}/wap/images/off.png");
+			}	
+		})
+		</script>
+        </div><!-- l_logconmk  stop-->   
+    </div>
+    <!--l_logcon  stop -->
+
+    <div class="l_dlan"><a href="javascript:void(0);"  id="a_submit" onclick="Login()">登录</a></div>
+
+    <!--l_zhmzc  begin -->
+    <div class="l_zhmzc fix">
+    
+        <a href="/wap/user/showregister">手机快速注册</a>
+        <div align="right" style="float: right;"><a href="/wap/user/showFindPwd" >找回密码</a></div>
+        
+    </div>
+    <!--l_zhmzc  stop -->
+    <!--l_dsfksdl  begin -->
+    <!-- <div class="l_dsfksdl">
+    	<div class="text-center">第三方快速登录</div>
+        <ul class="fix">
+        	<li><a href="javascript:void(0);"><span><img src="${path}/wap/images/wx.png" class="img-responsive"></span><p>微信账号登录</p></a></li>
+            <li><a href="javascript:void(0);"><span><img src="${path}/wap/images/qq.png" class="img-responsive"></span><p>QQ账号登录</p></a></li>
+            <li><a href="javascript:void(0);"><span><img src="${path}/wap/images/wb.png" class="img-responsive"></span><p>新浪微博账号登录</p></a></li>
+        </ul>
+    </div> -->
+    <!--l_dsfksdl  stop -->
+</div>
+<!--container  stop -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        // onfocus="if(this.value==defaultValue) {this.value=''}" onblur="if(!value) {value=defaultValue; this.type='text';}"               
+        Init.bind();       
+    });
+</script>
+</body>
+

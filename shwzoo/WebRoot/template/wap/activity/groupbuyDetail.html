@@ -1,0 +1,177 @@
+<%var path="/resource";%>
+<head>
+    <title>团购券</title>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+   <!--  <script type="text/javascript" src="${path}/wap/js/jquery.spinner.js" ></script> -->
+    <script src="${path}/cookie.js"></script>
+    <script type="text/javascript" src="${path}/wap/js/login.js"></script>
+    <style type="text/css">
+.decrease, .increase {
+	float: left;
+}
+
+.shop_chartmknr_con_r.active .spinner.value {
+	float: left;
+}
+</style>
+<script type="text/javascript">
+	$(function() {
+		 $("#ddd").on("click","button",function() {
+				var cl = $(this).attr("class");
+				var count = $(this).parent().find("input").val();
+				var canDo = true;
+				if (cl == "decrease") {
+					if (count > 1) {
+						count = count - 1;
+						canDo = true;
+					} else {
+						canDo = false;
+					}
+				} else {
+					if (cl == "increase") {
+						count = parseInt(count) + 1;
+						canDo = true;
+					}
+				}
+				if (canDo) {
+					$(this).parent().find("input").val(count);
+				}
+			}) 
+	
+	})
+	
+	
+	function pay(){
+		if(!login.isLogin()){
+			login.open();
+		}else{
+			 var gid=$("#groupbuyid").val();
+			 var count=$("#count").val();
+			$.ajax(({
+				type:"post",
+				url:"/api/wap/activity/addOrder",
+			    dataType:"json",
+			    data:{
+			    	"gid":gid,
+			    	"count":count,
+			    	"beans":0,
+			    },
+			  success: function (rsl) {
+		
+				  rsl= eval('(' + rsl + ')');
+	                if (rsl.code == 0) {
+	                	window.location.href="/wap/activityView/topay.html?ogc="+rsl.data[0]+"&price="+rsl.data[1];//跳转到订单支付页 
+	                    }
+	                else{}
+
+	                },
+			    error:function(e){
+			    	alert("错误0");
+			    }
+
+			}))
+		}
+	}
+	
+	$(function(){
+		$(window).scroll(function(){
+			var scrollTop=$(this).scrollTop();
+			var scrollHeight=$(document).height();
+			var windowHeight=$(this).height();
+			if(scrollTop+windowHeight==scrollHeight){
+				initPage();
+			}
+		});
+	})
+
+</script>
+</head>
+<body>
+	<!--top_title  begin-->
+	<div class="top_title fix">
+		<a href="/wap/activityView/tuan.html"><div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div></a>
+		团购详情
+	</div>
+	<!--top_title  stop-->
+	<div>
+	
+		<!-- <%for(vo in GroupBuyDetail.imglist){ %>
+		<img src="${GroupBuyDetail.imglist}" class="img-responsive"/>
+		<%} %> -->
+		
+		<div class="fx-banner">
+		<ul>
+		<%for(vo in GroupBuyDetail.imglist){%>
+    	<li onclick="javascript:location.href='${vo.url}'"><img src="${vo.imgurl}"></li>
+    	<%}%>
+   		 </ul>
+		<p>
+		<%for(vo in  GroupBuyDetail.imglist){%>
+    	<i></i>
+    	<%}%>
+		</p>
+		</div>
+	</div>
+	  <input name="groupbuyid"  id="groupbuyid" type="hidden"  value="${GroupBuyDetail.id}"/> 
+	  
+	<div class="dyq_price fix">
+		<div class="dyq_price_top">
+			<h3>${GroupBuyDetail.title}</h3>
+			<p>${GroupBuyDetail.detaildesc}</p>
+		</div>
+		<span class="orange">￥${GroupBuyDetail.cprice}</span> 
+		<span class="text-decthrough huise">￥${GroupBuyDetail.oprice}</span>
+		<div class="floatr"><img src="${path}/wap/images/dyq.png"/>已售${GroupBuyDetail.salescount}</div>
+		<div class="dyq_price_bot fix">
+		<%if (GroupBuyDetail.isanytime == true){%>
+			<span><img src="${path}/wap/images/dyqbot.png"/>随时退</span>
+			<%}%>
+			<%if (GroupBuyDetail.isexpired == true){%>
+			<span><img src="${path}/wap/images/dyqbot.png"/>过期退</span>
+			<%}%>
+			<%if (GroupBuyDetail.isbook == true){%>
+			<span><img src="${path}/wap/images/dyqbot.png"/>免预约</span>
+			<%}%>                
+		</div>
+	</div>
+	<div class="tgxqnr fix">
+		<div class="tgxqnr_tgj">
+			<span>团购价</span><span>${GroupBuyDetail.cprice}元</span>	      
+		</div>
+	</div>
+	<div class="tgxqnr fix">
+		<div class="tgxqnr_top fix">
+			团购详情<img src="${path}/wap/images/tdxq.png"/>
+		</div>
+		<div class="tgxqnr_ldqsj">
+			${GroupBuyDetail.content}
+		</div>
+	</div>
+	<div class="tgxqnr fix">
+		<div class="tgxqnr_top fix">
+			购买须知 <img src="${path}/wap/images/tdxq01.png"/>
+		</div>
+		<div class="tgxqnr_ldqsj">
+			${GroupBuyDetail.buynotes}
+		</div>
+	</div>
+	<div class="dyq_xmnrgm fix" id="ddd">
+		  <div class="spinner">
+		<button class="decrease" >-</button><!--  disabled="disabled" -->
+		<input  readonly="readonly" onkeyup ="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'1');}).call(this)" onblur="this.v();"
+                 id="count"       type="text" class="spinner value" value="1" maxlength="2">
+		<button class="increase" >+</button>
+		</div>	
+		<div class="determine_an tgqljgm">
+			<a href="javascript:void(0);" onclick="pay()">立即购买</a>
+		</div>
+	</div>
+	<script>
+/* 	window.onload=function(){
+		$('.spinner').spinner();
+	} */	
+</script>
+</body>

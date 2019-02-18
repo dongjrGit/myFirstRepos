@@ -1,0 +1,117 @@
+﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>余额</title>
+<link href="/resource/artDialog/skins/default.css" rel="stylesheet" />
+<link type="text/css" rel="stylesheet" href="/resource/pc/web/css/style01.css" />
+<link type="text/css" rel="stylesheet" href="/resource/ui-dialog.css" />
+ <link href="/resource/pc/member/css/pager2.css" rel="stylesheet" />
+    
+<link href="/resource/public/commoncss/jQuery.Validate.css" rel="stylesheet" />
+<script src="/resource/pc/web/js/browsehistory/browsehistory.js"></script>
+<script src="/resource/pc/web/js/index.js"></script>
+<script src="/resource/pc/member/js/pager2.js"></script>
+<script src="/resource/pc/member/js/showdate.js"></script>
+ <script src="/resource/artTemplate.js"></script>
+ <script src="/resource/dialog-plus.js"></script>
+ <script src="/resource/dialogShow.js"></script>
+<script src="/resource/jQueryRotate.2.2.js"></script>
+ <script src="/resource/Guid.js"></script>
+<script src="/resource/GetQueryString.js"></script>
+<script src="/resource/My97DatePicker/WdatePicker.js"></script>
+
+<script type="text/javascript" src="/resource/public/commonjs/Birthday-picker.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/style.js"></script>
+
+<script src="/resource/public/commonjs/AjaxFileUploaderV2.1/ajaxfileupload.js"></script>
+<script src="/resource/public/commonjs/jquery.validate.js"></script>
+<script src="/resource/public/commonjs/messages_cn.js"></script>
+<script src="/resource/public/commonjs/jquery.validate-methods.js"></script>
+
+<script src="/resource/public/commonjs/public-user.js"></script>
+
+<script src="/resource/public/commonjs/jquery.form.js"></script>
+<script src="/resource/pc/web/js/jquery.banner.js"></script>
+<script src="/resource/pc/member/js/ZcZx/Balance.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        Balance.getList(1,2, 2);
+    })
+</script>
+</head>
+<!--main  主要内容  开始 -->
+<div id="main" class="fix">
+    <!--main-left 左边内容  开始 -->
+    <% include("/template/pc/memberCenter/Shared/_PartialLeftside.html",{}){}%> 
+    <!--main-left 左边内容  结束 -->
+    <!--rightside 右边内容  结束 -->
+    <div class="rightside">
+        <!--l_kyjftop  begin -->
+       <div class="l_kyjftop">
+            可用余额： <span class="fon16 bolder red">${userbalance.balance,numberFormat="0.00"}</span>
+            <span class="ml50">锁定余额：</span><span class="fon16 bolder red">${userbalance.freezemoney}</span>
+            <span class="ml50">账户状态：</span>
+            <%if(userbalance.status==0){%>
+                <span class="fon16 bolder red">有效</span>
+           <%}else{%>
+                <span class="fon16 bolder red">无效</span>
+           <%}%>
+            <span class="ml50 shenlan"><a href="#">安全中心</a></span>
+            <span class="yscmh">保护账户资产安全</span>
+            <div class="l_yetoppos"><a href="/member/coupon/balancepay1" class="l_tjfxthh">充值</a></div>
+            <div class="mt20 juse">为了保证您账户余额的安全，如需提现，请致电中绿客服进行申请和审核：400-606-5500</div>
+        </div>
+        <!--l_kyjftop  stop -->
+        <!--l_jfmx积分明细  begin -->
+        <div class="l_jfmx">
+            <!--l_jfmxtop  begin -->
+            <div class="l_jfmxtop">
+                <h3>
+                    <a href="javascript:void(0);" class="active" >全部记录</a>
+                    <!-- <a href="javascript:void(0);" status-val="1" onclick="ChangeStatus(this);">已支付记录</a>
+                    <a href="javascript:void(0);" status-val="0" onclick="ChangeStatus(this);">未支付记录</a> -->
+                </h3>
+            </div><!--l_jfmxtop  stop -->
+            <!--jfmxcon  begin -->
+            <div class="jfmxcon">
+                <table class="l_tablemost">
+                    <tr id="tr_title">
+                        <th>时间</th>
+                        <th>充值单号</th>
+                        <th>充值金额</th>
+                        <th>状态</th>
+                        <th>备注</th>
+                    </tr>
+                    <script type="text/html" id="balancelist">
+                        {{each list as pro i}}
+                        <tr>
+                            <td class="yscmh">{{pro.creattimestr}}</td>
+                            <td>{{pro.number}}</td>
+                            <td>￥{{pro.money}}</td>
+                            {{if pro.status==1}}
+                            <td>充值成功</td>
+                            {{else}}
+                            <td class="red">未支付</td>
+                            {{/if}}
+                            <td>
+                                {{if pro.description!=null}}
+                                {{pro.description}}
+                                {{/if}}
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </script>
+                </table>
+                <!--sppj_page  begin -->
+                <div class="pager" id="pager">
+                </div>
+                <!--sppj_page  stop -->
+            </div>
+            <!--jfmxcon stop -->
+        </div>
+        <!--l_jfmx积分明细  stop -->
+    </div>
+    <!--rightside 右边内容  结束 -->
+    <div class="clear"></div>
+</div>
+<!--main  主要内容  结束 -->

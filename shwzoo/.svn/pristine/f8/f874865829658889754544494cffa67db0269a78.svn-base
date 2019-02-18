@@ -1,0 +1,181 @@
+﻿@{
+    ViewBag.Title = "商品列表-左侧推广";
+}
+<script src="~/web_new/js/spgl/productspread.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        Zctg.bind(@ViewBag.Cid);
+    })
+</script>
+  <!--左侧-->
+<div class="y_mainPorL">
+
+    <div class="y_mainPorL_b">
+        <div class="y_mainPorL_bh">推广产品</div>
+        <ul class="y_tuigChnap">
+
+        </ul>
+    </div>
+
+    <div class="y_mainPorL_b">
+        <div class="y_mainPorL_bh">一周销量排行</div>
+        <ul class="y_mainPorL_PH">
+            <li>
+                <div class="L"><a href="javascript:void(0);"><img src="~/web/imgs/y_index_04.jpg" /><span class="ht">1</span></a></div>
+                <div class="R">
+                    <div class="bt"><a href="javascript:void(0);">海视界 大连海参干货</a></div>
+                    <span>￥239</span>
+                </div>
+            </li>
+            <li>
+                <div class="L"><a href="javascript:void(0);"><img src="~/web/imgs/y_index_04.jpg" /><span class="ht">2</span></a></div>
+                <div class="R">
+                    <div class="bt"><a href="javascript:void(0);">海视界 大连海参干货</a></div>
+                    <span>￥239</span>
+                </div>
+            </li>
+            <li>
+                <div class="L"><a href="javascript:void(0);"><img src="~/web/imgs/y_index_04.jpg" /><span class="ht">3</span></a></div>
+                <div class="R">
+                    <div class="bt"><a href="javascript:void(0);">海视界 大连海参干货</a></div>
+                    <span>￥239</span>
+                </div>
+            </li>
+            <li>
+                <div class="L"><a href="javascript:void(0);"><img src="~/web/imgs/y_index_04.jpg" /><span>4</span></a></div>
+                <div class="R">
+                    <div class="bt"><a href="javascript:void(0);">海视界 大连海参干货</a></div>
+                    <span>￥239</span>
+                </div>
+            </li>
+            <li>
+                <div class="L"><a href="javascript:void(0);"><img src="~/web/imgs/y_index_04.jpg" /><span>5</span></a></div>
+                <div class="R">
+                    <div class="bt"><a href="javascript:void(0);">海视界 大连海参干货</a></div>
+                    <span>￥239</span>
+                </div>
+            </li>
+            <li class="mo">
+                <div class="L"><a href="javascript:void(0);"><img src="~/web/imgs/y_index_04.jpg" /><span>6</span></a></div>
+                <div class="R">
+                    <div class="bt"><a href="javascript:void(0);">海视界 大连海参干货</a></div>
+                    <span>￥239</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="y_mainPorL_b">
+        <div class="y_mainPorL_bh">浏览<a href="javascript:void(0);">海参</a>最终购买</div>
+        <ul class="y_tuigChnap">
+            <li>
+                <a href="javascript:void(0);"><img class="img" src="~/web/imgs/y_index_01.jpg" /></a>
+                <h3><a href="javascript:void(0);">海视界 大连海参干货 5A级野生刺参 淡干海参 家庭简装 7-9头(50g)</a></h3>
+                <div class="jg">￥239</div>
+                <div class="pj"><a href="javascript:void(0);">156个好评</a></div>
+            </li>
+            <li>
+                <a href="javascript:void(0);"><img class="img" src="~/web/imgs/y_index_01.jpg" /></a>
+                <h3><a href="javascript:void(0);">海视界 大连海参干货 5A级野生刺参 淡干海参 家庭简装 7-9头(50g)</a></h3>
+                <div class="jg">￥239</div>
+                <div class="pj"><a href="javascript:void(0);">156个好评</a></div>
+            </li>
+            <li>
+                <a href="javascript:void(0);"><img class="img" src="~/web/imgs/y_index_01.jpg" /></a>
+                <h3><a href="javascript:void(0);">海视界 大连海参干货 5A级野生刺参 淡干海参 家庭简装 7-9头(50g)</a></h3>
+                <div class="jg">￥239</div>
+                <div class="pj"><a href="javascript:void(0);">156个好评</a></div>
+            </li>
+            <li>
+                <a href="javascript:void(0);"><img class="img" src="~/web/imgs/y_index_01.jpg" /></a>
+                <h3><a href="javascript:void(0);">海视界 大连海参干货 5A级野生刺参 淡干海参 家庭简装 7-9头(50g)</a></h3>
+                <div class="jg">￥239</div>
+                <div class="pj"><a href="javascript:void(0);">156个好评</a></div>
+            </li>
+            <li>
+                <a href="javascript:void(0);"><img class="img" src="~/web/imgs/y_index_01.jpg" /></a>
+                <h3><a href="javascript:void(0);">海视界 大连海参干货 5A级野生刺参 淡干海参 家庭简装 7-9头(50g)</a></h3>
+                <div class="jg">￥239</div>
+                <div class="pj"><a href="javascript:void(0);">156个好评</a></div>
+            </li>
+            <li class="mo">
+                <a href="javascript:void(0);"><img class="img" src="~/web/imgs/y_index_01.jpg" /></a>
+                <h3><a href="javascript:void(0);">海视界 大连海参干货 5A级野生刺参 淡干海参 家庭简装 7-9头(50g)</a></h3>
+                <div class="jg">￥239</div>
+                <div class="pj"><a href="javascript:void(0);">156个好评</a></div>
+            </li>
+        </ul>
+    </div>
+
+    <div class="y_mainPorL_b">
+        <div class="y_mainPorL_bh">最近看过的商品</div>
+        <ul class="y_mainPorL_PH">
+            <li>
+                <div class="L"><a href="javascript:void(0);"><img src="~/web/imgs/y_index_04.jpg" /></a></div>
+                <div class="R">
+                    <div class="bt"><a href="javascript:void(0);">海视界 大连海参干货</a></div>
+                    <span>￥239</span>
+                </div>
+            </li>
+            <li>
+                <div class="L"><a href="javascript:void(0);"><img src="~/web/imgs/y_index_04.jpg" /></a></div>
+                <div class="R">
+                    <div class="bt"><a href="javascript:void(0);">海视界 大连海参干货</a></div>
+                    <span>￥239</span>
+                </div>
+            </li>
+            <li>
+                <div class="L"><a href="javascript:void(0);"><img src="~/web/imgs/y_index_04.jpg" /></a></div>
+                <div class="R">
+                    <div class="bt"><a href="javascript:void(0);">海视界 大连海参干货</a></div>
+                    <span>￥239</span>
+                </div>
+            </li>
+            <li>
+                <div class="L"><a href="javascript:void(0);"><img src="~/web/imgs/y_index_04.jpg" /></a></div>
+                <div class="R">
+                    <div class="bt"><a href="javascript:void(0);">海视界 大连海参干货</a></div>
+                    <span>￥239</span>
+                </div>
+            </li>
+            <li>
+                <div class="L"><a href="javascript:void(0);"><img src="~/web/imgs/y_index_04.jpg" /></a></div>
+                <div class="R">
+                    <div class="bt"><a href="javascript:void(0);">海视界 大连海参干货</a></div>
+                    <span>￥239</span>
+                </div>
+            </li>
+            <li>
+                <div class="L"><a href="javascript:void(0);"><img src="~/web/imgs/y_index_04.jpg" /></a></div>
+                <div class="R">
+                    <div class="bt"><a href="javascript:void(0);">海视界 大连海参干货</a></div>
+                    <span>￥239</span>
+                </div>
+            </li>
+            <li>
+                <div class="L"><a href="javascript:void(0);"><img src="~/web/imgs/y_index_04.jpg" /></a></div>
+                <div class="R">
+                    <div class="bt"><a href="javascript:void(0);">海视界 大连海参干货</a></div>
+                    <span>￥239</span>
+                </div>
+            </li>
+            <li>
+                <div class="L"><a href="javascript:void(0);"><img src="~/web/imgs/y_index_04.jpg" /></a></div>
+                <div class="R">
+                    <div class="bt"><a href="javascript:void(0);">海视界 大连海参干货</a></div>
+                    <span>￥239</span>
+                </div>
+            </li>
+            <li class="mo">
+                <div class="L"><a href="javascript:void(0);"><img src="~/web/imgs/y_index_04.jpg" /></a></div>
+                <div class="R">
+                    <div class="bt"><a href="javascript:void(0);">海视界 大连海参干货</a></div>
+                    <span>￥239</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <a href="javascript:void(0);"><img class="y_mainPorL_Img" src="~/web/imgs/y_index_05.jpg" /></a>
+</div>
+<!--左侧***-->

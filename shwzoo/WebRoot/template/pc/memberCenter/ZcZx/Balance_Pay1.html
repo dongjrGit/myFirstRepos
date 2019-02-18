@@ -1,0 +1,93 @@
+﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>余额</title>
+<link href="/resource/artDialog/skins/default.css" rel="stylesheet" />
+<link type="text/css" rel="stylesheet" href="/resource/pc/web/css/style01.css" />
+<link type="text/css" rel="stylesheet" href="/resource/ui-dialog.css" />
+ <link href="/resource/pc/member/css/pager2.css" rel="stylesheet" />    
+<link href="/resource/public/commoncss/jQuery.Validate.css" rel="stylesheet" />
+<script src="/resource/pc/web/js/browsehistory/browsehistory.js"></script>
+<script src="/resource/pc/web/js/index.js"></script>
+<script src="/resource/pc/member/js/pager2.js"></script>
+<script src="/resource/pc/member/js/showdate.js"></script>
+ <script src="/resource/artTemplate.js"></script>
+ <script src="/resource/dialog-plus.js"></script>
+ <script src="/resource/dialogShow.js"></script>
+<script src="/resource/jQueryRotate.2.2.js"></script>
+ <script src="/resource/Guid.js"></script>
+<script src="/resource/GetQueryString.js"></script>
+<script src="/resource/My97DatePicker/WdatePicker.js"></script>
+
+<script type="text/javascript" src="/resource/public/commonjs/Birthday-picker.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/style.js"></script>
+
+<script src="/resource/public/commonjs/AjaxFileUploaderV2.1/ajaxfileupload.js"></script>
+<script src="/resource/public/commonjs/jquery.validate.js"></script>
+<script src="/resource/public/commonjs/messages_cn.js"></script>
+<script src="/resource/public/commonjs/jquery.validate-methods.js"></script>
+
+<script src="/resource/public/commonjs/public-user.js"></script>
+
+<script src="/resource/public/commonjs/jquery.form.js"></script>
+<script src="/resource/pc/web/js/jquery.banner.js"></script>
+<script src="/resource/pc/member/js/ZcZx/Balance.js"></script>
+<script src="/resource/pc/member/js/ZcZx/jquery-1.8.2.intellisense.js"></script>
+</head>
+
+<!--w1200  中间内容开始 -->
+<div class="w1200 fix">
+    <!--l_yetoplogo   begin -->
+    <div class="l_yetoplogo">
+    
+       <!--  <img src="/resource/pc/member/images/logo.png" width="184px" height="41px"> -->
+        <div class="l_yetopright">
+            <ul>
+                <li class="active">1.填写充值金额</li>
+                <li>2. 在线支付</li>
+                <li>3.充值成功</li>
+            </ul>
+        </div><!--l_yetopright  stop -->
+    </div>
+    <!--l_yetoplogo   stop -->
+    <!--l_txczje  begin -->
+    <div class="l_txczje">
+        <div class="l_txczjetop">
+            填写充值金额
+        </div><!--l_txczjetop  stop -->
+        <div class="l_txczjecon">
+            <div class="l_txczjemk fix">
+                <label>充值账户：</label>
+                <div class="l_txczjemkright">
+                    ${name}
+                </div>
+            </div><!--l_txczjemk  stop -->
+            <form id="submitForm" name="submitForm">
+                <div class="l_txczjemk fix">
+                    <label>充值金额：</label>
+                    <div class="l_txczjemkright">
+                        <div>
+                            <input name="text_monery" id="text_monery" type="text" class="inp-most text-center mr10">元
+                            <p id="p_error"></p>
+                        </div>
+                        <p class="yscmh fon12 mt15">请注意：支持国内主流银行储蓄卡充值，在线支付成功后，充值金额会在1分钟内到账；如果需要提现，请致电客服办理</p>
+                        <div class="l_kfshczje">
+                            <i></i>客服电话：400-616-5500 | 0527-88105500    服务时间：周一至周日 0:00-24:00
+                        </div>
+                        <div class="mt20"><a href="javascript:void(0);" id="a_next" name="a_next" class="l_yexyb" onclick="Balance_Pay1(this);">下一步</a></div>
+                    </div>
+                </div><!--l_txczjemk  stop -->
+            </form>
+            <div class="l_wxtsye fix">
+                <h3>温馨提示：</h3>
+                <ul>
+                    <li>1. 充值成功后，余额可能存在延迟现象，一般1到5分钟内到账，如有问题，请咨询客服； </li>
+                    <li>2. 充值金额输入值必须是不小于10且不大于50000的正整数；  </li>
+                    <li>3. 您只能用储蓄卡进行充值，如遇到任何支付问题可以查看在线支付帮助； </li>
+                    <li>4. 充值完成后，您可以进入账户充值记录页面进行查看余额充值状态。</li>
+                </ul>
+            </div><!--l_wxtsye  stop -->
+        </div><!--l_txczjecon  stop -->
+    </div>
+    <!--l_txczje  stop -->
+</div>
+<!--w1200  中间内容结束 -->

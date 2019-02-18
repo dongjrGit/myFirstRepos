@@ -1,0 +1,8 @@
+<%for (vo in list.data){%>
+<li class="fix">
+			<a href="/wap/products/ProDetail.html?spuid=${vo.spuid}"><img src="${vo.img}"/></a>
+			<h3><a href="/wap/products/ProDetail.html?spuid=${vo.spuid}">${vo.name}</a></h3>
+			<p class="red">￥${vo.price}</p>
+		</li>
+		<input name="pages" type="hidden" value="${list.page}"/>
+<%}%>

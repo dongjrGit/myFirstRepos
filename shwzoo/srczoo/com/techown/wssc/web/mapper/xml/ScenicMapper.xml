@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.techown.wssc.web.mapper.ScenicMapper">
+  <resultMap id="BaseResultMap" type="com.techown.wssc.web.po.Scenic">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="scenicName" jdbcType="VARCHAR" property="scenicname" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+    <result column="property" jdbcType="TINYINT" property="property" />
+    <result column="imageId" jdbcType="VARCHAR" property="imageid" />
+    <result column="scenicArea" jdbcType="TINYINT" property="scenicarea" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="isCharge" jdbcType="TINYINT" property="ischarge" />
+    <result column="state" jdbcType="TINYINT" property="state" />
+    <result column="shopId" jdbcType="INTEGER" property="shopid" />
+    <result column="topicId" jdbcType="INTEGER" property="topicid" />
+    <result column="longitude" jdbcType="DECIMAL" property="longitude" />
+    <result column="latitude" jdbcType="DECIMAL" property="latitude" />
+    <result column="createTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="updateTime" jdbcType="TIMESTAMP" property="updatetime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.techown.wssc.web.po.ScenicWithBLOBs">
+    <result column="openTime" jdbcType="LONGVARCHAR" property="opentime" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, type, scenicName, img, property, imageId, scenicArea, address, isCharge, state, 
+    shopId, topicId, longitude, latitude
+  </sql>
+  <sql id="Blob_Column_List">
+    openTime, content
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from zoo_scenic
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select a.id, a.type, a.scenicName, a.img, a.property, a.imageId, a.openTime, a.scenicArea, a.address, a.isCharge, a.content, a.state, c.id as shopid, a.topicId, a.longitude, a.latitude, a.createTime, a.updateTime,d.title as topicname, t.name as typeName, c.name as shopname from zoo_scenic as a 
+    left join zoo_scenic_type as t on a.type =t.code 
+    left join (select name,id from shop where  IsDel = 0 and Status = 4 ) c
+    on a.shopId = c.id left join topic d on a.topicId = d.id
+    where a.id = #{id} and t.type='PC' 
+  </select>
+  
+  
+  
+  <sql id="criteria_query_title">
+			<if test="criteria.type!=null and criteria.type!='' ">
+				and a.type=#{criteria.type}
+			</if>
+			<if test="criteria.name!=null and criteria.name!='' ">
+				and scenicname like '%${criteria.name}%'
+			</if>
+			<if test="criteria.area!=null">
+				and scenicarea like '%${criteria.area}%'
+			</if>
+	</sql>
+  
+  
+  <select id="querylistPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="Scenic">
+		select
+		a.*, t.name as typeName from zoo_scenic as a left join zoo_scenic_type as t on a.type =t.code 
+		<where>
+		 t.type='PC'
+		</where>
+		<if test="criteria != null ">
+			<include refid="criteria_query_title" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	
+	
+	<select id="getScenicByState" resultType="Scenic">
+		SELECT a.id, a.img, a.latitude, a.longitude, a.property, a.scenicarea, a.scenicname, a.type, t.NAME AS typeName
+		FROM zoo_scenic a LEFT JOIN zoo_scenic_type t ON a.type = t.CODE
+		<where>
+		 t.type='PC' and a.state =#{state}
+		</where>
+	</select>
+  
+  
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from zoo_scenic
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.techown.wssc.web.po.ScenicWithBLOBs">
+    insert into zoo_scenic (id, type, scenicName, 
+      img, property, imageId, 
+      scenicArea, address, isCharge, 
+      state, shopId, topicId, 
+      longitude, latitude, openTime, 
+      content,createTime,updateTime)
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=VARCHAR}, #{scenicname,jdbcType=VARCHAR}, 
+      #{img,jdbcType=VARCHAR}, #{property,jdbcType=TINYINT}, #{imageid,jdbcType=VARCHAR}, 
+      #{scenicarea,jdbcType=TINYINT}, #{address,jdbcType=VARCHAR}, #{ischarge,jdbcType=TINYINT}, 
+      #{state,jdbcType=TINYINT}, #{shopid,jdbcType=INTEGER}, #{topicid,jdbcType=INTEGER}, 
+      #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{opentime,jdbcType=LONGVARCHAR}, 
+      #{content,jdbcType=LONGVARCHAR},#{createtime,jdbcType=TIMESTAMP},#{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.techown.wssc.web.po.ScenicWithBLOBs">
+    insert into zoo_scenic
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="scenicname != null">
+        scenicName,
+      </if>
+      <if test="img != null">
+        img,
+      </if>
+      <if test="property != null">
+        property,
+      </if>
+      <if test="imageid != null">
+        imageId,
+      </if>
+      <if test="scenicarea != null">
+        scenicArea,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="ischarge != null">
+        isCharge,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="shopid != null">
+        shopId,
+      </if>
+      <if test="topicid != null">
+        topicId,
+      </if>
+      <if test="longitude != null">
+        longitude,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
+      <if test="opentime != null">
+        openTime,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="scenicname != null">
+        #{scenicname,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="property != null">
+        #{property,jdbcType=TINYINT},
+      </if>
+      <if test="imageid != null">
+        #{imageid,jdbcType=VARCHAR},
+      </if>
+      <if test="scenicarea != null">
+        #{scenicarea,jdbcType=TINYINT},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="ischarge != null">
+        #{ischarge,jdbcType=TINYINT},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=TINYINT},
+      </if>
+      <if test="shopid != null">
+        #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="topicid != null">
+        #{topicid,jdbcType=INTEGER},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="opentime != null">
+        #{opentime,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateState">
+  	update zoo_scenic set state = #{state} where id = #{id}
+  </update>
+  
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.techown.wssc.web.po.ScenicWithBLOBs">
+    update zoo_scenic
+    <set>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="scenicname != null">
+        scenicName = #{scenicname,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="property != null">
+        property = #{property,jdbcType=TINYINT},
+      </if>
+      <if test="imageid != null">
+        imageId = #{imageid,jdbcType=VARCHAR},
+      </if>
+      <if test="scenicarea != null">
+        scenicArea = #{scenicarea,jdbcType=TINYINT},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="ischarge != null">
+        isCharge = #{ischarge,jdbcType=TINYINT},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=TINYINT},
+      </if>
+      <if test="shopid != null">
+        shopId = #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="topicid != null">
+        topicId = #{topicid,jdbcType=INTEGER},
+      </if>
+      <if test="longitude != null">
+        longitude = #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="opentime != null">
+        openTime = #{opentime,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.techown.wssc.web.po.ScenicWithBLOBs">
+    update zoo_scenic
+    set type = #{type,jdbcType=VARCHAR},
+      scenicName = #{scenicname,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      property = #{property,jdbcType=TINYINT},
+      imageId = #{imageid,jdbcType=VARCHAR},
+      scenicArea = #{scenicarea,jdbcType=TINYINT},
+      address = #{address,jdbcType=VARCHAR},
+      isCharge = #{ischarge,jdbcType=TINYINT},
+      state = #{state,jdbcType=TINYINT},
+      shopId = #{shopid,jdbcType=INTEGER},
+      topicId = #{topicid,jdbcType=INTEGER},
+      longitude = #{longitude,jdbcType=DECIMAL},
+      latitude = #{latitude,jdbcType=DECIMAL},
+      openTime = #{opentime,jdbcType=LONGVARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR},
+      updateTime= #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.techown.wssc.web.po.Scenic">
+    update zoo_scenic
+    set type = #{type,jdbcType=VARCHAR},
+      scenicName = #{scenicname,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      property = #{property,jdbcType=TINYINT},
+      imageId = #{imageid,jdbcType=VARCHAR},
+      scenicArea = #{scenicarea,jdbcType=TINYINT},
+      address = #{address,jdbcType=VARCHAR},
+      isCharge = #{ischarge,jdbcType=TINYINT},
+      state = #{state,jdbcType=TINYINT},
+      shopId = #{shopid,jdbcType=INTEGER},
+      topicId = #{topicid,jdbcType=INTEGER},
+      longitude = #{longitude,jdbcType=DECIMAL},
+      latitude = #{latitude,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  <resultMap id="AppResultMap" type="com.techown.wssc.web.po.ScenicApp">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="scenicName" jdbcType="VARCHAR" property="scenicname" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+    <result column="property" jdbcType="TINYINT" property="property" />
+    <result column="imageId" jdbcType="VARCHAR" property="imageid" />
+    <result column="scenicArea" jdbcType="TINYINT" property="scenicarea" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="isCharge" jdbcType="TINYINT" property="ischarge" />
+    <result column="state" jdbcType="TINYINT" property="state" />
+    <result column="shopId" jdbcType="INTEGER" property="shopid" />
+    <result column="topicId" jdbcType="INTEGER" property="topicid" />
+    <result column="longitude" jdbcType="DECIMAL" property="longitude" />
+    <result column="latitude" jdbcType="DECIMAL" property="latitude" />
+    <result column="openTime" jdbcType="LONGVARCHAR" property="opentime" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <collection property="images" column="imageId" foreignColumn="imageId" javaType="ArrayList" ofType="com.techown.wssc.web.po.ScenicImage">
+    	<id column="img_id" jdbcType="INTEGER" property="id" />
+    	<result column="path" jdbcType="VARCHAR" property="path" />
+    	<result column="sort" jdbcType="INTEGER" property="sort" />
+    </collection>
+  </resultMap>
+  
+  <select id="getAppScenicById" resultMap="AppResultMap" >
+   select a.id,a.scenicName,a.property,a.imageId,a.scenicArea,a.address,a.isCharge,a.state,c.id as shopId,a.topicId,a.longitude,a.latitude,
+   a.openTime,a.content,b.id as img_id ,b.path,b.sort
+   from zoo_scenic  a 
+   left join zoo_image b on a.imageId = b.imageId
+   left join  (select id from shop where  IsDel = 0 and Status = 4 ) c on a.shopId = c.id 
+   where a.id = #{id} 
+   <if test="state!=null">
+     and state = #{state}
+   </if>
+   order by b.sort
+  </select>
+  
+  
+  <select id="getScenicStartWithName" resultType="Scenic" >
+   	select a.id,a.scenicname from zoo_scenic a
+   	<where>
+ 		<if test="list != null and list.size() > 0">
+			a.type in
+			<foreach collection="list" item="type" index="index" open="("
+				close=")" separator=",">
+				#{type}
+			</foreach>
+		</if>		
+ 		<if test="name!='%%'">
+ 		  and a.scenicname like #{name}
+ 		</if>
+ 		<if test="state!=null">
+ 		  and a.state = #{state}
+ 		</if>
+ 	</where>
+ 		limit 0,10
+  </select>
+  
+  <select id="queryByName" resultType="hashmap">
+    select a.id from zoo_scenic  a
+    <where>
+         a.scenicname = #{scenicname,jdbcType=VARCHAR}
+    	<if test="null!=id">
+    	 and   a.id != #{id,jdbcType=INTEGER}
+    	</if>
+    </where>
+  </select>
+  
+  <select id="getScenicByShopId" parameterType="java.lang.Integer" resultType="Scenic">
+  	select 
+    <include refid="Base_Column_List" />
+    from zoo_scenic where shopId = #{0}
+    limit 1
+  </select>
+  
+</mapper>

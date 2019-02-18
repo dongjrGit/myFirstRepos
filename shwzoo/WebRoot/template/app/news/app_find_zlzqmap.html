@@ -1,0 +1,45 @@
+
+<head>
+<meta charset="utf-8">
+
+<title>发现</title>
+<link rel="stylesheet" href="/resource/wap/css/greenLife.css" />
+<script type="text/javascript" src="/resource/wap/js/greenLife.js" ></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=TmamoCoQBaTICzOV6IelR2EiiGG42ddk"></script>
+<script src="/resource/public/commonjs/ECharts/echarts-all.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/wkh/common-util.js"></script>
+
+<script type="text/javascript" src="/resource/GetQueryString.js"></script>
+<%if(ch==2){%>
+<style>
+.septop {padding-top: 18px;}
+.septop.rowreturn{background: #006428 url(/resource/app/images/rowreturn.png) no-repeat 3% 0.6rem;background-size: 0.17rem auto;}
+</style>
+<%}%>
+</head>
+<body>
+<!--septop begin-->
+<div class="septop rowreturn fixed">
+	<span class="bigsize">地图</span>
+	<div id="rowreturn" onclick="javascirpt:location.href='url:///back'"></div>
+</div>
+	<div id="main" style="height:400px;"></div>
+	<div id="allmap" style="height:800px;display:none;"></div>
+<script>
+var ismapinfo=false;
+$(function(){
+	fixed('.septop');
+})
+$(function(){
+	
+	$("#rowreturn").bind("click",function(){
+			if(GetQueryStringByName("b")==1){
+				window.location.href='url:///back';
+			}else{
+			}
+		});
+});
+</script>
+<script src="/resource/wap/js/zlzx/wapzlzqmap.js"></script>
+
+</body>

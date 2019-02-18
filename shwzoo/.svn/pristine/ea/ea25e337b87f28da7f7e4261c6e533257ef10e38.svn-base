@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.ApplyforcancelorderMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Applyforcancelorder">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="OrderID" property="orderid" jdbcType="INTEGER" />
+		<result column="UserID" property="userid" jdbcType="INTEGER" />
+		<result column="Content" property="content" jdbcType="VARCHAR" />
+		<result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="ImgUrl" property="imgurl" jdbcType="VARCHAR" />
+		<result column="Type" property="type" jdbcType="INTEGER" />
+		<result column="OrderStatus" property="orderstatus" jdbcType="INTEGER" />
+
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="ordernum" property="ordernum" jdbcType="VARCHAR" />
+		<result column="note" property="note" jdbcType="VARCHAR" />
+		<result column="datatype" property="datatype" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, OrderID, UserID, Content, CreateTime, ImgUrl, Type,
+		OrderStatus,status,ordernum,note,datatype
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.ApplyforcancelorderExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from applyforcancelorder
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from applyforcancelorder
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from applyforcancelorder
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.ApplyforcancelorderExample">
+		delete from applyforcancelorder
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.Applyforcancelorder">
+	<selectKey resultType="int" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into applyforcancelorder (ID, OrderID, UserID,
+		Content, CreateTime, ImgUrl,
+		Type, OrderStatus,status,ordernum,note,datatype)
+		values (#{id,jdbcType=INTEGER}, #{orderid,jdbcType=INTEGER},
+		#{userid,jdbcType=INTEGER},
+		#{content,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{imgurl,jdbcType=VARCHAR},
+		#{type,jdbcType=INTEGER}, #{orderstatus,jdbcType=INTEGER},
+		#{status,jdbcType=INTEGER}, #{ordernum,jdbcType=VARCHAR},
+		#{note,jdbcType=VARCHAR},#{datatype,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Applyforcancelorder">
+		insert into applyforcancelorder
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="orderid != null">
+				OrderID,
+			</if>
+			<if test="userid != null">
+				UserID,
+			</if>
+			<if test="content != null">
+				Content,
+			</if>
+			<if test="createtime != null">
+				CreateTime,
+			</if>
+			<if test="imgurl != null">
+				ImgUrl,
+			</if>
+			<if test="type != null">
+				Type,
+			</if>
+			<if test="orderstatus != null">
+				OrderStatus,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="ordernum != null">
+				ordernum,
+			</if>
+			<if test="note != null">
+				note,
+			</if>
+			<if test="datatype != null">
+				datatype,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="orderid != null">
+				#{orderid,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=INTEGER},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				#{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="imgurl != null">
+				#{imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="orderstatus != null">
+				#{orderstatus,jdbcType=INTEGER},
+			</if>
+
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="ordernum != null">
+				#{ordernum,jdbcType=VARCHAR},
+			</if>
+			<if test="note != null">
+				#{note,jdbcType=VARCHAR},
+			</if>
+			<if test="datatype != null">
+				#{datatype,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.ApplyforcancelorderExample"
+		resultType="java.lang.Integer">
+		select count(*) from applyforcancelorder
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update applyforcancelorder
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.orderid != null">
+				OrderID = #{record.orderid,jdbcType=INTEGER},
+			</if>
+			<if test="record.userid != null">
+				UserID = #{record.userid,jdbcType=INTEGER},
+			</if>
+			<if test="record.content != null">
+				Content = #{record.content,jdbcType=VARCHAR},
+			</if>
+			<if test="record.createtime != null">
+				CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.imgurl != null">
+				ImgUrl = #{record.imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="record.type != null">
+				Type = #{record.type,jdbcType=INTEGER},
+			</if>
+			<if test="record.orderstatus != null">
+				OrderStatus = #{record.orderstatus,jdbcType=INTEGER},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.ordernum != null">
+				ordernum = #{record.ordernum,jdbcType=VARCHAR},
+			</if>
+			<if test="record.note != null">
+				note = #{record.note,jdbcType=VARCHAR},
+			</if>
+            <if test="record.datatype != null">
+				datatype = #{record.datatype,jdbcType=INTEGER},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update applyforcancelorder
+		set ID = #{record.id,jdbcType=INTEGER},
+		OrderID = #{record.orderid,jdbcType=INTEGER},
+		UserID = #{record.userid,jdbcType=INTEGER},
+		Content = #{record.content,jdbcType=VARCHAR},
+		CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+		ImgUrl = #{record.imgurl,jdbcType=VARCHAR},
+		Type = #{record.type,jdbcType=INTEGER},
+		OrderStatus = #{record.orderstatus,jdbcType=INTEGER} ,
+		status = #{record.status,jdbcType=INTEGER},
+		note = #{record.note,jdbcType=VARCHAR},
+		ordernum = #{record.ordernum,jdbcType=VARCHAR},
+		datatype = #{record.datatype,jdbcType=INTEGER}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Applyforcancelorder">
+		update applyforcancelorder
+		<set>
+			<if test="orderid != null">
+				OrderID = #{orderid,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				UserID = #{userid,jdbcType=INTEGER},
+			</if>
+			<if test="content != null">
+				Content = #{content,jdbcType=VARCHAR},
+			</if>
+			<if test="createtime != null">
+				CreateTime = #{createtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="imgurl != null">
+				ImgUrl = #{imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				Type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="orderstatus != null">
+				OrderStatus = #{orderstatus,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="ordernum != null">
+				ordernum = #{ordernum,jdbcType=VARCHAR},
+			</if>
+			<if test="note != null">
+				note = #{note,jdbcType=VARCHAR},
+			</if>
+			<if test="datatype != null">
+				datatype = #{datatype,jdbcType=INTEGER},
+			</if>
+		</set> 
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Applyforcancelorder">
+		update applyforcancelorder
+		set OrderID = #{orderid,jdbcType=INTEGER},
+		UserID = #{userid,jdbcType=INTEGER},
+		Content = #{content,jdbcType=VARCHAR},
+		CreateTime = #{createtime,jdbcType=TIMESTAMP},
+		ImgUrl = #{imgurl,jdbcType=VARCHAR},
+		Type = #{type,jdbcType=INTEGER},
+		OrderStatus = #{orderstatus,jdbcType=INTEGER},
+		status = #{status,jdbcType=INTEGER},
+		ordernum = #{ordernum,jdbcType=VARCHAR},
+		note = #{note,jdbcType=VARCHAR},
+		datatype = #{datatype,jdbcType=INTEGER}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="getbyOrderAndType" parameterType="int" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from applyforcancelorder
+		where OrderID=#{0} and Type=#{1}
+		order by CreateTime desc limit 1
+	</select>
+    <select id="getbyOrderAndStatus" parameterType="int" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from applyforcancelorder
+		where OrderID=#{0} and OrderStatus=#{1}
+		order by CreateTime desc limit 1
+	</select>
+	<!-- 返回自增主键 -->
+	<insert id="insertForPrimaryKey" parameterType="com.yinlian.wssc.web.po.Applyforcancelorder">
+		<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+			select
+			LAST_INSERT_ID()
+		</selectKey>
+		insert into applyforcancelorder (ID, OrderID, UserID,
+		Content, CreateTime, ImgUrl,
+		Type, OrderStatus,status,ordernum,note,datatype)
+		values (#{id,jdbcType=INTEGER}, #{orderid,jdbcType=INTEGER},
+		#{userid,jdbcType=INTEGER},
+		#{content,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{imgurl,jdbcType=VARCHAR},
+		#{type,jdbcType=INTEGER}, #{orderstatus,jdbcType=INTEGER}
+		, #{status,jdbcType=INTEGER}, #{ordernum,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, #{datatype,jdbcType=INTEGER})
+	</insert>
+	
+	<sql id="criteria_query">
+		<where>
+			<if test="criteria.code != null and criteria.code != '' ">
+				and ordernum = #{criteria.code}
+			</if>
+			<if test="criteria.type != null and criteria.type != '' ">
+				and Type = #{criteria.type}
+			</if>
+			<if test="criteria.datef != null and criteria.datef != '' ">
+				<![CDATA[ and CreateTime >= #{criteria.datef } ]]>
+			</if>
+			<if test="criteria.datet != null and criteria.datet != '' ">
+				<![CDATA[ and CreateTime <= #{criteria.datet } ]]>
+			</if>
+			<if test="criteria.userid != null and criteria.userid != '' ">
+				and userid = #{criteria.userid} 
+			</if>
+			<if test="criteria.orderid != null and criteria.orderid != '' ">
+				and orderid = #{criteria.orderid}
+			</if>
+			<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+		</where>
+	</sql>
+	
+	<!-- 退货换货列表 -->
+	<select id="getThListByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.ThOrder">
+		select a.ordernum as ordercode,u.username as name,u.mobile as mobile,a.content as content,a.createtime as createtime,a.status as status,a.orderid as orderid,a.id as id 
+	   from applyforcancelorder a left join users u on a.userid=u.id 
+		
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+	</select>
+	
+	<sql id="criteria_query2">
+		<where>
+			<if test="criteria.code != null and criteria.code != '' ">
+				and ordernum = #{criteria.code}
+			</if>
+			<if test="criteria.type != null and criteria.type != '' ">
+				and Type = #{criteria.type}
+			</if>
+			<if test="criteria.shopid != null and criteria.shopid != '' ">
+				and o.ShopId = #{criteria.shopid}
+			</if>
+			<if test="criteria.datef != null and criteria.datef != '' ">
+				<![CDATA[ and CreateTime >= #{criteria.datef } ]]>
+			</if>
+			<if test="criteria.datet != null and criteria.datet != '' ">
+				<![CDATA[ and CreateTime <= #{criteria.datet } ]]>
+			</if>
+			
+			<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+		</where>
+	</sql>
+	
+	<!-- 退货换货列表 -->
+	<select id="getSellerThListByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.ThOrder">
+		
+	
+		select a.ordernum as ordercode,u.username as name,u.mobile as mobile,a.content as content,a.createtime as createtime,a.status as status,a.orderid as orderid,a.id as id 
+	   from applyforcancelorder a left join users u on a.userid=u.id left join orders o on a.orderid=o.id 
+		
+		<if test="criteria != null ">
+			<include refid="criteria_query2" />
+		</if>
+	</select>
+	<select id="getbyOrderAndUser" parameterType="int" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from applyforcancelorder
+		where OrderID=#{0} and UserID=#{1}
+		order by CreateTime desc limit 1
+	</select>
+	<select id="getApplyList" parameterType="int" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from applyforcancelorder
+		where OrderID=#{0} and UserID=#{1}
+		order by CreateTime 
+	</select>
+	<select id="getApplyListByOid" parameterType="int" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from applyforcancelorder
+		where OrderID=#{0} 
+		order by CreateTime 
+	</select>
+</mapper>

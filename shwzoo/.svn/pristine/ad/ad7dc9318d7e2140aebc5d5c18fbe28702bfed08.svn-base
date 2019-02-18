@@ -1,0 +1,170 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>订单详情</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="stylesheet" href="/css/public.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/css/index.css" type="text/css" media="screen">
+    <script src="/js/jquery.js"></script>
+    <script src="/js/artTemplate.js"></script>
+    <script src="/js/orderDetail.js"></script>
+    <script src="/js/public.js"></script>
+</head>
+<body>
+    <!--container  begin-->
+    <div class="container fix" id="orderdetail">
+        <script type="text/html" id="orderlist">
+            <!--l_alltop  begin -->
+            <div class="l_alltop fix">
+                <span><img src="/images/tp10.png" class="img-responsive l_maxwid"></span>
+                {{if list.Status==0}}
+                <a href="javascript:void(0);">待付款</a>
+                {{else if list.Status==1}}
+                <a href="javascript:void(0);">待发货</a>
+                {{else if list.Status==2}}
+                <a href="javascript:void(0);">待收货</a>
+                {{else if list.Status==3}}
+                <a href="javascript:void(0);">已确认收货</a>
+                {{else if list.Status==4 }}
+                <a href="javascript:void(0);">取消申请中</a>
+                {{else if list.Status==5 }}
+                <a href="javascript:void(0);">已取消</a>
+                {{else if list.Status==6 }}
+                <a href="javascript:void(0);">退货申请中</a>
+                {{else if list.Status==7 }}
+                <a href="javascript:void(0);">退货中</a>
+                {{else if list.Status==8 }}
+                <a href="javascript:void(0);">已退货</a>
+                {{else if list.Status==9 }}
+                <a href="javascript:void(0);">已退款</a>
+                {{else if list.Status==10 }}
+                <a href="javascript:void(0);">换货申请中</a>
+                {{else if list.Status==11 }}
+                <a href="javascript:void(0);">换货卖家待收货</a>
+                {{else if list.Status==12 }}
+                <a href="javascript:void(0);">取消驳回</a>
+                {{else if list.Status==13 }}
+                <a href="javascript:void(0);">换货待发货</a>
+                {{else if list.Status==14 }}
+                <a href="javascript:void(0);">换货待收货</a>
+                {{else if list.Status==15 }}
+                <a href="javascript:void(0);">已评价</a>
+                {{else if list.Status==16 }}
+                <a href="javascript:void(0);">换货确认收货</a>
+                {{else if list.Status==17 }}
+                <a href="javascript:void(0);">退货驳回</a>
+                {{else if list.Status==18 }}
+                <a href="javascript:void(0);">换货驳回</a>
+                {{/if}}
+            </div>
+            <div class="l_ddmk fix mt0">
+                <div class="l_ddmk01">
+                    订单号：{{list.Code}}
+                    {{if list.Status==3 || list.Status==5 || list.Status==8 || list.Status==9 ||list.Status==15 || list.Status==16}}
+                    <i><img src="/images/ddwc.png" class="img-responsive"></i>
+                    {{/if}}
+                </div>
+                <div class="l_yhqnrmk l_nobor">
+                    {{if list.Status==3 || list.Status==5 || list.Status==8 || list.Status==9 ||list.Status==15 || list.Status==16}}
+                    <div class="l_yhqnrmkcon">
+                        感谢您在{{list.ShopName}}购物，欢迎您再次光临！
+                    </div>
+                    {{/if}}
+                    <div class="l_ybjt"><img src="/images/tp19.png" class="img-responsive"></div><!--l_ybjt  stop -->
+                </div><!--l_yhqnrmk  stop -->
+            </div>
+            <!--l_ddmk  stop -->
+            <!--l_lxrxx  begin -->
+            <div class="l_lxrxx" id="receiveaddress">
+                <div class="l_lxrxxtop">
+                    <span class="l_lxrxxtop01"><img src="/images/tp18.png" class="img-responsive"></span>
+                    {{list.ReceiveInfo.Consignee}}
+                    <span class="l_lxrxxtop01 ml20"><img src="/images/tp20.png" class="img-responsive"></span>
+                     {{list.ReceiveInfo.Telphone}}
+                </div><!--l_lxrxxtop  stop -->
+                <div class="l_lxrxxdz"><span class="bjred">默认</span>{{list.ReceiveInfo.Province}}{{list.ReceiveInfo.City}}{{list.ReceiveInfo.Area}}{{list.ReceiveInfo.Address}}</div>
+            </div>
+            <!--l_lxrxx  stop -->
+            <!--l_ddwcqd  begin -->
+            <div class="l_ddwcqd fix">
+                <div class="l_ddwcqd01">{{list.ShopName}}</div>
+                {{each children as child i}}
+                <div class="l_ddwcqd02 fix">
+                    <div class="l_ddwcqd02_l"><img src="{{child.ProductImg}}" class="img-responsive"></div>
+                
+                    <div class="l_ddwcqd02_c">
+                        <p>{{child.ProductName}}</p>
+                        <p class="huise">x{{child.ProductCount}}</p>
+                    </div>
+                    <div class="l_ddwcqd02_r">￥{{list.Price}}</div>
+                 <div class="l_ddwcqd02_c"><a href="/html/prodetail.html?sid={{children[0].SKU_ID}}">再次购买</a></div>
+                </div><!--l_ddwcqd02  stop -->
+                {{/each}}
+                <div class="l_ddwcqd03">
+                    <a href="#"><span><img src="/images/lxkf01.jpg" class="img-responsive"></span>联系客服</a>
+                </div>
+            </div>
+            <!--l_ddwcqd  stop -->
+            <!--l_ddzfxm  begin -->
+            <div class="l_ddzfxm fix">
+                <div class="l_ddzfxmmk">
+                    <div>支付方式 <span class="floatright">{{if list.PayType == 1}}余额支付{{else}}支付宝{{/if}}</span></div>
+                </div><!--l_ddzfxmmk  stop -->
+                <div class="l_ddzfxmmk">
+                    <div>快递方式 <span class="floatright">快递配送</span></div>
+                    <p class="huise">配送时间：9:00-15:00</p>
+                    <p class="huise">发货日期：{{list.DeliverDate}}</p>
+                </div><!--l_ddzfxmmk  stop -->
+                {{if list.Invoice!=null}}
+                <div class="l_ddzfxmmk l_nobor">
+                     {{if list.Invoice.Type==1||list.Invoice.Type==2||list.Invoice.Type==3}}
+                    <div>发票信息</div>
+                    <p class="huise">发票抬头：{{if list.Invoice.TitleType==0}}个人{{else}}{{list.Invoice.Title}}{{/if}}</p>
+                    <p class="huise">发票内容：{{list.Invoice.Content}}</p>
+                     {{/if}}
+                </div><!--l_ddzfxmmk  stop -->
+                {{/if}}
+            </div>
+            <!--l_ddzfxm  stop -->
+            <!--l_spzefxnr  begin -->
+            <div class="l_spzefxnr fix">
+                <div class="l_spfxze">商品总额<span class="floatright red">￥{{list.Price}}</span></div>
+                <div class="l_spfxze">-返现<span class="floatright red">￥{{list.Discount}}</span></div>
+                <div class="l_spfxze">+运费<span class="floatright red">￥{{list.Freight}}</span></div>
+                <div class="l_spsfk">
+                    <p>实付款：<span class="red">￥{{list.ActualPay}}</span></p>
+                    <p class="huise">下单时间：{{list.AddOrderDate}}</p>
+                </div>
+            </div>
+            <!--l_spzefxnr  stop -->
+            <!--l_ddfooter  begin -->
+            <div class="l_ddfooter fix" id="l_ddfooter">
+                <ul>
+                    <!--<li><a href="#">删除订单</a></li>-->
+                    <li><a href="#">返修/退还</a></li>
+                    <li><a href="javascript:void(0);" id="l_ddzcgm" orderid-val="{{list.ID}}">评价晒单</a></li>
+                    <!--<li class="l_ddwcqd02_c"><a href="/html/prodetail.html?sid={{children[0].SKU_ID}}">再次购买</a></li>-->
+                </ul>
+            </div>
+            <script>
+                $("#l_ddfooter").after("<div id='ddfoothmnr'></div>");
+                var botHeight = document.getElementById("l_ddfooter").offsetHeight;
+                $("#ddfoothmnr").css("height", botHeight + "px");
+            </script>
+            <!--l_ddfooter  stop -->
+
+        </script>
+    </div>
+
+    <!--</div>-->
+    <!--container  stop -->
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        orderDetail.getlist();
+    })
+</script>

@@ -1,0 +1,842 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.TopicMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Topic">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="fatherid" property="fatherid" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="mark" property="mark" jdbcType="INTEGER" />
+		<result column="description" property="description" jdbcType="VARCHAR" />
+		<result column="imgurl" property="imgurl" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="floorappid" property="floorappid" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="isdelete" property="isdelete" jdbcType="BIT" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="sort" property="sort" jdbcType="INTEGER" />
+		<result column="webset" property="webset" jdbcType="VARCHAR" />
+		<result column="pagetag" property="pagetag" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		id, fatherid, type, mark, description, imgurl, url,
+		floorappid, title,
+		isdelete,sort,status,webset,pagetag,addtime,hotis,provinceid,backcolour
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.TopicExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from topic
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from topic
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<select id="selectByMark" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from topic
+		where mark = #{mark,jdbcType=INTEGER}
+		and isdelete=0
+		and fatherid=0
+	</select>
+
+
+	<select id="queryByMark" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from topic
+		where mark = #{mark,jdbcType=INTEGER} and isdelete=0 and
+		fatherid=0
+	</select>
+	
+	<select id="selectByName" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from topic
+		where title = #{name,jdbcType=INTEGER} and isdelete=0 and
+		fatherid=0
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from topic
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.TopicExample">
+		delete from topic
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.Topic">
+   <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id"> 
+        SELECT LAST_INSERT_ID() AS ID   
+    </selectKey> 
+		insert into topic (id,
+		fatherid, type,
+		mark, description, imgurl,
+		url, floorappid, title,
+		isdelete,status,sort,webset,pagetag,hotis,addtime,provinceid,issys,backcolour)
+		values (#{id,jdbcType=INTEGER},
+		#{fatherid,jdbcType=INTEGER},
+		#{type,jdbcType=INTEGER},
+		#{mark,jdbcType=INTEGER},
+		#{description,jdbcType=VARCHAR},
+		#{imgurl,jdbcType=VARCHAR},
+		#{url,jdbcType=VARCHAR},
+		#{floorappid,jdbcType=INTEGER},
+		#{title,jdbcType=VARCHAR},
+		#{isdelete,jdbcType=BIT},
+		#{status,jdbcType=INTEGER},
+		#{sort,jdbcType=INTEGER},
+		#{webset,jdbcType=VARCHAR},
+		#{pagetag,jdbcType=INTEGER},
+		#{hotis,jdbcType=INTEGER},
+		#{addtime,jdbcType=TIMESTAMP},
+		#{provinceid,jdbcType=INTEGER},
+		#{issys,jdbcType=BIT},#{backcolour,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Topic">
+		insert into topic
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="fatherid != null">
+				fatherid,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+			<if test="mark != null">
+				mark,
+			</if>
+			<if test="description != null">
+				description,
+			</if>
+			<if test="imgurl != null">
+				imgurl,
+			</if>
+			<if test="url != null">
+				url,
+			</if>
+			<if test="floorappid != null">
+				floorappid,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="isdelete != null">
+				isdelete,
+			</if>
+			<if test="sort != null">
+				sort,
+			</if>
+			<if test="status != null">
+				status,
+			</if>
+			<if test="webset != null">
+				webset,
+			</if>
+			<if test="pagetag != null">
+				pagetag,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="fatherid != null">
+				#{fatherid,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+			<if test="mark != null">
+				#{mark,jdbcType=INTEGER},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="imgurl != null">
+				#{imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="floorappid != null">
+				#{floorappid,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="isdelete != null">
+				#{isdelete,jdbcType=BIT},
+			</if>
+			<if test="sort != null">
+				#{sort,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="webset != null">
+				#{webset,jdbcType=VARCHAR},
+			</if>
+			<if test="pagetag != null">
+				#{pagetag,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.TopicExample"
+		resultType="java.lang.Integer">
+		select count(*) from topic
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update topic
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.fatherid != null">
+				fatherid = #{record.fatherid,jdbcType=INTEGER},
+			</if>
+			<if test="record.type != null">
+				type = #{record.type,jdbcType=INTEGER},
+			</if>
+			<if test="record.mark != null">
+				mark = #{record.mark,jdbcType=INTEGER},
+			</if>
+			<if test="record.description != null">
+				description = #{record.description,jdbcType=VARCHAR},
+			</if>
+			<if test="record.imgurl != null">
+				imgurl = #{record.imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="record.url != null">
+				url = #{record.url,jdbcType=VARCHAR},
+			</if>
+			<if test="record.floorappid != null">
+				floorappid = #{record.floorappid,jdbcType=INTEGER},
+			</if>
+			<if test="record.title != null">
+				title = #{record.title,jdbcType=VARCHAR},
+			</if>
+			<if test="record.isdelete != null">
+				isdelete = #{record.isdelete,jdbcType=BIT},
+			</if>
+			<if test="record.sort != null">
+				sort = #{record.sort,jdbcType=INTEGER},
+			</if>
+			<if test="record.status != null">
+				status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.webset != null">
+				webset = #{record.webset,jdbcType=VARCHAR},
+			</if>
+			<if test="record.webset != null">
+				pagetag = #{record.pagetag,jdbcType=INTEGER},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update topic
+		set id = #{record.id,jdbcType=INTEGER},
+		fatherid =
+		#{record.fatherid,jdbcType=INTEGER},
+		type =
+		#{record.type,jdbcType=INTEGER},
+		mark =
+		#{record.mark,jdbcType=INTEGER},
+		description =
+		#{record.description,jdbcType=VARCHAR},
+		imgurl =
+		#{record.imgurl,jdbcType=VARCHAR},
+		url =
+		#{record.url,jdbcType=VARCHAR},
+		floorappid =
+		#{record.floorappid,jdbcType=INTEGER},
+		title =
+		#{record.title,jdbcType=VARCHAR},
+		isdelete =
+		#{record.isdelete,jdbcType=BIT},
+		sort =
+		#{record.sort,jdbcType=INTEGER},
+		status =
+		#{record.status,jdbcType=INTEGER},
+		webset =
+		#{record.webset,jdbcType=VARCHAR},
+		pagetag =
+		#{pagetag,jdbcType=INTEGER},
+
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Topic">
+		update topic
+		<set>
+			<if test="fatherid != null">
+				fatherid = #{fatherid,jdbcType=INTEGER},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=INTEGER},
+			</if>
+			<if test="mark != null">
+				mark = #{mark,jdbcType=INTEGER},
+			</if>
+			<if test="description != null">
+				description = #{description,jdbcType=VARCHAR},
+			</if>
+			<if test="imgurl != null">
+				imgurl = #{imgurl,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				url = #{url,jdbcType=VARCHAR},
+			</if>
+			<if test="floorappid != null">
+				floorappid = #{floorappid,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="isdelete != null">
+				isdelete = #{isdelete,jdbcType=BIT},
+			</if>
+			<if test="sort != null">
+				sort = #{sort,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="webset != null">
+				webset = #{webset,jdbcType=VARCHAR},
+			</if>
+			<if test="pagetag != null">
+				pagetag = #{pagetag,jdbcType=INTEGER},
+			</if>
+			<if test="provinceid != null">
+				provinceid = #{provinceid,jdbcType=INTEGER}
+			</if>
+			<if test="provinceid != null">
+				backcolour = #{backcolour,jdbcType=VARCHAR}
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Topic">
+		update topic
+		set
+		fatherid = #{fatherid,jdbcType=INTEGER},
+		type =
+		#{type,jdbcType=INTEGER},
+		mark = #{mark,jdbcType=INTEGER},
+		description =
+		#{description,jdbcType=VARCHAR},
+		imgurl = #{imgurl,jdbcType=VARCHAR},
+		url = #{url,jdbcType=VARCHAR},
+		floorappid =
+		#{floorappid,jdbcType=INTEGER},
+		title = #{title,jdbcType=VARCHAR},
+		isdelete = #{isdelete,jdbcType=BIT},
+		sort =#{sort,jdbcType=INTEGER},
+		status =#{status,jdbcType=INTEGER},
+		webset =#{webset,jdbcType=VARCHAR},
+		pagetag =#{pagetag,jdbcType=INTEGER},
+		hotis =#{hotis,jdbcType=INTEGER},
+		provinceid = #{provinceid,jdbcType=INTEGER},
+		backcolour = #{backcolour,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<!-- 以下是自定义的 接口 分页查询 -->
+	<sql id="criteria_query">
+		<where>
+			<if test="criteria.issys != null and criteria.issys >= 0 ">
+				and issys = #{criteria.issys}
+			</if>
+			<if test="criteria.title != null and criteria.title != '' ">
+				and title = #{criteria.title}
+			</if>
+			<if test="criteria.spmark != null and criteria.spmark != '' ">
+				and mark = #{criteria.spmark}
+			</if>
+			<if test="criteria.webset != null and criteria.webset != '' ">
+				and FIND_IN_SET(#{criteria.webset},webset)
+			</if>
+			<if test="criteria.type != null and  criteria.type != ''">
+			 and type =#{criteria.type}
+			</if>
+			<if test="criteria.pagetag != null">
+			 and pagetag = #{criteria.pagetag}
+			</if>
+			<if test="criteria.hotis != null">
+			 and hotis = #{criteria.hotis}
+			</if>
+			<if test="criteria.provinceid != null">
+			and provinceid=#{criteria.provinceid}
+			</if>
+			and (fatherid = 0 or fatherid = -1) 
+			and isdelete = 0
+		</where>
+	</sql>
+	<select id="selectTopicByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.po.Topic">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM topic
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	<!-- 分页查询子专题 -->
+	<sql id="criteria_query_class">
+		<where>
+			<if test="criteria.title != null and criteria.title != '' ">
+				and title = #{criteria.title}
+			</if>
+			<if test="criteria.fatherid != null and criteria.fatherid != '' ">
+				and fatherid = #{criteria.fatherid}
+			</if>
+			and isdelete = 0
+		</where>
+	</sql>
+	<select id="selectCtopicByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.po.Topic">
+		SELECT t.*,f.name floorname FROM topic t LEFT JOIN FLOOR f ON
+		t.floorappid = f.id
+		<if test="criteria != null ">
+			<include refid="criteria_query_class" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+	<select id="querySubTopic" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from topic
+		where ( mark = #{mark,jdbcType=INTEGER} or fatherid!=0) and
+		isdelete=0
+	</select>
+
+	<select id="select" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from topic
+		where type = #{0}
+		and mark=#{1}
+		and isdelete=0
+	</select>
+
+	<select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from topic
+		where isdelete=0 and issys=0 and type=3
+	</select>
+
+	<select id="getTopicChild" resultType="com.yinlian.api.app.dto.TopicDto"
+		parameterType="java.lang.Integer">
+		select
+		c.id,c.title,c.floorappid,c.sort,c.mark,c.imgurl,c.type,f.name
+		,c.url,f.type as floorType
+		from (
+		select * from topic a
+		where a.fatherid = (select id from topic
+		where
+		status=0 and isdelete =0 and
+		mark=#{0} limit 1 ) and status=0 and
+		isdelete =0 order by sort ) as c left join floor f on
+		c.floorappid=f.id
+		order by c.sort
+	</select>
+
+	<select id="getTopicByShopPage" resultType="com.yinlian.api.app.dto.Api_TopicByShopDto" parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		select t.id ,r.relatedid
+		as shopid ,r.imgurl as img,s.name as shopname 
+		from topic t right join topic_relate r on t.id=r.topicid 
+		left join shop s on s.id=r.relatedid
+		where mark=2 and fatherid=0 and
+		(t.status=0 or t.status
+		is null) and
+		(t.isdelete=0 or t.isdelete is
+		null) 
+		order by r.sort
+	</select>
+	<select id="getTopicBySpuPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.api.app.dto.Api_TopicBySpuDto">
+		select r.topicid ,p.id as spuid,p.name,
+		<choose>
+		<when test="criteria.webset==2">
+		 p.AppPrice as price,
+		</when>
+		<when test="criteria.webset==3">
+		 p.WapPrice as price,
+		</when>
+		<when test="criteria.webset==4">
+		 p.WeChatPrice as price,
+		</when>
+		<otherwise>
+			p.price,
+		</otherwise>
+		</choose>
+		p.commentcount as commentcount,
+		(select sum(sku.SalesCount) from sku where sku.spu_id=p.id) as salesvolume,
+		r.imgurl as img,s.oldPrice
+		from topic_relate r 
+		right join spu p on p.id=r.relatedid
+		LEFT JOIN sku s on s.SPU_ID=p.ID
+		left join shop sop on sop.ID=p.ShopID
+		where
+		r.topicid=
+		(select id from topic where status=0 and isdelete =0
+		<if test="criteria != null  and criteria.mark != null ">
+			and mark=#{criteria.mark}
+		</if>
+		<if test="criteria.classID != -1  and criteria.classID != null ">
+			and ClassID=#{criteria.classID}
+		</if>
+		<if test="criteria.topicid != -1 and criteria.topicid != null">
+			and id=#{criteria.topicid}
+		</if>
+		<if test="criteria.webset != null and criteria.webset != ''">
+			and FIND_IN_SET(#{criteria.webset},WebSet)
+		</if>
+		<if test="criteria.issys != null and criteria.issys != ''">
+			and issys=#{criteria.issys}
+		</if>
+		limit 1) and p.status=3 and (sop.Status=4 or p.IsOwned=1)
+		GROUP BY r.id
+	   <if test="criteria.orderByClause != null and criteria.orderByClause != '' " >
+        order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序     此处只能使用${} 而不能使用#{} 会设置参数失败 -->
+       </if>
+		<!-- order by r.sort -->
+	</select>
+
+	<select id="getTopicSpuList" resultType="com.yinlian.api.app.dto.Api_TopicBySpuDto">
+		select r.topicid ,p.id as spuid,p.name,r.imgurl as img ,
+		p.price as oldPrice,sop.id as shopid,p.Title_short as titleshort
+		from topic_relate r join
+		spu p on p.id=r.relatedid
+		JOIN shop sop ON sop.ID=p.ShopID
+		where r.topicid =(select id from topic where (status=0||status='') and (isdelete =0||isdelete ='')
+		and pagetag=#{pagetag,jdbcType=INTEGER}
+		and mark=#{mark,jdbcType=INTEGER}
+		and type=#{type,jdbcType=INTEGER}
+		and FIND_IN_SET(#{webset,jdbcType=VARCHAR},webset)
+		limit 1) and p.status=3 AND p.IsDel=0 AND sop.Status=4 order by r.sort 
+		 limit 0,#{size,jdbcType=INTEGER}
+	</select>
+	<!--获取专题品牌-->
+    <select id="getTopicBrandList" resultType="com.yinlian.api.app.dto.Api_TopicBrandDto">
+		select  b.id as bid,r.imgurl,b.name bname
+		from brand b right join
+		topic_relate r on b.id=r.relatedid
+		where r.topicid =(select id from topic where (status=0||status='') and (isdelete =0||isdelete ='')
+		and pagetag=#{pagetag,jdbcType=INTEGER}
+		and mark=#{mark,jdbcType=INTEGER}
+		and type=#{type,jdbcType=INTEGER}
+		and FIND_IN_SET(#{webset,jdbcType=VARCHAR},webset)
+		and issys=#{issys,jdbcType=BIT}
+		limit 1) and b.isdel=0 order by r.sort limit 0,#{size,jdbcType=INTEGER}
+	</select>
+  <resultMap type="com.yinlian.api.app.dto.Api_TopicBySpuDto" id="Result_Spu_Dto">
+  <result column="topicid" property="topicid" jdbcType="INTEGER"/>
+  <result column="skuid" property="skuid" jdbcType="INTEGER"/>
+  <result column="spuid" property="spuid" jdbcType="INTEGER"/>
+  <result column="name" property="name" jdbcType="VARCHAR"/>
+  <result column="img" property="img" jdbcType="VARCHAR"/>
+  <result column="price" property="price" jdbcType="FLOAT"/>
+  <result column="discount" property="discount" jdbcType="VARCHAR"/>
+  <result column="shopname" property="shopname" jdbcType="VARCHAR"/>
+  <result column="OldPrice" property="oldPrice" jdbcType="FLOAT"/>
+  <result column="commentsum" property="commentsum" jdbcType="INTEGER"/>
+  <result column="shopid" property="shopid" jdbcType="INTEGER"/>
+  <collection  property="imglist" ofType="com.yinlian.wssc.web.po.ProductImgs" column="spuid" select="getSpuImgs">
+  </collection>
+  
+  </resultMap>
+  
+  <select id="getSpuImgs" resultType="com.yinlian.wssc.web.po.ProductImgs" parameterType="int">
+  select img_pc imgpc from product_imgs where SPU_ID=#{0}
+  </select>
+  
+  <select id="getPCTopicPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" resultMap="Result_Spu_Dto">
+		select r.topicid ,p.id as spuid,sk.id as skuid,p.name,r.imgurl as img ,p.price,p.commentcount,p.shopid,p.imgsmall
+		,s.name as shopname,IFNULL(sum(cmt.id),0) as  commentsum,sk.OldPrice,sk.SalesCount salesvolume
+		from spu p 
+		right join topic_relate r on p.id=r.relatedid 
+		INNER JOIN shop s on(p.shopid=s.id)
+		left join comment cmt on cmt.SPUID=p.ID
+		left join sku sk on sk.SPU_ID=p.ID
+		<where> r.topicid =(select id from topic where (status=0 ||status=null) and (isdelete =0||isdelete =null)
+       <if test="criteria.type != null and criteria.type != -1 ">
+        and type= #{criteria.type}
+       </if>
+        <if test="criteria.mark != -1  and criteria.mark != null ">
+			and mark=#{criteria.mark}
+		</if>
+		<if test="criteria.pagetag != -1  and criteria.pagetag != null ">
+			and pagetag=#{criteria.pagetag}
+		</if>
+		<if test="criteria.webset != null and criteria.webset != ''">
+			and FIND_IN_SET(#{criteria.webset},WebSet)
+		</if>
+		<if test="criteria.topicid != null and criteria.topicid != ''">
+			and id = #{criteria.topicid}
+		</if>
+        limit 1) and p.status=3 
+        <if test="criteria.typeid != null">
+        	and r.ClassifyId = #{criteria.typeid}
+        </if>
+        <if test="criteria.min != null and criteria.min != '' and criteria.min != 00">
+         	and p.Price >= #{criteria.min}
+        </if>
+        <if test="criteria.max != null and criteria.max != '' and criteria.max != 00">
+        	and p.Price <![CDATA[ <= ]]> #{criteria.max}
+        </if>
+     </where>
+     GROUP BY r.ID
+     <if test="criteria.orderByClause != null and criteria.orderByClause != '' " >
+      order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序     此处只能使用${} 而不能使用#{} 会设置参数失败 -->
+    </if>
+  </select>
+
+	<resultMap id="BaseResultMapAPi" type="com.yinlian.pc.dto.PCTopicDto">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="mark" property="display" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="imgurl" property="imgurl" jdbcType="VARCHAR" />
+		<collection property="spus" ofType="com.yinlian.pc.dto.TopicSpuDto">
+			<result column="spuid" property="proid" jdbcType="INTEGER" />
+			<result column="name" property="proname" jdbcType="VARCHAR" />
+			<result column="img" property="proimg" jdbcType="VARCHAR" />
+			<result column="price" property="proprice" jdbcType="REAL" />
+			<result column="commentcount" property="commentcount" jdbcType="INTEGER" />			
+		</collection>
+	</resultMap>
+	<select id="getTopicSpuByPagetag" resultMap="BaseResultMapAPi">
+		SELECT t.id ,t.mark,t.type,t.imgurl,s.id AS spuid,
+		s.name,r.imgurl AS img,s.price,s.commentcount
+		FROM topic t JOIN topic_relate r ON t.id=r.topicid
+		JOIN spu s ON s.id=r.relatedid
+		WHERE (t.STATUS=0 || t.STATUS=null) AND (t.isdelete =0 || t.isdelete =null)
+		AND s.status=3
+		AND t.type=3
+		AND t.pagetag=#{pagetag}		
+		AND FIND_IN_SET(#{webset},t.webset)
+		ORDER BY r.sort
+	</select>
+	
+	
+   <select id="seleteFindRelationByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" resultType="com.yinlian.wssc.web.dto.FindRelationDto">
+		select r.id as id,f.id as findid,t.id as relationid,f.type as type,f.title as findName,t.title as relateionName,r.sort as sort
+		from findrecord f left join find_relation r on f.id=r.findid left join topic t on t.id=r.relationid
+       <if test="criteria != null ">
+       		<where>
+			<if test="criteria.findid != null and criteria.findid != '' ">
+				and r.findid = #{criteria.findid}
+			</if>
+			</where>
+		</if>
+     <if test="criteria.orderByClause != null and criteria.orderByClause != '' " >
+      order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序     此处只能使用${} 而不能使用#{} 会设置参数失败 -->
+    </if>
+  </select>
+  
+  <select id="getSpuStartWithNames" resultMap="BaseResultMap" parameterType="java.lang.String" >
+		select
+		<include refid="Base_Column_List" />
+		from topic where isdelete=0 
+		<choose>
+			<when test="#{_parameter} != null and #{_parameter} != ''">
+				and title like '%${_parameter}%' limit 0,10
+			</when>
+			<otherwise>
+				limit 0,10
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="selectTopicCriteria" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.util.TopicCriteria">
+		select 
+		<include refid="Base_Column_List" />
+		from topic
+		<where>
+		<if test="pagemark != null and pagemark != ''">
+			pagetag = #{pagemark}
+		</if>
+		
+		<if test="topicmark != null and topicmark != ''">
+		 and mark = #{topicmark}
+		 </if>
+		 
+		 <if test="topictype != null and topictype != ''">
+		 and type = #{topictype}
+		 </if>
+		 <if test="webset != null and webset != ''">
+		 and webset like '%${webset}%'
+		 </if>
+		 <if test="hotis != null">
+		 and hotis = #{hotis}
+		 </if>
+		 <if test="provinceid != null">
+		 and provinceid = #{provinceid}
+		 </if>
+		 and isdelete=0
+		</where>
+		
+		<if test="orderByClause != null">
+			order by ${orderByClause} ${sort}
+		</if>
+	</select>
+	
+	<select id="gettopicStartWithName" resultMap="BaseResultMap">
+		select id,title
+		from topic where (isdelete IS NULL OR isdelete=0) and status=0 and issys=0
+		<if test="name != null and name != ''">
+			and title like '%${name}%'
+		</if>
+		<if test="webset != null and webset != -1 ">
+			and FIND_IN_SET(${webset},webset)
+		</if>
+		limit 0,10
+	</select>
+	<select id="getTopicSpuListPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.api.app.dto.Api_TopicBySpuDto">
+		select r.topicid ,p.id as spuid,p.name,
+		p.price as oldPrice,sop.id as shopid,
+		r.imgurl as img ,p.Title_short AS titleshort
+		from topic_relate r 
+		right join spu p on p.id=r.relatedid
+		left join shop sop on sop.ID=p.ShopID
+		where r.topicid=
+		(select id from topic where status=0 and isdelete =0
+		<if test="criteria.spmark != null  and criteria.spmark != -1 ">
+			and mark=#{criteria.mark}
+		</if>
+		<!-- <if test="criteria.classID != -1  and criteria.classID != null ">
+			and ClassID=#{criteria.classID}
+		</if> -->
+		<if test="criteria.topicid != -1 and criteria.topicid != null">
+			and id=#{criteria.topicid}
+		</if>
+		<if test="criteria.webset != null and criteria.webset != ''">
+			and FIND_IN_SET(#{criteria.webset},WebSet)
+		</if>
+		<if test="criteria.issys != null and criteria.issys != ''">
+			and issys=#{criteria.issys}
+		</if>
+		limit 1)  
+		and p.status=3 and p.IsDel=0 and sop.Status=4 
+		<if test="criteria.title != null and criteria.title != ''">
+			and p.name like '%${criteria.title}%'
+		</if>
+		GROUP BY r.id
+	   <if test="criteria.orderByClause != null and criteria.orderByClause != '' " >
+        order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序     此处只能使用${} 而不能使用#{} 会设置参数失败 -->
+       </if>
+		<!-- order by r.sort -->
+	</select>
+	<select id="getTopicStartWithNameByMark" resultMap="BaseResultMap">
+		select id,title
+		from topic where (isdelete IS NULL OR isdelete=0) and status=0 and mark=#{mark}
+		and pagetag=#{pagemark}
+		<if test="name != null and name != ''">
+			and title like '%${name}%'
+		</if>
+		limit 0,10
+	</select>
+</mapper>

@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.CommentMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Comment" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="OrderDetailID" property="orderdetailid" jdbcType="INTEGER" />
+    <result column="BuyerID" property="buyerid" jdbcType="INTEGER" />
+    <result column="ShopID" property="shopid" jdbcType="INTEGER" />
+    <result column="Type" property="type" jdbcType="INTEGER" />
+    <result column="SPUID" property="spuid" jdbcType="INTEGER" />
+    <result column="Star" property="star" jdbcType="INTEGER" />
+    <result column="Title" property="title" jdbcType="VARCHAR" />
+    <result column="Content" property="content" jdbcType="VARCHAR" />
+    <result column="Date" property="date" jdbcType="TIMESTAMP" />
+    <result column="ReplyCount" property="replycount" jdbcType="INTEGER" />
+    <result column="ShowName" property="showname" jdbcType="INTEGER" />
+    <result column="VaildFlag" property="vaildflag" jdbcType="INTEGER" />
+    <result column="DelDate" property="deldate" jdbcType="TIMESTAMP" />
+    <result column="Star_Depict" property="starDepict" jdbcType="INTEGER" />
+    <result column="Star_Service" property="starService" jdbcType="INTEGER" />
+    <result column="Star_Speed" property="starSpeed" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="fkid" property="fkid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, OrderDetailID, BuyerID, ShopID, Type, SPUID, Star, Title, Content, Date, ReplyCount, 
+    ShowName, VaildFlag, DelDate, Star_Depict, Star_Service, Star_Speed, fkid, status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.CommentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from comment
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from comment
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.CommentExample" >
+    delete from comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Comment" >
+    insert into comment (ID, OrderDetailID, BuyerID, 
+      ShopID, Type, SPUID, 
+      Star, Title, Content, 
+      Date, ReplyCount, ShowName, 
+      VaildFlag, DelDate, Star_Depict, 
+      Star_Service, Star_Speed, fkid, status
+      )
+    values (#{id,jdbcType=INTEGER}, #{orderdetailid,jdbcType=INTEGER}, #{buyerid,jdbcType=INTEGER}, 
+      #{shopid,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{spuid,jdbcType=INTEGER}, 
+      #{star,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{date,jdbcType=TIMESTAMP}, #{replycount,jdbcType=INTEGER}, #{showname,jdbcType=INTEGER}, 
+      #{vaildflag,jdbcType=INTEGER}, #{deldate,jdbcType=TIMESTAMP}, #{starDepict,jdbcType=INTEGER}, 
+      #{starService,jdbcType=INTEGER}, #{starSpeed,jdbcType=INTEGER}, #{fkid,jdbcType=INTEGER},
+      #{status,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Comment" useGeneratedKeys="true" keyProperty="id">
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="orderdetailid != null" >
+        OrderDetailID,
+      </if>
+      <if test="buyerid != null" >
+        BuyerID,
+      </if>
+      <if test="shopid != null" >
+        ShopID,
+      </if>
+      <if test="type != null" >
+        Type,
+      </if>
+      <if test="spuid != null" >
+        SPUID,
+      </if>
+      <if test="star != null" >
+        Star,
+      </if>
+      <if test="title != null" >
+        Title,
+      </if>
+      <if test="content != null" >
+        Content,
+      </if>
+      <if test="date != null" >
+        Date,
+      </if>
+      <if test="replycount != null" >
+        ReplyCount,
+      </if>
+      <if test="showname != null" >
+        ShowName,
+      </if>
+      <if test="vaildflag != null" >
+        VaildFlag,
+      </if>
+      <if test="deldate != null" >
+        DelDate,
+      </if>
+      <if test="starDepict != null" >
+        Star_Depict,
+      </if>
+      <if test="starService != null" >
+        Star_Service,
+      </if>
+      <if test="starSpeed != null" >
+        Star_Speed,
+      </if>
+      <if test="fkid != null" >
+        fkid,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderdetailid != null" >
+        #{orderdetailid,jdbcType=INTEGER},
+      </if>
+      <if test="buyerid != null" >
+        #{buyerid,jdbcType=INTEGER},
+      </if>
+      <if test="shopid != null" >
+        #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="spuid != null" >
+        #{spuid,jdbcType=INTEGER},
+      </if>
+      <if test="star != null" >
+        #{star,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replycount != null" >
+        #{replycount,jdbcType=INTEGER},
+      </if>
+      <if test="showname != null" >
+        #{showname,jdbcType=INTEGER},
+      </if>
+      <if test="vaildflag != null" >
+        #{vaildflag,jdbcType=INTEGER},
+      </if>
+      <if test="deldate != null" >
+        #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="starDepict != null" >
+        #{starDepict,jdbcType=INTEGER},
+      </if>
+      <if test="starService != null" >
+        #{starService,jdbcType=INTEGER},
+      </if>
+      <if test="starSpeed != null" >
+        #{starSpeed,jdbcType=INTEGER},
+      </if>
+      <if test="fkid != null" >
+        #{fkid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.CommentExample" resultType="java.lang.Integer" >
+    select count(*) from comment
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update comment
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderdetailid != null" >
+        OrderDetailID = #{record.orderdetailid,jdbcType=INTEGER},
+      </if>
+      <if test="record.buyerid != null" >
+        BuyerID = #{record.buyerid,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopid != null" >
+        ShopID = #{record.shopid,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        Type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.spuid != null" >
+        SPUID = #{record.spuid,jdbcType=INTEGER},
+      </if>
+      <if test="record.star != null" >
+        Star = #{record.star,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null" >
+        Title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
+        Content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.date != null" >
+        Date = #{record.date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.replycount != null" >
+        ReplyCount = #{record.replycount,jdbcType=INTEGER},
+      </if>
+      <if test="record.showname != null" >
+        ShowName = #{record.showname,jdbcType=INTEGER},
+      </if>
+      <if test="record.vaildflag != null" >
+        VaildFlag = #{record.vaildflag,jdbcType=INTEGER},
+      </if>
+      <if test="record.deldate != null" >
+        DelDate = #{record.deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.starDepict != null" >
+        Star_Depict = #{record.starDepict,jdbcType=INTEGER},
+      </if>
+      <if test="record.starService != null" >
+        Star_Service = #{record.starService,jdbcType=INTEGER},
+      </if>
+      <if test="record.starSpeed != null" >
+        Star_Speed = #{record.starSpeed,jdbcType=INTEGER},
+      </if>
+      <if test="record.fkid != null" >
+        fkid = #{record.fkid,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update comment
+    set ID = #{record.id,jdbcType=INTEGER},
+      OrderDetailID = #{record.orderdetailid,jdbcType=INTEGER},
+      BuyerID = #{record.buyerid,jdbcType=INTEGER},
+      ShopID = #{record.shopid,jdbcType=INTEGER},
+      Type = #{record.type,jdbcType=INTEGER},
+      SPUID = #{record.spuid,jdbcType=INTEGER},
+      Star = #{record.star,jdbcType=INTEGER},
+      Title = #{record.title,jdbcType=VARCHAR},
+      Content = #{record.content,jdbcType=VARCHAR},
+      Date = #{record.date,jdbcType=TIMESTAMP},
+      ReplyCount = #{record.replycount,jdbcType=INTEGER},
+      ShowName = #{record.showname,jdbcType=INTEGER},
+      VaildFlag = #{record.vaildflag,jdbcType=INTEGER},
+      DelDate = #{record.deldate,jdbcType=TIMESTAMP},
+      Star_Depict = #{record.starDepict,jdbcType=INTEGER},
+      Star_Service = #{record.starService,jdbcType=INTEGER},
+      Star_Speed = #{record.starSpeed,jdbcType=INTEGER},
+      fkid = #{record.fkid,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Comment" >
+    update comment
+    <set >
+      <if test="orderdetailid != null" >
+        OrderDetailID = #{orderdetailid,jdbcType=INTEGER},
+      </if>
+      <if test="buyerid != null" >
+        BuyerID = #{buyerid,jdbcType=INTEGER},
+      </if>
+      <if test="shopid != null" >
+        ShopID = #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        Type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="spuid != null" >
+        SPUID = #{spuid,jdbcType=INTEGER},
+      </if>
+      <if test="star != null" >
+        Star = #{star,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        Title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        Content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        Date = #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="replycount != null" >
+        ReplyCount = #{replycount,jdbcType=INTEGER},
+      </if>
+      <if test="showname != null" >
+        ShowName = #{showname,jdbcType=INTEGER},
+      </if>
+      <if test="vaildflag != null" >
+        VaildFlag = #{vaildflag,jdbcType=INTEGER},
+      </if>
+      <if test="deldate != null" >
+        DelDate = #{deldate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="starDepict != null" >
+        Star_Depict = #{starDepict,jdbcType=INTEGER},
+      </if>
+      <if test="starService != null" >
+        Star_Service = #{starService,jdbcType=INTEGER},
+      </if>
+      <if test="starSpeed != null" >
+        Star_Speed = #{starSpeed,jdbcType=INTEGER},
+      </if>
+      <if test="fkid != null" >
+        fkid = #{fkid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Comment" >
+    update comment
+    set OrderDetailID = #{orderdetailid,jdbcType=INTEGER},
+      BuyerID = #{buyerid,jdbcType=INTEGER},
+      ShopID = #{shopid,jdbcType=INTEGER},
+      Type = #{type,jdbcType=INTEGER},
+      SPUID = #{spuid,jdbcType=INTEGER},
+      Star = #{star,jdbcType=INTEGER},
+      Title = #{title,jdbcType=VARCHAR},
+      Content = #{content,jdbcType=VARCHAR},
+      Date = #{date,jdbcType=TIMESTAMP},
+      ReplyCount = #{replycount,jdbcType=INTEGER},
+      ShowName = #{showname,jdbcType=INTEGER},
+      VaildFlag = #{vaildflag,jdbcType=INTEGER},
+      DelDate = #{deldate,jdbcType=TIMESTAMP},
+      Star_Depict = #{starDepict,jdbcType=INTEGER},
+      Star_Service = #{starService,jdbcType=INTEGER},
+      Star_Speed = #{starSpeed,jdbcType=INTEGER},
+      fkid = #{fkid,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  <!-- 根据id查询评论明细 -->
+	<select id="selectById" parameterType="int" resultType="memberCommentDto">
+	  SELECT u.username buyername, c.id id,c.type TYPE,c.star star,c.title title
+        ,c.content content,c.showname showname,c.date DATE, p.name spuname,s.name shopname,o.ordercode ordercode ,c.star_depict gooddescription,
+        c.star_service sellerattitude,c.star_speed logisticsspeed,c.buyerid buyerid
+		FROM  COMMENT c 
+		LEFT JOIN shop s ON s.id = c.shopid 
+		LEFT JOIN users u ON u.id = c.buyerid 
+		LEFT JOIN orderdetail o ON o.id = c.orderdetailid 
+		LEFT JOIN spu p ON p.id = c.spuid 
+		WHERE 
+        c.vaildflag = 0 and c.id = #{parentid} 
+	 </select>
+	<!-- 以下是自定义的 接口 分页查询 -->
+	<sql id="criteria_query">
+		<where>
+			<if test="criteria.shopid!=null">
+				and c.ShopID=#{criteria.shopid}
+			</if>
+			<if test="criteria.shopname != null and criteria.shopname != '' ">
+				and s.name = #{criteria.shopname}
+			</if>
+			<if test="criteria.proname != null and criteria.proname != '' ">
+				and p.name like '%${criteria.proname}%' 
+			</if>
+			<if test="criteria.ordernum != null and criteria.ordernum != '' ">
+				and o.ordercode = #{criteria.ordernum}
+			</if>
+			<if test="criteria.buyername != null and criteria.buyername != '' ">
+				and u.username = #{criteria.buyername}
+			</if>
+			<if test="criteria.status != null and criteria.status >= 0 ">
+				and c.status = #{criteria.status}
+			</if>
+			<if test="criteria.starttime != null and criteria.starttime != '' ">
+		      <![CDATA[ and DATEDIFF(c.date,#{criteria.starttime})>=0]]>
+		     </if> 
+		     <if test="criteria.endtime != null and criteria.endtime!= ''  ">
+		      	<![CDATA[ and DATEDIFF(c.date,#{criteria.endtime})<=0]]>
+		     </if>
+			   and c.vaildflag=0
+		</where>
+	</sql>
+	<select id="selectMemberCommentByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="memberCommentDto">
+		SELECT u.username buyername, c.id id,c.type TYPE,c.status status,c.star star,c.title title,c.content content,
+		 c.star_depict gooddescription,c.star_service sellerattitude, c.star_speed logisticsspeed,
+		 c.showname showname,c.date DATE, p.name spuname,s.name shopname,o.ordercode ordercode
+		 FROM COMMENT c 
+		 LEFT JOIN users u ON c.buyerid = u.id 
+		 LEFT JOIN orderdetail o ON c.orderdetailid = o.id 
+		 LEFT JOIN spu p ON c.spuid = p.id LEFT JOIN shop s ON c.shopid = s.id 
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+			<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		   </if>
+		</if>
+	</select>
+	<!-- 获取好评中评差评数 -->
+	<select id="getCommentAbr" resultType="com.yinlian.wssc.web.po.CommentAbr">
+
+		SELECT * from ((SELECT COUNT(1) as Bad FROM comment as f where f.SPUID=#{0} and f.status = 1 and f.Star<![CDATA[<=]]>1)
+		as Bad ,
+		(SELECT count(1) as mr from comment as b where b.SPUID=#{0} and b.status = 1 and b.Star between
+		2 and 3) as mr,
+		(SELECT COUNT(1) as good from comment as d where d.SPUID=#{0} and d.status = 1 and d.Star
+		>3) as good)
+	</select>
+	<resultMap id="ApiCmtResultMap" type="com.yinlian.api.app.dto.CommentBaseDto">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="star" property="star" jdbcType="INTEGER" />
+		<result column="userid" property="userid" jdbcType="INTEGER" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="createtime" property="createtime" jdbcType="VARCHAR" />
+		<result column="ShowName" property="isshow" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap type="com.yinlian.api.app.dto.CommentBaseDto" id="BaseResult_Page">
+		<result column="id" property="id" jdbcType="INTEGER"/>
+		<result column="title" property="title" jdbcType="VARCHAR"/>
+		<result column="star" property="star" jdbcType="INTEGER"/>
+		<result column="userid" property="userid" jdbcType="INTEGER"/>
+		<result column="username" property="username" jdbcType="VARCHAR"/>
+		<result column="createtime" property="createtime" jdbcType="TIMESTAMP"/>
+		<result column="content" property="content" jdbcType="VARCHAR"/>
+		<result column="imgUrl" property="imgUrl" jdbcType="VARCHAR"/>
+		
+		<collection column="img" property="ShowImgList" ofType="com.yinlian.wssc.web.po.Images"  >
+			<result column="imgsurl" property="imgurl" jdbcType="VARCHAR"/>
+			<result column="imgid" property="id" jdbcType="INTEGER"/>
+		</collection>
+		
+	</resultMap>
+	
+	<select id="getApiCmtListPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		 resultMap="BaseResult_Page">
+		SELECT c.id,c.title,c.star,c.BuyerID as userid,
+		CASE WHEN c.ShowName=1 THEN '匿名' 
+		ELSE a.LoginName  END AS username,
+        c.Date as createtime, c.Content as content,u.imgUrl,img.id as imgid,img.imgurl as imgsurl
+		from comment as c JOIN accounts a on
+		c.BuyerID=a.UserID
+		left join users u on a.UserId=u.ID
+		left join images img on img.fkid=c.id and img.type=6 
+		<if test="criteria!=null">
+		<if test="criteria.spuid!=null and criteria.spuid>0"></if>
+			where c.SPUID=#{criteria.spuid}
+			<if test="criteria.star!=null ">
+				<choose>
+					<when test="criteria.star==0 ">
+						and c.Star<![CDATA[<=]]>1
+					</when>
+					<when test="criteria.star==1 ">
+						and c.Star between 2 and 3
+					</when>
+					<when test="criteria.star==2 ">
+						and c.Star <![CDATA[>]]>3
+					</when>
+				</choose>
+			</if>
+			<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+				order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+					而不能使用#{} 会设置参数失败 -->
+			</if>
+		</if>
+	</select>
+	
+	<select id="selectByOrderId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from comment
+    where OrderDetailID = #{orderid,jdbcType=INTEGER} limit 1
+  </select>
+  
+  <select id="getComBySpuIdByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+  		resultType="com.yinlian.api.app.dto.CommentBaseDto">
+  	select
+  	c.ID as id,c.Star as star,u.ID as userid,u.UserName as username,
+  	c.Content as content,u.ImgUrl as imgUrl
+    from comment c left join users u on c.BuyerID = u.ID
+    <if test="criteria != null ">
+    	<where>
+    		<if test="criteria.spuid != null and criteria.spuid > 0 ">
+    			and c.SPUID = #{criteria.spuid}
+    		</if>
+    		<if test="criteria.status != null and criteria.status >= 0 ">
+    			and c.status = #{criteria.status}
+    		</if>
+    	</where>
+    </if>
+    <if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+		order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+			而不能使用#{} 会设置参数失败 -->
+	</if>
+  </select>
+	
+</mapper>

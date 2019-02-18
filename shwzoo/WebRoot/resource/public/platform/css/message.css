@@ -1,0 +1,75 @@
+@charset "utf-8";
+/* CSS Document */
+
+#screening a{ color:#333;}
+#screening a:active{ color:#f00;}
+#screening a:hover{ color:#f00; text-decoration:none; cursor:pointer;}
+#screening-con{width:100%;display:none; margin-top:15px;}
+.preserve-inp{ width:80px; height:40px; border:1px solid #ccc; border-radius:5px; background:#efefef; font-size:18px; font-weight:bolder;}
+.touxi-dpgl-wgdp{ width:42px; height:36px; background: url(../images/index_icion.png) no-repeat -90px -79px; display:inline-block; margin-top:25px;}
+.editor-red{ background:url(../images/icion_2.png) no-repeat -90px -4px; width:23px; height:23px; display:inline-block; }
+.emails{ background:url(../images/icion_members.png) no-repeat -68px -75px; width:23px; height:23px; display:inline-block; }
+.iphone{ background:url(../images/icion_members.png) no-repeat -105px -75px; width:23px; height:23px; display:inline-block; }
+.information{ background:url(../images/icion_members.png) no-repeat -130px -75px; width:23px; height:23px; display:inline-block; }
+.browse-red{ background:url(../images/icion_members.png) no-repeat -170px -73px; width:30px; height:23px; display:inline-block; cursor:pointer;  }
+.glance-over span { margin:0 30px;}
+/*members-form  开始*/
+.members-form{ width:99.5%; margin-top:35px; color:#000; position:relative;}
+.members-form span{ margin-right:30px;}
+.members-form-inp{ width:150px; height:24px; border:1px solid #D4D4D4;}
+.text_time{	 width:110px; height:24px; border:1px solid #D4D4D4; color:#666; text-align:center;}
+.member-inp{ padding:3px 10px; background:#ffffff; border:1px solid #D3D3D3; border-radius:5px; color:#666;}
+.member-xz{ width:100%; margin-bottom:3px;}
+.member-xz span{ margin-right:10px;}
+.member-operate span{ margin-right:10px;}
+.dc-bg{ width:109px; height:27px; position:absolute; top:0px; right:0px;}
+.con_box1_img{ width:230px; height:140px; background:url(../images/icion_members.png) no-repeat -20px -150px; margin:260px auto 10px auto;}
+.con_box1_mesno{ text-align:center; font-size:16px; color:#595758; letter-spacing:2px;}
+.glance-over-con{width:500px; height:480px; padding:20px 0; background:#ffffff; border:1px solid #efefef; border-radius:10px; position:absolute; top:60px; right:32%; display:none;
+-moz-box-shadow: 0px 0px 5px #ccc;
+-webkit-box-shadow: 0px 0px 5px #ccc;
+box-shadow: 0px 0px 5px #ccc
+/* For IE 8 */
+-ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#f2f2f2')";
+/* For IE 5.5 - 7 */
+filter: progid:DXImageTransform.Microsoft.Shadow(Strength=4, Direction=135, Color='#f2f2f2');
+}	
+.glance-over-con table{ width:100%; background:#D8D8D8;}
+.glance-over-con p{ text-align:center; margin-top:20px;}
+.go-back{ padding:8px 30px; background:#efefef; border:1px solid #D4D4D4; border-radius:5px; font-size:20px; font-weight:bolder; color:#666; cursor:pointer;}
+/*members-form  结束*/
+
+.acu-name{ width:465px;height:63px; border:1px solid #D9D9D9; font-size:18px; font-weight:normal; color:#666; line-height:63px; padding-left:20px; margin:100px auto 20px auto; background:#fff;}
+.acu-name-inp{ padding:0 10px; width:300px;  height:50px; line-height:50px; background:none; border:none; font-size:16px;}
+.acu-yzm{width:487px;height:63px;font-size:18px; font-weight:normal; color:#666; line-height:63px; margin:0 auto; position:relative;}
+.acu-yzm-left{width:253px;height:63px;font-size:18px; font-weight:normal; color:#666; line-height:63px; border:1px solid #D9D9D9; float:left; padding-left:20px; background:#fff; }
+.acu-yzm-inp{ width:160px; height:50px; line-height:50px; background:none; border:none; font-size:16px; text-align:center;}
+.acu-yzm-code{width:144px;height:63px;line-height:63px; border:1px solid #D9D9D9; float:left; margin-left:10px; text-align:center; background:#fff;}
+.acu-yzm-change{ width:54px; height:63px; position:absolute; top:0px; right:0px; font-size:16px; text-align:center;}
+.next-bz{width:487px; height:63px; margin:20px auto 100px auto; background:#fff; border:1px solid #E5E5E5; color:#000; font-size:24px; line-height:63px; text-align:center; letter-spacing:2px;}
+.next-bz a{color:#000;}
+.con2-top{width:487px; margin:100px auto 20px auto; font-size:16px;  color:#666;}
+.con2-con{width:487px; margin:20px auto 100px auto; font-size:16px; }
+.con2-con-email{ width:210px; height:114px; line-height:114px; text-align:center;display:inline-block; border:5px solid #D9D9D9; border-radius:8px; cursor:pointer; margin-right:20px;  background:#fff; }
+.con2-con-email:hover{ border:5px solid #6FD6FF; }
+.con2-con-email a{ color:#666;}
+.acu-name-qr{width:465px;height:63px; border:1px solid #D9D9D9; font-size:18px; font-weight:normal; color:#666; line-height:63px; padding-left:20px; margin:0px auto 20px auto; background:#fff;}
+.con4-con{width:487px; margin:100px auto 20px auto; font-size:16px;  color:#666; height:31px; line-height:31px; font-weight:bolder;}
+.con4-con img{ float:left; margin-right:10px;}
+.con4-inp{ padding:0px 30px; margin:20px auto 100px auto; background:#E7E7E7; border:1px solid #ccc; color:#000; font-size:24px; line-height:63px; text-align:center; letter-spacing:2px; cursor:pointer; border-radius:5px; margin-right:20px;}
+.con4-con-bd{ width:100%; height:63px; }
+
+/* 底部信息管理  友情链接  开始*/
+.wzlj-con1{ width:100%;}
+.wzlj-con1 table{ border-collapse:collapse;}
+.wzlj-con1 table tr{ height:50px;}
+.wzlj-con1 table tr td{ border:1px solid #D3D3D3; text-align:center;}
+.wzlj-xh{ width:80px; height:35px; border:1px solid #efefef; font-size:16px; text-align:center;}
+.wzlj-gsmc{ width:95%; height:35px; border:1px solid #efefef; font-size:16px; padding-left:10px;}
+.wzlj-td-bj span{ margin:0 10px;}
+.preserve-pay{ margin:20px 0;}
+.preserve-pay input{ margin-right:15px;}
+.wzlj-lvs{ color:#44C2FD;}
+.wzlj-lvs a{ color:#44C2FD;}
+.wzlj-lvs a:hover{ color:#44C2FD; text-decoration:underline;}
+/* 底部信息管理  友情链接  结束*/

@@ -1,0 +1,106 @@
+<%var path="/resource";%>
+<head>
+<title>个人中心-未登录</title>
+
+<script src="${path}/wap/js/index.js"></script>
+ <script src="${path}/cookie.js"></script>
+<script type="text/javascript" src="${path}/wap/js/wkh/varCommon.js"></script>
+<script type="text/javascript" src="${path}/wap/js/wkh/ajaxCommon.js"></script>
+<script type="text/javascript" src="${path}/wap/js/wkh/appCommon.js"></script>
+  <script type="text/javascript" src="${path}/wap/js/login.js"></script>
+<script type="text/javascript">
+function loginSuccess(){
+	pageUrl = "/api/wap/showfan/skuList";//页面url
+	content = "skulist";//主体
+	params = {
+		"page" : 1,
+		"size" : 4
+	};//参数
+	initPage(0);
+}
+
+	$(function() {
+		loginContent=".container";
+		if(	login.isLogin()){
+			loginSuccess();
+		}else{
+			
+			login.open();
+		}
+		
+	});
+	
+	
+	$(function(){
+		$(window).scroll(function(){
+			var scrollTop=$(this).scrollTop();
+			var scrollHeight=$(document).height();
+			var windowHeight=$(this).height();
+			if(scrollTop+windowHeight==scrollHeight){
+				initPage();
+			}
+		});
+	})
+
+	
+	function next(){
+		var skuid=$("#skuid").val();
+		window.location.href="/wap/discover/shaifan.html?skuid="+skuid;
+	}
+</script>
+
+</head>
+<body>
+<!--container  begin-->
+<div class="container fix">
+	<!--l_alltop  begin -->
+	<div class="l_alltop fix">
+    	<a href="/wap/discover/index.html"><span><img src="${path}/wap/images/tp10.png" class="img-responsive l_maxwid"></span></a>
+    	选择商品
+        <span class="l_xybtb"><a  href="javascript:void(0)" onclick="next()">下一步</a></span>
+    </div>
+    <!--l_alltop  stop -->
+    <!--l_sfxzsp  begin -->
+    <div class="l_sfxzsp fix" id="skulist">
+    	
+    </div>
+    <!--l_sfxzsp  stop -->
+    <!--l_scfindex  begin -->
+    <div class="l_scfindex fix">
+    	<ul>
+        	<a href="/wap/discover/guangchang.html">
+        	<li>
+            	<span><img src="${path}/wap/images/scfindex01.png" class="img-responsive"></span>
+                <p>广场</p>
+            </li>
+            </a>
+            <a href="/wap/discover/selectSpu.html">
+        	<li class="active">
+            	<span><img src="${path}/wap/images/scfindex02_act.png" class="img-responsive"></span>
+                <p>晒范</p>
+            </li>
+            </a>
+            <a href="/wap/index.html">
+        	<li>
+            	<span><img src="${path}/wap/images/scfindex03.png" class="img-responsive"></span>
+                <p>商城</p>
+            </li>
+            </a>
+            <a href="/wap/discover/mypublish.html">
+        	<li>
+            	<span><img src="${path}/wap/images/scfindex04.png" class="img-responsive"></span>
+                <p>我的</p>
+            </li>
+            </a>
+        </ul>
+    </div>
+    <!--l_scfindex  stop -->
+</div>
+<!--container  stop -->
+<script>
+	window.onload=function(){
+		newArrival('.l_sfxzspmk02 img');
+		fixed('.l_scfindex');
+	}	
+</script>
+</body>

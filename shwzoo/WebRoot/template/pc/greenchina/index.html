@@ -1,0 +1,322 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<title>绿色食品中国</title>
+		<meta name="title" content="" />
+		<meta name="keywords" content="" />
+		<meta name="description" content="" />
+		<script src="/resource/artTemplate.js"></script>
+		<script type="text/javascript" src="/resource/pc/commonjs/wkh/common-util.js"></script>
+		<!--楼层浮动导航-->
+		<script type="text/javascript" src="/resource/pc/web/js/unslider.js"></script>
+		<script type="text/javascript">
+
+$(function(){
+	lspp();
+});
+
+var lssppage=1;
+
+/**
+ * 绿色品牌
+ */
+function lspp(){
+	var ajaxdata=AjaxUtil.Post("/pc/lszg/querynewsimg",{page:lssppage,pagesize:24});
+	var listdata = {
+            list: ajaxdata.data
+        };
+	 if(ajaxdata.data.length>0){
+		 var html = template("lspprows", listdata);
+		 $("#lspp").html(html);
+		 if(ajaxdata.page<=lssppage){
+				lssppage=1
+			}else{
+				lssppage++;
+			}
+			if(ajaxdata.data!=null&&ajaxdata.data.length>0){
+				$("#lsppmain").find("img").attr("src",ajaxdata.data[0].imgurl);
+				$("#lsppmain").find("a").attr("href","/lszg/lsppinfo.html?id="+ajaxdata.data[0].id);
+			}
+			if(ajaxdata.page>1){
+				$("#lspp").append('<li class="lsppnr-refresh" onclick="lspp()"><img src="/resource/pc/web/images/zlxztp11.png"/><p>换一批</p></li>')
+			}
+	 }else{
+		 $('.lsppnr-r').remove();
+		 $('#lsppmain').remove();
+	 }
+	 
+	
+	 
+}
+
+</script>
+	</head>
+	<body>
+		<%if(isNotEmpty(adtop)){%>
+		<div class="topimg">
+			<% var adco=1;
+			for(adt in adtop){
+			if(adco==1){
+			%>
+			<a href="${adt.url!'javascript:void(0)'}"><img src="${adt.imag}" /></a>
+			<div class="w1200">
+				<i></i>
+			</div>
+			<%
+			adco=adco+1;
+			}}%>
+		</div>
+		<%}%>
+		<!-- 加载top 文件 -->
+		<% try{
+		include("/template/pc/head/top.html",{userinfo:userinfo,keysdata:keysdata,navskhfw:navskhfw}){}}catch(error){}%>
+		<% include("/template/pc/nav/navclass_ls.html",{pagetype:1}){}%>
+		<!--banner 幻灯片焦点图  开始 -->
+		<div class="banner fix">
+			<!--banList 幻灯图图片 begin -->
+			<ul class="banList">
+				<%var adcon=1; if(isNotEmpty(ad1list)){%> <% for(ad in ad1list){
+				if(adcon==1){ %>
+				<li class="active">
+					<a href="${ad.url!'javascript:void(0)'}"
+					target="_blank"><img src="${ad.imag}" /></a>
+				</li>
+				<%}else{%>
+				<li>
+					<a href="${ad.url!'javascript:void(0)'}" target="_blank"><img
+					src="${ad.imag}" /></a>
+				</li> <%
+				}adcon++;}}%>
+			</ul>
+			<!--banList 幻灯图图片 stop -->
+			<!-- fomW 点击的小圆点  begin-->
+			<div class="fomW">
+				<div class="jsNav">
+					<%var adpcon=1; if(isNotEmpty(ad1list)){%> <% for(ad in ad1list){
+					if(adpcon==1){ %> <a href="javascript:void(0);"
+					class="trigger current"></a> <%}else{%> <a
+					href="javascript:void(0);" class="trigger"></a> <%}adpcon++;}}%>
+				</div>
+			</div>
+			<!-- fomW 点击的小圆点  stop-->
+		</div>
+		 <div id="container" class="fix">
+	<div class="xzdfg-top fix">
+		<a href="#" class="active">最新开馆</a>
+		<i>|</i>
+		发现未知的城市特色
+	</div>
+	<ul class="zxkgulnr fix">
+	<%for(vo in zxkglist){%>
+		<li>
+			<a href="/lszg/dfginfo.html?topicid=${vo.id}">
+				<img src="${vo.imgurl}">
+				<div class="zxkgulnr-mc"></div>
+				<p>${vo.title}</p>
+			</a>
+		</li>
+		<%}%>
+	</ul>
+	<div class="xzdfg-top fix mt30">
+		<a href="#" class="active">实时推荐</a>
+		<i>|</i>
+		地道推荐，猜你喜欢
+		<div class="xzdfg-top-more"><!-- <a href="#">更多<i>&gt;&gt;</i></a> --></div>
+	</div>
+	<!--zlxzxh begin-->
+	<div class="zlxzxh fix">
+		<div class="zlxzxh-l">
+		<%for(vo in vhpskulist){%>
+			<a href="/web/products/proinfo.html?spuid=${vo.spuid}"><img src="${vo.himgurl}"/></a>
+		<%break;}%>
+		
+		
+		</div>
+		<div class="zlxzxh-r">
+			<ul class="xzdfg-ulnr fix">
+				<%
+				var i=0;
+				for(vo in vhpskulist){
+				i++;
+				if(i==1){continue;}
+				%>
+				<li class="fix">
+					<a href="/web/products/proinfo.html?spuid=${vo.spuid}"><img src="${vo.himgurl}"></a>
+					<div class="xzdfg-ulnr-title"><a href="/web/products/proinfo.html?spuid=${vo.spuid}">${vo.name}</a></div>
+					<div class="xzdfg-ulnr-price">￥${vo.price}</div>
+				</li>
+				<%}%>
+			</ul>
+		</div>
+	</div>
+	<!--zlxzxh stop-->
+	<div class="xzdfg-top fix mt30">
+		<a href="#" class="active">绿色品牌</a>
+		<i>|</i>
+		以健康之名，传承绿色品牌
+	</div>
+	<!--lsppnr begin-->
+	<div class="lsppnr fix">
+		<div class="lsppnr-l" id="lsppmain">
+			<a href="#"><img src=""/></a>
+		</div>
+		<script type="text/html" id="lspprows">
+		{{each list as vo i}}
+		{{if i != 0}}
+		<li><a href="/lszg/lsppinfo.html?id={{vo.id}}"><img src="{{vo.imgurl}}"/></a></li>
+		{{/if}}
+		{{/each}}
+		</script>
+		
+		<div class="lsppnr-r">
+			<ul id="lspp">
+			</ul>
+		</div>
+	</div>
+	<!--lsppnr stop-->
+	<div class="xzdfg-top fix mt30">
+		<a href="#" class="active">绿色故事</a>
+		<i>|</i>
+		诉说你不知道的风情
+		<div class="xzdfg-top-more"><a href="/lszg/lsgs.html">更多<i>&gt;&gt;</i></a></div>
+	</div>
+	<ul class="xzlsgs-ulnr fix mt0">
+	<%for(vo in newslist){%>
+		<li class="fix">
+			<a href="/lszg/lsgsinfo.html?id=${vo.id}">
+				<img src="${vo.imgurl}">
+				<div class="xzlsgs-ulnr-js">${vo.title}</div>
+			</a>
+		</li>
+	<%}%>
+	</ul>
+	<div class="xzdfg-top fix mt30">
+		<a href="#" class="active">热门城市</a>
+		<i>|</i>
+		再一次发现中国
+	</div>
+	<ul class="xz-rmcity fix">
+	<%for(vo in rmcslist){%>
+		<li>
+			<a href="/lszg/dfginfo.html?topicid=${vo.id}">
+				<img src="${vo.imgurl}">
+				<div class="zxkgulnr-mc"></div>
+				<div class="xz-rmcity-tit"><span>${vo.title}</span></div>
+			</a>
+		</li>
+	<%}%>
+		<li>
+			<a href="/lszg/dfg.html">
+				<div class="xz-rmcity-more">
+					<i></i>
+					<p>更多</p>
+				</div>
+			</a>
+		</li>
+	</ul>
+</div>
+		<% try{
+		include("/template/pc/head/footer.html",{newscone:newscone,newsctwo:newsctwo,newscwthree:newscwthree,newscfour:newscfour,newscfive:newscfive}){}}catch(error){}%>
+
+		 
+		 
+		<script>
+			$(function() {
+
+				$('#box').onePageNav({
+					scrollThreshold : 0.3
+					//阈值 楼层高度系数
+				});
+
+				$(window).scroll(function() {
+					if ($(window).scrollTop() > 1534) {
+						$('#box').onePageNav({
+							scrollThreshold : 0.3
+							//阈值 楼层高度系数
+						});
+						$('#box').show();
+					} else {
+						$('#box').hide();
+					}
+				});
+				//楼层浮动导航初始化
+				window.prettyPrint && prettyPrint();
+
+				//$('#box ul li').hover(function () {
+				//    $(this).find('.num').hide().siblings('.word').css({ 'display': 'block', 'background': '#CB1C39', 'color': 'white' });
+				//}, function () {
+				//    $(this).find('.num').css({ 'display': 'block', 'background': '#EFEFEF', 'color': '#666' }).siblings('.word').hide().css({ 'display': 'none', 'background': '', 'color': '' });
+				//})
+				var select = false;
+				//楼层浮动导航鼠标点击效果
+				$('#box ul li').click(function() {
+					if($(this).attr("id")!="totop"){
+					select = true;
+					$(this).find('.num').hide().siblings('.word').css('display', 'block');
+					$(this).siblings('li').find('.num').show().siblings('.word').hide();
+					}else{
+						select = true;
+					$(this).find('.num').show();
+					$(this).find('.word').hide();
+					$(this).siblings('li').find('.num').show().siblings('.word').hide();
+					window.location.href="#";
+					}
+				})
+				//楼层浮动导航鼠标浮动效果
+				$('#box ul li').hover(function() {
+					if ($(this).find('.num').attr("style") == "display: block;") {
+						select = false;
+						$(this).find('.num').hide().siblings('.word').css({
+							'display' : 'block'
+						});
+						$(this).find('.word').show();
+					} else {
+						select = true;
+					}
+				}, function() {
+					if (select == false) {
+						$(this).find('.num').css({
+							'display' : 'block'
+						}).siblings('.word').hide();
+					}
+				})
+			})
+		</script>
+		<script type="text/javascript">
+			$('.all-sort-list > .item').hover(function() {
+				var eq = $('.all-sort-list > .item').index(this),
+				//获取当前滑过是第几个元素
+				h = $('.all-sort-list').offset().top,
+				//获取当前下拉菜单距离窗口多少像素
+				s = $(window).scrollTop(),
+				//获取游览器滚动了多少高度
+				i = $(this).offset().top,
+				//当前元素滑过距离窗口多少像素
+				item = $(this).children('.item-list').height(),
+				//下拉菜单子类内容容器的高度
+				sort = $('.all-sort-list').height();
+				//父类分类列表容器的高度
+				$(this).addClass('hover');
+				$(this).children('.item-list').css('display', 'block');
+			}, function() {
+				$(this).removeClass('hover');
+				$(this).children('.item-list').css('display', 'none');
+			});
+			$('.item > .item-list > .close').click(function() {
+				$(this).parent().parent().removeClass('hover');
+				$(this).parent().hide();
+			});
+			$('.banner').unslider({
+				speed : 500, //  The speed to animate each slide (in milliseconds)
+				delay : 5000, //  The delay between slide animations (in milliseconds)
+				complete : function() {
+				}, //  A function that gets called after every slide animation
+				keys : true, //  Enable keyboard (left, right) arrow shortcuts
+				dots : true, //  Display dot navigation
+				fluid : false, //  Support responsive design. May break non-responsive designs
+				autoplay : true
+			});
+		</script>
+	</body>
+</html>

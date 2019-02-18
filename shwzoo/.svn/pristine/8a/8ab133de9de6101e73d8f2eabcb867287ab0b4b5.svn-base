@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.CouponMapperCustom">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.dto.V_CouponDto">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="couponid" property="couponid" jdbcType="INTEGER" />
+		<result column="couponnum" property="couponnum" jdbcType="VARCHAR" />
+		<result column="couponname" property="couponname" jdbcType="VARCHAR" />
+		<result column="facevalue" property="facevalue" jdbcType="REAL" />
+		<result column="conponcount" property="conponcount" jdbcType="INTEGER" />
+		<result column="couponissuetype" property="couponissuetype"
+			jdbcType="INTEGER" />
+		<result column="couponusetype" property="couponusetype"
+			jdbcType="INTEGER" />
+		<result column="usetypeid" property="usetypeid" jdbcType="INTEGER" />
+		<result column="coupontype" property="coupontype" jdbcType="INTEGER" />
+		<result column="fullreductionvalue" property="fullreductionvalue"
+			jdbcType="REAL" />
+		<result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+		<result column="providetime" property="providetime" jdbcType="TIMESTAMP" />
+		<result column="endday" property="endday" jdbcType="INTEGER" />
+		<result column="endtime" property="endtime" jdbcType="TIMESTAMP" />
+		<result column="getuserlevel" property="getuserlevel" jdbcType="INTEGER" />
+		<result column="gettype" property="gettype" jdbcType="INTEGER" />
+		<result column="getcount" property="getcount" jdbcType="INTEGER" />
+		<result column="shopid" property="shopid" jdbcType="INTEGER" />
+		<result column="shopname" property="shopname" jdbcType="VARCHAR" />
+		<result column="gettime" property="gettime" jdbcType="TIMESTAMP" />
+		<result column="usetime" property="usetime" jdbcType="TIMESTAMP" />
+		<result column="isuser" property="isuser" jdbcType="BIT" />
+		<result column="userid" property="userid" jdbcType="INTEGER" />
+		<result column="userdesc" property="userdesc" jdbcType="VARCHAR" />
+		<result column="username" property="username" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+		<result column="outtime" property="outtime" jdbcType="TIMESTAMP" />
+		<result column="isdel" property="isdel" jdbcType="BIT" />
+		<result column="deluserid" property="deluserid" jdbcType="INTEGER" />
+		<result column="deltime" property="deltime" jdbcType="TIMESTAMP" />
+		<result column="classfullpath" property="classfullpath"
+			jdbcType="VARCHAR" />
+	    <result column="useplatform" property="useplatform" jdbcType="VARCHAR" />
+	    
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, couponid, couponnum, couponname, facevalue,conponcount,
+		couponissuetype,couponusetype, usetypeid,
+		coupontype,fullreductionvalue, createtime,
+		providetime,endday,endtime,
+		getuserlevel, gettype, getcount, shopid, shopname, gettime,usetime,
+		isuser,userid,userdesc,username,email,mobile,outtime,isdel,
+		deluserid,deltime,classfullpath,useplatform
+	</sql>
+
+	<!-- 根据用户获取优惠卷列表 -->
+	<select id="getByUserIDPage" resultType="com.yinlian.api.app.dto.UserCouponDto"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		select couponid, couponnum, couponname, facevalue,couponusetype,status,
+		coupontype,fullreductionvalue,
+		providetime,outtime,shopid, shopname, gettime,usetime,isuser,userdesc,isdel,(<![CDATA[outtime < SYSDATE() ]]>) as isout 
+		from v_coupon
+		<where>
+			<if test="criteria.userid !=null and criteria.userid >0">
+				and userid=#{criteria.userid}
+			</if>
+			<if test="criteria.useplatform !=null and criteria.useplatform >0">
+				and FIND_IN_SET(#{criteria.useplatform},useplatform)
+			</if>
+			<if test="criteria.status !=null and criteria.status >0">
+				<choose>
+					<when test="criteria.status==1">
+						and isuser = 0 and isdel = 0
+						 <![CDATA[ and outtime > SYSDATE() ]]>
+					</when>
+					<when test="criteria.status==2">
+						and isuser = 1 and isdel = 0
+					</when>
+					<when test="criteria.status==3">
+					    and isuser = 0
+                       <![CDATA[ and outtime < SYSDATE() ]]>
+						and IsDel = 0
+					</when>
+					<when test="criteria.status==4">
+						and IsDel = 1
+					</when>
+					<otherwise></otherwise>
+				</choose>
+			</if>			
+		</where>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+
+	</select>
+
+	<!-- 获取会员列表 -->
+	<select id="getMenberListPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.UsersInfoDto">
+
+		SELECT a.ID as id,a.UserName as username,a.NickName as nickname ,
+		a.RealName as realname,
+		a.Email as email,a.Mobile as mobile,c.Birthday as birthday,b.CreateTime as createtime
+		FROM users a JOIN
+		accounts b ON a.ID =b.UserID LEFT JOIN user_attr c
+		ON a.ID=c.UserID
+
+		WHERE (a.Status = 0 OR a.Status IS NULL)  AND b.UserType = 2 
+		AND (b.IsDel =0 OR b.IsDel IS NULL)
+		AND (b.Status = 0)
+		<if test="criteria.username!=null and criteria.username !=''">
+			AND a.UserName like '%${criteria.username}%'
+		</if>
+		<if test="criteria.mobile!=null and criteria.mobile !=''">
+			AND a.mobile =#{criteria.mobile}
+		</if>
+		<if test="criteria.begin !=null and criteria.begin !=''">			
+			 <![CDATA[ and DATEDIFF(b.createTime,#{criteria.begin})>=0]]>
+		</if>
+		<if test="criteria.end !=null and criteria.end!=''">
+			 <![CDATA[ and DATEDIFF(b.createTime,#{criteria.end})<=0]]>
+		</if>
+		<if test="criteria.sex!=null and criteria.sex >0">
+			AND a.id NOT IN (SELECT uc.UserID FROM user_coupon uc
+			WHERE uc.CouponID=#{criteria.sex})
+		</if>
+	</select>
+	
+	<select id="getByCouponIDPage" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		select
+		<include refid="Base_Column_List" />
+		from v_coupon where isdel =0
+			<if test="criteria.couponid !=null and criteria.couponid >0">
+				and couponid=#{criteria.couponid}
+			</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+
+	</select>
+	
+	<!-- 结算页获取优惠卷信息 -->
+	<select id="getApiCoupon" resultType="com.yinlian.api.app.dto.CouponDto">
+	select couponid, couponnum, couponname, facevalue,
+		couponissuetype,couponusetype, usetypeid,
+		coupontype,fullreductionvalue, 
+		providetime,outtime,shopid, shopname, gettime
+		from v_coupon
+		where isuser = 0 and isdel = 0
+	   <![CDATA[ and outtime > SYSDATE() ]]>
+	   <![CDATA[ and providetime < SYSDATE() ]]>
+	   <if test="userid !=null and userid >0">
+	   and userid=#{userid}
+	   </if>
+	   <if test="useplatform !=null and useplatform >0">
+	   and FIND_IN_SET(#{useplatform},useplatform)
+	   </if>
+	</select>
+	<select id="getLotteryCoupon" resultType="com.yinlian.api.app.dto.CouponShopDto">
+	select id,couponname 
+	from coupon 
+	where IsDel = 0 And Status = 0 And GetType =4 
+	    And EndTime > SYSDATE() 
+		And ConponCount>0
+		limit 1
+	</select>
+	<select id="getLotteryCouponList" resultType="com.yinlian.api.app.dto.CouponShopDto">
+	select id,couponname 
+	from coupon 
+	where IsDel = 0 And Status = 0 And GetType =4 
+	    And EndTime > SYSDATE() 
+		And ConponCount>0
+	</select>
+	<select id="getShopCoupon" resultType="com.yinlian.api.app.dto.UserCouponDto">
+	select id, couponnum, couponname, facevalue,
+		couponissuetype,couponusetype, usetypeid,
+		coupontype,fullreductionvalue, 
+		providetime,outtime,shopid, shopname, gettime
+		from v_coupon
+	where IsDel = 0 And Status = 0 And CouponIssueType =0 
+	    And EndTime > SYSDATE() 
+		And ConponCount>0
+	</select>
+	<select id="getByUserIDorderbyPage" resultType="com.yinlian.api.app.dto.UserCouponDto"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		select couponid, couponnum, couponname, facevalue,couponusetype,status,
+		coupontype,fullreductionvalue,
+		providetime,outtime,shopid, shopname, gettime,usetime,isuser,userdesc
+		from v_coupon
+		<where>
+			<if test="criteria.userid !=null and criteria.userid >0">
+				and userid=#{criteria.userid}
+			</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+       </where>
+	</select>
+	<resultMap id="AvailableCouponBaseMap" type="com.yinlian.pc.dto.CouponGetDto">
+		<result column="shopid" property="shopid" jdbcType="INTEGER" />
+		<result column="shopname" property="shopname" jdbcType="VARCHAR" />
+		<collection property="list"  ofType="com.yinlian.api.app.dto.AvailableCouponDto">
+			<result column="id" property="id" jdbcType="INTEGER" />
+			<result column="couponnum" property="couponnum" jdbcType="VARCHAR" />
+			<result column="couponname" property="couponname" jdbcType="VARCHAR" />			
+			<result column="facevalue" property="facevalue" jdbcType="REAL" />
+			<result column="couponusetype" property="couponusetype" jdbcType="INTEGER" />
+			<result column="coupontype" property="coupontype" jdbcType="INTEGER" />
+			<result column="fullreductionvalue" property="fullreductionvalue" jdbcType="REAL" />
+			<result column="providetime" property="providetime" jdbcType="TIMESTAMP" />
+			<result column="outtime" property="outtime" jdbcType="TIMESTAMP" />
+			<result column="ImgUrl" property="imgurl" jdbcType="VARCHAR" />
+			<result column="ImgUrl_App" property="imgurlApp" jdbcType="VARCHAR" />
+		</collection>
+	</resultMap>
+	<!-- 查询所有可领取的优惠卷 -->
+	<select id="getAvailableCouponPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" 
+	resultMap="AvailableCouponBaseMap">
+		SELECT a.shopid,b.name as shopname,
+		        a.id,a.couponnum,
+	            a.couponname,
+	            a.facevalue,
+				a.imgurl,
+	            a.imgurl_App,
+	            a.couponusetype,
+	            a.coupontype,
+	            a.fullreductionvalue,
+	            a.providetime,
+	            a.endtime AS outtime	            
+		FROM coupon a LEFT JOIN shop b ON a.shopid=b.id
+		WHERE a.IsDel = 0 AND a.Status = 0 AND a.GetType =0 AND a.EndTime >
+		SYSDATE() AND a.ConponCount>0 AND a.couponusetype !=3
+		<if test="criteria !=null">
+			<if test="criteria.shopid !=null and criteria.shopid >=0">
+				and a.ShopID=#{criteria.shopid}
+			</if>
+			<if test="criteria.useplatform !=null and criteria.useplatform >=0">
+				and FIND_IN_SET(#{criteria.useplatform},a.UsePlatform)
+			</if>
+		</if>
+	</select>
+	<select id="getAllUseCoupon"  resultMap="AvailableCouponBaseMap">
+		SELECT a.shopid,b.name as shopname,
+		        a.id,a.couponnum,
+	            a.couponname,
+	            a.facevalue,
+	            a.imgurl,
+	            a.imgurl_App,
+	            a.couponusetype,
+	            a.coupontype,
+	            a.fullreductionvalue,
+	            a.providetime,
+	            a.endtime AS outtime	            
+		FROM coupon a LEFT JOIN shop b ON a.shopid=b.id
+		WHERE a.IsDel = 0 AND a.Status = 0 AND a.GetType =0 AND a.EndTime >
+		SYSDATE() AND a.ConponCount>0 AND a.couponusetype=3
+	</select>
+	
+	<!-- 获取用户注册可赠送的优惠券 -->
+	<select id="getRegistergiftCoupon"  resultType="com.yinlian.wssc.web.po.Coupon">
+		SELECT  a.ID as id, 
+	            a.CouponNum as couponnum, 
+	            a.CouponName as couponname, 
+	            a.FaceValue as facevalue, 
+	            a.ConponCount as conponcount,
+		        a.ProvideTime as providetime,
+		        a.Status as status,
+		        a.EndDay as endday, 
+		        a.EndTime as endtime,  
+		        a.GetCount  as getcount              
+		FROM coupon a 
+		WHERE a.IsDel = 0 AND a.Status = 0 AND a.GetType =5
+		AND a.EndTime > SYSDATE() AND a.ConponCount>0 
+	</select>
+</mapper>

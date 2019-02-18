@@ -1,0 +1,141 @@
+<%var path="/resource";%>
+<head>
+<title>个人中心-未登录</title>
+
+<script src="${path}/wap/js/index.js"></script>
+</head>
+<body>
+<!--container  begin-->
+<div class="container fix">
+	<!--l_alltop  begin -->
+	<div class="l_alltop fix" onclick="javascript:location.href='/wap/discover/index.html'">
+    	<span><img src="${path}/wap/images/tp10.png" class="img-responsive l_maxwid"></span>
+    	百宝箱
+    </div>
+    <!--l_alltop  stop -->
+    <div class="l_bbximg"><img src="${path}/wap/images/bbximg.png" class="img-responsive"></div>
+    <!--l_bbxtjtop  begin -->
+    <div class="l_bbxtjtop fix">
+    	<div class="l_bbxico"><p>推荐</p></div>
+        <div class="l_bbxul fix">
+        	<ul>
+            <!-- 	<a href="#">
+            	<li>
+                	<span><img src="${path}/wap/images/bbxico01.png" class="img-responsive"></span>
+                    <p>服装城</p>
+                </li>
+                </a> -->
+                <a href="/wap/order/getorder?ch=3&&iscomment=null">
+            	<li>
+                	<span><img src="${path}/wap/images/bbxico02.png" class="img-responsive"></span>
+                    <p>订单查询</p>
+                </li>
+                </a>
+                <a href="/wap/activityView/qiang.html">
+            	<li>
+                	<span><img src="${path}/wap/images/bbxico03.png" class="img-responsive"></span>
+                    <p>抢购</p>
+                </li>
+                </a>
+               <!--  <a href="#">
+            	<li>
+                	<span><img src="${path}/wap/images/bbxico04.png" class="img-responsive"></span>
+                    <p>电器城</p>
+                </li>
+                </a> -->
+                <a href="/wap/qianview/qian">
+            	<li>
+                	<span><img src="${path}/wap/images/bbxico05.png" class="img-responsive"></span>
+                    <p>签到</p>
+                </li>
+                </a>
+            </ul>
+        </div>
+    </div>
+    <!--l_bbxtjtop  stop -->
+    <div class="l_bbxtitle">我的中绿</div>
+    <div class="l_bbxul fix">
+        <ul>
+            <a href="/wap/userinfo/infoBalance.html">
+            <li>
+                <span><img src="${path}/wap/images/bbxico06.png" class="img-responsive"></span>
+                <p>我的余额</p>
+            </li>
+            </a>
+            <a href="/wap/concern/selectCollect?type=1&&ch=3">
+            <li>
+                <span><img src="${path}/wap/images/bbxico07.png" class="img-responsive"></span>
+                <p>我的关注</p>
+            </li>
+            </a>
+            <a href="/wap/order/getorder?ch=3&&iscomment=null">
+            <li>
+                <span><img src="${path}/wap/images/bbxico02.png" class="img-responsive"></span>
+                <p>订单查询</p>
+            </li>
+            </a>
+            <a href="/wap/qianview/qian">
+            <li>
+                <span><img src="${path}/wap/images/bbxico05.png" class="img-responsive"></span>
+                <p>签到</p>
+            </li>
+            </a>
+        </ul>
+    </div>
+    <div class="l_bbxtitle">购中绿</div>
+    <div class="l_bbxul fix">
+        <ul>
+           <!--  <a href="#">
+            <li>
+                <span><img src="${path}/wap/images/bbxico01.png" class="img-responsive"></span>
+                <p>服装城</p>
+            </li>
+            </a>
+            <a href="#">
+            <li>
+                <span><img src="${path}/wap/images/bbxico04.png" class="img-responsive"></span>
+                <p>电器城</p>
+            </li>
+            </a> -->
+            <a href="/wap/activityView/qiang.html">
+            <li>
+                <span><img src="${path}/wap/images/bbxico03.png" class="img-responsive"></span>
+                <p>闪购</p>
+            </li>
+            </a>
+            <a href="#">
+            <li>
+                <span><img src="${path}/wap/images/bbxico08.png" class="img-responsive"></span>
+                <p>热卖排行</p>
+            </li>
+            </a>
+        </ul>
+    </div>
+<!--     <div class="l_bbxtitle">中绿生活</div>
+    <div class="l_bbxul fix">
+        <ul>
+            <a href="#">
+            <li>
+                <span><img src="${path}/wap/images/bbxico09.png" class="img-responsive"></span>
+                <p>充值中心</p>
+            </li>
+            </a>
+            <a href="#">
+            <li>
+                <span><img src="${path}/wap/images/bbxico10.png" class="img-responsive"></span>
+                <p>机票</p>
+            </li>
+            </a>
+            <a href="#">
+            <li>
+                <span><img src="${path}/wap/images/bbxico11.png" class="img-responsive"></span>
+                <p>火车票</p>
+            </li>
+            </a>
+        </ul>
+    </div>
+    <div class="l_bbxtitle"></div> -->
+</div>
+<!--container  stop -->
+</body>
+

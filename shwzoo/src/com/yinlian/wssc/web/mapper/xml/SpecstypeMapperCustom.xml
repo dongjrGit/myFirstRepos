@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.SpecstypeMapperCustom">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Specstype">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="Name" property="name" jdbcType="VARCHAR" />
+		<result column="ClassID" property="classid" jdbcType="INTEGER" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="OrderBy" property="orderby" jdbcType="INTEGER" />
+		<result column="Fullpath" property="fullpath" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, Name, ClassID, Status, OrderBy, Fullpath
+	</sql>
+	<select id="getByClassID" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from specstype
+		<where>
+		ClassID = #{classid}
+		</where>
+	</select>
+	
+	<select id="getBySuperiorClassID" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.util.Criteria">
+		select
+		<include refid="Base_Column_List" />
+		from specstype
+		<where>
+		ClassID = #{classid}
+		 or ClassID = #{classid2}
+		  or ClassID = #{classid3}
+		</where>
+	</select>
+	
+	
+	<select id="getByID" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from specstype where ID = #{id}
+	</select>
+	<update id="updateStatus" parameterType="java.lang.Integer">
+		update specstype
+		set Status = #{0}
+		where ID = #{1}
+	</update>
+	<update id="updateOrder" parameterType="java.lang.Integer">
+		update specstype
+		set OrderBy = #{0}
+		where ID = #{1}
+	</update>
+	<update id="updateOrderList" parameterType="java.util.List">
+
+		<if test="list != null">
+			<foreach collection="list" item="specstype" index="index"
+				open="" close="" separator=";">
+				update specstype
+				set OrderBy = #{specstype.orderby}
+				where ID = #{specstype.id}
+			</foreach>
+		</if>
+
+	</update>
+	<delete id="deleteList" parameterType="java.util.List">
+		delete from specstype where ID in
+		<if test="list != null">
+			<foreach collection="list" item="ids" index="index" open="(" separator=","
+				close=")">
+				#{ids}
+			</foreach>
+		</if>
+	</delete>
+	<!-- 以下是为分页查询 写的 sql片段 -->
+
+	<sql id="criteria_query">
+		<where>
+			and 1=1
+			<if test="criteria.classid != null and criteria.classid != '' ">
+			and  ClassID = #{criteria.classid}
+			</if>
+		</where>
+	</sql>
+	<select id="selectSpecsPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from specstype  spe
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by spe.${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	
+	<sql id="criteria_son">
+		<where>
+			<if test="criteria.classid != null and criteria.classid != '' ">
+			 ClassID = #{criteria.classid}  
+			</if>
+			<if test="criteria.classid2 != null and criteria.classid2 != '' ">
+			or ClassID = #{criteria.classid2}  
+			</if>
+			<if test="criteria.classid3 != null and criteria.classid3 != '' ">
+			or ClassID = #{criteria.classid3} 
+			</if>
+		</where>
+	</sql>
+	
+	<select id="selectSonPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from specstype  
+		<if test="criteria != null ">
+			<include refid="criteria_son" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+</mapper>

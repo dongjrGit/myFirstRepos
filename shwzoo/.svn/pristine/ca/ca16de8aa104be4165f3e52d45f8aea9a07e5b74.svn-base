@@ -1,0 +1,26 @@
+<div class="all-sort-list">
+    <!--item 第一个一级导航 开始  （bo样式是上边框的线与上面的颜色保持一致，只有这一个有。下面的都没有） -->
+    #foreach($item in $classList)
+    <div class="item">
+        <h3><a href='/Web/Goods/GoodsList?classid=$item.ID'>$item.Name</a><span><img src="/web/images/item.png" width="4" height="6" /></span></h3>
+        <!--item-list 一级导航具体内容  开始 -->
+        <div class="item-list clearfix">
+            <!--subitem左边的列表  begin -->
+            <div class="subitem">
+                #foreach($iteml in $item.Children)              
+                <dl class="fore1">
+                    <dt><a href='/Web/Goods/GoodsList?classid=$iteml.ID'>$iteml.Name</a></dt>
+                    <dd>                      
+                        #foreach($item2 in $iteml.Children)
+                        <em><a  target="_blank" href="/Web/Goods/GoodsList?classid=$item2.ID">$item2.Name</a></em>                       
+                        #end
+                    </dd>
+                </dl>
+                #end
+            </div>
+        </div>
+        <!--item-list 一级导航具体内容  结束 -->
+    </div> 
+     #end
+    <!--item 第一个一级导航 结束  （bo样式是上边框的线与上面的颜色保持一致，只有这一个有。下面的都没有） -->
+</div>

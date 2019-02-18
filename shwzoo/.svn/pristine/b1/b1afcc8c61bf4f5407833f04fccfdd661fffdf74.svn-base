@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.techown.wssc.web.mapper.ZooNewsMapper">
+	<resultMap id="BaseResultMap" type="com.techown.wssc.web.po.ZooNews">
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="title" jdbcType="VARCHAR" property="title" />
+		<result column="img" jdbcType="VARCHAR" property="img" />
+		<result column="state" jdbcType="TINYINT" property="state" />
+		<result column="delState" jdbcType="TINYINT" property="delState" />
+		<result column="createTime" jdbcType="TIMESTAMP" property="createTime" />
+		<result column="updateTime" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="creator" jdbcType="VARCHAR" property="creator" />
+		<result column="operator" jdbcType="VARCHAR" property="operator" />
+	</resultMap>
+	<resultMap extends="BaseResultMap" id="ResultMapWithBLOBs"
+		type="com.techown.wssc.web.po.ZooNews">
+		<result column="content" jdbcType="LONGVARCHAR" property="content" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, title, img, state, delState, createTime, updateTime, creator,
+		operator
+	</sql>
+	<sql id="Blob_Column_List">
+		content
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="ResultMapWithBLOBs">
+		select
+		<include refid="Base_Column_List" />
+		,
+		<include refid="Blob_Column_List" />
+		from zoo_news
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<select id="getLastNews" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select id,title,img,createTime from zoo_news 
+		where updateTime = 
+		(select max(updateTime) FROM zoo_news where state = #{state,jdbcType=INTEGER})
+	</select>
+
+	<sql id="criteria_query_title">
+		<if test="criteria.state!=null">
+			state=#{criteria.state}
+		</if>
+		<if test="criteria.title!=null and criteria.title!='' ">
+			and title like '%${criteria.title}%'
+		</if>
+		<if test="criteria.delState!=null">
+			and delState=#{criteria.delState}
+		</if>
+	</sql>
+
+
+	<select id="querylistPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from zoo_news
+		<where>
+			<if test="criteria != null ">
+				<include refid="criteria_query_title" />
+			</if>
+		</where>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	
+	<update id="updateState">
+		update zoo_news
+		set
+		<if test="state==1">
+			state = 0,
+		</if>
+		<if test="state==0">
+			state = 1,
+		</if>
+		updateTime = #{updateTime,jdbcType=TIMESTAMP},
+		operator =
+		#{operator,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+		and
+		state = #{state,jdbcType=INTEGER}
+	</update>
+
+	<update id="updateDelState">
+		update zoo_news
+		set
+		delState = 0,
+		updateTime = #{updateTime,jdbcType=TIMESTAMP},
+		operator =
+		#{operator,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+		and
+		delState = 1
+	</update>
+
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from zoo_news
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.techown.wssc.web.po.ZooNews">
+		insert into zoo_news (id, title, img,
+		state, delState, createTime,
+		updateTime, creator, operator,
+		content)
+		values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+		#{img,jdbcType=VARCHAR},
+		#{state,jdbcType=TINYINT}, #{delState,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP},
+		#{updateTime,jdbcType=TIMESTAMP}, #{creator,jdbcType=VARCHAR},
+		#{operator,jdbcType=VARCHAR},
+		#{content,jdbcType=LONGVARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.techown.wssc.web.po.ZooNews">
+		insert into zoo_news
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="title != null">
+				title,
+			</if>
+			<if test="img != null">
+				img,
+			</if>
+			<if test="state != null">
+				state,
+			</if>
+			<if test="delState != null">
+				delState,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+			<if test="updateTime != null">
+				updateTime,
+			</if>
+			<if test="creator != null">
+				creator,
+			</if>
+			<if test="operator != null">
+				operator,
+			</if>
+			<if test="content != null">
+				content,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="title != null">
+				#{title,jdbcType=VARCHAR},
+			</if>
+			<if test="img != null">
+				#{img,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null">
+				#{state,jdbcType=TINYINT},
+			</if>
+			<if test="delState != null">
+				#{delState,jdbcType=TINYINT},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				#{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				#{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				#{content,jdbcType=LONGVARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.techown.wssc.web.po.ZooNews">
+		update zoo_news
+		<set>
+			<if test="title != null">
+				title = #{title,jdbcType=VARCHAR},
+			</if>
+			<if test="img != null">
+				img = #{img,jdbcType=VARCHAR},
+			</if>
+			<if test="state != null">
+				state = #{state,jdbcType=TINYINT},
+			</if>
+			<if test="delState != null">
+				delState = #{delState,jdbcType=TINYINT},
+			</if>
+			<if test="createTime != null">
+				createTime = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateTime != null">
+				updateTime = #{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creator != null">
+				creator = #{creator,jdbcType=VARCHAR},
+			</if>
+			<if test="operator != null">
+				operator = #{operator,jdbcType=VARCHAR},
+			</if>
+			<if test="content != null">
+				content = #{content,jdbcType=LONGVARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKeyWithBLOBs" parameterType="com.techown.wssc.web.po.ZooNews">
+		update zoo_news
+		set title = #{title,jdbcType=VARCHAR},
+		img = #{img,jdbcType=VARCHAR},
+		state = #{state,jdbcType=TINYINT},
+		updateTime = #{updateTime,jdbcType=TIMESTAMP},
+		operator = #{operator,jdbcType=VARCHAR},
+		content = #{content,jdbcType=LONGVARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.techown.wssc.web.po.ZooNews">
+		update zoo_news
+		set title = #{title,jdbcType=VARCHAR},
+		img = #{img,jdbcType=VARCHAR},
+		state = #{state,jdbcType=TINYINT},
+		delState = #{delState,jdbcType=TINYINT},
+		createTime = #{createTime,jdbcType=TIMESTAMP},
+		updateTime = #{updateTime,jdbcType=TIMESTAMP},
+		creator = #{creator,jdbcType=VARCHAR},
+		operator = #{operator,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+</mapper>

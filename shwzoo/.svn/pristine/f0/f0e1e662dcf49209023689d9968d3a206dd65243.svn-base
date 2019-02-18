@@ -1,0 +1,34 @@
+<%var path="/resource";%>
+<meta charset="utf-8">
+<%for (vo in pageData.data){%>
+  <div class="l_scfmk fix">
+    	<div class="l_yfbtop fix">
+
+            <div class="l_scfmk03_01"><img src="${vo.imgurl}" class="img-responsive"></div>
+
+            <div class="l_scfmk03_02" >
+                <p>${vo.nickname}</p>
+                <p class="huise">${vo.createtimetr}</p>
+            </div>
+        </div>
+    	<div class="l_scfmk01"><img src="${vo.imgone}" class="img-responsive"></div>
+        <div class="l_scfmk02 fix" onclick="javascript:location.href='/wap/discover/fandetail.html?showid=${vo.id}'">
+        	<div class="l_scfmk02_01"><a href="#"><img src="${vo.proimg}" class="img-responsive"></a></div>
+            <div class="l_scfmk02_02">
+            	<h3><a href="#">${vo.proname}</a></h3>
+                <p class="red">￥  ${vo.proprice}</p>
+            </div>
+            
+        </div>
+        <div class="l_scfmk03 fix pt0">
+            <div class="l_scfmk04 fix">
+            	<span class="l_scfmk04_01"><img src="${path}/wap/images/scfico01.png" class="img-responsive"></span>
+                <span class="l_scfmk04_02">${vo.likeCount}</span>
+                <span class="l_scfmk04_03"><img src="${path}/wap/images/scfico02.png" class="img-responsive"></span>
+                <span class="l_scfmk04_04">66</span>
+                <span class="l_scfmk04_05"><a href="#"><i><img src="${path}/wap/images/scfico03.png" class="img-responsive"></i>分享</a></span>
+            </div>
+        </div>  
+        <input name="pages" type="hidden" value="${pageData.page}"/>
+    </div>
+<%}%>

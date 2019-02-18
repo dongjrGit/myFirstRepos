@@ -1,0 +1,157 @@
+<head>
+<title>支付成功</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link type="text/css" rel="stylesheet" href="/resource/pc/web/css/common.css">
+<link type="text/css" rel="stylesheet" href="/resource/pc/web/css/style.css">
+
+ <link href="/resource/pc/web/css/top-footer.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="/resource/pc/web/css/common.css">
+    <link type="text/css" rel="stylesheet" href="/resource/pc/web/css/style.css">
+    <script type="text/javascript" src="/resource/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/resource/pc/web/js/index.js"></script>
+    <script src="/resource/pc/web/js/login/login.js"></script>
+ </head>   
+    <div id="top" class="fix">
+		<!--topcon  begin -->
+		<div class="topcon">
+			<% if(userinfo!=null) {%> <span> ${userinfo.loginName}！ </span> <span
+				class="red"> <a href="javascript:signout();"
+				class="ulogin_click">退出</a>
+			</span> <%} else {%> <span> 你好，请<a href="/member/user/showlogin"
+				class="a_buyerlogin">登录</a>
+			</span> <span class="red"> <a href="/member/user/register ;"
+				class="a_buyerregister">免费注册</a>
+			</span> <%}%>
+			<div class="top_rig">
+				<ul>
+					<li><%if(userinfo!=null) {%> <a href="/member/order/getorder.html"
+						class="a_orderlist">我的订单</a> <%}%>
+					</li>
+					<li class="l_hx">|</li>
+					<li class="iphone"><img src="/resource/pc/web/images/iphone.jpg"
+						width="7" height="12" /><a href="#">手机版</a></li>
+					<li class="l_hx">|</li>
+					<li class="l_khfw" id="l_khfw"><a href="#">客户服务</a><span
+						class="l_toprow"></span>
+						 <!--l_khfwcon客户服务 弹出框内容 开始 -->
+                     <div class="l_khfwcon">
+                    <% if(isNotEmpty(navskhfw)) {%>                   
+                    <%for(nav in navskhfw){%>                   
+                    <%for(navs in nav.list){%>
+                   <div class="f-item-top">
+                        <h3>${navs.classname}</h3>
+                        <ol class="fix">
+                           <%for(child in navs.articles){%>
+                            <li><a href="/web/article/contact.html?id=${child.id}">${child.title}</a></li>
+                          <%}%> 
+                       </ol>
+                    </div>                   
+                    <%}%>                  
+                    <%}%>                   
+                    <%}%> 
+                    </div>
+                    <!--l_khfwcon客户服务 弹出框内容 结束 -->
+						</li>
+					<li class="l_hx">|</li>
+					<li><span class="l_gzwm">关注我们：</span>
+						<div class="l_wbx">
+							<span class="weibo"></span> <span class="weixin"></span>
+						</div></li>
+				</ul>
+			</div>
+			<!--top_rig  stop -->
+		</div>
+		<!--topcon  stop -->
+	</div>
+<div id="container" class="fix">
+    <!--r_notice  begin -->
+    <div class="r_notice">
+        <span>公告：</span>中绿生活11.11期间（11月9日00:00-11月12日24:00）未付款订单自动取消时效由原来的24小时临时调整为6小时，请您尽快完成支付。
+    </div>
+    <!--r_notice  stop -->
+    <!--r_zjcon 中间内容 开始 -->
+    <div class="r_zjcon fix">
+        <div class="r_ddtjcg">
+            <img src="/resource/pc/web/images/img01.png" width="90" height="90">
+            <h3 class="fon22">订单支付成功！</h3>
+            <p class="lvse fon16">订单号：${groupnum}  支付金额：${price} 元</p>
+            <p class="r_zhyh">您可以 <a href="/member/order/getorder.html" class="r_ckdd">查看订单列表</a><a href="/index.html" class="r_ckdd">返回首页</a></p>
+        </div><!--r_ddtjcg  stop -->
+    </div>
+    <!--shop-jiescon  begin -->
+
+    <div class="yScrollList">
+        <div class="yScrollListTitle"><h1 class="yth1click">猜你喜欢</h1><h1 class="ytitleh12">我的关注</h1><h1 class="ytitleh13">浏览历史</h1></div>
+        <div class="yScrollListIn">
+            <!--yScrollListInList 猜你喜欢  begin -->
+            <div class="yScrollListInList yScrollListInList1" style="display:block;">
+                <ul>
+                <%if(isNotEmpty(cnxh)){%>
+                    <%for(vo in cnxh){%>
+                        <li>
+                            <a href="/web/products/proinfo.html?spuid=${vo.spuid}&protype=0"><img src="${vo.img}" width="230" height="214"></a>
+                            <p class="yScrollList_p1"><a href="/web/products/proinfo.html?spuid=${vo.spuid}&protype=0">${vo.name}</a></p>
+                            <p class="red bolder">￥${vo.price,numberFormat="0.00"}</p>
+                        </li>
+				<%}%>
+				<%}%>
+                </ul>
+            </div>
+            <!--yScrollListInList 猜你喜欢   stop -->
+            <!--yScrollListInList 我的关注   begin -->
+            <div class="yScrollListInList yScrollListInList2">
+                <ul>
+                <%if(isNotEmpty(wdgz)){%>
+                   <%for(vo in wdgz){%>
+                        <li>
+                            <a href="/web/products/proinfo.html?spuid=${vo.spuid}&protype=0"><img src="${vo.img}"></a>
+                            <p class="yScrollList_p1"><a href="/web/products/proinfo.html?spuid=${vo.spuid}&protype=0">${vo.name}</a></p>
+                            <p class="red bolder">￥${vo.price,numberFormat="0.00"}</p>
+                        </li>
+				<%}%>
+				<%}%>
+                </ul>
+            </div>
+            <!--yScrollListInList 我的关注   stop -->
+            <!--yScrollListInList 浏览历史   begin -->
+            <div class="yScrollListInList yScrollListInList3">
+                <ul>
+                <%if(isNotEmpty(lsjl)){%>
+                    <%for (vo in lsjl){%>
+                        <li>
+                            <a href="/web/products/proinfo.html?spuid=${vo.spuid}&protype=0"><img src="${vo.imgurl}"></a>
+                            <p class="yScrollList_p1"><a href="/web/products/proinfo.html?spuid=${vo.spuid}&protype=0">${vo.spuname}</a></p>
+                                <p class="red bolder">￥${vo.price!0,numberFormat="0.00"}</p>
+                        </li>
+					<%}%>
+				<%}%>
+                </ul>
+            </div>
+            <!--yScrollListInList 浏览历史   stop -->
+        </div>
+    </div>
+<% try{include("/template/pc/head/footer.html",{newscone:newscone,newsctwo:newsctwo,newscwthree:newscwthree,newscfour:newscfour,newscfive:newscfive}){}}catch(error){}%>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        setTimeout(function () {
+            //页面加载埋点
+            var kn = "pv/load/buy";
+            var isacc = infoc.getCookie("_isAcced");
+            if (isacc == undefined || isacc == null || isacc == "") {
+                kn += "/uv";
+                infoc.setCookie("_isAcced", 1, 24);
+            }
+            infoc.add(kn, "/Web/Orders/paySuccess", 81, 0);
+        }, 1);
+    })
+
+    $(window).unload(function () {
+        setTimeout(function () {
+            //页面关闭埋点
+            infoc.add("load", "/Web/Orders/paySuccess", 82, 0);
+        }, 1);
+    })
+</script>

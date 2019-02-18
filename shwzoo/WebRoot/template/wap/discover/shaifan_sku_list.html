@@ -1,0 +1,15 @@
+<meta charset="utf-8">
+<%for (vo in pageData.data){%>
+ <div class="l_sfxzspmk fix">
+        	<div class="l_sfxzspmk01"><input name="xuanze" id="skuid" type="radio" value="${vo.id}"></div>
+            <div class="l_sfxzspmk02">
+            	<a href="#"><img src="${vo.imgurlApp}" class="img-responsive"></a>
+            </div>
+            <div class="l_sfxzspmk03">
+            	<h3><a href="#">${vo.name}</a></h3>
+                <p class="red">￥ ${vo.price}</p>
+            </div>
+            
+        <input name="pages" type="hidden" value="${pageData.page}"/>
+        </div><!--l_sfxzspmk  stop -->
+<%}%>

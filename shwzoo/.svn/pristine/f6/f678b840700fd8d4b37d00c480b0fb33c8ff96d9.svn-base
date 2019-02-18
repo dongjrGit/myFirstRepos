@@ -1,0 +1,74 @@
+﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>余额</title>
+<link href="/resource/artDialog/skins/default.css" rel="stylesheet" />
+<link type="text/css" rel="stylesheet" href="/resource/pc/web/css/style01.css" />
+<link type="text/css" rel="stylesheet" href="/resource/ui-dialog.css" />
+ <link href="/resource/pc/member/css/pager2.css" rel="stylesheet" />
+    
+<link href="/resource/public/commoncss/jQuery.Validate.css" rel="stylesheet" />
+<script src="/resource/pc/web/js/browsehistory/browsehistory.js"></script>
+<script src="/resource/pc/web/js/index.js"></script>
+<script src="/resource/pc/member/js/pager2.js"></script>
+<script src="/resource/pc/member/js/showdate.js"></script>
+ <script src="/resource/artTemplate.js"></script>
+ <script src="/resource/dialog-plus.js"></script>
+ <script src="/resource/dialogShow.js"></script>
+<script src="/resource/jQueryRotate.2.2.js"></script>
+ <script src="/resource/Guid.js"></script>
+<script src="/resource/GetQueryString.js"></script>
+<script src="/resource/My97DatePicker/WdatePicker.js"></script>
+
+<script type="text/javascript" src="/resource/public/commonjs/Birthday-picker.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/style.js"></script>
+
+<script src="/resource/public/commonjs/AjaxFileUploaderV2.1/ajaxfileupload.js"></script>
+<script src="/resource/public/commonjs/jquery.validate.js"></script>
+<script src="/resource/public/commonjs/messages_cn.js"></script>
+<script src="/resource/public/commonjs/jquery.validate-methods.js"></script>
+
+<script src="/resource/public/commonjs/public-user.js"></script>
+
+<script src="/resource/public/commonjs/jquery.form.js"></script>
+<script src="/resource/pc/web/js/jquery.banner.js"></script>
+<script src="/resource/pc/member/js/ZcZx/Balance.js"></script>
+<script src="/resource/pc/member/js/ZcZx/jquery-1.8.2.intellisense.js"></script>
+</head>
+<!--w1200  中间内容开始 -->
+<div class="w1200 fix">
+    <!--l_yetoplogo   begin -->
+    <div class="l_yetoplogo">
+        <img src="/resource/pc/member/images/logo.png" width="184px" height="41px">
+        <div class="l_yetopright l_drb">
+            <ul>
+                <li>1.填写充值金额</li>
+                <li class="active">2. 在线支付</li>
+                <li>3.充值成功</li>
+            </ul>
+        </div><!--l_yetopright  stop -->
+    </div>
+    <!--l_yetoplogo   stop -->
+    <!--l_yesqzftop  begin -->
+    <div class="l_yesqzftop fix">
+        <img src="/resource/pc/member/images/duigou1.png" width="47px" height="33px">
+        <div class="l_yesqzftop_right">
+            <h3>您已申请账户余额充值，请立即在线支付！</h3>
+            <p class="mt20"><span class="mr25">充值账户：${name}</span>应付金额：<span class="red">${money} 元</span></p>
+        </div>
+    </div>
+    <!--l_yesqzftop   stop -->
+    <div class="mt20 yscmh l_hmzfbeg fix">
+      <span>立即支付</span>
+        <form id="formPay" name="formPay" method="post" action="/member/coupon/balancepay3?money=${money}">
+            <span class="red">${money} 元</span>
+            <input type="hidden" value="@money" id="hidden_money" name="hidden_money" />
+        </form><span>，即可完成账户充值。</span>
+    </div>
+    <div class="r_zffs">
+        <p><img src="/resource/pc/member/images/alipay.jpg" alt="支付宝" width="130" height="52">支付宝</p>
+    </div><!--r_zffs  stop -->
+    <div class="mt40"><a href="#" class="l_yexyb" onclick="Submit();">确定支付方式</a></div>
+
+    <div class="mt30 fon16">完成支付后，您可以：<span class="ml15 shenlan"><a href="/member/coupon/balance?type=0">查看余额</a></span></div>
+</div>
+<!--w1200  中间内容结束 -->

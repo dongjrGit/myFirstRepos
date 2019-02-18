@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.OrderMemberMapper">
+	<resultMap type="com.yinlian.api.app.dto.OrderMemberDto" id="MemberOrderDtoResultMap">
+
+		<id column="Id" property="Id" jdbcType="INTEGER" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="iscomment" property="iscomment" jdbcType="VARCHAR" />
+		<result column="groupcode" property="groupcode" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="VARCHAR" />
+		<result column="shopname" property="shopname" jdbcType="VARCHAR" />
+		<result column="shopid" property="shopid" jdbcType="VARCHAR" />
+		<result column="payType" property="payType" jdbcType="VARCHAR" />
+		<result column="price" property="price" jdbcType="VARCHAR" />
+		<result column="freight" property="freight" jdbcType="VARCHAR" />
+		<result column="orderDate" property="orderDate" jdbcType="VARCHAR" />
+		<result column="payDate" property="payDate" jdbcType="VARCHAR" />
+		<result column="deliverDate" property="deliverDate" jdbcType="VARCHAR" />
+		<result column="reason" property="reason" jdbcType="VARCHAR" />
+		<result column="actualPay" property="actualPay" jdbcType="VARCHAR" />
+		<result column="consignee" property="consignee" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="telPhone" property="telPhone" jdbcType="VARCHAR" />
+		<collection property="children"
+			ofType="com.yinlian.api.app.dto.OrderdetailDto" select="getUserListOrderDetails"
+			column="Id">
+		</collection>
+
+	</resultMap>
+	<select id="getMemberUserListOrderPage" resultMap="MemberOrderDtoResultMap"  parameterType="com.yinlian.wssc.web.util.PageBeanUtil" >
+		SELECT a.ID AS Id,
+		a.Code AS CODE,a.IsComment AS iscomment,
+		a.GroupCode AS groupcode,
+		a.Status AS STATUS,
+		b.Name AS shopname,
+		a.ShopId AS shopid,
+		a.PayType AS payType,
+		a.Price AS price,
+		a.Freight AS freight,
+		a.AddOrderDate AS orderDate,
+		a.PayDate AS
+		payDate,
+		a.DeliverDate AS deliverDate,
+		a.CancelReason AS reason,
+		a.ActualPay AS actualPay,
+		e.Consignee AS consignee,
+		e.Address AS
+		address,
+		e.Telphone AS telPhone
+		FROM orders a LEFT JOIN Shop b ON
+		a.ShopId=b.ID
+		LEFT JOIN
+		receiveinfo e ON a.GroupCode=e.OrderGroupCode
+		WHERE
+		(a.ValidFlag=0 or
+		a.ValidFlag is null) and (a.UserIsDel=0 or
+		a.UserIsDel is null)
+		
+		<if test="criteria.userid !=null and criteria.userid >=0">
+			and a.BuyerID=#{criteria.userid}
+		</if>
+		<if test="criteria.type !=null and criteria.type >=0">
+			<choose>
+				<when test="criteria.status==99 ">
+					and a.Status=3 and (IsComment is null or
+					IsComment=0)
+				</when>
+				<when test="criteria.status  &lt;0 ">
+
+				</when>
+
+				<otherwise>
+					and a.Status=#{criteria.status}
+				</otherwise>
+			</choose>
+		</if>
+		<if test="criteria.startdate !=null and criteria.startdate !=''">
+		 <![CDATA[ and DATEDIFF(a.AddOrderDate,#{criteria.startdate})>=0]]>
+		</if>
+		<if test="criteria.enddate !=null and criteria.enddate !=''">
+		<![CDATA[ and DATEDIFF(a.AddOrderDate,#{criteria.enddate})>=0]]>
+		</if>
+		 order by  a.AddOrderDate desc
+	</select>
+	<select id="getUserListOrderDetails" parameterType="int"
+		resultType="com.yinlian.api.app.dto.OrderdetailDto">
+		select d.id,
+		d.OrderID as orderid,
+		d.IsComment as detailIsComment,
+		d.productnum,
+		d.productimg,
+		d.productname,
+		d.productprice,
+		d.productcount,
+		d.OrderCode
+		as ordercode,
+		d.sku_id AS productid,d.status
+		FROM orderdetail d where
+		d.OrderID=#{0}
+	</select>
+	<select id="pcselectByStatusPage" resultMap="MemberOrderDtoResultMap"  parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		SELECT a.ID AS Id,
+		a.Code As code,a.IsComment as iscomment,
+		a.GroupCode as groupcode,
+		a.Status AS status,
+		b.Name AS shopname,
+		a.ShopId AS shopid,
+		a.PayType as payType,
+		a.Price as
+		price,
+		a.Freight as freight,
+		a.AddOrderDate as orderDate,
+		a.PayDate as
+		payDate,
+		a.DeliverDate as deliverDate,
+		a.CancelReason as reason,
+		a.ActualPay as actualPay,
+		e.Consignee as consignee,
+		e.Address as
+		address,
+		e.Telphone as telPhone
+		FROM orders a LEFT JOIN Shop b ON
+		a.ShopId=b.ID
+		LEFT JOIN
+		receiveinfo e ON a.GroupCode=e.OrderGroupCode
+		where
+		(a.ValidFlag=0 or
+		a.ValidFlag is null) and (a.UserIsDel=0 or
+		a.UserIsDel is null)
+		<if test="criteria.seachstr !=null and criteria.seachstr != '' ">
+			and a.Status=#{criteria.seachstr}
+		</if>
+		<if test="criteria.userid !=null and criteria.userid >=0">
+			and a.BuyerID=#{criteria.userid}
+		</if>
+		 order by  a.AddOrderDate desc
+		
+
+	</select>
+
+	<select id="pccancelorderPage" resultMap="MemberOrderDtoResultMap"  parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		SELECT a.ID AS Id,
+		a.Code As
+		code,a.IsComment as iscomment,
+		a.GroupCode as groupcode,
+		a.Status AS
+		status,
+		b.Name AS shopname,
+		a.ShopId AS shopid,
+		a.PayType as payType,
+		a.Price as price,
+		a.Freight as freight,
+		a.AddOrderDate as orderDate,
+		a.PayDate as payDate,
+		a.DeliverDate as deliverDate,
+		a.CancelReason as reason,
+		a.ActualPay as
+		actualPay,
+		e.Consignee as consignee,
+		e.Address as address,
+		e.Telphone as
+		telPhone
+		FROM orders a LEFT JOIN Shop b ON a.ShopId=b.ID
+		LEFT JOIN receiveinfo e ON
+		a.GroupCode=e.OrderGroupCode
+		where (a.Status=4 OR a.Status=5 OR a.Status=6 OR
+		a.Status=7) and (a.ValidFlag=0 or
+		a.ValidFlag is null) and (a.UserIsDel=0 or
+		a.UserIsDel is null) 
+		<if test="criteria.userid !=null and criteria.userid >=0">
+			and a.BuyerID=#{criteria.userid}
+		</if>
+		
+		order by  a.AddOrderDate desc
+		 
+
+	</select>
+	<select id="pccommentorderPage"  resultMap="MemberOrderDtoResultMap"  parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		SELECT a.ID AS Id,
+		a.Code
+		As code,
+		a.IsComment as iscomment,
+		a.GroupCode as groupcode,
+		a.Status AS
+		status,
+		b.Name AS shopname,
+		a.ShopId AS shopid,
+		a.PayType as payType,
+		a.Price as price,
+		a.Freight as freight,
+		a.AddOrderDate as orderDate,
+		a.PayDate as payDate,
+		a.DeliverDate as deliverDate,
+		a.CancelReason as reason,
+		a.ActualPay as
+		actualPay,
+		e.Consignee as consignee,
+		e.Address as address,
+		e.Telphone as
+		telPhone
+		FROM orders a LEFT JOIN Shop b ON a.ShopId=b.ID
+		LEFT JOIN receiveinfo e ON
+		a.GroupCode=e.OrderGroupCode
+		LEFT JOIN orderdetail d on d.orderid=a.id
+		where
+		(a.ValidFlag=0 or
+		a.ValidFlag is null) and (a.UserIsDel=0 or
+		a.UserIsDel is null)
+		<if test="criteria.seachstr ==0 ">
+			and (a.IsComment=0 or a.IsComment IS NULL or (a.IsComment=1 and (d.IsComment=0 or d.IsComment IS NULL))) and (a.Status=3 or a.Status=8)
+		</if>
+		<if test="criteria.seachstr ==1 ">
+			and a.IsComment=1
+		</if>
+		<if test="criteria.userid !=null and criteria.userid >=0">
+			and a.BuyerID=#{criteria.userid}
+		</if>
+		group by a.ID
+		 order by  a.AddOrderDate desc
+	</select>
+	
+	<select id="queryCount" parameterType="java.lang.Integer"
+		resultType="com.yinlian.api.app.dto.OrderCommentCountDto">
+		SELECT
+		COUNT((CASE WHEN (a.IsComment = 0 OR a.IsComment IS NULL ) THEN a.ID END)) AS pcdpj,
+		COUNT((CASE WHEN (a.IsComment = 1) THEN a.ID END)) AS pcypj,
+		COUNT((CASE WHEN (d.ImgUrl IS NULL)THEN d.CommentID END)) AS pcdimage
+
+		FROM orders a LEFT JOIN orderdetail b ON a.ID = b.OrderID LEFT JOIN COMMENT c ON b.OrderID = c.OrderDetailID
+		LEFT JOIN commentshowimg d ON c.ID = d.CommentID
+		WHERE
+		a.BuyerID=#{buyerid,jdbcType=INTEGER} 
+		AND (a.ValidFlag=0 OR
+		a.ValidFlag IS
+		NULL) AND (a.UserIsDel=0 OR a.UserIsDel IS NULL)
+	</select>
+	
+	<select id="byorderidcomment" resultMap="MemberOrderDtoResultMap">
+		SELECT a.ID AS Id,
+		a.Code
+		As code,
+		a.IsComment as iscomment,
+		a.GroupCode as groupcode,
+		a.Status AS
+		status,
+		b.Name AS shopname,
+		a.ShopId AS shopid,
+		a.PayType as payType,
+		a.Price as price,
+		a.Freight as freight,
+		a.AddOrderDate as orderDate,
+		a.PayDate as payDate,
+		a.DeliverDate as deliverDate,
+		a.CancelReason as reason,
+		a.ActualPay as
+		actualPay,
+		e.Consignee as consignee,
+		e.Address as address,
+		e.Telphone as
+		telPhone
+		FROM orders a LEFT JOIN Shop b ON a.ShopId=b.ID
+		LEFT JOIN receiveinfo e ON
+		a.GroupCode=e.OrderGroupCode
+		where
+		a.BuyerID=#{0} and a.ID=#{1} and (a.ValidFlag=0 or
+		a.ValidFlag is null) and (a.UserIsDel=0 or
+		a.UserIsDel is null) order by  a.AddOrderDate desc
+		
+
+	</select>
+
+	<select id="getMemberBytimeOrder" resultMap="MemberOrderDtoResultMap">
+		SELECT a.ID AS Id,
+		a.Code AS CODE,a.IsComment AS iscomment,
+		a.GroupCode AS groupcode,
+		a.Status AS STATUS,
+		b.Name AS shopname,
+		a.ShopId AS shopid,
+		a.PayType AS payType,
+		a.Price AS price,
+		a.Freight AS freight,
+		a.AddOrderDate AS orderDate,
+		a.PayDate AS
+		payDate,
+		a.DeliverDate AS deliverDate,
+		a.CancelReason AS reason,
+		a.ActualPay AS actualPay,
+		e.Consignee AS consignee,
+		e.Address AS
+		address,
+		e.Telphone AS telPhone
+		FROM orders a LEFT JOIN Shop b ON
+		a.ShopId=b.ID
+		LEFT JOIN
+		receiveinfo e ON a.GroupCode=e.OrderGroupCode
+		WHERE
+		a.BuyerID=#{0}
+		and a.AddOrderDate between #{1} and #{2} and (a.ValidFlag=0 or
+		a.ValidFlag is null) and (a.UserIsDel=0 or
+		a.UserIsDel is null) order by  a.AddOrderDate desc
+		
+	</select>
+	
+	<resultMap type="com.yinlian.pc.dto.MemberOrderDto" id="MemberDtoResultMap">
+		<result column="groupcode" property="groupcode" jdbcType="VARCHAR" />
+		<result column="payType" property="payType" jdbcType="INTEGER" />
+		<result column="groupprice" property="price" jdbcType="REAL" />
+		<result column="orderDate" property="orderDate" jdbcType="TIMESTAMP" />
+		<result column="payDate" property="payDate" jdbcType="TIMESTAMP" />
+		<result column="consignee" property="consignee" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="telPhone" property="telPhone" jdbcType="VARCHAR" />
+		<collection property="orderlist"  ofType="com.yinlian.pc.dto.OrderListDto" 
+		select="getListOrders" column="groupcode">
+		</collection>
+	</resultMap>
+	<resultMap type="com.yinlian.pc.dto.OrderListDto" id="OrderListDtoMap">
+	<result column="Id" property="Id" jdbcType="INTEGER" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="iscomment" property="iscomment" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="shopname" property="shopname" jdbcType="VARCHAR" />
+		<result column="shopid" property="shopid" jdbcType="INTEGER" />
+		<result column="price" property="price" jdbcType="REAL" />
+		<result column="freight" property="freight" jdbcType="REAL" />
+		<result column="deliverDate" property="deliverDate" jdbcType="TIMESTAMP" />
+		<result column="reason" property="reason" jdbcType="VARCHAR" />
+		<result column="actualPay" property="actualPay" jdbcType="REAL" />
+		<result column="shoptel" property="shoptel" jdbcType="VARCHAR" />
+		<collection property="children"
+			ofType="com.yinlian.api.app.dto.OrderdetailDto" select="getUserListOrderDetails"
+			column="Id">
+			</collection>
+	</resultMap>
+	
+	<select id="getMemberListOrderPage" resultMap="MemberDtoResultMap"  
+	parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+	SELECT
+		a.GroupCode AS groupcode,
+		a.PayType AS payType,
+		SUM(a.Price) AS price,
+		a.AddOrderDate AS orderDate,
+		a.PayDate AS payDate,
+		e.Consignee AS consignee,
+		e.Address AS address,
+		e.Telphone AS telPhone,a.IsRemind as isremind
+		FROM orders a 
+		LEFT JOIN
+		receiveinfo e ON a.GroupCode=e.OrderGroupCode
+		WHERE
+		(a.ValidFlag=0 or
+		a.ValidFlag is null) and (a.UserIsDel=0 or
+		a.UserIsDel is null)
+		<if test="criteria.userid !=null and criteria.userid >=0">
+			and a.BuyerID=#{criteria.userid}
+		</if>
+		<if test="criteria.status !=null and criteria.status >=0">
+			<choose>
+				<when test="criteria.status==99 ">
+					and (a.Status=3 or a.Status=8) and (a.IsComment is null or
+					a.IsComment=0)
+				</when>
+				<when test="criteria.status  &lt;0 ">
+
+				</when>
+
+				<otherwise>
+					and a.Status=#{criteria.status}
+				</otherwise>
+			</choose>
+		</if>
+		<if test="criteria.startdate !=null and criteria.startdate !=''">
+		 <![CDATA[ and DATEDIFF(a.AddOrderDate,#{criteria.startdate})>=0]]>
+		</if>
+		<if test="criteria.enddate !=null and criteria.enddate !=''">
+		<![CDATA[ and DATEDIFF(a.AddOrderDate,#{criteria.enddate})<=0]]>
+		</if>
+		 GROUP BY a.GroupCode
+		 order by  a.AddOrderDate desc
+	</select>
+	<select id="getListOrders" resultMap="OrderListDtoMap"  
+	parameterType="String">
+	SELECT a.ID AS Id,
+		a.Code AS CODE,a.IsComment AS iscomment,
+		a.Status AS STATUS,
+		b.Name AS shopname,
+		a.ShopId AS shopid,
+		b.SupportTel as shoptel,
+		a.Price AS price,
+		a.Freight AS freight,
+		a.DeliverDate AS deliverDate,
+		a.CancelReason AS reason,
+		a.ActualPay AS actualPay,
+		a.isremind as isremind 
+		FROM orders a LEFT JOIN Shop b ON
+		a.ShopId=b.ID
+		WHERE a.GroupCode=#{0}
+	</select>
+</mapper>
+	

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.ClassfyArticleMapper" >
+<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.ClassfyArticle" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="classfyId" property="classfyId" jdbcType="INTEGER" />
+    <result column="articleId" property="articleId" jdbcType="INTEGER" />
+    <result column="articleTitle" property="articleTitle" jdbcType="VARCHAR" />
+    <result column="classfyName" property="classfyName" jdbcType="VARCHAR"/>
+  </resultMap>
+  
+<insert id="insert" parameterType="com.yinlian.wssc.web.po.ClassfyArticle">
+  insert into classfy_article (classfyId, articleId, 
+      articleTitle,classfyName)
+    values (#{classfyId,jdbcType=INTEGER}, #{articleId,jdbcType=INTEGER}, 
+      #{articleTitle,jdbcType=VARCHAR},#{classfyName,jdbcType=VARCHAR})
+</insert>
+
+<select id="selectCriteriaPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" resultType="com.yinlian.wssc.web.po.ClassfyArticle">
+	select id,classfyId,articleId,articleTitle,classfyName from classfy_article
+	
+	<where>
+	
+	<if test="criteria.articleId !=null">
+	articleId=#{criteria.articleId}
+	</if>
+	<if test="criteria.classifyId!=null">
+	and classfyId=#{criteria.classifyId}
+	</if>
+	</where>
+
+</select>
+
+
+<delete id="delete" parameterType="int">
+delete from classfy_article where id = #{id,jdbcType=INTEGER}
+</delete>
+
+<select id="classfyAndArticleIs" parameterType="int" resultType="int">
+select count(1) from classfy_article where articleId=#{0} and classfyId=#{1}
+</select>
+
+<select id="queryByClassfyId" resultType="com.yinlian.wssc.web.po.Articles">
+select art.id,art.title,art.digest,art.bytitle from classfy_article ca left join articles art on art.id=ca.articleId
+<where>
+ca.classfyId = #{0}
+</where>
+
+</select>
+
+</mapper>

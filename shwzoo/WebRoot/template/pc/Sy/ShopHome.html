@@ -1,0 +1,289 @@
+﻿<head>
+<script type="text/javascript" src="/resource/pc/web/js/jquery.bxslider.min.js"></script>
+<script src="/resource/artTemplate.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/wkh/common-util.js"></script>
+<script type="text/javascript" src="/resource/pc/web/js/pager1.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/wkh/page-pc.js"></script>
+<style type="text/css">
+#footer{
+	margin-top: 0;
+}
+</style>
+</head>
+<script type="text/javascript" >
+$(function(){
+	 $("#div_successed").hide();
+	 var classid=${customcId};
+	 if(parseInt(classid)>0){
+	 	 page(classid);
+	 }else{
+	 	page(0);
+	 }
+	
+});
+function page(classId){
+	if(VarUtil.isNotNull(classId))
+		pageUtil.initialize("/pc/shop/productlist", 
+		{ch:1,pagesize:12,shopId:"${shopId}",customcId:classId,spuname:"${sname}",pricemin:"${pmin}",pricemax:"${pmax}"});
+	else
+		pageUtil.initialize("/pc/shop/productlist",
+		 {ch:1,pagesize:12,shopId:"${shopId}",spuname:"${sname}",pricemin:"${pmin}",pricemax:"${pmax}"});
+};
+$(document).ready(function () {
+	
+    $(".l_yhqdp03").bind("click", function () {
+    	if (!WebLogin.isLogin()) {
+    		showlogindiv();
+			return false;
+		}
+       /*  if (!user.IsLogin()) {
+            $(".div_login").show();
+            return;
+        } */
+        var id = $(this).attr("data");
+        $.ajax({
+            type: "post",
+            url: "/pc/coupon/takeCoupon",
+            dataType: "json",
+            data: { couponid: id,ch:1},
+            success: function (rsl) {
+                if (rsl.code == 0) {
+                    $("#div_successed").show();
+                }
+                else {
+                    alert(rsl.desc);
+                }
+            },
+            error: function (e) {
+            }
+        });
+    });
+})
+
+  function hiddendiv() {
+            $("#div_successed").hide();
+        }
+//店铺收藏
+function shopCollect(sid) {
+
+    if (WebLogin.isLogin()) {
+
+        $.ajax({
+            type : "post",
+            url : "/pc/products/collectShop",
+            dataType : "json",
+            data : {
+                "shopId" : sid,
+                "ch" : 1
+            },
+            success : function(rsl) {
+                if (rsl.code == 0) {
+                    alert(rsl.desc);
+                } else {
+                    alert(rsl.desc);
+                }
+            },
+            error : function(e) {
+            }
+        });
+    } else {
+        showlogindiv();
+    }
+}
+</script>
+<style>
+.index_show{
+	width: 100%;
+	margin:0 auto;
+}
+.l_dpfl{
+	margin: 0px auto;
+}
+.bxslider{height:350px;overflow: hidden;width: 100%;}
+.bxslider li{width: 100%;height:350px;overflow: hidden;}
+.bxslider li img{height:350px;width: 100%;}
+</style>
+<div class=" bodybjhs fix">
+<input type="hidden" id="shopid" value="${shopId}" />
+<%if(isNotEmpty(dz)&&dz.~size>0){%>
+ <a href="${dz[0].url}" target="_blank"><img src="${dz[0].imag}" style="height: 130px;margin-top:-10px;width: 100%"/></a>
+<%}%>
+
+<!--l_dpfl  开始 -->
+<div class="l_dpfl fix" align="center">
+	<div class="l_dpflcon">
+    	<ul>
+    	<li><a href="javascript:void(0)" onclick="page()" target="_blank">首页</a></li>
+			<%if(isNotEmpty(fl)){%>
+	    		<%var i=0;for(vo in fl){if(i==6){break;}%>
+	          	  <li><a href="javascript:void(0)" onclick="page(${vo.id})" target="_blank">${vo.name}</a></li>
+	            <%i++;}%>
+ 			<%}%>
+        </ul>
+    </div><!--l_dpflcon  stop -->
+</div>
+<!--l_dpfl  结束 -->
+<!--index_show  轮番图片  开始 -->
+<div class="index_show">
+<%if(isNotEmpty(gg)){%>
+    <ul class="bxslider" id="index-bxslider">      
+        <% i=0; %>
+        <%for(vo in gg){
+        	i++;
+        	cname = "item";
+        	cname = cname + i;
+        %>
+        <a href="${vo.url}" target="_blank"> <li class="item${vo.id}"><img src="${vo.imag}"></li></a>
+        <%}%>
+    </ul>
+    <div id="bx-pager">
+        <% f=0; %>
+        <%for(vo in gg){
+        	f++;
+        %>
+         <a data-slide-index="${f-1}" href="javascript:void(0);">${f}</a>
+        <%}%>
+        
+    </div>
+     <%}%>
+</div>
+<!--index_show  轮番图片  结束 -->
+<!--l_dpindexnr  begin -->
+<div class="l_dpindexnr fix">
+    <div class="w1200 fix">
+    <%if(shopId>0){%>
+        <!--l_dpindexleft  左边内容开始 -->
+        <div class="l_zbksnzl">
+            <div class="l_dpindexleft">
+                <div class="l_dpinleft01"><img src="/resource/pc/web/images/tp_19.png"></div>
+                <div class="l_dpinleft02 fix">
+                    <i></i>
+                    <p>客  服  咨  询</p>
+                    <p class="mt5">9:00-18:00</p>
+                </div>
+                <div class="l_dpinleft03 fix"></div>
+                
+                <!-- w01con 店铺信息开始-->
+                <div class="w01con fix" style="margin-right: 10px;margin-bottom: 15px;">
+                    <div class="w01top">
+                        <h3 id="h3_shopname">${sname}</h3>
+                        <p>咨 询：<a href="#">联系客服</a></p>
+                    </div><!--w01top  stop -->
+                    <!--w01xmnr  begin -->
+                    <div class="w01xmnr">
+                        <p class="heise">店铺动态评分</p>
+                        <ul class="fix">
+                            <li class="fix"><span class="huise">描述相符：</span><!--<span class="l_gyhs"><i></i>高于</span>--><span class="red bolder span_shopdepict">100%</span></li>
+                            <li class="fix"><span class="huise">服务态度：</span><!--<span class="l_gyhs"><i></i>高于</span>--><span class="red bolder span_shopservice">100%</span></li>
+                            <li class="fix"><span class="huise">发货速度：</span><!--<span class="l_dyls"><i></i>低于</span>--><span class="red bolder span_shopspeed">100%</span></li>
+                        </ul>
+                        <div class="w01bottom">
+                            <a href="javascript:void(0);" class="l_jrdpbut l_scdp" onclick="shopCollect(${shopId})">收藏店铺</a>
+                        </div><!--w01bottom  stop -->
+                    </div>
+                    <!--w01xmnr  stop -->
+                </div>
+                <!-- w01con 店铺信息结束-->
+                
+                
+                <div class="l_dpinleft04">
+                    <ul>
+                        <li><a href="javascript:void(0)" onclick="page()" target="_blank">全部分类</a></li>
+                       <%for(vo in fl){%>
+                        <li><a href="javascript:void(0)" onclick="page(${vo.id})" target="_blank">${vo.name}</a></li>
+                       <%}%>
+
+                    </ul>
+                </div><!--l_dpinleft04  stop -->
+            </div>
+            <div class="l_dpspfl l_xsphnr fix">
+                <div class="l_dpspfl01">店家推荐</div>
+                <ul>
+                <!--     @foreach (var special in specials.Where(a => a.SpecialDisp == 0))
+                    {
+                        foreach (var pro in special.Products.Where(b => b.ProDisp == 1))
+                        {
+                            <li class="fix">
+                                @*<div class="l_xsphnr01 red">1</div>*@
+                                <div class="l_xsphnr02"><a href="/Web/Goods/pro_detail?sid=@pro.ProID" target="_blank"><img src="@pro.ProImg" alt=""></a></div>
+                                <div class="l_xsphnr03">
+                                    <p><a href="/Web/Goods/pro_detail?sid=@pro.ProID" target="_blank">@pro.ProName</a></p>
+                                    <p class="red">¥@Math.Round(pro.ProPrice.Value, 2)</p>
+                                </div>
+                            </li>
+                        }
+                    } -->
+                </ul>
+            </div>
+        </div>
+        <!--l_dpindexleft  左边内容结束 -->
+        <!--l_dpindexright  右边内容开始 -->
+        <div class="l_dpindexright">
+            <!--l_dpinrigyhq  begin -->
+            <div class="l_dpinrigyhq fix mt10">
+            	<%for(vo in yhj){%>
+            	<a href="javascript:;">
+                        <div class="l_dpinrigyhq02">
+                            <div class="l_yhqdp01"><i class="fon30">￥</i>${vo.facevalue}</div>
+                            <div class="l_yhqdp02">
+                                <p class="fon22">优惠券</p>
+								<%if(vo.couponusetype == 3){%>
+                                    <p>全场通用</p>
+                                <%}else{%>
+                                    if (scp.coupontype == 1)
+                                    {
+                                        <p>满 ${vo.fullreductionvalue}元使用</p>
+                                    }
+								<%}%>
+                            </div>
+                            <div class="l_yhqdp03 " data="${vo.id}">
+                                <p>立即</p>
+                                <p>领取</p>
+                            </div>
+                        </div>
+                    </a>
+            	
+            	<%}%>
+            </div>
+            
+            <div id="div_successed" class="main" hidden>
+                <div class="y_lqtstop"><i></i>提示<span class="close" onclick="hiddendiv();"></span></div><!--y_lqtstop  stop -->
+                <div class="y_lqcg">
+                    <p class="red fon30">恭喜您，优惠券领取成功！</p>
+                    <p class="mt30 fon14">优惠券 已经发放到您的账户中，请到  <span class="lanse"><a href="/Member/ZcZx/Coupon">中绿生活</a></span><span class="lanse">&gt;</span><span class="lanse"><a href="/Member/ZcZx/Coupon">优惠券</a></span>  中查看。</p>
+                    <p class="mt20"><a href="/member/coupon/Coupons" class="yhqyes">去看看活动</a></p>
+                </div>
+            </div>
+
+            <!--l_dpinrigyhq  stop -->
+            <!--l_dpyfep  begin all_product -->
+           
+                <div class="l_dpyfep fix" >
+                    <ul id="contentRows">
+                    <script id="rowslist" type="text/javascript">
+                    {{each list as vo}}
+                    <li>
+                    <a href="/web/products/proinfo.html?spuid={{vo.id}}" target="_blank"><img style="width:226px;height:180.8px" src="{{vo.imgurl}}"></a>
+                    <div class="l_dpepbot">
+                        <p style="height:14px; overflow:hidden;">{{vo.name}}</p>
+                        <p>￥ {{vo.price}}</p>
+                    </div>
+                	</li>
+                    {{/each}}
+                    </script>
+                    </ul>
+                </div>
+                
+                <!--l_dpyfep  stop -->
+            <div id="pager" class="page"></div>
+
+          <!--  <!--l_dpngbot  stop -->    
+        </div>
+        <!--l_dpindexright  右边内容结束 -->
+        <%}else{%>
+        <div><span>${msg}</span></div>
+        <%}%>
+    </div>
+</div>
+<!--l_dpindexnr  stop -->
+</div>

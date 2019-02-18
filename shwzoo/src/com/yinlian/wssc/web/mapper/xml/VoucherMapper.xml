@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.VoucherMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Voucher">
+		<id column="Id" property="id" jdbcType="INTEGER" />
+		<result column="VoucherCode" property="vouchercode" jdbcType="VARCHAR" />
+		<result column="VoucherName" property="vouchername" jdbcType="VARCHAR" />
+		<result column="VoucherValue" property="vouchervalue" jdbcType="DECIMAL" />
+		<result column="Validity" property="validity" jdbcType="TIMESTAMP" />
+		<result column="Quota" property="quota" jdbcType="DECIMAL" />
+		<result column="Belong" property="belong" jdbcType="VARCHAR" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="groupcode" property="groupcode" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		Id, VoucherCode, VoucherName, VoucherValue, Validity, Quota, Belong,
+		Status
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.VoucherExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from voucher
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from voucher
+		where Id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from voucher
+		where Id = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.VoucherExample">
+		delete from voucher
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.Voucher">
+		insert into voucher (Id, VoucherCode, VoucherName,
+		VoucherValue, Validity, Quota,
+		Belong, Status,groupcode)
+		values (#{id,jdbcType=INTEGER}, #{vouchercode,jdbcType=VARCHAR},
+		#{vouchername,jdbcType=VARCHAR},
+		#{vouchervalue,jdbcType=DECIMAL}, #{validity,jdbcType=TIMESTAMP}, #{quota,jdbcType=DECIMAL},
+		#{belong,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
+		#{groupcode,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Voucher">
+		insert into voucher
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				Id,
+			</if>
+			<if test="vouchercode != null">
+				VoucherCode,
+			</if>
+			<if test="vouchername != null">
+				VoucherName,
+			</if>
+			<if test="vouchervalue != null">
+				VoucherValue,
+			</if>
+			<if test="validity != null">
+				Validity,
+			</if>
+			<if test="quota != null">
+				Quota,
+			</if>
+			<if test="belong != null">
+				Belong,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+			<if test="groupcode != null">
+				groupcode,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="vouchercode != null">
+				#{vouchercode,jdbcType=VARCHAR},
+			</if>
+			<if test="vouchername != null">
+				#{vouchername,jdbcType=VARCHAR},
+			</if>
+			<if test="vouchervalue != null">
+				#{vouchervalue,jdbcType=DECIMAL},
+			</if>
+			<if test="validity != null">
+				#{validity,jdbcType=TIMESTAMP},
+			</if>
+			<if test="quota != null">
+				#{quota,jdbcType=DECIMAL},
+			</if>
+			<if test="belong != null">
+				#{belong,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="groupcode != null">
+				#{groupcode,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.VoucherExample"
+		resultType="java.lang.Integer">
+		select count(*) from voucher
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update voucher
+		<set>
+			<if test="record.id != null">
+				Id = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.vouchercode != null">
+				VoucherCode = #{record.vouchercode,jdbcType=VARCHAR},
+			</if>
+			<if test="record.vouchername != null">
+				VoucherName = #{record.vouchername,jdbcType=VARCHAR},
+			</if>
+			<if test="record.vouchervalue != null">
+				VoucherValue = #{record.vouchervalue,jdbcType=DECIMAL},
+			</if>
+			<if test="record.validity != null">
+				Validity = #{record.validity,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.quota != null">
+				Quota = #{record.quota,jdbcType=DECIMAL},
+			</if>
+			<if test="record.belong != null">
+				Belong = #{record.belong,jdbcType=VARCHAR},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.groupcode != null">
+				groupcode = #{record.groupcode,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update voucher
+		set Id = #{record.id,jdbcType=INTEGER},
+		VoucherCode = #{record.vouchercode,jdbcType=VARCHAR},
+		VoucherName = #{record.vouchername,jdbcType=VARCHAR},
+		VoucherValue = #{record.vouchervalue,jdbcType=DECIMAL},
+		Validity = #{record.validity,jdbcType=TIMESTAMP},
+		Quota = #{record.quota,jdbcType=DECIMAL},
+		Belong = #{record.belong,jdbcType=VARCHAR},
+		groupcode = #{record.groupcode,jdbcType=VARCHAR},
+		Status = #{record.status,jdbcType=INTEGER}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Voucher">
+		update voucher
+		<set>
+			<if test="vouchercode != null">
+				VoucherCode = #{vouchercode,jdbcType=VARCHAR},
+			</if>
+			<if test="vouchername != null">
+				VoucherName = #{vouchername,jdbcType=VARCHAR},
+			</if>
+			<if test="vouchervalue != null">
+				VoucherValue = #{vouchervalue,jdbcType=DECIMAL},
+			</if>
+			<if test="validity != null">
+				Validity = #{validity,jdbcType=TIMESTAMP},
+			</if>
+			<if test="quota != null">
+				Quota = #{quota,jdbcType=DECIMAL},
+			</if>
+			<if test="belong != null">
+				Belong = #{belong,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="groupcode != null">
+				groupcode = #{groupcode,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where Id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Voucher">
+		update voucher
+		set VoucherCode = #{vouchercode,jdbcType=VARCHAR},
+		VoucherName = #{vouchername,jdbcType=VARCHAR},
+		VoucherValue = #{vouchervalue,jdbcType=DECIMAL},
+		Validity = #{validity,jdbcType=TIMESTAMP},
+		Quota = #{quota,jdbcType=DECIMAL},
+		Belong = #{belong,jdbcType=VARCHAR},
+		groupcode = #{groupcode,jdbcType=VARCHAR},
+		Status = #{status,jdbcType=INTEGER}
+		where Id = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="getlistByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.VoucherDto">
+    	SELECT groupcode as code,
+		COUNT(id) AS totalcount,
+		SUM(CASE WHEN STATUS=0 THEN 1 ELSE 0 END )AS lastcount,
+		VoucherValue as value,validity as endtime,quota FROM voucher 
+		<where>
+		<if test="criteria.num != null and criteria.num !='' ">
+			and groupcode=#{criteria.num}
+		</if>
+		<if test="criteria.endFrom != null ">
+			and DATEDIFF(Validity,#{criteria.endFrom} )<![CDATA[ >= ]]>0
+		</if>
+		<if test="criteria.endTo != null ">
+			and DATEDIFF(Validity,#{criteria.endTo} )<![CDATA[ <= ]]>0
+		</if>
+		</where>
+		GROUP BY groupcode 
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	<select id="getByGroupCode" parameterType="java.lang.String"
+		resultType="com.yinlian.wssc.web.dto.VoucherDto">
+		SELECT groupcode as code,
+		COUNT(id) AS totalcount,
+		SUM(CASE WHEN STATUS=0 THEN 1 ELSE 0 END )AS lastcount,
+		VoucherValue as value,validity as endtime,quota FROM voucher 
+		where groupcode=#{0}
+	</select>
+	<update id="updateStatusList" parameterType="java.util.List">
+	update voucher set Status=1 where id in
+	<if test="list != null">
+			<foreach collection="list" item="ids" index="index" open="("
+				separator="," close=")">
+				#{ids}
+			</foreach>
+		</if>
+	</update>	
+	<update id="updateStatus" parameterType="int">
+	update voucher set Status=#{0} where id=#{1}
+	</update>
+	<select id="getVCodebyCoupon" parameterType="int" resultType="java.lang.String">
+	SELECT vouchercode FROM voucher a,user_coupon b WHERE a.id=b.voucherid 
+			AND b.fromtype=1 AND b.isuser=0 
+			AND b.couponid=#{0} AND b.userid=#{1} 
+			limit 1 
+	</select>
+</mapper>

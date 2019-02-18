@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.ProductSpecsMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.ProductSpecs">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="Name" property="name" jdbcType="VARCHAR" />
+		<result column="ClassID" property="classid" jdbcType="INTEGER" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="OrderBy" property="orderby" jdbcType="INTEGER" />
+		<result column="DisplayLocation" property="displaylocation"
+			jdbcType="VARCHAR" />
+		<result column="IsEntry" property="isentry" jdbcType="BIT" />
+		<result column="specstypeid" property="specstypeid" jdbcType="INTEGER" />
+		<result column="classFullpath" property="classFullpath"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, Name, ClassID, Status, OrderBy, DisplayLocation,
+		IsEntry, specstypeid
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.ProductSpecsExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from product_specs
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from product_specs
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		product_specs
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.ProductSpecsExample">
+		delete from product_specs
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.ProductSpecs">
+		insert into product_specs (ID,
+		Name, ClassID,
+		Status, OrderBy, DisplayLocation,
+		IsEntry, specstypeid)
+		values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+		#{classid,jdbcType=INTEGER},
+		#{status,jdbcType=INTEGER},
+		#{orderby,jdbcType=INTEGER}, #{displaylocation,jdbcType=VARCHAR},
+		#{isentry,jdbcType=BIT}, #{specstypeid,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.ProductSpecs">
+		insert into product_specs
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="name != null">
+				Name,
+			</if>
+			<if test="classid != null">
+				ClassID,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+			<if test="orderby != null">
+				OrderBy,
+			</if>
+			<if test="displaylocation != null">
+				DisplayLocation,
+			</if>
+			<if test="isentry != null">
+				IsEntry,
+			</if>
+			<if test="specstypeid != null">
+				specstypeid,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="classid != null">
+				#{classid,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="orderby != null">
+				#{orderby,jdbcType=INTEGER},
+			</if>
+			<if test="displaylocation != null">
+				#{displaylocation,jdbcType=VARCHAR},
+			</if>
+			<if test="isentry != null">
+				#{isentry,jdbcType=BIT},
+			</if>
+			<if test="specstypeid != null">
+				#{specstypeid,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.ProductSpecsExample"
+		resultType="java.lang.Integer">
+		select count(*) from product_specs
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update product_specs
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.name != null">
+				Name = #{record.name,jdbcType=VARCHAR},
+			</if>
+			<if test="record.classid != null">
+				ClassID = #{record.classid,jdbcType=INTEGER},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.orderby != null">
+				OrderBy = #{record.orderby,jdbcType=INTEGER},
+			</if>
+			<if test="record.displaylocation != null">
+				DisplayLocation =
+				#{record.displaylocation,jdbcType=VARCHAR},
+			</if>
+			<if test="record.isentry != null">
+				IsEntry = #{record.isentry,jdbcType=BIT},
+			</if>
+			<if test="record.specstypeid != null">
+				specstypeid = #{record.specstypeid,jdbcType=INTEGER},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update product_specs
+		set ID = #{record.id,jdbcType=INTEGER},
+		Name =
+		#{record.name,jdbcType=VARCHAR},
+		ClassID =
+		#{record.classid,jdbcType=INTEGER},
+		Status =
+		#{record.status,jdbcType=INTEGER},
+		OrderBy =
+		#{record.orderby,jdbcType=INTEGER},
+		DisplayLocation =
+		#{record.displaylocation,jdbcType=VARCHAR},
+		IsEntry =
+		#{record.isentry,jdbcType=BIT},
+		specstypeid =
+		#{record.specstypeid,jdbcType=INTEGER}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.ProductSpecs">
+		update product_specs
+		<set>
+			<if test="name != null">
+				Name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="classid != null">
+				ClassID = #{classid,jdbcType=INTEGER},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="orderby != null">
+				OrderBy = #{orderby,jdbcType=INTEGER},
+			</if>
+			<if test="displaylocation != null">
+				DisplayLocation = #{displaylocation,jdbcType=VARCHAR},
+			</if>
+			<if test="isentry != null">
+				IsEntry = #{isentry,jdbcType=BIT},
+			</if>
+			<if test="specstypeid != null">
+				specstypeid = #{specstypeid,jdbcType=INTEGER},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.ProductSpecs">
+		update
+		product_specs
+		set Name = #{name,jdbcType=VARCHAR},
+		ClassID =
+		#{classid,jdbcType=INTEGER},
+		Status = #{status,jdbcType=INTEGER},
+		OrderBy = #{orderby,jdbcType=INTEGER},
+		DisplayLocation =
+		#{displaylocation,jdbcType=VARCHAR},
+		IsEntry = #{isentry,jdbcType=BIT},
+		specstypeid = #{specstypeid,jdbcType=INTEGER}
+		where ID =
+		#{id,jdbcType=INTEGER}
+	</update>
+
+	<update id="updateOrderBy" parameterType="int">
+		update product_specs
+		set OrderBy=#{0}
+		where ID=#{1}
+	</update>
+
+	<update id="updateStatus" parameterType="int">
+		update product_specs
+		set
+		Status=#{0}
+		where ID=#{1}
+	</update>
+
+	<sql id="criteria_query">
+		<where>
+			<if test="criteria.classid != null and criteria.classid != '' ">
+				a.ClassID = #{criteria.classid}
+			</if>
+			<if test="criteria.classid2 != null and criteria.classid2 != '' ">
+				or a.ClassID = #{criteria.classid2}
+			</if>
+			<if test="criteria.classid3 != null and criteria.classid3 != '' ">
+				or a.ClassID = #{criteria.classid3}
+			</if>
+
+			<if test="criteria.specstypeid != null and criteria.specstypeid != '' ">
+				and a.specstypeid = #{criteria.specstypeid}
+			</if>
+		</where>
+	</sql>
+
+	<sql id="criteria_query_one">
+		<where>
+			<if test="criteria.classid != null and criteria.classid != '' ">
+				ClassID = #{criteria.classid}
+			</if>
+
+			<if test="criteria.specstypeid != null and criteria.specstypeid != '' ">
+				and specstypeid = #{criteria.specstypeid}
+			</if>
+		</where>
+	</sql>
+
+	<!-- 分页查询出分类名称的信息 -->
+	<select id="selectProductSpecsByClassIdPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="BaseResultMap">
+		select
+		a.ID, a.Name, a.ClassID, a.Status, a.OrderBy, a.DisplayLocation, a.IsEntry,
+		a.specstypeid, b.fullpath as classFullpath
+		from product_specs a join category b on a.ClassID=b.id
+
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+
+	<update id="updateIsEntry" parameterType="com.yinlian.wssc.web.po.ProductSpecs">
+		update product_specs
+		set IsEntry = #{isentry,jdbcType=BIT}
+		where ID=#{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 根据分类ID获取规格信息 -->
+	<select id="getByClassId" parameterType="int" resultMap="BaseResultMap">
+		select
+		ID, Name, ClassID,
+		Status, OrderBy, DisplayLocation,
+		IsEntry,
+		specstypeid
+		from product_specs
+		where ClassID=#{0} and Status=0
+	</select>
+	<!-- 根据分类ID获取规格信息 -->
+	<select id="getByFatherClassId" parameterType="int" resultMap="BaseResultMap">
+		select ID, Name, ClassID,
+		Status, OrderBy, DisplayLocation,
+		IsEntry,
+		specstypeid
+		from product_specs
+		where
+
+		ClassID in (SELECT ID FROM category where ID=#{0} or ID=(SELECT ID FROM
+		category where ID in (SELECT FatherID FROM category where ID=#{0} ))
+		or ID = (
+		SELECT ID FROM category where ID = (SELECT FatherID FROM category where ID =
+		(SELECT FatherID FROM category where ID = #{0} ))))
+		or ClassID = #{0}
+
+
+
+
+		and Status=0
+	</select>
+
+	<!-- 根据分类id查询所有的规格信息 -->
+	<select id="selectSpecsByClassid" parameterType="int"
+		resultType="com.yinlian.wssc.web.po.ProductSpecsCustom">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM product_specs WHERE classid = #{classid}
+	</select>
+
+</mapper>

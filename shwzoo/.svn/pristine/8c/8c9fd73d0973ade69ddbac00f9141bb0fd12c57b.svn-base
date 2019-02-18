@@ -1,0 +1,136 @@
+
+<head>
+<meta charset="utf-8">
+
+<title>发现</title>
+<style type="text/css">
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+html {
+	-ms-touch-action: none;
+}
+
+.sep-cyjdimg li:nth-child(1){margin-top: 0;}
+body {
+	font-size: 12px;
+	font-family: ubuntu, helvetica, arial;
+	overflow: hidden; /*防止页面反弹 this is important to prevent the whole page to bounce */
+}
+
+#wrapper {
+	position: absolute;
+	z-index: 2;
+	top: 2.45rem;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	overflow: hidden;
+}
+
+#scroller {
+	position: absolute;
+	z-index: 2;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	width: 100%;
+	-webkit-transform: translateZ(0);
+	-moz-transform: translateZ(0);
+	-ms-transform: translateZ(0);
+	-o-transform: translateZ(0);
+	transform: translateZ(0);
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-text-size-adjust: none;
+	-moz-text-size-adjust: none;
+	-ms-text-size-adjust: none;
+	-o-text-size-adjust: none;
+	text-size-adjust: none;
+}
+
+
+</style>
+<link rel="stylesheet" href="/resource/wap/css/greenLife.css" />
+<script type="text/javascript" src="/resource/jquery-1.9.1.min.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/Yeffect16_0118.min.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/greenLife.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/js.js" ></script>
+<script src="/resource/artTemplate.js"></script>
+<script src="/resource/GetQueryString.js"></script>
+<script src="/resource/wap/js/iscroll-probe.js"></script>
+
+</head>
+<body>
+<!--septop begin-->
+<div class="septop rowreturn fixed">
+	<span class="bigsize">中绿专区</span>
+	<%if(pagetype=="index"){%>
+	<div id="rowreturn" onclick="javascript:window.location.href='/wap/index.html'"></div>
+	<%}else{%>
+	<div id="rowreturn" onclick="javascript:window.location.href='/wap/find/findindex.html'"></div>
+	<%}%>
+</div>
+<!--septop stop-->
+<ul id="zqclass_ul" class="sep-byzsq fix septwo">
+	<%
+	if(isNotEmpty(clist)){
+		var ico=0;
+		for(zclass in clist){			
+			if(ico==0){
+	%>		
+	<li class="active" data="${zclass.id}"><a href="javascript:void(0)">${zclass.name}</a></li>	
+	<%}else{%>
+    <li data="${zclass.id}"><a href="javascript:void(0)">${zclass.name}</a></li>	
+	<%}
+	  ico++;
+	}}%>
+</ul>
+<ul id="zlzq_ul" class="sep-dqxz fix tydj">
+	<li sele="0" id="seleadr"><p><span>全国</span><i></i></p></li>
+	<li sele="1"><p><span>人气</span></p></li>
+	<li sele="2" class="active"><p><span>推荐</span></p></li>
+	<li sele="3"><p><span>地图</span></p></li>
+</ul>
+<input id="h_pcode" type="hidden" >
+<div class="merchantJS-mask">
+	<div class="sep-dqxz-areacon">
+		<span pcode="">全国</span>
+		<%if(isNotEmpty(provinces)){
+			for(pro in provinces){
+		%>
+		<span pcode="${pro.code}">${pro.name}</span>		
+		<%}}%>
+	</div>
+	
+</div>
+<div id="wrapper">
+	<div id="scroller">
+	<ul id="ullist" class="sep-cyjdimg fix">
+	   <!--<li><a href="#"><img src="/resource/wap/images/img3.jpg" class="img-responsive"/></a></li>-->	   
+	</ul>
+  </div>
+</div>
+ <img src="/resource/wap/images/index_42.png" class="qianggou-scrollTop" id="totop">	 
+<script type="text/html" id="lilist">
+    {{each list as zx i}}
+    <li><a href="/wap/find/newsdetail.html?id={{zx.id}}&mark=3"><img src="{{zx.imgurl}}" class="img-responsive"/></a></li>
+    {{/each}}
+</script>
+
+<script>
+$(function(){
+	fixed('.septop');
+	Yeffect.resizeHtWstr(".sep-cyjdimg li:visible",".sep-cyjdimg li img",640,360);	
+	$("#totop").click(function() {
+		
+	  window.location.reload();
+	});
+})
+</script>
+<script type="text/javascript" src="/resource/wap/js/zlzx/wapzlzq.js" ></script>
+</body>

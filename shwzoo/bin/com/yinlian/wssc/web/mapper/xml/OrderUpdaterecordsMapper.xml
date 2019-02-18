@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.OrderUpdaterecordsMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.OrderUpdaterecords" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Field" property="field" jdbcType="VARCHAR" />
+    <result column="OldValue" property="oldvalue" jdbcType="VARCHAR" />
+    <result column="NewValue" property="newvalue" jdbcType="VARCHAR" />
+    <result column="OrderID" property="orderid" jdbcType="INTEGER" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="CreateUserID" property="createuserid" jdbcType="INTEGER" />
+    <result column="CreateUserName" property="createusername" jdbcType="VARCHAR" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, Field, OldValue, NewValue, OrderID, CreateTime, CreateUserID, CreateUserName, 
+    IP
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.OrderUpdaterecordsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from order_updaterecords
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from order_updaterecords
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from order_updaterecords
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.OrderUpdaterecordsExample" >
+    delete from order_updaterecords
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.OrderUpdaterecords" >
+    insert into order_updaterecords (ID, Field, OldValue, 
+      NewValue, OrderID, CreateTime, 
+      CreateUserID, CreateUserName, IP
+      )
+    values (#{id,jdbcType=INTEGER}, #{field,jdbcType=VARCHAR}, #{oldvalue,jdbcType=VARCHAR}, 
+      #{newvalue,jdbcType=VARCHAR}, #{orderid,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{createuserid,jdbcType=INTEGER}, #{createusername,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.OrderUpdaterecords" >
+    insert into order_updaterecords
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="field != null" >
+        Field,
+      </if>
+      <if test="oldvalue != null" >
+        OldValue,
+      </if>
+      <if test="newvalue != null" >
+        NewValue,
+      </if>
+      <if test="orderid != null" >
+        OrderID,
+      </if>
+      <if test="createtime != null" >
+        CreateTime,
+      </if>
+      <if test="createuserid != null" >
+        CreateUserID,
+      </if>
+      <if test="createusername != null" >
+        CreateUserName,
+      </if>
+      <if test="ip != null" >
+        IP,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="field != null" >
+        #{field,jdbcType=VARCHAR},
+      </if>
+      <if test="oldvalue != null" >
+        #{oldvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="newvalue != null" >
+        #{newvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="orderid != null" >
+        #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuserid != null" >
+        #{createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="createusername != null" >
+        #{createusername,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.OrderUpdaterecordsExample" resultType="java.lang.Integer" >
+    select count(*) from order_updaterecords
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update order_updaterecords
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.field != null" >
+        Field = #{record.field,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oldvalue != null" >
+        OldValue = #{record.oldvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newvalue != null" >
+        NewValue = #{record.newvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderid != null" >
+        OrderID = #{record.orderid,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createuserid != null" >
+        CreateUserID = #{record.createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="record.createusername != null" >
+        CreateUserName = #{record.createusername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ip != null" >
+        IP = #{record.ip,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update order_updaterecords
+    set ID = #{record.id,jdbcType=INTEGER},
+      Field = #{record.field,jdbcType=VARCHAR},
+      OldValue = #{record.oldvalue,jdbcType=VARCHAR},
+      NewValue = #{record.newvalue,jdbcType=VARCHAR},
+      OrderID = #{record.orderid,jdbcType=INTEGER},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      CreateUserID = #{record.createuserid,jdbcType=INTEGER},
+      CreateUserName = #{record.createusername,jdbcType=VARCHAR},
+      IP = #{record.ip,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.OrderUpdaterecords" >
+    update order_updaterecords
+    <set >
+      <if test="field != null" >
+        Field = #{field,jdbcType=VARCHAR},
+      </if>
+      <if test="oldvalue != null" >
+        OldValue = #{oldvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="newvalue != null" >
+        NewValue = #{newvalue,jdbcType=VARCHAR},
+      </if>
+      <if test="orderid != null" >
+        OrderID = #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createuserid != null" >
+        CreateUserID = #{createuserid,jdbcType=INTEGER},
+      </if>
+      <if test="createusername != null" >
+        CreateUserName = #{createusername,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.OrderUpdaterecords" >
+    update order_updaterecords
+    set Field = #{field,jdbcType=VARCHAR},
+      OldValue = #{oldvalue,jdbcType=VARCHAR},
+      NewValue = #{newvalue,jdbcType=VARCHAR},
+      OrderID = #{orderid,jdbcType=INTEGER},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      CreateUserID = #{createuserid,jdbcType=INTEGER},
+      CreateUserName = #{createusername,jdbcType=VARCHAR},
+      IP = #{ip,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

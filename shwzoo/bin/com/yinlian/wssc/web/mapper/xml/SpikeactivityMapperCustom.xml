@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.SpikeactivityMapperCustom">
+  <resultMap type="com.yinlian.api.app.dto.SpikeDto" id="SpikeDtoResult">  
+        <id column="id" property="id"/>  
+         <id column="enddate" property="enddate"/>  
+         <id column="name" property="name"/>  
+        <collection property="productList" select="selectSpikeSpuByID" column="id" ofType="com.yinlian.api.app.dto.SpikeSpuDto"></collection>  
+    </resultMap>  
+	<!-- 获取秒杀活动 商品不分页-->
+	<select id="getSpikeActivity" resultMap="SpikeDtoResult">
+		SELECT id,endtime as
+		enddate,SpikeName as name
+		FROM spikeactivity
+		WHERE IsDel = 0
+		AND STATUS = 0
+		AND SpikeType =
+		0
+		AND
+		endtime>SYSDATE()
+		AND DATE_FORMAT(starttime,
+		'%Y-%m-%d')=DATE_FORMAT(SYSDATE(),
+		'%Y-%m-%d')
+		ORDER BY starttime
+		LIMIT 1
+	</select>
+	<select id=""></select>
+	
+	<select id="selectSpikeSpuByID" parameterType="int" resultType="com.yinlian.api.app.dto.SpikeSpuDto">
+	SELECT a.spuid as proid,a.spucount as
+		count,a.price,a.isphone,b.name,b.imgurl_app as img
+		FROM spike_spu AS a
+		JOIN spu AS b
+		ON a.spuid=b.id
+		WHERE a.status=0 and b.status=3
+		and a.spikeid=#{0}
+        order by a.orderby desc
+	</select>
+	<!-- 获取秒杀活动 商品分页-->
+	<select id="getmsActivity" resultType="com.yinlian.api.app.dto.SpikeDto" parameterType="int">
+		SELECT id,endtime as
+		enddate,if(DATE_FORMAT(endtime,'%Y-%m-%d') <![CDATA[<]]>  DATE_FORMAT(SYSDATE(),'%Y-%m-%d'),'0','1') as isout_E,
+		if(DATE_FORMAT(starttime,'%Y-%m-%d') <![CDATA[<=]]> DATE_FORMAT(SYSDATE(),'%Y-%m-%d'),'0','1') as isout_S
+		,startTime as startdate
+		FROM spikeactivity
+		WHERE IsDel = 0
+		AND STATUS = 0
+		AND SpikeType =0
+		and FIND_IN_SET(#{0},usesite)
+		AND endtime <![CDATA[ >= ]]> SYSDATE()
+		AND DATE_FORMAT(starttime,'%Y-%m-%d %T') <![CDATA[ <= ]]> DATE_FORMAT(SYSDATE(),'%Y-%m-%d %T')
+		ORDER BY starttime
+		LIMIT 1
+	</select>
+	<!-- 获取秒杀活动 商品分页-->
+	<select id="getmsActivityList" resultType="com.yinlian.api.app.dto.SpikeDto" parameterType="int">
+		SELECT id,endtime as
+		enddate,if(DATE_FORMAT(endtime,'%Y-%m-%d') <![CDATA[<]]>  DATE_FORMAT(SYSDATE(),'%Y-%m-%d'),'0','1') as isout_E,
+		if(DATE_FORMAT(starttime,'%Y-%m-%d') <![CDATA[<=]]> DATE_FORMAT(SYSDATE(),'%Y-%m-%d'),'0','1') as isout_S
+		,startTime as startdate
+		FROM spikeactivity
+		WHERE IsDel = 0
+		AND STATUS = 0
+		AND SpikeType =0
+		and FIND_IN_SET(#{0},usesite)
+		AND endtime >= SYSDATE()
+		AND starttime  <![CDATA[<=]]>  SYSDATE()
+		ORDER BY starttime
+	</select>
+	<!-- 获取活动数量  -->
+	<select id="seekSeckillCount" resultType="java.lang.Integer">
+	SELECT COUNT(1) FROM  spikeactivity
+	<where>
+	IsDel = 0
+	AND Status = 0
+	AND SpikeType = 0
+	AND FIND_IN_SET(1,usesite)
+	AND EndTime <![CDATA[ >= ]]> SYSDATE()
+	AND DATE_FORMAT(StartTime,'%Y-%m-%d') <![CDATA[ <= ]]> DATE_FORMAT(SYSDATE(),'%Y-%m-%d')
+	</where>
+	
+	</select>
+	
+	<!-- 获取活动对应商品列表 -->
+	<select id="getSpuListByActivityIDPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" 
+		resultType="com.yinlian.api.app.dto.SpikeSpuDto">
+		SELECT a.spuid as proid,a.spucount as
+		count,a.price,a.isphone,b.name,b.imgurl_app as img,b.ImgUrl as imgurl,b.Price as oldprice
+		FROM spike_spu AS a join spikeactivity as c on c.id=a.spikeid
+		JOIN spu AS b
+		ON a.spuid=b.id
+		WHERE a.status=0 and b.status=3
+		<if test="criteria.spikeID != null and criteria.spikeID != ''">
+		and a.spikeid=#{criteria.spikeID}
+		</if>
+		<if test="criteria.usesite != null and criteria.usesite > 0 ">
+			and FIND_IN_SET(#{criteria.usesite},c.usesite)
+		</if>
+        <if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+    <!-- 获取闪购活动商品列表 -->
+	<select id="getSgSpuByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" 
+	   resultType="com.yinlian.api.app.dto.SpikeSpuDto">
+		SELECT DISTINCT b.spuid as proid,b.spucount as count,b.price,b.isphone,c.name,c.imgurl_app as img,c.ImgUrl as imgurl,c.Price as oldprice,a.endtime
+		FROM spikeactivity AS a JOIN spike_spu AS b ON a.id=b.spikeid
+		JOIN spu AS c ON b.spuid=c.id
+		WHERE a.IsDel = 0
+		AND a.STATUS = 0
+		AND a.SpikeType = 1
+		AND a.endtime<![CDATA[ > ]]>SYSDATE()
+		AND a.starttime<![CDATA[ <= ]]>SYSDATE()
+		<!-- AND b.spucount > 0 -->
+		<if test="criteria.usesite != null and criteria.usesite > 0 ">
+			and FIND_IN_SET(#{criteria.usesite},a.usesite)
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	
+	
+	  <!-- 获取闪购活动商品列表 -->
+	<select id="gettgSpuByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" 
+	   resultType="com.yinlian.api.app.dto.SpikeSpuDto">
+		SELECT DISTINCT b.spuid as proid,b.spucount as count,b.price,b.isphone,c.name,c.imgurl_app as img,c.Price as oldprice
+		,a.EndTime as endtime,b.SaleCount as salecount 
+		FROM spikeactivity AS a JOIN spike_spu AS b ON a.id=b.spikeid
+		JOIN spu AS c ON b.spuid=c.id
+		WHERE a.IsDel = 0
+		AND a.STATUS = 0
+		AND a.SpikeType = 4
+		AND a.endtime<![CDATA[ > ]]>SYSDATE()
+		AND a.starttime<![CDATA[ <= ]]>SYSDATE()
+		<!-- AND b.spucount > 0 -->
+		<if test="criteria.usesite != null and criteria.usesite > 0 ">
+			and FIND_IN_SET(#{criteria.usesite},a.usesite)
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	
+	<!-- 获取促销活动 列表-->
+	<select id="getcxActivity" resultType="com.yinlian.api.app.dto.PromotionDto">
+	SELECT id,SpikeName as name,imgurl as img
+		FROM spikeactivity
+		WHERE IsDel = 0
+		AND STATUS = 0
+		AND SpikeType =2
+		AND endtime>SYSDATE()
+		AND starttime<![CDATA[ <= ]]>SYSDATE()
+		ORDER BY starttime desc
+		LIMIT 5
+	</select>
+	    <!-- 获取促销活动商品列表 -->
+	<select id="getcxSpuByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" 
+	   resultType="com.yinlian.api.app.dto.SpikeSpuDto">
+		SELECT DISTINCT b.spuid as proid,b.spucount as count,b.price,b.isphone,c.name,c.imgurl_app as img
+		FROM spikeactivity AS a JOIN spike_spu AS b ON a.id=b.spikeid
+		JOIN spu AS c ON b.spuid=c.id
+		WHERE a.IsDel = 0
+		AND a.STATUS = 0
+		AND a.SpikeType = 2
+		<if test="criteria.isout != null and criteria.isout == 0">
+		AND a.endtime<![CDATA[ < ]]>SYSDATE()
+		</if>	
+		<if test="criteria.isout==1">
+		AND a.endtime<![CDATA[ > ]]>SYSDATE()
+		AND a.starttime<![CDATA[ <= ]]>SYSDATE()
+		</if>	
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	
+	<select id="getExcitingByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" 
+	   resultType="com.yinlian.api.app.dto.ExcitingActDto">
+		SELECT a.id,a.listdesc,a.imgurl as img,a.SpikeName as name
+		FROM spikeactivity AS a 
+		WHERE a.IsDel = 0
+		AND a.STATUS = 0
+		AND a.SpikeType = 3
+		<if test="criteria.isout != null and criteria.isout == 0">
+		AND a.endtime<![CDATA[ < ]]>SYSDATE()
+		</if>	
+		<if test="criteria.isout==1">
+		AND a.endtime<![CDATA[ >= ]]>SYSDATE()
+		AND a.starttime<![CDATA[ <= ]]>SYSDATE()
+		</if>	
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	
+	<resultMap type="com.yinlian.api.app.dto.ExcitingActDetailDto"
+		id="ExcitingActDetailResult">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="detaildesc" property="detaildesc" jdbcType="LONGVARCHAR" />
+		<result column="actcode" property="actcode" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<collection property="imglist" select="selectImgs" column="id"
+			ofType="String"></collection>
+	</resultMap>
+	<select id="getBySpikeid" parameterType="int" resultMap="ExcitingActDetailResult">
+	SELECT a.ID,a.DetailDesc,a.SpikeName as name
+	FROM spikeactivity a 
+    WHERE a.ID=#{0} and a.spiketype=3 AND a.IsDel=0 
+    limit 1
+	</select>
+	<select id="selectImgs" parameterType="int" resultType="String">
+	SELECT imgurl	 
+	FROM advert_img where groupbyid=#{0} and type=5 and isdel=0 
+	order by sort desc
+	</select>
+</mapper>

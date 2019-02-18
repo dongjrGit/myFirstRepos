@@ -1,0 +1,54 @@
+<Configuration status="WARN">  
+    <properties>  
+        <property name="LOG_HOME">/usr/local/tomcat/zoo_log</property>  
+        <property name="FILE_NAME">root</property>  
+    </properties>  
+    <Appenders>  
+        <Console name="Console" target="SYSTEM_OUT">  
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%-5level] [%t] %c{1}:%logger{36}%L - %msg%n" />  
+        </Console>  
+        <RollingRandomAccessFile name="root"  
+            fileName="${LOG_HOME}/${FILE_NAME}.log"  
+            filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-%d{yyyy-MM-dd}-%i.log.zip"> 
+            <PatternLayout  
+                pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%t] %c{1}:%logger{36}%L - %msg%n" />  
+            <Policies>  
+                <TimeBasedTriggeringPolicy interval="1" />  
+                <SizeBasedTriggeringPolicy size="1 MB" />
+            </Policies>  
+            <DefaultRolloverStrategy max="20" />  
+        </RollingRandomAccessFile>  
+        <RollingRandomAccessFile name="errorLog"  
+            fileName="${LOG_HOME}/error.log"  
+            filePattern="${LOG_HOME}/$${date:yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log.zip"> 
+            <PatternLayout  
+                pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%t] %c{1}:%logger{36}%L - %msg%n" />  
+            <Policies>  
+                <TimeBasedTriggeringPolicy interval="1" />  
+                <SizeBasedTriggeringPolicy size="1 MB" />
+            </Policies>  
+            <DefaultRolloverStrategy max="20" />  
+        </RollingRandomAccessFile>  
+    </Appenders>  
+  
+    <Loggers>  
+        <Logger name="org.springframework" level="warn" additivity="false">  
+            <AppenderRef ref="Console" />  
+            <AppenderRef ref="root" />
+            <AppenderRef ref="errorLog"/>    
+        </Logger>
+        
+        <Logger name="com.techown.app.controller" level="debug" additivity="false">  
+            <AppenderRef ref="Console" />  
+            <AppenderRef ref="root" />
+            <AppenderRef ref="errorLog" level="warn"/>    
+        </Logger>
+        
+        
+        <Root level="info">  
+            <AppenderRef ref="Console" />  
+            <AppenderRef ref="root" />
+            <AppenderRef ref="errorLog" level="error"/>  
+        </Root>  
+    </Loggers>  
+</Configuration>  

@@ -1,0 +1,491 @@
+<%var path="/resource";%>
+
+<head>
+
+<title>购物车</title>
+<script src="${path}/artTemplate.js"></script>
+<script src="${path}/wap/js/index.js"></script>
+<script src="${path}/wap/js/login.js"></script>
+<style type="text/css">
+.decrease, .increase {
+	float: left;
+}
+
+.shop_chartmknr_con_r.active .spinner.value {
+	float: left;
+}
+.shop_chartmk_package .spinner.value {
+	float: left;
+}
+.shop_chartmk_bot{ background: #fff; font-size: 80%; padding: 3% 3% 3% 0px;}
+.shop_chartmk_bot p{ line-height: 200%;color: #6F6F6F;}
+.shop_chartmk_bot p .red{ font-size: 120%;}
+.shop_chartmk_bot p .huise{ margin-right: 3.5%;}
+</style>
+</head>
+<body>
+<input type="hidden" id="h_islogin" value="${islogin}">
+	<!--top_title  begin-->
+	<div class="top_title fix">
+		<div class="top_return" id="img_cart_back"></div>
+		购物车
+		<div class="top_title_dlr">
+			<a href="javascript:void(0)" id="a_delete_car">删除</a>
+		</div>
+	</div>
+	<!--top_title  stop-->
+	<div id="div_cart">
+		<% if(isNotEmpty(datacart)&&isNotEmpty(datacart.shops)){ for(shop in
+		datacart.shops){ %>
+
+		<!--shop_chartmk  begin-->
+
+		<div class="shop_chartmk fix">
+			<div class="shop_chartmktop">
+				<div class="shop_chartmktop_inp">
+					<%if(!shop.isselected!false){%> 
+					<input type="checkbox" name="ck_shop" id="" value="" /> 
+						<%}else{%> 
+						<input type="checkbox" name="ck_shop" checked="checked" id="" value="" />
+					<%}%>
+				</div>
+				${shop.shopname!""} 
+				<img src="${path}/wap/images/shop_chartmkico.png" class="shop_chartmktop_more" />
+			</div>
+			
+
+		    <%if(isNotEmpty(shop.packscd)){  %>
+			    <%for(spu in shop.packscd){ %>
+			    <div class="shop_chartmk_package fix">
+					<div class="shop_chartmktop_inp">
+						<%if(!spu.isselected!false){%> 
+						<input type="checkbox" name="ck_sku" id=""  data="${spu.id}_0"  value="${spu.shopcartproid}" />
+						<%}else{%> 
+						<input	type="checkbox" name="ck_sku" checked="checked" id=""  data="${spu.id}_0"  value="${spu.shopcartproid}" />
+						<%}%>
+					</div>
+					<div class="spinner">
+					<button class="decrease">-</button>
+					<input type="text"  data="${spu.shopcartproid}"  onblur="javascript:$('.upd').click();this.v();" cocaid="${spu.id}_0" class="spinner value" value="${spu.count}" maxlength="3">
+					<button class="increase">+</button>
+					
+						<button class="upd" style="display: none;"></button>
+					</div>
+					<%if(spu.count>spu.stock||spu.stock==0){%>
+                         <input type="hidden" name="h_stock" value="0">
+                                                                        无货
+                         <%}%>
+					<span class="red">￥${spu.price,numberFormat="0.00"}</span>
+					<span class="shop_chartmk_package01">套餐</span>
+				 </div>
+			    <%for(sku in spu.skuscd){ %>
+			   <div class="shop_chartmknr fix">
+				<div class="shop_chartmktop_inp">					
+				</div>
+				<div class="shop_chartmknr_con fix">
+					<div class="shop_chartmknr_con_l">
+						<% var img="";
+						if(isNotEmpty(sku.img)){img=sku.img;}%> 						
+						<a href="/wap/products/ProDetail.html?spuid=${spu.id}&carttype=${sku.protype}&href=/wap/shopcart/cartlist.html">
+						<img src="${img}" style="height:2rem;" class="img-responsive" />
+						</a>
+					</div>
+					<div class="shop_chartmknr_con_r">
+						<h3>${sku.name}</h3>
+						<!-- <div class="shop_chartmk_hd">价格下降2.00元</div> -->
+						<div class="shop_chartmknr_con_rprice">
+							￥${sku.price,numberFormat="0.00"}</div>
+						<div class="shop_chartmknr_con_rnum">×${sku.count}</div>
+
+						<div class="spinner" style="display:none">
+							<button class="decrease">-</button>
+							<!--  disabled="disabled" -->
+							<input id="gcount" type="text"
+								data="${sku.shopcartproid}"
+								onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'1');}).call(this)"
+								 onblur="javascript:$('.upd').click();this.v();" kc="${sku.stock}" class="spinner value" value="${sku.count}"
+								maxlength="3">
+								
+						<button class="upd" style="display: none;"></button>
+							<button class="increase">+</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<%}}}%>
+			
+			<%if(isNotEmpty(shop.spuscd)){ 
+			        for(spu in shop.spuscd){ 
+			          for(sku in spu.skuscd){ %>
+			<div class="shop_chartmknr fix">
+				<div class="shop_chartmktop_inp">
+					<%if(!sku.isselected!false){%> 
+					<input type="checkbox" name="ck_sku" id="" value="${sku.shopcartproid}" />
+					<%}else{%> 
+					<input	type="checkbox" name="ck_sku" checked="checked" id="" value="${sku.shopcartproid}" />
+					<%}%>
+				</div>
+				<div class="shop_chartmknr_con fix">
+					<div class="shop_chartmknr_con_l">
+						<% var img="";
+						if(isNotEmpty(sku.img)){img=sku.img;}%> 						
+						<a href="/wap/products/ProDetail.html?spuid=${spu.id}&carttype=${sku.protype}&href=/wap/shopcart/cartlist.html">
+						<img src="${img}" style="height:2rem;" class="img-responsive" />
+						</a>
+					</div>
+					<div class="shop_chartmknr_con_r active">
+						<h3>${sku.name}</h3>
+						<!-- <div class="shop_chartmk_hd">价格下降2.00元</div> -->
+						<div class="shop_chartmknr_con_rprice">
+							￥${sku.price,numberFormat="0.00"}</div>
+						<div class="shop_chartmknr_con_rnum">×1
+                         <%if(sku.count>sku.stock||sku.stock==0){%>
+                         <input type="hidden" name="h_stock" value="0">
+                                                                        无货
+                         <%}%>
+                        </div>
+                                                                                 
+						<div class="spinner">
+							<button class="decrease">-</button>							
+							<input id="gcount" type="text" 
+								data="${sku.shopcartproid}"
+								onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'1');}).call(this)"
+								 onblur="javascript:$('.upd').click();this.v();" kc="${sku.stock}" class="spinner value" value="${sku.count}"
+								maxlength="3">
+							<button class="increase">+</button>
+							
+						<button class="upd" style="display: none;"></button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<%}}}%>	
+			<div class="text-right shop_chartmk_bot">
+			<p><span class="huise">已选择${datacart.selectedcount}件商品</span>应付<span class="red">￥${shop.totalmoney,numberFormat="0.00"}</span></p>
+			<%for(d in shop.asd){%>
+				<%if( d.isselect == true){%>
+					<%if(d.type == 0){%>
+						<p>${d.typename} ${d.name}已可用，您在确认订单页使用再减<span class="red">￥${d.delmoney}</span></p>
+					<%}%>	
+					<%if(d.type == 1){
+					    if(d.skuscd.~size>0){
+					%>
+						<p>
+					  【${d.typename}】:${d.name},在您下单时赠送
+						<%for(dsk in d.skuscd){%>						
+						${dsk.name}
+						<%}%>
+						</p>
+					<%}}%>
+					
+				<%}%>
+			<%}%>	
+		</div>					
+		</div>
+
+		<!--shop_chartmk  stop-->
+		<%}}else{%>
+		<style>
+		#div_cart {
+			text-align: center;
+			padding: 10% 0px;
+		}
+		
+		#div_cart img {
+			width: 1.5rem;
+			margin-bottom: 3%;
+		}
+		</style>
+		<img src='${path}/wap/images/gwc.png' />
+		<div class='huise'>购物车是空的噢</div>
+		<%}%>
+	</div>
+
+
+	<!--shopchart_checkall  begin-->
+	<div>
+	<div class="shopchart_checkall fix">
+		<div class="shop_chartmktop_inp" id="car_checkeall">
+			<%if(datacart.isselected!false){%> 
+			<input type="checkbox" name=""	id="shopchart_checkall" checked="checked" />
+			 <%}else{%> 
+			<input type="checkbox" name="" id="shopchart_checkall" />
+			 <%}%>
+		</div>
+		
+		<div class="shopchart_checkallcon">
+			<span>全选</span> <span>合计：<i class="red" id="proallpay">￥${datacart.amountpayable!0,numberFormat="0.00"}</i></span>
+			<span>不含运费</span>
+		</div>		
+		<a id="carttosub" href="javascript:void(0)">
+		<div class="shopchart_checkall_js" style="color:#fff">
+			结算
+		</div>	
+		</a>	
+	</div>
+	</div>
+	
+	<!--shopchart_checkall  stop-->
+	<div>
+	<% include("/template/wap/index_foot.html",{display:3}){} %>
+    </div>
+	<script>
+		$(function() {
+			//商品数量更新
+			$("#div_cart").on("click","button",	function() {
+					var cl = $(this).attr("class");
+					var count = $(this).parent().find("input").val();
+					var canDo = true;
+					if (cl == "decrease") {
+						if (count > 1) {
+							count = count - 1;
+							canDo = true;
+						} else {
+							canDo = false;
+						}
+					} else {
+						if (cl == "increase") {
+							count = parseInt(count) + 1;
+							canDo = true;
+						}
+					}
+					if (canDo) {
+						$(this).parent().find("input").val(count);
+						var id = $(this).parent().find("input").attr("data");
+						var cookiecarid = $(this).parent().find("input").attr("cocaid");
+						
+						Cart.updatecount(id, count,cookiecarid,Cart.updatecountcb);
+						
+						
+					}
+				})
+			//删除按钮
+			$("#a_delete_car").click(function() {
+				var sl = false;
+				if ($("input[name=ck_sku]").length == 0) {
+					alert("没有商品可以勾选");
+				} else {
+					$("input[type=checkbox]").each(function() {
+						if ($(this).is(':checked')) {
+							sl = true;
+						}
+					})
+					if (sl) {
+						if(confirm("确认要删除购物车吗？")){
+						if ($("#shopchart_checkall").is(":checked")) {
+							Cart.delAll(Cart.delcartback);
+						} else {
+							var ids = "";//$(this).parent().find("input").attr("data");
+							$("input[name=ck_sku]").each(function() {
+								if ($(this).is(':checked')) {
+									ids = ids + $(this).val() + ",";
+								}
+							})
+							ids = ids.substring(0, ids.length - 1);
+							if (ids.indexOf(',') < 0) {
+								Cart.del(ids, Cart.delcartback);
+							} else {
+								Cart.delbatch(ids, Cart.delcartback);
+							}
+						}
+						}
+					} else {
+						alert("还没有勾选");
+					}
+				}
+			})
+			//提交按钮
+			$("#carttosub").click(function() {
+				var nohas=$("input[name=h_stock]").length;
+				if(nohas>0){
+					alert("商品库存不足");
+				}else{
+				var sl = false;
+				if ($("input[name=ck_sku]").length == 0) {
+					alert("请先去挑选商品");
+				} else {
+					$("input[name=ck_sku]").each(function() {
+						if ($(this).is(':checked')) {
+							sl = true;
+						}
+					})
+					if (sl) {
+						if (login.isLogin()) {
+							window.location.href = "/wap/order/newOrder.html";
+						} else {
+							login.open();
+						}
+					} else {
+						alert("还没有勾选");
+					}
+				}
+				}
+			})
+            var islogin=$("#h_islogin").val();
+			// window.onload = function() {
+			fixed('.fx-footer');
+			newArrival('.shop_chartmknr_con_l img');
+			fixedbot('.fx-footer', '.shopchart_checkall');
+			if (islogin=="false") {
+			Cart.getlist(Cart.getlistcallback);
+		    }
+			// }
+		})
+	</script>
+	<script type="text/html" id="cookiecartlist">
+  <!--shop_chartmk  begin-->
+	 
+      {{each list.shops as shop j}}
+ 	<div class="shop_chartmk fix">
+		<div class="shop_chartmktop">
+			<div class="shop_chartmktop_inp">
+				{{if shop.isselected==false}}		
+				<input type="checkbox" name="ck_shop"  value="" />					
+				{{else}}
+				<input type="checkbox" name="ck_shop" checked="checked"  value="" />
+				{{/if}}			
+			</div>
+			{{shop.shopname}}
+			<img src="${path}/wap/images/shop_chartmkico.png" class="shop_chartmktop_more"/>
+		</div>
+
+     {{each shop.packscd as spu k}}   
+                 <div class="shop_chartmk_package fix">
+					<div class="shop_chartmktop_inp">
+                    {{if spu.isselected==false}}
+                    <input type="checkbox" name="ck_sku" data="{{spu.id}}_0"  value="{{spu.shopcartproid}}" />
+                    {{else}}
+                    <input type="checkbox" name="ck_sku" checked="checked" data="{{spu.id}}_0"  value="{{spu.shopcartproid}}" />
+                    {{/if}}						
+					</div>
+						<div class="spinner">
+						<button class="decrease">-</button>
+						<input data="{{spu.shopcartproid}}" cocaid="{{spu.id}}_0"  onkeyup ="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'1');}).call(this)" onblur="javascript:$('.upd').click();this.v();"
+                            type="text"  onfocus="alert('ff')" class="spinner value" value="{{spu.count}}" maxlength="3">
+						<button class="increase">+</button>
+						<button class="upd" style="display: none;"></button>
+						</div>
+                        {{if spu.count>spu.stock||spu.stock==0}}                     
+                         <input type="hidden" name="h_stock" value="0">
+                                                                        无货
+                        {{/if}}
+					<span class="red">￥{{spu.price}}</span>
+					<span class="shop_chartmk_package01">套餐</span>
+				   </div>
+		   {{each spu.skuscd as sku l}}		   
+		<div class="shop_chartmknr fix">
+			<div class="shop_chartmktop_inp">
+ 			</div>
+			<div class="shop_chartmknr_con fix">
+				<div class="shop_chartmknr_con_l">
+                   <a href="/wap/products/ProDetail.html?spuid={{spu.id}}&type={{sku.protype}}&href=/wap/shopcart/cartlist.html">		
+                   {{if sku.img==""}}		
+					<img src="" class="img-responsive" style="height:2rem;" alt=""/>
+                   {{else}}                    
+                    <img src="{{sku.img}}" style="height:2rem;" class="img-responsive" />                     
+　　　　　　　　　　　　　　{{/if}}
+                    </a>
+				</div>
+				<div class="shop_chartmknr_con_r">
+					<h3>{{sku.name}}</h3>
+					<!-- <div class="shop_chartmk_hd">价格下降2.00元</div> -->
+					<div class="shop_chartmknr_con_rprice">
+						￥{{toFixed(sku.price,2)}}
+					</div>
+					<div class="shop_chartmknr_con_rnum">
+						×{{sku.count}}
+					</div>
+					   <div class="spinner" style="display:none">
+						<button class="decrease">-</button><!--  disabled="disabled" -->
+						<input cocaid="{{sku.id}}_{{spu.id}}"  onkeyup ="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'1');}).call(this)" onblur="this.v();"
+                            type="text" data="{{sku.shopcartproid}}" class="spinner value" kc="{{sku.stock}}"  value="{{sku.count}}" onblur="javascript:$('.upd').click();this.v();" maxlength="3">
+						<button class="increase">+</button>
+
+						<button class="upd" style="display: none;"></button>
+						</div>	
+				</div>
+			</div>
+		</div>
+         {{/each}}
+		{{/each}}
+
+		{{each shop.spuscd as spu k}}
+		   {{each spu.skuscd as sku l}}		   
+		   <div class="shop_chartmknr fix">
+			<div class="shop_chartmktop_inp">
+                 {{if sku.isselected==false}}
+                 <input type="checkbox" name="ck_sku" data="{{sku.id}}_{{spu.id}}"  value="{{sku.shopcartproid}}" />
+                 {{else}}
+                 <input type="checkbox" name="ck_sku" checked="checked" data="{{sku.id}}_{{spu.id}}"  value="{{sku.shopcartproid}}" />
+                 {{/if}}
+			</div>
+			<div class="shop_chartmknr_con fix">
+				<div class="shop_chartmknr_con_l">
+                   <a href="/wap/products/ProDetail.html?spuid={{spu.id}}&type={{sku.protype}}&href=/wap/shopcart/cartlist.html">		
+                   {{if sku.img==""}}		
+					<img src="" class="img-responsive" style="height:2rem;" alt=""/>
+                   {{else}}                    
+                    <img src="{{sku.img}}" class="img-responsive" />                     
+　　　　　　　　　　　　　　{{/if}}
+                    </a>
+				</div>
+				<div class="shop_chartmknr_con_r active">
+					<h3>{{sku.name}}</h3>
+					<!-- <div class="shop_chartmk_hd">价格下降2.00元</div> -->
+					<div class="shop_chartmknr_con_rprice">
+						￥{{toFixed(sku.price,2)}}
+					</div>
+					<div class="shop_chartmknr_con_rnum">
+						×1
+						{{if sku.count>sku.stock||sku.stock==0}}                     
+                         <input type="hidden" name="h_stock" value="0">
+                                                                        无货
+                        {{/if}}
+					</div>
+					   <div class="spinner">
+						<button class="decrease">-</button><!--  disabled="disabled" -->
+						<input cocaid="{{sku.id}}_{{spu.id}}"  onkeyup ="(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,'1');}).call(this)"  onblur="javascript:$('.upd').click();this.v();"
+                            type="text" data="{{sku.shopcartproid}}" kc="{{sku.stock}}" class="spinner value" value="{{sku.count}}" maxlength="3">
+						<button class="increase">+</button>
+						<button class="upd" style="display: none;"></button>
+						</div>	
+				</div>
+			</div>
+		</div>
+         {{/each}}
+       {{/each}}
+		<div class="text-right shop_chartmk_bot">
+			<p><span class="huise">已选择{{list.selectedcount}}件商品</span>应付<span class="red">￥{{shop.totalmoney | toFixed}}</span></p>
+			{{each shop.spuscd as spu k}}
+            	{{each spu.asd as asd m}}
+		     		 {{each asd.skuscd as sku n}}
+		              	   赠送商品：{{sku.name}} 
+		      		 {{/each}}
+		    	{{/each}}
+      		 {{/each}}
+			{{each shop.asd as d}}
+				{{if d.isselect == true}}
+					{{if d.type == 0}}
+						<p>{{d.typename}}{{d.name}}已可用，您在确认订单页使用再减<span class="red">￥{{d.delmoney}}</span></p>
+					{{/if}}
+					{{if d.type == 1}}
+						<p>
+						{{d.typename}}{{d.name}}已可用，您在确认订单页使用再赠，
+						{{each d.skuscd as dsk}}
+						{{dsk.name}}
+						{{/each}}
+						</p>
+					{{/if}}
+					
+				{{/if}}
+			{{/each}}	
+		</div>
+	</div>
+       {{/each}}
+	
+    <input type="hidden" id="h_selected" value="{{if list.isselected==false}}false{{else}}true{{/if}}">
+	<input type="hidden" id="h_proallpay" value="{{list.amountpayable}}"> 
+    <input type="hidden" id="h_carcount" value="{{list.count}}"> 
+	</script>
+<!--<p>满88减5券已可用，您在确认订单页使用再减<span class="red">￥5.00</span></p>  -->
+</body>

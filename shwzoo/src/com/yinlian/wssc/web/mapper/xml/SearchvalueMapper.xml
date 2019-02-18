@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.SearchvalueMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Searchvalue" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="AttrID" property="attrid" jdbcType="INTEGER" />
+    <result column="Value" property="value" jdbcType="VARCHAR" />
+    <result column="Type" property="type" jdbcType="INTEGER" />
+    <result column="Unit" property="unit" jdbcType="VARCHAR" />
+    <result column="Fullpath" property="fullpath" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, AttrID, Value, Type, Unit, Fullpath, sort
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.SearchvalueExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from searchvalue
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from searchvalue
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from searchvalue
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.SearchvalueExample" >
+    delete from searchvalue
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Searchvalue" >
+    insert into searchvalue (ID, AttrID, Value, 
+      Type, Unit, Fullpath, 
+      sort)
+    values (#{id,jdbcType=INTEGER}, #{attrid,jdbcType=INTEGER}, #{value,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{unit,jdbcType=VARCHAR}, #{fullpath,jdbcType=VARCHAR}, 
+      #{sort,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Searchvalue" >
+    insert into searchvalue
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="attrid != null" >
+        AttrID,
+      </if>
+      <if test="value != null" >
+        Value,
+      </if>
+      <if test="type != null" >
+        Type,
+      </if>
+      <if test="unit != null" >
+        Unit,
+      </if>
+      <if test="fullpath != null" >
+        Fullpath,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="attrid != null" >
+        #{attrid,jdbcType=INTEGER},
+      </if>
+      <if test="value != null" >
+        #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="fullpath != null" >
+        #{fullpath,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.SearchvalueExample" resultType="java.lang.Integer" >
+    select count(*) from searchvalue
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update searchvalue
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.attrid != null" >
+        AttrID = #{record.attrid,jdbcType=INTEGER},
+      </if>
+      <if test="record.value != null" >
+        Value = #{record.value,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        Type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.unit != null" >
+        Unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fullpath != null" >
+        Fullpath = #{record.fullpath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sort != null" >
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update searchvalue
+    set ID = #{record.id,jdbcType=INTEGER},
+      AttrID = #{record.attrid,jdbcType=INTEGER},
+      Value = #{record.value,jdbcType=VARCHAR},
+      Type = #{record.type,jdbcType=INTEGER},
+      Unit = #{record.unit,jdbcType=VARCHAR},
+      Fullpath = #{record.fullpath,jdbcType=VARCHAR},
+      sort = #{record.sort,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Searchvalue" >
+    update searchvalue
+    <set >
+      <if test="attrid != null" >
+        AttrID = #{attrid,jdbcType=INTEGER},
+      </if>
+      <if test="value != null" >
+        Value = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        Type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="unit != null" >
+        Unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="fullpath != null" >
+        Fullpath = #{fullpath,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Searchvalue" >
+    update searchvalue
+    set AttrID = #{attrid,jdbcType=INTEGER},
+      Value = #{value,jdbcType=VARCHAR},
+      Type = #{type,jdbcType=INTEGER},
+      Unit = #{unit,jdbcType=VARCHAR},
+      Fullpath = #{fullpath,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+   
+  
+   <!-- 以下是自定义的sql 分页语句 -->
+  
+  <sql id="criteria_query">
+   <where>
+     <if test="criteria.attrid != null and criteria.attrid != '' ">
+     and AttrID=#{criteria.attrid}
+     </if>
+     </where> 
+  </sql>
+  
+  
+  <select id="selectSearchvalueByAttrIdPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" resultMap="BaseResultMap">
+    SELECT * FROM searchvalue 
+   <if test="criteria != null ">
+     <include refid="criteria_query"/>
+     </if>
+     <if test="criteria.orderByClause != null and criteria.orderByClause != '' " >
+      order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序     此处只能使用${} 而不能使用#{} 会设置参数失败 -->
+    </if>
+  </select>
+  
+
+  
+</mapper>

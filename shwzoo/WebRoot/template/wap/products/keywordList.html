@@ -1,0 +1,208 @@
+<%var path="/resource";%>
+<head>
+    <title>商品列表</title>
+    <script type="text/javascript" src="${path}/wap/js/index.js" ></script>
+    <script type="text/javascript" src="${path}/artTemplate.js"></script>
+</head>
+<body>
+    <!--top_title  begin-->
+	<div class="top fix splbtop">
+		<a href="/wap/proclass/classList.html">
+		<div class="top_return" >		
+			<img src="${path}/wap/images/top_return.png"/>
+		</div>
+		</a>
+		<div class="top_search">
+			<input type="text" name="" id="search" value="${keyword}" placeholder="请输入关键字搜索" class="top_searchinput" />
+			<div class="top_searchico" onclick="search()"><img src="${path}/wap/images/top_search.png"/></div>
+		</div>
+		<div class="splb_news" onclick="message();">
+			<img src="${path}/wap/images/splb_news.png"/>
+			<div class="top_news_num" style="margin-top: 18px;margin-left: 7px;">
+					${messagecount}
+			</div>
+		</div>
+	</div>
+	<!--top_title  stop-->
+    <!--ranksort  begin-->
+    <input type="hidden" value="${classID}" id="inp_cid">
+    <input type="hidden" value="${proBean.pc}" id="inp_index">
+    <input type="hidden" value="SalesCount_desc" id="select_order" />
+	<div class="ranksort fix">
+		<ul class="ranksort_topul">
+			<li class="ranksort_sales" name="order_type" data="SalesCount">
+				<div class="ranksort_title">
+					<span>销量</span>
+					<div class="ranksort_titleico">
+						<i class="rankitop" data="asc"></i>
+						<i class="rankidown active" data="desc"></i>
+					</div>
+				</div>
+			</li>
+			<li class="ranksort_sales" name="order_type" data="Price">
+				<div class="ranksort_title">
+					<span>价格</span>
+					<div class="ranksort_titleico">
+						<i class="rankitop" data="asc"></i>
+						<i class="rankidown" data="desc"></i>
+					</div>
+				</div>
+			</li>
+			<li class="ranksort_sales" name="order_type" data="commentCount">
+				<div class="ranksort_title">
+					<span>评论</span>
+					<div class="ranksort_titleico">
+						<i class="rankitop" data="asc"></i>
+						<i class="rankidown" data="desc"></i>
+					</div>
+				</div>
+			</li>
+	</div>
+	<!--ranksort  stop-->
+	<!--productlistcon  begin-->
+	<div class="productlistcon fix">
+		<ul id="productlist">
+			<% for(pro in proBean.beanList){ %>
+			<li class="fix">
+				<a href="/wap/products/ProDetail.html?spuid=${pro.spuid}&href=/wap/products/proList.html?classID=${classID}">
+					<div class="productlistcon_l">
+						<img src="${pro.imgUrl}" class="img-responsive"/>
+					</div>
+					<div class="productlistcon_r">
+						<p>${pro.name}</p>
+						<div class="productlistcon_r_bot fix">
+							<div class="floatl huise">
+								销量：${pro.salescount}
+							</div>
+							<div class="floatr red">
+								￥ ${pro.Price}
+							</div>
+						</div>
+					</div>
+				</a>
+			</li>
+			<% } %>
+			<script type="text/html" id="pro_list">
+			 {{each list as pro i}}
+			<li class="fix">
+				<a href="/wap/products/ProDetail.html?spuid={{pro.spuid}}&href=/wap/products/proList.html?classID=${classID}">
+					<div class="productlistcon_l">
+						<img src="{{pro.imgUrl}}" class="img-responsive"/>
+					</div>
+					<div class="productlistcon_r">
+						<p>{{pro.name}}</p>
+						<div class="productlistcon_r_bot fix">
+							<div class="floatl huise">
+								销量：{{pro.salescount}}
+							</div>
+							<div class="floatr red">
+								￥ {{pro.price}}
+							</div>
+						</div>
+					</div>
+				</a>
+			</li>
+			{{/each}}
+			</script>
+		</ul>
+	</div>
+	<!--productlistcon  stop-->
+	
+  <!--themestreet  stop-->
+	<img src="${path}/wap/images/index_42.png" class="qianggou-scrollTop">
+	<%
+    include("/template/wap/index_foot.html"){}
+    %>
+<script>
+$(".qianggou-scrollTop").click(function() { 
+	$("html, body").animate({ scrollTop: 0 }, "slow"); 
+	return false;  
+});
+fixed('.top');//头部固定
+$("li[name='order_type']").on("click",function(){
+	var $li = $(this);
+	var select_order = $("#select_order").val();
+	var so = select_order.split("_")[0];
+	var sy = select_order.split("_")[1];
+	if($li.attr("data") == so){
+		if(sy=="asc"){
+			$("#select_order").val(so+"_desc");
+			$li.find("i[data='desc']").attr("class", "rankidown active");
+			$li.find("i[data='asc']").attr("class", "rankitop");
+		}else{
+			$("#select_order").val(so+"_asc");
+			$li.find("i[data='asc']").attr("class", "rankitop active");
+			$li.find("i[data='desc']").attr("class", "rankidown");
+		}
+	}else{
+		$li.parent().find("li").each(function(){
+			if(so == $(this).attr("data")){
+				if(sy == "asc"){
+					$(this).find("i[data='asc']").attr("class", "rankitop");
+				}else{
+					$(this).find("i[data='desc']").attr("class", "rankidown");
+				}
+			}else if($li.attr("data") == $(this).attr("data")){
+				$(this).find("i[data='asc']").attr("class", "rankitop active");
+				$("#select_order").val($li.attr("data")+"_asc");
+			}
+		})
+	}
+	getlist();
+})
+var page=2;
+var pageSize=$("#inp_index").val();
+function getlist() {
+	var cid = $("#inp_cid").val();
+	var orderby = $("#select_order").val().split("_")[0];
+	var orderType = $("#select_order").val().split("_")[1];
+	pageSize=$("#inp_index").val();
+	if(pageSize<=page){
+	$.ajax({
+        url: "/api/wap/products/keywordQuery",
+        type: "Post",
+        data: { classID: cid, page: page, size: 10, orderBy: orderby, orderType: orderType },
+        dataType: "json",
+        success: function (data) {
+            if (data.Code < 0) {
+                alert(data.Desc);
+            } else {
+                var listdata = {
+                    list: data.data
+                }
+                var html = template('pro_list', listdata);
+                $("#productlist").append(html);
+                var pcount = data.maxRow;
+                pageSize = data.pageSize;
+                var pindex = data.pageIndex;
+                $("#inp_index").val(pindex);
+                page++;
+            }
+        },
+        error: function () {
+        	alert("错误")
+        }
+    });
+	}
+}
+function search(){	
+	if($('#search').val()!=''&&$('#search').val()!=null)
+	location.href='/wap/products/keywordlist.html?keyword='+$('#search').val()+"&classID="+$("#inp_cid").val();
+}
+$(function(){
+	$(window).scroll(function(){
+		var scrollTop=$(this).scrollTop();
+		var scrollHeight=$(document).height();
+		var windowHeight=$(this).height();
+		if(scrollTop+windowHeight==scrollHeight){
+			getlist();
+		}
+	});
+});
+
+function message(){
+	window.location.href="/wap/messages/queryMessages?ch=3";
+}
+
+</script>
+</body>

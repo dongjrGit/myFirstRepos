@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.ActionrecordsMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Actionrecords" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="KeyName" property="keyname" jdbcType="VARCHAR" />
+    <result column="TableName" property="tablename" jdbcType="VARCHAR" />
+    <result column="UserID" property="userid" jdbcType="INTEGER" />
+    <result column="UserName" property="username" jdbcType="VARCHAR" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+    <result column="Frm" property="frm" jdbcType="VARCHAR" />
+    <result column="ObjTag" property="objtag" jdbcType="VARCHAR" />
+    <result column="Step" property="step" jdbcType="INTEGER" />
+    <result column="Type" property="type" jdbcType="INTEGER" />
+    <result column="Browser" property="browser" jdbcType="VARCHAR" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="RecordTime" property="recordtime" jdbcType="TIMESTAMP" />
+    <result column="SysInfo" property="sysinfo" jdbcType="VARCHAR" />
+    <result column="WebSite" property="website" jdbcType="VARCHAR" />
+    <result column="Device" property="device" jdbcType="VARCHAR" />
+    <result column="Version" property="version" jdbcType="VARCHAR" />
+    <result column="RelationId" property="relationid" jdbcType="VARCHAR" />
+    <result column="Province" property="province" jdbcType="VARCHAR" />
+    <result column="City" property="city" jdbcType="VARCHAR" />
+    <result column="Country" property="country" jdbcType="VARCHAR" />
+    <result column="Mac" property="mac" jdbcType="VARCHAR" />
+    <result column="OnceTag" property="oncetag" jdbcType="VARCHAR" />
+    <result column="IsNew" property="isnew" jdbcType="BIT" />
+    <result column="IsCount" property="iscount" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, KeyName, TableName, UserID, UserName, IP, Frm, ObjTag, Step, Type, Browser, CreateTime, 
+    RecordTime, SysInfo, WebSite, Device, Version, RelationId, Province, City, Country, 
+    Mac, OnceTag, IsNew, IsCount
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.ActionrecordsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from actionrecords
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from actionrecords
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from actionrecords
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.ActionrecordsExample" >
+    delete from actionrecords
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Actionrecords" >
+    insert into actionrecords (ID, KeyName, TableName, 
+      UserID, UserName, IP, 
+      Frm, ObjTag, Step, 
+      Type, Browser, CreateTime, 
+      RecordTime, SysInfo, WebSite, 
+      Device, Version, RelationId, 
+      Province, City, Country, 
+      Mac, OnceTag, IsNew, IsCount
+      )
+    values (#{id,jdbcType=INTEGER}, #{keyname,jdbcType=VARCHAR}, #{tablename,jdbcType=VARCHAR}, 
+      #{userid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
+      #{frm,jdbcType=VARCHAR}, #{objtag,jdbcType=VARCHAR}, #{step,jdbcType=INTEGER}, 
+      #{type,jdbcType=INTEGER}, #{browser,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{recordtime,jdbcType=TIMESTAMP}, #{sysinfo,jdbcType=VARCHAR}, #{website,jdbcType=VARCHAR}, 
+      #{device,jdbcType=VARCHAR}, #{version,jdbcType=VARCHAR}, #{relationid,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
+      #{mac,jdbcType=VARCHAR}, #{oncetag,jdbcType=VARCHAR}, #{isnew,jdbcType=BIT}, #{iscount,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Actionrecords" >
+    insert into actionrecords
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="keyname != null" >
+        KeyName,
+      </if>
+      <if test="tablename != null" >
+        TableName,
+      </if>
+      <if test="userid != null" >
+        UserID,
+      </if>
+      <if test="username != null" >
+        UserName,
+      </if>
+      <if test="ip != null" >
+        IP,
+      </if>
+      <if test="frm != null" >
+        Frm,
+      </if>
+      <if test="objtag != null" >
+        ObjTag,
+      </if>
+      <if test="step != null" >
+        Step,
+      </if>
+      <if test="type != null" >
+        Type,
+      </if>
+      <if test="browser != null" >
+        Browser,
+      </if>
+      <if test="createtime != null" >
+        CreateTime,
+      </if>
+      <if test="recordtime != null" >
+        RecordTime,
+      </if>
+      <if test="sysinfo != null" >
+        SysInfo,
+      </if>
+      <if test="website != null" >
+        WebSite,
+      </if>
+      <if test="device != null" >
+        Device,
+      </if>
+      <if test="version != null" >
+        Version,
+      </if>
+      <if test="relationid != null" >
+        RelationId,
+      </if>
+      <if test="province != null" >
+        Province,
+      </if>
+      <if test="city != null" >
+        City,
+      </if>
+      <if test="country != null" >
+        Country,
+      </if>
+      <if test="mac != null" >
+        Mac,
+      </if>
+      <if test="oncetag != null" >
+        OnceTag,
+      </if>
+      <if test="isnew != null" >
+        IsNew,
+      </if>
+      <if test="iscount != null" >
+        IsCount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="keyname != null" >
+        #{keyname,jdbcType=VARCHAR},
+      </if>
+      <if test="tablename != null" >
+        #{tablename,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="frm != null" >
+        #{frm,jdbcType=VARCHAR},
+      </if>
+      <if test="objtag != null" >
+        #{objtag,jdbcType=VARCHAR},
+      </if>
+      <if test="step != null" >
+        #{step,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="browser != null" >
+        #{browser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recordtime != null" >
+        #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysinfo != null" >
+        #{sysinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="website != null" >
+        #{website,jdbcType=VARCHAR},
+      </if>
+      <if test="device != null" >
+        #{device,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="relationid != null" >
+        #{relationid,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null" >
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="mac != null" >
+        #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="oncetag != null" >
+        #{oncetag,jdbcType=VARCHAR},
+      </if>
+      <if test="isnew != null" >
+        #{isnew,jdbcType=BIT},
+      </if>
+      <if test="iscount != null" >
+        #{iscount,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.ActionrecordsExample" resultType="java.lang.Integer" >
+    select count(*) from actionrecords
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update actionrecords
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.keyname != null" >
+        KeyName = #{record.keyname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tablename != null" >
+        TableName = #{record.tablename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userid != null" >
+        UserID = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.username != null" >
+        UserName = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ip != null" >
+        IP = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.frm != null" >
+        Frm = #{record.frm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.objtag != null" >
+        ObjTag = #{record.objtag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.step != null" >
+        Step = #{record.step,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        Type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.browser != null" >
+        Browser = #{record.browser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.recordtime != null" >
+        RecordTime = #{record.recordtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sysinfo != null" >
+        SysInfo = #{record.sysinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.website != null" >
+        WebSite = #{record.website,jdbcType=VARCHAR},
+      </if>
+      <if test="record.device != null" >
+        Device = #{record.device,jdbcType=VARCHAR},
+      </if>
+      <if test="record.version != null" >
+        Version = #{record.version,jdbcType=VARCHAR},
+      </if>
+      <if test="record.relationid != null" >
+        RelationId = #{record.relationid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.province != null" >
+        Province = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null" >
+        City = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.country != null" >
+        Country = #{record.country,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mac != null" >
+        Mac = #{record.mac,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oncetag != null" >
+        OnceTag = #{record.oncetag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isnew != null" >
+        IsNew = #{record.isnew,jdbcType=BIT},
+      </if>
+      <if test="record.iscount != null" >
+        IsCount = #{record.iscount,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update actionrecords
+    set ID = #{record.id,jdbcType=INTEGER},
+      KeyName = #{record.keyname,jdbcType=VARCHAR},
+      TableName = #{record.tablename,jdbcType=VARCHAR},
+      UserID = #{record.userid,jdbcType=INTEGER},
+      UserName = #{record.username,jdbcType=VARCHAR},
+      IP = #{record.ip,jdbcType=VARCHAR},
+      Frm = #{record.frm,jdbcType=VARCHAR},
+      ObjTag = #{record.objtag,jdbcType=VARCHAR},
+      Step = #{record.step,jdbcType=INTEGER},
+      Type = #{record.type,jdbcType=INTEGER},
+      Browser = #{record.browser,jdbcType=VARCHAR},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      RecordTime = #{record.recordtime,jdbcType=TIMESTAMP},
+      SysInfo = #{record.sysinfo,jdbcType=VARCHAR},
+      WebSite = #{record.website,jdbcType=VARCHAR},
+      Device = #{record.device,jdbcType=VARCHAR},
+      Version = #{record.version,jdbcType=VARCHAR},
+      RelationId = #{record.relationid,jdbcType=VARCHAR},
+      Province = #{record.province,jdbcType=VARCHAR},
+      City = #{record.city,jdbcType=VARCHAR},
+      Country = #{record.country,jdbcType=VARCHAR},
+      Mac = #{record.mac,jdbcType=VARCHAR},
+      OnceTag = #{record.oncetag,jdbcType=VARCHAR},
+      IsNew = #{record.isnew,jdbcType=BIT},
+      IsCount = #{record.iscount,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Actionrecords" >
+    update actionrecords
+    <set >
+      <if test="keyname != null" >
+        KeyName = #{keyname,jdbcType=VARCHAR},
+      </if>
+      <if test="tablename != null" >
+        TableName = #{tablename,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null" >
+        UserID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        UserName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="frm != null" >
+        Frm = #{frm,jdbcType=VARCHAR},
+      </if>
+      <if test="objtag != null" >
+        ObjTag = #{objtag,jdbcType=VARCHAR},
+      </if>
+      <if test="step != null" >
+        Step = #{step,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        Type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="browser != null" >
+        Browser = #{browser,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recordtime != null" >
+        RecordTime = #{recordtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sysinfo != null" >
+        SysInfo = #{sysinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="website != null" >
+        WebSite = #{website,jdbcType=VARCHAR},
+      </if>
+      <if test="device != null" >
+        Device = #{device,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        Version = #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="relationid != null" >
+        RelationId = #{relationid,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        Province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        City = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null" >
+        Country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="mac != null" >
+        Mac = #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="oncetag != null" >
+        OnceTag = #{oncetag,jdbcType=VARCHAR},
+      </if>
+      <if test="isnew != null" >
+        IsNew = #{isnew,jdbcType=BIT},
+      </if>
+      <if test="iscount != null" >
+        IsCount = #{iscount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Actionrecords" >
+    update actionrecords
+    set KeyName = #{keyname,jdbcType=VARCHAR},
+      TableName = #{tablename,jdbcType=VARCHAR},
+      UserID = #{userid,jdbcType=INTEGER},
+      UserName = #{username,jdbcType=VARCHAR},
+      IP = #{ip,jdbcType=VARCHAR},
+      Frm = #{frm,jdbcType=VARCHAR},
+      ObjTag = #{objtag,jdbcType=VARCHAR},
+      Step = #{step,jdbcType=INTEGER},
+      Type = #{type,jdbcType=INTEGER},
+      Browser = #{browser,jdbcType=VARCHAR},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      RecordTime = #{recordtime,jdbcType=TIMESTAMP},
+      SysInfo = #{sysinfo,jdbcType=VARCHAR},
+      WebSite = #{website,jdbcType=VARCHAR},
+      Device = #{device,jdbcType=VARCHAR},
+      Version = #{version,jdbcType=VARCHAR},
+      RelationId = #{relationid,jdbcType=VARCHAR},
+      Province = #{province,jdbcType=VARCHAR},
+      City = #{city,jdbcType=VARCHAR},
+      Country = #{country,jdbcType=VARCHAR},
+      Mac = #{mac,jdbcType=VARCHAR},
+      OnceTag = #{oncetag,jdbcType=VARCHAR},
+      IsNew = #{isnew,jdbcType=BIT},
+      IsCount = #{iscount,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

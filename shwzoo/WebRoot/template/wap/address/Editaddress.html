@@ -1,0 +1,77 @@
+<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>编辑收货地址</title>
+<script src="${path}/wap/js/address/ReceiverAddres.js"></script>
+<script type="text/javascript" src="${path}/wap/js/login.js"></script>
+</head>
+<body>
+<div class="top_title fix">
+         <a  href="/wap/receiveraddress/selectAddrByUserId?ch=3&href=${href!''}">
+		<div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div>
+		</a>
+		编辑收货地址
+	</div>
+<input type="hidden" id="h_province" value="${addresss.provincecode}" data="${addresss.provincename}">
+<ul class="Eidvua-dizhi">
+	<li><span>收货人姓名</span><input id="name" type="text" value="${addresss.name}"></input></li>
+    <li><span>手机号码</span><input id="mobile" type="text" value="${addresss.mobile}"></input></li>
+    <li><span>收货地址</span>
+    	<div>
+        	<select class="yselect" id="province"  value="${addresss.id}" yplaceholder=" " yplaceholder-opacity="0.6">
+        	<%for(pro in plist){%>
+        	   <%if(pro.code==addresss.provincecode){ %>
+            	<option value="${addresss.provincecode}" selected="selected">${addresss.provincename}</option>
+               <%}else{%>
+               <option value="${pro.code}">${pro.name}</option>
+               <%}%>
+            <%}%>
+            </select>
+        </div>
+        <div>
+        	<select class="yselect" yplaceholder=" " id="city"  yplaceholder-opacity="0.6">
+        	 <%for(city in clist){%>
+        	    <%if(city.code==addresss.citycode){%>
+            	<option value="${addresss.citycode}" selected="selected">${addresss.cityname}</option>
+            	<%}else{%>
+            	<option value="${city.code}">${city.name}</option>
+            	<%}%>
+             <%}%>
+            </select>
+        </div>
+        <div>
+        	<select class="yselect" yplaceholder=" " id="area" yplaceholder-opacity="0.6">
+        	<%for(area in alist){%>
+        	<%if(area.code==addresss.areacode){%>
+            	<option value="${addresss.areacode}" selected="selected">${addresss.areaname}</option>
+            <%}else{%>
+            <option value="${area.code}">${area.name}</option>
+            <%}%>
+            <%}%>
+            </select>
+        </div>
+    </li>
+    <li><span>详细地址</span><textarea id="address" value="${addresss.address}">${addresss.address}</textarea></li>
+</ul>
+<div class="Eidvua-backdiv">
+<%if(addresss.isdefault==1){%>
+<input id="moren" type="checkbox" checked="checked">设为默认
+<%}else{%>
+<input id="moren" type="checkbox">设为默认
+<%}%>
+</div>
+<input class="Eidvuafrbtn" type="button" onclick="Save();" value="保存">
+<div class="clear"></div>
+<script type="text/javascript">
+function Save(){
+	 if(login.isLogin()){ 
+		 var href='${href!''}';
+	receiveraddresss.updateaddress(href);
+	}else{
+		window.loaction.href="/wap/user/showlogin";
+	}
+}
+</script>
+</body>

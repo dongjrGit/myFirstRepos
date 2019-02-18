@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Expires" content="-1">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<title>发现</title>
+<link rel="stylesheet" href="/resource/wap/css/greenLife.css" />
+<script type="text/javascript" src="/resource/jquery-1.9.1.min.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/greenLife.js" ></script>
+<script type="text/javascript">
+var mark="${mark}";
+var token="${token}";
+/**
+返回页面
+*/
+function returnhref(){
+	if(mark==1){
+	location.href="/wap/find/findindex.html";
+	}
+	if(mark==2){
+	location.href="/wap/find/lszglsgs.html";
+	}
+	if(mark==3){
+	location.href="/wap/find/findzlzq.html";
+	}
+	if(mark==4||mark==6){
+	location.href="/wap/zlwd/index.html";
+	}
+	if(mark==5){
+		location.href="/wap/zlwd/cpdqList.html?token="+token;
+	}
+}
+</script>
+</head>
+<body>
+<!--septop begin-->
+<div class="septop rowreturn ${(mark==1||mark==4||mark==5||mark==6)?'fixed':''}${mark==2?'bjwhite bjhs':''}${mark==3?'bjwhite bjhs':''}"><!--  蓝色fixed-->
+	<span class="bigsize">
+		${mark==1?'中绿资讯-详情':''}
+		${mark==2?'绿色故事-详情':''}
+		${mark==3?'中绿专区-详情':''}
+		${mark==4?'专家讲堂-详情':''}
+		${mark==5?'菜谱大全-详情':''}
+		${mark==6?'厨房百科-详情':''}
+    </span>
+	<div id="rowreturn" onclick="returnhref()"></div>
+</div>
+<div class="sep-article fix">
+	<h3>${vo.title}</h3>
+	<div class="sep-articletime">${vo.createtime,dateFormat="yyyy-MM-dd mm:ss:hh"}</div>
+	${vo.content}
+	</div>
+<script>
+$(function(){
+	var mark=${mark};
+	if(mark==1||mark==4||mark==5||mark==6){
+		fixed('.septop');
+	}	
+})
+</script>
+</body>
+</html>

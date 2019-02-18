@@ -1,0 +1,197 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>关注店铺列表</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link rel="stylesheet" href="/css/public.css" type="text/css" media="screen">
+<link rel="stylesheet" href="/css/index.css" type="text/css" media="screen">
+<link rel="stylesheet" href="/css/iscroll.css" type="text/css" media="screen">
+<script src="/js/jquery.js"></script>
+<script src="/js/public.js"></script>
+<script src="/js/iscroll.js"></script>
+<script src="/js/artTemplate.js"></script>
+<script src="/js/concernShop.js"></script>
+</head>
+
+<body>
+<!--container  begin-->
+    <div class="container fix">
+        <!--l_gzdptop  begin -->
+        <div class="l_gzdptop fix">
+            <span class="l_gzdptop01"><img src="images/grzx4.png" class="img-responsive"></span>
+            <span class="l_dpsmwz borleft"><a onclick="changetype(this,0);" id="prode" data-type="1">商品</a></span><span class="l_dpsmwz borright active"><a  onclick="changetype(this,1);" id="prode" data-type="2">店铺</a></span>
+            <span class="l_gzdptop02"><img src="images/fx02.png" class="img-responsive"></span>
+            <script>
+                var aheight = $(".l_gzdptop").height();
+                $(".l_dpsmwz").css({ "height": aheight + "px", "line-height": aheight + "px" });
+            </script>
+        </div>
+        <!--l_gzdptop  stop -->
+        <!--l_sxtjcon  begin -->
+        <div class="l_sxtjcon">
+            <ul class="fix">
+                <li class="active" style="cursor:pointer" data-id="1" id="defualt">默认</li>
+                <li style="cursor:pointer" data-id="2"><a href="#">降价优先</a></li>
+                <li style="cursor:pointer" data-id="3" id="promotion">促销优先</li>
+                <li style="cursor:pointer" data-id="4"><a href="#">库存优先</a></li>
+                <!--<li><a href="#"id="shuaixuan">筛选</a><span><img src="/images/row03.png" class="img-responsive"></span></li>-->
+            </ul>
+        </div>
+        <!--l_sxtjcon  stop -->
+        <div class="l_dpqjdmk" id="concernshophuoqu">
+            <div id="shuaxin">
+                <div id="wrapper">
+                    <div id="scroller-content">
+                        <div id="scroller-pullDown">
+                            <span id="down-icon" class="icon-double-angle-down pull-down-icon"></span>
+                            <span id="pullDown-msg" class="pull-down-msg">下拉刷新</span>
+                        </div>
+                        <ul id="list"></ul>
+                        <!--<div id="scroller-pullUp">
+                    <span id="up-icon" class="icon-double-angle-up pull-up-icon"></span>
+                    <span id="pullUp-msg" class="pull-up-msg">上拉刷新</span>
+                </div>-->
+                    </div>
+                </div>
+
+            </div>
+            <script type="text/html" id="concernshop">
+                {{each list as li i}}
+                <!--l_dpqjdmk  begin -->
+                <div class="l_dpqjdmk">
+                    <div class="l_dpqjdmktop fix">
+                        <div class="l_qjdtpl"><img src="{{li.ShopImgUrl}}" class="img-responsive"></div>
+                        <div class="l_qjdtpr">
+                            <p>{{li.ShopName}}</p>
+                            <p class="huise">{{li.ConcernCount}}人关注</p>
+                        </div>
+                    </div><!--l_dpqjdmktop  stop -->
+                    <ul class="fix">
+                        {{each list.ShopPros as shop li}}
+                        <li><a href="#"><img src="{{shop.SpuImg}}" class="img-responsive"></a></li>
+                        <!--<li><a href="#"><img src="/images/tp30.png" class="img-responsive"></a></li>
+                        <li><a href="#"><img src="/images/tp30.png" class="img-responsive"></a></li>
+                        <li><a href="#"><img src="/images/tp30.png" class="img-responsive"></a></li>-->
+                        {{/each}}
+                    </ul>
+                    <div class="l_dtbot">7条动态<span><img src="/images/row04.png" class="img-responsive"></span></div>
+                </div>
+                {{/each}}
+            </script>
+            <!--l_dpqjdmk  stop -->
+        <div class="l_mslist" id="concernpro">
+            <div id="shuaxin">
+                <div id="wrapper">
+                    <div id="scroller-content">
+                        <div id="scroller-pullDown">
+                            <span id="down-icon" class="icon-double-angle-down pull-down-icon"></span>
+                            <span id="pullDown-msg" class="pull-down-msg">下拉刷新</span>
+                        </div>
+                        <ul id="list"></ul>
+                        <!--<div id="scroller-pullUp">
+                    <span id="up-icon" class="icon-double-angle-up pull-up-icon"></span>
+                    <span id="pullUp-msg" class="pull-up-msg">上拉刷新</span>
+                </div>-->
+                    </div>
+                </div>
+
+            </div>
+            <script type="text/html" id="concereprolist">
+                {{each list as concernpro li}}
+                <ul>
+                    <li class="fix">
+                        <div class="l_mslistleft"><a href="#"><img src="{{concernpro.ImgUrl_App}}" class="img-responsive" alt=""></a></div>
+                        <div class="l_mslistright">
+                            <div><a href="#">{{concernpro.Title}}</a></div>
+                            <div class="red">￥{{concernpro.AppPrice}}</div>
+                            <div class="l_jjtz"><a href="#">降价通知</a></div>
+                            <div class="l_xmmjhd"><span>满减</span>每满100.00元，减5.00元</div>
+                        </div><!--l_mslistright  stop -->
+                    </li>
+                </ul>
+                {{/each}}
+            </script>
+            </div>
+        </div>
+        <!--l_mslist  stop -->
+    </div>
+<!--container  stop -->
+<!--l_allhbj  begin -->
+<div class="l_allhbj" id="l_shuaixuan" style="display:none">
+	<!--l_sxcon  begin -->
+	<div class="l_sxcon">
+    	<!--l_alltop  begin -->
+        <div class="l_alltop fix">
+            <span><img src="/images/tp10.png" class="img-responsive l_maxwid"></span>
+            筛选
+        </div>
+        <!--l_alltop  stop -->
+        <!--l_sxcon02  begin -->
+        <div class="l_sxcon02 fix">
+            <div class="l_sxcon01 fix">
+                <span class="red">全部</span>
+                <div class="l_sxxzdz"><img src="/images/tp17.png" class="img-responsive l_maxwid"></div>
+                <span class="l_dpsxjs">4件</span>
+            </div><!--l_sxcon01  stop -->
+        </div>
+        <!--l_sxcon02  stop -->
+        <!--l_sxcon02  begin -->
+        <div class="l_sxcon02 fix">
+        	<div class="l_sxcon01 fix">
+                <span>有货</span>
+                <div class="l_switch"><img src="/images/on.png" class="img-responsive r_imgzh"></div>
+                <script>
+				$(".r_imgzh").click(function(){
+					if($(this).attr("src")=="images/off.png"){
+						$(this).attr("src","images/on.png");
+					}
+					else{
+						$(this).attr("src","images/off.png");
+					}	
+				})
+				</script>
+            </div><!--l_sxcon01  stop -->
+            <div class="l_sxcon01 fix">
+                <span>电子产品</span>
+                <span class="l_dpsxjs">2件</span>
+            </div><!--l_sxcon01  stop -->
+            <div class="l_sxcon01 fix">
+                <span>女包</span>
+                <span class="l_dpsxjs">2件</span>
+            </div><!--l_sxcon01  stop -->
+        </div>
+        <!--l_sxcon02  stop -->
+        <div class="l_qklsjl"><a href="#">清除选项</a></div>    
+    </div>
+    <!--l_sxcon  stop -->
+</div>
+<!--l_allhbj  stop -->
+<script>
+	var aheight=window.screen.height;
+	var hheight=document.body.clientHeight;
+	if(aheight>=hheight){
+		oheight=aheight
+	}else{
+		oheight=hheight
+	}
+	$(".l_allhbj").css("height",oheight+"px");
+</script>
+</body>
+</html>
+<script>
+        //改变评论类型
+        function changetype(obj,type) {
+            if (type == 1) {
+                concernShop.getconsernshoplist(GetQueryStringByName("page"),true);
+                $("#prode").removeClass("active");
+                $(obj).addClass("active");
+            } else {
+                concernShop.getconcedrnprolist(GetQueryStringByName("page"), "",true);
+                $("#prode").removeClass("active");
+                $(obj).addClass("active");
+            }
+        }
+</script>

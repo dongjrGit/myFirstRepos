@@ -1,0 +1,25 @@
+﻿/****************************
+CSS Code for lTREEMenu
+Version: Ver2.0.1
+Author : CNLei, 枫岩
+E-Mail : CNLei.Y.L@Gmail.com
+MySite : http://www.cnlei.com
+Passed : IE6.0+, FF1.0+, Opera8.5+, Safari 3.0+
+Update : 2008-5-19
+****************************/
+
+
+/*lTREEMenu Start*/
+#TopDL {padding:0;margin:0 0 0 0px;clear:both;}
+#TreeHeader {}
+.lTREEMenu dl {padding:0;margin:3px 0 0 17px;clear:both;}
+.lTREEMenu dd {padding:0;margin:0px;list-style:none;clear:both; line-height:18px;}
+.lTREEMenu dd button {width:15px;height:16px;overflow:hidden;cursor:pointer;vertical-align:middle;border:none; background:url(../images/tree/folder-opened.gif) no-repeat 3px 1px;}
+.lTREEMenu dd.folderClose dl {display:none;}
+.lTREEMenu dd.folderClose button {background-image:url(../images/tree/folder-closed.gif);}
+.lTREEMenu dd {background:url(../images/tree/elbow-line.gif) repeat-y 0 0;}
+.lTREEMenu dd.lastChild {background:url(../images/tree/folder-last.gif) no-repeat 0 0;}
+.lTREEMenu dt {cursor:pointer; padding:2px 0 0 19px;background:url(../images/tree/leaf-normal.gif) no-repeat 0 0;line-height:18px;}
+.lTREEMenu dt.lastChild {background:url(../images/tree/leaf-last.gif) no-repeat 0 0;}
+/*lTREEMenu End*/
+#lTREEMenuDEMO #TopDL .folderClose{ line-height:20px;}

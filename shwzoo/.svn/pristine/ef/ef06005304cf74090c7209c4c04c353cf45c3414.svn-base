@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.PointrecordsMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Pointrecords" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="UserID" property="userid" jdbcType="INTEGER" />
+    <result column="Points" property="points" jdbcType="INTEGER" />
+    <result column="TradeType" property="tradetype" jdbcType="INTEGER" />
+    <result column="BeforePoints" property="beforepoints" jdbcType="INTEGER" />
+    <result column="TradeTime" property="tradetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yinlian.wssc.web.po.Pointrecords" extends="BaseResultMap" >
+    <result column="Description" property="description" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, UserID, Points, TradeType, BeforePoints, TradeTime
+  </sql>
+  <sql id="Blob_Column_List" >
+    Description
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.yinlian.wssc.web.po.PointrecordsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from pointrecords
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.PointrecordsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pointrecords
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from pointrecords
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pointrecords
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.PointrecordsExample" >
+    delete from pointrecords
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Pointrecords" >
+    insert into pointrecords (ID, UserID, Points, 
+      TradeType, BeforePoints, TradeTime, 
+      Description)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{points,jdbcType=INTEGER}, 
+      #{tradetype,jdbcType=INTEGER}, #{beforepoints,jdbcType=INTEGER}, #{tradetime,jdbcType=TIMESTAMP}, 
+      #{description,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Pointrecords" >
+    insert into pointrecords
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userid != null" >
+        UserID,
+      </if>
+      <if test="points != null" >
+        Points,
+      </if>
+      <if test="tradetype != null" >
+        TradeType,
+      </if>
+      <if test="beforepoints != null" >
+        BeforePoints,
+      </if>
+      <if test="tradetime != null" >
+        TradeTime,
+      </if>
+      <if test="description != null" >
+        Description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="points != null" >
+        #{points,jdbcType=INTEGER},
+      </if>
+      <if test="tradetype != null" >
+        #{tradetype,jdbcType=INTEGER},
+      </if>
+      <if test="beforepoints != null" >
+        #{beforepoints,jdbcType=INTEGER},
+      </if>
+      <if test="tradetime != null" >
+        #{tradetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.PointrecordsExample" resultType="java.lang.Integer" >
+    select count(*) from pointrecords
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update pointrecords
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userid != null" >
+        UserID = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.points != null" >
+        Points = #{record.points,jdbcType=INTEGER},
+      </if>
+      <if test="record.tradetype != null" >
+        TradeType = #{record.tradetype,jdbcType=INTEGER},
+      </if>
+      <if test="record.beforepoints != null" >
+        BeforePoints = #{record.beforepoints,jdbcType=INTEGER},
+      </if>
+      <if test="record.tradetime != null" >
+        TradeTime = #{record.tradetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.description != null" >
+        Description = #{record.description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update pointrecords
+    set ID = #{record.id,jdbcType=INTEGER},
+      UserID = #{record.userid,jdbcType=INTEGER},
+      Points = #{record.points,jdbcType=INTEGER},
+      TradeType = #{record.tradetype,jdbcType=INTEGER},
+      BeforePoints = #{record.beforepoints,jdbcType=INTEGER},
+      TradeTime = #{record.tradetime,jdbcType=TIMESTAMP},
+      Description = #{record.description,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update pointrecords
+    set ID = #{record.id,jdbcType=INTEGER},
+      UserID = #{record.userid,jdbcType=INTEGER},
+      Points = #{record.points,jdbcType=INTEGER},
+      TradeType = #{record.tradetype,jdbcType=INTEGER},
+      BeforePoints = #{record.beforepoints,jdbcType=INTEGER},
+      TradeTime = #{record.tradetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Pointrecords" >
+    update pointrecords
+    <set >
+      <if test="userid != null" >
+        UserID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="points != null" >
+        Points = #{points,jdbcType=INTEGER},
+      </if>
+      <if test="tradetype != null" >
+        TradeType = #{tradetype,jdbcType=INTEGER},
+      </if>
+      <if test="beforepoints != null" >
+        BeforePoints = #{beforepoints,jdbcType=INTEGER},
+      </if>
+      <if test="tradetime != null" >
+        TradeTime = #{tradetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null" >
+        Description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yinlian.wssc.web.po.Pointrecords" >
+    update pointrecords
+    set UserID = #{userid,jdbcType=INTEGER},
+      Points = #{points,jdbcType=INTEGER},
+      TradeType = #{tradetype,jdbcType=INTEGER},
+      BeforePoints = #{beforepoints,jdbcType=INTEGER},
+      TradeTime = #{tradetime,jdbcType=TIMESTAMP},
+      Description = #{description,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Pointrecords" >
+    update pointrecords
+    set UserID = #{userid,jdbcType=INTEGER},
+      Points = #{points,jdbcType=INTEGER},
+      TradeType = #{tradetype,jdbcType=INTEGER},
+      BeforePoints = #{beforepoints,jdbcType=INTEGER},
+      TradeTime = #{tradetime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+   <resultMap id="BaseResultMapss" type="com.yinlian.pc.dto.PcPointsDto" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="UserID" property="userid" jdbcType="INTEGER" />
+    <result column="Points" property="points" jdbcType="INTEGER" />
+    <result column="Type" property="type" jdbcType="INTEGER" />
+     <result column="FromType" property="fromtype" jdbcType="INTEGER" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_Listss" >
+    ID, UserID, Points, Type,FromType, CreateTime
+  </sql>
+  <select id="selectByUserid" resultMap="BaseResultMapss" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_Listss" />
+    
+    from pointsrecords
+    where UserID = #{userid,jdbcType=INTEGER}
+  </select>
+  <select id="selectByType" resultMap="BaseResultMapss" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_Listss" />
+    
+    from pointsrecords
+    where UserID = #{0} and Type=#{1} 
+   
+  </select>
+  <select id="selectByTime" resultMap="BaseResultMapss"  >
+    select 
+    <include refid="Base_Column_Listss" />
+    from pointsrecords
+    where UserID = #{0} and CreateTime between #{1} and #{2}
+  </select>
+  
+   <select id="selectByTimes" resultMap="BaseResultMapss" >
+    select 
+    <include refid="Base_Column_Listss" />
+    from pointsrecords
+    where UserID = #{0} 
+    <![CDATA[ and CreateTime < #{1} ]]> 
+
+  </select>
+  
+</mapper>

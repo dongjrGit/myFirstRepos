@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>帮助中心</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link rel="shortcut icon" type="image/x-icon" href="/resource/pc/member/images/favicon_shortcut.ico" />
+<link type="text/css" rel="stylesheet" href="/resource/pc/member/css/common.css">
+<link type="text/css" rel="stylesheet" href="/resource/pc/member/css/top-footer.css">
+<link type="text/css" rel="stylesheet" href="/resource/pc/web/css/helpCenter.css">
+<script type="text/javascript" src="/resource/pc/member/js/index.js"></script>
+</head>
+<body>
+<!--hp_rdwt  begin -->
+<div class="hp_rdwt fix mt20">
+	<div class="w1200 fix">
+    	<!--hp_cjwtleft  begin -->
+    	<div class="hp_cjwtleft">
+    		<% if(isNotEmpty(zvo.name)) {%>
+    			<h3>${zvo.name}</h3>
+    		<%}else{%>
+        		<h3>帮助中心</h3>
+        	<%}%>
+            <ul>
+            <%for(nclift in navlist){%>
+            		<li><a href="/web/help/list.html?classid=${nclift.id}">${nclift.name}</a></li>
+            <%}%>
+            </ul> 
+        </div>
+        <!--hp_cjwtleft  stop -->
+        <!--hp_cjwtright   begin -->
+        <div class="hp_cjwtright">
+        	<div class="hp_lbxqytop"><a href="javascript:void(0)">帮助中心</a><span>&gt;</span>
+        	<% if(isNotEmpty(fvo.name)) {%>
+        	<a href="/web/help/list.html?classid=${fvo.id}">${fvo.name}</a><span>&gt;</span><a href="javascript:void(0)">${zvo.name}</a>
+             <%}%>
+             </div>
+            <div class="hP_lbxqyall">
+            <%for(ns in news){%>
+            	<div class="hp_xqytitle">${ns.title}</div>
+            	${ns.content}
+            <%}%>
+            </div>
+            <!--hP_lbxqyall  stop -->
+        </div>
+        <!--hp_cjwtright   stop -->
+    </div>
+</div>
+</body>
+</html>

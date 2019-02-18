@@ -1,0 +1,90 @@
+<%var path="/resource";%>
+<head>
+    <title>商城-商品组合</title>
+    <script type="text/javascript" src="${path}/wap/js/index.js" ></script>
+    <style type="text/css">
+    .pro-toprad{ background: #EFEFEF; padding: 3%;}
+    .pro-toprad input{ vertical-align: middle; margin-right: 3%;}
+    </style>
+    <script type="text/javascript">
+    function procz(obj) {
+		var price=$(obj).attr("price");
+		$("#pricetc").html(price);
+	}
+    </script>
+</head>
+<body>
+	<!--top_title  begin-->
+	<div class="top_title fix">	    
+		<div class="top_return">
+		<a href="/wap/products/ProDetail.html?skuid=${skuid}">
+			<img src="${path}/wap/images/top_return.png"/>
+		</a>
+		</div>
+		
+		商品组合
+	</div>
+	<!--top_title  stop-->
+	<!--productlistcon  begin-->
+	<div class="productlistcon fix">
+	<%var pkcon=1; 
+	 for(gp in pklist){
+	%>
+	<div>
+	    <%if(pkcon==1){%>
+		<div class="pro-toprad"><input type="radio" name="groups" checked="checked" onclick="procz(this)" price="￥${gp.skuPackPrice}" value="${gp.packageID}" />商品组合${pkcon}</div>
+		<%}else{%>
+		<div class="pro-toprad"><input type="radio" name="groups" id="" onclick="procz(this)" price="￥${gp.skuPackPrice}" value="${gp.packageID}" />商品组合${pkcon}</div>
+		<%}%>
+	<ul>
+	  <%for(pro in gp.skus){%>
+		<li class="fix">
+			<a href="/wap/products/ProDetail.html?skuid=${pro.skuID}">
+				<div class="productlistcon_l">
+					<img src="${pro.imgUrl}" class="img-responsive"/>
+				</div>
+				<div class="productlistcon_r">
+					<h3>${pro.skuName}</h3>
+					<p></p>
+					<div class="productlistcon_r_bot fix">
+						<div class="floatr red">
+							x1<span class="dataprice" style="display: none;">${pro.SkuPackPrice}</span>
+						</div>
+					</div>
+				</div>
+			</a>
+		</li>
+	    <%}%>	
+	</ul>
+	</div>
+    <%pkcon++;}%>
+	</div>
+	<!--productlistcon  stop-->
+	<div class="productlistcon_tcjxm fix">
+		<div class="floatl">
+			套餐价：<span class="red" id="pricetc">￥${pklist[0].skuPackPrice}</span><span class="red"></span>
+		</div>
+		<div class="floatr">
+			
+		</div>
+	</div>
+	<!--footshopcart  begin-->
+	 <input id="h_spuid" type="hidden" value="${spuid}">
+    <input id="h_skuid" type="hidden" value="${skuid}">
+    <input id="h_shopid" type="hidden" value="${shopid!0}">
+    <input id="h_skiid" type="hidden" value="0">
+     <input id="h_stock" type="hidden" value="${pklist[0].count}">
+    <input id="h_ispk" type="hidden" value="1">
+	<% try{
+    include("/template/wap/products/pro_foot.html",{isconcern:isfavorites,shopid:shopid}){}}catch(error){}
+    %>    
+	<!--footshopcart  end-->
+<script>
+window.onload=function(){
+	goodslist('.productlistcon_l img');
+	fixed('.footshopcart');
+	fixedbot('.footshopcart','.productlistcon_tcjxm');
+}	
+</script>
+
+</body>

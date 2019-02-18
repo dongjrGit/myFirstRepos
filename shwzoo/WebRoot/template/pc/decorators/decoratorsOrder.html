@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="shortcut icon" href="/resource/pc/web/images/favicon_shortcut.ico" />
+<title><sitemesh:write property='title' /></title>
+ <link href="/resource/pc/web/css/top-footer.css" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="/resource/pc/web/css/common.css">
+<link href="/resource/pc/web/css/top-footer.css" rel="stylesheet" />
+    <link type="text/css" rel="stylesheet" href="/resource/pc/web/css/style01.css">
+    <script type="text/javascript" src="/resource/jquery-1.9.1.min.js"></script>
+    <script language="javascript" type="text/javascript" src="/resource/pc/web/js/index.js"></script>
+   <script type="text/javascript" src="/resource/cookie.js"></script>
+<sitemesh:write property='head' />
+</head>
+<body>
+   <div>
+        <!--top  begin -->
+        <div id="top" class="fix">
+                <span>
+                    Hi，zhang！
+                </span>
+                <span class="red">
+                    <a href="javascript:void(0);" class="ulogin_click">退出</a>
+                </span>
+            <div class="topright">
+                <a href="http://192.168.1.53:8086/Member/DdZx/OrderList">我的订单</a>
+                <span>|</span>
+                <a href="javascript:void(0);">支付帮助</a>
+                <span>|</span>
+                <a href="javascript:void(0);">问题反馈</a>
+            </div>
+        </div>
+        <!--top  stop -->
+        <!--banner  begin -->
+        <div id="banner" class="fix">
+            <div class="bancon">
+                <img src="/resource/pc/web/images/logo.png" alt="中绿logo" width="211" height="47">收银台
+            </div>
+        </div>
+        <!--banner  stop -->
+    </div>
+    
+    <sitemesh:write property='body' />
+</body>
+</html>

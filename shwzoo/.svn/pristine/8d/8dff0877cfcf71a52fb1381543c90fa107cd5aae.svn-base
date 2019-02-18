@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<title>中绿味道-厨房百科</title>
+
+</head>
+<body class="bodybjhs">
+<% try{
+		include("/template/pc/nav/zlzq_nav.html",{flag:4}){}}catch(error){}%>
+<!--container 中间所有内容开始-->
+<div id="container" class="fix">
+	<div class="l_pos fon14">
+  	<span class="fon14"><a href="/zlzx/zlwd.html">中绿味道 </a></span>
+    <span class="l_jtyb">&gt;</span>
+           厨房百科
+	</div>
+	<div class="xzzlwd-tit fix mt20">
+		<span class="fon22">厨房百科</span>
+		<p><i></i></p>
+	</div>
+	<ul class="zlwd-cfbkul mt20" id="cfbk_ul">
+		<script type="text/html" id="cfbk_list">
+			{{each list as news i}}
+                <li>
+					<img src="{{news.imgurl}}">
+					<div class="zlwd-cfbkyb">
+						<h3>{{news.title}}</a></h3>
+						<p class="fon14">{{news.tabloid}}</p>
+						<p class="orange mt30"><a href="/zlzx/newsinfo.html?cid={{news.id}}&&title=中绿味道&&url=/zlzx/zlwd.html">了解详情&gt;</a></p>						
+					</div>
+                </li>
+            {{/each}}
+        </script>
+	</ul>
+	<!--page  分页开始 -->
+    <div id="pager" class="page"></div>
+    <!--page  分页结束 -->
+	<!--zjjtulnr stop-->
+</div>
+<!--container 中间所有内容结束-->
+<!--footer  底部开始 -->
+<!--footer  底部结束 -->
+<script type="text/javascript">
+	var pindex = 1,psize=8;
+	var pcount;
+	var CFBK = {
+		getlist : function(index) {
+			$.ajax({
+				url : "/zlnews/zlwd/getwdpagelist",
+				type : "Post",
+				data : {
+					"pageindex" : pindex,
+					"pagesize" : psize,
+					"ctype": 15
+				},
+				dataType : "json",
+				success : function(data) {
+					if (data.code < 0) {
+						alert(data.desc);
+					} else {
+						var listdata = {
+							list : data.data
+						}
+						var html = template('cfbk_list', listdata);
+						$("#cfbk_ul").html(html);
+
+						pcount = data.maxRow;
+						pindex = data.pageIndex;
+						// 分页
+						$("#pager").html(pagination(pcount, pindex, psize, "CFBK.getlist"));
+					}
+				},
+				error : function() {
+				}
+			});
+		}
+	}
+	$(document).ready(function(){
+		CFBK.getlist(1);
+	})
+</script>
+</body>
+</html>

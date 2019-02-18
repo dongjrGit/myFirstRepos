@@ -1,0 +1,11 @@
+REGION_CN_HANGZHOU=cn-hangzhou
+STS_API_VERSION=2015-04-01
+accessKeyId=LTAILT1HgXXzJcX9
+accessKeySecret=dltfornRraqcMwsdnf2FXag81ruqn8
+roleArn=acs\:ram\:\:1639410105066269\:role/mobileosstokenrole
+roleSessionName=shwzoo
+policy={  "Version"\: "1",  "Statement"\: [    {      "Effect"\: "Allow",      "Action"\: [        "oss\:PutObject",        "oss\:DeleteObject"      ],      "Resource"\: [        "acs\:oss\:*\:*\:zoo01",        "acs\:oss\:*\:*\:zoo01/*"      ]    }  ]}
+endpoint=http\://oss-cn-shanghai.aliyuncs.com
+bucketName=zoo01
+domainName=http\://st.ziyacloud.com
+#返回给前端的上传文件的地址信息

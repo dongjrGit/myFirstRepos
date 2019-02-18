@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.UsercapitalMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Usercapital" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="UserID" property="userid" jdbcType="INTEGER" />
+    <result column="Balance" property="balance" jdbcType="REAL" />
+    <result column="FreezeMoney" property="freezemoney" jdbcType="REAL" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+    <result column="Bond" property="bond" jdbcType="REAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, UserID, Balance, FreezeMoney, Status, Bond
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.UsercapitalExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from usercapital
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from usercapital
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from usercapital
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.UsercapitalExample" >
+    delete from usercapital
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Usercapital" >
+    insert into usercapital (ID, UserID, Balance, 
+      FreezeMoney, Status, Bond
+      )
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{balance,jdbcType=REAL}, 
+      #{freezemoney,jdbcType=REAL}, #{status,jdbcType=INTEGER}, #{bond,jdbcType=REAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Usercapital" >
+    insert into usercapital
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userid != null" >
+        UserID,
+      </if>
+      <if test="balance != null" >
+        Balance,
+      </if>
+      <if test="freezemoney != null" >
+        FreezeMoney,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+      <if test="bond != null" >
+        Bond,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=REAL},
+      </if>
+      <if test="freezemoney != null" >
+        #{freezemoney,jdbcType=REAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="bond != null" >
+        #{bond,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.UsercapitalExample" resultType="java.lang.Integer" >
+    select count(*) from usercapital
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update usercapital
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userid != null" >
+        UserID = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.balance != null" >
+        Balance = #{record.balance,jdbcType=REAL},
+      </if>
+      <if test="record.freezemoney != null" >
+        FreezeMoney = #{record.freezemoney,jdbcType=REAL},
+      </if>
+      <if test="record.status != null" >
+        Status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.bond != null" >
+        Bond = #{record.bond,jdbcType=REAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update usercapital
+    set ID = #{record.id,jdbcType=INTEGER},
+      UserID = #{record.userid,jdbcType=INTEGER},
+      Balance = #{record.balance,jdbcType=REAL},
+      FreezeMoney = #{record.freezemoney,jdbcType=REAL},
+      Status = #{record.status,jdbcType=INTEGER},
+      Bond = #{record.bond,jdbcType=REAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Usercapital" >
+    update usercapital
+    <set >
+      <if test="userid != null" >
+        UserID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="balance != null" >
+        Balance = #{balance,jdbcType=REAL},
+      </if>
+      <if test="freezemoney != null" >
+        FreezeMoney = #{freezemoney,jdbcType=REAL},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="bond != null" >
+        Bond = #{bond,jdbcType=REAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Usercapital" >
+    update usercapital
+    set UserID = #{userid,jdbcType=INTEGER},
+      Balance = #{balance,jdbcType=REAL},
+      FreezeMoney = #{freezemoney,jdbcType=REAL},
+      Status = #{status,jdbcType=INTEGER},
+      Bond = #{bond,jdbcType=REAL}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="getBalanceRowLockById" resultMap="BaseResultMap" >
+  select <include refid="Base_Column_List"></include>
+ from UserCapital rowlock  where Status=0 and UserID=#{0}
+  </select>
+  <!-- 修改账户冻结状态 -->
+  <update id="updateStatus" parameterType="java.lang.Integer">
+      update usercapital
+      set 
+      Status = #{1}
+      where ID = #{0} 
+  
+  </update>
+  
+  
+  <insert id="insertForPrinaryKey" parameterType="com.yinlian.wssc.web.po.Usercapital">
+  <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+			select LAST_INSERT_ID()
+		</selectKey>
+   insert into usercapital (ID, UserID, Balance, 
+      FreezeMoney, Status, Bond
+      )
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{balance,jdbcType=REAL}, 
+      #{freezemoney,jdbcType=REAL}, #{status,jdbcType=INTEGER}, #{bond,jdbcType=REAL}
+      )
+  </insert>
+</mapper>

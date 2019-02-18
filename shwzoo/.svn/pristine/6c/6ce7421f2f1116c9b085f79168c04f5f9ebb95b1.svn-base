@@ -1,0 +1,132 @@
+<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>信息列表</title>
+<script type="text/javascript" src="${path}/wap/js/login.js"></script>
+<script src="/resource/wap/js/userInfo/Message.js"></script>
+<style type="text/css">
+.weidu{
+width:10px;
+background-image: url("/resource/wap/images/hongdian.png");
+}
+
+</style>
+</head>
+<body>
+<div class="top_title fix">
+         <a  href="${href!'/wap/userinfo/homepage?ch=3'}">
+		<div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div>
+		</a>
+		信息列表
+	</div>
+<%if(!isEmpty(messages)){%>
+
+<ul class="message-list" id="message">
+    <%for(message in messages){%>
+    <li class="list-li" >
+		<div class="con" style="widows: 80px" onclick="javascript:window.location.href='/wap/messages/queryMessagesById?id=${message.id}&&ch=3'">
+			<img src="${path}/wap/images/index_32.png">			
+			<%if(message.status==1 || message.status==null){ %>
+            <img src="/resource/wap/images/hongdian.png" style="margin-left: -4;margin-top:12px;">
+            <%}%>
+			<h2><b>${message.title}</b><time>${message.sendtime,dateFormat="yyyy-MM-dd"}</time></h2>
+			<%if(strutil.length(message.content)>24){%>
+			${strutil.subStringTo(message.content,0,23)}...
+			<%}else{%>
+			 ${message.content}
+		    <%}%>
+		</div>
+		<div class="btn" value="${message.id}">删除</div>
+	</li>
+<%}%>
+</ul>
+<%}else{%>
+<div>您还没有消息</div>
+<%}%>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	$(".btn").click(function(){
+		if(login.isLogin()){			
+			var id =$(this).attr("value");
+			if(parseInt(id)>0)
+			Message.deletemessage(id);
+		}
+	
+	})
+
+})
+window.addEventListener('load',function(){
+		var initX;
+		var moveX;
+		var X = 0;
+		var objX = 0;
+		window.addEventListener('touchstart',function(event){
+			// event.preventDefault();
+			var obj = event.target.parentNode;
+			if(obj.className == "list-li"){
+				initX = event.targetTouches[0].pageX;
+				objX =(obj.style.WebkitTransform.replace(/translateX\(/g,"").replace(/px\)/g,""))*1;
+			}
+			if( objX == 0){
+				window.addEventListener('touchmove',function(event) {
+					// event.preventDefault();
+					var obj = event.target.parentNode;
+					if (obj.className == "list-li") {
+						moveX = event.targetTouches[0].pageX;
+						X = moveX - initX;
+						if (X > 0) {
+							obj.style.WebkitTransform = "translateX(" + 0 + "px)";
+						}
+						else if (X < 0) {
+							var l = Math.abs(X);
+							obj.style.WebkitTransform = "translateX(" + -l + "px)";
+							if(l>80){
+								l=80;
+								obj.style.WebkitTransform = "translateX(" + -l + "px)";
+							}
+						}
+					}
+				});
+			}
+			else if(objX<0){
+				window.addEventListener('touchmove',function(event) {
+					// event.preventDefault();
+					var obj = event.target.parentNode;
+					if (obj.className == "list-li") {
+						moveX = event.targetTouches[0].pageX;
+						X = moveX - initX;
+						if (X > 0) {
+							var r = -80 + Math.abs(X);
+							obj.style.WebkitTransform = "translateX(" + r + "px)";
+							if(r>0){
+								r=0;
+								obj.style.WebkitTransform = "translateX(" + r + "px)";
+							}
+						}
+						else {     //向左滑动
+							obj.style.WebkitTransform = "translateX(" + -80 + "px)";
+						}
+					}
+				});
+			}
+
+		})
+		window.addEventListener('touchend',function(event){
+			// event.preventDefault();
+			var obj = event.target.parentNode;
+			if(obj.className == "list-li"){
+				objX =(obj.style.WebkitTransform.replace(/translateX\(/g,"").replace(/px\)/g,""))*1;
+				if(objX>-40){
+					obj.style.WebkitTransform = "translateX(" + 0 + "px)";
+				}else{
+					obj.style.WebkitTransform = "translateX(" + -80 + "px)";
+				}
+			}
+		 })
+
+	})
+</script>
+</body>

@@ -1,0 +1,90 @@
+<%var path="/resource";%>
+<head>
+<meta charset="utf-8">
+<title>经开商城</title>
+
+<script src="${path}/wap/js/Yeffect16_0118.min.js"></script>
+<script src="${path}/wap/js/Yform.js"></script>
+
+
+<script type="text/javascript" src="/resource/artTemplate.js"></script>
+<script type="text/javascript" src="/resource/wap/js/wap-common.js"></script>
+<script type="text/javascript">
+  	$(function(){
+		 pageData={page:1,size:10,ch:3};
+		 pageUrl="/api/wap/qiang/getSpike";
+		 content="#miao";
+		initPage();
+	});
+</script>
+<style type="text/css">
+.pordctMain-list li span i.text-decthrough{ font-style: normal; font-size:60%;}
+</style>
+<style type="text/css">
+.snapup{ height: 0.7rem;background: #2C3844; line-height: 0.7rem;}
+.snapup ul li{ float: left;width: 50%; text-align: center;height: 0.7rem; font-size: 110%;position: relative;}
+.snapup ul li.active{ background: #FC353A;}
+.snapup ul li a{ color: #AAAAAB;}
+.snapup ul li.active a{ color: #fff;}
+.snapup ul li i{ display: inline-block;width: 0;height: 0;border-left: 8px solid transparent;border-right: 8px solid transparent;border-top: 8px solid transparent;position: absolute;left: 50%;top: 100%;z-index: 99999;margin-left: -8px;}
+.snapup ul li.active i{border-top-color: #FC353A;}
+.pordctMain-list li span i.floatr{ font-style: normal; font-size: 0.15rem;color: #AEAEAE; margin-right: 0.2rem;}
+.pordctMain-list li span i.floatr i{font-style: normal;color:#E88140; font-size: 0.2rem;}
+</style>
+<script type="text/javascript">
+</script>
+</head>
+<body>
+	<!--top_title  begin-->
+	<div class="top_title fix orangebj" onclick="javascirpt:location.href='/wap/index.html'">
+		<div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div>
+		秒杀活动
+	</div>
+
+
+	<!--top_title  stop-->
+
+
+
+<script>
+$(function(){
+	///banner	
+	Yeffect.mobileBanner(".fx-banner ul",".fx-banner ul li",".fx-banner p i","","","current",5000);
+	var fx_banner=$(".fx-banner");
+	Yeffect.resizeHtW(fx_banner,fx_banner,640,347);
+});
+</script>
+<!--banner***-->
+<hr class="back">
+<div  id="miao">
+
+</div>
+
+<script>
+$(function(){
+	Yeffect.resizeHtWstr(".pordctMain-list li",".pordctMain-list li a img",317,240);
+	
+})
+</script>
+<script type="text/html" id="pagehtml">
+{{each list as vo i}}
+<div class="qianggou-tile">
+<hr><b>优选秒杀</b><span>截止：<font id="jz">{{vo.enddate}}</font></span>
+</div>
+<ul class="pordctMain-list qianggou">
+{{each vo.productList as pro p}}
+<li>
+    	<a href="/wap/products/ProDetail.html?spuid={{pro.proid}}&type=2&spikcon={{pro.count}}">
+        	<img src="{{pro.img}}">
+            <b>{{pro.name}}</b>
+            <span>￥{{pro.price}}<i class="text-decthrough huise">￥{{pro.yPrice}}</i><i class="floatr">剩余<i>{{pro.count}}</i>件</i></span>
+        </a>
+    </li>
+{{/each}}
+</ul>
+{{/each}}
+</script>
+</body>
+

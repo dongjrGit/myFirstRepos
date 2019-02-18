@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration >
+  <classPathEntry location="E:/mysql-connector-java-5.1.40-bin.jar" />
+  <context id="context1" >
+     <jdbcConnection driverClass="com.mysql.jdbc.Driver" 
+    connectionURL="jdbc:mysql://192.168.1.105:3306/ylsc_zlsh?characterEncoding=utf-8" 
+    userId="root" password="mysql" />
+     <!--   po -->
+    <javaModelGenerator targetPackage="com.yinlian.wssc.web.po" 
+    targetProject="yl_currency_zlsh\src" >
+     <property name="enableSubPackages" value="true" />
+     <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+     <!--   xml -->
+    <sqlMapGenerator targetPackage="com.yinlian.wssc.web.mapper.xml" 
+    targetProject="yl_currency_zlsh\src">
+    <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+      <!--   mapper -->
+    <javaClientGenerator targetPackage="com.yinlian.wssc.web.mapper" 
+    targetProject="yl_currency_zlsh\src" type="XMLMAPPER">
+    <property name="enableSubPackages" value="true" />
+    </javaClientGenerator>
+    <!--   要导入的表名-->
+    <table schema="ylsc_zlsh" tableName="advertising" domainObjectName="Advertising" >
+    </table> 
+  </context>
+</generatorConfiguration>

@@ -1,0 +1,40 @@
+<%var path="/resource";%>
+<meta charset="utf-8">
+<%for (vo in pageData.data){%>
+  <div class="l_dpdtnr fix">
+    	<span class="l_dpdtime"><img src="${path}/wap/images/dpdtico.png" class="img-responsive"></span><span>15:00</span><span>1条动态</span>
+    </div>
+    <!--l_dpdtnr  stop -->
+    <!--l_ynfdpdt  begin -->
+    <div class="l_ynfdpdt fix">
+    	<div class="l_ynfdpdttop fix" onclick="javascript:location.href='/wap/shop/index.html?id=${vo.shopid}'">
+        	<div class="l_ynfdpdttop01" ><img src="${vo.ShopImg}" class="img-responsive"></div>
+            <div class="l_ynfdpdttop02">
+            	<p>${vo.shopName}</p>
+                <p class="huise">${vo.shopDescript}</p>
+            </div>
+           <!--  <div class="l_ynfdpdttop03">
+            	${vo.count}个上新 
+            </div> -->
+        </div>
+        <!--l_fzcxtop  begin -->
+        <div class="l_fzcxtop fix">
+            <span class="bjred bjhuangse">上新</span> 
+        </div>
+        <!--l_fzcxtop  stop -->
+        <div class="l_ynfullb mt3">
+            <ul>
+            	<%for (spu in vo.children){%>
+                <li>
+                    <a href="/wap/products/ProDetail.html?spuid=${spu.spuid}&href=/wap/discover/dynamic.html"><img src="${spu.spuImg}" class="img-responsive" title="" alt=""></a>
+                    <p>￥ <%if(spu.wapPrice!=null){%> ${spu.wapPrice}  <%}else{%>
+				        0.00
+				        <%}%></p>
+                </li>
+               <%}%>
+            </ul>
+        </div> 
+        <div class="l_ckgdfx"><a href="/wap/discover/dynamicMore.html?shopid=${vo.shopid}">查看更多<span class=" r_ckgdfx"><img src="/resource/wap/images/gzxinico02.png" class="img-responsive"></span></a></div>
+         <input name="pages" type="hidden" value="${pageData.page}"/>
+    </div>
+<%}%>

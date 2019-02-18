@@ -1,0 +1,83 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*初始化代码*/
+html, body, div, span,    
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,   
+a, abbr, acronym, address, big, cite, code,   
+img, ins, kbd, q, s, samp,   
+small, strike, strong,    
+dl, dt, dd, ol, ul, li,   
+fieldset, form, label, legend,   
+table, caption, tbody, tfoot, thead, tr, th, td, input, select {   
+    margin: 0;   
+    padding: 0;   
+    border: 0;   
+    outline: 0;   
+    font-size: 100%;   
+    vertical-align: baselinebaseline;   
+    background: transparent;   
+} 
+body {color:#676767; background:#fff; font-size:12px; font-family: "微软雅黑", helvetica, arial, verdana, tahoma, sans-serif;line-height:normal;  }  
+
+ol, ul,li {   
+    list-style: none;
+	line-height:normal;   
+}   
+blockquote, q {   
+    quotes: none;   
+}   
+blockquote:before, blockquote:after,   
+q:before, q:after {   
+    content: '';   
+    content: none;   
+}      
+table {   
+    border-collapse: collapse;   
+    border-spacing: 0;   
+} 
+td,th,caption { font-size:12px; }
+h1, h2, h3, h4, h5, h6 { font-weight:normal; font-size:100%; }
+address, caption, cite, code, dfn, em, strong, th, var { font-style:normal; font-weight:normal;}
+a { color:#595758; text-decoration:none; }
+a:hover {color:#c31; text-decoration:none; }
+a:link{text-decoration:none;}
+a:active{text-decoration:none;}
+a:visited{text-decoration:none;}
+img { border:none; }
+input, textarea, select, button { font:12px Verdana,Helvetica,Arial,sans-serif; }
+.clear{ clear:both;}
+.mar20{ margin:5px 0px 10px 0px;}
+.marrig30{ margin-right:30px;}
+.red{ color:#c31;}
+.lvse{ color:#41A8ED; cursor:pointer;}
+.lvse a{ color:#41A8ED;}
+.text-left{ text-align:left;}
+.text-right{ text-align:right;}
+.bolder-text{ font-weight:bolder; color:#575757;}
+.huise{ color:#999;}
+.bolder{ font-weight:bolder;}
+.fon14{ font-size:14px;}
+.fix:after{display:block;content:"clear";height:0;clear:both;visibility:hidden; overflow:hidden;}
+
+.big-but{ background:#42ADED; border:1px solid #3E9DEA; padding:6px 20px; border-radius:5px; font-size:12px; font-weight:bolder; color:#fff;}
+.big-but-huise{ background:#DFE0E1; border:1px solid #949495; padding:6px 20px; border-radius:5px; font-size:12px; font-weight:bolder; color:#646363;}
+.big-but-huise:hover{ background:#42ADED; border:1px solid #3E9DEA; color:#fff;}
+
+/*分页  开始*/
+.page{ margin:20px auto 40px auto; width:100%; text-align:right; color:#333; font-size:14px;}
+.page a{ padding:3px 10px; color:#333; border:1px solid #ccc; background:#efefef;}
+.page a:hover{ color:#01B7FF;}
+.page span.page-hover a{color:#01B7FF;  border:1px solid #01B7FF;}
+.page-inp{ width:40px; margin:0px 2px; height:20px;line-height:20px\0; border:1px solid #CCCCCC; text-align:center;}
+.page-style{ margin:0px 20px 0px 10px;}
+.page-but{  padding:6px 8px; background:#01B7FF; color:#FFF; border:1px solid #00B6FF; display:inline-block; borde-radius:10px; margin-left:5px; border-radius:3px;}
+/*分页  结束*/
+
+/*所有复选框样式  开始*/
+input[type=checkbox]{-webkit-appearance: none;appearance: none;width: 19px;height: 19px;cursor: pointer;vertical-align: middle;margin-right:5px;background: url(../images/img4_none.png) no-repeat;position: relative;}
+input[type=checkbox]:checked::after {content: url(../images/img4.png);display: block;position: absolute;top: 0px;left: 0px;}
+/*所有复选框样式  结束*/
+
+.sel_allmost{ height:25px; border:1px solid #ccc; background:#ffffff;padding-left:-3px; margin-left:-4px; vertical-align:middle\0;}
+.allcon{ width:980px;}

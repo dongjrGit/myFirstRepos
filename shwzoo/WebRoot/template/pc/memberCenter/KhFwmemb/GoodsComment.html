@@ -1,0 +1,212 @@
+﻿<!-- @{
+    ViewBag.Title = "商品评价/晒单";
+    Layout = "~/Areas/Member/Views/Shared/_Layout_Member_Center.cshtml";
+}
+
+@{
+    int WaitComment = ViewBag.WaitComment;
+    int WaitShowImg = ViewBag.WaitShowImg;
+    int WaitOk = ViewBag.WaitOk;
+}
+ -->
+<script src="~/js/AjaxFileUploaderV2.1/ajaxfileupload.js"></script>
+<script type="text/javascript" src="~/mv10/js/khfw/GoodsComment.js"></script>
+<!--main  主要内容  开始 -->
+<div id="main">
+    <!--main-left 左边内容  开始 -->
+    @Html.Partial("~/Areas/Member/Views/Shared/_PartialLeftside.cshtml")
+    <!--main-left 左边内容  结束 -->
+    <!--rightside 右边内容  结束 -->
+    <div class="rightside">
+        <div class="wddd-title">商品评价/晒单</div><!--wddd-title  stop -->
+        <!--wdys 内容  开始 -->
+        <div class="wdys">
+            <div class="qbdd div_commentstatus">
+                <a href="javascript:void(0);" id="a_waitpay">
+                    <span id="span_waitcomment" class="qbdd-title">待商品评价</span>
+                    @if (WaitComment > 0)
+                    {
+                        <span class="huangs">(@WaitComment)</span>
+                    }
+                </a>
+                <a href="javascript:void(0);" id="a_waitpay">
+                    <span id="span_waitshowimg">待晒单</span>
+                    @if (WaitShowImg > 0)
+                    {
+                        <span class="huangs">(@WaitShowImg)</span>
+                    }
+                </a>
+                <a href="javascript:void(0);" id="a_waitpay">
+                    <span id="span_ok">已评价晒单</span>
+                    @if (WaitOk > 0)
+                    {
+                        <span class="huangs">(@WaitOk)</span>
+                    }
+                </a>
+            </div><!--qbdd  stop -->
+            <table>
+                <tr class="tab-title" id="commentorderlist_title">
+                    <td width="500px">商品信息</td>
+                    <td>购买时间</td>
+                    <td>评价状态</td>
+                </tr>
+                <script id="commentorderlist" type="text/html">
+                    {{each list as pro i}}
+                    <tr style="border:none;">
+                        <td class="wdys-yysptr">
+                            <a href="javascript:void(0);"><img src="{{pro.ProductImg}}" width="100%" height="100%" alt="" title="" style=" margin-left:20px;"></a>
+                            <p><a href="javascript:void(0);">{{pro.ProductName}}</a></p>
+                        </td>
+                        <td>{{pro.PayDate}}</td>
+                        <td class="lanse" width="150px">
+                            <input type="hidden" id="hidden_orderdetailid" value="{{pro.ID}}" />
+                            <a href="javascript:void(0);" class="a_showsubmitdiv">发表评论</a>
+                        </td>
+                    </tr>
+                    <tr style="border:none;">
+                        <td colspan="3">
+                            <div class="pjsd-fbpl div_submitcomment" hidden>
+                                <div class="triangle"></div><!--triangle  stop -->
+                                <div class="pjsd-fbpl-con sdsdsdsdsd">
+                                    <form id="submitForm">
+                                        <table>
+                                            <tr>
+                                                <td class="pjsd-fbplcon-left"><span class="red">*</span>标题：</td>
+                                                <td class="pjsd-fbplcon-right">
+                                                    <input type="text" id="text_commenttitle" name="text_commenttitle" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="pjsd-fbplcon-left"><span class="red">*</span>评分：</td>
+                                                <td class="pjsd-fbplcon-right" id="td_stras">
+                                                    <p onmouseover="rate(this,event)" class="star_p" id="p_stars">
+                                                        <img src="/mv10/images/icon_star_1.png" checkedval="0" title="差评" class="img_stars" />
+                                                        <img src="/mv10/images/icon_star_1.png" checkedval="0" title="差评" class="img_stars" />
+                                                        <img src="/mv10/images/icon_star_1.png" checkedval="0" title="中评" class="img_stars" />
+                                                        <img src="/mv10/images/icon_star_1.png" checkedval="0" title="好评" class="img_stars" />
+                                                        <img src="/mv10/images/icon_star_1.png" checkedval="0" title="好评" class="img_stars" />
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="pjsd-fbplcon-left"><span class="red">*</span>心得：</td>
+                                                <td class="pjsd-fbplcon-right">
+                                                    <textarea name="text_commentcontent" cols="" rows="" class="area-most" id="text_commentcontent"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="pjsd-fbplcon-left">晒单：<input type="file" name="file_img" id="file_img" hidden /></td>
+                                                <td class="pjsd-fbplcon-right" id="td_imglist">
+                                                    <div class="tjzp"><img src="" /></div>
+                                                    <a href="javascript:void(0);"><div class="tjzp">添加照片</div></a>
+                                                    <p style="margin-top:123px;color:#A0A0A0;">0/10</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="pjsd-fbplcon-left">&nbsp;</td>
+                                                <td class="pjsd-fbplcon-right">
+                                                    <input type="hidden" value="{{pro.ID}}" id="hidden_orderdetailid" />
+                                                    <input type="hidden" value="{{pro.SKU_ID}}" id="hidden_skuid" />
+                                                    <input type="hidden" value="{{pro.SellerID}}" id="hidden_sellerid" />
+                                                    <a href="javascript:void(0);" class="a_commentsubmit"><img src="/mv10/images/img04.png" width="103" height="27" style="float:left; margin-right:20px;"></a>
+                                                    <p style="margin-top:3px;"><input id="checked_showname" name="checked_nim" type="checkbox" value="">匿名评价</p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </form>
+                                </div><!--pjsd-fbpl-con  stop -->
+                            </div><!--pjsd-fbpl  stop -->
+                        </td>
+                    </tr>
+                    {{/each}}
+                </script>
+            </table>
+            <div class="clear"></div>
+            <div class="page" id="pager">
+            </div><!--page stop -->
+        </div>
+        <!--wdys 内容  结束 -->
+        <div class="clear"></div>
+    </div>
+    <!--rightside 右边内容  结束 -->
+    <div class="clear"></div>
+</div>
+<!--main  主要内容  结束 -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        var orderdetailID = GetQueryStringByName("orderdetailID");
+        if (orderdetailID != null && orderdetailID != "" && parseInt(orderdetailID) > 0) {
+            $(".div_commentstatus").remove();
+            //订单跳转 列表绑定
+            CommentOrderList.bindByOrderDetail(1, orderdetailID);
+        }
+        else {
+            //订单列表
+            CommentOrderList.bind(1);
+
+            //状态点击
+            $("#span_waitcomment").bind("click", function () {
+                $("#span_waitshowimg").removeClass('qbdd-title');
+                $("#span_ok").removeClass('qbdd-title');
+                $("#span_waitcomment").addClass('qbdd-title');
+
+                CommentOrderList.getlistByStatus(1, 0, "");
+            })
+            $("#span_waitshowimg").bind("click", function () {
+                $("#span_waitcomment").removeClass('qbdd-title');
+                $("#span_ok").removeClass('qbdd-title');
+                $("#span_waitshowimg").addClass('qbdd-title');
+                CommentOrderList.getlistByStatus(1, 1, "");
+            })
+            $("#span_ok").bind("click", function () {
+                $("#span_waitcomment").removeClass('qbdd-title');
+                $("#span_waitshowimg").removeClass('qbdd-title');
+                $("#span_ok").addClass('qbdd-title');
+                CommentOrderList.getlistByStatus(1, 2, "");
+            })
+        }
+    })
+    //评论星数样式加载
+    function rate(obj, oEvent) {
+        var imgSrc = '/mv10/images/icon_star_1.png';
+        var imgSrc_2 = '/mv10/images/icon_star_2.png';
+        if (obj.rateFlag) return;
+        var e = oEvent || window.event;
+        var target = e.target || e.srcElement;
+        var imgArray = obj.getElementsByTagName("img");
+        for (var i = 0; i < imgArray.length; i++) {
+            imgArray[i]._num = i;
+            imgArray[i].onclick = function () {
+                if (obj.rateFlag) return;
+
+                var inputid = this.parentNode.previousSibling
+                inputid.value = this._num + 1;
+            }
+        }
+        if (target.tagName == "IMG") {
+            for (var j = 0; j < imgArray.length; j++) {
+
+                if (j <= target._num) {
+                    imgArray[j].src = imgSrc_2;
+                    $(imgArray[j]).attr("checkedval", "1");
+                } else {
+                    imgArray[j].src = imgSrc;
+                    $(imgArray[j]).attr("checkedval", "0");
+                }
+                target.parentNode.onmouseout = function () {
+                    var imgnum = parseInt(target.parentNode.previousSibling.value);
+                    for (n = 0; n < imgArray.length; n++) {
+                        imgArray[n].src = imgSrc;
+                        $(imgArray[n]).attr("checkedval", "0");
+                    }
+                    for (n = 0; n < imgnum; n++) {
+                        imgArray[n].src = imgSrc_2;
+                        $(imgArray[n]).attr("checkedval", "1");
+                    }
+                }
+            }
+        } else {
+            return false;
+        }
+    }
+</script>

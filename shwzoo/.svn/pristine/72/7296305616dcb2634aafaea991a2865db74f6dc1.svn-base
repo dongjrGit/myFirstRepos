@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Expires" content="-1">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<title>绿色食品中国-绿色故事</title>
+<link rel="stylesheet" href="/resource/wap/css/greenLife.css" />
+<script type="text/javascript" src="/resource/jquery-1.9.1.min.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/Yeffect16_0118.min.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/greenLife.js" ></script>
+<script type="text/javascript" src="/resource/artTemplate.js"></script>
+<script type="text/javascript" src="/resource/wap/js/wap-common.js"></script>
+<script type="text/javascript">
+  	$(function(){
+		 pageData={page:1,pagesize:10};
+		 pageUrl="/wap/zlzx/querylsgs";
+		 content="#body";
+		initPage();
+	});
+  	</script>
+</head>
+<body>
+<!--septop begin-->
+<div class="septop rowreturn bjwhite">
+	<div class="bigsize">绿色故事</div>
+	<div id="rowreturn" onclick="javascript:location.href='/wap/find/lszgindex.html'"></div>
+</div>
+<!--septop stop-->
+<img src="/resource/wap/images/children_game_concept01.jpg" class="img-responsive"/>
+<hr class="back" />
+<ul class="sep-zlzx fix" id="body">
+</ul>
+<script type="text/html" id="pagehtml">
+{{each list as vo i}}
+
+	<li class="fix">
+		<a href="/wap/find/newsdetail.html?mark=2&id={{vo.id}}">
+			<img src="{{vo.imgurl}}"/>
+			<div class="sep-zlzx-r">
+				<h3>{{vo.title}}</h3>
+				<p>{{vo.tabloid}}</p>
+			</div>
+		</a>
+	</li>
+
+
+{{/each}}
+</script>
+<script>
+$(function(){
+	Yeffect.resizeHtWstr(".sep-zlzx li:visible",".sep-zlzx li img",199,49);
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,505 @@
+﻿ <%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>全部订单</title>
+<link type="text/css" rel="stylesheet" href="/resource/pc/member/css/style01.css" />
+<link type="text/css" rel="stylesheet" href="/resource/pc/member/css/pager2.css" />
+<link type="text/css" rel="stylesheet" href="/resource/pc/member/css/jQuery.Validate.css" />
+<link href="/resource/pc/member/css/default.css" rel="stylesheet" />
+<script src="/resource/artTemplate.js"></script>
+<script src="/resource/pc/member/js/pager2.js"></script>
+<script src="/resource/pc/member/js/OrderCenter/OrderList.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	if($("#main").attr("value")=='-1'){
+		$("#li_all").addClass("active");
+	}else if($("#main").attr("value")==0){
+		$("#dfk").addClass("active");
+	}else if($("#main").attr("value")==1){
+		$("#dfh").addClass("active");
+	}else if($("#main").attr("value")==2){
+		$("#dsh").addClass("active");
+	}else if($("#main").attr("value")==99){
+		$("#dpj").addClass("active");
+	}
+	$("a[name='delete']").click(function (){
+		var id =$(this).find("div").attr("value");
+		var status =$(this).find("div").attr("name");
+		Order.deleteorder(id,"");
+	})
+	$("a[name='queren']").click(function(){
+		var orderid=$(this).attr("orderid-val");
+		Order.shouhuo(orderid);
+	})
+	$("a[name='cancel']").click(function(){
+		var c =  prompt('请输入取消原因');
+		if(c!=null){
+			var orderid=$(this).attr("orderid-val");
+			var statu =$(this).attr("value");
+			Order.cancelorder(statu,orderid,c);
+		}
+	});
+	//删除订单
+	$(".deleat").click(function(){
+		var id = $(this).attr("data");
+		if(parseInt(id)>0){
+			if(confirm("确认要删除订单吗？")){
+				delorder(id);
+			}
+			
+		}
+	});
+	var pcount = $("#pro_total").val();
+	var pindex = $("#pro_index").val();
+	$("#pager").html(pagination(pcount, pindex, 10, "Order.getorder"));
+	  //申请售后
+    $(".a_afterservice").bind("click", Order_Afterservice);
+	})
+	function cdorder(obj){
+		$.ajax({
+			type : "post",
+			url : "/pc/order/cd",
+			dataType : "json",
+			data : {orderid : obj},
+			success : function(rsl) {
+				 alert(rsl.desc);
+				 window.location.reload();
+			},
+			error : function(e) {
+			}
+		});
+ 
+	}
+	function delorder(id){
+		$.ajax({
+			type : "post",
+			url : "/pc/order/delorder",
+			dataType : "json",
+			data : {id : id},
+			success : function(rsl) {
+				 alert(rsl.desc);
+				 window.location.reload();
+			},
+			error : function(e) {
+			}
+		});
+ 
+	}
+</script>
+
+</head>
+
+
+<!--main  主要内容  开始 -->
+<div id="main" class="fix" value="${status}">
+	<!--main-left 左边内容  开始 -->
+	<!--main-left 左边内容  开始 -->
+    <% include("/template/pc/memberCenter/Shared/_PartialLeftside.html",{}){}%> 
+	<!--main-left 左边内容  结束 -->
+	<!--rightside 右边内容  结束 -->
+	<div class="rightside">
+		<div class="wddd-title">
+			<ul id="ordercount">
+			<%if(isNotEmpty(orderscount)){%>
+				<li id="li_all" onclick="changestatus(-1);">
+					<a href="javascript:void(0);">所有订单</a>
+				</li>
+				<li onclick="changestatus(0);" id="dfk"><a
+					href="javascript:void(0);">待付款</a>
+					<%if(isNotEmpty(orderscount.dfk) && orderscount.dfk>0){%> <i>${orderscount.dfk}</i>
+					<%}else{}%></li>
+					<li onclick="changestatus(1);" id="dfh"><a
+					href="javascript:void(0);">待发货</a>
+					<%if(isNotEmpty(orderscount.dfh)&& orderscount.dfh>0){%> <i>${orderscount.dfh}</i>
+					<%}else{}%></li>
+				<li onclick="changestatus(2);" id="dsh"><a
+					href="javascript:void(0);">待收货</a>
+					<%if(isNotEmpty(orderscount.dsh)&& orderscount.dsh>0){%> <i>${orderscount.dsh}</i>
+					<%}else{}%></li>
+				<li onclick="changestatus(99);" id="dpj"><a
+					href="javascript:void(0);">待评价</a>
+					<%if(isNotEmpty(orderscount.dpj)&& orderscount.dpj>0){%> <i>${orderscount.dpj}</i>
+					<%}else{}%></li>
+			<%}%>
+			  <script type="text/html" id="listcount">
+                    <li id="li_all" onclick="changestatus(-1);">
+					<a href="javascript:void(0);">所有订单</a>
+				    </li>
+				    <li onclick="changestatus(0);" id="dfk"><a href="javascript:void(0);">待付款</a>
+					{{if count.dfk>0}} <i>{{count.dfk}}</i> {{/if}}
+					</li>
+					<li onclick="changestatus(1);" id="dfh"><a href="javascript:void(0);">待发货</a>
+					{{if count.dfh>0}} <i>{{count.dfh}}</i> {{/if}}
+					</li>
+				   <li onclick="changestatus(2);" id="dsh"><a href="javascript:void(0);">待收货</a>
+					{{if count.dsh>0}} <i>{{count.dsh}}</i> {{/if}}
+					</li>
+				   <li onclick="changestatus(99);" id="dpj"><a href="javascript:void(0);">待评价</a>
+					{{if count.dpj>0}} <i>{{count.dpj}}</i> {{/if}}
+					</li>
+               </script>
+
+			</ul>
+			
+			<!-- <div class="l_ddsscon">
+				<input name="" id="text_search" type="text" value=""
+					onkeypress=" if (event.keyCode == 13) { Order_Search(); }">
+				<input name="" id="btn_search" type="button"
+					onclick="Order_Search();"> <i onclick="Order_Search(this);"></i>
+			</div> -->
+			<!--l_ddsscon   stop -->
+			<!--<div class="l_ddhsz"><i></i>订单回收站</div>-->
+		</div>
+		<!--wddd-title  stop -->
+		<!--wdys 内容  开始 -->
+		<div class="wdys">
+			<div>
+				<!--l_ddtop  begin -->
+				<div class="l_ddtop" id="div_listtitle">
+					<span class="l_ddtop01"> <select id="select_timebucket"
+						name="select_timebucket" onchange="Order_TimeBucket()">
+						    <option value="0" selected>近三个月订单</option>
+							<option value="1">今年内订单</option>
+							<option value="2">2015年订单</option>
+							<option value="3">2014年订单</option>
+					</select>
+					</span> <span class="l_ddtop02">订单详情</span> <span class="l_ddtop03">收货人</span>
+					<span class="l_ddtop04">总计</span> <span class="l_ddtop05"> <!--<select>
+                            <option>交易状态</option>
+                            <option>等待付款</option>
+                            <option>已完成</option>
+                            <option>已取消</option>
+                        </select>-->
+					</span> <span class="l_ddtop06">操作</span>
+				</div>
+				<!--l_ddtop  stop -->
+				<!-- l_ddmk  begin-->
+				<%if(!isEmpty(ordergroup)){%> 				
+				<%for(group in ordergroup){%>
+				<div class="l_ddmk fix">
+				<%if(group.orderlist.~size>1){%> 
+				<div class="l_ddmkcfdd">
+					<span class="l_ddmkcfdd01 huise">${group.orderDate,dateFormat="yyyy-MM-dd HH:mm:ss"}</span>
+					<span class="l_ddmkcfdd02"><i class="huise">订单号：</i>${group.groupcode}</span>
+					<span class="l_ddmkcfdd03 huise">您订单中的商品在不同库房或属于不同商家，故拆分为以下订单分开配送，给您带来的不便敬请谅解。</span>
+				</div>
+				<!--l_ddmkcfdd  stop -->
+				<div class="l_ddmkcdbot">
+					<span class="l_ddmkcdbot01"> 收货人：
+						<%if(!isEmpty(group.consignee)){%> ${group.consignee} <%}else{%>
+						未知 <%}%> </span> <span class="l_ddmkcdbot02">订单金额：￥${group.price}</span>
+					<span class="l_ddmkcdbot03"> 支付方式：
+					    <%if(group.payType==0){%>
+						未支付 
+						<%}else if(group.payType==1){%> 
+						在线支付 
+						<%}else if(group.payType==2){%> 
+						余额支付 
+						<%}else if(group.payType==3){%>
+						 优惠券支付
+						<%}else if(group.payType==4){%> 
+						混合支付
+						 <%}else if(group.payType==5){%> 
+						 货到付款
+						  <%}else{%> 
+						  无支付信息 
+						  <%}%> 
+						  </span> 
+					<div class="l_rowddmk"></div>
+				</div>
+				 <%}%> 
+				<!--l_ddmkcdbot stop -->
+				<%for(order in group.orderlist){%>
+				<%if(group.orderlist.~size>1){%> 
+				<div class="l_ddmktop l_nobac bjwrite">
+				<span class="l_ddmktop01 huise">${group.orderDate,dateFormat="yyyy-MM-dd HH:mm:ss"}</span>
+					<span class="l_ddmktop02"><i class="huise">订单号:${order.code}</i></span>
+					<span class="l_ddmktop03"><i></i>${order.shopname}</span> 
+					<span class="l_ddmktop04"><i></i>${order.shoptel}</span>
+					<%if(order.status==5||order.status==10||order.status==8){%><div data="${order.Id}" class="deleat"></div><%}%>
+				</div>
+				<%}else{%> 
+				<div class="l_ddmktop l_nobac">
+				<span class="l_ddmktop01 huise">${group.orderDate,dateFormat="yyyy-MM-dd HH:mm:ss"}</span>
+					<span class="l_ddmktop02"><i class="huise">订单号:${order.code}</i></span>
+					<span class="l_ddmktop03"><i></i>${order.shopname}</span> 
+					<span class="l_ddmktop04"><i></i>${order.shoptel}</span>
+					<%if(order.status==5||order.status==8||order.status==10){%><div data="${order.Id}" class="deleat"></div><%}%>
+				</div>
+				<%}%> 
+				<!--l_ddmktop  stop -->
+				<div class="l_ddmkcon fix div_parentlist">
+					<div class="l_ddmk01con fix div_coulm">
+                       <%for(detail in order.children){%>
+						<div class="l_ddmk01 fix div_prolist" style="border-top: none;"
+							orderdetailid-val="${detail.orderid}">
+							<div class="l_ddmk01_1">
+								<a href="/web/products/proinfo.html?skuid=${detail.productid}" sku-val="${detail.productid}"
+									class="a_spuhref"><img src="${detail.productimg}"></a> <a
+									href="/web/products/proinfo.html?skuid=${detail.productid}" sku-val="${detail.productid}"
+									class="a_spuhref">${detail.productname}</a>
+							</div>
+							<div class="l_ddmk01_2 huise">${detail.productcount}件</div>
+							<div class="l_ddmk01_3 ">  
+								<%if((order.status==3 || order.status==8) && (detail.status ==39||detail.status ==49||detail.status ==59)){%> <a href="javascript:void(0);"
+									class="a_afterservice" orderid-val="${detail.orderid}"
+									ordercode-val="${order.code}"
+									orderdetailid-val="${detail.id}">返修/退换货</a> 
+									<%}%>
+							</div>
+						</div>
+						<!--l_ddmk01  stop -->
+                        <%}%>
+					</div>
+					<%if (!isEmpty(group.consignee)){%>
+					<div class="l_ddmk02" title="${group.address}${group.telPhone}">
+						<i></i><span>${group.consignee}</span>
+					</div>
+					<%}else{%>
+					<div class="l_ddmk02" title="">
+						<i></i><span>未知</span>
+					</div>
+					<%}%>
+					<div class="l_ddmk03">
+						<p class="red bolder">￥${order.price}</p>
+						<p class="huise"><%if(group.payType==0){%> 未支付 <%}else
+							if(group.payType==1){%> 在线支付 <%}else if(group.payType==2){%> 余额支付
+							<%}else if(group.payType==3){%> 优惠券支付 <%}else
+							if(group.payType==4){%> 混合支付 <%}else if(group.payType==4){%> 货到付款
+							<%}else{%> 无支付信息 <%}%></p>
+					</div>
+					<div class="l_ddmk04">
+						<p class="huise">
+							<%if(order.status==0){%> <a href="javascript:void(0);">待付款</a>
+							<%}else if(order.status==1){%> <a href="javascript:void(0);">待发货</a>
+							<%}else if(order.status==2){%> <a href="javascript:void(0);">待收货</a>
+							<%}else if(order.status==3){%> <a href="javascript:void(0);">已确认收货</a>
+							<%}else if(order.status==4){%> <a href="javascript:void(0);">未付款取消申请</a>
+							<%}else if(order.status==5){%> <a href="javascript:void(0);">未付款已取消</a>
+							<%}else if(order.status==6){%> <a href="javascript:void(0);">已付款取消申请</a>
+							<%}else if(order.status==7){%> <a href="javascript:void(0);">已付款已取消</a>
+							<%}else if(order.status==8){%> <a href="javascript:void(0);">已完成</a>
+							<%}else if(order.status==9){%> <a href="javascript:void(0);">申请退款退货中</a>
+							<%}else if(order.status==10){%> <a href="javascript:void(0);">已退款</a>
+							<%}%>
+						</p>
+						<p>
+							<a
+								href="/member/order/showOrderDetail?orderid=${order.Id}"
+								class="a_orderdetailinfo" orderid-val="${order.Id}">订单详情</a>
+						</p>
+					</div>
+					<div class="l_ddmk05">
+						<%if(order.status==0){%>
+						<p class="mt5">
+							<a href="/member/order/orderPay.html?gc=${group.groupcode}" class="r_fbpj p_gopay"
+								ordergroupcode-val="${group.groupcode}"
+								style="float: none; margin-right: 0px;">付款</a>
+						</p>
+						<p></p> 
+						<p>
+							<a href="javascript:void(0);" class="a_ordercancel" name="cancel"
+								orderid-val="${order.Id}" value="${order.status}">取消订单</a>
+						</p>
+						<%}else if(order.status==2){%>
+						<p>
+							<a href="javascript:void(0);" class="btn-small a_confirmgoods" name="queren"
+								orderid-val="${order.Id}">确认收货</a>
+						</p>
+						<%}else if(order.status==0||order.status==1||order.status==2){%>
+						<p>
+							<a href="javascript:void(0);"  name="cancel"
+								orderid-val="${order.Id}" value="${order.status}">取消订单</a>
+						</p>
+						<%}if(group.isremind==0&&order.status==1){%>
+							<p>
+								<a href="javascript:void(0);" class="a_ordercd" name="cd"
+									orderid-val="${order.Id}" onclick="cdorder('${order.id}')"  >催单</a>
+							</p>
+						<%}else if((order.status==3 || order.status==8) && order.iscomment!=1){%>
+						<p>
+							<a href="/member/order/comment.html?orderid=${order.id}" class="a_comment"
+								orderid-val="${order.Id}">评价晒单</a>
+						</p>
+						<%}%>
+					</div>
+				</div>
+				<!--l_ddmkcon  stop -->
+				<%}%>
+				</div>
+			<%}%> 
+			<%}%>
+			<!--l_ddmk  stop -->
+			<!-- l_ddmk  begin-->
+                <script type="text/html" id="orderslist">
+                    {{each list as pro i}}
+                    <div class="l_ddmk fix">
+                     {{if pro.orderlist.length>1}}
+                        <div class="l_ddmkcfdd">
+                            <span class="l_ddmkcfdd01 huise">{{pro.orderDateStr}}</span>
+                            <span class="l_ddmkcfdd02"><i class="huise">订单号：</i>{{pro.groupcode}}</span>
+                            <span class="l_ddmkcfdd03 huise">您订单中的商品在不同库房或属于不同商家，故拆分为以下订单分开配送，给您带来的不便敬请谅解。</span>
+                        </div><!--l_ddmkcfdd  stop -->
+                        <div class="l_ddmkcdbot">
+                            <span class="l_ddmkcdbot01">
+                                收货人：
+                                {{if pro.consignee!=null}}
+                                {{pro.consignee}}
+                                {{else}}
+                                未知
+                                {{/if}}
+                            </span>
+                            <span class="l_ddmkcdbot02">订单金额：￥{{pro.price | toFixed}}</span>
+                            <span class="l_ddmkcdbot03">
+                                支付方式：
+                                {{if pro.payType==0}}
+                                未支付
+                                {{else if pro.payType==1}}
+                                在线支付
+                                {{else if pro.payType==2 }}
+                                余额支付
+                                {{else if pro.payType==3 }}
+                                优惠券支付
+                                {{else if pro.payType==4 }}
+                                混合支付
+                                {{else if pro.payType==5 }}
+                                货到付款
+                                {{else}}
+                                无支付信息
+                                {{/if}}
+                            </span>
+                            <span class="l_ddmkcdbot04">订单状态：已拆分</span>
+                            <span class="l_ddmkcdbot05">
+                                <input type="hidden" value="{{pro.groupcode}}" class="hidden_ordergroupcode" />
+                                <a href="javascript:void(0);" class="a_orderdisconnect">查看拆分详情&gt;</a>
+                            </span>
+                            <div class="l_rowddmk"></div>
+                        </div><!--l_ddmkcdbot stop -->
+                        {{/if}}
+                        {{each pro.orderlist as order j}}
+                          {{if pro.orderlist.length>1}}
+                            <div class="l_ddmktop l_nobac bjwrite">
+                            <span class="l_ddmktop01 huise">{{pro.orderDateStr}}</span>
+                            <span class="l_ddmktop02"><i class="huise">订单号：</i>{{order.code}}</span>
+                            <span class="l_ddmktop03"><i></i>{{order.shopname}}</span>
+                            <span class="l_ddmktop04"><i></i>{{order.shoptel}}</span>
+                            </div>
+                          {{else}}
+                            <div class="l_ddmktop l_nobac">
+                            <span class="l_ddmktop01 huise">{{pro.orderDateStr}}</span>
+                            <span class="l_ddmktop02"><i class="huise">订单号：</i>{{order.code}}</span>
+                            <span class="l_ddmktop03"><i></i>{{order.shopname}}</span>
+                            <span class="l_ddmktop04"><i></i>{{order.shoptel}}</span>
+                            </div>
+                          {{/if}}
+                        <!--l_ddmktop  stop -->
+                        <div class="l_ddmkcon fix div_parentlist">
+                            <div class="l_ddmk01con fix div_coulm">
+                                {{each order.children as orderdetails l}}
+                                <div class="l_ddmk01 fix div_prolist" style="border-top:none;" orderdetailid-val="{{orderdetails.id}}">
+                                    <div class="l_ddmk01_1">
+                                        <a href="/web/products/proinfo.html?skuid={{orderdetails.productid}}" sku-val="{{orderdetails.productid}}" class="a_spuhref"><img src="{{orderdetails.productimg}}"></a>
+                                        <a href="/web/products/proinfo.html?skuid={{orderdetails.productid}}" sku-val="{{orderdetails.productid}}" class="a_spuhref">{{orderdetails.productname}}</a>
+                                    </div>
+                                    <div class="l_ddmk01_2 huise">{{orderdetails.productcount}}件</div>
+                                    <div class="l_ddmk01_3 huise">
+                                        {{if order.status==3 || order.status==8}}
+                                        <a href="javascript:void(0);" class="a_afterservice" orderid-val="{{order.id}}" ordercode-val="{{order.code}}" orderdetailid-val="{{orderdetails.id}}">返修/退换货</a>
+                                        {{/if}}
+                                    </div>
+                                </div><!--l_ddmk01  stop -->
+                                {{/each}}
+                            </div>
+                            {{if order.consignee!=null}}
+                            <div class="l_ddmk02" title="{{order.address}}{{order.telPhone}}">
+                                <i></i><span>{{order.consignee}}</span>
+                            </div>
+                            {{else}}
+                            <div class="l_ddmk02" title="">
+                                <i></i><span>未知</span>
+                            </div>
+                            {{/if}}
+                            <div class="l_ddmk03">
+                                <p class="red bolder">￥{{order.price | toFixed}}</p>
+                                <p class="huise">
+                                    {{if pro.payType==0}}
+                                    未支付
+                                    {{else if pro.payType==1}}
+                                    在线支付
+                                    {{else if pro.payType==2 }}
+                                    余额支付
+                                    {{else if pro.payType==3 }}
+                                    优惠券支付
+                                    {{else if pro.payType==4 }}
+                                    混合支付
+                                    {{else if pro.payType==5 }}
+                                    货到付款
+                                    {{else}}
+                                    无支付信息
+                                    {{/if}}
+                                </p>
+                            </div>
+                            <div class="l_ddmk04">
+                                <p class="huise">
+                                    {{if order.status==0}}
+                                    <a href="javascript:void(0);">待付款</a>
+                                    {{else if order.status==1}}
+                                    <a href="javascript:void(0);">待发货</a>
+                                    {{else if order.status==2}}
+                                    <a href="javascript:void(0);">待收货</a>
+                                    {{else if order.status==3}}
+                                    <a href="javascript:void(0);">已确认收货</a>
+                                    {{else if order.status==4 }}
+                                    <a href="javascript:void(0);">未付款取消申请</a>
+                                    {{else if order.status==5 }}
+                                    <a href="javascript:void(0);">未付款已取消</a>
+                                    {{else if order.status==6 }}
+                                    <a href="javascript:void(0);">已付款取消申请</a>
+                                    {{else if order.status==7 }}
+                                    <a href="javascript:void(0);">已付款已取消</a>
+                                    {{else if order.status==8 }}
+                                    <a href="javascript:void(0);">已完成</a>                                       
+                                    {{else}}
+                                    {{/if}}
+                                </p>
+                                <p><a href="javascript:void(0);" class="a_orderdetailinfo" orderid-val="{{order.id}}">订单详情</a></p>
+                            </div>
+                            <div class="l_ddmk05">
+                                {{if order.status==0}}
+                                <p class="mt5"><a href="/member/order/orderPay.html?gc={{pro.groupcode}}" class="r_fbpj p_gopay" style="float:none; margin-right:0px;">付款</a></p>
+                                 <p></p>   
+								 	<p><a href="javascript:void(0);" class="a_ordercancel" orderid-val="{{order.id}}" value="{{order.status}}" >取消订单</a></p> 
+                                {{else if order.status==2}}
+                                	<p> <a href="javascript:void(0);" class="btn-small a_confirmgoods" onclick="Order.shouhuo({{order.id}});" name="queren"
+									orderid-val="{{order.id}}">确认收货</a>
+						        </p>
+                                {{else if order.status<3}}
+                               		<p><a href="javascript:void(0);" class="a_ordercancel" orderid-val="{{order.id}}" value="{{order.status}}" >取消订单</a></p>
+								{{if pro.isremind==0&&order.status==1}} <p><a href="javascript:void(0);" onclick="cdorder('{{order.id}}')"  >催单</a></p> {{/if}}
+									
+                                {{else if (order.status==3 || order.status==8) && order.iscomment!=1}}
+									<p><a href="/member/order/comment.html?orderid={{order.id}}" class="a_comment" orderid-val="{{order.id}}">评价晒单</a></p>
+                                 {{else}} 
+                                {{/if}}
+                            </div>
+                        </div><!--l_ddmkcon  stop -->
+                        {{/each}}
+                    </div>
+                    {{/each}}
+                </script>
+                <!--l_ddmk  stop -->
+		</div>
+		<!--sppj_page  begin -->
+		<input type="hidden" value="${totalcount}" id="pro_total">
+        <input type="hidden" value="${pageindex}" id="pro_index">
+		<div class="pager" id="pager"></div>
+		</div>
+		<!--sppj_page  stop -->
+	<!--wdys 内容  结束 -->
+	<div class="clear"></div>
+	</div>
+<!--rightside 右边内容  结束 -->
+<div class="clear"></div>
+</div>
+<!--main  主要内容  结束 -->

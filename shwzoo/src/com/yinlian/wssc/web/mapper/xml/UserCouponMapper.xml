@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.UserCouponMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.UserCoupon">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="CouponID" property="couponid" jdbcType="INTEGER" />
+		<result column="UserID" property="userid" jdbcType="INTEGER" />
+		<result column="IsUser" property="isuser" jdbcType="BIT" />
+		<result column="UseTime" property="usetime" jdbcType="TIMESTAMP" />
+		<result column="UserDesc" property="userdesc" jdbcType="VARCHAR" />
+		<result column="GetTime" property="gettime" jdbcType="TIMESTAMP" />
+		<result column="IsDel" property="isdel" jdbcType="BIT" />
+		<result column="DelTime" property="deltime" jdbcType="TIMESTAMP" />
+		<result column="DelUserID" property="deluserid" jdbcType="INTEGER" />
+		<result column="OutTime" property="outtime" jdbcType="TIMESTAMP" />
+		<result column="FromType" property="fromtype" jdbcType="INTEGER" />
+		<result column="voucherid" property="voucherid" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, CouponID, UserID, IsUser, UseTime, UserDesc, GetTime,
+		IsDel, DelTime,
+		DelUserID,
+		OutTime,FromType,voucherid
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.UserCouponExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from user_coupon
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from user_coupon
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	
+	<!-- 根据用户id查询用户优惠卷 -->
+	<select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from user_coupon
+		where UserID=#{userid,jdbcType=INTEGER}
+	</select>
+	
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		user_coupon
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.UserCouponExample">
+		delete from user_coupon
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.UserCoupon">
+		insert into user_coupon (ID,
+		CouponID, UserID,
+		IsUser, UseTime, UserDesc,
+		GetTime, IsDel, DelTime,
+		DelUserID, OutTime,FromType,voucherid)
+		values (#{id,jdbcType=INTEGER},
+		#{couponid,jdbcType=INTEGER},
+		#{userid,jdbcType=INTEGER},
+		#{isuser,jdbcType=BIT}, #{usetime,jdbcType=TIMESTAMP},
+		#{userdesc,jdbcType=VARCHAR},
+		#{gettime,jdbcType=TIMESTAMP},
+		#{isdel,jdbcType=BIT},
+		#{deltime,jdbcType=TIMESTAMP},
+		#{deluserid,jdbcType=INTEGER}, #{outtime,jdbcType=TIMESTAMP},
+		#{fromtype,jdbcType=INTEGER},#{voucherid,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.UserCoupon">
+		insert into user_coupon
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="couponid != null">
+				CouponID,
+			</if>
+			<if test="userid != null">
+				UserID,
+			</if>
+			<if test="isuser != null">
+				IsUser,
+			</if>
+			<if test="usetime != null">
+				UseTime,
+			</if>
+			<if test="userdesc != null">
+				UserDesc,
+			</if>
+			<if test="gettime != null">
+				GetTime,
+			</if>
+			<if test="isdel != null">
+				IsDel,
+			</if>
+			<if test="deltime != null">
+				DelTime,
+			</if>
+			<if test="deluserid != null">
+				DelUserID,
+			</if>
+			<if test="outtime != null">
+				OutTime,
+			</if>
+			<if test="fromtype != null">
+				FromType,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="couponid != null">
+				#{couponid,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				#{userid,jdbcType=INTEGER},
+			</if>
+			<if test="isuser != null">
+				#{isuser,jdbcType=BIT},
+			</if>
+			<if test="usetime != null">
+				#{usetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userdesc != null">
+				#{userdesc,jdbcType=VARCHAR},
+			</if>
+			<if test="gettime != null">
+				#{gettime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isdel != null">
+				#{isdel,jdbcType=BIT},
+			</if>
+			<if test="deltime != null">
+				#{deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deluserid != null">
+				#{deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="outtime != null">
+				#{outtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fromtype != null">
+				#{fromtype,jdbcType=INTEGER},
+			</if>
+			
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.UserCouponExample"
+		resultType="java.lang.Integer">
+		select count(*) from user_coupon
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update user_coupon
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.couponid != null">
+				CouponID = #{record.couponid,jdbcType=INTEGER},
+			</if>
+			<if test="record.userid != null">
+				UserID = #{record.userid,jdbcType=INTEGER},
+			</if>
+			<if test="record.isuser != null">
+				IsUser = #{record.isuser,jdbcType=BIT},
+			</if>
+			<if test="record.usetime != null">
+				UseTime = #{record.usetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.userdesc != null">
+				UserDesc = #{record.userdesc,jdbcType=VARCHAR},
+			</if>
+			<if test="record.gettime != null">
+				GetTime = #{record.gettime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.isdel != null">
+				IsDel = #{record.isdel,jdbcType=BIT},
+			</if>
+			<if test="record.deltime != null">
+				DelTime = #{record.deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.deluserid != null">
+				DelUserID = #{record.deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="record.outtime != null">
+				OutTime = #{record.outtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.fromtype != null">
+				FromType = #{record.fromtype,jdbcType=INTEGER},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update user_coupon
+		set ID = #{record.id,jdbcType=INTEGER},
+		CouponID =
+		#{record.couponid,jdbcType=INTEGER},
+		UserID =
+		#{record.userid,jdbcType=INTEGER},
+		IsUser =
+		#{record.isuser,jdbcType=BIT},
+		UseTime =
+		#{record.usetime,jdbcType=TIMESTAMP},
+		UserDesc =
+		#{record.userdesc,jdbcType=VARCHAR},
+		GetTime =
+		#{record.gettime,jdbcType=TIMESTAMP},
+		IsDel =
+		#{record.isdel,jdbcType=BIT},
+		DelTime =
+		#{record.deltime,jdbcType=TIMESTAMP},
+		DelUserID =
+		#{record.deluserid,jdbcType=INTEGER},
+		OutTime =
+		#{record.outtime,jdbcType=TIMESTAMP},
+		FromType = #{record.fromtype,jdbcType=INTEGER},
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.UserCoupon">
+		update user_coupon
+		<set>
+			<if test="couponid != null">
+				CouponID = #{couponid,jdbcType=INTEGER},
+			</if>
+			<if test="userid != null">
+				UserID = #{userid,jdbcType=INTEGER},
+			</if>
+			<if test="isuser != null">
+				IsUser = #{isuser,jdbcType=BIT},
+			</if>
+			<if test="usetime != null">
+				UseTime = #{usetime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="userdesc != null">
+				UserDesc = #{userdesc,jdbcType=VARCHAR},
+			</if>
+			<if test="gettime != null">
+				GetTime = #{gettime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isdel != null">
+				IsDel = #{isdel,jdbcType=BIT},
+			</if>
+			<if test="deltime != null">
+				DelTime = #{deltime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deluserid != null">
+				DelUserID = #{deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="endday != null">
+				OutTime = #{outtime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fromtype != null">
+				FromType = #{fromtype,jdbcType=INTEGER},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.UserCoupon">
+		update user_coupon
+		set CouponID = #{couponid,jdbcType=INTEGER},
+		UserID =
+		#{userid,jdbcType=INTEGER},
+		IsUser = #{isuser,jdbcType=BIT},
+		UseTime =
+		#{usetime,jdbcType=TIMESTAMP},
+		UserDesc = #{userdesc,jdbcType=VARCHAR},
+		GetTime = #{gettime,jdbcType=TIMESTAMP},
+		IsDel = #{isdel,jdbcType=BIT},
+		DelTime = #{deltime,jdbcType=TIMESTAMP},
+		DelUserID =
+		#{deluserid,jdbcType=INTEGER},
+		OutTime = #{outtime,jdbcType=TIMESTAMP},
+		FromType = #{fromtype,jdbcType=INTEGER},
+		voucherid = #{voucherid,jdbcType=INTEGER}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 根据用户ID和优惠卷ID获取用户领用的优惠卷信息 -->
+	<select id="getByUserAndCoupon" parameterType="int" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from user_coupon
+		where IsUser=0 and CouponID=#{0} and UserID=#{1}
+		order
+		by GetTime limit 0,1
+	</select>
+	
+	<!-- 根据用户用户id和优惠卷ID 获取用户领取的优惠卷 -->
+	<select id="selectCount" parameterType="int" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from user_coupon
+		where CouponID=#{0} and UserID=#{1}
+	</select>
+
+	<!-- 单用户批量领用优惠卷 -->
+	<insert id="insertList" parameterType="List">
+		<if test="list != null">
+			insert into user_coupon (ID, CouponID, UserID,
+			IsUser, UseTime,
+			UserDesc,
+			GetTime, IsDel, DelTime,
+			DelUserID, OutTime,FromType)
+			values
+			<foreach collection="list" item="item" index="index"
+				separator=",">
+				(#{item.id,jdbcType=INTEGER},
+				#{item.couponid,jdbcType=INTEGER}, #{item.userid,jdbcType=INTEGER},
+				#{item.isuser,jdbcType=BIT}, #{item.usetime,jdbcType=TIMESTAMP},
+				#{item.userdesc,jdbcType=VARCHAR},
+				#{item.gettime,jdbcType=TIMESTAMP}, #{item.isdel,jdbcType=BIT},
+				#{item.deltime,jdbcType=TIMESTAMP},
+				#{item.deluserid,jdbcType=INTEGER},
+				#{item.outtime,jdbcType=TIMESTAMP}, #{item.fromtype,jdbcType=INTEGER})
+			</foreach>
+		</if>
+	</insert>
+	<!-- 用户使用或取消优惠卷 -->
+	<update id="updateOrcancelUse" parameterType="com.yinlian.wssc.web.po.UserCoupon">
+		update user_coupon
+		set IsUser = #{isuser,jdbcType=BIT},
+		UseTime =SYSDATE(),
+		UserDesc = #{userdesc,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 用户删除或取消删除优惠卷 -->
+	<update id="deleteOrcancelCoupon" parameterType="com.yinlian.wssc.web.po.UserCoupon">
+		update user_coupon
+		set IsDel = #{isdel,jdbcType=BIT},
+		DelTime = #{deltime,jdbcType=TIMESTAMP},
+		DelUserID =#{deluserid,jdbcType=INTEGER} 
+		where CouponID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 批量取消使用优惠卷 -->
+	<update id="cancelUseList" parameterType="List">
+		<if test="list != null">
+			<foreach collection="list" item="uc" index="index" open=""
+				close="" separator=";">
+				update user_coupon
+				set  IsUser = #{uc.isuser,jdbcType=BIT},
+				UseTime =SYSDATE(),
+				UserDesc = #{uc.userdesc,jdbcType=VARCHAR}
+				where CouponID = #{uc.couponid,jdbcType=INTEGER} 
+				and  UserID=#{uc.userid,jdbcType=INTEGER}
+			</foreach>
+		</if>
+	</update>
+	
+	<select id="getUserCouponList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from user_coupon
+		where CouponID in (${0}) and UserID=#{1}
+	</select>
+</mapper>

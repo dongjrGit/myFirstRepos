@@ -1,0 +1,415 @@
+﻿<script type="text/javascript" src="/web_new/js/jquery.banner.js"></script>
+<script type="text/javascript" src="/web_new/js/jquery.SuperSlide.js"></script>
+<script src="/web_new/js/sy/sy.js"></script>
+
+<!--banner 幻灯片焦点图  开始 -->
+<div class="banner fix">
+    <!--banList 幻灯图图片 begin -->
+    <ul class="banList">
+        #set($acon=0)
+        #foreach($ad in $adlist0)
+        #set($acon=$acon+1)
+        #if($acon == 1)
+        <li class="active"><a href="$ad.Url" target="_blank"><img src="$ad.Imag" style="width:1920px;height:471px" /></a></li>
+        #else
+        <li><a href="$ad.Url" target="_blank"><img src="$ad.Imag" style="width:1920px;height:471px" /></a></li>
+        #end
+        #end
+    </ul>
+    <!--banList 幻灯图图片 stop -->
+    <!-- fomW 点击的小圆点  begin-->
+    <div class="fomW">
+        <div class="jsNav">
+            #set($adp=0)
+            #foreach($ad in $adlist0)
+            #set($adp=$adp+1)
+            #if($adp == 1)
+            <a href="javascript:void(0);" class="trigger current"></a>
+            #else
+            <a href="javascript:void(0);" class="trigger"></a>
+            #end
+            #end
+        </div>
+    </div>
+    <!-- fomW 点击的小圆点  stop-->
+</div>
+<!--banner 幻灯片焦点图  结束 -->
+<!--l_sjsy 第一屏 视觉盛宴  开始 -->
+<div class="l_sjsy fix">
+    <!--l_sjsyleft  左边开始 -->
+    <div class="l_sjsyleft" name="splift">
+        #foreach($pro in $pone)
+        <a href="$pro.ProUrl?sid=$pro.ProID">
+            <img src="$pro.ProImg" width="274" height="330">
+        </a>
+        #end
+    </div>
+    <!--l_sjsyleft  左边结束 -->
+    <!--l_sjsyright 右边开始 -->
+    <div class="l_sjsyright">
+        <div class="l_sjrigtop">
+            <ul>
+                <li class="l_czhover" data="1"><a href="javascript:;">超值特卖</a><span class="l_czrow"></span></li>
+                <li data="2"><a href="javascript:;">爆款好货</a></li>
+                <li data="3"><a href="javascript:;">天天优惠</a></li>
+            </ul>
+        </div><!--l_sjrigtop  stop -->
+        <!--l_sjrigcon   begin -->
+        <div class="l_sjrigcon" name="spright">
+            #foreach($pro in $ptwo)
+            <div class="l_sjmk">
+                <div class="l_sjmkimg"><a href="$pro.ProUrl?sid=$pro.ProID"><img src="$pro.ProImg" width="214"></a></div>
+                <div class="l_sjmkcon">
+                    <h3><a href="$pro.ProUrl?sid=$pro.ProID">$pro.ProName</a></h3>
+                    <p>价格：￥$pro.ProPrice.toString("0.00")</p>
+                </div>
+            </div>
+            #end
+        </div>
+        <!--l_sjrigcon   stop -->
+    </div>
+    <!--l_sjsyright 右边结束 -->
+</div>
+<!--l_sjsy 第一屏 视觉盛宴  结束 -->
+<!--l_jxtj 精选推荐 开始 -->
+<div class="l_jxtj fix">
+    #if($specialDatafour!="null")
+    <div class="l_jxtop">
+        <div class="l_jxtopleft">
+            <span class="bt0">$specialDatafour.SpecialName</span>
+            <span class="bt1"></span>
+            <span class="l_xh"></span>
+        </div><!-- l_jxtopleft  stop-->
+        <div class="l_jxtopright">
+            <p>FEATURED</p>
+            <p>RECOMMENDED</p>
+        </div><!--l_jxtopright  stop -->
+    </div>
+    #end
+    <!--l_jxtjcon  内容开始 -->
+    <div class="l_jxtjcon">
+        #foreach($pro in $proone)
+        <div class="l_jxtjconleft">
+            <a href="/Web/Goods/pro_detail?sid=$pro.ProID" target="_blank">
+                <img src="$pro.ProImg" width="360" height="486">
+                <!--<div class="l_tmjx">
+                    <p class="fon30">秋冬特卖矩献</p>
+                    <div class="l_borsmall_jx"></div>
+                    <p class="fon18">时尚精选 大牌低至99元</p>
+                </div>-->
+            </a>
+        </div>
+        #end
+        <div class="l_jxtjconright">
+            #foreach($pro in $protwo)
+            <div class="l_jxtjmk">
+                <div class="l_jxtjimg"><a href="/Web/Goods/pro_detail?sid=$pro.ProID" target="_blank"><img src="$pro.ProImg" width="188px" height="190px"></a></div>
+                <div class="l_jxmkcon">
+                    <h3><a href="/Web/Goods/pro_detail?sid=$pro.ProID" target="_blank">$pro.ProName</a></h3>
+                    <p>价格：￥$pro.ProPrice</p>
+                </div>
+            </div>
+            #end
+            <div class="clear"></div>
+        </div> <!--l_jxtjconright   stop -->
+    </div>
+    <!--l_jxtjcon  内容结束 -->
+</div>
+<!--l_jxtj 精选推荐 结束 -->
+#foreach($ad in $ad1)
+<div class="landphoto fix"><a href="$ad.Url" target="_blank"><img src="$ad.Imag" width="1200" height="92"></a></div>
+#end
+<!--landphoto 广告图片结束 -->
+<!--l_fzxb  服装鞋包  开始 -->
+#set($flcount=0)
+#foreach($floor in $floors)
+#set($flcount=$flcount+1)
+#set($name="label"+$flcount)
+#set($products=$floor.Products)
+<a name=$name></a>
+<div class="l_fzxb fix" id="f$flcount">
+    <div class="l_jxtop">
+        <div class="l_jxtopleft">
+            <span class="bt0">$floor.FloorName</span>
+            <span class="l_xh">/</span>
+        </div><!-- l_jxtopleft  stop-->
+        <div class="l_jxtopright">
+            <p>CLOTHING</p>
+            <p>SHOES,BAGS</p>
+        </div><!--l_jxtopright  stop -->
+    </div><!--l_jxtop  stop -->
+    <!--l_fzxbcon  内容开始 -->
+    <div class="clear"></div>
+    <div class="l_fzxbcon">
+        <!--l_fxleft  左边开始 -->
+        <div class="l_fxleft">
+            <!--l_shsle  begin -->
+            <div class="l_shsle">
+                <ul>
+                    #foreach($pro in $products)
+                    #if($pro.ProDisp==1)
+                    <li><a href="javascript:;">$pro.ProName</a></li>
+                    #end
+                    #end
+                </ul>
+            </div>
+            <!--l_shsle  stop -->
+            <!--activityBox 品牌上下移动  begin-->
+            <div class="activityBox">
+                <div class="title">
+                    <span class="next"></span>
+                </div>
+                <!--content begin -->
+                <div class="content">
+                    <div class="contentInner">
+                        <div class="tempWrap" style="overflow:hidden; position:relative; height:292px">
+                            <ul style="position: relative; padding: 0px; margin: 0px; top: 0px;">
+                                #foreach($pro in $products)
+                                #if($pro.ProDisp==2)
+                                <li><a href="ShopHome?shopid=$pro.ProID" target="_blank"><img src="$pro.Img" width="90" height="52"></a></li>
+                                #end
+                                #end
+                            </ul>
+                        </div><!--tempWrap  stop -->
+                    </div><!--contentInner  stop -->
+                    <div class="title">
+                        <span class="prev"></span>
+                    </div>
+                </div>
+                <!--content  stop -->
+            </div>
+            <!--activityBox 品牌上下移动 stop-->
+
+        </div>
+        <!--l_fxleft  左边结束 -->
+        <!--l_fxright  右边开始 -->
+        <div class="l_fxright">
+            <!--l_fxjdt  焦点图开始 -->
+            <div class="l_fxjdt">
+                #if($flcount == 1)
+                <!--main-wrap  begin -->
+                <div id="main-wrap">
+                    <div id="main">
+                        <div class="content">
+                            <!--图片轮播-->
+                            <div class="hot_wrap">
+                                <div id="target" class="tbui_slideshow_container">
+                                    <ul class="tbui_slideshow_list">
+                                        #foreach($pro in $products)
+                                        #if($pro.ProDisp==3)
+                                        <li>
+                                            <a href="/Web/Goods/pro_detail?sid=$pro.ProID" target="_blank">
+                                                <img src="$pro.Img" width="100%" />
+                                            </a>
+                                        </li>
+                                        #end
+                                        #end
+                                    </ul>
+                                </div>
+                                <div class="slide_bg"></div>
+                                <!--导航条的结构-->
+                                <ul id="controller">
+                                    #set($flp=0)
+                                    #foreach($pro in $products)
+                                    #if($pro.ProDisp==3)
+                                    <li>$flp</li>
+                                    #set($flp=$flp+1)
+                                    #end
+                                    #end
+                                </ul>
+                                <a href="javascript:;" id="prev">上一页</a> <a href="javascript:;" id="next">下一页</a>
+                            </div>
+                            <div class="left-wrap"></div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <!--main-wrap  stop -->
+                #else
+                #set($pcount=0)
+                #foreach($pro in $products)
+                #if($pro.ProDisp==3)
+                #set($pcount=$pcount+1)
+                #if($pcount==1)
+                <a href="/Web/Goods/pro_detail?sid=$pro.ProID" target="_blank"><img src="$pro.Img" width="374" height="380"></a>
+                #end
+                #end
+                #end
+                #end
+            </div>
+            <!--l_fxjdt  焦点图结束 -->
+            <!--l_jdtright焦点图右边内容  begin -->
+            <div class="l_jdtright">
+                #if($floor.FloorType ==0) ##A楼
+                #foreach($pro in $products)
+                #if($pro.ProDisp==4)
+                <div class="l_jdtrigmk">
+                    <a href="/Web/Goods/pro_detail?sid=$pro.ProID" target="_blank">
+                        <img src="$pro.Img" width="268" height="180">
+                        <div class="l_jdtrigmk_wzjs">
+                            <h3 class="fon16"></h3>
+                            <p class="red fon14"></p>
+                        </div>
+                        <div class="m_hover"></div>
+                    </a>
+                </div>
+                #end
+                #end
+                #else
+                <div class="l_ghmztop">
+                    #foreach($pro in $products)
+                    #if($pro.ProDisp==4)
+                    <div class="l_jdtrigmk">
+                        <a href="/Web/Goods/pro_detail?sid=$pro.ProID" target="_blank">
+                            <img src="$pro.Img" width="268" height="180">
+                            <div class="l_jdtrigmk_wzjs">
+                                <h3 class="fon16"></h3>
+                                <p class="red fon14"></p>
+                            </div>
+                            <div class="m_hover"></div>
+                        </a>
+                    </div>
+                    #end
+                    #end
+                </div>
+                <!--l_ghmztop  结束 -->
+                <!--l_ghmzbottom  begin -->
+                <div class="l_ghmzbottom">
+                    #foreach($pro in $products)
+                    #if($pro.ProDisp==5)
+                    <div class="l_ghmzmk">
+                        <a href="/Web/Goods/pro_detail?sid=$pro.ProID" target="_blank">
+                            <img src="$pro.Img" width="173" height="181">
+                            <div class="m_hover"></div>
+                        </a>
+                    </div>
+                    #end
+                    #end
+                </div>
+                <!--l_ghmzbottom  stop -->
+                #end
+            </div>
+
+            <!--l_jdtright焦点图右边内容  stop -->
+        </div>
+        <!--l_fxright  右边结束 -->
+    </div>
+
+    <!--l_fzxbcon  内容结束 -->
+</div>
+ #if($floor.FloorType==1)
+ #foreach($ad in $adlist2)
+ #if($ad.Display==($flcount+1))
+<div class="landphoto fix"><a href="$ad.Url" target="_blank"><img src="$ad.Imag" width="1200" height="92"></a></div>
+ #end
+ #end
+ #end
+#end
+
+
+<div id="box">
+    <ul>
+        #set($i=1)
+        #foreach($fl in $floors)
+        #set($href="#label"+$i)
+        <li>
+            <a class="num" href=#f$i style="display:none">$i F</a>
+            <a class="word" id="f$i" href=#f$i style="display:none">$fl.FloorName</a>
+        </li>
+        #set($i=$i+1)
+        #end
+        <li>
+            <a class="num" href="#"><span class="floor09"></span></a>
+            <a class="word" href="#">回到顶部</a>
+        </li>
+    </ul>
+</div>
+
+<!--box 左边楼层特效  结束 -->
+<!--上下滚动的品牌图片 -->
+<script type="text/javascript">jQuery(".activityBox").slide({ mainCell: ".contentInner ul", effect: "top", delayTime: 400 });</script>
+
+
+<!--楼层中间大图滚动-->
+<script src="/web_new/js/sy/all_dfd5691e.js"></script>
+<script>
+    $(function () {
+        new SlideShow({
+            nav: "#controller",
+            effect: "fade",
+            target: "#target",
+            activeClass: "active",
+            next: "#next",
+            prev: "#prev",
+            auto: true
+        });
+
+        $(".banner").swBanner();
+    })
+</script>
+
+<!--楼层浮动导航-->
+<script src="/js/jquery.nav.js"></script>
+
+<script>
+    $(function () {
+        $('#box').onePageNav({
+            scrollThreshold: 0.3//阈值 楼层高度系数
+        });
+
+        $(window).scroll(function () {
+            if ($(window).scrollTop() > 1534) {
+                $('#box').show();
+            } else {
+                $('#box').hide();
+            }
+        });
+        //楼层浮动导航初始化
+        window.prettyPrint && prettyPrint();
+
+        //$('#box ul li').hover(function () {
+        //    $(this).find('.num').hide().siblings('.word').css({ 'display': 'block', 'background': '#CB1C39', 'color': 'white' });
+        //}, function () {
+        //    $(this).find('.num').css({ 'display': 'block', 'background': '#EFEFEF', 'color': '#666' }).siblings('.word').hide().css({ 'display': 'none', 'background': '', 'color': '' });
+        //})
+        var select = false;
+        //楼层浮动导航鼠标点击效果
+        $('#box ul li').click(function () {
+            select = true;
+            $(this).find('.num').hide().siblings('.word').css('display', 'block');
+            $(this).siblings('li').find('.num').show().siblings('.word').hide();
+        })
+        //楼层浮动导航鼠标浮动效果
+        $('#box ul li').hover(function () {
+            if ($(this).find('.num').attr("style") == "display: block;") {
+                select = false;
+                $(this).find('.num').hide().siblings('.word').css({ 'display': 'block' });
+                $(this).find('.word').show();
+            } else {
+                select = true;
+            }
+        }, function () {
+            if (select == false) {
+                $(this).find('.num').css({ 'display': 'block' }).siblings('.word').hide();
+            }
+        })
+
+        setTimeout(function () {
+            //页面加载埋点
+            var kn = "pv/load/buy";
+            var isacc = infoc.getCookie("_isAcced");
+            if (isacc == undefined || isacc == null || isacc == "") {
+                kn += "/uv";
+                infoc.setCookie("_isAcced", 1, 24);
+            }
+            infoc.add(kn, "/Web/Sy/Sypt", 11, 0);
+        }, 1);
+
+
+        $(window).bind("beforeunload", function () {
+            //页面关闭埋点
+            infoc.add("load", "/Web/Sy/Sypt", 12, 0);
+        })
+    })
+
+</script>

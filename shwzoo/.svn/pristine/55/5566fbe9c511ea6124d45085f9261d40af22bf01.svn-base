@@ -1,0 +1,58 @@
+<%var path="/resource";%>
+<head>
+
+<title>登录</title>
+<!--  <link rel="stylesheet" href="/wap/css/public.css" type="text/css" media="screen">-->
+<link rel="stylesheet" href="${path}/wap/css/indexNew.css" type="text/css" media="screen">
+
+<script type="text/javascript">
+function xiayibu(){
+	var phone = $("#phone").val();
+	 $.ajax(({
+	        type: "post",
+	        url: "/api/wap/sms/send",
+	        dataType: "json",
+	        data: {ph: phone, 
+	        	smsType: 0,
+	        	ch: 3},
+	        success: function (rsl) {
+	            if (rsl.code == 0) {
+	            	window.location.href="/wap/user/showRegisterSms?phone="+phone;
+	            }
+	            else {
+	               // $("#userName").focus();
+	               // $("#div_errormessage").text(rsl.desc);
+	            }
+	        },
+	        error: function (e) {
+	        	//$("#div_errormessage").text("注册失败");
+	        }
+	    }));
+	
+	
+}
+</script>
+</head>
+<body>
+<!--container  begin-->
+<div class="container fix">
+	<!--l_alltop  begin -->
+	<div class="l_alltop fix">
+    	<a href="/wap/user/showlogin"><span><img src="${path}/wap/images/tp10.png" class="img-responsive l_maxwid"></span></a>
+    	手机快速注册
+    </div>
+    <!--l_alltop  stop -->
+    <!--l_logcon  begin -->
+    <div class="l_logcon">
+    	<div class="l_logconmk fix l_nobor">
+            <input name="phone" id="phone" type="text" placeholder="请输入手机号" class="l_srsjh l_active">
+        </div><!-- l_logconmk  stop-->
+    </div>
+    <div class="l_tyyhxy"><input name="" type="radio" value="" checked>同意 <a href="#">用户协议</a></div>
+    <!--l_logcon  stop -->
+    <div class="l_dlan l_wcan"><a href="javascript:void(0);" onclick="xiayibu()">下一步</a></div>
+    <div class="l_tyyhxy">遇到问题？您可以<a href="#" class="underline">联系客服</a></div>
+</div>
+<!--container  stop -->
+</body>
+

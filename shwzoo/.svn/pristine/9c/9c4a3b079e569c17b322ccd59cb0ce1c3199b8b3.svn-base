@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.SearchProductMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.dto.ProLuceneDto" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="brandid" property="brandid" jdbcType="INTEGER" />
+    <result column="brandname" property="brandname" jdbcType="VARCHAR" />
+    <result column="classid" property="classid" jdbcType="INTEGER" />
+    <result column="classname" property="classname" jdbcType="VARCHAR" />
+    <result column="shopid" property="shopid" jdbcType="INTEGER" />
+    <result column="shopname" property="shopname" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="shorttitle" property="shorttitle" jdbcType="VARCHAR" />
+    <result column="spudesc" property="spudesc" jdbcType="VARCHAR" />
+    <result column="tag" property="tag" jdbcType="VARCHAR" />
+    <result column="fullpath" property="fullpath" jdbcType="VARCHAR" />
+    <result column="strKeys" property="strkeys" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="getprolist" resultMap="BaseResultMap">
+    SELECT spu.ID,
+           spu.Name,
+           spu.Tag,
+           spu.Title_short AS shorttitle,
+           spu.Description AS spudesc,
+           c.ID AS classid,
+           s.ID AS shopid,
+           b.ID AS brandid,
+           c.Name AS classname,
+           s.Name AS shopname,
+           b.Name AS brandname,
+           c.FullPath AS fullpath
+        FROM SPU LEFT JOIN 
+        category AS c ON spu.ClassID=c.ID  LEFT JOIN
+        Shop AS s ON spu.ShopID=s.ID LEFT JOIN 
+        Brand AS b ON spu.BrandID =b.ID
+        WHERE spu.IsDel=0 and s.Status=4 AND spu.Status=3 and c.IsDel=0
+  </select>
+  
+  <select id="getvaluesByspuID" resultType="com.yinlian.wssc.web.po.Specsvalues" parameterType="int">
+    SELECT svs.Value 
+    FROM sku INNER JOIN
+         SKU_SpecsV AS ssv ON sku.ID = ssv.SKU_ID  INNER JOIN 
+         SpecsValues AS svs ON ssv.SpecsV_ID = svs.ID
+         WHERE  svs.Status=0 AND sku.SPU_ID=#{0}
+  </select>
+  </mapper>

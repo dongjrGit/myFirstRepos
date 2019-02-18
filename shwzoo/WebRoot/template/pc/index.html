@@ -1,0 +1,622 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>因联商城|中国绿色食品展销中心</title>
+		<meta content="因联商城|中国绿色食品展销中心" name="keyword" />
+		<meta name="title" content="因联商城" />
+		<link href="/resource/pc/web/css/common.css" rel="stylesheet" />
+		<link href="/resource/pc/web/css/top-footer.css" rel="stylesheet" />
+		<link href="/resource/pc/web/css/womenclothing.css" rel="stylesheet" />
+		<link href="/resource/pc/web/css/index.css" rel="stylesheet" />
+		<link href="/resource/ui-dialog.css" rel="stylesheet" />
+		<link rel="shortcut icon" href="/resource/pc/web/images/favicon_shortcut.ico" />
+		<script src="/resource/jquery-1.9.1.min.js"></script>
+		<script src="/resource/cookie.js"></script>
+		<script src="/resource/pc/web/js/login/login.js"></script>
+		<script src="/resource/pc/web/js/shopcart/addcart.js"></script>
+		<script type="text/javascript" src="/resource/pc/web/js/jquery.SuperSlide.js"></script>
+		<script type="text/javascript" src="/resource/pc/web/js/sy/sy.js"></script>
+		<script src="/resource/pc/web/js/index.js"></script>
+		<!--楼层浮动导航-->
+		<script src="/resource/pc/web/js/sy/jquery.nav.js"></script>
+		<script type="text/javascript" src="/resource/pc/web/js/nav.js"></script>
+		<script type="text/javascript" src="/resource/pc/web/js/unslider.js"></script>
+	</head>
+	<body>
+		<%if(isNotEmpty(adtop)){%>
+		<div class="topimg">
+			<% var adco=1;
+			for(adt in adtop){
+			if(adco==1){
+			%>
+			<a href="${adt.url!'javascript:void(0)'}"><img src="${adt.imag}" /></a>
+			<div class="w1200">
+				<i></i>
+			</div>
+			<%
+			adco=adco+1;
+			}}%>
+		</div>
+		<%}%>
+		<!-- 加载top 文件 -->
+		<% try{
+		include("/template/pc/head/top.html",{userinfo:userinfo,keysdata:keysdata,navskhfw:navskhfw}){}}catch(error){}%>
+		<% try{
+		include("/template/pc/nav/navclass.html",{classlist:classlist,isindex:true}){}}catch(error){}%>
+		<!--banner 幻灯片焦点图  开始 -->
+		<div class="banner fix">
+			<!--banList 幻灯图图片 begin -->
+			<ul class="banList">
+				<%var adcon=1; if(isNotEmpty(adlist)){%> <% for(ad in adlist){
+				if(adcon==1){ %>
+				<li class="active">
+					<a href="${ad.url!'javascript:void(0)'}"
+					target="_blank"><img src="${ad.imag}" /></a>
+				</li>
+				<%}else{%>
+				<li>
+					<a href="${ad.url!'javascript:void(0)'}" target="_blank"><img
+					src="${ad.imag}" /></a>
+				</li> <%
+				}adcon++;}}%>
+			</ul>
+			<!--banList 幻灯图图片 stop -->
+			<!-- fomW 点击的小圆点  begin-->
+			<div class="fomW">
+				<div class="jsNav">
+					<%var adpcon=1; if(isNotEmpty(adlist)){%> <% for(ad in adlist){
+					if(adpcon==1){ %> <a href="javascript:void(0);"
+					class="trigger current"></a> <%}else{%> <a
+					href="javascript:void(0);" class="trigger"></a> <%}adpcon++;}}%>
+				</div>
+			</div>
+			<!-- fomW 点击的小圆点  stop-->
+		</div>
+		<!--banner 幻灯片焦点图  结束 -->
+		<!--l_sjsy 第一屏 视觉盛宴  开始 -->
+		<div class="l_sjsy fix">
+			<!--l_sjsyleft  左边开始 -->
+			<div class="l_sjsyleft" id="splift">
+				<%if(isNotEmpty(tpartone)){%> <a target=" _blank" 
+				href="/web/products/proinfo.html?spuid=${tpartone.spuid}"> <img
+				src="${tpartone.img}" width="274" height="330"></a> <%}%>
+			</div>
+			<div class="l_sjsyleft" id="splift1" style="display: none;">
+				<%if(isNotEmpty(tpartoness)){%> <a target=" _blank" 
+				href="/web/products/proinfo.html?spuid=${tpartoness.spuid}"> <img
+				src="${tpartoness.img}" width="274" height="330"></a> <%}%>
+			</div>
+			<div class="l_sjsyleft" id="splift2" style="display: none;">
+				<%if(isNotEmpty(tpartonehh)){%> <a target=" _blank" 
+				href="/web/products/proinfo.html?spuid=${tpartonehh.spuid}"> <img
+				src="${tpartonehh.img}" width="274" height="330"></a> <%}%>
+			</div>
+			<div class="l_sjsyleft" id="splift3" style="display: none;">
+				<%if(isNotEmpty(tpartonetj)){%> <a target=" _blank" 
+				href="/web/products/proinfo.html?spuid=${tpartonetj.spuid}"> <img
+				src="${tpartonetj.img}" width="274" height="330"></a> <%}%>
+			</div>
+			<!--l_sjsyleft  左边结束 -->
+			<!--l_sjsyright 右边开始 -->
+			<div class="l_sjsyright">
+				<div class="l_sjrigtop">
+					<ul>
+
+						<li class="l_czhover" data="0">
+							<a href="javascript:;">超值特卖</a><span class="l_czrow"></span>
+						</li>
+						<li data="1">
+							<a   href="javascript:;">新品上市</a><span ></span>
+						</li>
+						<li data="2">
+							<a  href="javascript:;">爆款好货</a><span ></span>
+						</li>
+						<li data="3">
+							<a   href="javascript:;">限时抢购</a><span ></span>
+						</li>
+
+					</ul>
+				</div>
+				<!--l_sjrigtop  stop -->
+				<!--l_sjrigcon   begin -->
+				<!--超值特卖 -->
+				<div class="l_sjrigcon" id="spright">
+					<%if(isNotEmpty(tparttwo)){%> <%for(pro in tparttwo){%>
+					<div class="l_sjmk">
+						<div class="l_sjmkimg">
+							<a target=" _blank" href="/web/products/proinfo.html?spuid=${pro.spuid}"><img
+							src="${pro.img}"></a>
+						</div>
+						<div class="l_sjmkcon">
+							<h3><a href="javascript:void(0)">${pro.name}</a></h3>
+							<p>
+								￥${pro.price!0,numberFormat="0.00"}
+							</p>
+						</div>
+					</div>
+					<%}%> <%}%>
+				</div>
+				<!--超值特卖 -->
+				<!--新品上市 -->
+				<div class="l_sjrigcon" id="spright1" style="display: none;">
+					<%if(isNotEmpty(tparttwoss)){%> <%for(pro in tparttwoss){%>
+					<div class="l_sjmk">
+						<div class="l_sjmkimg">
+							<a target=" _blank" href="/web/products/proinfo.html?spuid=${pro.spuid}"><img
+							src="${pro.img}"></a>
+						</div>
+						<div class="l_sjmkcon">
+							<h3><a href="javascript:void(0)">${pro.name}</a></h3>
+							<p>
+								￥${pro.price!0,numberFormat="0.00"}
+							</p>
+						</div>
+					</div>
+					<%}%> <%}%>
+				</div>
+				<!--新品上市 -->
+				<!--爆款好货 -->
+				<div class="l_sjrigcon" id="spright2" style="display: none;">
+					<%if(isNotEmpty(tparttwoHH)){%> <%for(pro in tparttwoHH){%>
+					<div class="l_sjmk">
+						<div class="l_sjmkimg">
+							<a target=" _blank" href="/web/products/proinfo.html?spuid=${pro.spuid}"><img
+							src="${pro.img}"></a>
+						</div>
+						<div class="l_sjmkcon">
+							<h3><a href="javascript:void(0)">${pro.name}</a></h3>
+							<p>
+								￥${pro.price!0,numberFormat="0.00"}
+							</p>
+						</div>
+					</div>
+					<%}%> <%}%>
+				</div>
+				<!--爆款好货 -->
+				<!--限时抢购 -->
+				<div class="l_sjrigcon" id="spright3" style="display: none;">
+					<%if(isNotEmpty(tparttwotj)){%> <%for(pro in tparttwotj){%>
+					<div class="l_sjmk">
+						<div class="l_sjmkimg">
+							<a target="_blank"  href="/web/products/proinfo.html?spuid=${pro.spuid}"><img
+							src="${pro.img}"></a>
+						</div>
+						<div class="l_sjmkcon">
+							<h3><a href="javascript:void(0)">${pro.name}</a></h3>
+							<p>
+								￥${pro.price!0,numberFormat="0.00"}
+							</p>
+						</div>
+					</div>
+					<%}%> <%}%>
+				</div>
+				<!--限时抢购 -->
+				<!--l_sjrigcon   stop -->
+			</div>
+			<!--l_sjsyright 右边结束 -->
+		</div>
+		<!--l_sjsyright 右边结束 -->
+	</div>
+	<!--l_sjsy 第一屏 视觉盛宴  结束 -->
+	<div class="zlts-zy fix">
+	<div class="l_jxtop">
+		<div class="l_jxtopleft">
+			<span class="bt0">中绿特色</span><img src="/resource/pc/web/images/1468473979672.jpg" alt="" />
+		</div>
+		<!-- l_jxtopleft  stop-->
+	</div>
+	<!--l_jxtop  stop -->
+	<div class="zlts-zycon fix">
+		<div class="zlts-zyconmk num1"><a href="/web/activity/shangou.html"><img src="/resource/pc/web/images/zlxztp1.jpg"></a></div>
+		<div class="zlts-zyconmk"><a href="/zlzx/zlwd_mrx.html?mark=15"><img src="/resource/pc/web/images/zlxztp2.jpg"></a></div>
+		<div class="zlts-zyconmk"><a href="/zlzx/zlwd_mrx.html?mark=16"><img src="/resource/pc/web/images/zlxztp3.jpg"></a></div>
+		<div class="zlts-zyconmk"><a href="/web/coupon/index.html"><img src="/resource/pc/web/images/zlxztp4.jpg"></a></div>
+	</div>
+</div>
+		<!--l_jxtj 精选推荐 开始 -->
+		<div class="l_jxtj fix">
+			<div class="l_jxtop" style="width: 1200px">
+				<div class="l_jxtopleft">
+					<span class="bt0">${tps.name!}</span><img src="${tps.imgurl!}" alt="" />
+					<span style="margin-left:700px;margin-top: 3px" ></span>
+				</div>
+				<a href="/zlzx/zlwd_mrx.html?mark=${tps.mark!}" class='floatr'>更多 ></a>
+				<!-- l_jxtopleft  stop-->
+			</div>
+			<!--l_jxtjcon  内容开始 -->
+			<div class="l_jxtjcon" style="width: 1200px">
+
+				<div class="l_jxtjconleft"  style="width: 280px">
+					<a href="/web/products/proinfo.html?spuid=${topspuonetj.spuid}"
+					target="_blank"> <img src="${topspuonetj.img}" width="280"
+					height="486"></a>
+				</div>
+				<div class="l_jxtjconright"  style="width: 920px">
+					<%if(isNotEmpty(topsputwotj)){%> <%for(pro in topsputwotj){%>
+					<div class="l_jxtjmk">
+						<div class="l_jxtjimg"  >
+							<a href="/web/products/proinfo.html?spuid=${pro.spuid}"
+							target="_blank"><img src="${pro.img}" width="230px"
+							height="190px"></a>
+						</div>
+						<div class="l_jxmkcon">
+							<h3><a href="javascript:void(0)" target="_blank">${pro.name}</a></h3>
+							<p>
+								￥${pro.price!0,numberFormat="0.00"}
+							</p>
+						</div>
+					</div>
+					<%}%> <%}%>
+					<div class="clear"></div>
+				</div>
+				<!--l_jxtjconright   stop -->
+			</div>
+			<!--l_jxtjcon  内容结束 -->
+		</div>
+		<!--l_jxtj 精选推荐 结束 -->
+
+		<!--landphoto 广告图片开始 -->
+		<!-- <div class="landphoto fix">
+		<a href="#"><img src="/resource/pc/web/images/land.png" width="1200" height="92"></a>
+		</div> -->
+
+		<!--landphoto 广告图片结束 -->
+		<!--l_fzxb  楼层  开始 -->
+		<% var flcount=0; 
+		var isaorb=0;  
+		var isbreak=1;
+		var ads=0;  
+		var b=0; 
+		for(floor in floors){ 
+		flcount=flcount+1; 
+		var name="label"+flcount; %>
+		<% if(isaorb%2==0){ 
+		if(adlistsize2>=ads){%>
+		<% if(isNotEmpty(adlist2)){%>
+		<%for(ad in adlist2){ b=b+1;%>
+		<% if(adlistsize2>=isbreak) { if(isbreak==b){%>
+		<div class="landphoto fix">
+			<a href="${ad.url}" target="_blank"><img src="${ad.imag}"
+			width="1200" height="92"></a>
+		</div>
+		<% b=0;isbreak=isbreak+1;ads=ads+1;break;}
+
+		}else{
+		continue;
+		}%>
+		<% }%>
+		<%}%>
+		<%}} isaorb=isaorb+1;%>
+		<a name=${name}></a>
+		<div class="l_fzxb fix" id="f${flcount}">
+			<div class="l_jxtop">
+				<div class="l_jxtopleft">
+					<span class="bt0">${floor.flname}</span>
+				</div>
+				<!-- l_jxtopleft  stop-->
+
+			</div>
+			<!--l_jxtop  stop -->
+			<!--l_fzxbcon  内容开始 -->
+			<div class="clear"></div>
+			<div class="l_fzxbcon">
+				<!--l_fxleft  左边开始 -->
+				<div class="l_fxleft">
+					<div class="l_fxleft_topimg">
+						<a href="#"><img src="${floor.imgurl}"/></a>
+					</div>
+					<!--l_shsle  begin -->
+					<div class="l_shsle">
+						<ul>
+							<%for(pro in floor.flpros)
+							{ if(pro.display==1){%>
+							<%if(pro.protype==0){%>
+							<li>
+								<a target="_blank" href="/web/products/proinfo.html?spuid=${pro.proid}">${pro.proname}</a>
+							</li>
+							<%}else if(pro.protype==1){%>
+							<li>
+								<a target="_blank" href="/web/shop/details.html?flagshopId=${pro.proid}">${pro.proname}</a>
+							</li>
+							<%}else if(pro.protype==2){%>
+							<li>
+								<a target="_blank" href="/web/products/proList.html?cid=${pro.proid}">${pro.proname}</a>
+							</li>
+							<%}else if(pro.protype==3){%>
+							<li>
+								<a target="_blank"  href="javascript:void(0);">${pro.proname}</a>
+							</li> <%}%>
+							<%}}%>
+						</ul>
+					</div>
+					<!--l_shsle  stop -->
+
+				</div>
+				<!--l_fxleft  左边结束 -->
+				<!--l_fxright  右边开始 -->
+				<div class="l_fxright">
+					<!--l_fxjdt  焦点图开始 -->
+					<div class="l_fxjdt">
+						<%if(flcount == 1){%>
+						<!--main-wrap  begin -->
+						<div id="main-wrap">
+							<div id="main">
+								<div class="content">
+									<!--图片轮播-->
+									<div class="hot_wrap">
+										<div id="target" class="tbui_slideshow_container">
+											<ul class="tbui_slideshow_list">
+												<%for(pro in floor.flpros){ if(pro.display==3){%>
+												<li>
+													<a
+													href="/web/products/proList.html?cid=${pro.proid}"
+													target="_blank"> <img src="${pro.img}" width="100%" /> </a>
+												</li>
+												<%}}%>
+											</ul>
+										</div>
+
+									</div>
+									<div class="left-wrap"></div>
+								</div>
+								<div class="clear"></div>
+							</div>
+						</div>
+						<!--main-wrap  stop -->
+						<%}else{%> <% var pcount=0; for(pro in floor.flpros){
+						if(pro.display==3){ pcount=pcount+1; if(pcount==1){ %> <a
+						href="/web/products/proList.html?cid=${pro.proid}"
+						target="_blank"><img src="${pro.img}" width="374" height="380"></a>
+
+						<%}}}}%>
+					</div>
+					<!--l_fxjdt  焦点图结束 -->
+					<!--l_jdtright焦点图右边内容  begin -->
+					<div class="l_jdtright">
+						<%if(floor.fltype ==0) { for(pro in floor.flpros){
+						if(pro.display==4){%>
+						<div class="l_jdtrigmk">
+							<a href="/web/products/proinfo.html?spuid=${pro.proid}"
+							target="_blank"> <img src="${pro.img}" width="268"
+							height="180">
+							<div class="l_jdtrigmk_wzjs">
+								<h3 class="fon16"></h3>
+								<p class="red fon14"></p>
+							</div> <div class="m_hover"></div></a>
+						</div>
+						<%}}}else{%>
+
+						<div class="l_ghmztop">
+							<%for(pro in floor.flpros){ if(pro.display==4){%>
+							<div class="l_jdtrigmk">
+								<a href="/web/products/proinfo.html?spuid=${pro.proid}"
+								target="_blank"> <img src="${pro.img}" width="268"
+								height="180">
+								<div class="l_jdtrigmk_wzjs">
+									<h3 class="fon16"></h3>
+									<p class="red fon14"></p>
+								</div> <div class="m_hover"></div></a>
+							</div>
+							<%}}%>
+						</div>
+						<!--l_ghmztop  结束 -->
+						<!--l_ghmzbottom  begin -->
+						<div class="l_ghmzbottom">
+							<%for(pro in floor.flpros){ if(pro.display==5){%>
+							<div class="l_ghmzmk">
+								<a href="/web/products/proinfo.html?spuid=${pro.proid}"
+								target="_blank"> <img src="${pro.img}" width="173"
+								height="181"> <div class="m_hover"></div></a>
+							</div>
+							<%}}%>
+						</div>
+						<!--l_ghmzbottom  stop -->
+						<%}%>
+					</div>
+
+					<!--l_jdtright焦点图右边内容  stop -->
+				</div>
+				<!--l_fxright  右边结束 -->
+
+				<!--l_fzxbcon  内容结束 -->
+			</div>
+
+			<!-- <div class="landphoto fix"><a href="$ad.Url" target="_blank"><img src="" width="1200" height="92"></a></div> -->
+			<!--activityBox 品牌上下移动  begin-->
+			<div class="activityBox fix">
+
+				<ul  class="fix">
+					<%for(pro in floor.flpros){ if(pro.display==2){%>
+					<li>
+						<a href="/web/shop/details.html?flagshopId=${pro.proid}"
+						target="_blank"><img src="${pro.img}" width="90" height="52"></a>
+					</li>
+
+					<%}}%>
+				</ul>
+
+			</div>
+			<!--activityBox 品牌上下移动 stop-->
+		</div>
+		<%}%>
+		<div class="boxwrap">
+		<div id="box">
+			<ul>
+				<% var i=1; for(fl in floors){ var href="#label"+i;%>
+				<li>
+					<a class="num" href=#f${i} >${i} F</a>
+					<a class="word" id="f${i}" href=#f${i} style="display: none">${fl.flname}</a>
+				</li>
+				<%i=i+1;}%>
+				<li id="totop">
+					<a class="num" href="#"><span class="floor09"></span></a><a
+					class="word" href="#">回到顶部</a>
+				</li>
+			</ul>
+		</div>
+       </div>
+		<% try{
+		include("/template/pc/head/footer.html",{newscone:newscone,newsctwo:newsctwo,newscwthree:newscwthree,newscfour:newscfour,newscfive:newscfive}){}}catch(error){}%>
+
+		<div id="J-global-toolbar">
+			<div class="toolbar-wrap J-wrap">
+				<div class="toolbar">
+					<div class="toolbar-tabs J-tab">
+						<a href="/member/homepage/homepages.html">
+						<div class="toolbar-tab tbar-tab-huiyuan">
+							<i class="tab-ico"></i><em class="tab-text">我的会员</em><span class="tab-sub J-count hide">1</span>
+						</div></a>
+						<a href="/web/cart.html">
+						<div class="toolbar-tab tbar-tab-cart">
+							<i class="tab-ico"></i><em class="tab-text">购物车</em><span class="tab-sub J-count hide">0</span>
+						</div></a>
+						<a href="/member/pcconcern/selectSpucollect.html">
+						<div class="toolbar-tab tbar-tab-follow">
+							<i class="tab-ico"></i><em class="tab-text">我的关注</em><span class="tab-sub J-count hide">0</span>
+						</div></a>
+						<a href="/member/coupon/balancepay1">
+						<div class="toolbar-tab tbar-tab-congzhi">
+							<i class="tab-ico"></i><em class="tab-text">充值中心</em><span class="tab-sub J-count hide">1</span>
+						</div></a>
+						<a href="#">
+						<div class="toolbar-tab tbar-tab-top">
+							<i class="tab-ico"></i><em class="tab-text">返回顶部</em><span class="tab-sub J-count hide">1</span>
+						</div> </a>
+					</div>
+					<div class="toolbar-footer">
+						<div class="toolbar-tab tbar-tab-feedback">
+							<a href="#" target="_blank"><i class="tab-ico"></i><em class="footer-tab-text">反馈</em></a>
+						</div>
+					</div>
+					<div class="toolbar-mini"></div>
+				</div>
+				<div id="J-toolbar-load-hook"></div>
+			</div>
+		</div>
+		<script language="javascript">
+			var isindex = true;
+			$(document).ready(function() {
+				//关键字搜索
+				//autoxl.bindex("select_key", getKeysStartwithName, 440);
+				$(".btn-search").bind("click", function() {
+					var searchkey = $("#select_key").val();
+					if ($("#select_key").val() != undefined && $("#select_key").val() != "" && $("#select_key").val() != "select_key") {
+						searchkey = encodeURIComponent($("#select_key").val());
+						location.href = "/web/products/searchList.html?keywords=" + searchkey;
+					} else {
+						alert("请输入关键字");
+					}
+					/* setTimeout(function() {
+					 infoc.add(searchkey,
+					 "Sypt/Search", 0, 1);
+					 }, 1); */
+				});
+				$("#select_key").keyup(function(event){
+					  if(event.keyCode ==13){
+					    $("#submit").trigger("click");
+					  }
+					});
+			});
+
+		</script>
+		<script>
+			$(function() {
+
+				$('#box').onePageNav({
+					scrollThreshold : 0.3
+					//阈值 楼层高度系数
+				});
+
+				$(window).scroll(function() {
+					if ($(window).scrollTop() > 1534) {
+						$('#box').onePageNav({
+							scrollThreshold : 0.3
+							//阈值 楼层高度系数
+						});
+						$('#box').show();
+					} else {
+						$('#box').hide();
+					}
+				});
+				//楼层浮动导航初始化
+				window.prettyPrint && prettyPrint();
+
+				//$('#box ul li').hover(function () {
+				//    $(this).find('.num').hide().siblings('.word').css({ 'display': 'block', 'background': '#CB1C39', 'color': 'white' });
+				//}, function () {
+				//    $(this).find('.num').css({ 'display': 'block', 'background': '#EFEFEF', 'color': '#666' }).siblings('.word').hide().css({ 'display': 'none', 'background': '', 'color': '' });
+				//})
+				var select = false;
+				//楼层浮动导航鼠标点击效果
+				$('#box ul li').click(function() {
+					if($(this).attr("id")!="totop"){
+					select = true;
+					$(this).find('.num').hide().siblings('.word').css('display', 'block');
+					$(this).siblings('li').find('.num').show().siblings('.word').hide();
+					}else{
+						select = true;
+					$(this).find('.num').show();
+					$(this).find('.word').hide();
+					$(this).siblings('li').find('.num').show().siblings('.word').hide();
+					window.location.href="#";
+					}
+				})
+				//楼层浮动导航鼠标浮动效果
+				$('#box ul li').hover(function() {
+					if ($(this).find('.num').attr("style") == "display: block;") {
+						select = false;
+						$(this).find('.num').hide().siblings('.word').css({
+							'display' : 'block'
+						});
+						$(this).find('.word').show();
+					} else {
+						select = true;
+					}
+				}, function() {
+					if (select == false) {
+						$(this).find('.num').css({
+							'display' : 'block'
+						}).siblings('.word').hide();
+					}
+				})
+			})
+		</script>
+		<script type="text/javascript">
+			$('.all-sort-list > .item').hover(function() {
+				var eq = $('.all-sort-list > .item').index(this),
+				//获取当前滑过是第几个元素
+				h = $('.all-sort-list').offset().top,
+				//获取当前下拉菜单距离窗口多少像素
+				s = $(window).scrollTop(),
+				//获取游览器滚动了多少高度
+				i = $(this).offset().top,
+				//当前元素滑过距离窗口多少像素
+				item = $(this).children('.item-list').height(),
+				//下拉菜单子类内容容器的高度
+				sort = $('.all-sort-list').height();
+				//父类分类列表容器的高度
+				$(this).addClass('hover');
+				$(this).children('.item-list').css('display', 'block');
+			}, function() {
+				$(this).removeClass('hover');
+				$(this).children('.item-list').css('display', 'none');
+			});
+			$('.item > .item-list > .close').click(function() {
+				$(this).parent().parent().removeClass('hover');
+				$(this).parent().hide();
+			});
+			$('.banner').unslider({
+				speed : 500, //  The speed to animate each slide (in milliseconds)
+				delay : 5000, //  The delay between slide animations (in milliseconds)
+				complete : function() {
+				}, //  A function that gets called after every slide animation
+				keys : true, //  Enable keyboard (left, right) arrow shortcuts
+				dots : true, //  Display dot navigation
+				fluid : false, //  Support responsive design. May break non-responsive designs
+				autoplay : true
+			});
+		</script>
+	</body>
+</html>

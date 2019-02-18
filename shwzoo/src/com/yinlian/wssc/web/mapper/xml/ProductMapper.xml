@@ -1,0 +1,707 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.ProductMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.dto.ProductListDto">
+		<id column="sid" property="id" jdbcType="INTEGER" />
+		<result column="Name" property="name" jdbcType="VARCHAR" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="Title_short" property="titleShort" jdbcType="VARCHAR" />
+		<result column="ProNum" property="proNum" jdbcType="VARCHAR" />
+		<result column="ClassID" property="classID" jdbcType="INTEGER" />
+		<result column="BrandID" property="brandID" jdbcType="INTEGER" />
+		<result column="CreateTime" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="IsOwned" property="isOwned" jdbcType="BIT" />
+		<result column="ShopID" property="shopID" jdbcType="INTEGER" />
+		<result column="Price" property="price" jdbcType="REAL" />
+		<result column="ShopName" property="shopName" jdbcType="VARCHAR" />
+		<result column="UserID" property="userID" jdbcType="INTEGER" />
+		<result column="FullPath" property="fullPath" jdbcType="VARCHAR" />
+		<result column="ImgUrl_App" property="imgApp" jdbcType="VARCHAR" />
+		<result column="searchpath" property="searchpath" jdbcType="VARCHAR" />
+		<result column="WapPrice" property="wapprice" jdbcType="REAL" />
+		<result column="AppPrice" property="appprice" jdbcType="REAL" />
+		<result column="isoffer" property="isoffer" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		 sid,Name,Status,Title_short ,ProNum,ClassID,
+		 BrandID,CreateTime,IsOwned,ShopID ,Price,		
+		 ShopName,UserID
+		,FullPath,ImgUrl_App,searchpath, AppPrice,
+		 WapPrice
+	</sql>
+	<!-- 下面是自定义的分页查询语句 -->
+	<sql id="criteria_query">
+		<where>
+			<if test="criteria.cid != null and criteria.cid != '' ">
+				and searchpath like '%,${criteria.cid},%'
+			</if>
+			<if test="criteria.isowend != null and criteria.isowend != '' ">
+				and IsOwned = #{criteria.isowend}
+			</if>
+			<if
+				test="criteria.bid != null and criteria.bid != '' and criteria.bid > 0">
+				and BrandID = #{criteria.bid}
+			</if>
+			<if test="criteria.num != null and criteria.num != '' ">
+				and ProNum like '%${criteria.num}%'
+			</if>
+			<if test="criteria.name != null and criteria.name != '' ">
+				and Name like '%${criteria.name}%'
+			</if>
+
+			<if test="criteria.status != null and criteria.status != '' ">
+				and Status in (${criteria.status})
+			</if>
+			<if
+				test="criteria.sid != null and criteria.sid != '' and criteria.sid == -999 ">
+				and ShopID is null
+			</if>
+			<if
+				test="criteria.sid != null and criteria.sid != '' and criteria.sid > 0 ">
+				and ShopID = #{criteria.sid}
+			</if>
+			<if
+				test="criteria.isoffer != null and criteria.isoffer >= 0">
+				and isoffer = #{criteria.isoffer}
+			</if>
+			and (IsDel=false or IsDel is null)
+		</where>
+	</sql>
+	
+	<!-- 下面是自定义的分页查询语句 -->
+	<sql id="pccriteria_query">
+		<where>
+			<if test="criteria.cid != null and criteria.cid != '' ">
+				and a.FullPath like '%${criteria.cid}%'
+			</if>
+			<if test="criteria.isowend != null and criteria.isowend != '' ">
+				and a.IsOwned = #{criteria.isowend}
+			</if>
+				<if test="criteria.isposttag != null and criteria.isposttag != ''">
+				and a.ispostage = #{criteria.isposttag}
+			</if>
+			<if
+				test="criteria.bid != null and criteria.bid != '' and criteria.bid > 0">
+				and a.BrandID = #{criteria.bid}
+			</if>
+			<if test="criteria.num != null and criteria.num != '' ">
+				and a.ProNum = #{criteria.num}
+			</if>
+			<if test="criteria.name != null and criteria.name != '' ">
+				and a.Name like '%${criteria.name}%'
+			</if>
+			<if test="criteria.idin != null and criteria.idin != '' ">
+				and a.ClassID in (${criteria.idin}) 
+			</if>
+			<if test="criteria.status != null and criteria.status != '' ">				
+				and FIND_IN_SET(${criteria.status},a.Status) 
+				<!-- a.Status in (${criteria.status}) -->
+			</if>
+			<if test="criteria.fullpath != null and criteria.fullpath != '' ">				
+				and FIND_IN_SET(#{criteria.fullpath},a.Fullpath) 
+			</if>
+			<if
+				test="criteria.sid != null and criteria.sid != '' and criteria.sid == -999 ">
+				and a.ShopID is null
+			</if>
+			<if
+				test="criteria.sid != null and criteria.sid != '' and criteria.sid > 0 ">
+				and a.ShopID = #{criteria.sid}
+			</if>
+			and (IsDel=false or IsDel is null)
+		</where>
+	</sql>
+
+	<!-- 查询商品的分页信息 -->
+
+	<select id="getListPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="BaseResultMap">
+		select 
+		 sid,Name,Status,Title_short ,ProNum,ClassID,
+		 BrandID,CreateTime,IsOwned,ShopID ,
+		 AppPrice,
+		 WapPrice,
+		 Price,		
+		 ShopName,UserID
+		,FullPath,ImgUrl_App,searchpath
+		from ProductList
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	
+	<resultMap type="com.yinlian.wssc.web.dto.V_SearchProducts" id="PcProductsMap">
+		<result column="BrandID" property="brandid" jdbcType="INTEGER" />
+		<result column="SpecsValue" property="specsValue" jdbcType="VARCHAR" />
+		<result column="SPUID" property="spuid" jdbcType="INTEGER" />
+		<result column="SKUID" property="skuid" jdbcType="INTEGER" />
+		<result column="Name" property="name" jdbcType="VARCHAR" />
+		<result column="ProNum" property="proNum" jdbcType="INTEGER" />
+		<result column="ImgSmall" property="imgSmall" jdbcType="VARCHAR" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="Title" property="title" jdbcType="VARCHAR" />
+		<result column="Title_short" property="title_short" jdbcType="VARCHAR" />
+		<result column="IsOwned" property="isOwned" jdbcType="BIT" />
+		<result column="Price" property="price" jdbcType="REAL" />
+		<result column="SpecsID" property="specsid" jdbcType="INTEGER" />
+		<result column="SpecsGuid" property="specsGuid" jdbcType="VARCHAR" />
+		<result column="IsDel" property="isDel" jdbcType="BIT" />
+		<result column="ClassID" property="classid" jdbcType="INTEGER" />
+		<result column="Tag" property="tag" jdbcType="VARCHAR" />
+		<result column="Pack" property="pack" jdbcType="INTEGER" />
+		<result column="CommentCount" property="commentCount" jdbcType="INTEGER" />
+		<result column="ImgUrl" property="imgUrl" jdbcType="VARCHAR" />
+		<result column="ShopID" property="shopid" jdbcType="INTEGER" />
+		<result column="ShopName" property="shopName" jdbcType="VARCHAR" />
+		<result column="SalesCount" property="salesCount" jdbcType="INTEGER" />
+		<result column="Praise" property="praise" jdbcType="INTEGER" />
+		<result column="MediumReview" property="mediumReview" jdbcType="INTEGER" />
+		<result column="BadReview" property="badReview" jdbcType="INTEGER" />
+		<result column="FullPath" property="fullPath" jdbcType="VARCHAR" />
+		<collection property="images" ofType="com.yinlian.wssc.web.po.ProductImgs">
+			<result column="ImgUrl" property="imgurl" jdbcType="VARCHAR" />
+			<result column="Status" property="status" jdbcType="INTEGER" />
+			<result column="OrderBy" property="orderby" jdbcType="INTEGER" />
+			<result column="AddTime" property="addtime" jdbcType="TIMESTAMP" />
+			<result column="SKU_ID" property="skuId" jdbcType="INTEGER" />
+			<result column="SPU_ID" property="spuId" jdbcType="INTEGER" />
+			<result column="imgsite" property="imgsite" jdbcType="VARCHAR" />
+		</collection>
+	</resultMap>
+	<select id="getPcProListPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"  resultMap="PcProductsMap">
+		select a.BrandID,a.SpecsValue,a.SPUID,a.SKUID,a.Name,a.ProNum,a.ImgSmall,a.Status,a.Title,a.Title_short,a.IsOwned,a.Price,a.SpecsID,a.SpecsGuid,
+				a.IsDel,a.ClassID,a.Tag,a.Pack,a.CommentCount,a.ShopID,a.ShopName,a.SalesCount,a.Praise,a.MediumReview,a.BadReview,a.FullPath,
+				b.ImgUrl,b.OrderBy,b.AddTime,b.SKU_ID,b.SPU_ID,b.imgsite
+		from V_SearchProducts a JOIN product_imgs b on a.SKUID=b.SKU_ID
+		<if test="criteria != null ">
+			<include refid="pccriteria_query" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	
+	<!-- 根据店铺ID和名称获取spu列表 -->
+	<select id="getSpuStartWithName" resultMap="BaseResultMap">
+		select sid,Name
+		from ProductList where status=3 and ShopID=#{0}
+		<if test="param2 != null and param2 != ''">
+			and Name like '%${1}%'
+		</if>
+		limit 0,10
+	</select>
+	<select id="getApiProductListPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.api.app.dto.ProductDto">
+		SELECT DISTINCT AppPrice as Price,Name as title ,ImgUrl as img ,
+		(SELECT SUM(k.stock) from sku k where k.SPU_ID= p.SPUID) as stock,
+<!-- 		SalesCount as Count, 库存商品销量 查询重复了-->
+		(SELECT SUM(k.SalesCount) FROM sku k WHERE k.SPU_ID= p.SPUID) AS COUNT,
+		IsOwned,spuid as id from V_SearchProducts p
+		where Status=3 and
+		IsDel=false
+		<if test="criteria.clsid!=null and criteria.clsid>0">
+			and p.ClassID= #{criteria.clsid}
+		</if>
+		<if test="criteria.minprice!=null and criteria.minprice>=0">
+			and p.AppPrice>= #{criteria.minprice}
+		</if>
+		<if test="criteria.maxprice!=null and criteria.maxprice>=0">
+			and p.AppPrice &lt;= #{criteria.maxprice}
+		</if>
+		<if test="criteria.idliststr!=null and criteria.idliststr!=''">
+			and p.spuid in (${criteria.idliststr})
+		</if>
+		<if
+			test="criteria.seachatrrdtos!=null and criteria.seachatrrdtos.size()>0 ">
+			<foreach item="item" collection="criteria.seachatrrdtos"
+				index="i">
+				<choose>
+					<when test="item.type == 1">
+						and SpecsID=${item.typeid}
+						<if test="item.values !=null and item.values.size() > 0">
+							and(
+							<foreach item="item1" collection="item.values" index="j">
+								<if test="j!=0"> or </if>
+								<choose>
+									<when test="item1.type == 1">
+										(
+										<if test="item1.minvalue!=null and item1.minvalue!=''">
+											SpecsValue>= ${item1.minvalue}
+										</if>
+										<if test="item1.maxvalue!=null and item1.maxvalue!='' ">
+											<choose>
+												<when test="item1.minvalue!=null and item1.minvalue!=''">
+													and SpecsValue &lt;= ${item1.maxvalue}
+												</when>
+												<otherwise>
+													SpecsValue &lt;= ${item1.maxvalue}
+												</otherwise>
+											</choose>
+										</if>
+										)
+									</when>
+									<otherwise>
+										SpecsValue= '${item1.minvalue}'
+									</otherwise>
+								</choose>
+							</foreach>
+							)
+						</if>
+					</when>
+					<when test="item.type == 2">
+						<if test="item.values !=null and item.values.size() > 0">
+							and (
+							<foreach item="item1" collection="item.values" index="j">
+								<if test="j!=0"> or </if>
+								BrandID= ${item1.minvalue}
+							</foreach>
+							)
+						</if>
+					</when>
+					<otherwise>
+					</otherwise>
+				</choose>
+			</foreach>
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+
+	</select>
+	<select id="getProductDetailed" resultType="com.yinlian.api.app.dto.ProductDetailedDto">
+		select k.ID,k.Name as
+		title,k.SubTitle ,
+		<choose>
+		<when test="sites==2">
+		k.AppPrice as price,
+		</when>
+		<when test="sites==3">
+		k.WapPrice as price,
+		</when>
+		<when test="sites==4">
+		k.WeChatPrice as price,
+		</when>
+		<otherwise>
+		p.Price as price,
+		</otherwise>
+		</choose>
+		
+		p.IsOwned as
+		isowned,k.Stock,p.ImgUrl_App as appimg,p.`Status` as status,p.IsDel as isdel ,
+		p.ShopID,p.FreightID,p.ClassID as cid
+		from sku k JOIN spu p on
+		k.SPU_ID=p.ID where p.id=#{0} and (p.Status=3 or p.Status=0) order by k.AppPrice
+		LIMIT
+		1
+	</select>
+	<select id="getProductDetaileds" resultType="com.yinlian.api.app.dto.ProductDetailedDto">
+		select k.ID,k.Name as
+		title,k.SubTitle ,
+		<choose>
+		<when test="sites==2">
+		p.AppPrice as price,
+		</when>
+		<when test="sites==3">
+		p.WapPrice as price,
+		</when>
+		<when test="sites==4">
+		p.WeChatPrice as price,
+		</when>
+		<otherwise>
+		p.Price as price,
+		</otherwise>
+		</choose>
+		
+		p.IsOwned as
+		isowned,k.Stock,p.ImgUrl_App as appimg,p.`Status` as status,p.IsDel as isdel ,
+		p.ShopID,p.FreightID,p.ClassID as cid
+		from sku k JOIN spu p on
+		k.SPU_ID=p.ID where p.id=#{0}   order by k.AppPrice
+		LIMIT
+		1
+	</select>
+	<select id="getProductDetailedBySkuId" resultType="com.yinlian.api.app.dto.ProductDetailedDto">
+		select
+		k.ID,k.Name as title,k.SubTitle ,k.AppPrice as price,p.IsOwned as
+		isowned,k.Stock, p.ShopID,p.FreightID,p.ClassID as cid
+		from sku k JOIN
+		spu p on k.SPU_ID=p.ID where k.id=#{0} and p.Status=3
+		LIMIT 1
+	</select>
+	<select id="getPCProductDetailedDesc" resultType="java.lang.String">
+		select
+		p.spuinfo
+		from spu p where p.id=#{0}
+	</select>
+	<select id="getApiProDetailDesc" resultType="java.lang.String">
+		select
+		p.Description
+		from spu p where p.id=#{0}
+	</select>
+	<select id="getApigetProductDetailedAfterSaleService"
+		resultType="java.lang.String">
+		select p.AfterService
+		from spu p where p.id=#{0}
+	</select>
+
+	<select id="getgetNewsShelvesProByCid" resultType="com.yinlian.api.app.dto.ProductDto" parameterType="map">
+		SELECT
+		<choose>
+		<when test="sites==2">
+		p.AppPrice as Price,
+		</when>
+		<when test="sites==3">
+		p.WapPrice as Price,
+		</when>
+		<when test="sites==4">
+		p.WeChatPrice as Price,
+		</when>
+		<otherwise>
+		p.Price as Price,
+		</otherwise>
+		</choose>
+
+		p.id
+		,p.Name as title,p.ImgUrl_App as img,(SELECT SUM(k.stock)
+		from sku k where
+		k.SPU_ID= p.ID) as stock
+		,p.IsOwned,(SELECT
+		SUM(k.SalesCount) from sku
+		k where k.SPU_ID= p.ID) as Count
+		from spu p
+		where p.status=3
+		and ClassID=#{0}
+		ORDER BY p.ShelveTime desc LIMIT 6
+	</select>
+	<select id="getgetNewsSellingProByCid" resultType="com.yinlian.api.app.dto.ProductDto">
+		SELECT
+		<choose>
+		<when test="sites==2">
+		p.AppPrice as Price,
+		</when>
+		<when test="sites==3">
+		p.WapPrice as Price,
+		</when>
+		<when test="sites==4">
+		p.WeChatPrice as Price,
+		</when>
+		<otherwise>
+		p.Price as Price,
+		</otherwise>
+		</choose>
+		p.id
+		,p.Name as title,p.ImgUrl_App as img,(SELECT SUM(k.stock)
+		from sku k where
+		k.SPU_ID= p.ID) as stock
+		,p.IsOwned,(SELECT
+		SUM(k.SalesCount) from sku
+		k where k.SPU_ID= p.ID) as Count
+		from spu p
+		where p.status=3
+		and ClassID=#{0}
+		ORDER BY count desc LIMIT 6
+	</select>
+	
+	<select id="queryInfoById" 	resultType="com.yinlian.api.app.dto.ProductDto">
+		SELECT DISTINCT 
+		<choose>
+		<when test="webset==2">
+		 p.AppPrice as Price,
+		</when>
+		<when test="webset==3">
+		 p.WapPrice as Price,
+		</when>
+		<when test="webset==4">
+		 p.WeChatPrice as Price,
+		</when>
+		<otherwise>
+			Price,
+		</otherwise>
+		</choose>
+		Name as title ,ImgUrl_App as img ,(SELECT SUM(k.stock)
+		from sku k where
+		k.SPU_ID= p.SPUID) as stock,SalesCount as
+		Count,IsOwned,spuid as id from V_SearchProducts p
+		where Status=3 and
+		IsDel=false and p.SPUID=#{0} limit 1
+	</select>
+	
+	<resultMap type="com.yinlian.pc.dto.PCProListDto" id="PCProListMap">
+		<result column="BrandID" property="brandid" jdbcType="INTEGER" />
+		<result column="SPUID" property="spuid" jdbcType="INTEGER" />
+		<result column="Name" property="name" jdbcType="VARCHAR" />
+		<result column="IsOwned" property="isowned" jdbcType="BIT" />
+		<result column="Price" property="price" jdbcType="REAL" />
+		<result column="ClassID" property="classid" jdbcType="INTEGER" />
+		<result column="CommentCount" property="commentcount" jdbcType="INTEGER" />
+		<result column="ShopID" property="shopid" jdbcType="INTEGER" />
+		<result column="ShopName" property="shopname" jdbcType="VARCHAR" />
+		<result column="SalesCount" property="salescount" jdbcType="INTEGER" />
+		<result column="ImgUrl" property="imgUrl" jdbcType="VARCHAR" />
+		<collection property="images" ofType="com.yinlian.wssc.web.po.ProductImgs">
+			<result column="ImgUrl" property="imgurl" jdbcType="VARCHAR" />
+			<result column="Status" property="status" jdbcType="INTEGER" />
+			<result column="OrderBy" property="orderby" jdbcType="INTEGER" />
+			<result column="AddTime" property="addtime" jdbcType="TIMESTAMP" />
+			<result column="SKU_ID" property="skuId" jdbcType="INTEGER" />
+			<result column="SPU_ID" property="spuId" jdbcType="INTEGER" />
+			<result column="imgsite" property="imgsite" jdbcType="VARCHAR" />
+		</collection>
+	</resultMap>
+	<select id="getProListPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" resultMap="PCProListMap" >
+	select a.BrandID,a.SPUID,a.Name,a.IsOwned,a.Price,a.ClassID,a.CommentCount,a.ShopID,a.ShopName,
+	(SELECT SUM(k.SalesCount) FROM sku k WHERE k.SPU_ID= a.SPUID) AS SalesCount,
+				a.ImgUrl,b.OrderBy,b.AddTime,b.SKU_ID,b.SPU_ID,b.imgsite
+		from V_SearchProducts a left JOIN product_imgs b on a.SKUID=b.SKU_ID
+		<if test="criteria != null ">
+			<include refid="pccriteria_query" />
+		</if>		
+		group by a.SPUID
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>		
+	</select>
+	
+	
+	<select id="getSerachProductListPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="PCProListMap">
+		SELECT p.BrandID,p.SPUID,p.Name,p.IsOwned,p.Price,p.ClassID,p.CommentCount,p.ShopID,p.ShopName,b.ImgUrl as imgUrl,
+<!-- 		SalesCount as Count, 库存商品销量 查询重复了-->
+		(SELECT SUM(k.SalesCount) FROM sku k WHERE k.SPU_ID= p.SPUID) AS SalesCount,b.OrderBy,b.AddTime,b.SKU_ID,b.SPU_ID,b.imgsite
+		from V_SearchProducts p left JOIN product_imgs b on p.SKUID=b.SKU_ID
+		where p.Status=3
+		and (p.IsDel=false or p.IsDel is null)
+		<if test="criteria.clsid!=null and criteria.clsid>0">
+			and p.FullPath like '%${criteria.clsid}%'
+		</if>
+			<if test="criteria.ispostage != null and criteria.ispostage != ''">
+				and p.ispostage = #{criteria.ispostage}
+			</if>
+		<if test="criteria.minprice!=null and criteria.minprice>=0">
+			and p.price>= #{criteria.minprice}
+		</if>
+		<if test="criteria.maxprice!=null and criteria.maxprice>0">
+			and p.price &lt;= #{criteria.maxprice}
+		</if>
+		<if test="criteria.idliststr!=null and criteria.idliststr!=''">
+			and p.spuid in (${criteria.idliststr})
+		</if>
+		<if test="criteria.fullpath != null and criteria.fullpath != ''">
+			and FIND_IN_SET(#{criteria.fullpath},FullPath)
+		</if>
+		<if test="criteria.status != null and criteria.status != ''">
+			and p.status = #{criteria.status}
+		</if>
+		<if
+			test="criteria.seachatrrdtos!=null and criteria.seachatrrdtos.size()>0 ">
+			<foreach item="item" collection="criteria.seachatrrdtos"
+				index="i">
+				<choose>
+					<when test="item.type == 1">
+						and SpecsID=${item.typeid}
+						<if test="item.values !=null and item.values.size() > 0">
+							and(
+							<foreach item="item1" collection="item.values" index="j">
+								<if test="j!=0"> or </if>
+								<choose>
+									<when test="item1.type == 1">
+										(
+										<if test="item1.minvalue!=null and item1.minvalue!=''">
+											SpecsValue>= ${item1.minvalue}
+										</if>
+										<if test="item1.maxvalue!=null and item1.maxvalue!='' ">
+											<choose>
+												<when test="item1.minvalue!=null and item1.minvalue!=''">
+													and SpecsValue &lt;= ${item1.maxvalue}
+												</when>
+												<otherwise>
+													SpecsValue &lt;= ${item1.maxvalue}
+												</otherwise>
+											</choose>
+										</if>
+										)
+									</when>
+									<otherwise>
+										SpecsValue= '${item1.minvalue}'
+									</otherwise>
+								</choose>
+							</foreach>
+							)
+						</if>
+					</when>
+					<when test="item.type == 2">
+						<if test="item.values !=null and item.values.size() > 0">
+							and (
+							<foreach item="item1" collection="item.values" index="j">
+								<if test="j!=0"> or </if>
+								BrandID= ${item1.minvalue}
+							</foreach>
+							)
+						</if>
+					</when>
+					<otherwise>
+					</otherwise>
+				</choose>
+			</foreach>
+		</if>
+		group by p.SPUID
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+
+	</select>
+	
+	<select id="getWapProductListPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.api.app.dto.ProductDto">
+		SELECT DISTINCT WapPrice as Price,Name as title ,ImgUrl_App as img ,
+		(SELECT SUM(k.stock) from sku k where k.SPU_ID= p.SPUID) as stock,
+<!-- 		SalesCount as Count, 库存商品销量 查询重复了-->
+		(SELECT SUM(k.SalesCount) FROM sku k WHERE k.SPU_ID= p.SPUID) AS COUNT,
+		IsOwned,spuid as id from V_SearchProducts p
+		where Status=3 and
+		IsDel=false
+		<if test="criteria.clsid!=null and criteria.clsid>0">
+			and p.ClassID= #{criteria.clsid}
+		</if>
+		<if test="criteria.minprice!=null and criteria.minprice>=0">
+			and p.WapPrice>= #{criteria.minprice}
+		</if>
+		<if test="criteria.maxprice!=null and criteria.maxprice>=0">
+			and p.WapPrice &lt;= #{criteria.maxprice}
+		</if>
+		<if test="criteria.idliststr!=null and criteria.idliststr!=''">
+			and p.spuid in (${criteria.idliststr})
+		</if>
+		<if
+			test="criteria.seachatrrdtos!=null and criteria.seachatrrdtos.size()>0 ">
+			<foreach item="item" collection="criteria.seachatrrdtos"
+				index="i">
+				<choose>
+					<when test="item.type == 1">
+						and SpecsID=${item.typeid}
+						<if test="item.values !=null and item.values.size() > 0">
+							and(
+							<foreach item="item1" collection="item.values" index="j">
+								<if test="j!=0"> or </if>
+								<choose>
+									<when test="item1.type == 1">
+										(
+										<if test="item1.minvalue!=null and item1.minvalue!=''">
+											SpecsValue>= ${item1.minvalue}
+										</if>
+										<if test="item1.maxvalue!=null and item1.maxvalue!='' ">
+											<choose>
+												<when test="item1.minvalue!=null and item1.minvalue!=''">
+													and SpecsValue &lt;= ${item1.maxvalue}
+												</when>
+												<otherwise>
+													SpecsValue &lt;= ${item1.maxvalue}
+												</otherwise>
+											</choose>
+										</if>
+										)
+									</when>
+									<otherwise>
+										SpecsValue= '${item1.minvalue}'
+									</otherwise>
+								</choose>
+							</foreach>
+							)
+						</if>
+					</when>
+					<when test="item.type == 2">
+						<if test="item.values !=null and item.values.size() > 0">
+							and (
+							<foreach item="item1" collection="item.values" index="j">
+								<if test="j!=0"> or </if>
+								BrandID= ${item1.minvalue}
+							</foreach>
+							)
+						</if>
+					</when>
+					<otherwise>
+					</otherwise>
+				</choose>
+			</foreach>
+		</if>
+		group by p.SPUID
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+
+	</select>
+</mapper>

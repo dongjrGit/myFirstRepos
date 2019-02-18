@@ -1,0 +1,162 @@
+<script type="text/javascript" src="/resource/coding.js"></script>
+<!--top  头部开始 -->
+	<div id="top" class="fix">
+		<!--topcon  begin -->
+		<div class="topcon">
+		<%if(isNotEmpty(lsis)&&lsis){%>
+			<span class="mr10 xztopico"><img src="/resource/pc/web/images/xzhome.png"/><a href="/index.html">返回中绿首页</a></span>
+		<%}%>
+		
+			<% if(userinfo!=null) {%> <span>您好， ${userinfo.loginName}！ </span> <span
+				class="red"> <a href="javascript:signout();"
+				class="ulogin_click">退出</a>
+			</span> <%} else {%> <span> 你好，请<a href="/member/user/showlogin"
+				class="a_buyerlogin">登录</a>
+			</span> <span class="red"> <a href="/member/user/register"
+				class="a_buyerregister">免费注册</a>
+			</span> <%}%>
+			<div class="top_rig">
+				<ul>
+					<li><%if(userinfo!=null) {%> <a href="/member/order/getorder.html"
+						class="a_orderlist">我的订单</a> <%}%>
+					</li>
+					<li class="l_hx">|</li>
+					<li class="iphone"><img src="/resource/pc/web/images/iphone.jpg"
+						width="7" height="12" /><a href="#">手机版</a></li>
+					<li class="l_hx">|</li>
+					<li class="iphone"><a href="/seller/register">商家入驻</a></li>
+					    <li class="l_hx">|</li>
+					    <li class="l_khfw" id="l_khfw"><a href="#">客户服务</a><span class="l_toprow"></span>
+					
+					    <!-- l_khfwcon客户服务 弹出框内容 开始 -->
+                    <div class="l_khfwcon">
+                    <% if(isNotEmpty(navskhfw)) {%>
+                    
+                    <%for(nav in navskhfw){%>
+                    
+                    <%for(navs in nav.list){%>
+                   <div class="f-item-top">
+                        <h3>${navs.classname}</h3>
+                        <ol class="fix">
+                           <%for(child in navs.articles){%>
+                            <li><a href="/web/article/contact.html?id=${child.id}">${child.title}</a></li>
+                          <%}%> 
+                       </ol>
+                    </div>
+                    
+                    <%}%>
+                    
+                    <%}%>
+                    
+                    <%}%> 
+                    </div>
+                    <script>
+	        			var fitemLength=$('.f-item').length;
+						$('.l_wzdhcon').css('width',fitemLength*275);
+	        		</script>
+					<!--l_wzcon网站导航 弹出框内容 结束 -->
+					</li>
+					<li class="l_hx">|</li>
+					<li>
+						<span class="l_gzwm">关注我们：</span>
+						<div class="l_wbx">
+							<span class="weibo"></span>
+							<span class="weixin"></span>
+						</div>
+						<div style="display:none; z-index:999; position:relative;" id="weixin">
+	                        <img src="/resource/pc/web/images/weixin.png" width="80" height="80" />
+	                    </div>
+	                    <div style="display:none; z-index:999; position:relative;" id="weibo">
+	                        <img src="/resource/pc/web/images/weibo.png" width="80" height="80" />
+	                    </div>
+					</li>
+				</ul>
+			</div>
+			<!--top_rig  stop -->
+		</div>
+		<!--topcon  stop -->
+	</div>
+<script>
+    $(".weixin").hover(
+        function () {
+            $("#weixin").show();
+        },
+        function () {
+            $("#weixin").hide();
+        }
+    );
+    $(".weibo").hover(
+        function () {
+            $("#weibo").show();
+        },
+        function () {
+            $("#weibo").hide();
+        }
+    )
+   
+    
+</script>
+	<!--top  头部结束 -->
+	<!--l_logocon  logo一块搜索  开始 -->
+	<div class="indlogo fix">
+	<div class="l_logocon fix">
+			<div class="logo">
+				<a href="/index.html"><img src="/resource/pc/web/images/logo.png" width="211"
+					height="80" /></a>
+			</div>
+		<!--logo  stop -->
+		<!--search  搜索  开始 -->
+		<div class="jq22-search-form">
+			<div id="search-hd" class="search-hd">
+				<div>
+					<input type="text" id="select_key" class="search-input" value="${keywords!}" />
+				</div>
+				<div style="width: 435px;">
+					<ul style="padding: 8px;">
+						<script id="select_keylist" type="text/html">
+                            {{each list as keys i}}
+                            <li style="line-height:23px;" data="{{keys.strKeys}}">{{keys.strKeys}}</li>
+                            {{/each}}
+                        </script>
+					</ul>
+				</div>
+				<button id="submit" class="btn-search" value="搜索">搜索</button>
+			</div>
+			<div class="search_con">
+				<ul>
+					<% for (var keyws in keysdata) {%>
+					<li><a href="/web/products/searchList.html?keywords=${keyws.keywords}">${keyws.keywords}</a></li>
+					<%}%>
+				</ul>
+			</div>
+			<!--search_con  stop -->
+		</div>
+		<!--search  搜索  结束 -->
+		<div class="l_gwc">
+			<a href="/member/homepage/homepages.html">
+				<div class="l_hyzx div_membercenter">
+					<span class="l_hyzxtb"></span> 会员中心
+				</div>
+			</a>
+			<!--l_hyzx   stop -->
+			<a href="/web/cart.html">
+				<div class="l_wdgwz div_mycart">
+					<span class="l_wdgwctb"></span> 我的购物车
+					<div class="l_gwc_num" id="span_shoppingcartgoodscount">0</div>
+					<div class="l_row01"></div>
+				</div>
+			</a>
+			<!--l_wdgwz  stop -->
+		</div>
+		<!--l_gwc  stop -->
+	</div>
+</div>
+	
+	<!--l_logocon  logo一块搜索  结束 -->
+<script type="text/javascript">
+	function regist(){
+	window.location.href="/reg/person?ReturnUrl="+encodeURIComponent( window.location.href);
+	}
+	//购物车商品总数
+	cart.getprocount();
+</script>	

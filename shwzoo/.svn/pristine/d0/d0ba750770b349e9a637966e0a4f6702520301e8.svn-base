@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Expires" content="-1">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<title>地方馆</title>
+<link rel="stylesheet" href="/resource/app/css/greenLife.css" />
+<script type="text/javascript" src="/resource/jquery-1.9.1.min.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/js.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/Yeffect16_0118.min.js" ></script>
+<script type="text/javascript" src="/resource/GetQueryString.js"></script>
+<script type="text/javascript" src="/resource/wap/js/greenLife.js" ></script>
+<script type="text/javascript" src="/resource/artTemplate.js"></script>
+<script type="text/javascript" src="/resource/wap/js/wap-common.js"></script>
+<script type="text/javascript">
+var citycode="${citycode!}";
+  	$(function(){
+  		pro();
+	});
+	
+	
+	function pro(){
+		hide();
+		$("#probody").css("display","inline");
+
+		pageIndex=1;
+		pageTotal=1;
+		 pageData={page:1,size:10,ch:'${ch}',mark:12,topicid:${topicid}};
+		 pageUrl="/wap/zlzx/findtopic";
+		 content="#probody";
+		 scripthtml="pro";
+		initPage();
+		loadcss();
+	}
+	
+	function news(type){
+		hide();
+		$("#newsbody").css("display","");
+		pageIndex=1;
+		pageTotal=1;
+	 	pageData={page:1,size:10,type:type,procode:'${procode!}'};
+		 pageUrl="/wap/zlzx/dfgwhts";
+		 content="#newsbody";
+		 scripthtml="news";
+		initPage();
+		loadcss();
+	}
+	
+	//清空内容与隐藏标签
+	function hide(){
+		$("#probody").css("display","none");
+		$("#probody").html("");
+		$("#newsbody").css("display","none");
+		$("#newsbody").html("");
+	}
+  	</script>
+ <%if(ch==2){%>
+<style>
+.septop {padding-top: 18px;}
+.septop.rowreturn.bjwhite{background: #fff url(/resource/app/images/rowreturn_heise.png) no-repeat 3% 0.6rem;background-size: 0.17rem auto;}
+</style>
+<%}%>
+</head>
+<body>
+<!--septop begin-->
+<div class="septop rowreturn fixed bjwhite">
+	<div class="bigsize"><span>${cityname!'全国'}</span></div>
+	<div id="rowreturn" onclick="javascirpt:location.href='url:///back'"></div>
+</div>
+<!--septop stop-->
+<!--banner-->
+<div class="fx-banner">
+	<ul>
+	<%for(vo in imglist){%>
+  	<li><img src="${vo.imag}"></li>
+    <%}%>
+  </ul>
+	<p><%for(vo in imglist){%><i></i><%}%></p>
+</div>
+<script>
+$(function(){
+	/////banner	
+	loadcss();
+})
+
+
+function loadcss(){
+Yeffect.mobileBanner(".fx-banner ul",".fx-banner ul li",".fx-banner p i","","","current",5000);
+	var fx_banner=$(".fx-banner");
+	Yeffect.resizeHtW(fx_banner,fx_banner,640,248);
+	}
+</script>
+<!--banner***-->
+<ul class="sep-byzsq fix ">
+	<li class="active"><a href="javascript:pro()">优质特产</a></li>
+	<li><a href="javascript:news(4)">文化特色</a></li>
+	<li><a href="javascript:news(3)">特产名录</a></li>
+</ul>
+<hr class="back"/>
+<ul class="sep-byzslist fix" id="probody" style="display: none;">
+	
+</ul>
+<ul class="sep-zlzx fix" id="newsbody" style="display: none;">
+
+</ul>
+
+<img src="/resource/wap/images/index_42.png" class="qianggou-scrollTop">
+
+<script type="text/html" id="pro">
+{{each list as vo i}}
+	<li>
+		<a href="url://prodetailed|||{{vo.spuid}}">
+			<img src="{{vo.imgurl}}"/>
+			<h3>{{vo.name}}</h3>
+			<p class="orange">￥{{vo.price}}</p>
+		</a>
+	</li>
+{{/each}}
+</script>
+
+<script type="text/html" id="news">
+{{each list as vo i}}
+<li class="fix">
+		<a href="/wap/app/newsdetail.html?mark=7&id={{vo.id}}&ch=${ch}">
+			<img src="{{vo.imgurl}}"/>
+			<div class="sep-zlzx-r">
+				<h3>{{vo.title}}</h3>
+				<p>{{vo.tabloid}}</p>
+			</div>
+		</a>
+	</li>
+{{/each}}
+</script>
+
+<script>
+$(function(){
+	fixed('.septop');
+	Yeffect.resizeHtWstr(".sep-byzslist li:visible",".sep-byzslist li img",296,296);
+})
+</script>
+</body>
+</html>

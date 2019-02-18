@@ -1,0 +1,48 @@
+﻿<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>${title}</title>
+<link type="text/css" rel="stylesheet"
+	href="${path}/pc/member/css/common.css" />
+<link type="text/css" rel="stylesheet"
+	href="${path}/pc/member/css/style01.css" />
+<link type="text/css" rel="stylesheet" href="${path}/ui-dialog.css" />
+<script src="${path}/pc/member/js/browsehistory/browsehistory.js"></script>
+<script src="${path}/pc/member/js/jquery-1.8.2.min.js"></script>
+<script src="${path}/pc/member/js/index.js"></script>
+<script src="${path}/pc/member/js/jquery.validate.js"></script>
+<script src="${path}/pc/member/js/pager2.js"></script>
+<script src="${path}/pc/member/js/showdate.js"></script>
+<script src="${path}/artTemplate.js"></script>
+<script src="${path}/dialog-plus.js"></script>
+<script src="${path}/dialogShow.js"></script>
+<script src="${path}/jQueryRotate.2.2.js"></script>
+</head>
+<div id="main" class="fix">
+    <!--main-left 左边内容  开始 -->
+    <% include("/template/pc/memberCenter/shared/_PartialLeftside.html",{}){}%> 
+    <!--main-left 左边内容  结束 -->
+    <!--rightside 右边内容  结束 -->
+    <div class="rightside">
+        <!--article-detail   开始 -->
+        <div class="l_jfmx mt0 fix">
+            <!--l_jfmxtop  begin -->
+            <div class="l_jfmxtop">
+                <h3><a href="javascript:;" id="rtitle">${title}</a></h3>
+            </div>
+            <div class="xzshdz-top" id="aftersellrule">
+            <%if(isEmpty(article)){%>
+              <p><span style='font-size:14px;'><strong>暂无相关内容</strong></span></p>
+              <%}else{%>
+              ${article.content}
+              <%}%>
+            </div>
+        </div>
+
+        <!--article-detail   结束 -->
+        <div class="clear"></div>
+    </div>
+
+    <!--rightside 右边内容  结束 -->
+    <div class="clear"></div>
+</div>

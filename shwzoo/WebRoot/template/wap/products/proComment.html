@@ -1,0 +1,194 @@
+<%var path="/resource";%>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<link href="${path}/wap/css/indexNew.css" rel="stylesheet" />
+<link href="${path}/wap/css/iscroll.css" rel="stylesheet" />
+<script src="${path}/artTemplate.js"></script>
+<script src="${path}/wap/js/iscroll.js"></script>
+<script src="${path}/wap/js/iscroll_list.js"></script>
+<script src="${path}/wap/js/public.js"></script>
+<script src="${path}/wap/js/products/proComment.js"></script>
+
+<title>商品评论</title>
+</head>
+<body>
+	<!--container  begin-->
+	<div class="container fix">
+		<!--l_alltop  begin -->
+<% try{
+include("/template/wap/products/pro_header.html",{spuid:spuid,skuid:skuid,shopid:shopid,dis:2,phref:href}){}}catch(error){}
+%> 
+		<!--l_alltop  stop -->
+		<!--l_pjnrw  begin -->
+		<% var con=0,bad=0,mr=0,good=0; 
+		if(has(spucomms)){
+		con=spucomms.bad+spucomms.mr+spucomms.good;
+		 bad=spucomms.bad;mr=spucomms.mr;good=spucomms.good; } %>
+		<div class="l_pjnrw fix">
+			<ul class="fix" id="commtype" style="height: 200px">
+				<li class="red"><a href="javascript:void(0)" id="allcoms"
+					datatype="-1">
+						<p>${con}</p>
+						<p>全部评价</p>
+				</a></li>
+				<li><a href="javascript:void(0)" id="goodcoms" datatype="2">
+						<p>${good}</p>
+						<p>好评</p>
+				</a></li>
+				<li><a href="javascript:void(0)" id="midcoms" datatype="1">
+						<p>${mr}</p>
+						<p>中评</p>
+				</a></li>
+				<li><a href="javascript:void(0)" id="badcoms" datatype="0">
+						<p>${bad}</p>
+						<p>差评</p>
+				</a></li>
+			</ul>
+		</div>
+		<!--l_pjnrw stop -->
+		<!--l_sppjnr 商品评价  begin -->
+		<div class="l_sppjnr fix">
+			<div id="wrapper">
+				<div id="scroller-content">
+					<div id="scroller-pullDown">
+						<span id="down-icon" class="icon-double-angle-down pull-down-icon"></span>
+						<span id="pullDown-msg" class="pull-down-msg">下拉刷新</span>
+					</div>
+					<ul id="list">
+						<% if(isNotEmpty(spucomms)){ for(comm in spucomms.list){ %>
+						<li>
+							<div class="l_bbpjmk l_bbyx fix">
+								<div class="l_bbpjmk01">
+									${comm.username} ${comm.createtime}
+									<div class="l_xxcon">
+										<% var star=comm.star; switch(star){ %> <% case 5:%> <span><img
+											src="${path}/wap/images/star01.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star01.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star01.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star01.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star01.png" class="img-responsive"></span> 
+											<%
+										break; case 4: %> <span><img
+											src="${path}/wap/images/star01.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star01.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star01.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star01.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star02.png" class="img-responsive"></span> 
+											<%
+										break; case 3: %> <span><img
+											src="${path}/wap/images/star01.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star01.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star01.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star02.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star02.png" class="img-responsive"></span> 
+											<%
+										break; case 2: %> <span><img
+											src="${path}/wap/images/star01.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star01.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star02.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star02.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star02.png" class="img-responsive"></span> 
+											<%
+										break; case 1: %> <span><img
+											src="${path}/wap/images/star01.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star02.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star02.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star02.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star02.png" class="img-responsive"></span>
+											 <%
+										break; default: %> <span><img
+											src="${path}/wap/images/star01.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star01.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star01.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star01.png" class="img-responsive"></span> <span><img
+											src="${path}/wap/images/star01.png" class="img-responsive"></span>
+										<%}%>
+									</div>
+								</div>
+								<div class="l_bbpjmk02">${comm.content}</div>
+								<!-- <div class="l_bbpjmk03 fix">
+                        <ul>                            
+                            <li><a href="javascript:void(0)"><img src="" alt="" class="img-responsive"></a></li>
+                        </ul>
+                    </div> -->
+								<!--<div class="huise l_bbpjmk04"><span>购买时间 2016-05-06</span></div><span>尺码 30</span><span>颜色分类 黄色</span>-->
+							</div>
+						</li> <%}}%>
+					</ul>
+					<div id="scroller-pullUp">
+                        <span id="up-icon" class="icon-double-angle-up pull-up-icon"></span>
+                        <span id="pullUp-msg" class="pull-up-msg">加载更多</span>
+                    </div>
+				</div>
+			</div>
+
+		</div>
+		<script type="text/html" id="comlist">
+            {{each list as comm i}}
+            <li>
+                <div class="l_bbpjmk l_bbyx fix">
+                    <div class="l_bbpjmk01">
+                        {{toHideStr(comm.username)}}  {{comm.createtime}}
+                        <div class="l_xxcon">
+                            {{if comm.star==5}}
+                            <span><img src="${path}/wap/images/star01.png" class="img-responsive"></span>
+                            <span><img src="${path}/wap/images/star01.png" class="img-responsive"></span>
+                            <span><img src="${path}/wap/images/star01.png" class="img-responsive"></span>
+                            <span><img src="${path}/wap/images/star01.png" class="img-responsive"></span>
+                            <span><img src="${path}/wap/images/star01.png" class="img-responsive"></span>
+                            {{else if comm.star==4}}
+                            <span><img src="${path}/wap/images/star01.png" class="img-responsive"></span>
+                            <span><img src="${path}/wap/images/star01.png" class="img-responsive"></span>
+                            <span><img src="${path}/wap/images/star01.png" class="img-responsive"></span>
+                            <span><img src="${path}/wap/images/star01.png" class="img-responsive"></span>
+                            <span><img src="${path}/wap/images/star02.png" class="img-responsive"></span>
+                            {{else if comm.star==3}}
+                            <span><img src="${path}/wap/images/star01.png" class="img-responsive"></span>
+                            <span><img src="${path}/wap/images/star01.png" class="img-responsive"></span>
+                            <span><img src="${path}/wap/images/star01.png" class="img-responsive"></span>
+                            <span><img src="${path}/wap/images/star02.png" class="img-responsive"></span>
+                            <span><img src="${path}/wap/images/star02.png" class="img-responsive"></span>
+                            {{else if comm.star==2}}
+                            <span><img src="${path}/wap/images/star01.png" class="img-responsive"></span>
+                            <span><img src="${path}/wap/images/star01.png" class="img-responsive"></span>
+                            <span><img src="${path}/wap/images/star02.png" class="img-responsive"></span>
+                            <span><img src="${path}/wap/images/star02.png" class="img-responsive"></span>
+                            <span><img src="${path}/wap/images/star02.png" class="img-responsive"></span>
+                            {{else if comm.star==1}}
+                            <span><img src="${path}/wap/images/star01.png" class="img-responsive"></span>
+                            <span><img src="${path}/wap/images/star02.png" class="img-responsive"></span>
+                            <span><img src="${path}/wap/images/star02.png" class="img-responsive"></span>
+                            <span><img src="${path}/wap/images/star02.png" class="img-responsive"></span>
+                            <span><img src="${path}/wap/images/star02.png" class="img-responsive"></span>
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="l_bbpjmk02">
+                        {{comm.content}}
+                    </div>
+                    <!--<div class="l_bbpjmk03 fix">
+                        <ul>
+                            {{each comm.ShowImgList as imgs j}}
+                            <li><a href="javascript:void(0)"><img src="" alt="" class="img-responsive"></a></li>
+                            {{/each}}
+                        </ul>
+                    </div>
+                    <div class="huise l_bbpjmk04"><span>购买时间 {{comm.PayDate}}</span></div><span>尺码 30</span><span>颜色分类 黄色</span>-->
+                </div>
+            </li>
+            {{/each}}
+        </script>
+
+		<!--l_sppjnr 商品评价  stop -->
+		<!--l_xmjr  begin -->
+
+		<!--l_xmjr  stop -->
+	</div>
+	<!--container  stop -->
+	<!--l_xsh  回到顶部图标 begin -->
+	<div class="l_xsh">
+		<a href="#"><img src="${path}/wap/images/tp23.png" class="img-responsive"></a>
+	</div>
+	<!--l_xsh  回到顶部图标 stop -->
+</body>

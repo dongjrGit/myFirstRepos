@@ -1,0 +1,100 @@
+<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>全部订单</title>
+<script src="${path}/wap/js/userInfo/OrderAll.js"></script>
+<script type="text/javascript" src="${path}/wap/js/login.js"></script>
+</head>
+<body>
+<div class="top_title fix">
+         <a  href="/wap/userinfo/homepage?ch=3">
+		<div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div>
+		</a>
+		全部订单
+	</div>
+<%for(order in orders){%>
+<section class="dingdan-list">
+	<div class="Hd">
+		<b>订单编号:${order.groupcode}</b>
+		<span><%if(order.status==0){%>
+         <span>待付款</span>
+         <%}else if(order.status==1){%>
+         <span>待发货</span>
+        <%}else if(order.status==2){%>
+         <span>待收货</span>
+         <%}else if(order.status==3){%>
+         <span>已确认收货</span>
+       <%}else if(order.status==4){%>
+         <span>未付款取消申请</span>
+         <%}else if(order.status==5){%>
+         <span>未付款已取消</span>
+         <%}else if(order.status==6){%>
+         <span>已付款已取申请</span>
+        <%}else if(order.status==7){%>
+         <span>已付款已取消</span>
+        <%}else if(order.status==8){%>
+         <span>已完成</span>
+        <%}else if(order.status==9){%>
+         <span>申请退款退货中</span>
+        <%}else if(order.status==10){%>
+         <span>已退款</span>
+       <%}%></span>
+       <a href="" name="delete"  class="delet"><div value="${order.id}" name="${order.status}"></div><img src="${path}/wap/images/index_14.png"></a>
+   	</div>
+    <ul>
+    	<%for(product in order.lsitdetais){%>
+    	<li>
+        	<a href="/wap/order/showOrderDetail?orderid=${product.id}">
+            	<img src="${product.productimg}" class="L">
+                <div class="R">
+                	<b>${order.shopname}</b>
+           			<p>${product.productname}</p>
+                </div>
+            </a>
+        </li>
+      <% } %>
+    </ul>
+    <div class="FT">共${order.lsitdetais.~size}件，实付款：<span>￥${order.actualpay}</span>
+    <%if(order.status==0){%>
+       <a href=""/wap/order/pay.html?ogc=${order.groupcode}"">付款</a><a href="javascript:void()" name="cancel" value="${order.id}" >取消订单</a>
+       <%}else if(order.status==1){%>
+       <a href="javascript:void()" name="cancel" value="${order.id}">取消订单</a>
+       <%}else if(order.status==2){%>
+       <a href="javascript:void()" name="confirmationgood" value="${order.id}">收货</a><a href="javascript:void()" name="cancel" value="${order.id}">取消订单</a>
+       <%}else if(order.status==3){%>
+       <a href="/wap/comment/comment?orderid=${order.id}&&ch=3">评价</a><a href="/wap/order/changproduct?orderid=${order.id}&&ch=3">申请售后</a>
+       <%}else if(order.status==8){%>
+       <a href="/wap/order/changproduct?orderid=${order.id}&&ch=3">申请售后</a><a href="#">再次购买</a>
+       <%}%></div> 
+</section>
+<% } %>
+
+<script type="text/javascript">
+$(document).ready(function(){
+	if(login.isLogin()){
+	$("a[name='delete']").click(function (){
+		var id =$(this).find("div").attr("value");
+		var status =$(this).find("div").attr("name");
+		//var id=$("#delete").attr("value");
+		Order.deletestatuesorder(id,status);
+	})
+	$("a[name='confirmationgood']").click(function(){
+		var orderid=$(this).attr("value");
+		Order.confirmationgood(orderid);
+	})
+	$("a[name='cancel']").click(function(){
+		var c =  prompt('请输入取消原因');
+		if(c!=null){
+			var orderid=$(this).attr("value");
+			var statu =$("a[name='delete']").find("div").attr("name");
+			Order.cancel(statu,orderid,c);
+		}
+		
+	})
+	}
+})
+</script>
+</body>
+

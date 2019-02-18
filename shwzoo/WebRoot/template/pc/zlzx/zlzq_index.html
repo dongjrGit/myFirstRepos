@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<title>中绿专区</title>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=TmamoCoQBaTICzOV6IelR2EiiGG42ddk"></script>
+<script src="/resource/public/commonjs/ECharts/echarts-all.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/wkh/common-util.js"></script>
+<script  type="text/javascript">
+	$(function(){
+		//地图标签点击
+		$("#select_li li").click(function() {
+			if($(this).attr("id")=="zlmap"){
+				$("#main").show();
+			    $("#allmap").hide();
+			    $("#zlzqlist").hide();
+			}else{
+				$("#main").hide();
+			    $("#allmap").hide();
+			    $("#zlzqlist").show();
+			}
+		});
+	})
+	function getzqlist(index,psize, cid, isrecommend, istop, provincename, cityname, areaname){
+		$.ajax({
+            type: "post",
+            url: "/zlnews/zlzq/getzqpagelist",
+            dataType: "json",// pageindex, pagesize, cid, isrecommend, istop, provincename, cityname, areaname
+            data: { 
+            	"pageindex": index, 
+            	"pagesize": psize,
+            	"cid": cid,
+                "isrecommend": isrecommend,
+                "istop": istop,
+                "provincename": provincename,
+                "cityname": cityname,
+                "areaname": areaname   
+            },
+            success: function (rsl) {
+                if (rsl.code == 0) {
+                    var listdata = {
+                        list: rsl.data.list
+                    }
+                    var pagehtml=template('rowslist', listdata);
+                    $("#ul_data").html(pagehtml);
+                 }
+               }                  
+          })
+                    
+	}
+	function getzqclass(){
+		$.ajax({
+            type: "post",
+            url: "/zlnews/zlzq/getzqclass",
+            dataType: "json",
+            data: {},
+            success: function (rsl) {
+                if (rsl.code == 0) {
+                    var listdata = {
+                        list: rsl.data
+                    }
+                    var pagehtml=template('lilist', listdata);
+                    $("#ul_class").html(pagehtml);
+                 }
+               }                  
+          })
+                    
+	}
+</script>
+<script src="/resource/pc/web/js/zlzx/zlzq.js"></script>
+<style type="text/css">
+.zlzq-tjlb li{
+	width: 290px;
+	float: left;margin: 5px;
+}
+.zlzq-tjlb li img{
+	height: 280px;
+}
+</style>
+</head>
+<body class="bodybjhs">
+	<% try{
+		include("/template/pc/nav/zlzq_nav.html",{flag:5}){}}catch(error){}%>
+<!--container 中间所有内容开始-->
+<div id="container" class="fix">
+	<div class="xzzlwd-tit fix mt50">
+		<span class="fon22">中绿展示</span>
+		<p><i></i></p>
+	</div>
+	<ul id="ul_class" class="zlzq-top fix">
+		
+	</ul>
+	<script id="lilist" type="text/html">
+	      {{each list as li i}}
+	      {{if i==0}}
+	        <li class="active" data="{{li.id}}"><a href="javascript:void(0)">{{li.name}}</a></li>
+	        {{else}}
+	        <li data="{{li.id}}"><a href="javascript:void(0)">{{li.name}}</a></li>
+	        {{/if}}
+	      {{/each}}
+    </script>
+	<ul id="select_li" class="zlzq-xmnrul fix">
+		<li class="zlzq-xmnrularea" data_tag="0">全部地区<i></i></li>
+		<li istop="0" id="rq">人气</li>
+		<li iscom="0" id="tj">推荐</li>
+		<li  id="zlmap">地图</li>
+		<ul class="zlzq-xmnrulareacon" id="province_ul">
+			<script id="provincelist" type="text/html">
+	      		{{each list as province}}
+	       		<li data="{{province.code}}">{{province.name}}</li>	
+	      		{{/each}}
+        	</script>
+		</ul>
+	</ul>
+	<div id="zlzqlist" class="zlzq-xmnrulnr fix">
+		<ul id="ul_data" class="zlzq-tjlb fix">
+						
+		</ul>
+		<script id="rowslist" type="text/html">
+	      {{each list as news}}
+	        <li>
+				<a href="/zlzx/newsinfo.html?cid={{news.id}}&&title=中绿专区&&url=/zlzx/zlzq_index.html">
+					<img src="{{news.imgurl}}"/>
+					<p>{{news.title}}</p>
+				</a>
+			</li>	
+	      {{/each}}
+        </script>
+	</div>
+	<div id="pager" class="page"></div>
+	<div id="main" style="width: 1200px;height:800px;display:none;"></div>
+	<div id="allmap" style="width: 1200px;height:800px;display:none;"></div>
+</div>
+<!--container 中间所有内容结束-->
+<!--footer  底部开始 -->
+<!--footer  底部结束 -->
+<script src="/resource/pc/web/js/zlzx/zlzxMap.js"></script>
+<script type="text/javascript">
+	$('.zlzq-xmnrularea').click(function(){
+		if($(this).attr("data_tag") == "0"){
+			$('.zlzq-xmnrulareacon').show();
+			$(this).attr("data_tag","1");
+		}else
+		{
+			$('.zlzq-xmnrulareacon').hide();
+			$(this).attr("data_tag","0");
+		}
+	})
+	getprovincelist();
+</script>
+</body>
+</html>

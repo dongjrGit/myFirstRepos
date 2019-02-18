@@ -1,0 +1,465 @@
+﻿<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<head>
+<title>订单详情</title>
+<link type="text/css" rel="stylesheet" href="${path}/pc/member/css/common.css" />
+<link type="text/css" rel="stylesheet" href="${path}/pc/member/css/style01.css" />
+<link type="text/css" rel="stylesheet" href="${path}/ui-dialog.css" />
+<link type="text/css" rel="stylesheet" href="${path}/pc/member/css/top-footer.css" />
+<link type="text/css" rel="stylesheet" href="${path}/pc/member/css/pager2.css" />
+<link type="text/css" rel="stylesheet" href="${path}/pc/member/css/jQuery.Validate.css" />
+<link href="${path}/pc/member/css/default.css" rel="stylesheet" />
+<script src="${path}/pc/member/js/OrderCenter/OrderList.js"></script>
+<!-- <script src="${path}/pc/member/js/Concern/syconcernlist.js"></script> -->
+<script src="${path}/pc/member/js/browsehistory/browsehistory.js"></script>
+<script src="${path}/pc/member/js/jquery-1.8.2.min.js"></script>
+<script src="${path}/pc/member/js/index.js"></script>
+<script src="${path}/pc/member/js/jquery.validate-methods.js"></script>
+<script src="${path}/pc/member/js/jquery.validate.js"></script>
+<script src="${path}/pc/member/js/pager2.js"></script>
+<script src="${path}/pc/member/js/showdate.js"></script>
+<script src="${path}/artTemplate.js"></script>
+<script src="${path}/dialog-plus.js"></script>
+<script src="${path}/dialogShow.js"></script>
+<script src="${path}/jQueryRotate.2.2.js"></script>
+</head>
+<script src="${path}/pc/member/js/OrderCenter/OrderList.js"></script>
+<script src="/resource/pc/web/js/order/OrderLogistics.js"></script>
+
+<!--main  主要内容  开始 -->
+<div id="main" class="fix">
+    <!--main-left 左边内容  开始 -->
+    <% include("/template/pc/memberCenter/Shared/_PartialLeftside.html",{}){}%> 
+    <!--main-left 左边内容  结束 -->
+    <!--rightside 右边内容  结束 -->
+    <div class="rightside" style="background:#fff;">
+        <div class="ddhxq-top">
+            <h3>
+                订单号：${detail.code}
+                状态：
+                                     <%if(detail.status==0){%>
+                                     <span style="color:#14A115;">待付款</span>
+                                     <%}else if(detail.status==1){%>
+                                     <span style="color:#14A115;">待发货</span>
+                                     <%}else if(detail.status==2){%>
+                                     <span style="color:#14A115;">待收货</span>
+                                     <%}else if(detail.status==3){%>
+                                     <span style="color:#14A115;">已确认收货</span>
+                                     <%}else if(detail.status==4){%>
+                                     <span style="color:#14A115;">未付款取消申请</span>
+                                     <%}else if(detail.status==5){%>
+                                     <span style="color:#14A115;">未付款已取消</span>
+                                     <%}else if(detail.status==6){%>
+                                     <span style="color:#14A115;">已付款取消申请</span>
+                                     <%}else if(detail.status==7){%>
+                                     <span style="color:#14A115;">已付款已取消</span>
+                                     <%}else if(detail.status==8){%>
+                                     <span style="color:#14A115;">已完成</span>
+                                     <%}else if(detail.status==9){%>
+                                     <span style="color:#14A115;">申请退款退货中</span>
+                                     <%}else if(detail.status==10){%>
+                                     <span style="color:#14A115;">已退款</span>
+                                     <%}%>
+              
+            </h3>
+            <%if (detail.status==3){%>
+                <p>订单已经完成，感谢购物，欢迎您对本次交易及所购商品进行评论。 </p>
+           <%}%>
+        </div><!--ddhxq-top   stop -->
+        <div class="clear"></div>
+        <!--l_ddxq  begin -->
+        <div class="l_ddxq fix">
+            <div class="l_ddxqtop">
+                <ul>
+                    
+                    <%if(detail.status==0){%>
+                        <li class="l_ddxqwc">
+                            <i class="active"></i>
+                            <p>提交订单</p>
+                        </li>
+                        <li class="l_ddxqwctwo">
+                            <i class="passive"></i>
+                            <p>等待付款</p>
+                        </li>
+                        <li class="l_ddxqwctwo">
+                            <i class="passive"></i>
+                            <p>商品出库</p>
+                        </li>
+                        <li class="l_ddxqwctwo">
+                            <i class="passive"></i>
+                            <p>等待收货</p>
+                        </li>
+                        <li class="l_ddxqwctwo">
+                            <i class="passive"></i>
+                            <p>完成</p>
+                        </li>
+                   <%}else if(detail.status==1){%>
+                   
+                        <li class="l_ddxqwc">
+                            <i class="active"></i>
+                            <p>提交订单</p>
+                        </li>
+                        <li class="l_ddxqwc">
+                            <i class="active"></i>
+                            <p>已付款</p>
+                        </li>
+                        <li class="l_ddxqwctwo">
+                            <i class="passive"></i>
+                            <p>商品出库</p>
+                        </li>
+                        <li class="l_ddxqwctwo">
+                            <i class="passive"></i>
+                            <p>等待收货</p>
+                        </li>
+                        <li class="l_ddxqwctwo">
+                            <i class="passive"></i>
+                            <p>完成</p>
+                        </li>
+                    <%}else if(detail.status==2){%>
+                   
+                        <li class="l_ddxqwc">
+                            <i class="active"></i>
+                            <p>提交订单</p>
+                        </li>
+                        <li class="l_ddxqwc">
+                            <i class="active"></i>
+                            <p>已付款</p>
+                        </li>
+                        <li class="l_ddxqwc">
+                            <i class="active"></i>
+                            <p>商品出库</p>
+                        </li>
+                        <li class="l_ddxqwctwo">
+                            <i class="passive"></i>
+                            <p>等待收货</p>
+                        </li>
+                        <li class="l_ddxqwctwo">
+                            <i class="passive"></i>
+                            <p>完成</p>
+                        </li>
+                   <%}else if(detail.status==4){%>
+                    
+                        <li class="l_ddxqwc">
+                            <i class="active"></i>
+                            <p>申请取消</p>
+                        </li>
+                        <li class="l_ddxqwctwo">
+                            <i class="passive"></i>
+                            <p>同意取消</p>
+                        </li>
+                        <li class="l_ddxqwctwo">
+                            <i class="passive"></i>
+                            <p>完成</p>
+                        </li>
+                   <%}else if(detail.status==5){%>
+                   
+                        <li class="l_ddxqwc">
+                            <i class="active"></i>
+                            <p>申请取消</p>
+                        </li>
+                        <li class="l_ddxqwc">
+                            <i class="active"></i>
+                            <p>已取消</p>
+                        </li>
+                        <li class="l_ddxqwc">
+                            <i class="active"></i>
+                            <p>完成</p>
+                        </li>
+                  <%}else{%>
+                        <li class="l_ddxqwc">
+                            <i class="active"></i>
+                            <p>提交订单</p>
+                        </li>
+                        <li class="l_ddxqwc">
+                            <i class="active"></i>
+                            <p>已付款</p>
+                        </li>
+                        <li class="l_ddxqwc">
+                            <i class="active"></i>
+                            <p>商品出库</p>
+                        </li>
+                        <li class="l_ddxqwc">
+                            <i class="active"></i>
+                            <p>确认收货</p>
+                        </li>
+                        <li class="l_ddxqwc">
+                            <i class="active"></i>
+                            <p>完成</p>
+                        </li>
+                 <%}%>
+                </ul>
+            </div><!--l_ddxqtop  stop -->
+        </div>
+        <!--l_ddxq  stop -->
+        <!--Tab2 申请返修退换货开始 -->
+        <style type="text/css">
+            #Tab2 {
+                width: 96%;
+                margin: 20px auto 0px auto;
+            }
+
+            .Menubox {
+                width: 100%;
+                height: 35px;
+                line-height: 35px;
+                background: #FFFDF4;
+                border: 1px solid #FFD0A2;
+                border-bottom: 1px solid #F8E5C7;
+                border-left: 1px solid #FCE6BF;
+            }
+
+                .Menubox ul {
+                    margin: 0px;
+                    padding: 0px;
+                }
+
+                .Menubox li {
+                    float: left;
+                    width: auto;
+                    display: block;
+                    cursor: pointer;
+                    text-align: center;
+                    padding: 0px 30px;
+                    height: 35px;
+                    line-height: 35px;
+                    font-size: 14px;
+                    border-right: 1px solid #F3EABF;
+                    font-weight: normal;
+                }
+
+                    .Menubox li.hover {
+                        padding: 0px;
+                        color: #c31;
+                        height: 36px;
+                        line-height: 36px;
+                        font-weight: bolder;
+                        width: auto;
+                        padding: 0px 30px;
+                        background: #FFF;
+                        color: #000;
+                        border-bottom: none;
+                    }
+
+            .Contentbox {
+                clear: both;
+                padding: 10px 0px 0px 0px;
+                border: 1px solid #FCE6BF;
+                border-top: none;
+                width: 100%;
+            }
+        </style>
+           <%if(detail.status>0){%>
+        <div id="Tab2">
+            <div class="Menubox">
+                <ul>
+                    <li id="two1" onclick="setTab('two',1,4)" class="hover">订单跟踪</li>
+                    <li id="two2" onclick="setTab('two',2,4)">付款信息</li>
+                </ul>
+            </div>
+              <div class="Contentbox">
+                <!--con_two_1 选项卡1对应内容开始 -->
+                <!-- <input type="hidden" value="@order.LogisticsCoding" id="orderlogcode" />
+                <input type="hidden" value="@order.LogisticsCode" id="orderlognum" /> -->
+                <input type="hidden" value="${detail.id}" id="orderid" />
+                <div id="con_two_1">
+                    <div class="n_ddgz">
+                        <table>
+                            <tr class="n_ddgztr" id="trlog">
+                                <td>订单跟踪</td>
+                                <td>处理信息</td>
+                                <td>备注</td>
+                            </tr>
+                       		<script type="text/html" id="datalog">
+                                {{each list.traces as lc i}}
+                                <tr>
+                                    <td style="padding-top:20px;">{{lc.acceptTime}}</td>
+                                    <td style="padding-top:20px;">{{lc.acceptStation}}</td>
+                                    <td style="padding-top:20px;"></td>
+                                </tr>
+                                {{/each}}
+                            </script>
+                        </table>
+                        <div class="n_ddgz-bottom"><span>送货方式：普通快递</span> <span>货运公司：${detail.logisticname}</span> <span>货运单号：${detail.logisiticcode}</span> <span class="lvse"></span></div>
+                    </div><!--n_ddgz  stop -->
+
+                </div>
+                <!--con_two_1 选项卡1对应内容结束 -->
+                <!--con_two_2 选项卡2对应内容开始 -->
+                <div id="con_two_2" style="display:none">
+                    <div class="n_fkxx">
+                        <table>
+                            <tr>
+                                <td class="text-right">付款方式：</td>
+                                <%if(detail.payType==0){%>
+                                     <td colspan="5">未支付</td>
+                                         <%}else if(detail.payType==1){%>
+                                    <td colspan="5">在线支付</td>
+                                        <%}else if(detail.payType==2){%>
+                                        <td colspan="5">余额支付</td>
+                                         <%}else if(detail.payType==3){%>
+                                        <td colspan="5">优惠券支付</td>
+                                         <%}else if(detail.payType==4){%>
+                                      <td colspan="5">混合支付</td>
+                                        <%}else if(detail.payType==4){%>
+                                       <td colspan="5">货到付款</td>
+                                        <%}else{%>
+                                        <td colspan="5">未支付</td>
+                                        <%}%>
+                            </tr>
+                            <tr>
+                                <td class="text-right">商品金额：</td>
+                                <td>￥${detail.price}</td>
+                                <td class="text-right">运费金额：</td>
+                                <td>￥${detail.freight}</td>
+                                <td class="text-right">优惠券：</td>
+                                <td>￥<%if(!isEmpty(detail.CouponPay)){%>${detail.CouponPay}<%}else{%>0.00<%}%></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">优惠总金额：</td>
+                                <td>￥<%if(!isEmpty(detail.CouponPay)){%>${detail.CouponPay}<%}else{%>0.00<%}%></td>
+                                <td class="text-right">实际运费：</td>
+                                <td>￥${detail.freight}</td>
+                                <td class="text-right">礼品卡：</td>
+                                <td>￥0.00</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">付款时间：</td>
+                                <td colspan="5">${detail.payDate,dateFormat="yyyy-MM-dd HH:mm:ss"}</td>
+                            </tr>
+                        </table>
+                    </div><!--n_fkxx  stop -->
+                </div><!--con_two_2 选项卡2对应内容结束 -->
+            </div>
+        </div>
+        <%}%>
+        <!--Tab2 申请返修退换货结束 -->
+        <!--n_ddxq  begin -->
+        <div class="n_ddxq">
+            <div class="n_ddxqtitle">订单详情</div>
+           
+                <div class="n_ddxqmk" style="margin-top:20px;">
+                    <div class="n_ddxqmktop">收货人信息</div>
+                    <div class="n_ddxqtr">
+                        <div class="n_ddxqtdleft">收货人：</div>
+                        <div class="n_ddxqtdright">${detail.consignee}</div>
+                    </div><!--n_ddxqtr  stop -->
+                    <div class="n_ddxqtr">
+                        <div class="n_ddxqtdleft">收货地址：</div>
+                        <div class="n_ddxqtdright">${detail.provincename}${detail.cityname}${detail.areaname}${detail.address}</div>
+                    </div><!--n_ddxqtr  stop -->
+                    <div class="n_ddxqtr">
+                        <div class="n_ddxqtdleft">手机号码：</div>
+                        <div class="n_ddxqtdright">${detail.telPhone}</div>
+                    </div><!--n_ddxqtr  stop -->
+                    <div class="clear"></div>
+                </div><!--n_ddxqmk  stop -->
+            <div class="n_ddxqmk">
+                <div class="n_ddxqmktop">支付及配送方式</div>
+                <div class="n_ddxqtr">
+                    <div class="n_ddxqtdleft">支付方式：</div>
+                                     <%if(detail.payType==0){%>
+                                     <div class="n_ddxqtdright">未支付</div>
+                                         <%}else if(detail.payType==1){%>
+                                         <div class="n_ddxqtdright">在线支付</div>
+                                        <%}else if(detail.payType==2){%>
+                                        <div class="n_ddxqtdright">余额支付</div>
+                                         <%}else if(detail.payType==3){%>
+                                        <div class="n_ddxqtdright">优惠券支付</div>
+                                         <%}else if(detail.payType==4){%>
+                                         <div class="n_ddxqtdright">混合支付</div>
+                                        <%}else if(detail.payType==5){%>
+                                        <div class="n_ddxqtdright">货到付款</div>
+                                        <%}else{%>
+                                       <div class="n_ddxqtdright">未知</div>
+                                       <%}%>
+                </div><!--n_ddxqtr  stop -->
+                <div class="n_ddxqtr">
+                    <div class="n_ddxqtdleft">运费：</div>
+                    <div class="n_ddxqtdright">￥${detail.freight}</div>
+                </div><!--n_ddxqtr  stop -->
+                <div class="clear"></div>
+            </div>
+            <div class="n_ddxqmk">
+                <div class="n_ddxqmktop">发票信息</div>
+                <div class="n_ddxqtr">
+                   <%if(detail.invoiceTitle!=null&&detail.invoiceContent!=null){%>
+                        <div class="n_ddxqtdleft">发票类型：</div>
+                        <div class="n_ddxqtdright"><%if(detail.invoiceType==0){%>普通发票 <%}else if(detail.invoiceType==1){%>电子发票<%}else if(detail.invoiceType==2){%> 增值税发票<%}%></div>
+                        <div class="n_ddxqtdleft">发票抬头：</div>
+                        <div class="n_ddxqtdright">${detail.invoiceTitle}</div>
+                        <div class="n_ddxqtdleft">发票明细：</div>
+                        <div class="n_ddxqtdright">${detail.invoiceContent}</div>
+                 <%}else{%>
+                        <div class="n_ddxqtdleft">发票类型：</div>
+                        <div class="n_ddxqtdright">不开发票</div>
+                 <%}%>
+                </div><!--n_ddxqtr  stop -->
+                <div class="clear"></div>
+            </div>
+            <div class="n_ddxqmk" style="border-bottom:none;">
+                <div class="n_ddxqmktop">商品清单</div>
+                <div class="n_spqd">
+                    <table>
+                        <tr>
+                            <td>商品编号</td>
+                            <td>商品图片</td>
+                            <td width="300px">商品名称</td>
+                            <td>价格（元）</td>
+                            <td>数量</td>
+                        </tr>
+                     <%for(product in detail.children){%>
+                            <tr>
+                                <td>${product.productnum}</td>
+                                <td><img src="${product.productimg}"></td>
+                                <td class="text-left"><a href="javascript:void(0);">${product.productname}</a></td>
+                                <td>${product.productprice}</td>
+                                <td>${product.productcount}</td>
+                            </tr>
+                       <%}%>
+                    </table>
+                </div><!--n_spqd  stop -->
+                <div class="clear"></div>
+            </div>
+            <div class="n_ddxqbottom">
+                <table>
+                    <tr>
+                        <td>总商品金额：</td>
+                        <td class="text-left">￥${detail.price,numberFormat="0.00"}</td>
+                    </tr>
+                    <tr>
+                        <td>+运费：</td>
+                        <td class="text-left">￥${detail.freight,numberFormat="0.00"}</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid #CACACA;">
+                        <td>-优惠：</td>
+                        <td class="text-left">￥${detail.discount,numberFormat="0.00"}</td>
+                    </tr>
+                    <tr class="n_ddxqyfze">
+                        <td>应付总额：</td>
+                        <td class="text-left bolder red">￥${detail.actualPay,numberFormat="0.00"}</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+        <!--n_ddxq  stop -->
+        <div class="clear"></div>
+    </div>
+    <!--rightside 右边内容  结束 -->
+    <div class="clear"></div>
+</div>
+<!--main  主要内容  结束 -->
+<script type="text/javascript">
+    function setTab(name, cursel, n) {
+        for (i = 1; i <= n; i++) {
+            var menu = document.getElementById(name + i);
+            var con = document.getElementById("con_" + name + "_" + i);
+            menu.className = i == cursel ? "hover" : "";
+            con.style.display = i == cursel ? "block" : "none";
+        }
+    }
+</script>
+
+
+

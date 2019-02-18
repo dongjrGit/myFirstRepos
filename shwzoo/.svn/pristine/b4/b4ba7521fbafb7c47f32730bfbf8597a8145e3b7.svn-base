@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<title>中绿味道-专家讲堂</title>
+
+</head>
+<body class="bodybjhs">
+<<% try{
+		include("/template/pc/nav/zlzq_nav.html",{flag:4}){}}catch(error){}%>
+<!--container 中间所有内容开始-->
+<div id="container" class="fix">
+	<div class="l_pos fon14">
+  	<span class="fon14"><a href="#">中绿味道 </a></span>
+    <span class="l_jtyb">&gt;</span>
+    <span class="fon14"><a href="#">专家讲堂</a></span>
+    <span class="l_jtyb">&gt;</span>
+           立秋了，秋火锅吃起来！
+	</div>
+	<div class="cfbk-tit">立秋了，秋火锅吃起来！</div>
+	<!--spbfnr begin-->
+	<div class="spbfnr fix">
+		<embed src="http://player.ku6.com/refer/D8y4snUbGmPSjj1BMlKgCw../v.swf" width="900" height="506" allowscriptaccess="always" allowfullscreen="true" type="application/x-shockwave-flash" flashvars="from=ku6" id="videosp"></embed>
+		<div class="cfbk-arcnrbot fix">
+	  	<p class="fon18">立秋了，秋火锅吃起来！</p>
+	  	<p class="fon12 huise">时间：2016-09-21</p>
+	  	<div class="cfbk-arcnrbot-r">
+	  		<span>分享:</span>
+	  		<a href="#"><i class="cfbk-arcnrbotico1"></i></a>
+	  		<a href="#"><i class="cfbk-arcnrbotico2"></i></a>
+	  		<a href="#"><i class="cfbk-arcnrbotico3"></i></a>
+	  		<a href="#"><i class="cfbk-arcnrbotico4"></i></a>
+	  	</div>
+	  </div>
+	</div>
+	<!--spbfnr stop-->
+</div>
+<!--container 中间所有内容结束-->
+<!--footer  底部开始 -->
+<!--footer  底部结束 -->
+</body>
+</html>

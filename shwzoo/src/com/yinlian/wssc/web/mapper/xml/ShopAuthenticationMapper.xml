@@ -1,0 +1,912 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.ShopAuthenticationMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.ShopAuthentication" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="ShopID" property="shopid" jdbcType="INTEGER" />
+    <result column="PrincipalName" property="principalname" jdbcType="VARCHAR" />
+    <result column="PrincipaDepartment" property="principadepartment" jdbcType="INTEGER" />
+    <result column="PrincipalPost" property="principalpost" jdbcType="VARCHAR" />
+    <result column="PrincipaTelephone" property="principatelephone" jdbcType="VARCHAR" />
+    <result column="PrincipalMobile" property="principalmobile" jdbcType="VARCHAR" />
+    <result column="PrincipalEmail" property="principalemail" jdbcType="VARCHAR" />
+    <result column="CompanyName" property="companyname" jdbcType="VARCHAR" />
+    <result column="CompanyProvince" property="companyprovince" jdbcType="VARCHAR" />
+    <result column="CompanyCity" property="companycity" jdbcType="VARCHAR" />
+    <result column="CompanyArea" property="companyarea" jdbcType="VARCHAR" />
+    <result column="CompanyAdress" property="companyadress" jdbcType="VARCHAR" />
+    <result column="CompanyPurpose" property="companypurpose" jdbcType="VARCHAR" />
+    <result column="CompanyMarket" property="companymarket" jdbcType="VARCHAR" />
+    <result column="CompanyPopulation" property="companypopulation" jdbcType="INTEGER" />
+    <result column="CompanyIndustry" property="companyindustry" jdbcType="INTEGER" />
+    <result column="CompanyType" property="companytype" jdbcType="INTEGER" />
+    <result column="CompanyHonor" property="companyhonor" jdbcType="VARCHAR" />
+    <result column="CompanyFox" property="companyfox" jdbcType="VARCHAR" />
+    <result column="CompanyEmail" property="companyemail" jdbcType="VARCHAR" />
+    <result column="CompanyTel" property="companytel" jdbcType="VARCHAR" />
+    <result column="CompanyContactName" property="companycontactname" jdbcType="VARCHAR" />
+    <result column="CompanySales" property="companysales" jdbcType="DECIMAL" />
+    <result column="CompanyWeb" property="companyweb" jdbcType="VARCHAR" />
+    <result column="License" property="license" jdbcType="VARCHAR" />
+    <result column="LicenseNum" property="licenseNum" jdbcType="VARCHAR" />
+    <result column="Certificate" property="certificate" jdbcType="VARCHAR" />
+    <result column="OrganizationTime" property="organizationtime" jdbcType="VARCHAR" />
+    <result column="Organization" property="organization" jdbcType="VARCHAR" />
+    <result column="Tax" property="tax" jdbcType="VARCHAR" />
+    <result column="Bank" property="bank" jdbcType="VARCHAR" />
+    <result column="PostCode" property="postcode" jdbcType="VARCHAR" />
+    <result column="IsEShop" property="iseshop" jdbcType="INTEGER" />
+    <result column="EShopUrl" property="eshopurl" jdbcType="VARCHAR" />
+    <result column="EShopEmployee" property="eshopemployee" jdbcType="INTEGER" />
+    <result column="EShopProduct" property="eshopproduct" jdbcType="INTEGER" />
+    <result column="EShopAvgPrice" property="eshopavgprice" jdbcType="DECIMAL" />
+    <result column="EShopExpress" property="eshopexpress" jdbcType="VARCHAR" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+    <result column="OperateType" property="operatetype" jdbcType="VARCHAR" />
+    <result column="CompanyLocation" property="companylocation" jdbcType="VARCHAR" />
+    <result column="OrganizationElec" property="organizationelec" jdbcType="VARCHAR" />
+    <result column="Comment" property="comment" jdbcType="VARCHAR" />
+    <result column="Longitude" property="longitude" jdbcType="VARCHAR" />
+    <result column="Latitude" property="latitude" jdbcType="VARCHAR" />
+    <result column="Examinereport" property="examinereport" jdbcType="VARCHAR" />
+    <result column="Producelicence" property="producelicence" jdbcType="VARCHAR" />
+    <result column="Adoctrinecredential" property="adoctrinecredential" jdbcType="VARCHAR" />
+    <result column="MarketingScope" property="marketingscope" jdbcType="VARCHAR" />
+    <result column="bewrite" property="bewrite" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, ShopID, PrincipalName, PrincipaDepartment, PrincipalPost, PrincipaTelephone, 
+    PrincipalMobile, PrincipalEmail, CompanyName, CompanyProvince, CompanyCity, CompanyArea, 
+    CompanyAdress, CompanyPurpose, CompanyMarket, CompanyPopulation, CompanyIndustry, 
+    CompanyType, CompanyHonor, CompanyFox, CompanyEmail, CompanyTel, CompanyContactName, 
+    CompanySales, CompanyWeb, License, Certificate, OrganizationTime, Organization, Tax, 
+    Bank, PostCode, IsEShop, EShopUrl, EShopEmployee, EShopProduct, EShopAvgPrice, EShopExpress, 
+    Status, OperateType, CompanyLocation, OrganizationElec, Comment, Longitude, Latitude,LicenseNum,
+    MarketingScope,bewrite
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.ShopAuthenticationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    a.*,s.supporttel
+    from shop_authentication a LEFT JOIN shop s ON a.shopid = s.id
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from shop_authentication
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+   <select id="selectByPrimaryByShopId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from shop_authentication
+    where shopid = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from shop_authentication
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.ShopAuthenticationExample" >
+    delete from shop_authentication
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.ShopAuthentication" >
+    insert into shop_authentication (ID, ShopID, PrincipalName, 
+      PrincipaDepartment, PrincipalPost, PrincipaTelephone, 
+      PrincipalMobile, PrincipalEmail, CompanyName, 
+      CompanyProvince, CompanyCity, CompanyArea, 
+      CompanyAdress, CompanyPurpose, CompanyMarket, 
+      CompanyPopulation, CompanyIndustry, CompanyType, 
+      CompanyHonor, CompanyFox, CompanyEmail, 
+      CompanyTel, CompanyContactName, CompanySales, 
+      CompanyWeb, License,LicenseNum, Certificate, 
+      OrganizationTime, Organization, Tax, 
+      Bank, PostCode, IsEShop, 
+      EShopUrl, EShopEmployee, EShopProduct, 
+      EShopAvgPrice, EShopExpress, Status, 
+      OperateType, CompanyLocation, OrganizationElec, 
+      Comment, Longitude, Latitude,Examinereport,Producelicence,Adoctrinecredential,MarketingScope,bewrite
+      )
+    values (#{id,jdbcType=INTEGER}, #{shopid,jdbcType=INTEGER}, #{principalname,jdbcType=VARCHAR}, 
+      #{principadepartment,jdbcType=INTEGER}, #{principalpost,jdbcType=VARCHAR}, #{principatelephone,jdbcType=VARCHAR}, 
+      #{principalmobile,jdbcType=VARCHAR}, #{principalemail,jdbcType=VARCHAR}, #{companyname,jdbcType=VARCHAR}, 
+      #{companyprovince,jdbcType=VARCHAR}, #{companycity,jdbcType=VARCHAR}, #{companyarea,jdbcType=VARCHAR}, 
+      #{companyadress,jdbcType=VARCHAR}, #{companypurpose,jdbcType=VARCHAR}, #{companymarket,jdbcType=VARCHAR}, 
+      #{companypopulation,jdbcType=INTEGER}, #{companyindustry,jdbcType=INTEGER}, #{companytype,jdbcType=INTEGER}, 
+      #{companyhonor,jdbcType=VARCHAR}, #{companyfox,jdbcType=VARCHAR}, #{companyemail,jdbcType=VARCHAR}, 
+      #{companytel,jdbcType=VARCHAR}, #{companycontactname,jdbcType=VARCHAR}, #{companysales,jdbcType=DECIMAL}, 
+      #{companyweb,jdbcType=VARCHAR}, #{license,jdbcType=VARCHAR}, #{licenseNum,jdbcType=VARCHAR}, #{certificate,jdbcType=VARCHAR}, 
+      #{organizationtime,jdbcType=VARCHAR}, #{organization,jdbcType=VARCHAR}, #{tax,jdbcType=VARCHAR}, 
+      #{bank,jdbcType=VARCHAR}, #{postcode,jdbcType=VARCHAR}, #{iseshop,jdbcType=INTEGER}, 
+      #{eshopurl,jdbcType=VARCHAR}, #{eshopemployee,jdbcType=INTEGER}, #{eshopproduct,jdbcType=INTEGER}, 
+      #{eshopavgprice,jdbcType=DECIMAL}, #{eshopexpress,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{operatetype,jdbcType=VARCHAR}, #{companylocation,jdbcType=VARCHAR}, #{organizationelec,jdbcType=VARCHAR}, 
+      #{comment,jdbcType=VARCHAR}, #{longitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR},#{examinereport,jdbcType=VARCHAR}
+      ,#{producelicence,jdbcType=VARCHAR},#{adoctrinecredential,jdbcType=VARCHAR},#{marketingscope,jdbcType=VARCHAR},
+      #{bewrite,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.ShopAuthentication" >
+    insert into shop_authentication
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="shopid != null" >
+        ShopID,
+      </if>
+      <if test="principalname != null" >
+        PrincipalName,
+      </if>
+      <if test="principadepartment != null" >
+        PrincipaDepartment,
+      </if>
+      <if test="principalpost != null" >
+        PrincipalPost,
+      </if>
+      <if test="principatelephone != null" >
+        PrincipaTelephone,
+      </if>
+      <if test="principalmobile != null" >
+        PrincipalMobile,
+      </if>
+      <if test="principalemail != null" >
+        PrincipalEmail,
+      </if>
+      <if test="companyname != null" >
+        CompanyName,
+      </if>
+      <if test="companyprovince != null" >
+        CompanyProvince,
+      </if>
+      <if test="companycity != null" >
+        CompanyCity,
+      </if>
+      <if test="companyarea != null" >
+        CompanyArea,
+      </if>
+      <if test="companyadress != null" >
+        CompanyAdress,
+      </if>
+      <if test="companypurpose != null" >
+        CompanyPurpose,
+      </if>
+      <if test="companymarket != null" >
+        CompanyMarket,
+      </if>
+      <if test="companypopulation != null" >
+        CompanyPopulation,
+      </if>
+      <if test="companyindustry != null" >
+        CompanyIndustry,
+      </if>
+      <if test="companytype != null" >
+        CompanyType,
+      </if>
+      <if test="companyhonor != null" >
+        CompanyHonor,
+      </if>
+      <if test="companyfox != null" >
+        CompanyFox,
+      </if>
+      <if test="companyemail != null" >
+        CompanyEmail,
+      </if>
+      <if test="companytel != null" >
+        CompanyTel,
+      </if>
+      <if test="companycontactname != null" >
+        CompanyContactName,
+      </if>
+      <if test="companysales != null" >
+        CompanySales,
+      </if>
+      <if test="companyweb != null" >
+        CompanyWeb,
+      </if>
+      <if test="license != null" >
+        License,
+      </if>
+      <if test="license != null" >
+        LicenseNum,
+      </if>
+      <if test="certificate != null" >
+        Certificate,
+      </if>
+      <if test="organizationtime != null" >
+        OrganizationTime,
+      </if>
+      <if test="organization != null" >
+        Organization,
+      </if>
+      <if test="tax != null" >
+        Tax,
+      </if>
+      <if test="bank != null" >
+        Bank,
+      </if>
+      <if test="postcode != null" >
+        PostCode,
+      </if>
+      <if test="iseshop != null" >
+        IsEShop,
+      </if>
+      <if test="eshopurl != null" >
+        EShopUrl,
+      </if>
+      <if test="eshopemployee != null" >
+        EShopEmployee,
+      </if>
+      <if test="eshopproduct != null" >
+        EShopProduct,
+      </if>
+      <if test="eshopavgprice != null" >
+        EShopAvgPrice,
+      </if>
+      <if test="eshopexpress != null" >
+        EShopExpress,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+      <if test="operatetype != null" >
+        OperateType,
+      </if>
+      <if test="companylocation != null" >
+        CompanyLocation,
+      </if>
+      <if test="organizationelec != null" >
+        OrganizationElec,
+      </if>
+      <if test="comment != null" >
+        Comment,
+      </if>
+      <if test="longitude != null" >
+        Longitude,
+      </if>
+      <if test="latitude != null" >
+        Latitude,
+      </if>
+      <if test="bewrite != null" >
+        bewrite,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="shopid != null" >
+        #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="principalname != null" >
+        #{principalname,jdbcType=VARCHAR},
+      </if>
+      <if test="principadepartment != null" >
+        #{principadepartment,jdbcType=INTEGER},
+      </if>
+      <if test="principalpost != null" >
+        #{principalpost,jdbcType=VARCHAR},
+      </if>
+      <if test="principatelephone != null" >
+        #{principatelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="principalmobile != null" >
+        #{principalmobile,jdbcType=VARCHAR},
+      </if>
+      <if test="principalemail != null" >
+        #{principalemail,jdbcType=VARCHAR},
+      </if>
+      <if test="companyname != null" >
+        #{companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="companyprovince != null" >
+        #{companyprovince,jdbcType=VARCHAR},
+      </if>
+      <if test="companycity != null" >
+        #{companycity,jdbcType=VARCHAR},
+      </if>
+      <if test="companyarea != null" >
+        #{companyarea,jdbcType=VARCHAR},
+      </if>
+      <if test="companyadress != null" >
+        #{companyadress,jdbcType=VARCHAR},
+      </if>
+      <if test="companypurpose != null" >
+        #{companypurpose,jdbcType=VARCHAR},
+      </if>
+      <if test="companymarket != null" >
+        #{companymarket,jdbcType=VARCHAR},
+      </if>
+      <if test="companypopulation != null" >
+        #{companypopulation,jdbcType=INTEGER},
+      </if>
+      <if test="companyindustry != null" >
+        #{companyindustry,jdbcType=INTEGER},
+      </if>
+      <if test="companytype != null" >
+        #{companytype,jdbcType=INTEGER},
+      </if>
+      <if test="companyhonor != null" >
+        #{companyhonor,jdbcType=VARCHAR},
+      </if>
+      <if test="companyfox != null" >
+        #{companyfox,jdbcType=VARCHAR},
+      </if>
+      <if test="companyemail != null" >
+        #{companyemail,jdbcType=VARCHAR},
+      </if>
+      <if test="companytel != null" >
+        #{companytel,jdbcType=VARCHAR},
+      </if>
+      <if test="companycontactname != null" >
+        #{companycontactname,jdbcType=VARCHAR},
+      </if>
+      <if test="companysales != null" >
+        #{companysales,jdbcType=DECIMAL},
+      </if>
+      <if test="companyweb != null" >
+        #{companyweb,jdbcType=VARCHAR},
+      </if>
+      <if test="license != null" >
+        #{license,jdbcType=VARCHAR},
+      </if>
+      <if test="licenseNum != null" >
+        #{licenseNum,jdbcType=VARCHAR},
+      </if>
+      <if test="certificate != null" >
+        #{certificate,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationtime != null" >
+        #{organizationtime,jdbcType=VARCHAR},
+      </if>
+      <if test="organization != null" >
+        #{organization,jdbcType=VARCHAR},
+      </if>
+      <if test="tax != null" >
+        #{tax,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null" >
+        #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null" >
+        #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="iseshop != null" >
+        #{iseshop,jdbcType=INTEGER},
+      </if>
+      <if test="eshopurl != null" >
+        #{eshopurl,jdbcType=VARCHAR},
+      </if>
+      <if test="eshopemployee != null" >
+        #{eshopemployee,jdbcType=INTEGER},
+      </if>
+      <if test="eshopproduct != null" >
+        #{eshopproduct,jdbcType=INTEGER},
+      </if>
+      <if test="eshopavgprice != null" >
+        #{eshopavgprice,jdbcType=DECIMAL},
+      </if>
+      <if test="eshopexpress != null" >
+        #{eshopexpress,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="operatetype != null" >
+        #{operatetype,jdbcType=VARCHAR},
+      </if>
+      <if test="companylocation != null" >
+        #{companylocation,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationelec != null" >
+        #{organizationelec,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="bewrite != null" >
+        #{bewrite,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.ShopAuthenticationExample" resultType="java.lang.Integer" >
+    select count(*) from shop_authentication
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update shop_authentication
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopid != null" >
+        ShopID = #{record.shopid,jdbcType=INTEGER},
+      </if>
+      <if test="record.principalname != null" >
+        PrincipalName = #{record.principalname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.principadepartment != null" >
+        PrincipaDepartment = #{record.principadepartment,jdbcType=INTEGER},
+      </if>
+      <if test="record.principalpost != null" >
+        PrincipalPost = #{record.principalpost,jdbcType=VARCHAR},
+      </if>
+      <if test="record.principatelephone != null" >
+        PrincipaTelephone = #{record.principatelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.principalmobile != null" >
+        PrincipalMobile = #{record.principalmobile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.principalemail != null" >
+        PrincipalEmail = #{record.principalemail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyname != null" >
+        CompanyName = #{record.companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyprovince != null" >
+        CompanyProvince = #{record.companyprovince,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companycity != null" >
+        CompanyCity = #{record.companycity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyarea != null" >
+        CompanyArea = #{record.companyarea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyadress != null" >
+        CompanyAdress = #{record.companyadress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companypurpose != null" >
+        CompanyPurpose = #{record.companypurpose,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companymarket != null" >
+        CompanyMarket = #{record.companymarket,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companypopulation != null" >
+        CompanyPopulation = #{record.companypopulation,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyindustry != null" >
+        CompanyIndustry = #{record.companyindustry,jdbcType=INTEGER},
+      </if>
+      <if test="record.companytype != null" >
+        CompanyType = #{record.companytype,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyhonor != null" >
+        CompanyHonor = #{record.companyhonor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyfox != null" >
+        CompanyFox = #{record.companyfox,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyemail != null" >
+        CompanyEmail = #{record.companyemail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companytel != null" >
+        CompanyTel = #{record.companytel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companycontactname != null" >
+        CompanyContactName = #{record.companycontactname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companysales != null" >
+        CompanySales = #{record.companysales,jdbcType=DECIMAL},
+      </if>
+      <if test="record.companyweb != null" >
+        CompanyWeb = #{record.companyweb,jdbcType=VARCHAR},
+      </if>
+      <if test="record.license != null" >
+        License = #{record.license,jdbcType=VARCHAR},
+      </if>
+      <if test="record.certificate != null" >
+        Certificate = #{record.certificate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.organizationtime != null" >
+        OrganizationTime = #{record.organizationtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.organization != null" >
+        Organization = #{record.organization,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tax != null" >
+        Tax = #{record.tax,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bank != null" >
+        Bank = #{record.bank,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postcode != null" >
+        PostCode = #{record.postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.iseshop != null" >
+        IsEShop = #{record.iseshop,jdbcType=INTEGER},
+      </if>
+      <if test="record.eshopurl != null" >
+        EShopUrl = #{record.eshopurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eshopemployee != null" >
+        EShopEmployee = #{record.eshopemployee,jdbcType=INTEGER},
+      </if>
+      <if test="record.eshopproduct != null" >
+        EShopProduct = #{record.eshopproduct,jdbcType=INTEGER},
+      </if>
+      <if test="record.eshopavgprice != null" >
+        EShopAvgPrice = #{record.eshopavgprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.eshopexpress != null" >
+        EShopExpress = #{record.eshopexpress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        Status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.operatetype != null" >
+        OperateType = #{record.operatetype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companylocation != null" >
+        CompanyLocation = #{record.companylocation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.organizationelec != null" >
+        OrganizationElec = #{record.organizationelec,jdbcType=VARCHAR},
+      </if>
+      <if test="record.comment != null" >
+        Comment = #{record.comment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.longitude != null" >
+        Longitude = #{record.longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="record.latitude != null" >
+        Latitude = #{record.latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bewrite != null" >
+        bewrite = #{record.bewrite,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update shop_authentication
+    set ID = #{record.id,jdbcType=INTEGER},
+      ShopID = #{record.shopid,jdbcType=INTEGER},
+      PrincipalName = #{record.principalname,jdbcType=VARCHAR},
+      PrincipaDepartment = #{record.principadepartment,jdbcType=INTEGER},
+      PrincipalPost = #{record.principalpost,jdbcType=VARCHAR},
+      PrincipaTelephone = #{record.principatelephone,jdbcType=VARCHAR},
+      PrincipalMobile = #{record.principalmobile,jdbcType=VARCHAR},
+      PrincipalEmail = #{record.principalemail,jdbcType=VARCHAR},
+      CompanyName = #{record.companyname,jdbcType=VARCHAR},
+      CompanyProvince = #{record.companyprovince,jdbcType=VARCHAR},
+      CompanyCity = #{record.companycity,jdbcType=VARCHAR},
+      CompanyArea = #{record.companyarea,jdbcType=VARCHAR},
+      CompanyAdress = #{record.companyadress,jdbcType=VARCHAR},
+      CompanyPurpose = #{record.companypurpose,jdbcType=VARCHAR},
+      CompanyMarket = #{record.companymarket,jdbcType=VARCHAR},
+      CompanyPopulation = #{record.companypopulation,jdbcType=INTEGER},
+      CompanyIndustry = #{record.companyindustry,jdbcType=INTEGER},
+      CompanyType = #{record.companytype,jdbcType=INTEGER},
+      CompanyHonor = #{record.companyhonor,jdbcType=VARCHAR},
+      CompanyFox = #{record.companyfox,jdbcType=VARCHAR},
+      CompanyEmail = #{record.companyemail,jdbcType=VARCHAR},
+      CompanyTel = #{record.companytel,jdbcType=VARCHAR},
+      CompanyContactName = #{record.companycontactname,jdbcType=VARCHAR},
+      CompanySales = #{record.companysales,jdbcType=DECIMAL},
+      CompanyWeb = #{record.companyweb,jdbcType=VARCHAR},
+      License = #{record.license,jdbcType=VARCHAR},
+      Certificate = #{record.certificate,jdbcType=VARCHAR},
+      OrganizationTime = #{record.organizationtime,jdbcType=VARCHAR},
+      Organization = #{record.organization,jdbcType=VARCHAR},
+      Tax = #{record.tax,jdbcType=VARCHAR},
+      Bank = #{record.bank,jdbcType=VARCHAR},
+      PostCode = #{record.postcode,jdbcType=VARCHAR},
+      IsEShop = #{record.iseshop,jdbcType=INTEGER},
+      EShopUrl = #{record.eshopurl,jdbcType=VARCHAR},
+      EShopEmployee = #{record.eshopemployee,jdbcType=INTEGER},
+      EShopProduct = #{record.eshopproduct,jdbcType=INTEGER},
+      EShopAvgPrice = #{record.eshopavgprice,jdbcType=DECIMAL},
+      EShopExpress = #{record.eshopexpress,jdbcType=VARCHAR},
+      Status = #{record.status,jdbcType=INTEGER},
+      OperateType = #{record.operatetype,jdbcType=VARCHAR},
+      CompanyLocation = #{record.companylocation,jdbcType=VARCHAR},
+      OrganizationElec = #{record.organizationelec,jdbcType=VARCHAR},
+      Comment = #{record.comment,jdbcType=VARCHAR},
+      Longitude = #{record.longitude,jdbcType=VARCHAR},
+      Latitude = #{record.latitude,jdbcType=VARCHAR},
+      bewrite = #{record.bewrite,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.ShopAuthentication" >
+    update shop_authentication
+    <set >
+      <if test="shopid != null" >
+        ShopID = #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="principalname != null" >
+        PrincipalName = #{principalname,jdbcType=VARCHAR},
+      </if>
+      <if test="principadepartment != null" >
+        PrincipaDepartment = #{principadepartment,jdbcType=INTEGER},
+      </if>
+      <if test="principalpost != null" >
+        PrincipalPost = #{principalpost,jdbcType=VARCHAR},
+      </if>
+      <if test="principatelephone != null" >
+        PrincipaTelephone = #{principatelephone,jdbcType=VARCHAR},
+      </if>
+      <if test="principalmobile != null" >
+        PrincipalMobile = #{principalmobile,jdbcType=VARCHAR},
+      </if>
+      <if test="principalemail != null" >
+        PrincipalEmail = #{principalemail,jdbcType=VARCHAR},
+      </if>
+      <if test="companyname != null" >
+        CompanyName = #{companyname,jdbcType=VARCHAR},
+      </if>
+      <if test="companyprovince != null" >
+        CompanyProvince = #{companyprovince,jdbcType=VARCHAR},
+      </if>
+      <if test="companycity != null" >
+        CompanyCity = #{companycity,jdbcType=VARCHAR},
+      </if>
+      <if test="companyarea != null" >
+        CompanyArea = #{companyarea,jdbcType=VARCHAR},
+      </if>
+      <if test="companyadress != null" >
+        CompanyAdress = #{companyadress,jdbcType=VARCHAR},
+      </if>
+      <if test="companypurpose != null" >
+        CompanyPurpose = #{companypurpose,jdbcType=VARCHAR},
+      </if>
+      <if test="companymarket != null" >
+        CompanyMarket = #{companymarket,jdbcType=VARCHAR},
+      </if>
+      <if test="companypopulation != null" >
+        CompanyPopulation = #{companypopulation,jdbcType=INTEGER},
+      </if>
+      <if test="companyindustry != null" >
+        CompanyIndustry = #{companyindustry,jdbcType=INTEGER},
+      </if>
+      <if test="companytype != null" >
+        CompanyType = #{companytype,jdbcType=INTEGER},
+      </if>
+      <if test="companyhonor != null" >
+        CompanyHonor = #{companyhonor,jdbcType=VARCHAR},
+      </if>
+      <if test="companyfox != null" >
+        CompanyFox = #{companyfox,jdbcType=VARCHAR},
+      </if>
+      <if test="companyemail != null" >
+        CompanyEmail = #{companyemail,jdbcType=VARCHAR},
+      </if>
+      <if test="companytel != null" >
+        CompanyTel = #{companytel,jdbcType=VARCHAR},
+      </if>
+      <if test="companycontactname != null" >
+        CompanyContactName = #{companycontactname,jdbcType=VARCHAR},
+      </if>
+      <if test="companysales != null" >
+        CompanySales = #{companysales,jdbcType=DECIMAL},
+      </if>
+      <if test="companyweb != null" >
+        CompanyWeb = #{companyweb,jdbcType=VARCHAR},
+      </if>
+      <if test="license != null" >
+        License = #{license,jdbcType=VARCHAR},
+      </if>
+      <if test="certificate != null" >
+        Certificate = #{certificate,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationtime != null" >
+        OrganizationTime = #{organizationtime,jdbcType=VARCHAR},
+      </if>
+      <if test="organization != null" >
+        Organization = #{organization,jdbcType=VARCHAR},
+      </if>
+      <if test="tax != null" >
+        Tax = #{tax,jdbcType=VARCHAR},
+      </if>
+      <if test="bank != null" >
+        Bank = #{bank,jdbcType=VARCHAR},
+      </if>
+      <if test="postcode != null" >
+        PostCode = #{postcode,jdbcType=VARCHAR},
+      </if>
+      <if test="iseshop != null" >
+        IsEShop = #{iseshop,jdbcType=INTEGER},
+      </if>
+      <if test="eshopurl != null" >
+        EShopUrl = #{eshopurl,jdbcType=VARCHAR},
+      </if>
+      <if test="eshopemployee != null" >
+        EShopEmployee = #{eshopemployee,jdbcType=INTEGER},
+      </if>
+      <if test="eshopproduct != null" >
+        EShopProduct = #{eshopproduct,jdbcType=INTEGER},
+      </if>
+      <if test="eshopavgprice != null" >
+        EShopAvgPrice = #{eshopavgprice,jdbcType=DECIMAL},
+      </if>
+      <if test="eshopexpress != null" >
+        EShopExpress = #{eshopexpress,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="operatetype != null" >
+        OperateType = #{operatetype,jdbcType=VARCHAR},
+      </if>
+      <if test="companylocation != null" >
+        CompanyLocation = #{companylocation,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationelec != null" >
+        OrganizationElec = #{organizationelec,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null" >
+        Comment = #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        Longitude = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        Latitude = #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="bewrite != null" >
+        bewrite = #{bewrite,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.ShopAuthentication" >
+    update shop_authentication
+    set ShopID = #{shopid,jdbcType=INTEGER},
+      PrincipalName = #{principalname,jdbcType=VARCHAR},
+      PrincipaDepartment = #{principadepartment,jdbcType=INTEGER},
+      PrincipalPost = #{principalpost,jdbcType=VARCHAR},
+      PrincipaTelephone = #{principatelephone,jdbcType=VARCHAR},
+      PrincipalMobile = #{principalmobile,jdbcType=VARCHAR},
+      PrincipalEmail = #{principalemail,jdbcType=VARCHAR},
+      CompanyName = #{companyname,jdbcType=VARCHAR},
+      CompanyProvince = #{companyprovince,jdbcType=VARCHAR},
+      CompanyCity = #{companycity,jdbcType=VARCHAR},
+      CompanyArea = #{companyarea,jdbcType=VARCHAR},
+      CompanyAdress = #{companyadress,jdbcType=VARCHAR},
+      CompanyPurpose = #{companypurpose,jdbcType=VARCHAR},
+      CompanyMarket = #{companymarket,jdbcType=VARCHAR},
+      CompanyPopulation = #{companypopulation,jdbcType=INTEGER},
+      CompanyIndustry = #{companyindustry,jdbcType=INTEGER},
+      CompanyType = #{companytype,jdbcType=INTEGER},
+      CompanyHonor = #{companyhonor,jdbcType=VARCHAR},
+      CompanyFox = #{companyfox,jdbcType=VARCHAR},
+      CompanyEmail = #{companyemail,jdbcType=VARCHAR},
+      CompanyTel = #{companytel,jdbcType=VARCHAR},
+      CompanyContactName = #{companycontactname,jdbcType=VARCHAR},
+      CompanySales = #{companysales,jdbcType=DECIMAL},
+      CompanyWeb = #{companyweb,jdbcType=VARCHAR},
+      License = #{license,jdbcType=VARCHAR},
+      Certificate = #{certificate,jdbcType=VARCHAR},
+      OrganizationTime = #{organizationtime,jdbcType=VARCHAR},
+      Organization = #{organization,jdbcType=VARCHAR},
+      Tax = #{tax,jdbcType=VARCHAR},
+      Bank = #{bank,jdbcType=VARCHAR},
+      PostCode = #{postcode,jdbcType=VARCHAR},
+      IsEShop = #{iseshop,jdbcType=INTEGER},
+      EShopUrl = #{eshopurl,jdbcType=VARCHAR},
+      EShopEmployee = #{eshopemployee,jdbcType=INTEGER},
+      EShopProduct = #{eshopproduct,jdbcType=INTEGER},
+      EShopAvgPrice = #{eshopavgprice,jdbcType=DECIMAL},
+      EShopExpress = #{eshopexpress,jdbcType=VARCHAR},
+      Status = #{status,jdbcType=INTEGER},
+      OperateType = #{operatetype,jdbcType=VARCHAR},
+      CompanyLocation = #{companylocation,jdbcType=VARCHAR},
+      OrganizationElec = #{organizationelec,jdbcType=VARCHAR},
+      Comment = #{comment,jdbcType=VARCHAR},
+      Longitude = #{longitude,jdbcType=VARCHAR},
+      Latitude = #{latitude,jdbcType=VARCHAR},
+      LicenseNum = #{licenseNum,jdbcType=VARCHAR},
+      Examinereport=#{examinereport,jdbcType=VARCHAR},
+      Producelicence=#{producelicence,jdbcType=VARCHAR},
+      adoctrinecredential=#{adoctrinecredential,jdbcType=VARCHAR},
+      MarketingScope=#{marketingscope,jdbcType=VARCHAR},
+      bewrite=#{bewrite,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+   <!-- 以下是自定义的 接口 分页查询 -->
+   <sql id="criteria_query">
+   <where>
+    <if test="criteria.shopid != null and criteria.shopid != -1 ">
+     and a.ShopID = #{criteria.shopid}
+     </if> 
+       <if test="criteria.status != null and criteria.status != -1 ">
+      and a.Status = #{criteria.status} 
+     </if>
+        <if test="criteria.companyname != null and criteria.companyname != '' ">
+     and a.CompanyName LIKE '%${criteria.companyname}%'
+     </if>
+     and s.IsDel =0
+     </where> 
+  </sql>
+
+  <select id="selectPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" resultMap="BaseResultMap">
+     SELECT a.*,s.name shopname FROM shop_authentication a LEFT JOIN shop s ON a.shopid = s.id
+     <if test="criteria != null ">
+     <include refid="criteria_query"/> 
+     </if>
+     <if test="criteria.orderByClause != null and criteria.orderByClause != '' " >
+      order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序     此处只能使用${} 而不能使用#{} 会设置参数失败 -->
+    </if>
+  </select>
+</mapper>

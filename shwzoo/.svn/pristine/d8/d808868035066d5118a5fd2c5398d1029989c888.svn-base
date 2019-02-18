@@ -1,0 +1,337 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>首页—中绿生活|中国绿色食品展销中心|365Greenlife.com</title>
+
+<meta name="title" content="首页—中绿生活|中国绿色食品展销中心|365Greenlife.com" />
+
+
+
+<link href="/resource/pc/web/css/top-footer.css" rel="stylesheet" />
+<link href="/resource/pc/web/css/womenclothing.css" rel="stylesheet" />
+<link href="/resource/pc/web/css/index.css" rel="stylesheet" />
+<link href="/resource/ui-dialog.css" rel="stylesheet" />
+<script src="/resource/jquery-1.9.1.min.js"></script>
+
+ 
+<script src="/resource/cookie.js"></script>
+<script src="/resource/pc/web/js/login/login.js"></script>
+<script src="/resource/pc/web/js/shopcart/addcart.js"></script>
+<script type="text/javascript"
+	src="/resource/pc/web/js/jquery.SuperSlide.js"></script>
+	<script src="/resource/artTemplate.js"></script>
+<script type="text/javascript" src="/resource/public/platform/js/yxgl/mrx.js"></script>
+<script type="text/javascript" src="/resource/pc/web/js/shopcart/addcart.js"></script>
+<script type="text/javascript" src="/resource/pc/web/js/spgl/postlist.js"></script>
+<script type="text/javascript" src="/resource/pc/web/js/unslider.js"></script>
+<script type="text/javascript" src="/resource/pc/member/js/pager2.js"></script>
+<link href="/resource/pc/web/css/common.css" rel="stylesheet" />
+    <link type="text/css" href="/resource/pc/member/css/pager2.css" rel="stylesheet" /><!---平台分页样式-->
+<style type="text/css">
+/*  .banner { width: 100%; height: 360px;}
+ .banner img { width: 100%; height: 360px;} */
+.l_jglhgd{padding:5px 24px; line-height:18px;}
+.y_rmtj ul li{ position:relative; width:288px; height:260px; float:left; font-size:14px; margin:0px 6px 0px 6px;}
+.y_rmtj ul li img{ width:288px; height:260px;}
+.l_jglhgd a { color: #fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+ .y_rmcon{ background:rgba(0,0,0,.5);  opacity: 1;}
+ .y_rmcon p {color: #F75000; padding: 0px 10px;}
+ .y_rmtj ul li {
+  position: relative;
+  width: 288px;
+  height: 260px;
+  float: left;
+  font-size: 14px;
+  margin: 0px 6px 0px 6px;
+}
+</style>
+<script type="text/javascript">
+	$(function (){
+		mrx.getChecklist(1);
+		//排序
+	$('.l_spsort01 li').click(function(){
+		$('.l_spsort01 li').each(function(){
+			$(this).removeClass('l_zhss');
+		})
+		$(this).toggleClass('l_zhss');
+	});
+	
+	//排序
+	$(".l_spsort01 li").click(function(){
+		var sort="";
+		if($(this).attr("class")=="l_zhss"){
+			sort="asc";		
+		}else{
+			sort="desc";			
+		}
+			mrx.getChecklist(1,$(this).attr("dataorder"),sort);
+		});
+	
+	
+	$("a[id='sptt']").each(function(){
+		var str=$(this).html();
+		if(str.length>20){
+			$(this).html(str.substr(0,20)+"...");
+		}
+		
+	});
+	});
+
+	 $("body").on("click",".l_xtbgz", function() {
+			var spuid = $(this).attr("data-id");
+			if (WebLogin.isLogin()) {
+				list.addConcernt(spuid);
+			} else {
+				showlogindiv();
+			}
+	 });
+</script>
+</head>
+<body class="bodybjhs">
+<% try{
+		include("/template/pc/nav/navclass.html",{classlist:classlist,isindex:false}){}}catch(error){}%>
+		<div class="banner fix" >
+			<!--banList 幻灯图图片 begin -->
+			<ul class="banList">
+				<%var adcon=1; if(isNotEmpty(ad1list)){%> <% for(ad in ad1list){
+				if(adcon==1){ %>
+				<li class="active">
+					<a href="${ad.url!'javascript:void(0)'}"
+					target="_blank"><img src="${ad.img}" /></a>
+				</li>
+				<%}else{%>
+				<li>
+					<a href="${ad.url!'javascript:void(0)'}" target="_blank"><img
+					src="${ad.img}" /></a>
+				</li> <%
+				}adcon++;}}%>
+			</ul>
+			<!--banList 幻灯图图片 stop -->
+				
+			<!-- fomW 点击的小圆点  stop-->
+		</div>
+		
+<!--container 中间所有内容开始-->
+<div id="container" class="fix" style="margin-top: 20px">
+<div align="center"  >
+	<% for(ad2 in ad2list){%>
+	 <a href="${ad2.url!'javascript:void(0)'}" target="_blank"><img style="height: 225px;width: 1200px" src="${ad2.imag}" /></a>
+	<%}%>
+</div>
+	<!--l_spsort  商品排序开始 -->
+  <div class="l_spsort">
+ <ul class="l_spsort01">
+			<li dataorder="p.CommentCount"><a href="javascript:void(0)" >人气</a><i></i></li>
+			<li dataorder="CreateTime"><a href="javascript:void(0)" >新品</a><i></i></li>
+			<li dataorder="price"><a href="javascript:void(0)" >价格</a><i></i></li>
+			<div class="clear"></div>
+		</ul>
+ <!--  	<ul class="l_spsort01" id="orderby">
+      	  <li class="l_zhss" data="1" data_tag="1" isselect="1"><a >综合</a><i></i></li>
+          <li class="active" data="2" data_tag="1" isselect="0"><a >人气</a><i></i></li>
+          <li data="3" data_tag="1" isselect="0"><a >新品</a><i></i></li>
+          <li data="4" data_tag="1" isselect="0"><a >价格</a><i></i></li>
+     </ul> -->
+      <div class="clear"></div>
+     <!--  <div class="l_ysxx">
+      	<span class="huise mr15">总共475件相关商品</span>
+      	<span><em class="red">1</em>/100100100</span>
+          <span class="l_prepag"><i></i></span>
+          <span class="l_nextpag"><i></i></span>	
+      </div>l_ysxx  stop -->
+  </div>
+  <!--l_spsort  商品排序结束 -->
+	<!--l_splist  商品列表开始 -->
+	<div class="l_bzxp fix">
+    <!--l_bzxpbor  开始 -->
+    <div class="l_bzxpbor">
+        <div class="l_jxtop">
+            <div class="l_jxtopleft">
+                <span class="bt0">热门推荐</span>
+                <span class="l_xh">/</span>
+            </div><!-- l_jxtopleft  stop-->
+            <div class="l_jxtopright">
+                <p>RECOMMEN-</p>
+                <p>DATIONS</p>
+            </div><!--l_jxtopright  stop -->
+        </div><!--l_jxtop  stop -->
+     <!--    @*<div class="l_bzright">
+                <a href="#">查看更多</a>
+            </div>*@ -->
+    </div>
+    <!--l_bzxpbor  结束 -->
+    <!--y_rmtj  begin -->
+    <div class="y_rmtj fix">
+        <ul>
+        <% for(sp in sptj){ %>
+                <li>
+                    <a href="/web/products/proinfo.html?spuid=${sp.spuid}"><img title="${sp.name}" src="${sp.img}"></a>
+                    <div class="y_rmcon" >
+                        <div class="l_jglhgd" style="width: 239px"><a id="sptt" title="${sp.name}" href="/web/products/proinfo.html?spuid=${sp.spuid}">${sp.name}</a></div>
+                        <p >￥${sp.price}</p>
+                    </div>
+                </li>
+        <% }%>
+         </ul>
+        </div>
+        <!--y_rmtj  stop -->
+    </div>
+	<div class="l_splist fix">
+	<input type="hidden" id="mark" value="${mark}" />
+		<ul class="l_splist01" id="datalist">
+			<script type="text/html"  id="grouplist">
+			{{each list as sp i}}
+			<li>
+				<div class="l_splimk">
+					<div class="p_img">
+						<a href="/web/products/proinfo.html?spuid={{sp.spuid}}"><img src="{{sp.img}}" width="215" height="205"></a>
+						<div class="l_xtbgz" data-id="{{sp.spuid}}">
+							<span class="l_gzimg01" ></span>关注
+						</div>
+						<!--l_xtbgz  stop -->
+					</div>
+					<!--p_img  stop -->
+					<div class="clear p-price">￥<span class="fon20">{{sp.price | toFixed}}</span><span class="text-decthrough huise">￥{{sp.oldPrice | toFixed}}</span></div><!--p-price  stop -->
+					<div class="p-name"><a href="#">{{sp.name}}</a></div>
+					<!--p-name  stop -->
+					<div class="p-commit">已有<a target="_blank" href="#">{{sp.commentcount}}</a>人评价</div>
+					<!--p-commit  stop -->
+					<div class="p-shop"><a target="_blank" href="/web/shop/details.html?shopId={{sp.shopid}}" title="{{sp.shopname}}">{{sp.shopname}}</a></div>
+					<a href="#" onclick="cart.add(cart.addcallback,{{sp.shopid}},{{sp.skuid}},1,0,0)"><div class="zlxztp5"></div></a>
+				</div>
+				<!--l_splimk  stop -->
+			</li>
+			
+			 {{/each}}
+			</script>
+		
+			
+			 
+		 
+			 
+		</ul>
+		<div class="clear">
+		</div>
+	</div>
+	<!--l_splist  商品列表结束 -->
+	  <div id="pager" class="page"></div>
+	<!--page  分页结束 -->
+	   <div class="clear l_like">
+        <div class="l_liketop">
+            <span class="l_posleft"><em class="l_like01">猜你喜欢</em></span>
+        </div><!--l_liketop  stop -->
+        <div class="l_likecon">
+            <ul>
+           	<% for(pro in likedpros){ %>
+                <li>
+                    <a href="/web/products/proinfo.html?spuid=${pro.spuid}"><img src="${pro.img}" width="230" height="214" /></a>
+                    <p class="l_cnxhp"><span class="fon14 red">￥</span> <span class="fon16  bolder red">${pro.price}</span></p>
+                    <p><a href="/web/products/proinfo.html?spuid=${pro.spuid}">${pro.name}</a></p>
+                </li>
+           	<% }%>
+            </ul>
+        </div><!-- l_likecon  stop-->
+    </div>
+    </div>
+ <script>
+			$(function() {
+
+				$('#box').onePageNav({
+					scrollThreshold : 0.3
+					//阈值 楼层高度系数
+				});
+
+				$(window).scroll(function() {
+					if ($(window).scrollTop() > 1534) {
+						$('#box').onePageNav({
+							scrollThreshold : 0.3
+							//阈值 楼层高度系数
+						});
+						$('#box').show();
+					} else {
+						$('#box').hide();
+					}
+				});
+				//楼层浮动导航初始化
+				window.prettyPrint && prettyPrint();
+
+				//$('#box ul li').hover(function () {
+				//    $(this).find('.num').hide().siblings('.word').css({ 'display': 'block', 'background': '#CB1C39', 'color': 'white' });
+				//}, function () {
+				//    $(this).find('.num').css({ 'display': 'block', 'background': '#EFEFEF', 'color': '#666' }).siblings('.word').hide().css({ 'display': 'none', 'background': '', 'color': '' });
+				//})
+				var select = false;
+				//楼层浮动导航鼠标点击效果
+				$('#box ul li').click(function() {
+					if($(this).attr("id")!="totop"){
+					select = true;
+					$(this).find('.num').hide().siblings('.word').css('display', 'block');
+					$(this).siblings('li').find('.num').show().siblings('.word').hide();
+					}else{
+						select = true;
+					$(this).find('.num').show();
+					$(this).find('.word').hide();
+					$(this).siblings('li').find('.num').show().siblings('.word').hide();
+					window.location.href="#";
+					}
+				})
+				//楼层浮动导航鼠标浮动效果
+				$('#box ul li').hover(function() {
+					if ($(this).find('.num').attr("style") == "display: block;") {
+						select = false;
+						$(this).find('.num').hide().siblings('.word').css({
+							'display' : 'block'
+						});
+						$(this).find('.word').show();
+					} else {
+						select = true;
+					}
+				}, function() {
+					if (select == false) {
+						$(this).find('.num').css({
+							'display' : 'block'
+						}).siblings('.word').hide();
+					}
+				})
+			})
+		</script>
+		<script type="text/javascript">
+			$('.all-sort-list > .item').hover(function() {
+				var eq = $('.all-sort-list > .item').index(this),
+				//获取当前滑过是第几个元素
+				h = $('.all-sort-list').offset().top,
+				//获取当前下拉菜单距离窗口多少像素
+				s = $(window).scrollTop(),
+				//获取游览器滚动了多少高度
+				i = $(this).offset().top,
+				//当前元素滑过距离窗口多少像素
+				item = $(this).children('.item-list').height(),
+				//下拉菜单子类内容容器的高度
+				sort = $('.all-sort-list').height();
+				//父类分类列表容器的高度
+				$(this).addClass('hover');
+				$(this).children('.item-list').css('display', 'block');
+			}, function() {
+				$(this).removeClass('hover');
+				$(this).children('.item-list').css('display', 'none');
+			});
+			$('.item > .item-list > .close').click(function() {
+				$(this).parent().parent().removeClass('hover');
+				$(this).parent().hide();
+			});
+			$('.banner').unslider({
+				speed : 500, //  The speed to animate each slide (in milliseconds)
+				delay : 5000, //  The delay between slide animations (in milliseconds)
+				complete : function() {
+				}, //  A function that gets called after every slide animation
+				keys : true, //  Enable keyboard (left, right) arrow shortcuts
+				dots : true, //  Display dot navigation
+				fluid : false, //  Support responsive design. May break non-responsive designs
+				autoplay : true
+			});
+		</script>
+    <!--l_like 猜你喜欢 结束 -->
+</body>
+</html>

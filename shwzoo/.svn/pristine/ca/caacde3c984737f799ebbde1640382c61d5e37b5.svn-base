@@ -1,0 +1,19 @@
+<meta charset="UTF-8">
+
+<%for(vo in miao.data){%>
+<div class="qianggou-tile">
+<hr><b>优选秒杀</b><span>截止：<font id="jz">${vo.enddate}</font></span>
+</div>
+<ul class="pordctMain-list qianggou">
+<%for(pro in vo.productList){%>
+<li>
+    	<a href="/wap/products/ProDetail.html?spuid=${pro.proid}&type=3&spikcon=${pro.count}">
+        	<img src="${pro.img}">
+            <b>${pro.name}</b>
+            <span>￥${pro.price}<i class="text-decthrough huise">￥${pro.yPrice}</i><i class="floatr">剩余<i>${pro.count}</i>件</i></span>
+        </a>
+    </li>
+    <%}%>
+    <input name="pages" type="hidden" value="${miao.page}"/>
+</ul>
+<%}%>

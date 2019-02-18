@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.AccountsMapperCustom">
+
+
+
+	<!-- 查询出所有的操作管理员 -->
+	<select id="selectAllAccounts" parameterType="com.yinlian.wssc.platform.vo.AccountsVo"
+		resultType="com.yinlian.wssc.web.dto.AccountsDTO">
+		SELECT a.*,
+		r.Name AS rolename,
+		d.ID AS departmentid,d.Name AS
+		departmentname
+		FROM
+		accounts AS a,role AS r,user_depart AS u,department
+		AS d
+		WHERE
+		a.roleId = r.id AND a.userId = u.user_ID AND u.Depart_ID =
+		d.ID
+
+		<if test="UserName != null and UserName != '' ">
+			AND a.LoginName = #{UserName}
+		</if>
+		<if test="RoleID != null and RoleID != '' ">
+			AND r.ID = #{RoleID}
+		</if>
+		<if test="DepartID != null and DepartID != '' ">
+			AND d.ID = #{DepartID}
+		</if>
+		<if test="UserType != null and UserType != '' ">
+			AND a.UserType = #{UserType}
+		</if>
+	</select>
+
+	<select id="getAccountsByPage" resultType="com.yinlian.wssc.web.dto.AccountsDTO"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		SELECT a.*,
+		r.Name AS rolename,
+		d.ID AS departmentid,d.Name AS
+		departmentname
+		FROM
+		accounts AS a JOIN role AS r ON a.roleId = r.id
+		LEFT
+		JOIN
+		user_depart AS u ON a.userId = u.user_ID
+		LEFT JOIN department AS d
+		ON u.Depart_ID = d.ID
+		<if test="criteria != null ">
+			<where>
+				<if test="criteria.loginname != null and criteria.loginname != '' ">
+					and a.LoginName like '%${criteria.loginname}%'
+				</if>
+				<if test="criteria.roleid != null and criteria.roleid != '' ">
+					and r.ID=#{criteria.roleid}
+				</if>
+				<if test="criteria.departid != null and criteria.departid != '' ">
+					AND d.ID = #{criteria.departid}
+				</if>
+				<if test="criteria.usertype != null and criteria.usertype != '' and criteria.usertype >0 ">
+					AND a.UserType = #{criteria.usertype}
+				</if>
+			</where>
+
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+	<select id="selectByID" parameterType="int"
+		resultType="com.yinlian.wssc.web.dto.AccountsDTO">
+		SELECT a.*,u.RealName as realname,u.NickName as nickname,
+		r.Name AS rolename,
+		d.ID AS departmentid,
+		d.Name AS departmentname
+		FROM
+		accounts AS a JOIN role AS r ON a.roleId = r.id
+		join users as u on
+		a.userId=u.ID
+		LEFT JOIN
+		user_depart AS ud ON a.userId = ud.user_ID
+		LEFT
+		JOIN department AS d
+		ON ud.Depart_ID = d.ID
+		where a.ID=#{0}
+	</select>
+
+	<!-- 根据userid 查询卖家信息 usertype 5 -->
+	<select id="querySellerById" parameterType="java.util.Map"
+		resultType="com.yinlian.wssc.web.dto.UsersInfoDto">
+		SELECT a.usertype usertype,u.nickname nickname,u.realname
+		realname,u.idcardtype idcardtype,u.idcard idcard,t.*
+		FROM accounts a,users u,user_attr t
+		WHERE a.userid = u.id AND u.id = t.userid AND u.id = #{userid} AND usertype
+		= #{usertype} AND a.isdel = 0
+	</select>
+
+	<select id="getUserStartWithName" resultType="com.yinlian.wssc.web.po.Accounts">
+		select id,loginname,userid from accounts where status=0 and IsDel=0
+		and usertype=#{0}
+		<if test="name != null and name != ''">
+		and loginname like '%${name}%'
+		</if>
+		limit 0,10
+	</select>
+
+	<select id="getUserName"  resultType="com.yinlian.wssc.web.po.Accounts">
+		select id,loginname,userid from accounts where status=0 and IsDel=0
+		<if test="name != null and name != ''">
+		and loginname like '%${name}%'
+		</if>
+		limit 0,10
+	</select>
+</mapper>

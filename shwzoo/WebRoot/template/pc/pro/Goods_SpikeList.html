@@ -1,0 +1,82 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style>
+    .list.current {
+        display: block;
+    }
+
+    .list {
+        display: none;
+        overflow: hidden;
+    }
+</style>
+<div id="container" class="fix">
+    <!--l_splist  商品列表开始 -->
+    <%if(count>0){%>
+        <div class="l_shgo" >        
+         <div class="l_shgotop">
+         <div class="fon30">秒杀</div>
+                 <ul class="fix tab" id="boxtab">     
+                 <script type="text/javascript" id="pro_spike">
+                {{each list as vo}}
+                {{if vo.isout_E==1&&vo.isout_S == 0}}
+                            <li id="{{vo.id}}" data-type="0"><a href="#">{{vo.month}}<i></i>月<i></i>{{vo.day}}<i></i>日&nbsp;{{vo.hours}}:{{vo.minutes}}&nbsp;正在秒杀</a></li>
+                       {{else if vo.isout_E==0}}
+                            <li id="{{vo.id}}" data-type="1"><a href="#">{{vo.month}}<i></i>月<i></i>{{vo.day}}<i></i>日&nbsp;{{vo.hours}}:{{vo.minutes}}&nbsp;已结束</a></li>
+						{{else}}
+                            <li id="{{vo.id}}" data-type="2"><a href="#">{{vo.month}}<i></i>月<i></i>{{vo.day}}<i></i>日&nbsp;{{vo.hours}}:{{vo.minutes}}&nbsp;未开始</a></li>
+					{{/if}}
+				{{/each}}
+					 </script>
+                 </ul>
+            </div>
+            <!-- l_shgotop  stop -->
+           <div class="l_shgocon fix" id="productlist">
+           <script type="text/javascript" id="pro_listfs">
+               {{each list as vo}}
+                    <ul class="fix list" id="productlist_{{vo.id}}">
+                    	{{each vo.productList as pro}}
+                            <li>
+                                <div class="l_shgocon01">
+                                    <a href="/web/products/proinfo.html?spuid={{pro.proid}}&protype=2"><img src="{{pro.img}}" style="width:230px;"></a>
+                                    <div class="l_xmztbjhe">{{pro.name}}</div>
+                                </div>
+                                <div class="l_shgocon02">
+                                    <span class="fon22 bolder">￥{{pro.price}}</span>
+                                    <a class="l_shgoljms" href="/web/products/proinfo.html?spuid={{pro.proid}}&protype=2">立即秒杀</a>
+                                </div>
+                                {{if vo.isout_S == 1}}
+                                    <div class="l_sgzhnr"><i></i></div>
+                                    {{else if vo.isout_E == 0}}
+                                    <div class="l_sgzhnr"><i class="l_yjssg"></i></div>
+                                    {{else if pro.count <= 0}}
+                                    <div class="l_sgzhnr"><i class="l_yjssg"></i></div>
+                                 {{/if}}
+                            </li>
+                            {{/each}}
+                    </ul>
+               {{/each}}
+             </script>
+                    <div class="clear"></div>
+            </div>            
+        </div>
+    <%}else{%>
+        <div class="l_shgo">暂无秒杀活动</div>
+<%}%>
+    <!--l_splist  商品列表结束 -->
+    <!--page  分页开始 -->
+ <div id="pager" class="page"></div> 
+</div>
+<script src="/resource/artTemplate.js"></script>
+<script src="/resource/pc/web/js/spgl/productSg1.js"></script>
+<script src="/resource/pc/web/js/pager1.js"></script>
+<script>
+ $(document).ready(function () {
+	    list.getlist(1);
+	    
+/* 	    //假如ul的id为 "ul"
+        var oUl=$("#boxtab");
+        //你的遍历我不知道是什么意思，是ul下有多个li么？然后取li中的img的alt？
+        var aLi=oUl.children() ; */
+	    
+    });
+</script>

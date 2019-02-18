@@ -1,0 +1,128 @@
+<%var path="/resource";%>
+<head>
+<title>晒出范</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+ <script src="${path}/cookie.js"></script>
+
+<script src="${path}/wap/js/index.js"></script>
+<script type="text/javascript" src="${path}/wap/js/wkh/varCommon.js"></script>
+<script type="text/javascript" src="${path}/wap/js/wkh/ajaxCommon.js"></script>
+<script type="text/javascript" src="${path}/wap/js/wkh/appCommon.js"></script>
+
+<script type="text/javascript" src="${path}/wap/js/login.js"></script>
+<script type="text/javascript">
+	$(function() {
+		//loginContent=".container";
+		pageUrl = "/api/wap/showfan/showList";//椤甸潰url
+		content = "showlist";//涓讳綋
+		params = {
+			"page" : 1,
+			"size" : 2
+		};//鍙傛暟
+		initPage();
+		
+	});
+	
+	
+	$(function(){
+		$(window).scroll(function(){
+			var scrollTop=$(this).scrollTop();
+			var scrollHeight=$(document).height();
+			var windowHeight=$(this).height();
+			if(scrollTop+windowHeight==scrollHeight){
+				initPage();
+			}
+		});
+	})
+	
+	
+	function like(showid,userid,nickname){
+		loginContent=".container";
+		if(login.isLogin()){
+			var img=document.getElementById(showid);
+			if(img.getAttribute("data")!=1){
+				$.ajax({
+		            url: "/api/wap/showfan/addLike",
+		            type: "Post",
+		            data: { "showid": showid,
+		            	"userid": userid,
+		            	"nickname": nickname,
+		            	},
+		            dataType: "json",
+		            success: function (data) {
+		            	data= eval('(' + data + ')');
+		                if (data.code == 0) {
+		                	
+		                	img.src="${path}/wap/images/scfico01_act.png";
+		                	img.setAttribute("data","1");
+		                }
+		               
+		            },
+		            error: function () {
+							alert("cuowu");
+		            }
+		        });
+			}
+			
+			
+		}else{
+			login.open();
+		}
+		
+	}
+	
+</script>
+</head>
+<body>
+<!--container  begin-->
+<div class="container fix">
+	<!--l_alltop  begin -->
+	<div class="l_alltop fix">
+    	<a href="/wap/discover/index.html"><span><img src="${path}/wap/images/tp10.png" class="img-responsive l_maxwid"></span></a>
+    	晒出范
+    </div>
+    <!--l_alltop  stop -->
+    <!--l_scfmk  begin -->
+    <div class="l_sfxzsp fix" id="showlist">
+    	
+    </div>
+    <div class="l_scfindex fix">
+    	<ul>
+        	<a href="/wap/discover/guangchang.html">
+        	<li class="active">
+            	<span><img src="${path}/wap/images/scfindex01_act.png" class="img-responsive"></span>
+                <p>广场</p>
+            </li>
+            </a>
+            <a href="/wap/discover/selectSpu.html">
+        	<li>
+            	<span><img src="${path}/wap/images/scfindex02.png" class="img-responsive"></span>
+                <p>晒范</p>
+            </li>
+            </a>
+            <a href="/wap/index.html">
+        	<li>
+            	<span><img src="${path}/wap/images/scfindex03.png" class="img-responsive"></span>
+                <p>商城</p>
+            </li>
+            </a>
+            <a href="/wap/discover/mypublish.html">
+        	<li>
+            	<span><img src="${path}/wap/images/scfindex04.png" class="img-responsive"></span>
+                <p>我的</p>
+            </li>
+            </a>
+        </ul>
+    </div>
+    <!--l_scfindex  stop -->
+</div>
+
+<script>
+	window.onload=function(){
+
+		$(".merchantJS-mask").attr("display","inline");
+		fixed('.l_scfindex');
+	}	
+</script>
+</body>

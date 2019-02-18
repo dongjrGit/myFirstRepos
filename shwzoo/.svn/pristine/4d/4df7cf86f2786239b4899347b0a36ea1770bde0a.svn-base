@@ -1,0 +1,120 @@
+<%var path="/resource";%>
+<head>
+<meta charset="utf-8">
+<title>经开商城</title>
+
+<link rel="stylesheet" href="/resource/app/css/greenLife.css" />
+<script src="${path}/wap/js/Yeffect16_0118.min.js"></script>
+<script src="${path}/wap/js/Yform.js"></script>
+
+<script type="text/javascript" src="/resource/GetQueryString.js"></script>
+<script type="text/javascript" src="/resource/artTemplate.js"></script>
+<script type="text/javascript" src="/resource/wap/js/wap-common.js"></script>
+<script type="text/javascript">
+  	$(function(){
+		 pageData={page:1,size:10,ch:3};
+		 pageUrl="/api/wap/qiang/app/index";
+		 content="#shangou";
+		 initPage();
+		 if ($(".timespu").length>0) {
+			$.each($(".timespu"),function(){
+				timemiao(parseInt($(this).html()),$(this));
+			});
+		 }
+	});
+  	function timemiao(enddate,obj){
+		var diff=new Date(enddate)-new Date();
+		var day = parseInt(diff / 86400000);                         //以天数为单位取整  
+        var hour= parseInt(diff % 86400000 / 3600000);               //以小时为单位取整  
+        var min = parseInt(diff % 86400000 % 3600000 / 60000);       //以分钟为单位取整  
+        var seconds = parseInt(diff % 86400000 % 3600000 % 60000 / 1000);   //以秒为单位取整  
+        if(day<=0&&hour<=0&min<=0&&seconds<=0){
+			$(obj).parent("a").remove();
+		}else{
+        	var timehtml='还剩'+day+'天'+(hour<10?"0"+hour:hour)+':'+(min<10?"0"+min:min)/* +':'+(seconds<10?"0"+seconds:seconds) */+'结束';
+			$(obj).html(timehtml);
+			setInterval(function(){timemiao(enddate,obj)},(1000*60))
+		}
+	}
+</script>
+<style type="text/css">
+.pordctMain-list li span i.text-decthrough{ font-style: normal; font-size:60%;}
+</style>
+<style type="text/css">
+.snapup{ height: 0.7rem;background: #2C3844; line-height: 0.7rem;}
+.snapup ul li{ float: left;width: 50%; text-align: center;height: 0.7rem; font-size: 110%;position: relative;}
+.snapup ul li.active{ background: #FC353A;}
+.snapup ul li a{ color: #AAAAAB;}
+.snapup ul li.active a{ color: #fff;}
+.snapup ul li i{ display: inline-block;width: 0;height: 0;border-left: 8px solid transparent;border-right: 8px solid transparent;border-top: 8px solid transparent;position: absolute;left: 50%;top: 100%;z-index: 99999;margin-left: -8px;}
+.snapup ul li.active i{border-top-color: #FC353A;}
+.pordctMain-list li span i.floatr{ font-style: normal; font-size: 0.15rem;color: #AEAEAE; margin-right: 0.2rem;}
+.pordctMain-list li span i.floatr i{font-style: normal;color:#E88140; font-size: 0.2rem;}
+.pordctMain-list li b{height: 0.6rem;}
+.pordctMain-list li span{padding-top: 0px}
+.pordctMain-list li:nth-child(2n) {padding-left: 1px;}
+.pordctMain-list li{padding-right: 0;margin-bottom:1px;}
+</style>
+
+
+<style>
+<%if(ch==2){%>
+.septop {padding-top: 18px;}
+.septop.rowreturn{background: #006428 url(/resource/app/images/rowreturn.png) no-repeat 3% 0.6rem;background-size: 0.17rem auto;}
+.fx-banner {   margin-top: 62px;}
+<%}else{%>
+.fx-banner {   margin-top: 43px;}
+<%}%>
+</style>
+</head>
+<body>
+	<div class="septop rowreturn fixed">
+		<div class="bigsize">闪购活动</div>
+		<div id="rowreturn" onclick="javascirpt:location.href='url:///back'"></div>
+	</div>
+	<div class="fx-banner">
+		<ul>
+			<% for (vo in gg){%>	
+	    	<li ><a href="${vo.url}" >
+	    	<img src="${vo.imag}">
+						
+	    	</a></li>
+	    	<%}%>
+	    </ul>
+		<p>
+		
+		<% for (vo in gg){%>	
+	    	<i></i>
+	    	<%}%></p>
+	</div>
+<script>
+$(function(){
+	Yeffect.resizeHtWstr(".pordctMain-list li",".pordctMain-list li a img",314,314);
+	///banner	
+	Yeffect.mobileBanner(".fx-banner ul",".fx-banner ul li",".fx-banner p i","","","current",5000);
+	var fx_banner=$(".fx-banner");
+	Yeffect.resizeHtW(fx_banner,fx_banner,640,247);
+})
+</script>
+<script>
+</script>
+<div id="shang">
+<ul class="pordctMain-list qianggou" id="shangou">
+</ul>
+</div>
+<script type="text/html" id="pagehtml">
+{{each list as vo i}}
+<li>
+    	<a href="url://prodetailed|||{{vo.proid}}|||1">
+			<div style="position: relative;">
+        	<img src="{{vo.imgurl}}">
+			<div style="position: absolute;width: 100%;background: rgba(0,0,0,.5);text-align: center;left: 0px;bottom: 0px;color: #fff;padding: 5px 0;" class="timespu" >{{vo.endtime}}</div>
+			</div>            
+			<b>{{vo.name | toHideWapLoongString}}</b>
+            <span>￥{{vo.price}}<i class="text-decthrough huise">￥{{vo.oldprice}}</i><i class="floatr">剩余<i>{{vo.count}}</i>件</i></span>
+        </a>
+</li>
+{{/each}}
+</script>
+</body>
+

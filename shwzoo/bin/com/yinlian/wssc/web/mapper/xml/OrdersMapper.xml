@@ -1,0 +1,2072 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.OrdersMapper">
+	<resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Orders">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="Code" property="code" jdbcType="VARCHAR" />
+		<result column="GroupCode" property="groupcode" jdbcType="VARCHAR" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="BuyerID" property="buyerid" jdbcType="INTEGER" />
+		<result column="SellerID" property="sellerid" jdbcType="INTEGER" />
+		<result column="Price" property="price" jdbcType="DECIMAL" />
+		<result column="Freight" property="freight" jdbcType="DECIMAL" />
+		<result column="PayType" property="paytype" jdbcType="INTEGER" />
+		<result column="ActualPay" property="actualpay" jdbcType="DECIMAL" />
+		<result column="IsInvoice" property="isinvoice" jdbcType="INTEGER" />
+		<result column="LogisticsName" property="logisticsname"
+			jdbcType="VARCHAR" />
+		<result column="LogisticsCode" property="logisticscode"
+			jdbcType="VARCHAR" />
+		<result column="Remark" property="remark" jdbcType="VARCHAR" />
+		<result column="CancelReason" property="cancelreason" jdbcType="VARCHAR" />
+		<result column="ValidFlag" property="validflag" jdbcType="INTEGER" />
+		<result column="AddOrderDate" property="addorderdate" jdbcType="TIMESTAMP" />
+		<result column="PayDate" property="paydate" jdbcType="TIMESTAMP" />
+		<result column="DeliverDate" property="deliverdate" jdbcType="TIMESTAMP" />
+		<result column="DeliverConfirmDate" property="deliverconfirmdate"
+			jdbcType="TIMESTAMP" />
+		<result column="DelDate" property="deldate" jdbcType="TIMESTAMP" />
+		<result column="IsOwned" property="isowned" jdbcType="BIT" />
+		<result column="DelUserID" property="deluserid" jdbcType="INTEGER" />
+		<result column="IsComment" property="iscomment" jdbcType="INTEGER" />
+		<result column="Discount" property="discount" jdbcType="REAL" />
+		<result column="ActivityID" property="activityid" jdbcType="INTEGER" />
+		<result column="ShopId" property="shopid" jdbcType="INTEGER" />
+		<result column="beans" property="beans" jdbcType="INTEGER" />
+		<result column="pcoupon" property="pcoupon" jdbcType="DOUBLE" />
+		<result column="scoupon" property="scoupon" jdbcType="DOUBLE" />
+		<result column="vouchercode" property="vouchercode" jdbcType="VARCHAR" />
+		<result column="CouponID" property="couponid" jdbcType="INTEGER" />
+		<result column="WebSites" property="websites" jdbcType="INTEGER" />
+		<result column="BeansRatio" property="beansratio" jdbcType="DOUBLE" />
+		<result column="IsRemind" property="isremind" jdbcType="BIT" />
+		<result column="qrcode" property="qrcode" jdbcType="VARCHAR" />
+		<result column="reqcount" property="reqcount" jdbcType="INTEGER" />
+	</resultMap>
+	<!-- a.shopId,b.HoderName,b.bankName,b.BankCardNo, b.name,b.settlementType,b.royaltyRate,a.price,a.freight,a.discount 
+		,a.actualPay,c.couponUseType,c.faceValue -->
+	<resultMap type="com.yinlian.wssc.web.dto.BusinessbillsDto"
+		id="BaseResult_Bills">
+		<result column="shopId" property="shopId" jdbcType="INTEGER" />
+		<result column="HoderName" property="bankUserName" jdbcType="VARCHAR" />
+		<result column="bankName" property="bankName" jdbcType="VARCHAR" />
+		<result column="BankCardNo" property="bankNum" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="settlementType" property="settlementType"
+			jdbcType="INTEGER" />
+		<result column="royaltyRate" property="royaltyRate" jdbcType="INTEGER" />
+
+		<collection property="list" ofType="com.yinlian.wssc.web.dto.OrderBillsDto">
+			<result column="id" property="id" jdbcType="INTEGER" />
+			<result column="price" property="price" jdbcType="DECIMAL" />
+			<result column="freight" property="freight" jdbcType="DECIMAL" />
+			<result column="discount" property="discount" jdbcType="DECIMAL" />
+			<result column="actualPay" property="actualPay" jdbcType="DECIMAL" />
+			<result column="couponUseType" property="couponUseType"
+				jdbcType="INTEGER" />
+			<result column="faceValue" property="faceValue" jdbcType="DECIMAL" />
+		</collection>
+
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, Code, GroupCode, Status, BuyerID, SellerID, Price,
+		Freight, PayType,
+		ActualPay,CouponID,
+		IsInvoice, LogisticsName, LogisticsCode,
+		Remark, CancelReason, ValidFlag,
+		AddOrderDate,
+		PayDate, DeliverDate,
+		DeliverConfirmDate, DelDate, IsOwned, DelUserID,
+		IsComment,
+		Discount,WebSites,
+		ActivityID,
+		ShopId,beans,pcoupon,scoupon,vouchercode,BeansRatio,IsRemind,
+		qrcode,reqcount
+	</sql>
+
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.po.OrdersExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from orders
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from orders
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="getOrderByID" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from orders
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<!-- 通过Buyerid查询全部的订单 -->
+	<select id="selectByBuyerId" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from orders
+		where BuyerID = #{buyerid,jdbcType=INTEGER}
+	</select>
+
+	<select id="queryAllByUserID" resultType="com.yinlian.api.app.dto.OrdersDto"
+		parameterType="java.lang.Integer">
+		SELECT a.ID AS id,
+		a.Code As code,
+		a.GroupCode as
+		groupcode,
+		a.Status AS status,
+		b.Name AS shopname,
+		a.PayType as payType,
+		a.Price as price,
+		a.Freight as freight,
+		a.AddOrderDate as orderDate,
+		a.PayDate as payDate,
+		a.DeliverDate as deliverDate,
+		a.DeliverConfirmDate,
+		a.CancelReason as reason,
+		a.ActualPay as
+		actualPay,
+		e.Consignee as consignee,
+		e.Address as address,
+		e.Telphone as
+		telPhone,
+		d.id,
+		d.OrderID as orderid,
+		d.productnum,
+		d.productimg,
+		d.productname,
+		d.productprice,
+		d.productcount,
+		d.OrderCode as ordercode,
+		d.sku_id AS productid,
+		a.IsRemind,
+		a.qrcode
+		FROM orders a LEFT JOIN Shop
+		b ON a.ShopId=b.ID
+		LEFT JOIN orderdetail d ON a.ID=d.OrderID
+		LEFT JOIN
+		receiveinfo e ON a.GroupCode=e.OrderGroupCode
+		where a.BuyerID =
+		#{buyerid,jdbcType=INTEGER}
+	</select>
+
+	<!-- 查询Buyer的每一种状态的订单 -->
+	<select id="selectByStatus" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from orders
+		where BuyerID=#{0} and Status=#{1}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from orders
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.OrdersExample">
+		delete from orders
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.yinlian.wssc.web.po.Orders">
+
+		insert into orders (ID, Code, GroupCode,
+		Status, BuyerID, SellerID,
+		Price, Freight, PayType,
+		ActualPay, IsInvoice, LogisticsName,
+		LogisticsCode, Remark, CancelReason,
+		ValidFlag, AddOrderDate, PayDate,
+		DeliverDate, DeliverConfirmDate, DelDate,
+		IsOwned, DelUserID,
+		IsComment,
+		Discount, ActivityID, ShopId,Beans,PCoupon,SCoupon
+		,vouchercode,CouponID,WebSites,beansratio,qrcode,reqcount,UserIsDel)
+		values
+		(#{id,jdbcType=INTEGER},
+		#{code,jdbcType=VARCHAR},
+		#{groupcode,jdbcType=VARCHAR},
+		#{status,jdbcType=INTEGER},
+		#{buyerid,jdbcType=INTEGER},
+		#{sellerid,jdbcType=INTEGER},
+		#{price,jdbcType=DECIMAL},
+		#{freight,jdbcType=DECIMAL},
+		#{paytype,jdbcType=INTEGER},
+		#{actualpay,jdbcType=DECIMAL},
+		#{isinvoice,jdbcType=INTEGER},
+		#{logisticsname,jdbcType=VARCHAR},
+		#{logisticscode,jdbcType=VARCHAR},
+		#{remark,jdbcType=VARCHAR},
+		#{cancelreason,jdbcType=VARCHAR},
+		#{validflag,jdbcType=INTEGER},
+		#{addorderdate,jdbcType=TIMESTAMP},
+		#{paydate,jdbcType=TIMESTAMP},
+		#{deliverdate,jdbcType=TIMESTAMP},
+		#{deliverconfirmdate,jdbcType=TIMESTAMP},
+		#{deldate,jdbcType=TIMESTAMP},
+		#{isowned,jdbcType=BIT},
+		#{deluserid,jdbcType=INTEGER},
+		#{iscomment,jdbcType=INTEGER},
+		#{discount,jdbcType=REAL},
+		#{activityid,jdbcType=INTEGER},
+		#{shopid,jdbcType=INTEGER},
+		#{beans,jdbcType=INTEGER},
+		#{pcoupon,jdbcType=DOUBLE},
+		#{scoupon,jdbcType=DOUBLE},
+		#{vouchercode,jdbcType=VARCHAR},
+		#{couponid,jdbcType=INTEGER},
+		#{websites,jdbcType=INTEGER},
+		#{beansratio,jdbcType=DOUBLE},
+		#{qrcode,jdbcType=VARCHAR},
+		#{reqcount,jdbcType=INTEGER},
+		#{userisdel,jdbcType=INTEGER}
+		)
+		<selectKey resultType="int" keyProperty="id" order="AFTER">
+			SELECT
+			LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+	<insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Orders">
+		insert into orders
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="code != null">
+				Code,
+			</if>
+			<if test="groupcode != null">
+				GroupCode,
+			</if>
+			<if test="status != null">
+				Status,
+			</if>
+			<if test="buyerid != null">
+				BuyerID,
+			</if>
+			<if test="sellerid != null">
+				SellerID,
+			</if>
+			<if test="price != null">
+				Price,
+			</if>
+			<if test="freight != null">
+				Freight,
+			</if>
+			<if test="paytype != null">
+				PayType,
+			</if>
+			<if test="actualpay != null">
+				ActualPay,
+			</if>
+			<if test="isinvoice != null">
+				IsInvoice,
+			</if>
+			<if test="logisticsname != null">
+				LogisticsName,
+			</if>
+			<if test="logisticscode != null">
+				LogisticsCode,
+			</if>
+			<if test="remark != null">
+				Remark,
+			</if>
+			<if test="cancelreason != null">
+				CancelReason,
+			</if>
+			<if test="validflag != null">
+				ValidFlag,
+			</if>
+			<if test="addorderdate != null">
+				AddOrderDate,
+			</if>
+			<if test="paydate != null">
+				PayDate,
+			</if>
+			<if test="deliverdate != null">
+				DeliverDate,
+			</if>
+			<if test="deliverconfirmdate != null">
+				DeliverConfirmDate,
+			</if>
+			<if test="deldate != null">
+				DelDate,
+			</if>
+			<if test="isowned != null">
+				IsOwned,
+			</if>
+			<if test="deluserid != null">
+				DelUserID,
+			</if>
+			<if test="iscomment != null">
+				IsComment,
+			</if>
+			<if test="discount != null">
+				Discount,
+			</if>
+			<if test="activityid != null">
+				ActivityID,
+			</if>
+			<if test="shopid != null">
+				ShopId,
+			</if>
+			<if test="vouchercode != null">
+				vouchercode,
+			</if>
+			<if test="qrcode != null">
+				qrcode,
+			</if>
+			<if test="reqcount != null">
+				reqcount,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="code != null">
+				#{code,jdbcType=VARCHAR},
+			</if>
+			<if test="groupcode != null">
+				#{groupcode,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="buyerid != null">
+				#{buyerid,jdbcType=INTEGER},
+			</if>
+			<if test="sellerid != null">
+				#{sellerid,jdbcType=INTEGER},
+			</if>
+			<if test="price != null">
+				#{price,jdbcType=DECIMAL},
+			</if>
+			<if test="freight != null">
+				#{freight,jdbcType=DECIMAL},
+			</if>
+			<if test="paytype != null">
+				#{paytype,jdbcType=INTEGER},
+			</if>
+			<if test="actualpay != null">
+				#{actualpay,jdbcType=DECIMAL},
+			</if>
+			<if test="isinvoice != null">
+				#{isinvoice,jdbcType=INTEGER},
+			</if>
+			<if test="logisticsname != null">
+				#{logisticsname,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticscode != null">
+				#{logisticscode,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="cancelreason != null">
+				#{cancelreason,jdbcType=VARCHAR},
+			</if>
+			<if test="validflag != null">
+				#{validflag,jdbcType=INTEGER},
+			</if>
+			<if test="addorderdate != null">
+				#{addorderdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="paydate != null">
+				#{paydate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deliverdate != null">
+				#{deliverdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deliverconfirmdate != null">
+				#{deliverconfirmdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deldate != null">
+				#{deldate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isowned != null">
+				#{isowned,jdbcType=BIT},
+			</if>
+			<if test="deluserid != null">
+				#{deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="iscomment != null">
+				#{iscomment,jdbcType=INTEGER},
+			</if>
+			<if test="discount != null">
+				#{discount,jdbcType=REAL},
+			</if>
+			<if test="activityid != null">
+				#{activityid,jdbcType=INTEGER},
+			</if>
+			<if test="shopid != null">
+				#{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="vouchercode != null">
+				#{vouchercode,jdbcType=VARCHAR},
+			</if>
+			<if test="qrcode != null">
+				#{qrcode,jdbcType=VARCHAR},
+			</if>
+			<if test="reqcount != null">
+				#{reqcount,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.yinlian.wssc.web.po.OrdersExample"
+		resultType="java.lang.Integer">
+		select count(*) from orders
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update orders
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=INTEGER},
+			</if>
+			<if test="record.code != null">
+				Code = #{record.code,jdbcType=VARCHAR},
+			</if>
+			<if test="record.groupcode != null">
+				GroupCode = #{record.groupcode,jdbcType=VARCHAR},
+			</if>
+			<if test="record.status != null">
+				Status = #{record.status,jdbcType=INTEGER},
+			</if>
+			<if test="record.buyerid != null">
+				BuyerID = #{record.buyerid,jdbcType=INTEGER},
+			</if>
+			<if test="record.sellerid != null">
+				SellerID = #{record.sellerid,jdbcType=INTEGER},
+			</if>
+			<if test="record.price != null">
+				Price = #{record.price,jdbcType=DECIMAL},
+			</if>
+			<if test="record.freight != null">
+				Freight = #{record.freight,jdbcType=DECIMAL},
+			</if>
+			<if test="record.paytype != null">
+				PayType = #{record.paytype,jdbcType=INTEGER},
+			</if>
+			<if test="record.actualpay != null">
+				ActualPay = #{record.actualpay,jdbcType=DECIMAL},
+			</if>
+			<if test="record.isinvoice != null">
+				IsInvoice = #{record.isinvoice,jdbcType=INTEGER},
+			</if>
+			<if test="record.logisticsname != null">
+				LogisticsName = #{record.logisticsname,jdbcType=VARCHAR},
+			</if>
+			<if test="record.logisticscode != null">
+				LogisticsCode = #{record.logisticscode,jdbcType=VARCHAR},
+			</if>
+			<if test="record.remark != null">
+				Remark = #{record.remark,jdbcType=VARCHAR},
+			</if>
+			<if test="record.cancelreason != null">
+				CancelReason = #{record.cancelreason,jdbcType=VARCHAR},
+			</if>
+			<if test="record.validflag != null">
+				ValidFlag = #{record.validflag,jdbcType=INTEGER},
+			</if>
+			<if test="record.addorderdate != null">
+				AddOrderDate = #{record.addorderdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.paydate != null">
+				PayDate = #{record.paydate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.deliverdate != null">
+				DeliverDate = #{record.deliverdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.deliverconfirmdate != null">
+				DeliverConfirmDate =
+				#{record.deliverconfirmdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.deldate != null">
+				DelDate = #{record.deldate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.isowned != null">
+				IsOwned = #{record.isowned,jdbcType=BIT},
+			</if>
+			<if test="record.deluserid != null">
+				DelUserID = #{record.deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="record.iscomment != null">
+				IsComment = #{record.iscomment,jdbcType=INTEGER},
+			</if>
+			<if test="record.discount != null">
+				Discount = #{record.discount,jdbcType=REAL},
+			</if>
+			<if test="record.activityid != null">
+				ActivityID = #{record.activityid,jdbcType=INTEGER},
+			</if>
+			<if test="record.shopid != null">
+				ShopId = #{record.shopid,jdbcType=INTEGER},
+			</if>
+			<if test="record.vouchercode != null">
+				vouchercode = #{record.vouchercode,jdbcType=VARCHAR},
+			</if>
+			<if test="record.qrcode != null">
+				qrcode = #{record.qrcode,jdbcType=VARCHAR},
+			</if>
+			<if test="record.reqcount != null">
+				reqcount = #{record.reqcount,jdbcType=INTEGER},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update orders
+		set ID = #{record.id,jdbcType=INTEGER},
+		Code =
+		#{record.code,jdbcType=VARCHAR},
+		GroupCode =
+		#{record.groupcode,jdbcType=VARCHAR},
+		Status =
+		#{record.status,jdbcType=INTEGER},
+		BuyerID =
+		#{record.buyerid,jdbcType=INTEGER},
+		SellerID =
+		#{record.sellerid,jdbcType=INTEGER},
+		Price =
+		#{record.price,jdbcType=DECIMAL},
+		Freight =
+		#{record.freight,jdbcType=DECIMAL},
+		PayType =
+		#{record.paytype,jdbcType=INTEGER},
+		ActualPay =
+		#{record.actualpay,jdbcType=DECIMAL},
+		IsInvoice =
+		#{record.isinvoice,jdbcType=INTEGER},
+		LogisticsName =
+		#{record.logisticsname,jdbcType=VARCHAR},
+		LogisticsCode =
+		#{record.logisticscode,jdbcType=VARCHAR},
+		Remark =
+		#{record.remark,jdbcType=VARCHAR},
+		CancelReason =
+		#{record.cancelreason,jdbcType=VARCHAR},
+		ValidFlag =
+		#{record.validflag,jdbcType=INTEGER},
+		AddOrderDate =
+		#{record.addorderdate,jdbcType=TIMESTAMP},
+		PayDate =
+		#{record.paydate,jdbcType=TIMESTAMP},
+		DeliverDate =
+		#{record.deliverdate,jdbcType=TIMESTAMP},
+		DeliverConfirmDate =
+		#{record.deliverconfirmdate,jdbcType=TIMESTAMP},
+		DelDate =
+		#{record.deldate,jdbcType=TIMESTAMP},
+		IsOwned =
+		#{record.isowned,jdbcType=BIT},
+		DelUserID =
+		#{record.deluserid,jdbcType=INTEGER},
+		IsComment =
+		#{record.iscomment,jdbcType=INTEGER},
+		Discount =
+		#{record.discount,jdbcType=REAL},
+		ActivityID =
+		#{record.activityid,jdbcType=INTEGER},
+		ShopId =
+		#{record.shopid,jdbcType=INTEGER},
+		vouchercode =
+		#{record.vouchercode,jdbcType=VARCHAR},
+		qrcode =
+		#{record.qrcode,jdbcType=VARCHAR},
+		reqcount =
+		#{record.reqcount,jdbcType=INTEGER}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Orders">
+		update orders
+		<set>
+			<if test="code != null">
+				Code = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="groupcode != null">
+				GroupCode = #{groupcode,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				Status = #{status,jdbcType=INTEGER},
+			</if>
+			<if test="buyerid != null">
+				BuyerID = #{buyerid,jdbcType=INTEGER},
+			</if>
+			<if test="sellerid != null">
+				SellerID = #{sellerid,jdbcType=INTEGER},
+			</if>
+			<if test="price != null">
+				Price = #{price,jdbcType=DECIMAL},
+			</if>
+			<if test="freight != null">
+				Freight = #{freight,jdbcType=DECIMAL},
+			</if>
+			<if test="paytype != null">
+				PayType = #{paytype,jdbcType=INTEGER},
+			</if>
+			<if test="actualpay != null">
+				ActualPay = #{actualpay,jdbcType=DECIMAL},
+			</if>
+			<if test="isinvoice != null">
+				IsInvoice = #{isinvoice,jdbcType=INTEGER},
+			</if>
+			<if test="logisticsname != null">
+				LogisticsName = #{logisticsname,jdbcType=VARCHAR},
+			</if>
+			<if test="logisticscode != null">
+				LogisticsCode = #{logisticscode,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				Remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="cancelreason != null">
+				CancelReason = #{cancelreason,jdbcType=VARCHAR},
+			</if>
+			<if test="validflag != null">
+				ValidFlag = #{validflag,jdbcType=INTEGER},
+			</if>
+			<if test="addorderdate != null">
+				AddOrderDate = #{addorderdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="paydate != null">
+				PayDate = #{paydate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deliverdate != null">
+				DeliverDate = #{deliverdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deliverconfirmdate != null">
+				DeliverConfirmDate =
+				#{deliverconfirmdate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deldate != null">
+				DelDate = #{deldate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isowned != null">
+				IsOwned = #{isowned,jdbcType=BIT},
+			</if>
+			<if test="deluserid != null">
+				DelUserID = #{deluserid,jdbcType=INTEGER},
+			</if>
+			<if test="iscomment != null">
+				IsComment = #{iscomment,jdbcType=INTEGER},
+			</if>
+			<if test="discount != null">
+				Discount = #{discount,jdbcType=REAL},
+			</if>
+			<if test="activityid != null">
+				ActivityID = #{activityid,jdbcType=INTEGER},
+			</if>
+			<if test="shopid != null">
+				ShopId = #{shopid,jdbcType=INTEGER},
+			</if>
+			<if test="vouchercode != null">
+				vouchercode = #{vouchercode,jdbcType=VARCHAR},
+			</if>
+			<if test="isremind != null">
+				IsRemind = #{isremind,jdbcType=BIT},
+			</if>
+			<if test="qrcode != null">
+				qrcode = #{qrcode,jdbcType=VARCHAR},
+			</if>
+			<if test="reqcount != null">
+				reqcount = #{reqcount,jdbcType=INTEGER},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Orders">
+		update orders
+		set
+		Code = #{code,jdbcType=VARCHAR},
+		GroupCode =
+		#{groupcode,jdbcType=VARCHAR},
+		Status = #{status,jdbcType=INTEGER},
+		BuyerID = #{buyerid,jdbcType=INTEGER},
+		SellerID =
+		#{sellerid,jdbcType=INTEGER},
+		Price = #{price,jdbcType=DECIMAL},
+		Freight = #{freight,jdbcType=DECIMAL},
+		PayType =
+		#{paytype,jdbcType=INTEGER},
+		ActualPay = #{actualpay,jdbcType=DECIMAL},
+		IsInvoice = #{isinvoice,jdbcType=INTEGER},
+		LogisticsName =
+		#{logisticsname,jdbcType=VARCHAR},
+		LogisticsCode =
+		#{logisticscode,jdbcType=VARCHAR},
+		Remark = #{remark,jdbcType=VARCHAR},
+		CancelReason = #{cancelreason,jdbcType=VARCHAR},
+		ValidFlag =
+		#{validflag,jdbcType=INTEGER},
+		AddOrderDate =
+		#{addorderdate,jdbcType=TIMESTAMP},
+		PayDate =
+		#{paydate,jdbcType=TIMESTAMP},
+		DeliverDate =
+		#{deliverdate,jdbcType=TIMESTAMP},
+		DeliverConfirmDate =
+		#{deliverconfirmdate,jdbcType=TIMESTAMP},
+		DelDate =
+		#{deldate,jdbcType=TIMESTAMP},
+		IsOwned = #{isowned,jdbcType=BIT},
+		DelUserID = #{deluserid,jdbcType=INTEGER},
+		IsComment =
+		#{iscomment,jdbcType=INTEGER},
+		Discount = #{discount,jdbcType=REAL},
+		ActivityID = #{activityid,jdbcType=INTEGER},
+		ShopId =
+		#{shopid,jdbcType=INTEGER},
+		vouchercode =
+		#{vouchercode,jdbcType=VARCHAR},
+		WebSites=#{websites,jdbcType=INTEGER},
+		qrcode=#{qrcode,jdbcType=VARCHAR},
+		reqcount=#{reqcount,jdbcType=INTEGER}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<select id="getOrderByGroupCode" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"></include>
+		from Orders
+		where GroupCode=#{num} and ValidFlag=0
+	</select>
+
+	<resultMap id="OrderDtoResultMap" type="com.yinlian.wssc.web.dto.OrderDto">
+		<id column="ZID" property="id" jdbcType="INTEGER" />
+		<result column="Code" property="code" jdbcType="VARCHAR" />
+		<result column="GroupCode" property="groupCode" jdbcType="VARCHAR" />
+		<result column="Zstatus" property="status" jdbcType="INTEGER" />
+		<result column="PayType" property="payType" jdbcType="INTEGER" />
+		<result column="Price" property="price" jdbcType="FLOAT" />
+		<result column="SellerID" property="sellerID" jdbcType="INTEGER" />
+		<result column="Freight" property="freight" jdbcType="FLOAT" />
+		<result column="BuyerID" property="buyerID" jdbcType="INTEGER" />
+		<result column="CouponID" property="couponID" jdbcType="INTEGER" />
+		<result column="AddOrderDate" property="addOrderDate" jdbcType="TIMESTAMP" />
+		<result column="LogisticsCode" property="logisticsCode"
+			jdbcType="INTEGER" />
+		<result column="PayDate" property="payDate" jdbcType="TIMESTAMP" />
+		<result column="DeliverDate" property="deliverDate" jdbcType="TIMESTAMP" />
+		<result column="DeliverConfirmDate" property="deliverConfirmDate"
+			jdbcType="TIMESTAMP" />
+		<result column="IsOwned" property="isOwned" jdbcType="BIT" />
+		<result column="BuyerName" property="buyerName" jdbcType="VARCHAR" />
+		<result column="SellerName" property="sellerName" jdbcType="VARCHAR" />
+		<result column="CancelReason" property="cancelReason" jdbcType="VARCHAR" />
+		<result column="ActualPay" property="actualPay" jdbcType="FLOAT" />
+		<result column="Discount" property="discount" jdbcType="FLOAT" />
+		<result column="ShopId" property="shopId" jdbcType="INTEGER" />
+		<result column="ShopName" property="shopName" jdbcType="VARCHAR" />
+		<result column="IsInvoice" property="isInvoice" jdbcType="INTEGER" />
+		<result column="Consignee" property="consignee" jdbcType="VARCHAR" />
+		<result column="Address" property="address" jdbcType="VARCHAR" />
+		<result column="Telphone" property="telphone" jdbcType="VARCHAR" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<collection property="children" ofType="com.yinlian.wssc.web.po.Orderdetail">
+			<id column="ID" property="id" jdbcType="INTEGER" />
+			<result column="OrderID" property="orderid" jdbcType="INTEGER" />
+			<result column="OrderCode" property="ordercode" jdbcType="VARCHAR" />
+			<result column="BuyerID" property="buyerid" jdbcType="INTEGER" />
+			<result column="SellerID" property="sellerid" jdbcType="INTEGER" />
+			<result column="SKU_ID" property="skuId" jdbcType="INTEGER" />
+			<result column="ProductNum" property="productnum" jdbcType="VARCHAR" />
+			<result column="ProductImg" property="productimg" jdbcType="VARCHAR" />
+			<result column="ProductName" property="productname" jdbcType="VARCHAR" />
+			<result column="ProductPrice" property="productprice"
+				jdbcType="DECIMAL" />
+			<result column="ProductCount" property="productcount"
+				jdbcType="INTEGER" />
+			<result column="ProductWeight" property="productweight"
+				jdbcType="DECIMAL" />
+			<result column="VaildFlag" property="vaildflag" jdbcType="INTEGER" />
+			<result column="DelDate" property="deldate" jdbcType="TIMESTAMP" />
+			<result column="DelUserID" property="deluserid" jdbcType="INTEGER" />
+			<result column="IsComment" property="iscomment" jdbcType="INTEGER" />
+			<result column="IsBackComment" property="isbackcomment"
+				jdbcType="INTEGER" />
+			<result column="IsShowImg" property="isshowimg" jdbcType="INTEGER" />
+			<result column="ActivityID" property="activityid" jdbcType="INTEGER" />
+			<result column="PackageID" property="packageid" jdbcType="INTEGER" />
+			<result column="MarketID" property="marketid" jdbcType="INTEGER" />
+			<result column="Status" property="status" jdbcType="INTEGER" />
+			<result column="ApplyTime" property="applytime" jdbcType="TIMESTAMP" />
+			<result column="DisposeTime" property="disposetime" jdbcType="TIMESTAMP" />
+			<result column="FinishTime" property="finishtime" jdbcType="TIMESTAMP" />
+		</collection>
+	</resultMap>
+	<select id="getP_OrdersList" resultMap="OrderDtoResultMap"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		SELECT a.ID as zID,a.Code,a.GroupCode, a.Status as
+		zStatus,a.SellerID,b.Name as ShopName,
+		a.PayType, a.Price,
+		a.Freight,a.AddOrderDate, a.PayDate, a.DeliverDate,
+		a.DeliverConfirmDate, a.CancelReason,a.IsOwned, a.ActualPay,c.UserName
+		as BuyerName,
+		a.Discount
+		,d.*
+		FROM orders as a JOIN Shop as b on
+		b.id=a.ShopId JOIN users as c on
+		c.id=a.BuyerID
+		left JOIN orderdetail as
+		d ON a.ID=d.OrderID
+		where a.ValidFlag = 0
+		<choose>
+			<when test="criteria.zy ==1">
+				and a.IsOwned = true
+			</when>
+			<otherwise>
+				and a.IsOwned=false
+			</otherwise>
+		</choose>
+		<if test="criteria.Status !=null and criteria.Status >=0">
+			and Status=#{criteria.Status}
+		</if>
+		<if test="criteria.sid !=null and criteria.sid >0">
+			and ShopId=#{criteria.sid}
+		</if>
+		<if test="criteria.bid !=null and criteria.bid >0">
+			and BuyerID =#{criteria.bid}
+		</if>
+		<if test="criteria.ordercode !=null and criteria.ordercode !=''">
+			and code like '%${criteria.ordercode}%'
+		</if>
+		<if test="criteria.begin !=null and criteria.begin !=''">			
+			 <![CDATA[ and DATEDIFF(AddOrderDate,#{criteria.begin})<=0]]>
+		</if>
+		<if test="criteria.end !=null and criteria.end!=''">
+			 <![CDATA[ and DATEDIFF(AddOrderDate,#{criteria.end})>=0]]>
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+	<!-- 获取子订单信息方式调整 与OrderDtoResultMap不同 sy -->
+	<resultMap id="OrderDtoResult" type="com.yinlian.wssc.web.dto.OrderDto">
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="Code" property="code" jdbcType="VARCHAR" />
+		<result column="GroupCode" property="groupCode" jdbcType="VARCHAR" />
+		<result column="Status" property="status" jdbcType="INTEGER" />
+		<result column="PayType" property="payType" jdbcType="INTEGER" />
+		<result column="Price" property="price" jdbcType="FLOAT" />
+		<result column="SellerID" property="sellerID" jdbcType="INTEGER" />
+		<result column="Freight" property="freight" jdbcType="FLOAT" />
+		<result column="BuyerID" property="buyerID" jdbcType="INTEGER" />
+		<result column="CouponID" property="couponID" jdbcType="INTEGER" />
+		<result column="AddOrderDate" property="addOrderDate" jdbcType="TIMESTAMP" />
+		<result column="LogisticsCode" property="logisticsCode"
+			jdbcType="INTEGER" />
+		<result column="PayDate" property="payDate" jdbcType="TIMESTAMP" />
+		<result column="DeliverDate" property="deliverDate" jdbcType="TIMESTAMP" />
+		<result column="DeliverConfirmDate" property="deliverConfirmDate"
+			jdbcType="TIMESTAMP" />
+		<result column="IsOwned" property="isOwned" jdbcType="BIT" />
+		<result column="BuyerName" property="buyerName" jdbcType="VARCHAR" />
+		<result column="SellerName" property="sellerName" jdbcType="VARCHAR" />
+		<result column="CancelReason" property="cancelReason" jdbcType="VARCHAR" />
+		<result column="ActualPay" property="actualPay" jdbcType="FLOAT" />
+		<result column="Discount" property="discount" jdbcType="FLOAT" />
+		<result column="ShopId" property="shopId" jdbcType="INTEGER" />
+		<result column="ShopName" property="shopName" jdbcType="VARCHAR" />
+		
+	</resultMap>
+
+	<!-- 平台或者卖家获取订单列表 -->
+	<select id="getOrdersByPage" resultMap="OrderDtoResult"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		SELECT a.ID,a.Code,a.GroupCode, a.Status ,a.SellerID,a.SellerID
+		as
+		shopName,
+		a.PayType, a.Price,
+		a.Freight,a.AddOrderDate, a.PayDate,
+		a.DeliverDate,
+		a.DeliverConfirmDate, a.CancelReason,a.IsOwned,
+		a.ActualPay,a.BuyerID
+		as BuyerName,a.Discount,a.BuyerID
+		FROM orders as a
+		where
+		a.ValidFlag = 0
+		<choose>
+			<when test="criteria.isowned ==1">
+				and a.IsOwned = true
+			</when>
+			<otherwise>
+				and a.IsOwned=false
+			</otherwise>
+		</choose>
+		<if test="criteria.status !=null and criteria.status >=0">
+			and a.Status=#{criteria.status}
+		</if>
+		<!-- <if test="criteria.detailstatus !=null and criteria.detailstatus >=0">
+		<choose>
+			<when test="criteria.detailstatus ==22">
+				 and (od.Status=#{criteria.detailstatus} or a.Status =3)
+			</when>
+			<otherwise>
+				 and od.Status=#{criteria.detailstatus}
+			</otherwise>
+		</choose>		
+		</if> -->
+		<if test="criteria.state !=null and criteria.state >= 0 and criteria.state!=3 ">
+			and a.Status = #{criteria.state}
+		</if>
+		<if test="criteria.shopid !=null and criteria.shopid >0">
+			and a.ShopId=#{criteria.shopid}
+		</if>
+		<if test="criteria.buyid !=null and criteria.buyid >0">
+			and a.BuyerID =#{criteria.buyid}
+		</if>
+		<if test="criteria.ordercode !=null and criteria.ordercode !=''">
+			and (a.Code like '%${criteria.ordercode}%' or a.GroupCode
+			like '%${criteria.ordercode}%')
+		</if>
+		<if test="criteria.logisticscode !=null and criteria.logisticscode !=''">
+			and a.LogisticsCode like '%${criteria.logisticscode}%'
+		</if>
+		<if test="criteria.addbegin !=null and criteria.addbegin !=''">			
+			 <![CDATA[ and DATEDIFF(a.AddOrderDate,#{criteria.addbegin})>=0]]>
+		</if>
+		<if test="criteria.addend !=null and criteria.addend!=''">
+			 <![CDATA[ and DATEDIFF(a.AddOrderDate,#{criteria.addend})<=0]]>
+		</if>
+		<if test="criteria.sendbegin !=null and criteria.sendbegin !=''">			
+			 <![CDATA[ and DATEDIFF(a.DeliverDate,#{criteria.sendbegin})>=0]]>
+		</if>
+		<if test="criteria.sendend !=null and criteria.sendend!=''">
+			 <![CDATA[ and DATEDIFF(a.DeliverDate,#{criteria.sendend})<=0]]>
+		</if>
+		<if test="criteria.qrbegintime !=null and criteria.qrbegintime !=''">			
+			 <![CDATA[ and DATEDIFF(a.DeliverConfirmDate,#{criteria.qrbegintime})>=0]]>
+		</if>
+		<if test="criteria.qrendtime !=null and criteria.qrendtime!=''">
+			 <![CDATA[ and DATEDIFF(a.DeliverConfirmDate,#{criteria.qrendtime})<=0]]>
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	
+	</select>
+	
+	
+	<!-- 平台或者卖家获取订单列表 -->
+	<select id="getOrdersByDetailPage" resultMap="OrderDtoResult"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		SELECT a.ID,a.Code,a.GroupCode, a.Status ,a.SellerID,a.SellerID
+		as
+		shopName,
+		a.PayType, a.Price,
+		a.Freight,a.AddOrderDate, a.PayDate,
+		a.DeliverDate,
+		a.DeliverConfirmDate, a.CancelReason,a.IsOwned,
+		a.ActualPay,a.BuyerID
+		as BuyerName,a.Discount,a.BuyerID
+		FROM orders as a JOIN orderdetail od on a.id=od.OrderID
+		where
+		a.ValidFlag = 0
+		<choose>
+			<when test="criteria.isowned ==1">
+				and a.IsOwned = true
+			</when>
+			<otherwise>
+				and a.IsOwned=false
+			</otherwise>
+		</choose>
+		<if test="criteria.status !=null and criteria.status >=0">
+			and a.Status=#{criteria.status}
+		</if>
+		<if test="criteria.detailstatus !=null and criteria.detailstatus >=0">
+		<choose>
+			<when test="criteria.detailstatus ==22">
+				 and od.Status in (22,3)
+			</when>
+			<otherwise>
+				 and od.Status=#{criteria.detailstatus}
+			</otherwise>
+		</choose>		
+		</if>
+		<if test="criteria.state !=null and criteria.state >= 0 and criteria.state!=3 ">
+			and a.Status = #{criteria.state}
+		</if>
+		<if test="criteria.shopid !=null and criteria.shopid >0">
+			and a.ShopId=#{criteria.shopid}
+		</if>
+		<if test="criteria.buyid !=null and criteria.buyid >0">
+			and a.BuyerID =#{criteria.buyid}
+		</if>
+		<if test="criteria.ordercode !=null and criteria.ordercode !=''">
+			and (a.Code like '%${criteria.ordercode}%' or a.GroupCode
+			like '%${criteria.ordercode}%')
+		</if>
+		<if test="criteria.logisticscode !=null and criteria.logisticscode !=''">
+			and a.LogisticsCode like '%${criteria.logisticscode}%'
+		</if>
+		<if test="criteria.addbegin !=null and criteria.addbegin !=''">			
+			 <![CDATA[ and DATEDIFF(a.AddOrderDate,#{criteria.addbegin})>=0]]>
+		</if>
+		<if test="criteria.addend !=null and criteria.addend!=''">
+			 <![CDATA[ and DATEDIFF(a.AddOrderDate,#{criteria.addend})<=0]]>
+		</if>
+		<if test="criteria.sendbegin !=null and criteria.sendbegin !=''">			
+			 <![CDATA[ and DATEDIFF(a.DeliverDate,#{criteria.sendbegin})>=0]]>
+		</if>
+		<if test="criteria.sendend !=null and criteria.sendend!=''">
+			 <![CDATA[ and DATEDIFF(a.DeliverDate,#{criteria.sendend})<=0]]>
+		</if>
+		<if test="criteria.qrbegintime !=null and criteria.qrbegintime !=''">			
+			 <![CDATA[ and DATEDIFF(a.DeliverConfirmDate,#{criteria.qrbegintime})>=0]]>
+		</if>
+		<if test="criteria.qrendtime !=null and criteria.qrendtime!=''">
+			 <![CDATA[ and DATEDIFF(a.DeliverConfirmDate,#{criteria.qrendtime})<=0]]>
+		</if>
+			group by a.ID
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	
+	</select>
+	
+	<select id="selectDetails" parameterType="int"
+		resultType="com.yinlian.wssc.web.po.Orderdetail">
+		select ID,OrderID,OrderCode,BuyerID,ShopId,SellerID,
+		,ProductNum,ProductImg,ProductName,
+		ProductPrice,ProductCount,
+		STATUS,usetime
+		from orderdetail
+		where
+		OrderID=#{0}
+	</select>
+	
+	<select id="selectDetailsByIds" parameterType="String"
+		resultType="com.yinlian.wssc.web.po.Orderdetail">
+		select id ,OrderID,
+		ProductName,
+		ProductPrice,ProductCount,
+		STATUS,usetime
+		from orderdetail
+		where
+		OrderID in (${ids})
+	</select>
+
+	<resultMap type="com.yinlian.api.app.dto.Api_ListOrderDto"
+		id="ApiOrderDtoResultMap">
+
+		<id column="ID" property="id" jdbcType="INTEGER" />
+		<result column="shopid" property="shopid" jdbcType="INTEGER" />
+		<result column="shopname" property="shopname" jdbcType="VARCHAR" />
+		<result column="actualpay" property="actualpay" jdbcType="FLOAT" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="GroupCode" property="groupcode" jdbcType="VARCHAR" />
+		<result column="Code" property="code" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="iscomment" property="iscomment" jdbcType="INTEGER" />
+
+	<!-- 	<collection property="lsitdetais"
+			ofType="com.yinlian.api.app.dto.Api_OrderDetaiBaselDto" select="getUserListOrderDetails"
+			column="id">
+		</collection> -->
+
+	</resultMap>
+	<select id="getUserListOrderNopayNoCountPage" resultMap="ApiOrderDtoResultMap"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+	SELECT DISTINCT a.ID ,ActualPay,a.AddOrderDate,a.PayType,a.Price,a.Code,
+		a.Status,a.ShopId,a.SellerID
+		as shopname,a.GroupCode AS
+		groupCode,iscomment,
+		a.qrcode
+		FROM orders a
+		WHERE a.ValidFlag=0 AND a.UserIsDel=0  
+		<if test="criteria.status !=null and criteria.status != 1 ">
+			and a.Status=#{criteria.status}
+		</if>
+		<if test="criteria.userid !=null and criteria.userid >=0">
+			and a.BuyerID=#{criteria.userid}
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+
+	</select>
+	<select id="getUserListOrderNoCountPage" resultMap="ApiOrderDtoResultMap"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		SELECT distinct a.ID
+		,ActualPay,a.AddOrderDate,a.PayType,a.Price,a.Code,
+		a.Status,a.ShopId,a.GroupCode as groupCode,a.SellerID
+		as shopname,
+		CASE WHEN a.iscomment=1 THEN 1 ELSE 0 END AS iscomment,
+		a.qrcode
+		from
+		orders a inner JOIN orderdetail d on a.id=d.orderid
+		where
+		(a.ValidFlag=0 or a.ValidFlag is null) and (a.UserIsDel=0 or
+		a.UserIsDel is null) and (d.VaildFlag=0 or d.VaildFlag is null)
+		<if test="criteria.status !=null and criteria.status != 1 ">
+			<choose>
+				<when test="criteria.status==99 ">
+					and (a.Status=3 or a.Status=8)and (a.IsComment is
+					null or a.IsComment=0)
+				</when>
+				<when test="criteria.status==9 ">
+					and (d.Status!=0 and d.Status!=99)
+				</when>
+				<when test="criteria.status  &lt;0 ">
+
+				</when>
+
+				<otherwise>
+					and a.Status=#{criteria.status}
+				</otherwise>
+			</choose>
+		</if>
+		<if test="criteria.userid !=null and criteria.userid >=0">
+			and a.BuyerID=#{criteria.userid}
+		</if>
+		<if test="criteria.detailStatus !=null and criteria.detailStatus >=0 and criteria.status == 1">
+			and d.Status in (${criteria.detailStatus},1)
+		</if>
+		<if test="criteria.detailStatus !=null and criteria.detailStatus >=0 and criteria.status != 1">
+			and d.Status=#{criteria.detailStatus}
+		</if>
+		group by a.id
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+
+	</select>
+
+	<select id="getUserListOrderDetails" resultType="com.yinlian.api.app.dto.Api_OrderDetaiBaselDto"
+		parameterType="int">
+		select o.id,o.sku_id as skuid, o.ProductImg
+		,o.ProductName,s.spu_id as spuid,o.status,
+		o.ProductCount as
+		count,o.usetime,o.ProductPrice as price,o.OrderID as orderid,
+		o.IsComment as iscomment
+		from
+		orderdetail o left join
+		sku s on o.sku_id=s.id 
+		where OrderID =#{0}
+		and (o.VaildFlag=0 or o.VaildFlag is null)
+	</select>
+	
+	<select id="getUserListOrderDetailsByids" resultType="com.yinlian.api.app.dto.Api_OrderDetaiBaselDto"
+		parameterType="String">
+		select o.id,o.sku_id as skuid, o.ProductImg
+		,o.ProductName,s.spu_id as spuid,o.status,
+		o.ProductCount as
+		count,o.usetime,o.ProductPrice as price,o.OrderID as orderid,
+		o.IsComment as iscomment
+		from orderdetail o left join sku s on o.sku_id=s.id 
+		where (o.VaildFlag=0 or o.VaildFlag is null)
+		and OrderID in (${ids})
+	</select>
+
+	<select id="getpcUserListOrderPage" resultMap="ApiOrderDtoResultMap"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		SELECT ActualPay,a.AddOrderDate,a.PayType,a.Price, a.Code as code,
+		a.Status,a.ID ,ShopId,b.Name,a.GroupCode as
+		groupCode,c.Consignee,CASE
+		WHEN a.iscomment=1 THEN 1 ELSE 0 END AS iscomment from
+		orders a LEFT
+		JOIN
+		shop
+		b on a.ShopId=b.ID
+		LEFT JOIN
+		receiveinfo
+		c on a.GroupCode=
+		c.OrderGroupCode
+		where
+		(a.ValidFlag=0 or
+		a.ValidFlag is null) and
+		(a.UserIsDel=0 or
+		a.UserIsDel is null) and (a.Status!=0 or a.Status!=9
+		or a.Status!=10)
+		<if test="criteria.seachstr !=null and criteria.seachstr != '' ">
+			and a.Code=#{criteria.seachstr}
+		</if>
+		<if test="criteria.userid !=null and criteria.userid >=0">
+			and a.BuyerID=#{criteria.userid}
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+
+	</select>
+
+
+
+
+	<!-- 订单主表状态修改 -->
+	<update id="updateStatus" parameterType="java.lang.Integer">
+		update orders set
+		status=#{0}
+		where id=#{1}
+	</update>
+
+	<!-- 批量查询 -->
+	<select id="selectByIds" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from orders
+		<where>
+			<foreach item="id" index="index" collection="array" open="and id in ("
+				separator="," close=")">
+				#{id}
+			</foreach>
+			and ValidFlag=0
+		</where>
+
+	</select>
+
+	<select id="getPriceByGroupCode" resultType="java.math.BigDecimal"
+		parameterType="java.lang.String">
+		SELECT SUM(actualpay) FROM orders WHERE groupcode=#{0}
+		and ValidFlag=0
+	</select>
+
+	<!-- 卖家售后订单列表 -->
+	<select id="getAfterOrdersByPage" resultMap="OrderDtoResult"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		SELECT DISTINCT a.ID,a.Code,a.GroupCode, a.Status ,a.SellerID,b.Name
+		AS
+		shopName,
+		a.PayType, a.Price,
+		a.Freight,a.AddOrderDate, a.PayDate,
+		a.DeliverDate,
+		a.DeliverConfirmDate, a.CancelReason,a.IsOwned,
+		a.ActualPay,c.UserName
+		AS BuyerName,a.Discount
+		FROM orders AS a JOIN
+		Shop AS b ON
+		b.id=a.ShopId JOIN users AS c ON
+		c.id=a.BuyerID LEFT JOIN
+		orderdetail AS d ON a.ID=d.OrderID
+		WHERE
+		a.ValidFlag = 0
+		<choose>
+			<when test="criteria.isowned ==1">
+				and a.IsOwned = true
+			</when>
+			<otherwise>
+				and a.IsOwned=false
+			</otherwise>
+		</choose>
+		<if test="criteria.statuss !=null and criteria.statuss !=''">
+			and d.Status in (${criteria.statuss})
+		</if>
+		<if test="criteria.status !=null and criteria.status >=0">
+			and d.Status=#{criteria.status}
+		</if>
+		<if test="criteria.shopid !=null and criteria.shopid >0">
+			and a.ShopId=#{criteria.shopid}
+		</if>
+		<if test="criteria.buyid !=null and criteria.buyid >0">
+			and a.BuyerID =#{criteria.buyid}
+		</if>
+		<if test="criteria.ordercode !=null and criteria.ordercode !=''">
+			and a.Code like '%${criteria.ordercode}%'
+		</if>
+		<if test="criteria.logisticscode !=null and criteria.logisticscode !=''">
+			and a.LogisticsCode like '%${criteria.logisticscode}%'
+		</if>
+		<if test="criteria.addbegin !=null and criteria.addbegin !=''">			
+			 <![CDATA[ and DATEDIFF(a.AddOrderDate,#{criteria.addbegin})>=0]]>
+		</if>
+		<if test="criteria.addend !=null and criteria.addend!=''">
+			 <![CDATA[ and DATEDIFF(a.AddOrderDate,#{criteria.addend})<=0]]>
+		</if>
+		<if test="criteria.sendbegin !=null and criteria.sendbegin !=''">			
+			 <![CDATA[ and DATEDIFF(a.DeliverDate,#{criteria.sendbegin})>=0]]>
+		</if>
+		<if test="criteria.sendend !=null and criteria.sendend!=''">
+			 <![CDATA[ and DATEDIFF(a.DeliverDate,#{criteria.sendend})<=0]]>
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+
+	<!-- 直营订单统计 -->
+	<!-- 以下是自定义的 接口 -->
+	<sql id="criteria_query">
+		<where>
+			<if test="criteria.id != null and criteria.id != '' ">
+				and SellerID = #{criteria.id}
+			</if>
+			<if test="criteria.zy != null and criteria.zy != '' ">
+				and IsOwned = #{criteria.zy}
+			</if>
+			<if test="criteria.datef !=null and criteria.datef !=''">			
+			    <![CDATA[ and DATEDIFF(orderDate,#{criteria.datef})>=0]]>
+		    </if>
+		    <if test="criteria.datet !=null and criteria.datet !=''">
+			    <![CDATA[ and DATEDIFF(orderDate,#{criteria.datet})<=0]]>
+	    	</if>
+			<if
+				test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+				order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+					而不能使用#{} 会设置参数失败 -->
+			</if>
+		</where>
+	</sql>
+
+	<!-- 直营店铺订单日统计 -->
+	<select id="selectOrderTjDayByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.SaleOrder">
+
+		SELECT shopid,name, orderDate, totalCount,
+		totalMoney,
+		Count_DFK as count_DFK, Money_DFK as money_DFK,
+		Count_CPZ as count_CPZ,Money_CPZ as money_CPZ,
+		Count_SHZ as count_SHZ,Money_SHZ as money_SHZ,
+		Count_YWJ as count_YWJ,Money_YWJ as money_YWJ,
+		Count_DSY as count_DSY,Money_DSY as money_DSY,
+		Count_YSY as count_YSY,Money_DSY as money_YSY,
+		Count_TKSQ as count_TKSQ,Money_TKSQ as money_TKSQ,
+		Count_TKSB as count_TKSB,Money_TKSB as money_TKSB,
+		Count_TKSH as count_TKSH,Money_TKSH as money_TKSH,
+		Count_YTK as count_YTK,Money_DSY as money_YTK,
+		Count_QX as count_QX,Money_QX as money_QX
+		FROM v_saleorders
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+		group by DATE_FORMAT(orderDate, "%Y-%m-%d" )
+	</select>
+
+	<sql id="criteria_queryWeek">
+		<where>
+			<if test="criteria.id != null and criteria.id != '' ">
+				and SellerID = #{criteria.id}
+			</if>
+			<if test="criteria.zy != null and criteria.zy != '' ">
+				and IsOwned = #{criteria.zy}
+			</if>
+			<if test="criteria.datef != null and criteria.datef != '' ">
+				<![CDATA[ and orderDate >= #{criteria.datef } ]]>
+			</if>
+			<if
+				test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+				order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+					而不能使用#{} 会设置参数失败 -->
+			</if>
+		</where>
+	</sql>
+
+	<!-- 直营店铺订单最近一周统计 -->
+	<select id="selectOrderTjWeekByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.SaleOrder">
+
+		SELECT shopid,name, sum(totalCount) as totalCount,
+		sum(totalMoney) as totalMoney,
+		sum(Count_DFK) as count_DFK, sum(Money_DFK) as money_DFK,
+		sum(Count_CPZ) as count_CPZ,sum(Money_CPZ) as money_CPZ,
+		sum(Count_SHZ) as count_SHZ,sum(Money_SHZ) as money_SHZ,
+		sum(Count_YWJ) as count_YWJ,sum(Money_YWJ) as money_YWJ,
+		sum(Count_DSY) as count_DSY,sum(Money_DSY) as money_DSY,
+		sum(Count_YSY) as count_YSY,sum(Money_DSY) as money_YSY,
+		sum(Count_TKSQ) as count_TKSQ,sum(Money_TKSQ) as money_TKSQ,
+		sum(Count_TKSB) as count_TKSB,sum(Money_TKSB) as money_TKSB,
+		sum(Count_TKSH) as count_TKSH,sum(Money_TKSH) as money_TKSH,
+		sum(Count_YTK) as count_YTK,sum(Money_DSY) as money_YTK,
+		sum(Count_QX) as count_QX,sum(Money_QX) as money_QX
+		FROM
+		v_saleorders
+		<if test="criteria != null ">
+			<include refid="criteria_queryWeek" />
+		</if>
+	</select>
+
+	<!-- 直营店铺订单按月统计 -->
+	<select id="selectOrderTjMonthByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.SaleOrder">
+		SELECT shopid,name, sum(totalCount) as totalCount,
+		sum(totalMoney) as totalMoney,
+		sum(Count_DFK) as count_DFK, sum(Money_DFK) as money_DFK,
+		sum(Count_CPZ) as count_CPZ,sum(Money_CPZ) as money_CPZ,
+		sum(Count_SHZ) as count_SHZ,sum(Money_SHZ) as money_SHZ,
+		sum(Count_YWJ) as count_YWJ,sum(Money_YWJ) as money_YWJ,
+		sum(Count_DSY) as count_DSY,sum(Money_DSY) as money_DSY,
+		sum(Count_YSY) as count_YSY,sum(Money_DSY) as money_YSY,
+		sum(Count_TKSQ) as count_TKSQ,sum(Money_TKSQ) as money_TKSQ,
+		sum(Count_TKSB) as count_TKSB,sum(Money_TKSB) as money_TKSB,
+		sum(Count_TKSH) as count_TKSH,sum(Money_TKSH) as money_TKSH,
+		sum(Count_YTK) as count_YTK,sum(Money_DSY) as money_YTK,
+		sum(Count_QX) as count_QX,sum(Money_QX) as money_QX
+		FROM
+		v_saleorders
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+		group by DATE_FORMAT( orderDate, "%Y-%m" )
+	</select>
+
+	<!-- 直营店铺订单按年统计 -->
+	<select id="selectOrderTjYearByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.SaleOrder">
+
+		SELECT shopid,name, sum(totalCount) as totalCount,
+		sum(totalMoney) as
+		totalMoney,
+	    sum(Count_DFK) as count_DFK, sum(Money_DFK) as money_DFK,
+		sum(Count_CPZ) as count_CPZ,sum(Money_CPZ) as money_CPZ,
+		sum(Count_SHZ) as count_SHZ,sum(Money_SHZ) as money_SHZ,
+		sum(Count_YWJ) as count_YWJ,sum(Money_YWJ) as money_YWJ,
+		sum(Count_DSY) as count_DSY,sum(Money_DSY) as money_DSY,
+		sum(Count_YSY) as count_YSY,sum(Money_DSY) as money_YSY,
+		sum(Count_TKSQ) as count_TKSQ,sum(Money_TKSQ) as money_TKSQ,
+		sum(Count_TKSB) as count_TKSB,sum(Money_TKSB) as money_TKSB,
+		sum(Count_TKSH) as count_TKSH,sum(Money_TKSH) as money_TKSH,
+		sum(Count_YTK) as count_YTK,sum(Money_DSY) as money_YTK,
+		sum(Count_QX) as count_QX,sum(Money_QX) as money_QX
+		FROM
+		v_saleorders
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+		group by DATE_FORMAT(orderDate, "%Y" )
+	</select>
+
+	<!-- 直营店铺订单按季度统计 -->
+	<select id="selectOrderTjQuaterByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.SaleOrder">
+
+		SELECT shopid,name, sum(totalCount) as totalCount,
+		sum(totalMoney) as totalMoney,
+		sum(Count_DFK) as count_DFK, sum(Money_DFK) as money_DFK,
+		sum(Count_CPZ) as count_CPZ,sum(Money_CPZ) as money_CPZ,
+		sum(Count_SHZ) as count_SHZ,sum(Money_SHZ) as money_SHZ,
+		sum(Count_YWJ) as count_YWJ,sum(Money_YWJ) as money_YWJ,
+		sum(Count_DSY) as count_DSY,sum(Money_DSY) as money_DSY,
+		sum(Count_YSY) as count_YSY,sum(Money_DSY) as money_YSY,
+		sum(Count_TKSQ) as count_TKSQ,sum(Money_TKSQ) as money_TKSQ,
+		sum(Count_TKSB) as count_TKSB,sum(Money_TKSB) as money_TKSB,
+		sum(Count_TKSH) as count_TKSH,sum(Money_TKSH) as money_TKSH,
+		sum(Count_YTK) as count_YTK,sum(Money_DSY) as money_YTK,
+		sum(Count_QX) as count_QX,sum(Money_QX) as money_QX
+		FROM
+		v_saleorders
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+		group by concat(date_format(orderDate, '%Y
+		'),FLOOR((date_format(orderDate, '%m ')+2)/3))
+	</select>
+
+
+
+	<!-- 店铺订单统计 -->
+
+	<!-- 以下是自定义的 接口 -->
+	<sql id="criteria_queryDp">
+			<if test="criteria.id != null and criteria.id != '-1' ">
+				and a.shopid = #{criteria.id}
+			</if>
+			<if test="criteria.datef !=null and criteria.datef !=''">			
+			    <![CDATA[ and DATEDIFF(a.orderdate,#{criteria.datef})>=0]]>
+		    </if>
+		    <if test="criteria.datet !=null and criteria.datet !=''">
+			    <![CDATA[ and DATEDIFF(a.orderdate,#{criteria.datet})<=0]]>
+	    	</if>
+			<if
+				test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+				order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+					而不能使用#{} 会设置参数失败 -->
+			</if>
+	</sql>
+   <!-- 店铺订单详细统计 -->
+	<select id="selectDpOrderTjDetailByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.SaleOrder">
+
+		 SELECT a.shopid,a.ProductName AS proname,a.ProductPrice AS proprice,
+		 SUM(a.ProductCount) AS procount,b.Name,
+		 DATE_FORMAT(a.orderdate,'%Y-%m-%d') AS orderDate,
+		 SUM(CASE WHEN a.status=19 THEN a.ProductCount ELSE 0 END) AS count_YSY,
+		 SUM(CASE WHEN a.STATUS=19 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_YSY,
+		 SUM(CASE WHEN a.STATUS=10 THEN a.ProductCount ELSE 0 END) AS count_DSY,
+		 SUM(CASE WHEN a.STATUS=10 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_DSY,
+		 SUM(CASE WHEN a.STATUS=29 THEN a.ProductCount ELSE 0 END) AS count_YTK,
+		 SUM(CASE WHEN a.STATUS=29 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_YTK,
+		 SUM(CASE WHEN a.STATUS=0 THEN a.ProductCount ELSE 0 END) AS count_DFK,
+		 SUM(CASE WHEN a.STATUS=0 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_DFK,
+		 SUM(CASE WHEN a.STATUS IN (3,20,21,22) THEN a.ProductCount ELSE 0 END) AS count_TKSH,
+		 SUM(CASE WHEN a.STATUS IN (3,20,21,22) THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_TKSH,
+		 SUM(CASE WHEN a.STATUS=1 THEN a.ProductCount ELSE 0 END) AS count_CPZ,
+		 SUM(CASE WHEN a.STATUS=1 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_CPZ
+		 FROM orderdetail a JOIN shop b ON a.ShopId=b.ID
+		 WHERE a.VaildFlag=0 AND a.STATUS !=4
+		<if test="criteria != null ">
+			<include refid="criteria_queryDp" />
+		</if>
+	GROUP BY a.shopid,a.ProductName,DATE_FORMAT(a.orderdate,'%Y-%m-%d'),a.ProductPrice
+	</select>
+	<!-- 店铺订单日统计 -->
+	<select id="selectDpOrderTjDayByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.SaleOrder">
+
+		 SELECT a.shopid,a.ProductName AS proname,a.ProductPrice AS proprice,
+		 SUM(a.ProductCount) AS procount,b.Name,
+         DATE_FORMAT(a.orderdate,'%Y-%m-%d') AS orderDate,
+         SUM(CASE WHEN a.status=19 THEN a.ProductCount ELSE 0 END) AS count_YSY,
+         SUM(CASE WHEN a.STATUS=19 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_YSY,
+         SUM(CASE WHEN a.STATUS=10 THEN a.ProductCount ELSE 0 END) AS count_DSY,
+         SUM(CASE WHEN a.STATUS=10 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_DSY,
+         SUM(CASE WHEN a.STATUS=29 THEN a.ProductCount ELSE 0 END) AS count_YTK,
+         SUM(CASE WHEN a.STATUS=29 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_YTK
+         FROM orderdetail a JOIN shop b ON a.ShopId=b.ID
+         WHERE a.VaildFlag=0 AND a.STATUS IN (10,19,29)
+		<if test="criteria != null ">
+			<include refid="criteria_queryDp" />
+		</if>
+	GROUP BY a.shopid,a.ProductName,DATE_FORMAT(a.orderdate,'%Y-%m-%d'),a.ProductPrice
+	</select>
+	
+	<!-- 店铺订单按月统计 -->
+	<select id="selectDpOrderTjMonthByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.SaleOrder">
+
+		 SELECT a.shopid,a.ProductName AS proname,a.ProductPrice AS proprice,
+		 SUM(a.ProductCount) AS procount,b.Name,
+         SUM(CASE WHEN a.status=19 THEN a.ProductCount ELSE 0 END) AS count_YSY,
+         SUM(CASE WHEN a.STATUS=19 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_YSY,
+         SUM(CASE WHEN a.STATUS=10 THEN a.ProductCount ELSE 0 END) AS count_DSY,
+         SUM(CASE WHEN a.STATUS=10 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_DSY,
+         SUM(CASE WHEN a.STATUS=29 THEN a.ProductCount ELSE 0 END) AS count_YTK,
+         SUM(CASE WHEN a.STATUS=29 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_YTK
+         FROM orderdetail a JOIN shop b ON a.ShopId=b.ID
+         WHERE a.VaildFlag=0 AND a.STATUS IN (10,19,29)
+		<if test="criteria != null ">
+			<include refid="criteria_queryDp" />
+		</if>
+		GROUP BY a.shopid,a.ProductName,DATE_FORMAT(a.orderdate,'%Y-%m'),a.ProductPrice
+	</select>
+
+	<!-- 店铺订单按年统计 -->
+	<select id="selectDpOrderTjYearByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.SaleOrder">
+
+		 SELECT a.shopid,a.ProductName AS proname,a.ProductPrice AS proprice,
+		 SUM(a.ProductCount) AS procount,b.Name,
+         SUM(CASE WHEN a.status=19 THEN a.ProductCount ELSE 0 END) AS count_YSY,
+         SUM(CASE WHEN a.STATUS=19 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_YSY,
+         SUM(CASE WHEN a.STATUS=10 THEN a.ProductCount ELSE 0 END) AS count_DSY,
+         SUM(CASE WHEN a.STATUS=10 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_DSY,
+         SUM(CASE WHEN a.STATUS=29 THEN a.ProductCount ELSE 0 END) AS count_YTK,
+         SUM(CASE WHEN a.STATUS=29 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_YTK
+         FROM orderdetail a JOIN shop b ON a.ShopId=b.ID
+         WHERE a.VaildFlag=0 AND a.STATUS IN (10,19,29)
+		<if test="criteria != null ">
+			<include refid="criteria_queryDp" />
+		</if>
+		GROUP BY a.shopid,a.ProductName,DATE_FORMAT(a.orderdate, "%Y" ),a.ProductPrice
+	</select>
+
+	<!-- 店铺订单按季度统计 -->
+	<select id="selectDpOrderTjQuaterByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultType="com.yinlian.wssc.web.dto.SaleOrder">
+		 SELECT a.shopid,a.ProductName AS proname,a.ProductPrice AS proprice,
+		 SUM(a.ProductCount) AS procount,b.Name,
+         SUM(CASE WHEN a.status=19 THEN a.ProductCount ELSE 0 END) AS count_YSY,
+         SUM(CASE WHEN a.STATUS=19 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_YSY,
+         SUM(CASE WHEN a.STATUS=10 THEN a.ProductCount ELSE 0 END) AS count_DSY,
+         SUM(CASE WHEN a.STATUS=10 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_DSY,
+         SUM(CASE WHEN a.STATUS=29 THEN a.ProductCount ELSE 0 END) AS count_YTK,
+         SUM(CASE WHEN a.STATUS=29 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_YTK
+         FROM orderdetail a JOIN shop b ON a.ShopId=b.ID
+         WHERE a.VaildFlag=0 AND a.STATUS IN (10,19,29)
+		<if test="criteria != null ">
+			<include refid="criteria_queryDp" />
+		</if>
+		GROUP BY a.shopid,a.ProductName, concat(date_format(a.orderdate, '%Y
+		'),FLOOR((date_format(a.orderdate, '%m ')+2)/3)),a.ProductPrice
+	</select>
+
+	<update id="userDelOrderById" parameterType="com.yinlian.wssc.web.po.Orders">
+		UPDATE orders SET
+		userisdel=#{userisdel},userdeltime=#{userdeltime}
+		where id = #{id}
+	</update>
+
+
+	<!--卖家全部订单 -->
+	<select id="selectAllOrder" parameterType="java.lang.Integer"
+		resultType="com.yinlian.wssc.web.dto.SaleOrder">
+
+		SELECT name, sum(totalCount) as totalCount,
+		sum(totalMoney) as totalMoney,
+		sum(Count_DFK) as count_DFK, sum(Money_DFK) as money_DFK,
+		sum(Count_CPZ) as count_CPZ,sum(Money_CPZ) as money_CPZ,
+		sum(Count_SHZ) as count_SHZ,sum(Money_SHZ) as money_SHZ,
+		sum(Count_YWJ) as count_YWJ,sum(Money_YWJ) as money_YWJ,
+		sum(Count_DSY) as count_DSY,sum(Money_DSY) as money_DSY,
+		sum(Count_YSY) as count_YSY,sum(Money_DSY) as money_YSY,
+		sum(Count_TKSQ) as count_TKSQ,sum(Money_TKSQ) as money_TKSQ,
+		sum(Count_TKSB) as count_TKSB,sum(Money_TKSB) as money_TKSB,
+		sum(Count_TKSH) as count_TKSH,sum(Money_TKSH) as money_TKSH,
+		sum(Count_YTK) as count_YTK,sum(Money_DSY) as money_YTK,
+		sum(Count_QX) as count_QX,sum(Money_QX) as money_QX
+		FROM
+		v_saleorders
+		WHERE SellerID =
+		#{userid,jdbcType=INTEGER}
+	</select>
+
+	<select id="queryCount" parameterType="java.lang.Integer"
+		resultType="com.yinlian.api.app.dto.OrderCountDto">
+		  
+  SELECT COUNT((CASE WHEN (a.Status = 0) THEN a.ID END)) AS dfk,
+         COUNT((CASE WHEN (a.Status = 1) THEN a.ID END)) AS dsy,
+         0 AS ysy,
+         COUNT((CASE WHEN (a.Status = 3) THEN a.ID END)) AS sh
+   FROM orders a 
+    WHERE a.BuyerID=#{0} AND (a.ValidFlag=0 OR a.ValidFlag IS NULL) AND (a.UserIsDel=0 OR a.UserIsDel IS NULL)  
+  UNION ALL 
+SELECT  0 AS dfk,
+COUNT((CASE WHEN d.Status = 10 THEN d.orderid END)) AS dsy, 
+COUNT((CASE WHEN d.Status = 19 THEN d.orderid END)) AS ysy, 
+COUNT((CASE WHEN d.Status IN (20,21,22,29 ) THEN d.orderid END)) AS sh 
+  FROM( SELECT DISTINCT a.orderid,a.Status FROM orderdetail a 
+    WHERE a.BuyerID=#{0} AND (a.VaildFlag=0 OR a.VaildFlag IS NULL) GROUP BY a.orderid) AS d
+	<!-- 	select
+		count((case when (a.Status = 0) then a.ID end)) AS dfk,
+		count((CASE WHEN (dstaus = 10 or a.Status = 1) THEN a.ID END)) AS dsy,
+		count((CASE WHEN (dstaus = 19) THEN a.ID END)) AS ysy,
+		count((CASE WHEN (dstaus in (20,21,22,29) or a.Status = 3) THEN a.ID END)) AS sh
+		FROM(
+		select
+		DISTINCT a.ID,a.`Status`,d.`Status` as dstaus,a.IsComment
+		from orders a
+		LEFT JOIN orderdetail d on a.id=d.orderid
+		where
+		a.BuyerID=#{userid,jdbcType=INTEGER}
+		and (a.ValidFlag=0 or a.ValidFlag is null)
+		and (a.UserIsDel=0 or a.UserIsDel is null)
+		and (d.VaildFlag=0 or d.VaildFlag is null)
+		GROUP BY a.ID
+		) as a -->
+
+	</select>
+
+	<select id="getByCode" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from orders
+		where code=#{0}
+	</select>
+	<!-- 查询下单1天后未付款的订单 -->
+	<select id="getUnpaidOrders" resultMap="BaseResultMap">
+		SELECT ID, Code,
+		GroupCode, Status, BuyerID, SellerID FROM orders
+		WHERE STATUS=0
+		AND
+		validflag=0 AND
+		TO_DAYS(SYSDATE()) - TO_DAYS(AddOrderDate) >=1
+	</select>
+	<!-- 查询确认收货7天后的订单 -->
+	<select id="getDeliverOrders" resultMap="BaseResultMap">
+		SELECT a.ID, a.Code,
+		a.GroupCode, a.Status, a.BuyerID, a.SellerID, a.DeliverConfirmDate
+		FROM orders a LEFT JOIN orderdetail b ON a.ID=b.OrderID
+		WHERE
+		a.STATUS=3
+		AND a.validflag=0 AND b.Status=99 AND
+		TO_DAYS(SYSDATE()) -
+		TO_DAYS(a.DeliverConfirmDate) >=7
+	</select>
+
+
+
+	<sql id="criteriaAccounts">
+			<if test="begintime != null and begintime != '' ">
+			 <![CDATA[ and DATEDIFF(a.orderdate,#{begintime})>=0]]>
+			</if>
+			<if test="endtime != null and endtime != '' ">
+			 <![CDATA[ and DATEDIFF(a.orderdate,#{endtime})<=0]]>
+			</if>
+	</sql>
+	<select id="selectOrder" parameterType="com.yinlian.wssc.search.Platfrom_SYCriteria"
+		resultType="java.util.HashMap">
+	        SELECT SUM(a.ProductCount) AS orderCount,
+            SUM(a.ProductPrice*a.ProductCount) AS orderprice
+            FROM orderdetail a
+            where a.VaildFlag=0 and a.status IN (10,19)
+		<include refid="criteriaAccounts" />
+	</select>
+
+
+	<select id="selectGoodCount" parameterType="java.lang.Integer"
+		resultType="com.yinlian.api.app.dto.OrderCountDto">
+		select
+		count((case when (d.IsComment = 0 or d.iscomment IS
+		NULL) then d.ID end)) AS dpj,
+		count((case when (d.IsComment = 1 ) then
+		d.ID end)) AS ypj
+		from orders o join orderdetail d on o.id=d.orderid
+		where (o.STATUS=3 OR o.STATUS=8)
+		and
+		o.BuyerID=#{userid,jdbcType=INTEGER} and (o.ValidFlag=0 or
+		o.ValidFlag
+		is
+		null) and (o.UserIsDel=0 or o.UserIsDel is null)
+
+	</select>
+	<select id="getorderdetail" parameterType="java.lang.Integer"
+		resultMap="OrderDtoResultMap">
+		select
+		ord.id as
+		ZID,ord.Code,ord.GroupCode,ord.Status,ord.PayType,ord.Price,ord.freight,ord.sellerID
+		,ord.buyerID,ord.couponID,ord.logisticsCode,ord.addOrderDate,ord.payDate
+		,ord.deliverDate,ord.deliverConfirmDate,ord.isOwned,ord.cancelReason,ord.actualPay,ord.discount,ord.shopId
+		,ord.IsInvoice,rec.Consignee,rec.Address,rec.Telphone,ord.Status
+		from
+		orders ord
+		left join shop sh on sh.ID = ord.ShopId
+		left join users us on
+		us.ID = ord.BuyerID
+		left join receiveinfo rec on rec.OrderGroupCode =
+		ord.GroupCode
+		<where>
+			ord.id = #{0}
+		</where>
+
+	</select>
+	<select id="selectOrdersByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="OrderDtoResultMap">
+
+		select
+		ord.id as
+		ZID,ord.code,ord.groupCode,ord.status,ord.payType,ord.price,ord.freight,ord.sellerID
+		,ord.buyerID,ord.couponID,ord.logisticsCode,ord.addOrderDate,ord.payDate
+		,ord.deliverDate,ord.deliverConfirmDate,ord.isOwned,ord.cancelReason,ord.actualPay,ord.discount,ord.shopId
+
+		from orders ord
+		left join shop sh on sh.ID = ord.ShopId
+		left join users
+		us on us.ID = ord.BuyerID
+		<where>
+
+			<if test="criteria.status != null">
+				ord.Status = 3
+			</if>
+			<if test="criteria.isOwned != null">
+				and ord.IsOwned = #{criteria.isOwned}
+			</if>
+			<if test="criteria.shopId != null">
+				and ord.ShopId = #{criteria.shopId}
+			</if>
+			<if test="criteria.buyerID != null">
+				and ord.BuyerID = #{criteria.buyerID}
+			</if>
+			<if test="criteria.ordercode != null">
+				and ord.Code = #{criteria.ordercode}
+			</if>
+			<if test="criteria.begintime">
+				and date_format(ord.DeliverConfirmDate,'%Y-%m-%d') <![CDATA[ >= ]]>
+				date_format(#{criteria.begintime},'%Y-%m-%d')
+			</if>
+			<if test="criteria.endtime">
+				and date_format(ord.DeliverConfirmDate,'%Y-%m-%d') <![CDATA[ <= ]]>
+				date_format(#{criteria.endtime},'%Y-%m-%d')
+			</if>
+		</where>
+
+	</select>
+
+
+	<select id="selectBusinessbills" resultMap="BaseResult_Bills"
+		parameterType="com.yinlian.wssc.web.util.OrderCriteria">
+		select a.id,a.shopId,b.HoderName as
+		bankUserName,b.bankName,b.BankCardNo as bankNum,
+		b.name,b.settlementType,b.royaltyRate,a.price,a.freight,a.discount
+		,a.actualPay,c.couponUseType,c.faceValue
+		from orders a
+		left join shop b
+		on a.ShopId=b.ID
+		left join coupon c on a.CouponID = c.ID
+		left join
+		orderdetail d on a.ID=d.OrderID
+
+		<where>
+			a.Status = 3 and d.Status in (99,39,49)
+			and a.DeliverConfirmDate >=
+			#{begintime}
+			and a.DeliverConfirmDate <![CDATA[<=]]>
+			#{endtime}
+			and b.settlementType = #{settlementType}
+		</where>
+		GROUP BY a.ID
+	</select>
+
+	<select id="getSHOrderListNoCountPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil"
+		resultMap="ApiOrderDtoResultMap">
+		SELECT
+		o.id,
+		o.GroupCode,
+		a.CreateTime as applydate,
+		o.status,
+		o.AddOrderDate as addorderdate
+		FROM
+		orderdetail od
+		inner JOIN orders o ON od.OrderID = o.ID
+		LEFT JOIN
+		applyforcancelorder a
+		on a.OrderID = od.ID
+		WHERE od.STATUS IN (3,20, 21,22, 29)
+		AND od.VaildFlag = 0
+		and (o.ValidFlag=0 or o.ValidFlag is null) and (o.UserIsDel=0 or
+		o.UserIsDel is null)
+		<if test="criteria != null">
+			<if test="criteria.userid != null and criteria.userid > 0 ">
+				and od.BuyerID = #{criteria.userid}
+			</if>
+		</if>
+		group by o.id
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+
+	<select id="getApplyDetail" parameterType="java.lang.Integer"
+		resultType="com.yinlian.api.app.dto.ApplyAfterDto">
+		SELECT
+		o.GroupCode as groupcode,
+		a.CreateTime as applydate,
+		o.PayType as paytype,
+		od.ProductPrice as price,
+		od.Status as status,
+		a.Content as reason
+		from orderdetail od
+		left join applyforcancelorder a
+		on od.ID = a.OrderID
+		left join orders o on o.ID = od.OrderID
+		where od.ID
+		= #{0}
+	</select>
+	
+	<select id="getInvalidOrder" resultType="com.yinlian.wssc.web.po.Orders">
+		select 
+		o.ID
+		from orderdetail od
+		left join orders o on od.OrderID = o.ID
+		where (od.VaildFlag = 0 or od.VaildFlag is null)
+		and (o.ValidFlag = 0 or o.ValidFlag is null)
+		and o.Status = 0 
+		 <![CDATA[ and DATEDIFF(od.usetime,SYSDATE())<0]]>
+		group by o.ID
+	</select>
+	<update id="updateStatusByGroupcode">
+		UPDATE orders SET
+		Status=#{0}
+		where GroupCode = #{1}
+	</update>
+<!-- 	获取下单支付超过20分钟还没有出票成功的订单  -->
+	<select id="getUntickOrders" resultMap="BaseResultMap">
+	    SELECT <include refid="Base_Column_List" />
+	     FROM orders WHERE STATUS=1 AND `ValidFlag`=0 AND TIMESTAMPDIFF(MINUTE,PayDate,SYSDATE())>=20
+	</select>
+	<!-- 	获取下单支付未超过20分钟还没有出票成功的订单  进行票务系统下单通知-->
+	<select id="getUntickOrdersReq" resultMap="BaseResultMap">
+	    SELECT <include refid="Base_Column_List" />
+	     FROM orders WHERE STATUS=1 AND `ValidFlag`=0 
+	     AND TIMESTAMPDIFF(MINUTE,PayDate,SYSDATE())<![CDATA[<20]]>
+	</select>
+    <!-- 店铺订单日统计导出 -->
+	<select id="selectDpOrderTjDay" parameterType="com.yinlian.wssc.web.util.CriteriaDdtj"
+		resultType="com.yinlian.wssc.web.dto.SaleOrder">
+
+		 SELECT a.shopid,a.ProductName AS proname,a.ProductPrice AS proprice,
+		 SUM(a.ProductCount) AS procount,b.Name,
+         DATE_FORMAT(a.orderdate,'%Y-%m-%d') AS orderDate,
+         SUM(CASE WHEN a.status=19 THEN a.ProductCount ELSE 0 END) AS count_YSY,
+         SUM(CASE WHEN a.STATUS=19 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_YSY,
+         SUM(CASE WHEN a.STATUS=10 THEN a.ProductCount ELSE 0 END) AS count_DSY,
+         SUM(CASE WHEN a.STATUS=10 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_DSY,
+         SUM(CASE WHEN a.STATUS=29 THEN a.ProductCount ELSE 0 END) AS count_YTK,
+         SUM(CASE WHEN a.STATUS=29 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_YTK
+         FROM orderdetail a JOIN shop b ON a.ShopId=b.ID
+         WHERE a.VaildFlag=0 AND a.STATUS IN (10,19,29)
+		<if test="criteria != null ">
+			<include refid="criteria_queryDp" />
+		</if>
+	GROUP BY a.shopid,a.ProductName,DATE_FORMAT(a.orderdate,'%Y-%m-%d'),a.ProductPrice
+	</select>
+	<!-- 店铺订单详细统计 -->
+	<select id="selectDpOrderTjDetail" parameterType="com.yinlian.wssc.web.util.CriteriaDdtj"
+		resultType="com.yinlian.wssc.web.dto.SaleOrder">
+
+		 SELECT a.shopid,a.ProductName AS proname,a.ProductPrice AS proprice,
+		 SUM(a.ProductCount) AS procount,b.Name,
+		 DATE_FORMAT(a.orderdate,'%Y-%m-%d') AS orderDate,
+		 SUM(CASE WHEN a.status=19 THEN a.ProductCount ELSE 0 END) AS count_YSY,
+		 SUM(CASE WHEN a.STATUS=19 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_YSY,
+		 SUM(CASE WHEN a.STATUS=10 THEN a.ProductCount ELSE 0 END) AS count_DSY,
+		 SUM(CASE WHEN a.STATUS=10 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_DSY,
+		 SUM(CASE WHEN a.STATUS=29 THEN a.ProductCount ELSE 0 END) AS count_YTK,
+		 SUM(CASE WHEN a.STATUS=29 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_YTK,
+		 SUM(CASE WHEN a.STATUS=0 THEN a.ProductCount ELSE 0 END) AS count_DFK,
+		 SUM(CASE WHEN a.STATUS=0 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_DFK,
+		 SUM(CASE WHEN a.STATUS IN (3,20,21,22) THEN a.ProductCount ELSE 0 END) AS count_TKSH,
+		 SUM(CASE WHEN a.STATUS IN (3,20,21,22) THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_TKSH,
+		 SUM(CASE WHEN a.STATUS=1 THEN a.ProductCount ELSE 0 END) AS count_CPZ,
+		 SUM(CASE WHEN a.STATUS=1 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_CPZ
+		 FROM orderdetail a JOIN shop b ON a.ShopId=b.ID
+		 WHERE a.VaildFlag=0 AND a.STATUS !=4
+		<if test="criteria != null ">
+			<include refid="criteria_queryDp" />
+		</if>
+	GROUP BY a.shopid,a.ProductName,DATE_FORMAT(a.orderdate,'%Y-%m-%d'),a.ProductPrice
+	</select>
+	
+	<!-- 店铺订单按月统计 -->
+	<select id="selectDpOrderTjMonth" parameterType="com.yinlian.wssc.web.util.CriteriaDdtj"
+		resultType="com.yinlian.wssc.web.dto.SaleOrder">
+
+		 SELECT a.shopid,a.ProductName AS proname,a.ProductPrice AS proprice,
+		 SUM(a.ProductCount) AS procount,b.Name,
+         SUM(CASE WHEN a.status=19 THEN a.ProductCount ELSE 0 END) AS count_YSY,
+         SUM(CASE WHEN a.STATUS=19 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_YSY,
+         SUM(CASE WHEN a.STATUS=10 THEN a.ProductCount ELSE 0 END) AS count_DSY,
+         SUM(CASE WHEN a.STATUS=10 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_DSY,
+         SUM(CASE WHEN a.STATUS=29 THEN a.ProductCount ELSE 0 END) AS count_YTK,
+         SUM(CASE WHEN a.STATUS=29 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_YTK
+         FROM orderdetail a JOIN shop b ON a.ShopId=b.ID
+         WHERE a.VaildFlag=0 AND a.STATUS IN (10,19,29)
+		<if test="criteria != null ">
+			<include refid="criteria_queryDp" />
+		</if>
+		GROUP BY a.shopid,a.ProductName,DATE_FORMAT(a.orderdate,'%Y-%m'),a.ProductPrice
+	</select>
+
+	<!-- 店铺订单按年统计 -->
+	<select id="selectDpOrderTjYear" parameterType="com.yinlian.wssc.web.util.CriteriaDdtj"
+		resultType="com.yinlian.wssc.web.dto.SaleOrder">
+
+		 SELECT a.shopid,a.ProductName AS proname,a.ProductPrice AS proprice,
+		 SUM(a.ProductCount) AS procount,b.Name,
+         SUM(CASE WHEN a.status=19 THEN a.ProductCount ELSE 0 END) AS count_YSY,
+         SUM(CASE WHEN a.STATUS=19 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_YSY,
+         SUM(CASE WHEN a.STATUS=10 THEN a.ProductCount ELSE 0 END) AS count_DSY,
+         SUM(CASE WHEN a.STATUS=10 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_DSY,
+         SUM(CASE WHEN a.STATUS=29 THEN a.ProductCount ELSE 0 END) AS count_YTK,
+         SUM(CASE WHEN a.STATUS=29 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_YTK
+         FROM orderdetail a JOIN shop b ON a.ShopId=b.ID
+         WHERE a.VaildFlag=0 AND a.STATUS IN (10,19,29)
+		<if test="criteria != null ">
+			<include refid="criteria_queryDp" />
+		</if>
+		GROUP BY a.shopid,a.ProductName,DATE_FORMAT(a.orderdate, "%Y" ),a.ProductPrice
+	</select>
+
+	<!-- 店铺订单按季度统计 -->
+	<select id="selectDpOrderTjQuater" parameterType="com.yinlian.wssc.web.util.CriteriaDdtj"
+		resultType="com.yinlian.wssc.web.dto.SaleOrder">
+		 SELECT a.shopid,a.ProductName AS proname,a.ProductPrice AS proprice,
+		 SUM(a.ProductCount) AS procount,b.Name,
+         SUM(CASE WHEN a.status=19 THEN a.ProductCount ELSE 0 END) AS count_YSY,
+         SUM(CASE WHEN a.STATUS=19 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_YSY,
+         SUM(CASE WHEN a.STATUS=10 THEN a.ProductCount ELSE 0 END) AS count_DSY,
+         SUM(CASE WHEN a.STATUS=10 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_DSY,
+         SUM(CASE WHEN a.STATUS=29 THEN a.ProductCount ELSE 0 END) AS count_YTK,
+         SUM(CASE WHEN a.STATUS=29 THEN a.ProductPrice*a.ProductCount ELSE 0 END) AS money_YTK
+         FROM orderdetail a JOIN shop b ON a.ShopId=b.ID
+         WHERE a.VaildFlag=0 AND a.STATUS IN (10,19,29)
+		<if test="criteria != null ">
+			<include refid="criteria_queryDp" />
+		</if>
+		GROUP BY a.shopid,a.ProductName, concat(date_format(a.orderdate, '%Y
+		'),FLOOR((date_format(a.orderdate, '%m ')+2)/3)),a.ProductPrice
+	</select>
+</mapper>

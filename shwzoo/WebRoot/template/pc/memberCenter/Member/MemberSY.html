@@ -1,0 +1,292 @@
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>会员中心</title>
+<link href="/resource/artDialog/skins/default.css" rel="stylesheet" />
+<link type="text/css" rel="stylesheet" href="/resource/pc/web/css/style01.css" /> 
+<link href="/resource/public/commoncss/jQuery.Validate.css" rel="stylesheet" />
+<script src="/resource/pc/web/js/browsehistory/browsehistory.js"></script>
+<script src="/resource/pc/member/js/pager2.js"></script>
+<script src="/resource/pc/member/js/showdate.js"></script>
+ <script src="/resource/artTemplate.js"></script>
+<script src="/resource/jQueryRotate.2.2.js"></script>
+ <script src="/resource/Guid.js"></script>
+<link href="/resource/pc/member/css/pager2.css" rel="stylesheet" />
+<script type="text/javascript" src="/resource/pc/member/js/pager2.js"></script>
+
+<script type="text/javascript" src="/resource/public/commonjs/Birthday-picker.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/style.js"></script>
+<script type="text/javascript" src="/resource/pc/member/js/zhsz/PersonalInformation.js"></script>
+<script type="text/javascript" src="/resource/public/commonjs/Birthday-picker.js"></script>
+
+<script src="/resource/public/commonjs/AjaxFileUploaderV2.1/ajaxfileupload.js"></script>
+<script src="/resource/public/commonjs/jquery.validate.js"></script>
+<script src="/resource/public/commonjs/messages_cn.js"></script>
+<script src="/resource/public/commonjs/jquery.validate-methods.js"></script>
+<script src="/resource/public/commonjs/jquery.form.js"></script>
+
+
+    <!--弹出框样式-->
+    
+    <script src="/resource/GetQueryString.js"></script>
+    <script src="/resource/dialog-plus.js" type="text/javascript"></script>
+    <script src="/resource/dialogShow.js"></script> <!--设置统一dialog弹出框-->
+    <script src="/resource/My97DatePicker/WdatePicker.js"></script>
+    <!--文件上传-->
+    <!--用户公共-->
+    <script src="/resource/public/commonjs/public-user.js"></script>
+    <!--表单验证css&&js-->
+    
+    
+    
+   
+</head>
+<div id="main" class="fix">
+    <!--main-left 左边内容  开始 -->
+    <!--#include file="top.html"-->
+    <% include("/template/pc/memberCenter/Shared/_PartialLeftside.html",{}){}%> 
+    <!--main-left 左边内容  结束 -->
+    <!--rightside 右边内容  结束 -->
+    <div class="rightside">
+        <!--main-center  中间所有内容开始 -->
+        <div class="main-center">
+            <!--l_grxx  begin -->
+            <div class="l_grxx fix">
+                <div class="l_grxxleft">
+                    <div class="l_grxx01">
+                       <%if(isEmpty(memberhome.imgUrl)){%>
+                            <img src="/resource/pc/member/images/sytx.jpg" width="106" height="106">
+                       <%}else{%>
+                            <img src="${memberhome.imgUrl}" width="106" height="106">
+                       <%}%>
+                    </div>
+                    <div class="l_grxx02">
+                        <h3>HI，<%if(!isEmpty(memberhome.realName)){%>${memberhome.realName}<%}%></h3>
+                        <p>普通会员</p>
+                        <p class="mt10">账户安全<span class="l_hbj"><i></i></span><span class="lvse">较高</span></p>
+                    </div>
+                </div><!--l_grxxleft  stop -->
+                <div class="l_grxxright fix">
+                    <ul>
+                        <li>
+                            <a href="/member/order/getorder.html?status=0"><div class="l_grrig01"><i></i></div></a>
+                            <div class="mt5">
+                                <a href="/member/order/getorder.html?status=0">待付款</a>
+                                <span class="red"><%if(!isEmpty(memberhome.children.dfk)){%>${memberhome.children.dfk}<%}else{%>0<%}%></span>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="/member/order/getorder.html?status=2"><div class="l_grrig02"><i></i></div></a>
+                            <div class="mt5">
+                                <a href="/member/order/getorder.html?status=2">待收货</a>
+                                <span class="red"><%if(!isEmpty(memberhome.children.dsh)){%>${memberhome.children.dsh}<%}else{%>0<%}%></span>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="/member/coupon/points"><div class="l_grrig03"><i></i></div></a>
+                            <div class="mt5">
+                                <a href="/member/coupon/points">积分</a>
+                                      <span class="red"><%if(!isEmpty(memberhome.points)){%>${memberhome.points}<%}else{%>0<%}%></span>
+                                    </div>
+                        </li>
+                        <li>
+                            <a href="/member/order/getorder.html?status=1"><div class="l_grrig04"><i></i></div></a>
+                            <div class="mt5">
+                                <a href="/member/order/getorder.html?status=1">待发货</a>
+                                <span class="red"><%if(!isEmpty(memberhome.children.dfh)){%>${memberhome.children.dfh}<%}else{%>0<%}%></span>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="/member/order/getorder.html?status=99"><div class="l_grrig05"><i></i></div></a>
+                            <div class="mt5">
+                                <a href="/member/order/getorder.html?status=99">待评价</a>
+                                <span class="red"><%if(!isEmpty(memberhome.children.dpj)){%>${memberhome.children.dpj}<%}else{%>0<%}%></span>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="/member/coupon/Coupons"><div class="l_grrig06"><i></i></div></a>
+                            <div class="mt5">
+                                <a href="/member/coupon/Coupons">优惠券</a>
+                                <span class="red"><%if(!isEmpty(memberhome.couponcount)){%>${memberhome.couponcount}<%}else{%> 0 <%}%></span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--l_grxx  stop -->
+            <!--l_wdddsy我的订单开始 -->
+            <div class="l_wdddsy fix">
+                <h3>我的订单<span><a id="a_moremyorders" href="/member/order/getorder.html">查看更多</a></span></h3>
+                <div class="l_wdddsycon">
+                <%if(isEmpty(orders)){%>
+                    <div class="l_nowddd l_ggyd" id="div_nomyorders"><i class="l_nodd01"></i>您还没有订单，<a href="/web/sy/sypt">去逛逛吧~</a></div>
+                    <%}else{%>
+                    <%for(order in orders){%>
+                    <div id="div_myorders">
+                        
+                            <div class="l_wddconmk">                   
+                            <%if(order.lsitdetais.~size>1){%>
+                               <div class="l_wddconmk01"><a href="/web/products/proinfo.html?spuid=${order.lsitdetais[0].spuid}"><img src="${order.lsitdetais[0].productimg}" title="${order.lsitdetais[0].productname}"></a></div> 
+                            <%}else{%> 
+                            <%for(product in order.lsitdetais){%>
+                             <div class="l_wddconmk01"><a href="/web/products/proinfo.html?spuid=${product.spuid}"><img src="${product.productimg}" title="${product.productname}"></a></div> 
+                            <%}}%> 
+                               <!-- {{if orders.ReceiveInfo!=null}}-->
+                                <%if(!isEmpty(order.consignee)){%>
+                                <div class="l_wddconmk02" >${order.consignee}</div>
+                                <%}else{%>
+                                <div class="l_wddconmk02">未知</div>
+                                <%}%>
+
+                                <div class="l_wddconmk03">
+                                    <p class="red bolder">￥${order.actualPay}</p>
+                                    <p>
+                                    <%if(order.paytype==0){%>
+                                        未支付
+                                         <%}else if(order.paytype==1){%>
+                                        在线支付
+                                        <%}else if(order.paytype==2){%>
+                                        余额支付
+                                         <%}else if(order.paytype==3){%>
+                                        优惠券支付
+                                         <%}else if(order.paytype==4){%>
+                                        混合支付
+                                        <%}else if(order.paytype==4){%>
+                                        货到付款
+                                        <%}else{%>
+                                        无支付信息
+                                        <%}%>
+                                    </p>
+                                </div>
+                                <div class="l_wddconmk04">
+                                    <p>${order.addorderdate,dateFormat="yyyy-MM-dd HH:mm:ss"}</p>
+                                </div>
+                                <div class="l_wddconmk05">
+                                    <p class="red bolder">
+                                      <%if(order.status==0){%>
+                                        待付款
+                                        <%}else if(order.status==1){%>
+                                        待发货
+                                       <%}else if(order.status==2){%>
+                                        待收货
+                                     <%}else if(order.status==3){%>
+                                        已确认收货
+                                       <%}else if(order.status==4){%>
+                                       未付款取消申请
+                                       <%}else if(order.status==5){%>
+                                      未付款已取消
+                                        <%}else if(order.status==6){%>
+                                        已付款取消申请
+                                        <%}else if(order.status==7){%>
+                                        已付款已取消
+                                        <%}else if(order.status==8){%>
+                                      已完成
+                                        <%}else if(order.status==9){%>
+                                        申请退款退货中
+                                        <%}else if(order.status==10){%>
+                                       已退款
+                                     <%}%>
+                                    </p>
+                                    <p class="yscmh"><a href="/member/order/showOrderDetail?orderid=${order.Id}">订单跟踪</a></p>
+                                </div>
+                                <div class="l_wddconmk06 yscmh"><a href="/member/order/showOrderDetail?orderid=${order.Id}">查看</a></div>
+                            </div>
+                        
+                    </div>
+                    <%}%>
+               <%}%>
+                </div><!--l_wdddsycon  stop -->
+            </div>
+            <!--l_wdddsy我的订单结束 -->
+            <!--我关注的商品开始 -->
+            <div class="l_wdddsy fix">
+                <h3>我关注的商品<span><a href="/member/pcconcern/selectSpucollect.html">查看更多</a></span></h3>
+                <!--l_gzspsy  begin -->
+                <!--l_gzspsy  stop -->
+                <div class="l_gzspsy">
+                <%if(has(spu)){%>
+                <%if(isEmpty(spu)){%>
+                    <div class="l_nowddd" id="noconlist"><i class="l_nodd02"></i>您还没有关注任何商品，<a href="/web/sy/sypt">去逛逛吧~</a></div>
+                     <%}else{%>
+                    <div class="r_roll fix" id="hasconlist">
+                        <span class="r_rollleft" id="conlast"></span>
+                        <div class="r_rollcon">
+                            <ul id="ul_conlist">
+                                <%for(spus in spu){%>
+                                    <li>
+                                        <a href="/web/products/proinfo.html?spuid=${spus.id}" target="_blank"><img src="${spus.imgurl}" title="${spus.name}"></a>
+                                        <p>￥ ${spus.price}</p>
+                                    </li>
+                                   <%}%>
+                            </ul>
+                        </div>
+                        <span class="r_rollright" id="connext"></span>
+                    </div>
+                    <%}%>
+                   <%}else{%>
+                    <div class="l_nowddd" id="noconlist"><i class="l_nodd02"></i>您还没有关注任何商品，<a href="/web/sy/sypt">去逛逛吧~</a></div>
+                    <%}%>
+                </div>
+
+            </div>
+            <!--我关注的商品结束 -->
+            <!--浏览历史开始 -->
+            <div class="l_wdddsy fix">
+                <h3>浏览历史<span><a id="a_morehis" href="/member/pcbrowsehistory/queryhistory">查看更多</a></span></h3>
+                <!--l_gzspsy  begin -->
+                <div class="l_gzspsy">
+                <%if(!isEmpty(browsehistory)){%>
+                    <div class="r_roll01 fix" id="div_yeshistory">
+                        <span class="r_rollleft01" id="div_last"></span>
+                        <div class="r_rollcon01">
+                            <ul id="ul_hislist">
+                                <%for(history in browsehistory){%>
+                                   
+                                    <li>
+                                        <a href="javascript:void(0);"><img src="${history.imgurl}" title="${history.spuname}"></a>
+                                        <p>￥ ${history.price}</p>
+                                    </li>
+                                    
+                                 <%}%>
+                            </ul>
+                        </div>
+                        <span class="r_rollright01" id="div_next"></span>
+                    </div>
+                <%}else{%>
+                 <div class="l_nowddd" id="div_nohistory"><i class="l_nodd03"></i>您还没有浏览任何商品，<a href="/web/sy/sypt">去逛逛吧~</a></div>
+                <%}%> 
+               
+                </div>
+                <!--l_gzspsy  stop -->
+            </div>
+            <!--浏览历史结束 -->
+           
+        </div>
+        <!--main-center  中间所有内容结束 -->
+        <!--main-right最右边所有内容开始 -->
+       <!-- <div class="main-right">
+            <!--l_hytjsm会员推荐  开始 -->
+           <!--  <%if(!isEmpty(recommend)){%>
+            <%for(recommends in recommend){%>
+                <div class="l_hytjsm fix">
+                    <h3>${recommends.name}</h3>
+                    <ul>
+                       
+                            <li>
+                                <a href="/Web/Goods/pro_detail?sid=${recommends.spuid}" target="_blank"><img src="${recommends.img}" style="width:128px;height:90px"></a>
+                                <div class="fon14 red">￥${recommends.price}</div>
+                                <div class="l_btbot"><a href="/Web/Goods/pro_detail?sid=${recommends.spuid}" target="_blank">${recommends.name}</a></div>
+                            </li>
+                    </ul>
+                </div>
+                <%}%>
+           <%}else{%>
+           <div class="l_hytjsm fix">没有推荐信息</div>
+           <%}%>
+        </div>
+        <!--main-right最右边所有内容结束 -->
+    </div>
+    <!--rightside 右边内容  结束 -->
+
+    <div class="clear"></div>
+</div>

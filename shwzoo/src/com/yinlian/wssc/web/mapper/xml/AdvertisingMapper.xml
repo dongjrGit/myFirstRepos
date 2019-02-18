@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.AdvertisingMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Advertising" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Title" property="title" jdbcType="VARCHAR" />
+    <result column="Imag" property="imag" jdbcType="VARCHAR" />
+    <result column="Url" property="url" jdbcType="VARCHAR" />
+    <result column="OrderBy" property="orderby" jdbcType="INTEGER" />
+    <result column="Content" property="content" jdbcType="VARCHAR" />
+    <result column="Type" property="type" jdbcType="INTEGER" />
+    <result column="Display" property="display" jdbcType="INTEGER" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+    <result column="WebSet" property="webset" jdbcType="INTEGER" />
+    <result column="TypeID" property="typeid" jdbcType="INTEGER" />
+    <result column="pagemark" property="pagemark" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, Title, Imag, Url, OrderBy, Content, Type, Display, Status,WebSet,TypeID,pagemark
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.AdvertisingExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from advertising
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from advertising
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from advertising
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.AdvertisingExample" >
+    delete from advertising
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Advertising" >
+    insert into advertising (ID, Title, Imag, 
+      Url, OrderBy, Content, 
+      Type, Display, Status,WebSet,TypeID,pagemark,pagemarkid
+      )
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{imag,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{orderby,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{display,jdbcType=INTEGER}, #{status,jdbcType=INTEGER},
+      #{webset,jdbcType=INTEGER},#{typeid,jdbcType=INTEGER},#{pagemark,jdbcType=INTEGER},
+      #{pagemarkid,jdbcType=INTEGER}
+      )
+  </insert>
+   <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Advertising" >
+    insert into advertising
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="title != null" >
+        Title,
+      </if>
+      <if test="imag != null" >
+        Imag,
+      </if>
+      <if test="url != null" >
+        Url,
+      </if>
+      <if test="orderby != null" >
+        OrderBy,
+      </if>
+      <if test="content != null" >
+        Content,
+      </if>
+      <if test="type != null" >
+        Type,
+      </if>
+      <if test="display != null" >
+        Display,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+      <if test="webset != null" >
+        WebSet,
+      </if>
+      <if test="typeid != null" >
+        TypeID,
+      </if>
+      <if test="pagemark != null" >
+        pagemark,
+      </if>
+      <if test="pagemarkid != null" >
+        pagemarkid,
+      </if>
+      <if test="shopid != null" >
+        shopid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="imag != null" >
+        #{imag,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="orderby != null" >
+        #{orderby,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="display != null" >
+        #{display,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="webset != null" >
+        #{webset,jdbcType=INTEGER},
+      </if>
+      <if test="typeid != null" >
+        #{typeid,jdbcType=INTEGER},
+      </if>
+       <if test="pagemark != null" >
+        #{pagemark,jdbcType=INTEGER},
+      </if>
+       <if test="pagemarkid != null" >
+        #{pagemarkid,jdbcType=INTEGER},
+      </if>
+      <if test="shopid != null" >
+        #{shopid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.AdvertisingExample" resultType="java.lang.Integer" >
+    select count(*) from advertising
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update advertising
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null" >
+        Title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imag != null" >
+        Imag = #{record.imag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.url != null" >
+        Url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderby != null" >
+        OrderBy = #{record.orderby,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null" >
+        Content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        Type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.display != null" >
+        Display = #{record.display,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        Status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.webset != null" >
+        WebSet = #{record.webset,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeid != null" >
+        TypeID = #{record.typeid,jdbcType=INTEGER},
+      </if>
+      <if test="record.pagemark != null" >
+        pagemark = #{record.pagemark,jdbcType=INTEGER},
+      </if>
+      <if test="record.pagemarkid != null" >
+        pagemarkid = #{record.pagemarkid,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update advertising
+    set ID = #{record.id,jdbcType=INTEGER},
+      Title = #{record.title,jdbcType=VARCHAR},
+      Imag = #{record.imag,jdbcType=VARCHAR},
+      Url = #{record.url,jdbcType=VARCHAR},
+      OrderBy = #{record.orderby,jdbcType=INTEGER},
+      Content = #{record.content,jdbcType=VARCHAR},
+      Type = #{record.type,jdbcType=INTEGER},
+      Display = #{record.display,jdbcType=INTEGER},
+      Status = #{record.status,jdbcType=INTEGER},
+      WebSet = #{record.webset,jdbcType=INTEGER}
+      TypeID = #{record.typeid,jdbcType=INTEGER},
+      pagemark = #{record.pagemark,jdbcType=INTEGER},
+      pagemarkid = #{record.pagemarkid,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Advertising" >
+    update advertising
+    <set >
+      <if test="title != null" >
+        Title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="imag != null" >
+        Imag = #{imag,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        Url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="orderby != null" >
+        OrderBy = #{orderby,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        Content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        Type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="display != null" >
+        Display = #{display,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        WebSet = #{webset,jdbcType=INTEGER},
+      </if>
+      <if test="typeid != null" >
+        TypeID = #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="pagemark != null" >
+        pagemark = #{pagemark,jdbcType=INTEGER},
+      </if>
+      <if test="pagemarkid != null" >
+        pagemarkid = #{pagemarkid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Advertising" >
+    update advertising
+    set Title = #{title,jdbcType=VARCHAR},
+      Imag = #{imag,jdbcType=VARCHAR},
+      Url = #{url,jdbcType=VARCHAR},
+      OrderBy = #{orderby,jdbcType=INTEGER},
+      Content = #{content,jdbcType=VARCHAR},
+      Type = #{type,jdbcType=INTEGER},
+      Display = #{display,jdbcType=INTEGER},
+      Status = #{status,jdbcType=INTEGER},
+      WebSet = #{webset,jdbcType=INTEGER},
+      TypeID = #{typeid,jdbcType=INTEGER},
+       pagemark = #{pagemark,jdbcType=INTEGER},
+      pagemarkid = #{pagemarkid,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 获取根据团购ID获取图片列表 -->
+	<select id="getListByPage" resultMap="BaseResultMap"
+		parameterType="com.yinlian.wssc.web.util.PageBeanUtil">
+		select
+		<include refid="Base_Column_List" />
+		FROM advertising 
+		<if test="criteria != null ">
+			<include refid="criteria_query" />
+		</if>
+		<if test="criteria.orderByClause != null and criteria.orderByClause != '' ">
+			order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序 此处只能使用${} 
+				而不能使用#{} 会设置参数失败 -->
+		</if>
+	</select>
+	<sql id="criteria_query">
+		<where>
+		    and pagemark!=12
+		<if test="criteria.type != null and criteria.type >=0 ">
+			and pagemark=#{criteria.type}
+		</if>
+		<if test="criteria.status != null and criteria.status >=0 ">
+			and status=#{criteria.status}
+		</if>
+	    <if test="criteria.display != null and criteria.display >0 ">
+			and display=#{criteria.display}
+	  </if>
+	  	<if test="criteria.shopid != null and criteria.shopid >0">
+	  		and ShopID = #{criteria.shopid}
+	  	</if>
+		</where>
+	</sql>
+	
+	<update id="updateStatus" parameterType="int">
+	update advertising set  status = #{0} where id=#{1}
+	</update>
+	
+<!-- 	<select id="getListByType" parameterType="int" resultType="com.yinlian.wssc.web.po.Advertising">
+	
+	select * from advertising where `Status`=1 and Type=#{0} and Display=#{1} and WebSet=#{2}
+	
+	</select> -->
+	
+	<select id="getListByTypeAndDisplay" parameterType="int" resultType="com.yinlian.wssc.web.po.Advertising">
+	select <include refid="Base_Column_List" /> 
+	from advertising 
+	where Status=1 
+	and pagemark=#{0} 
+	and Display=#{1} 
+	and FIND_IN_SET(#{2},WebSet)
+	<if test="shopid != null and shopid > 0">
+	and ShopID = #{shopid}
+	</if>
+	order by orderby 
+	</select>
+	
+	<select id="getListByType" parameterType="int" resultType="com.yinlian.wssc.web.po.Advertising">
+	select <include refid="Base_Column_List" /> 
+	from advertising 
+	where Status=1 
+	and pagemark=#{0} 
+	and FIND_IN_SET(#{1},WebSet)	
+	order by orderby
+	</select>
+	
+	<select id="getByAdvertact" parameterType="int" resultType="com.yinlian.wssc.web.po.Advertising">
+	select <include refid="Base_Column_List" /> 
+	from advertising 
+	where pagemark=#{0} 
+	<if test="status != null and status >= 0">
+	and Status = #{status}
+	</if>
+	limit 1
+	</select>
+</mapper>

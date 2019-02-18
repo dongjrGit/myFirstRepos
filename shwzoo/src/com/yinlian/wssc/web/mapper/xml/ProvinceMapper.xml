@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.ProvinceMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Province" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Code" property="code" jdbcType="VARCHAR" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="BigArea" property="bigarea" jdbcType="INTEGER"/>
+  </resultMap>
+  <resultMap type="com.yinlian.pc.dto.ProvinceDto" id="BaseResultBigMap">
+  	<result column="name" property="name" jdbcType="VARCHAR"/>
+	<collection property="prolist" select="selectBigProAll" column="name" ofType="com.yinlian.wssc.web.po.Province" >
+	 <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Code" property="code" jdbcType="VARCHAR" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="BigArea" property="bigarea" jdbcType="INTEGER"/>
+	</collection>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, Code, Name
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.ProvinceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from province
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from province
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+   <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from province
+    where Name =#{name} limit 1
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from province
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.ProvinceExample" >
+    delete from province
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Province" >
+    insert into province (ID, Code, Name
+      )
+    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Province" >
+    insert into province
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="code != null" >
+        Code,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.ProvinceExample" resultType="java.lang.Integer" >
+    select count(*) from province
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update province
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.code != null" >
+        Code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        Name = #{record.name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update province
+    set ID = #{record.id,jdbcType=INTEGER},
+      Code = #{record.code,jdbcType=VARCHAR},
+      Name = #{record.name,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Province" >
+    update province
+    <set >
+      <if test="code != null" >
+        Code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Province" >
+    update province
+    set Code = #{code,jdbcType=VARCHAR},
+      Name = #{name,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  <select id="selectNameByCode" parameterType="java.lang.String" resultType="java.lang.String">
+  SELECT 
+   Name
+   FROM province WHERE CODE = #{code}
+  </select>
+  
+  <select id="selectBigAll" resultType="com.yinlian.pc.dto.TopicBig">
+  	SELECT BigArea as name FROM province GROUP BY BigArea
+  </select>
+  
+  <select id="selectProBigAll" resultMap="BaseResultBigMap">
+  	SELECT p.BigArea as name  FROM province p GROUP BY p.BigArea
+  </select>
+  <select id="selectBigProAll" resultType="com.yinlian.wssc.web.po.Province" parameterType="java.lang.String">
+  	SELECT  <include refid="Base_Column_List" />  FROM province p  where p.BigArea=#{0}
+  </select>
+  
+   <resultMap id="proviceResultMap" type="com.yinlian.api.app.dto.Api_ProvinceDto">        
+         <id property="pid" column="pid" />
+        <result property="pname" column="pname" />
+        <result property="pcode" column="pcode" />
+                
+        <collection property="citys"  ofType="com.yinlian.api.app.dto.Api_CityDto"> 
+        	 <id property="cid" column="cid" />
+             <result property="cname" column="cname" />
+             <result property="ccode" column="ccode" />   
+                  
+             <collection property="areas" ofType="com.yinlian.api.app.dto.Api_AreaDto" >
+        	   <id property="aid" column="aid" />
+		        <result property="aname" column="aname" />
+		        <result property="acode" column="acode" />
+             </collection>
+        </collection>  
+    </resultMap>
+    
+
+    <select id="getplaces"  resultMap="proviceResultMap">
+       select p.id as pid,p.Name as pname,p.code as pcode,
+       c.id as cid,c.name as cname,c.code as ccode, 
+       a.id as aid, a.name as aname,a.code as acode
+       from province p left join city c on p.code=c.ProvinceCode
+       left join area a on c.code=a.citycode       
+    </select>
+</mapper>

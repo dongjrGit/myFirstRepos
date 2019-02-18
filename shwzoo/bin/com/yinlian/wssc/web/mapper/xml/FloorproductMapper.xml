@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.FloorproductMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Floorproduct" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="FloorID" property="floorid" jdbcType="INTEGER" />
+    <result column="ProID" property="proid" jdbcType="INTEGER" />
+    <result column="ProType" property="protype" jdbcType="INTEGER" />
+    <result column="Img" property="img" jdbcType="VARCHAR" />
+    <result column="Display" property="display" jdbcType="INTEGER" />
+    <result column="OrderBy" property="orderby" jdbcType="INTEGER" />
+    <result column="Description" property="description" jdbcType="VARCHAR" />
+    <result column="Status" property="status" jdbcType="INTEGER" />
+    <result column="Url" property="url" jdbcType="VARCHAR" />
+    <result column="ProName" property="proname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, FloorID, ProID, ProType, Img, Display, OrderBy, Description, Status, Url, ProName
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.FloorproductExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from floorproduct
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from floorproduct
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from floorproduct
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.FloorproductExample" >
+    delete from floorproduct
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Floorproduct" >
+    insert into floorproduct (ID, FloorID, ProID, 
+      ProType, Img, Display, 
+      OrderBy, Description, Status, 
+      Url, ProName)
+    values (#{id,jdbcType=INTEGER}, #{floorid,jdbcType=INTEGER}, #{proid,jdbcType=INTEGER}, 
+      #{protype,jdbcType=INTEGER}, #{img,jdbcType=VARCHAR}, #{display,jdbcType=INTEGER}, 
+      #{orderby,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{url,jdbcType=VARCHAR}, #{proname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Floorproduct" >
+    insert into floorproduct
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="floorid != null" >
+        FloorID,
+      </if>
+      <if test="proid != null" >
+        ProID,
+      </if>
+      <if test="protype != null" >
+        ProType,
+      </if>
+      <if test="img != null" >
+        Img,
+      </if>
+      <if test="display != null" >
+        Display,
+      </if>
+      <if test="orderby != null" >
+        OrderBy,
+      </if>
+      <if test="description != null" >
+        Description,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+      <if test="url != null" >
+        Url,
+      </if>
+      <if test="proname != null" >
+        ProName,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="floorid != null" >
+        #{floorid,jdbcType=INTEGER},
+      </if>
+      <if test="proid != null" >
+        #{proid,jdbcType=INTEGER},
+      </if>
+      <if test="protype != null" >
+        #{protype,jdbcType=INTEGER},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="display != null" >
+        #{display,jdbcType=INTEGER},
+      </if>
+      <if test="orderby != null" >
+        #{orderby,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="proname != null" >
+        #{proname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.FloorproductExample" resultType="java.lang.Integer" >
+    select count(*) from floorproduct
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update floorproduct
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.floorid != null" >
+        FloorID = #{record.floorid,jdbcType=INTEGER},
+      </if>
+      <if test="record.proid != null" >
+        ProID = #{record.proid,jdbcType=INTEGER},
+      </if>
+      <if test="record.protype != null" >
+        ProType = #{record.protype,jdbcType=INTEGER},
+      </if>
+      <if test="record.img != null" >
+        Img = #{record.img,jdbcType=VARCHAR},
+      </if>
+      <if test="record.display != null" >
+        Display = #{record.display,jdbcType=INTEGER},
+      </if>
+      <if test="record.orderby != null" >
+        OrderBy = #{record.orderby,jdbcType=INTEGER},
+      </if>
+      <if test="record.description != null" >
+        Description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        Status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.url != null" >
+        Url = #{record.url,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proname != null" >
+        ProName = #{record.proname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update floorproduct
+    set ID = #{record.id,jdbcType=INTEGER},
+      FloorID = #{record.floorid,jdbcType=INTEGER},
+      ProID = #{record.proid,jdbcType=INTEGER},
+      ProType = #{record.protype,jdbcType=INTEGER},
+      Img = #{record.img,jdbcType=VARCHAR},
+      Display = #{record.display,jdbcType=INTEGER},
+      OrderBy = #{record.orderby,jdbcType=INTEGER},
+      Description = #{record.description,jdbcType=VARCHAR},
+      Status = #{record.status,jdbcType=INTEGER},
+      Url = #{record.url,jdbcType=VARCHAR},
+      ProName = #{record.proname,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Floorproduct" >
+    update floorproduct
+    <set >
+      <if test="floorid != null" >
+        FloorID = #{floorid,jdbcType=INTEGER},
+      </if>
+      <if test="proid != null" >
+        ProID = #{proid,jdbcType=INTEGER},
+      </if>
+      <if test="protype != null" >
+        ProType = #{protype,jdbcType=INTEGER},
+      </if>
+      <if test="img != null" >
+        Img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="display != null" >
+        Display = #{display,jdbcType=INTEGER},
+      </if>
+      <if test="orderby != null" >
+        OrderBy = #{orderby,jdbcType=INTEGER},
+      </if>
+      <if test="description != null" >
+        Description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="url != null" >
+        Url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="proname != null" >
+        ProName = #{proname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Floorproduct" >
+    update floorproduct
+    set FloorID = #{floorid,jdbcType=INTEGER},
+      ProID = #{proid,jdbcType=INTEGER},
+      ProType = #{protype,jdbcType=INTEGER},
+      Img = #{img,jdbcType=VARCHAR},
+      Display = #{display,jdbcType=INTEGER},
+      OrderBy = #{orderby,jdbcType=INTEGER},
+      Description = #{description,jdbcType=VARCHAR},
+      Status = #{status,jdbcType=INTEGER},
+      Url = #{url,jdbcType=VARCHAR},
+      ProName = #{proname,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <delete id="deleteByFloorId" parameterType="java.lang.Integer" >
+    delete from floorproduct
+    where FloorID = #{floorid,jdbcType=INTEGER}
+  </delete>
+  
+   <!-- 以下是自定义的 接口 分页查询 -->
+   <sql id="criteria_query">
+   <where>
+     <if test="criteria.fid != null and criteria.fid != '' ">
+     and FloorID = #{criteria.fid}
+     </if>
+   <!--   <if test="criteria.display != null and criteria.display >0 ">
+     and Display = #{criteria.display}
+     </if> -->
+     <if test="criteria.type != null and criteria.type >=0 ">
+     and ProType = #{criteria.type}
+     </if>
+     </where> 
+  </sql>  
+   <select id="selectFloorByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" resultType="com.yinlian.wssc.web.po.Floorproduct">
+     select 
+    <include refid="Base_Column_List" />
+    from floorproduct
+     <if test="criteria != null ">
+     <include refid="criteria_query"/> 
+     </if>
+     <if test="criteria.orderByClause != null and criteria.orderByClause != '' " >
+      order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序     此处只能使用${} 而不能使用#{} 会设置参数失败 -->
+    </if>
+  </select> 
+</mapper>

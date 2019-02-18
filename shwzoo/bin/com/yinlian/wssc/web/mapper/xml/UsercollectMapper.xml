@@ -1,0 +1,462 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yinlian.wssc.web.mapper.UsercollectMapper" >
+  <resultMap id="BaseResultMap" type="com.yinlian.wssc.web.po.Usercollect" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="UserID" property="userid" jdbcType="INTEGER" />
+    <result column="Type" property="type" jdbcType="INTEGER" />
+    <result column="ShopID" property="shopid" jdbcType="INTEGER" />
+    <result column="SPUID" property="spuid" jdbcType="INTEGER" />
+    <result column="VaildFlag" property="vaildflag" jdbcType="INTEGER" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="DelTime" property="deltime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, UserID, Type, ShopID, SPUID, VaildFlag, CreateTime, DelTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yinlian.wssc.web.po.UsercollectExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from usercollect
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from usercollect
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from usercollect
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  
+ <!-- 
+  <delete id="delShop">
+  	delete from usercollect
+  	where UserID=#{0} and ShopID=#{1}
+  </delete> -->
+  
+  <update id="delShop" >
+    update usercollect
+    set 
+      VaildFlag = 1,
+      DelTime = #{2}
+    where  ShopID = #{1}
+    and UserID = #{0}   
+  </update>
+  
+  <update id="delCollectShops"  parameterType="Map" >
+    update usercollect
+    set 
+      VaildFlag = 1,
+      DelTime = #{delTime,jdbcType=TIMESTAMP}
+    where  ShopID in
+    <foreach collection="shopids" index="index" item="ids" open="(" separator="," close=")">
+      #{ids}
+    </foreach>     
+     and UserID = #{userid,jdbcType=INTEGER}    
+  </update>
+    <update id="delSpu"  >
+    update usercollect
+    set 
+      VaildFlag = 1,
+      DelTime = #{2}
+    where  SPUID = #{1}
+    and UserID = #{0}   
+  </update>
+ 
+  <update id="delCollectSpus" parameterType="Map" >
+     update usercollect
+     set 
+       VaildFlag = 1,
+       DelTime = #{delTime,jdbcType=TIMESTAMP} 
+     where  SPUID in
+     <foreach collection="spuids" index="index" item="ids" open="(" separator="," close=")">
+      #{ids}
+    </foreach>     
+     and UserID = #{userid,jdbcType=INTEGER}  
+   </update>
+ 
+ <!--  
+   <delete id="delSpu">
+  	delete from usercollect
+  	where UserID=#{0} and SPUID=#{1}	
+  </delete> -->
+  
+  <select id="selectShop" resultMap="BaseResultMap" >
+   select  
+    <include refid="Base_Column_List" />
+    from usercollect
+    where ShopID=#{1} and UserID=#{0} and VaildFlag=0
+  </select>
+  
+  <select id="selectSpu" resultMap="BaseResultMap" >
+   select  
+    <include refid="Base_Column_List" />
+    from usercollect
+    where SPUID=#{1} and UserID=#{0} and VaildFlag=0
+  </select>
+  
+  <sql id="getcollectpage">
+   <where>
+    <if test="criteria.userid != null and criteria.userid >0 ">
+     and UserID=${criteria.userid}
+     </if>
+    <if test="criteria.type != null and criteria.type >=0 ">
+     and Type=${criteria.type}
+     </if>     
+     and VaildFlag=0
+     </where> 
+  </sql> 
+   <select id="selectPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" resultMap="BaseResultMap" >
+    select  
+    <include refid="Base_Column_List" />
+    from usercollect 
+    <if test="criteria != null "> 
+     <include refid="getcollectpage"/> 
+    </if>   
+    <if test="criteria.orderByClause != null and criteria.orderByClause != '' " >
+      order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序     此处只能使用${} 而不能使用#{} 会设置参数失败 -->
+    </if>
+   
+  </select>	
+  <select id="select" resultMap="BaseResultMap" >
+   select  
+    <include refid="Base_Column_List" />
+    from usercollect
+    where Type=#{1} and UserID=#{0} and VaildFlag=0 order by CreateTime desc
+  </select>	
+  
+  <delete id="deleteByExample" parameterType="com.yinlian.wssc.web.po.UsercollectExample" >
+    delete from usercollect
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yinlian.wssc.web.po.Usercollect" >
+    insert into usercollect (ID, UserID, Type, 
+      ShopID, SPUID, VaildFlag, 
+      CreateTime, DelTime)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, 
+      #{shopid,jdbcType=INTEGER}, #{spuid,jdbcType=INTEGER}, #{vaildflag,jdbcType=INTEGER}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{deltime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yinlian.wssc.web.po.Usercollect" >
+    insert into usercollect
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userid != null" >
+        UserID,
+      </if>
+      <if test="type != null" >
+        Type,
+      </if>
+      <if test="shopid != null" >
+        ShopID,
+      </if>
+      <if test="spuid != null" >
+        SPUID,
+      </if>
+      <if test="vaildflag != null" >
+        VaildFlag,
+      </if>
+      <if test="createtime != null" >
+        CreateTime,
+      </if>
+      <if test="deltime != null" >
+        DelTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="shopid != null" >
+        #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="spuid != null" >
+        #{spuid,jdbcType=INTEGER},
+      </if>
+      <if test="vaildflag != null" >
+        #{vaildflag,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deltime != null" >
+        #{deltime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yinlian.wssc.web.po.UsercollectExample" resultType="java.lang.Integer" >
+    select count(*) from usercollect
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update usercollect
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.userid != null" >
+        UserID = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        Type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.shopid != null" >
+        ShopID = #{record.shopid,jdbcType=INTEGER},
+      </if>
+      <if test="record.spuid != null" >
+        SPUID = #{record.spuid,jdbcType=INTEGER},
+      </if>
+      <if test="record.vaildflag != null" >
+        VaildFlag = #{record.vaildflag,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deltime != null" >
+        DelTime = #{record.deltime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update usercollect
+    set ID = #{record.id,jdbcType=INTEGER},
+      UserID = #{record.userid,jdbcType=INTEGER},
+      Type = #{record.type,jdbcType=INTEGER},
+      ShopID = #{record.shopid,jdbcType=INTEGER},
+      SPUID = #{record.spuid,jdbcType=INTEGER},
+      VaildFlag = #{record.vaildflag,jdbcType=INTEGER},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      DelTime = #{record.deltime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yinlian.wssc.web.po.Usercollect" >
+    update usercollect
+    <set >
+      <if test="userid != null" >
+        UserID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        Type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="shopid != null" >
+        ShopID = #{shopid,jdbcType=INTEGER},
+      </if>
+      <if test="spuid != null" >
+        SPUID = #{spuid,jdbcType=INTEGER},
+      </if>
+      <if test="vaildflag != null" >
+        VaildFlag = #{vaildflag,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deltime != null" >
+        DelTime = #{deltime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yinlian.wssc.web.po.Usercollect" >
+    update usercollect
+    set UserID = #{userid,jdbcType=INTEGER},
+      Type = #{type,jdbcType=INTEGER},
+      ShopID = #{shopid,jdbcType=INTEGER},
+      SPUID = #{spuid,jdbcType=INTEGER},
+      VaildFlag = #{vaildflag,jdbcType=INTEGER},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      DelTime = #{deltime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <!-- 以下是自定义的 接口 分页查询 -->
+   <sql id="criteria_query">
+   <where>
+    <if test="criteria.title != null and criteria.title != '' ">
+     and (p.name like '%${criteria.title}%' or s.name like '%${criteria.title}%')
+     </if>
+    
+     and c.type = 0
+     and c.vaildflag=0
+     </where> 
+  </sql>  
+   <select id="selectMemberCollectByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" resultType="com.yinlian.wssc.web.dto.CollectInfo">
+	SELECT c.id id ,c.type TYPE,c.createtime createtime,u.username username,p.name spuname,s.name shopnamespu,p.pronum pronum,p.imgurl_app spuimgurl,p.title title 
+	FROM usercollect c LEFT JOIN users u ON c.userid = u.id LEFT JOIN spu p ON c.spuid = p.id LEFT JOIN shop s ON p.shopid = s.id
+     <if test="criteria != null "> 
+     <include refid="criteria_query"/> 
+     </if>
+     <if test="criteria.orderByClause != null and criteria.orderByClause != '' " >
+      order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序     此处只能使用${} 而不能使用#{} 会设置参数失败 -->
+    </if>
+  </select> 
+  <!-- 以下是自定义的 接口 分页查询 -->
+   <sql id="criteria_query_shop">
+   <where>
+    <if test="criteria.username != null and criteria.username != '' ">
+     and u.username = #{criteria.username}
+     </if>
+     <if test="criteria.shopname != null and criteria.shopname  != '' ">
+     and s.name = #{criteria.shopname }
+     </if>
+     and c.type = 1
+     and c.vaildflag=0
+     </where> 
+  </sql>  
+   <select id="selectMemberCollectShopByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" resultType="com.yinlian.wssc.web.dto.CollectInfo">
+	    SELECT c.id id,u.username username,s.name shopname,c.createtime createtime 
+		FROM usercollect c LEFT JOIN users u ON c.userid = u.id LEFT JOIN shop s ON c.shopid = s.id 
+     <if test="criteria != null ">
+     <include refid="criteria_query_shop"/> 
+     </if>
+     <if test="criteria.orderByClause != null and criteria.orderByClause != '' " >
+      order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序     此处只能使用${} 而不能使用#{} 会设置参数失败 -->
+    </if>
+  </select> 
+  <select id="getCountByShopId"  resultType="java.lang.Integer">
+  SELECT COUNT(1) from usercollect where ShopID=#{0} and VaildFlag =0
+  </select>
+  <select id="getConcernSkuByUser" resultType="com.yinlian.pc.dto.ConcernSpuDto"
+		parameterType="java.lang.Integer">
+		SELECT u.id,u.spuid,u.createtime AS addtime,s.name,
+		s.imgurl AS img,s.price,s.commentcount
+		FROM usercollect u JOIN spu s ON u.spuid=s.id
+		WHERE u.vaildflag=0 AND s.IsDel=0
+		AND u.userid=#{0}
+		ORDER BY u.createtime desc
+	</select>
+	 <delete id="deletespuByuserid" parameterType="java.lang.Integer" >
+    delete from usercollect
+    where UserID = #{userid,jdbcType=INTEGER} and ShopID != null
+  </delete>
+  <delete id="deleteshopByuserid" parameterType="java.lang.Integer" >
+    delete from usercollect
+    where UserID = #{userid,jdbcType=INTEGER} and SPUID != null
+  </delete>
+  
+  
+  
+    <sql id="criteriaCollect">
+		  <where>
+		   <if test="criteria.userid != null and criteria.userid != '' ">
+		    and c.UserID = #{criteria.userid}
+		    </if>
+		    <if test="criteria.type != null and criteria.type  >= 0 ">
+		    and c.Type = #{criteria.type }
+		    </if>
+		    and c.vaildflag=0
+		    </where> 
+  </sql>  
+  
+  
+   <select id="selectSpuCollectByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" resultType="com.yinlian.pc.dto.PcSpuCollectDto">
+	   select s.name as name,s.id as sid,s.imgurl_app as img,s.shopid as shopid,s.price as price,c.id as uid,k.id as skuid
+	   from usercollect c left join spu s on c.SPUID=s.id left join sku k on s.id=k.spu_id
+     <if test="criteria != null ">
+     <include refid="criteriaCollect"/> 
+     </if>
+     group by c.id
+     <if test="criteria.orderByClause != null and criteria.orderByClause != '' " >
+      order by  c.${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序     此处只能使用${} 而不能使用#{} 会设置参数失败 -->
+      
+    </if>
+  </select> 
+  
+   <select id="selectShopCollectByPage" parameterType="com.yinlian.wssc.web.util.PageBeanUtil" resultType="com.yinlian.pc.dto.PcShopCollectDto">
+	   select s.id as sid, s.name as name, s.ImgUrl as imgrul,c.id as cid,c.CreateTime as createtime
+	   from usercollect c left join shop s on c.ShopID=s.id
+     <if test="criteria != null ">
+     <include refid="criteriaCollect"/> 
+     </if>
+      group by c.id
+     <if test="criteria.orderByClause != null and criteria.orderByClause != '' " >
+      order by ${criteria.orderByClause} ${criteria.sort}  <!-- 排序不为空 就排序     此处只能使用${} 而不能使用#{} 会设置参数失败 -->
+     
+    </if>
+  </select> 
+</mapper>

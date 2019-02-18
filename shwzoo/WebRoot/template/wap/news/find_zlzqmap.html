@@ -1,0 +1,35 @@
+
+<head>
+<meta charset="utf-8">
+
+<title>发现</title>
+<link rel="stylesheet" href="/resource/wap/css/greenLife.css" />
+<script type="text/javascript" src="/resource/wap/js/greenLife.js" ></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=TmamoCoQBaTICzOV6IelR2EiiGG42ddk"></script>
+<script src="/resource/public/commonjs/ECharts/echarts-all.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/wkh/common-util.js"></script>
+</head>
+<body>
+<!--septop begin-->
+<div class="septop rowreturn fixed">
+	<span class="bigsize">地图</span>
+	<div id="rowreturn"></div>
+</div>
+	<div id="main" style="height:400px;"></div>
+	<div id="allmap" style="height:800px;display:none;"></div>
+<script>
+var ismapinfo=false;
+$(function(){
+	fixed('.septop');
+	$("#rowreturn").click(function(){
+		if(ismapinfo){
+			window.location.href="/wap/find/findzlzqmap.html";
+		}else{
+			window.location.href="/wap/find/findzlzq.html";
+		}
+	})
+})
+</script>
+<script src="/resource/wap/js/zlzx/wapzlzqmap.js"></script>
+
+</body>

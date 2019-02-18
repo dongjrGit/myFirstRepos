@@ -1,0 +1,36 @@
+<%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>我的收藏</title>
+<script src="${path}/wap/js/concern/Concern.js"></script>
+<script type="text/javascript" src="${path}/wap/js/login.js"></script>
+</head>
+<body>
+<div class="top_title fix">
+         <a  href="/wap/userinfo/homepage?ch=3">
+		<div class="top_return">
+			<img src="${path}/wap/images/top_return.png"/>
+		</div>
+		</a>
+		我的收藏
+	</div>
+<nav class="guanzhu-nav"><a class="current">商品</a><a href="/wap/concern/selectCollect?type=1&&ch=3">商家</a></nav>
+<%if(has(spu)){%>
+<hr class="back">
+<!-- 收藏的商品 -->
+<ul class="guanzhu-kuai" id="spu">
+<%for(spus in spu){%>
+<li>
+    	<a href="/wap/products/ProDetail.html?spuid=${spus.id}&href=/wap/concern/selectCollect?type=0">
+        	<img src="${spus.imgurlApp}" class="L">
+            <h2>${spus.name}</h2>
+            <p></p>
+            <span>￥ ${spus.wapprice}</span>
+        </a>
+    </li>
+<%}%>
+</ul>
+<%}else{%>
+<div>您还没有收藏商品哦</div>
+<%}%>
+</body>

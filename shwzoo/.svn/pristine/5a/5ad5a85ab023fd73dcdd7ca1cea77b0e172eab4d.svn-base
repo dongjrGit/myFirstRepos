@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Expires" content="-1">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<title>发现</title>
+<link rel="stylesheet" href="/resource/app/css/greenLife.css" />
+<script type="text/javascript" src="/resource/jquery-1.9.1.min.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/greenLife.js" ></script>
+
+<script type="text/javascript" src="/resource/GetQueryString.js"></script>
+</head>
+<body>
+<!--septop begin-->
+<div class="septop rowreturn fixed">
+	<div class="bigsize">
+		${mark==1?'用户协议':''}
+		${mark==2?'APP介绍':''}
+		 </div>
+	<div id="rowreturn" onclick="javascirpt:location.href='url:///back'"></div>
+</div>
+<div class="sep-article fix">
+	<h3>${newslist.title}</h3>
+	<div class="sep-articletime">${newslist.createtime,dateFormat="yyyy-MM-dd mm:ss:hh"}</div>
+	${newslist.content}
+	</div>
+<script>
+$(function(){
+	var mark=${mark};
+	if(mark==1||mark==2){
+		fixed('.septop');
+	}	
+})
+</script>
+</body>
+</html>

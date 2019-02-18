@@ -1,0 +1,121 @@
+﻿ <%var path="/resource";%>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>关注商品</title>
+<link type="text/css" rel="stylesheet"
+	href="${path}/pc/member/css/common.css" />
+<link type="text/css" rel="stylesheet"
+	href="${path}/pc/member/css/style01.css" />
+<link type="text/css" rel="stylesheet" href="${path}/ui-dialog.css" />
+<link type="text/css" rel="stylesheet"
+	href="${path}/pc/member/css/top-footer.css" />
+<link type="text/css" rel="stylesheet"
+	href="${path}/pc/member/css/pager2.css" />
+<link type="text/css" rel="stylesheet"
+	href="${path}/pc/member/css/jQuery.Validate.css" />
+<link href="${path}/pc/member/css/default.css" rel="stylesheet" />
+<script src="${path}/pc/member/js/OrderCenter/OrderList.js"></script>
+<script src="${path}/pc/member/js/browsehistory/browsehistory.js"></script>
+<script src="${path}/pc/member/js/jquery-1.8.2.min.js"></script>
+<script src="${path}/pc/member/js/index.js"></script>
+<script src="${path}/pc/member/js/jquery.validate.js"></script>
+<script src="${path}/pc/member/js/pager2.js"></script>
+<script src="${path}/pc/member/js/showdate.js"></script>
+<script src="${path}/artTemplate.js"></script>
+<script src="${path}/dialog-plus.js"></script>
+<script src="${path}/dialogShow.js"></script>
+<script src="${path}/jQueryRotate.2.2.js"></script>
+<script src="/resource/pc/web/js/login/login.js"></script>
+ <script src="/resource/pc/web/js/shopcart/addcart.js"></script>
+<script src="/resource/pc/member/js/Concern/ConcernList.js"></script>
+
+<script type="text/javascript">
+$("a[name='cancel']").click(function (){
+	if($(".spuconcern").checked){
+		var id = $(this).attr("value");
+		del(id);
+	}else{
+		alert("请勾选要取消的商品");
+	}
+	$(".ckall").click(function(){
+		$(".spuconcern").checked=checked;
+		delList();
+		})
+}
+</script>
+</head>
+<body>
+<div id="main">
+    <!--main-left 左边内容  开始 -->
+    <% include("/template/pc/memberCenter/Shared/_PartialLeftside.html",{}){}%> 
+    <!--main-left 左边内容  结束 -->
+    <!--rightside 右边内容  结束 -->
+    <div class="rightside">
+        <!--l_gzdp  begin -->
+        <div class="l_gzdp fix">
+            <h3><a href="javascript:;" class="active">关注的商品</a><a href="/member/pcconcern/selectShopcollect.html">关注的店铺</a><a href="/member/pcconcern/cpsc.html" >菜谱收藏</a></h3>
+           <!--l_flsx  stop -->
+            <div class="l_flsx fix">
+                <span>全部商品<i></i>：</span>
+              
+            </div><!--l_flsx  stop -->
+            <!--l_spsscon  begin -->
+           
+            <!--l_spsscon  stop -->
+        </div>
+        <!--l_gzdp   stop -->
+        <!--wdys下面所有内容开始 -->
+        <div class="wdys">
+            <div class="l_qxgztop fix" style="border-bottom:none;">
+                <span><input name="ckall" type="checkbox" value="" class="ckall">全选</span>
+                <span class="shenlan"><a href="javascript:void(0)" class="cancelall_spu" name="cancel" >取消关注</a></span>
+                <div class="l_qxgzright" style="display:none">
+                    <span><span class="red">1</span>/ 2</span>
+                    <span class="l_syy"><i></i></span>
+                    <span class="l_xyy">下一页</span>
+                </div><!--l_qxgzright  stop -->
+            </div><!--l_qxgztop  stop -->
+            <!--l_gzdsp  begin -->
+            
+            <div class="l_gzdsp fix">
+              
+                <ul id="proConList">
+                    <script type="text/html" id="concernlist">
+                        {{each list as con i}}
+                        <li>
+                            <div class="l_gzdspimg">
+                                <a href="/web/products/proinfo.html?spuid={{con.sid}}" target="_blank"><img src="{{con.img}}"></a>
+                                <div class="l_gzspbot">
+                                    <a href="javascript:;" data_sid="{{con.shopid}}" data_spuid="{{con.sid}}" data_skuid="{{con.skuid}}" class="conaddcar">加入购物车</a>
+                                    <a href="/web/shop/details.html?shopId={{con.shopid}}" class="l_frig">商铺</a>
+                                </div>
+                                <div class="l_gzspdel"><i class="delsc"><input type="hidden" value="{{con.sid}}" /></i></div>
+                            </div><!--l_gzdspimg  stop -->
+                            <div class="l_gzdsp01"><input name="spuconcern" type="checkbox" value="{{con.sid}}"><span class="shenlan"><a href="javascript:;">{{con.name}}</a></span></div>
+                            <div class="l_gzdsp02">￥{{con.price | toFixed}}</div>
+                        
+                        </li>
+                        {{/each}}
+                    </script>
+                </ul>
+            </div>
+            <!--l_gzdsp  stop -->
+            <div class="l_qxgztop fix" style="border-bottom:none;">
+                <span><input name="ckall" type="checkbox" value="" class="ckall">全选</span>
+                <span class="shenlan"><a href="javascript:void(0)" class="cancelall_spu" name="cancel">取消关注</a></span>
+            </div><!--l_qxgztop  stop -->
+
+            <div class="pager" id="pager">
+
+            </div>
+            <!--wdys下面所有内容结束 -->
+
+        </div>
+        </div>
+        <!--l_like 猜你喜欢 开始 -->
+       <% include("/template/pc/memberCenter/Common_M/M_GuessYouLike.html",{}){}%>
+        <!--l_like 猜你喜欢 结束 -->
+    <!--rightside 右边内容  结束 -->
+    <div class="clear"></div>
+</div>
+</body>

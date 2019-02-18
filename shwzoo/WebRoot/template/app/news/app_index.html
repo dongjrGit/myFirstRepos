@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta http-equiv="Content-Type" content="text/html">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="Expires" content="-1">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<title>中绿味道</title>
+<link rel="stylesheet" href="/resource/ui-dialog.css" />
+<link rel="stylesheet" href="/resource/app/css/greenLife.css" />
+<script type="text/javascript" src="/resource/jquery-1.9.1.min.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/Yeffect16_0118.min.js" ></script>
+<script type="text/javascript" src="/resource/wap/js/greenLife.js" ></script>
+
+<script type="text/javascript" src="/resource/GetQueryString.js"></script>
+<script type="text/javascript">
+
+</script>
+<%if(ch==2){%>
+<style>
+.septop {padding-top: 18px;}
+.septop.rowreturn.bjwhite{background: #fff url(/resource/app/images/rowreturn_heise.png) no-repeat 3% 0.6rem;background-size: 0.17rem auto;}
+</style>
+<%}%>
+</head>
+<body>
+<!--septop begin-->
+<div class="septop rowreturn bjwhite fixed">
+	<div class="bigsize">中绿味道</div>
+	<div id="rowreturn" onclick="javascirpt:location.href='url:///back'" ></div>
+</div>
+<!--septop stop-->
+<!--banner-->
+<div class="fx-banner">
+	<ul>
+		<% var imgcon=0;
+		if(isNotEmpty(ads)){
+			for(ad in ads){
+				imgcon++;
+	    %>
+  	    <li><a href="${ad.url}"><img src="${ad.imgurl}"></a></li>   
+        <%}}%>
+  </ul>
+	<p>
+		<%if(imgcon>0){for(var i=0;i<imgcon;i++){%>
+		<i></i>
+	    <%}}%>
+	</p>
+</div>
+<script>
+$(function(){
+	/////banner	
+	Yeffect.mobileBanner(".fx-banner ul",".fx-banner ul li",".fx-banner p i","","","current",5000);
+	var fx_banner=$(".fx-banner");
+	Yeffect.resizeHtW(fx_banner,fx_banner,640,248);
+})
+</script>
+<!--banner***-->
+<hr class="back" />
+<div class="zlnewtitle">
+	<img src="/resource/wap/images/zlnewico1.png"/>
+	<b>专家讲堂</b>
+	<a href="/wap/zlwd/appzjjt.html?ch=${ch}"><span>更多</span></a>
+</div>
+<ul class="zlnew-zjjt fix">
+	<% 
+		if(isNotEmpty(zjjt)){
+			for(zj in zjjt){				
+	%>
+  	    <li>
+		<div><a href="/wap/app/newsdetail.html?id=${zj.id}&mark=4&ch=${ch}"><img src="${zj.imgurl}"/><i></i></a></div>
+		<p><a href="/wap/app/newsdetail.html?id=${zj.id}&mark=4&ch=${ch}">${zj.title}</a></p>
+	    </li>
+   <%}}%>
+	
+</ul>
+<hr class="back" />
+<div class="zlnewtitle">
+	<img src="/resource/wap/images/zlnewico2.png"/>
+	<b>菜谱大全</b>
+	<a href="/wap/zlwd/appcpdqList.html?ch=${ch}"><span>更多</span></a>
+</div>
+<ul class="zlnew-cpdq fix">
+	<% 
+		if(isNotEmpty(cpdq)){
+			for(cp in cpdq){				
+	%>
+	<li><a href="/wap/app/newsdetail.html?id=${cp.id}&mark=5&ch=${ch}"><img src="${cp.imgurl}"/><div><p>${cp.title}</p></div></a></li>  	    
+   <%}}%>
+</ul>
+<hr class="back" />
+<div class="zlnewtitle">
+	<img src="/resource/wap/images/zlnewico3.png"/>
+	<b>厨房百科</b>
+	<a href="/wap/zlwd/appcfbk.html?ch=${ch}"><span>更多</span></a>
+</div>
+<ul class="zlnew-zjjt fix zlnewcfbk">
+	<% 
+		if(isNotEmpty(cfbk)){
+			for(cf in cfbk){				
+	%>
+	<li>
+		<div><a href="/wap/app/newsdetail.html?id=${cf.id}&mark=6&ch=${ch}"><img src="${cf.imgurl}"/></a></div>
+		<h3><a href="/wap/app/newsdetail.html?id=${cf.id}&mark=6&ch=${ch}">${cf.title}</a></h3>
+		<p><a href="javascript:void(0)">${cf.subtitle}</a></p>
+	</li> 	    
+   <%}}%>
+	
+	
+</ul>
+<a href="javascript:window.scrollTo( 0, 0 );"><img src="/resource/wap/images/index_42.png" class="qianggou-scrollTop"></a>
+<script>
+$(function(){
+	fixed('.septop');
+	Yeffect.resizeHtWstr(".zlnew-zjjt li div:visible",".zlnew-zjjt li div img",296,220);
+	Yeffect.resizeHtWstr(".zlnew-cpdq li:visible",".zlnew-cpdq li img",296,221);	
+})
+</script>
+</body>
+</html>

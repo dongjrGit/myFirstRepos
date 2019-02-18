@@ -1,0 +1,129 @@
+﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<head>
+<title>绑定邮箱</title>
+<link href="/resource/artDialog/skins/default.css" rel="stylesheet" />
+<link type="text/css" rel="stylesheet" href="/resource/pc/web/css/style01.css" />
+<link type="text/css" rel="stylesheet" href="/resource/ui-dialog.css" />
+ <link href="/resource/pc/member/css/pager2.css" rel="stylesheet" />
+    
+<link href="/resource/public/commoncss/jQuery.Validate.css" rel="stylesheet" />
+ <script src="/resource/pc/member/js/Concern/syconcernlist.js"></script>
+<script src="/resource/pc/web/js/browsehistory/browsehistory.js"></script>
+<script src="/resource/pc/web/js/index.js"></script>
+<script src="/resource/pc/member/js/pager2.js"></script>
+<script src="/resource/pc/member/js/showdate.js"></script>
+ <script src="/resource/artTemplate.js"></script>
+ <script src="/resource/dialog-plus.js"></script>
+ <script src="/resource/dialogShow.js"></script>
+<script src="/resource/jQueryRotate.2.2.js"></script>
+ <script src="/resource/Guid.js"></script>
+<script src="/resource/GetQueryString.js"></script>
+<script src="/resource/My97DatePicker/WdatePicker.js"></script>
+
+<script type="text/javascript" src="/resource/public/commonjs/Birthday-picker.js"></script>
+<script type="text/javascript" src="/resource/pc/commonjs/style.js"></script>
+
+<script src="/resource/public/commonjs/jquery.validate.js"></script>
+<script src="/resource/public/commonjs/messages_cn.js"></script>
+<script src="/resource/public/commonjs/jquery.validate-methods.js"></script>
+<script src="/resource/pc/commonjs/style.js"></script>
+
+<script src="/resource/public/commonjs/public-user.js"></script>
+<script src="/resource/pc/member/js/zhsz/ChangeEmail.js"></script>
+<!--main  主要内容  开始 -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        //初始化
+        Init.bind();
+    });
+</script>
+</head>
+<body>
+<div id="main" class="fix">
+    <!--main-left 左边内容  开始 -->
+   <% include("/template/pc/memberCenter/zhsz/_PartialLeftside.html",{}){}%> 
+    <!--main-left 左边内容  结束 -->
+    <!--rightside 右边内容  结束 -->
+    <div class="rightside">
+        <div class="zhaq fix">
+            <div class="wddd-title">修改邮箱</div>
+            <div class="xgmm-con">
+                 <%switch (setup)
+                {
+                    case 1:%>
+                        <div class="l_xgmmtop fix">
+                            <ul>
+                                <li class="active">验证邮箱<span>1</span></li>
+                                <li>完成<span>2</span></li>
+                            </ul>
+                        </div>
+                        <div class="xgmm-maincon">
+                            <form id="emailForm">
+                                <table>
+                                    <tr>
+                                        <td class="xgmm-tableft">新邮箱：</td>
+                                        <td>
+                                            <input id="text_email" name="text_email" type="text" class="inp-big">
+                                            <input type="hidden" id="hidden_mail" value="" />
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="xgmm-tableft">请填写邮箱效验码：</td>
+                                        <td>
+                                            <input name="text_emailcode" id="text_emailcode" type="text" class="inp-big">
+                                            <a href="javascript:void(0)" class="g_hqyzm fl" style="color: rgb(0, 0, 0);">
+                                                <span class="zc_hqdzyzm"><b style="display: none;">60</b><font> 获取验证码</font></span>
+                                            </a>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="xgmm-tableft">验证码：</td>
+                                        <td>
+                                            <input name="text_imgcode" id="text_imgcode" type="text" class="inp-big">
+                                            <img src="/VerifyCodeServlet" class="refleshverification_img" width="126" height="34" alt="验证码" />
+                                            看不清？ <span class="lvse"><a href="javascript:void(0)" class="refleshverification">换一张</a></span>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td id="td_error"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="xgmm-tableft">&nbsp;</td>
+                                        <td style="height:80px;">
+                                            <a href="javascript:void(0);" id="a_emailsubmit"><img src="/resource/pc/member//images/tj.png" width="99" height="25"></a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                      <%  break;
+                    case 2:%>
+                    <div class="l_xgmmtop fix">
+                        <ul>
+                            <li class="active">验证邮箱<span>1</span></li>
+                            <li class="active">完成<span>2</span></li>
+                        </ul>
+                    </div>
+                    <div class="xgmm-maincon-complete">
+                        <img src="/resource/pc/member/images/duigou.png" width="43" height="30">
+                        邮箱修改成功！<span class="lvse fon14"></span>
+                    </div>
+                   <%     break;
+                    default:
+                        break;
+                }%>
+                <!--xgmm-maincon -->
+            </div><!--xgmm-con  stop -->
+        </div><!--xgmm   stop -->
+         <% include("/template/pc/memberCenter/Common_M/M_SafeQuestion.html",{}){}%>
+         <% include("/template/pc/memberCenter/Common_M/M_GuessYouLike.html",{}){}%>
+    </div>
+    <!--rightside 右边内容  结束 -->
+    <div class="clear"></div>
+</div>
+</body>
+<!--main  主要内容  结束 -->

@@ -1,0 +1,227 @@
+<%var path="/resource";%> <title>${title}</title>
+<head>
+	<link rel="stylesheet" href="${path}/ui-dialog.css" />
+	<!-- <link href="${path}/wap/css/iscroll.css" rel="stylesheet" /> -->
+	<script type="text/javascript" src="/resource/wap/js/js.js" ></script>
+	<script src="${path}/wap/js/iscroll-probe.js"></script>
+	<!-- <script src="${path}/wap/js/iscroll_list.js"></script> -->
+	<script src="${path}/GetQueryString.js"></script>
+	<script type="text/javascript">
+		function totop() {
+			$('html,body').animate({
+				scrollTop : $('#wrapper').offset().top
+			}, 300);
+		}
+		function getcoupon(couponid){
+			$.ajax({
+				url : "/api/wap/coupon/takeCoupon",
+				type : "Post",
+				data : {
+					"ch" : 3,
+					"couponid" : couponid,
+				},
+				dataType : "json",
+				success : function(res) {
+					alert(res.desc)
+				} 
+			});
+		}
+		var hasdata = true;
+		var myScroll;
+		$(function() {
+			myScroll = new IScroll('#wrapper', {
+				preventDefault : false,
+				tap : true,
+				click : true,
+				probeType : 3,
+				mouseWheel : true
+			});
+
+			var shopid = GetQueryStringByName("id");
+			// callback = upAjax;//上拉加载数据	  ID获取商品评论数据
+
+			myScroll.on("scrollEnd", function() {
+				var scrollTop = $(window).scrollTop();
+				var scrollHeight = $(document).height();
+				var windowHeight = $(window).height();
+				if (scrollTop + windowHeight == scrollHeight) {
+					upAjax();
+				}
+				myScroll.refresh();
+			});
+
+			function upAjax() {
+				var page = JSON.parse($("#pageinfo").val());
+				$.ajax({
+					url : "/api/wap/shop/getprolist",
+					type : "Post",
+					data : {
+						"ch" : 3,
+						"id" : shopid,
+						"page" : page.index + 1, //iscroll_list已定义好直接引用
+						"size" : page.size,
+					},
+					dataType : "json",
+					success : function(res) {
+						if (res.code == 0) {
+							var data = res.data;
+							if (data != undefined && data != null && data.length > 0) {
+								var html = "";
+								for (var i = 0; i < data.length; i++) {
+									var val = data[i];
+									html += '	<li><a href="/wap/products/ProDetail.html?spuid=' + val.id + '">';
+									html += '<img src="' + val.imgurl + '" width="320"height="240" />';
+									html += '<b>' + val.name + '</b> <span>' + val.price.toFixed(2) + '</span></a></li>';
+								}
+								$("#pageinfo").val(res.desc);
+
+								$(".pordctMain-list").append(html);
+								hasdata = true;
+								//是否有数据iscroll_list中定义，没有数据index将不再增加页数
+								myScroll.refresh();
+								//刷新加载
+							} else {
+								hasdata = false;
+							}
+						} else {
+
+						}
+
+					},
+					error : function() {
+						$('#list').html("<li><font style='font-size:0.16rem;'>数据请求失败，请重新刷新</font><li>");
+					}
+				});
+			}
+
+			//关注点击
+			$("#a_shopconcern").click(function() {
+				if ($(this).html().trim() == "关注") {
+					addconcern();
+				} else {
+					cancelconcern();
+				}
+			})
+			//添加店铺关注
+			function addconcern() {
+				$.ajax({
+					url : "/api/wap/concern/addshopconcern",
+					type : "Post",
+					data : {
+						"ch" : 3,
+						"shopid" : shopid
+					},
+					dataType : "json",
+					success : function(res) {
+						if (res.code == 0) {
+							$(".gz").css("color", "red").css("border-color", "red");
+							$(".gz").html("已关注")
+						}
+					},
+					error : function() {
+					}
+				});
+			}
+
+			//取消店铺关注
+			function cancelconcern() {
+				$.ajax({
+					url : "/api/wap/concern/cancelshopconcern",
+					type : "Post",
+					data : {
+						"ch" : 3,
+						"shopid" : shopid
+					},
+					dataType : "json",
+					success : function(res) {
+						if (res.code == 0) {
+							$(".gz").removeAttr("style");
+							$(".gz").html("关注")
+						}
+					},
+					error : function() {
+					}
+				});
+			}
+
+		});
+	</script>
+</head>
+<body>
+	<!-- 	<img src="${path}/wap/images/index_42.png" class="qianggou-scrollTop"> -->
+	<div class="top_title fix">
+		<%if(isNotEmpty(href)){%>
+		<div class="top_return" onclick="javascript:location.href='${href}'"> 
+			<img src="/resource/wap/images/top_return.png">
+		</div>
+		<%}else{%>
+		<div class="top_return" onclick="javascript:location.href='/wap/index.html'"> 
+			<img src="/resource/wap/images/top_return.png">
+		</div>
+		<%}%>
+		店铺首页
+	</div>
+	<div class="merchantMain-dp">
+		<div class="merchantMain-dp">
+				<a href="#" class="dp"> <img src="${shopinfotop.logo}">
+					<h2>${title}</h2>
+					<p>收藏店铺：${shopinfotop.bookmark} 好评率：${shopinfotop.ratepraise}</p>
+				</a> 
+				
+				<%if(shopinfo.iskeep){%>
+				<a href="javascript:void(0)" class="gz" id="a_shopconcern" style="color:red;border-color:red">
+				已关注
+				<%}else{%>
+				<a href="javascript:void(0)" class="gz" id="a_shopconcern">
+				关注
+				<%}%>
+				</a>
+			</div>
+			<div class="merchantMain-hot">
+				<a href="javascript:void(0)">${shopinfo.count}<br>全部商品
+				</a> <a href="javascript:void(0)">${shopinfo.newcount}<br>上新
+				</a> <a href="javascript:void(0)">${shopinfo.hotcount}<br>热销
+				</a>
+			</div>
+			<% if (shopinfo.coupons.~size>0){%>
+
+	<div class="merchantMain-lq">
+		<b>领 券</b> <%for (coupon in shopinfo.coupons){%> <a
+		href="javascript:void(0)" onclick="getcoupon(${coupon.id})"  >${coupon.couponname}</a><%}%> <img
+		src="${path}/wap/images/index_39.png">
+	</div>
+	<%}%>
+	<hr class="back">
+	<div class="merchantMain-gg">
+		<%for (img in ggimg){%>
+		<a href="${img.url}"><img src="${img.imag}"></a>
+		<%}%>
+	</div>
+	<hr class="back">
+	<div class="toolbar-tab tbar-tab-top">
+		<i class="tab-ico"></i><em class="tab-text"></em><span class="tab-sub J-count hide"></span>
+	</div>
+	<div id="wrapper">
+		<div id="scroller">
+			<!-- <div id="scroller-pullDown">  style="top: 5px; bottom: 58px"
+			<span id="down-icon" class="icon-double-angle-down pull-down-icon"></span>
+			<span id="pullDown-msg" class="pull-down-msg">下拉刷新</span>
+			</div> -->
+			<ul class="pordctMain-list">
+				<%for(spu in spuinfo){%>
+				<li>
+					<a href="/wap/products/ProDetail.html?spuid=${spu.id}&href=/wap/shop/index.html?id=${shopinfo.id}"> <img src="${spu.imgurl}" width="320" height="240" /> <b>${spu.name}</b> <span>￥${spu.price,numberFormat="0.00"}</span> </a>
+				</li>
+				<%}%>
+			</ul>
+			<!-- <div id="scroller-pullUp">
+			<span id="down-icon" class="icon-double-angle-up pull-down-icon"></span>
+			<span id="pullDown-msg" class="pull-down-msg">上拉加载</span>
+			</div> -->
+			<input type="hidden" id="pageinfo" value='${json(page)}' />
+		</div>
+	</div>
+
+	<div style="height: 30px"></div>
+	<% include("/template/wap/index_foot.html",{display:1}){} %>
+</body>
